@@ -3,7 +3,7 @@
 GameProperties::GameProperties() : 
 	DisplaySize(640.0f, 480.0f) {
 
-	DisplayTitle = "Rescind Engine V6";
+	DisplayTitle = "HVN3 Engine";
 	Fullscreen = false;
 	ScalingMode = ::ScalingMode::MaintainAspectRatio;
 	OutsideColor = Color::Silver;
