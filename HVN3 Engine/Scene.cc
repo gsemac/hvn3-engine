@@ -56,33 +56,8 @@ void Scene::Update(float dt) {
 }
 void Scene::Draw() {
 
-	/*
-
-	// Draw the background, if one has been specified.
-	for (size_t i = 0; i < __backgrounds.size(); ++i) {
-
-		if (__backgrounds[i].__background) {
-			float bg_x = Game::DisplayOrigin().X, bg_y = Game::DisplayOrigin().Y;
-			float bg_w = __backgrounds[i].Width(), bg_h = __backgrounds[i].Height();
-			float scale = 1.0f;
-
-			switch (__backgrounds[i].SizeMode()) {
-			case BackgroundSizeMode::Zoom:
-				scale = (std::min)(Game::Display().Width() / __backgrounds[i].Width(), Game::Display().Height() / __backgrounds[i].Height());
-				bg_w = __backgrounds[i].Width() * scale;
-				bg_h = __backgrounds[i].Height() * scale;
-				bg_x = Game::Display().Width() / 2 - bg_w / 2;
-				bg_y = Game::Display().Height() / 2 - bg_h / 2;
-				break;
-			default: break;
-			}
-
-			al_draw_scaled_bitmap(__backgrounds[i] .__background->AlPtr(), 0, 0, __backgrounds[i].Width(), __backgrounds[i].Height(), bg_x, bg_y, bg_w, bg_h, NULL);
-		}
-
-	}
-
-	*/
+	// Bound drawing by the Scene borders.
+	Graphics::SetClippingRegion(0, 0, Width(), Height());
 
 	// Clear to background color.
 	Graphics::DrawClear(__background_color);
@@ -161,13 +136,8 @@ void Scene::Draw() {
 
 	}
 
-	// Draw screen-boundary barriers/"beautifiers".
-	//if (Properties::StartFullscreen) {
-	//	Point scaled_origin = Game::DisplayOrigin();
-	//	float scale = Game::DisplayScale();
-	//	al_draw_filled_rectangle(0, 0, scaled_origin.X, Game::Display().Height(), al_map_rgb(0, 0, 0));
-	//	al_draw_filled_rectangle(scaled_origin.X + Properties::DefaultDisplaySize.Width() * scale, 0, Game::Display().Width(), Game::Display().Height(), al_map_rgb(0, 0, 0));
-	//}
+	// Reset drawing bounds.
+	Graphics::ResetClippingRegion();
 
 }
 void Scene::SetBackgroundColor(int r, int g, int b) {

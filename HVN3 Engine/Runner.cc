@@ -128,6 +128,10 @@ void Runner::Update() {
 		OnMouseEnterDisplay(ev);
 		break;
 
+	case EventType::MouseLeaveDisplay:
+		OnMouseLeaveDisplay(ev);
+		break;
+
 	case EventType::DisplayResize:
 		OnDisplayResize(ev);
 		break;
