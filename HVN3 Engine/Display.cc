@@ -120,7 +120,7 @@ void Display::SetFullscreen(bool value) {
 	if (!__display) return;
 
 	// If the given value is different than the current state, change display state.
-	if ((value && !__fullscreen) || (!value && __fullscreen)) {
+	if (value != __fullscreen) {
 
 		// Change display mode.
 		__fullscreen = value;

@@ -207,13 +207,13 @@ void Runner::OnDisplayClose(Event& ev) {
 
 }
 void Runner::OnKeyDown(Event& ev) {
-
+	
 	// Set the key that was pressed.
 	Keyboard::StateAccessor::SetKeyState(ev.AlPtr()->keyboard.keycode, true);
 
 	// Toggle fullscreen if F11 is pressed.
 	if (ev.AlPtr()->keyboard.keycode == ALLEGRO_KEY_F11)
-		__display->SetFullscreen(__display->IsFullscreen());
+		__display->SetFullscreen(!__display->IsFullscreen());
 
 	// Exit the loop if the escape key has been pressed.
 	if (ev.AlPtr()->keyboard.keycode == ALLEGRO_KEY_ESCAPE && Properties().ExitWithEscapeKey)
