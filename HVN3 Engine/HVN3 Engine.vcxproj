@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}</ProjectGuid>
+    <RootNamespace>HVN3Engine</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Allegro_AddonImage>true</Allegro_AddonImage>
+    <Allegro_AddonTTF>true</Allegro_AddonTTF>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
+    <Allegro_AddonAudio>true</Allegro_AddonAudio>
+    <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
+    <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
+    <Allegro_AddonFont>true</Allegro_AddonFont>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Background.cc" />
+    <ClCompile Include="Bitmap.cc" />
+    <ClCompile Include="BitPacker.cc" />
+    <ClCompile Include="Clipboard.cc" />
+    <ClCompile Include="CollisionGrid.cc" />
+    <ClCompile Include="CollisionManager.cc" />
+    <ClCompile Include="CollisionMask.cc" />
+    <ClCompile Include="Color.cc" />
+    <ClCompile Include="Comparison.cc" />
+    <ClCompile Include="Connection.cc" />
+    <ClCompile Include="Container.cc" />
+    <ClCompile Include="Control.cc" />
+    <ClCompile Include="Display.cc" />
+    <ClCompile Include="Event.cc" />
+    <ClCompile Include="EventQueue.cc" />
+    <ClCompile Include="EventSource.cc" />
+    <ClCompile Include="Exception.cc" />
+    <ClCompile Include="Font.cc" />
+    <ClCompile Include="Framework.cc" />
+    <ClCompile Include="GameProperties.cc" />
+    <ClCompile Include="Geometry.cc" />
+    <ClCompile Include="Graphics.cc" />
+    <ClCompile Include="Grid.cc" />
+    <ClCompile Include="GridVisualizer.cc" />
+    <ClCompile Include="GUIManager.cc" />
+    <ClCompile Include="GUIScrollbar.cc" />
+    <ClCompile Include="GUITheme.cc" />
+    <ClCompile Include="GUIWindow.cc" />
+    <ClCompile Include="Helper.cc" />
+    <ClCompile Include="ICollidable.cc" />
+    <ClCompile Include="IFocusable.cc" />
+    <ClCompile Include="IO_File.cc" />
+    <ClCompile Include="IPAddress.cc" />
+    <ClCompile Include="IPositionable.cc" />
+    <ClCompile Include="ISizeable.cc" />
+    <ClCompile Include="ISpriteable.cc" />
+    <ClCompile Include="Keyboard.cc" />
+    <ClCompile Include="Main.cc" />
+    <ClCompile Include="Mouse.cc" />
+    <ClCompile Include="Movement.cc" />
+    <ClCompile Include="NetStream.cc" />
+    <ClCompile Include="NetworkConfig.cc" />
+    <ClCompile Include="Object.cc" />
+    <ClCompile Include="Packet.cc" />
+    <ClCompile Include="Particles.cc" />
+    <ClCompile Include="Point.cc" />
+    <ClCompile Include="Random.cc" />
+    <ClCompile Include="Rectangle.cc" />
+    <ClCompile Include="Runner.cc" />
+    <ClCompile Include="Scene.cc" />
+    <ClCompile Include="Size.cc" />
+    <ClCompile Include="Socket.cc" />
+    <ClCompile Include="Sound.cc" />
+    <ClCompile Include="Sprite.cc" />
+    <ClCompile Include="SpriteMask.cc" />
+    <ClCompile Include="Stopwatch.cc" />
+    <ClCompile Include="String.cc" />
+    <ClCompile Include="Timer.cc" />
+    <ClCompile Include="Transform.cc" />
+    <ClCompile Include="UdpClient.cc" />
+    <ClCompile Include="UdpListener.cc" />
+    <ClCompile Include="UdpServer.cc" />
+    <ClCompile Include="UTF8String.cc" />
+    <ClCompile Include="Vector2d.cc" />
+    <ClCompile Include="View.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Background.h" />
+    <ClInclude Include="BitFlags.h" />
+    <ClInclude Include="Bitmap.h" />
+    <ClInclude Include="BitPacker.h" />
+    <ClInclude Include="Clipboard.h" />
+    <ClInclude Include="CollisionGrid.h" />
+    <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="CollisionMask.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="Comparison.h" />
+    <ClInclude Include="Connection.h" />
+    <ClInclude Include="Container.h" />
+    <ClInclude Include="Control.h" />
+    <ClInclude Include="DataGrid.h" />
+    <ClInclude Include="Display.h" />
+    <ClInclude Include="Encryption.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="EventQueue.h" />
+    <ClInclude Include="EventSource.h" />
+    <ClInclude Include="ExampleGame.h" />
+    <ClInclude Include="Exception.h" />
+    <ClInclude Include="Font.h" />
+    <ClInclude Include="Framework.h" />
+    <ClInclude Include="GameProperties.h" />
+    <ClInclude Include="Geometry.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Grid.h" />
+    <ClInclude Include="GridVisualizer.h" />
+    <ClInclude Include="GUI.h" />
+    <ClInclude Include="GUIButton.h" />
+    <ClInclude Include="GUIManager.h" />
+    <ClInclude Include="GUIPanel.h" />
+    <ClInclude Include="GUIScrollbar.h" />
+    <ClInclude Include="GuiTextbox.h" />
+    <ClInclude Include="GUITheme.h" />
+    <ClInclude Include="GUIWindow.h" />
+    <ClInclude Include="Hash.h" />
+    <ClInclude Include="Helper.h" />
+    <ClInclude Include="IBroadphase.h" />
+    <ClInclude Include="ICloneable.h" />
+    <ClInclude Include="ICollidable.h" />
+    <ClInclude Include="IDisposable.h" />
+    <ClInclude Include="IDrawable.h" />
+    <ClInclude Include="IFocusable.h" />
+    <ClInclude Include="IO.h" />
+    <ClInclude Include="IO_File.h" />
+    <ClInclude Include="IPAddress.h" />
+    <ClInclude Include="IPositionable.h" />
+    <ClInclude Include="IScrollable.h" />
+    <ClInclude Include="ISizeable.h" />
+    <ClInclude Include="ISpriteable.h" />
+    <ClInclude Include="IStringable.h" />
+    <ClInclude Include="ITransformable.h" />
+    <ClInclude Include="IUpdatable.h" />
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="MD5.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Movement.h" />
+    <ClInclude Include="NetStream.h" />
+    <ClInclude Include="NetworkConfig.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Packet.h" />
+    <ClInclude Include="Particles.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="Quadtree.h" />
+    <ClInclude Include="Random.h" />
+    <ClInclude Include="Range.h" />
+    <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="ResourceCollection.h" />
+    <ClInclude Include="Runner.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Size.h" />
+    <ClInclude Include="Socket.h" />
+    <ClInclude Include="Sorting.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="SpriteMask.h" />
+    <ClInclude Include="Stopwatch.h" />
+    <ClInclude Include="String.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="UdpClient.h" />
+    <ClInclude Include="UdpListener.h" />
+    <ClInclude Include="UdpServer.h" />
+    <ClInclude Include="UTF8String.h" />
+    <ClInclude Include="Vector2d.h" />
+    <ClInclude Include="View.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets')" />
+    <Import Project="..\packages\Allegro.5.2.2.0\build\native\Allegro.targets" Condition="Exists('..\packages\Allegro.5.2.2.0\build\native\Allegro.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets'))" />
+    <Error Condition="!Exists('..\packages\Allegro.5.2.2.0\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Allegro.5.2.2.0\build\native\Allegro.targets'))" />
+  </Target>
+</Project>
