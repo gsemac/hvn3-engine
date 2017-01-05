@@ -4,7 +4,6 @@
 #include <memory>
 #include <vector>
 #include "Point.h"
-#include "IDrawable.h"
 #include "IUpdatable.h"
 #include "Background.h"
 #include "Size.h"
@@ -14,7 +13,7 @@
 
 class Object;
 
-class Scene : public IDrawable, public IUpdatable, public ISizeable {
+class Scene : public IUpdatable, public ISizeable {
 
 public:
 	class BackgroundProperties {
@@ -59,7 +58,7 @@ public:
 	~Scene();
 
 	void Update(float dt) override;
-	void Draw() override;
+	void Draw(const Rectangle& clipping_region);
 
 	void SetBackgroundColor(int, int, int);
 	void SetBackgroundColor(const Color& color);

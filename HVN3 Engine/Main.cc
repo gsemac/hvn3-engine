@@ -13,6 +13,7 @@ int main(int argc, char *argv[]) {
 		properties.DisplayTitle = "HVN3 Engine";
 		properties.OutsideColor = Color::Black;
 		properties.DebugMode = true;
+		properties.ScalingMode = ScalingMode::MaintainAspectRatio;
 
 		// Set up the initial Scene.
 		Scene scene(properties.DisplaySize.Width(), properties.DisplaySize.Height(), nullptr);

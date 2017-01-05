@@ -5,7 +5,7 @@ GameProperties::GameProperties() :
 
 	DisplayTitle = "Rescind Engine V6";
 	Fullscreen = false;
-	MaintainAspectRatio = true;
+	ScalingMode = ::ScalingMode::MaintainAspectRatio;
 	OutsideColor = Color::Silver;
 
 	FreezeWhenLostFocus = true;

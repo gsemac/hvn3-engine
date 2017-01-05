@@ -68,15 +68,48 @@ void Runner::Draw() {
 	// Clear the drawing surface with the outside outside color.
 	Graphics::DrawClear(Properties().OutsideColor);
 
+	// Set the Transform according to the scaling mode.
+	Graphics::Transform scaling_transform;
+	Rectangle clipping_rectangle(0.0f, 0.0f, __scene->Width(), __scene->Height());
+	
+	switch (Properties().ScalingMode) {
+	
+	case ScalingMode::Full:
+		// Stretch drawing to fill up the Display.
+		scaling_transform.Scale(__display->Scale().Width(), __display->Scale().Height());
+		clipping_rectangle = Rectangle(0.0f, 0.0f, __scene->Width() * __display->Scale().Width(), __scene->Height() * __display->Scale().Height());
+		break;
+	
+	case ScalingMode::Fixed:
+		// Center drawing while maintaining original scale.
+		scaling_transform.Translate(__display->Width() / 2.0f - __scene->Width() / 2.0f, __display->Height() / 2.0f - __scene->Height() / 2.0f);
+		clipping_rectangle = Rectangle(__display->Width() / 2.0f - __scene->Width() / 2.0f, __display->Height() / 2.0f - __scene->Height() / 2.0f, __scene->Width(), __scene->Height());
+		break;
+	
+	case ScalingMode::MaintainAspectRatio:
+		// Stretch drawing as much as possible while maintaining the aspect ratio.
+		float scale_factor = Min(__display->Scale().Width(), __display->Scale().Height());
+		scaling_transform.Scale(scale_factor, scale_factor);
+		scaling_transform.Translate(__display->Width() / 2.0f - __scene->Width() * scale_factor / 2.0f, __display->Height() / 2.0f - __scene->Height() * scale_factor / 2.0f);
+		clipping_rectangle = Rectangle(__display->Width() / 2.0f - __scene->Width() * scale_factor / 2.0f, __display->Height() / 2.0f - __scene->Height() * scale_factor / 2.0f, __scene->Width() * scale_factor, __scene->Height() * scale_factor);
+		break;
+	
+	}
+	
+	Graphics::SetTransform(scaling_transform);
+
 	if (__scene)
-		// Render the active scene.
-		__scene->Draw();
+		// Render the active Scene.
+		__scene->Draw(clipping_rectangle);
 	else
 		// Draw placeholder graphics.
 		Graphics::DrawText(__display->Width() / 2.0f, __display->Height() / 2.0f, Properties().DisplayTitle.c_str(), SystemFont(), Color::White, Alignment::Center);
 
+	// Reset the Transform.
+	Graphics::ResetTransform();
+
 	// If running in debug mode, draw the FPS counter.
-	if (Properties().DebugMode)
+	if (Properties().DebugMode) 
 		DrawFPS();
 
 	// Swap out the backbuffer.
@@ -168,7 +201,7 @@ void Runner::Loop() {
 
 }
 void Runner::DrawFPS() {
-	
+
 	static Stopwatch fps_timer(true);
 	int fps = std::round((std::min)(Properties().FPS, (float)(1.0f / fps_timer.SecondsElapsed())));
 	std::stringstream ss;
@@ -207,7 +240,7 @@ void Runner::OnDisplayClose(Event& ev) {
 
 }
 void Runner::OnKeyDown(Event& ev) {
-	
+
 	// Set the key that was pressed.
 	Keyboard::StateAccessor::SetKeyState(ev.AlPtr()->keyboard.keycode, true);
 
@@ -349,7 +382,7 @@ void Runner::OnRedraw() {
 
 	// Reset the skipped frame count.
 	__frames_skipped = 0;
-		
+
 }
 
 const Font* Runner::SystemFont() {

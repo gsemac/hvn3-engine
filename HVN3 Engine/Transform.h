@@ -8,6 +8,7 @@ namespace Graphics {
 
 	public:
 		Transform();
+		Transform(const Transform& other);
 
 		// Resets the transformation back to its default state.
 		void Reset();

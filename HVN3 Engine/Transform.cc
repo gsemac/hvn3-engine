@@ -9,6 +9,11 @@ namespace Graphics {
 		Reset();
 
 	}
+	Transform::Transform(const Transform& other) {
+
+		al_copy_transform(&__t, &other.__t);
+
+	}
 	void Transform::Reset() {
 
 		al_identity_transform(&__t);

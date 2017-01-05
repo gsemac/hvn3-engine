@@ -6,7 +6,9 @@ Display* Display::__active_display = nullptr;
 
 // Public member functions
 
-Display::Display() {
+Display::Display() :
+	__original_size(0.0f, 0.0f),
+	__size_before_fullscreen(0.0f, 0.0f) {
 
 	__display = nullptr;
 	__fullscreen = false;
@@ -20,7 +22,10 @@ Display::Display(DisplayResolution resolution, DisplayOptions flags) :
 		SetFullscreen(true);
 
 }
-Display::Display(float width, float height, DisplayOptions flags) : ISizeable(width, height) {
+Display::Display(float width, float height, DisplayOptions flags) :
+	ISizeable(width, height),
+	__original_size(width, height),
+	__size_before_fullscreen(0.0f, 0.0f) {
 
 	// Save the original new display flags so they can be restored.
 	int new_display_flags = al_get_new_display_flags();
@@ -111,6 +116,32 @@ void Display::Resize(float width, float height) {
 	al_flip_display();
 
 }
+Size Display::Scale() {
+
+	return Size(Width() / __original_size.Width(), Height() / __original_size.Height());
+
+}
+Point Display::Position() {
+
+	if (!__display)
+		return Point();
+
+	int x, y;
+	al_get_window_position(__display, &x, &y);
+	return Point(x, y);
+
+}
+void Display::SetPosition(int x, int y) {
+
+	if (__display)
+		al_set_window_position(__display, x, y);
+
+}
+void Display::SetPosition(const Point& position) {
+
+	SetPosition((int)position.X, (int)position.Y);
+
+}
 bool Display::IsFullscreen() const {
 
 	return __fullscreen;
@@ -122,10 +153,26 @@ void Display::SetFullscreen(bool value) {
 	// If the given value is different than the current state, change display state.
 	if (value != __fullscreen) {
 
-		// Change display mode.
+		// Set the fullscreen flag.
 		__fullscreen = value;
+
+		// If we're going fullscreen, save the size and position of the Display.
+		if (__fullscreen) {
+			__size_before_fullscreen.Resize(Width(), Height());
+			__position_before_fullscreen = Position();
+		}
+
+		// Toggle the actual Display flag.
 		al_toggle_display_flag(__display, ALLEGRO_FULLSCREEN_WINDOW, __fullscreen);
-		ISizeable::Resize(al_get_display_width(__display), al_get_display_height(__display));
+
+		if (__fullscreen)
+			// If we've gone fullscreen, update the size values to match the new window size.
+			ISizeable::Resize(al_get_display_width(__display), al_get_display_height(__display));
+		else {
+			// If we've left fullscreen, restore the original size and position.
+			Resize(__size_before_fullscreen.Width(), __size_before_fullscreen.Height());
+			SetPosition(__position_before_fullscreen);
+		}
 
 	}
 

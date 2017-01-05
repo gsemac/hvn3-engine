@@ -3,6 +3,12 @@
 #include "Color.h"
 #include <string>
 
+enum class ScalingMode {
+	Fixed,
+	Full,
+	MaintainAspectRatio
+};
+
 struct GameProperties {
 
 public:
@@ -13,7 +19,7 @@ public:
 	std::string DisplayTitle;
 	Size DisplaySize;
 	bool Fullscreen;
-	bool MaintainAspectRatio;
+	::ScalingMode ScalingMode;
 	Color OutsideColor;
 
 	// Flow Properties

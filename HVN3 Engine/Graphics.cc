@@ -47,9 +47,9 @@ void al_draw_horizontal_gradient_rectangle(float x, float y, float width, float 
 
 namespace Graphics {
 
-	static Transform __global_transform;
 	static std::stack<Rectangle> __clipping_region_stack;
 	static std::stack<ALLEGRO_BITMAP*> __drawing_target_stack;
+	static std::stack<Transform> __transform_stack;
 
 	void DrawRoundRect(const Rectangle& rect, float radius, const Color& color, float thickness) {
 
@@ -75,7 +75,7 @@ namespace Graphics {
 			rect.Y2(),
 			color.AlPtr(),
 			thickness
-		);
+			);
 
 	}
 	void DrawFilledRectangle(const Rectangle& rect, const Color& color) {
@@ -86,7 +86,7 @@ namespace Graphics {
 			rect.X2(),
 			rect.Y2(),
 			color.AlPtr()
-		);
+			);
 
 	}
 
@@ -109,7 +109,7 @@ namespace Graphics {
 			radius,
 			color.AlPtr(),
 			thickness
-		);
+			);
 
 	}
 
@@ -273,7 +273,7 @@ namespace Graphics {
 			x + sprite.Origin().X,
 			y + sprite.Origin().Y,
 			NULL
-		);
+			);
 
 	}
 	void DrawSprite(const Sprite& sprite, int subimage, float x, float y, const Color& blend, float xscale, float yscale, float angle) {
@@ -289,18 +289,18 @@ namespace Graphics {
 			yscale,
 			angle,
 			NULL
-		);
+			);
 
 	}
 
 	void DrawBitmap(const Bitmap& bitmap, float x, float y) {
-		
+
 		al_draw_bitmap(
 			bitmap.__bmp,
 			x,
 			y,
 			NULL
-		);
+			);
 
 	}
 	void DrawBitmap(const Bitmap& bitmap, float x, float y, float xscale, float yscale) {
@@ -316,20 +316,44 @@ namespace Graphics {
 			bitmap.Width() * xscale,
 			bitmap.Height() * yscale,
 			NULL
-		);
+			);
 
 	}
 
-	const Transform& GetTransform() {
-
-		return __global_transform;
-
-	}
 	void SetTransform(const Transform& transform) {
 
-		__global_transform = transform;
-		al_use_transform(transform.AlPtr());
+		// Get the current Transform.
+		const ALLEGRO_TRANSFORM* current_transform = __transform_stack.empty() ? al_get_current_transform() : __transform_stack.top().AlPtr();
 
+		// Create a new Transform by composing the existing one with the new one.
+		Transform new_transform(transform);
+		al_compose_transform((ALLEGRO_TRANSFORM*)new_transform.AlPtr(), current_transform);
+
+		// Push the new Transform onto the stack.
+		__transform_stack.push(new_transform);
+
+		// Apply the new Transform.
+		al_use_transform(__transform_stack.top().AlPtr());
+
+	}
+	const Transform& GetTransform() {
+
+		return __transform_stack.top();
+
+	}
+	void ResetTransform() {
+
+		// If the stack is not empty, pop the current Transform.
+		if (!__transform_stack.empty())
+			__transform_stack.pop();
+
+		if (!__transform_stack.empty())
+			// If the stack is still not empty, apply the next Transform.
+			al_use_transform(__transform_stack.top().AlPtr());
+		else
+			// Otherwise, apply default Transform.
+			al_use_transform(Transform().AlPtr());
+	
 	}
 
 }

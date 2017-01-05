@@ -55,6 +55,11 @@ public:
 	void SetIcon(ALLEGRO_BITMAP* icon);
 
 	void Resize(float width, float height) override;
+	// Returns the current scale factor relative to the size at which the display was initialized.
+	Size Scale();
+	Point Position();
+	void SetPosition(int x, int y);
+	void SetPosition(const Point& position);
 
 	bool IsFullscreen() const;
 	void SetFullscreen(bool value);
@@ -73,6 +78,9 @@ private:
 	bool __fullscreen;
 	bool __has_focus;
 	static Display* __active_display;
+	Size __original_size;
+	Size __size_before_fullscreen;
+	Point __position_before_fullscreen;
 
 	void SetFocus(bool has_focus);
 	Size ResolutionToSize(DisplayResolution resolution);

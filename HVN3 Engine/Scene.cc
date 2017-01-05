@@ -54,19 +54,16 @@ void Scene::Update(float dt) {
 	UpdateViews();
 
 }
-void Scene::Draw() {
+void Scene::Draw(const Rectangle& clipping_region) {
 
 	// Bound drawing by the Scene borders.
-	Graphics::SetClippingRegion(0, 0, Width(), Height());
+	Graphics::SetClippingRegion(clipping_region.X, clipping_region.Y, clipping_region.Width(), clipping_region.Height());
 
 	// Clear to background color.
 	Graphics::DrawClear(__background_color);
 
 	// Each View needs to be drawn separately to improve the appearance of scaled Bitmaps.
 	if (__views.size() > 0) {
-
-		// Save the current transform.
-		const Graphics::Transform prev_transform = Graphics::GetTransform();
 
 		for (size_t i = 0; i < __views.size(); ++i) {
 
@@ -109,7 +106,7 @@ void Scene::Draw() {
 		}
 
 		// Restore the previous transform.
-		Graphics::SetTransform(prev_transform);
+		Graphics::ResetTransform();
 
 		// Reset the clipping region.
 		Graphics::ResetClippingRegion();

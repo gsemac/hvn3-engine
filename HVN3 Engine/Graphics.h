@@ -53,7 +53,8 @@ namespace Graphics {
 	void DrawBitmap(const Bitmap& bitmap, float x, float y);
 	void DrawBitmap(const Bitmap& bitmap, float x, float y, float xscale, float yscale);
 
-	const Transform& GetTransform();
 	void SetTransform(const Transform& transform);
+	const Transform& GetTransform();
+	void ResetTransform();
 
 }
