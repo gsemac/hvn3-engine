@@ -67,9 +67,6 @@
     <Filter Include="Source Files\Interfaces">
       <UniqueIdentifier>{b1a579e3-a82d-4f85-b2ae-714025cf467c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Structures">
-      <UniqueIdentifier>{474c18fb-5f90-4f62-a91b-c06a605865d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Resources">
       <UniqueIdentifier>{47790e1f-94d9-4985-a70a-4af5e4447d44}</UniqueIdentifier>
     </Filter>
@@ -81,6 +78,9 @@
     </Filter>
     <Filter Include="Source Files\System\Collision">
       <UniqueIdentifier>{5e9c9de5-b4a2-4edc-9289-721c48ac03c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Structures">
+      <UniqueIdentifier>{474c18fb-5f90-4f62-a91b-c06a605865d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

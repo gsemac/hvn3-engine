@@ -77,7 +77,7 @@ void Runner::Draw() {
 
 	// If running in debug mode, draw the FPS counter.
 	if (Properties().DebugMode)
-		DrawFps();
+		DrawFPS();
 
 	// Swap out the backbuffer.
 	__display->Flip();
@@ -163,7 +163,7 @@ void Runner::Loop() {
 	Runner::~Runner();
 
 }
-void Runner::DrawFps() {
+void Runner::DrawFPS() {
 	
 	static Stopwatch fps_timer(true);
 	int fps = std::round((std::min)(Properties().FPS, (float)(1.0f / fps_timer.SecondsElapsed())));

@@ -29,7 +29,7 @@ protected:
 
 	// Returns a pointer to the default system font.
 	const Font* SystemFont();
-	void DrawFps();
+	void DrawFPS();
 
 	virtual void OnTimerTick(Event& ev);
 	virtual void OnDisplayClose(Event& ev);
