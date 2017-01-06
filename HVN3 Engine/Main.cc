@@ -4,7 +4,9 @@
 
 int main(int argc, char *argv[]) {
 
-	try {
+	RunExampleGame2();
+
+	/*try {
 
 		// Initialize the Framework.
 		Framework::Initialize();
@@ -37,7 +39,7 @@ int main(int argc, char *argv[]) {
 		// Rethrow the error, since we cannot handle it here.
 		throw;
 
-	}
+	}*/
 
 	return 0;
 

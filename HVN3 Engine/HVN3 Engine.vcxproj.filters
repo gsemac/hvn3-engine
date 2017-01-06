@@ -551,5 +551,8 @@
     <ClInclude Include="HVN3.h">
       <Filter>Header Files\System</Filter>
     </ClInclude>
+    <ClInclude Include="ExampleGame3.h">
+      <Filter>Header Files\System\Example</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

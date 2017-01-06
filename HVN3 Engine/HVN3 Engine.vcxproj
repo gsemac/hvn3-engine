@@ -212,6 +212,7 @@
     <ClInclude Include="DataGrid.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Encryption.h" />
+    <ClInclude Include="ExampleGame3.h" />
     <ClInclude Include="HVN3.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventQueue.h" />
