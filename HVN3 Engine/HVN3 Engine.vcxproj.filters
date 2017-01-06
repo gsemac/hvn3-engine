@@ -335,9 +335,6 @@
     <ClInclude Include="Encryption.h">
       <Filter>Header Files\Helper\Encryption</Filter>
     </ClInclude>
-    <ClInclude Include="Engine.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
     <ClInclude Include="EventQueue.h">
       <Filter>Header Files\System</Filter>
     </ClInclude>
@@ -547,6 +544,12 @@
     </ClInclude>
     <ClInclude Include="SpriteMask.h">
       <Filter>Header Files\System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="ExampleGame2.h">
+      <Filter>Header Files\System\Example</Filter>
+    </ClInclude>
+    <ClInclude Include="HVN3.h">
+      <Filter>Header Files\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
