@@ -126,6 +126,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="Environment.h" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +144,7 @@
     <ClCompile Include="Control.cc" />
     <ClCompile Include="Directory.cc" />
     <ClCompile Include="Display.cc" />
+    <ClCompile Include="Environment.cc" />
     <ClCompile Include="Event.cc" />
     <ClCompile Include="EventQueue.cc" />
     <ClCompile Include="EventSource.cc" />

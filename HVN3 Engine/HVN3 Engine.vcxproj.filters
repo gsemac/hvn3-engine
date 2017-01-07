@@ -85,6 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Environment.h">
+      <Filter>Header Files\System</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cc">
@@ -284,6 +287,9 @@
     </ClCompile>
     <ClCompile Include="Directory.cc">
       <Filter>Source Files\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment.cc">
+      <Filter>Source Files\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
