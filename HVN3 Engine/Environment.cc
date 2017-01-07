@@ -16,10 +16,10 @@
 #else
 #define ENVIRONMENT UNKNOWN
 #endif
-#if ENVIRONMENT & WINDOWS
+#ifdef _WIN32
 #include <direct.h>
 #define getcwd _getcwd
-elif
+#else
 #include <unistd.h>
 #endif
 #define MAX_PATH 255 // Not applicable for all platforms
@@ -40,12 +40,25 @@ enum OPERATING_SYSTEM {
 
 std::string Environment::CurrentDirectory() {
 
+	// Attempt to get the current working directory.
 	char* dir = al_get_current_directory();
+
 	if (dir) {
+		
+		// If the directory is not null, copy the contents of the buffer to a string.
 		std::string current_directory = dir;
-		current_directory = current_directory.substr(0, current_directory.rfind(Environment::PathSeparator()));
+
+		// Free the buffer.
 		al_free(dir);
+
+		// Return the directory with the executable named trimmed off.
+		current_directory = current_directory.substr(0, current_directory.rfind(Environment::PathSeparator()));
+		return current_directory;
+
 	}
+	else
+		// Otherwise, throw an exception.
+		throw Exception("Unable to get the current directory.");
 
 }
 char Environment::PathSeparator() {
@@ -61,15 +74,21 @@ char Environment::PathSeparator() {
 
 std::string get_current_directory() {
 
+	// Get the current working directory.
 	char buf[MAX_PATH];
 	char* cwd = getcwd(buf, MAX_PATH);
-	if (cwd) {
 
+	if (cwd) {
+		
+		// If the directory is not null, copy the contents of the buffer to a string.
 		std::string current_directory = cwd;
+
+		// Return the directory with the executable named trimmed off.
 		return current_directory.substr(0, current_directory.rfind(Environment::PathSeparator()));
 
 	}
 	else
-		throw Exception("getcwd returned null.");
+		// Otherwise, throw an exception.
+		throw Exception("Unable to get the current directory (getcwd returned null).");
 
 }

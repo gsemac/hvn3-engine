@@ -11,8 +11,9 @@ namespace SuperMarioBros {
 			Framework::Initialize();
 
 			// Set up game resources.
-			std::string resource_directory = IO::Directory::GetCurrentDirectory() + "\\data";
-
+			std::string resource_directory = IO::Directory::GetCurrentDirectory() + Environment::PathSeparator() + "data";
+			std::cout << resource_directory;
+			getchar();
 			// Set up Game Properties.
 			GameProperties properties;
 			properties.DisplayTitle = "HVN3 Engine";
