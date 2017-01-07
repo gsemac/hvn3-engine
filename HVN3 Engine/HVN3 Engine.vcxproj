@@ -141,6 +141,7 @@
     <ClCompile Include="Connection.cc" />
     <ClCompile Include="Container.cc" />
     <ClCompile Include="Control.cc" />
+    <ClCompile Include="Directory.cc" />
     <ClCompile Include="Display.cc" />
     <ClCompile Include="Event.cc" />
     <ClCompile Include="EventQueue.cc" />
@@ -210,6 +211,7 @@
     <ClInclude Include="Container.h" />
     <ClInclude Include="Control.h" />
     <ClInclude Include="DataGrid.h" />
+    <ClInclude Include="Directory.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Encryption.h" />
     <ClInclude Include="ExampleGame3.h" />
@@ -262,6 +264,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="Particles.h" />
+    <ClInclude Include="Path.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Random.h" />

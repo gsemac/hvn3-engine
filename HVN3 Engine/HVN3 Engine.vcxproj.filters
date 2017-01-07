@@ -282,6 +282,9 @@
     <ClCompile Include="UTF8String.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
+    <ClCompile Include="Directory.cc">
+      <Filter>Source Files\IO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -553,6 +556,12 @@
     </ClInclude>
     <ClInclude Include="ExampleGame3.h">
       <Filter>Header Files\System\Example</Filter>
+    </ClInclude>
+    <ClInclude Include="Path.h">
+      <Filter>Header Files\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Directory.h">
+      <Filter>Header Files\IO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

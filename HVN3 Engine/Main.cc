@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[]) {
 
-	RunExampleGame2();
+	SuperMarioBros::RunGame(argc, argv);
 
 	/*try {
 

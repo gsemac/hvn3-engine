@@ -1,42 +1,48 @@
 #pragma once
 #include "HVN3.h"
 
-void RunExampleGame2() {
+namespace SuperMarioBros {
 
-	try {
+	void RunGame(int argc, char *argv[]) {
 
-		// Initialize the Framework.
-		Framework::Initialize();
+		try {
 
-		// Set up Game Properties.
-		GameProperties properties;
-		properties.DisplayTitle = "HVN3 Engine";
-		properties.OutsideColor = Color::Black;
-		properties.DebugMode = true;
-		properties.ScalingMode = ScalingMode::MaintainAspectRatio;
+			// Initialize the Framework.
+			Framework::Initialize();
 
-		// Set up the initial Scene.
-		Scene scene(properties.DisplaySize.Width(), properties.DisplaySize.Height(), nullptr);
-		scene.SetBackgroundColor(Color::Red);
-		scene.AddObject(new RotatingBox(100.0f, 100.0f));
-		scene.AddObject(new RotatingBox(500.0f, 100.0f));
+			// Set up game resources.
+			std::string resource_directory = IO::Directory::GetCurrentDirectory() + "\\data";
 
-		// Create a new Runner instance to handle the game logic.
-		Runner(properties, scene).Loop();
+			// Set up Game Properties.
+			GameProperties properties;
+			properties.DisplayTitle = "HVN3 Engine";
+			properties.OutsideColor = Color::Black;
+			properties.DebugMode = true;
+			properties.ScalingMode = ScalingMode::MaintainAspectRatio;
 
-		// Shut down the Framework.
-		Framework::Shutdown();
+			// Set up the initial Scene.
+			Scene scene(properties.DisplaySize.Width(), properties.DisplaySize.Height(), new CollisionGrid(16, 16));
+			scene.SetBackgroundColor(Color::Red);
+			scene.AddObject(new RotatingBox(100.0f, 100.0f));
+			scene.AddObject(new RotatingBox(500.0f, 100.0f));
 
-	}
-	catch (std::exception& ex) {
+			// Create a new Runner instance to handle the game logic.
+			Runner(properties, scene).Loop();
 
-		// Output the error message.
-		std::cout << ex.what();
+			// Shut down the Framework.
+			Framework::Shutdown();
 
-		// Rethrow the error, since we cannot handle it here.
-		throw;
+		}
+		catch (std::exception& ex) {
+
+			// Output the error message.
+			std::cout << ex.what();
+
+			// Rethrow the error, since we cannot handle it here.
+			throw;
+
+		}
 
 	}
 
 }
-
