@@ -1,5 +1,6 @@
 #include "Path.h"
 #include "Environment.h"
+#include "String.h"
 #include <cctype>
 
 namespace IO {

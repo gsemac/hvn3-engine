@@ -2,6 +2,7 @@
 #define __STRING_H
 #include <vector>
 #include <string>
+#include <initializer_list>
 #include "BitFlags.h"
 
 class Utf8String;
@@ -16,6 +17,13 @@ public:
 	static bool IsNumeric(int ch);
 
 };
+
+std::string Trim(const std::string& input_string);
+std::string LTrim(const std::string& input_string);
+std::string RTrim(const std::string& input_string);
+std::string Trim(const std::string& input_string, const std::initializer_list<char>& chars);
+std::string LTrim(const std::string& input_string, const std::initializer_list<char>& chars);
+std::string RTrim(const std::string& input_string, const std::initializer_list<char>& chars);
 
 enum class CharacterCasing {
 	Default = 0x00,

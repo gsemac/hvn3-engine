@@ -1,5 +1,6 @@
 #pragma once
 #include "HVN3.h"
+#include "String.h"
 
 namespace SuperMarioBros {
 
@@ -11,9 +12,8 @@ namespace SuperMarioBros {
 			Framework::Initialize();
 
 			// Set up game resources.
-			std::string resource_directory = IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data");
-			std::cout << resource_directory;
-			getchar();
+			std::string resource_directory = IO::Path::Combine(IO::Directory::GetCurrentDirectory(), IO::Path::Combine("data", "ExampleGame2"));
+
 			// Set up Game Properties.
 			GameProperties properties;
 			properties.DisplayTitle = "HVN3 Engine";

@@ -41,3 +41,51 @@ bool String::IsNumeric(int ch) {
 	return isdigit(ch);
 
 }
+
+std::string Trim(const std::string& input_string) {
+
+	auto front = std::find_if_not(input_string.begin(), input_string.end(), std::isspace);
+	auto back = std::find_if_not(input_string.rbegin(), input_string.rend(), std::isspace).base();
+	if (front >= back)
+		return std::string();
+
+	return std::string(front, back);
+
+}
+std::string LTrim(const std::string& input_string) {
+
+	auto front = std::find_if_not(input_string.begin(), input_string.end(), std::isspace);
+	return std::string(front, input_string.end());
+
+}
+std::string RTrim(const std::string& input_string) {
+
+	auto back = std::find_if_not(input_string.rbegin(), input_string.rend(), std::isspace).base();
+	return std::string(input_string.begin(), back);
+
+}
+std::string Trim(const std::string& input_string, const std::initializer_list<char>& chars) {
+
+	size_t start = input_string.find_first_not_of(chars);
+	size_t end = input_string.find_last_not_of(chars) + 1;
+	
+	if (start == std::string::npos || end == std::string::npos || start >= end)
+		return std::string("");
+
+	return input_string.substr(start, end - start);
+
+}
+std::string LTrim(const std::string& input_string, const std::initializer_list<char>& chars) {
+
+	size_t pos = input_string.find_first_not_of(chars);
+	if (std::string::npos != pos)
+		return input_string.substr(pos);
+
+}
+std::string RTrim(const std::string& input_string, const std::initializer_list<char>& chars) {
+
+	size_t pos = input_string.find_last_not_of(chars);
+	if (std::string::npos != pos)
+		return input_string.substr(0, pos + 1);
+
+}

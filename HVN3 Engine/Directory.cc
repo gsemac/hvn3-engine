@@ -1,5 +1,7 @@
 #include "Directory.h"
+#include "Path.h"
 #include "Environment.h"
+#include "String.h"
 
 namespace IO {
 
@@ -19,7 +21,7 @@ namespace IO {
 	}
 	void Directory::SetCurrentDirectory(const std::string path) {
 
-		__current_directory = path;
+		__current_directory = RTrim(path, { IO::Path::DirectorySeparatorChar() });
 
 	}
 
