@@ -11,7 +11,7 @@ namespace SuperMarioBros {
 			Framework::Initialize();
 
 			// Set up game resources.
-			std::string resource_directory = IO::Directory::GetCurrentDirectory() + IO::Path::DirectorySeparatorChar() + "data";
+			std::string resource_directory = IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data");
 			std::cout << resource_directory;
 			getchar();
 			// Set up Game Properties.
