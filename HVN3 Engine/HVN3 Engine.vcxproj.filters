@@ -291,6 +291,9 @@
     <ClCompile Include="Environment.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
+    <ClCompile Include="Path.cc">
+      <Filter>Source Files\IO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">

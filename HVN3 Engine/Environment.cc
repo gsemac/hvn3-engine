@@ -1,20 +1,21 @@
 #include "Environment.h"
+#include "Path.h"
 #include "Exception.h"
 #include <allegro5\allegro.h>
 #ifdef _WIN64
-#define ENVIRONMENT WINDOWS_64BIT
+#define ENVIRONMENT OperatingSystem::Windows64
 #elif _WIN32
-#define ENVIRONMENT WINDOWS_32BIT
+#define ENVIRONMENT OperatingSystem::Windows32
 #elif __unix || __unix__
-#define ENVIRONMENT UNIX
+#define ENVIRONMENT OperatingSystem::WindowsUnix
 #elif __APPLE__ || __MACH__
-#define ENVIRONMENT MAC_OSX
+#define ENVIRONMENT OperatingSystem::MacOSX
 #elif __linux__
-#define ENVIRONMENT LINUX
+#define ENVIRONMENT OperatingSystem::Linux
 #elif __FreeBSD__
-#define ENVIRONMENT FREE_BSD
+#define ENVIRONMENT OperatingSystem::FreeBSD
 #else
-#define ENVIRONMENT UNKNOWN
+#define ENVIRONMENT OperatingSystem::Unknown
 #endif
 #ifdef _WIN32
 #include <direct.h>
@@ -23,18 +24,6 @@
 #include <unistd.h>
 #endif
 #define MAX_PATH 255 // Not applicable for all platforms
-
-enum OPERATING_SYSTEM {
-	UNKNOWN = 0x00,
-	WINDOWS_32BIT = 0x01,
-	WINDOWS_64BIT = 0x02,
-	UNIX = 0x04,
-	MAC_OSX = 0x08,
-	LINUX = 0x16,
-	FREE_BSD = 0x32,
-	WINDOWS = WINDOWS_32BIT | WINDOWS_64BIT,
-	UNIX_BASED = UNIX | MAC_OSX | LINUX | FREE_BSD
-};
 
 // Static methods and member variables
 
@@ -52,7 +41,7 @@ std::string Environment::CurrentDirectory() {
 		al_free(dir);
 
 		// Return the directory with the executable named trimmed off.
-		current_directory = current_directory.substr(0, current_directory.rfind(Environment::PathSeparator()));
+		current_directory = current_directory.substr(0, current_directory.rfind(IO::Path::DirectorySeparatorChar()));
 		return current_directory;
 
 	}
@@ -61,12 +50,9 @@ std::string Environment::CurrentDirectory() {
 		throw Exception("Unable to get the current directory.");
 
 }
-char Environment::PathSeparator() {
+::OperatingSystem Environment::OperatingSystem() {
 
-	if (ENVIRONMENT & WINDOWS)
-		return '\\';
-	else
-		return '/';
+	return ENVIRONMENT;
 
 }
 
@@ -84,7 +70,7 @@ std::string get_current_directory() {
 		std::string current_directory = cwd;
 
 		// Return the directory with the executable named trimmed off.
-		return current_directory.substr(0, current_directory.rfind(Environment::PathSeparator()));
+		return current_directory.substr(0, current_directory.rfind(IO::Path::DirectorySeparatorChar()));
 
 	}
 	else

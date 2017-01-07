@@ -1,9 +1,16 @@
 #pragma once
 
-class Path {
+namespace IO {
 
-public:
+	class Path {
 
-private:
+	public:
+		static char DirectorySeparatorChar();
+		static char AltDirectorySeparatorChar();
+		static char VolumeSeparatorChar();
 
-};
+	private:
+
+	};
+
+}

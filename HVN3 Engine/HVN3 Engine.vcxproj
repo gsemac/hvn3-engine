@@ -177,6 +177,7 @@
     <ClCompile Include="Object.cc" />
     <ClCompile Include="Packet.cc" />
     <ClCompile Include="Particles.cc" />
+    <ClCompile Include="Path.cc" />
     <ClCompile Include="Point.cc" />
     <ClCompile Include="Random.cc" />
     <ClCompile Include="Rectangle.cc" />
