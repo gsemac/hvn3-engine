@@ -25,6 +25,16 @@ namespace IO {
 		return new_path;
 
 	}
+	std::string Path::Combine(const std::string& path1, const std::string& path2, const std::string& path3) {
+
+		return Combine(Combine(path1, path2), path3);
+
+	}
+	std::string Path::Combine(const std::string& path1, const std::string& path2, const std::string& path3, const std::string& path4) {
+
+		return Combine(Combine(Combine(path1, path2), path3), path4);
+
+	}
 	bool Path::IsPathRooted(const std::string& path) {
 
 		// If the path is empty, return false.

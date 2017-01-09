@@ -1,6 +1,45 @@
 #include "Sprite.h"
+#include "Exception.h"
+#include <limits>
 
 Sprite::Sprite() {}
+Sprite::Sprite(const char* path) :
+	Sprite(path, 0, 0) {}
+Sprite::Sprite(const char* path, int origin_x, int origin_y) :
+	__origin(origin_x, origin_y) {
+
+	// Load the sprite from the filesystem.
+	ALLEGRO_BITMAP* ptr = al_load_bitmap(path);
+
+	// If we failed to access the file, throw an error.
+	if (!ptr)
+		throw IO::IOException("Failed to access file '" + std::string(path) + "'.");
+
+	// Push the bitmap into the frame collection.
+	__frames.push_back(ptr);
+
+	// Set width and height members.
+	__width = al_get_bitmap_width(ptr);
+	__height = al_get_bitmap_height(ptr);
+
+	// (These members are only relevant for sprite sheets, so set them to null.)
+	__sheet = nullptr;
+	__strip_length = 0;
+
+}
+Sprite::Sprite(const char* path, int origin_x, int origin_y, const Color& alpha_color)
+	: Sprite(path, origin_x, origin_y) {
+
+	if (__frames[0])
+		al_convert_mask_to_alpha(__frames[0], alpha_color.AlPtr());
+
+}
+Sprite::Sprite(const std::string& path) :
+	Sprite(path.c_str()) {}
+Sprite::Sprite(const std::string& path, int origin_x, int origin_y) :
+	Sprite(path.c_str(), origin_x, origin_y) {}
+Sprite::Sprite(const std::string& path, int origin_x, int origin_y, const Color& alpha_color)
+	: Sprite(path.c_str(), origin_x, origin_y, alpha_color) {}
 Sprite::Sprite(Sprite&& other) {
 
 	__frames = other.__frames;
@@ -32,20 +71,22 @@ Sprite::~Sprite() {
 	}
 
 }
-Sprite::Sprite(const char* filename, int origin_x, int origin_y) : __origin(origin_x, origin_y) {
 
-	__sheet = nullptr;
-	__frames.push_back(al_load_bitmap(filename));
-	__width = al_get_bitmap_width(__frames[0]);
-	__height = al_get_bitmap_height(__frames[0]);
-	__strip_length = 0;
+Sprite Sprite::FromSpriteSheet(const char* path, int frame_width, int frame_height) {
+
+	return FromSpriteSheet(path, frame_width, frame_height, 0, 0);
 
 }
+Sprite Sprite::FromSpriteSheet(const char* path, int frame_width, int frame_height, int origin_x, int origin_y) {
 
-Sprite Sprite::FromSpriteSheet(const char* filename, int frame_width, int frame_height, int origin_x, int origin_y) {
+	// Load the sprite sheet from the filesystem.
+	ALLEGRO_BITMAP* sheet = al_load_bitmap(path);
 
-	// Load the sprite sheet and determine relevant parameters.
-	ALLEGRO_BITMAP* sheet = al_load_bitmap(filename);
+	// If we failed to access the file, throw an error.
+	if (!sheet)
+		throw IO::IOException("Failed to access file '" + std::string(path) + "'.");
+
+	// Get the dimensions of the sheet, and determine the number of rows/columns.
 	int sheet_width = al_get_bitmap_width(sheet);
 	int sheet_height = al_get_bitmap_height(sheet);
 	int columns = sheet_width / frame_width;
@@ -66,6 +107,53 @@ Sprite Sprite::FromSpriteSheet(const char* filename, int frame_width, int frame_
 
 	// Return the new sprite.
 	return spr;
+
+	//return FromSpriteSheet(path, frame_width, frame_height, 0, 0, 0, 0, INT_MAX, origin_x, origin_y);
+
+}
+Sprite Sprite::FromSpriteSheet(const char* path, int frame_width, int frame_height, int origin_x, int origin_y, const Color& alpha_color) {
+
+	Sprite sprite = FromSpriteSheet(path, frame_width, frame_height, origin_x, origin_y);
+
+	for (size_t i = 0; i < sprite.__frames.size(); ++i)
+		al_convert_mask_to_alpha(sprite.__frames[i], alpha_color.AlPtr());
+
+	return sprite;
+
+}
+Sprite Sprite::FromSpriteSheet(const char* path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y) {
+
+	throw NotImplementedException();
+
+}
+Sprite Sprite::FromSpriteSheet(const char* path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y, const Color& alpha_color) {
+
+	throw NotImplementedException();
+
+}
+Sprite Sprite::FromSpriteSheet(const std::string& path, int frame_width, int frame_height) {
+
+	return FromSpriteSheet(path.c_str(), frame_width, frame_height, 0, 0);
+
+}
+Sprite Sprite::FromSpriteSheet(const std::string& path, int frame_width, int frame_height, int origin_x, int origin_y) {
+
+	return FromSpriteSheet(path.c_str(), frame_width, frame_height, origin_x, origin_y);
+
+}
+Sprite Sprite::FromSpriteSheet(const std::string& path, int frame_width, int frame_height, int origin_x, int origin_y, const Color& alpha_color) {
+
+	return FromSpriteSheet(path.c_str(), frame_width, frame_height, origin_x, origin_y, alpha_color);
+
+}
+Sprite Sprite::FromSpriteSheet(const std::string& path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y) {
+
+	return FromSpriteSheet(path.c_str(), frame_width, frame_height, frame_x_offset, frame_y_offset, frame_x_separation, frame_y_separation, frame_number, origin_x, origin_y);
+
+}
+Sprite Sprite::FromSpriteSheet(const std::string& path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y, const Color& alpha_color) {
+
+	return FromSpriteSheet(path.c_str(), frame_width, frame_height, frame_x_offset, frame_y_offset, frame_x_separation, frame_y_separation, frame_number, origin_x, origin_y, alpha_color);
 
 }
 

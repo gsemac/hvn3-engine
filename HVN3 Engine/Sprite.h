@@ -2,17 +2,33 @@
 #define __SPRITE_H
 #include <allegro5/allegro.h>
 #include <vector>
+#include <string>
 #include "Point.h"
+#include "Color.h"
 
 class Sprite {
 
 public:
-	Sprite(const char* filename, int origin_x = 0, int origin_y = 0);
+	Sprite(const char* path);
+	Sprite(const char* path, int origin_x, int origin_y);
+	Sprite(const char* path, int origin_x, int origin_y, const Color& alpha_color);
+	Sprite(const std::string& path);
+	Sprite(const std::string& path, int origin_x, int origin_y);
+	Sprite(const std::string& path, int origin_x, int origin_y, const Color& alpha_color);
 	Sprite(Sprite&& other);
 	~Sprite();
 
-	static Sprite FromSpriteSheet(const char* filename, int frame_width, int frame_height, int origin_x = 0, int origin_y = 0);
-
+	static Sprite FromSpriteSheet(const char* path, int frame_width, int frame_height);
+	static Sprite FromSpriteSheet(const char* path, int frame_width, int frame_height, int origin_x, int origin_y);
+	static Sprite FromSpriteSheet(const char* path, int frame_width, int frame_height, int origin_x, int origin_y, const Color& alpha_color);
+	static Sprite FromSpriteSheet(const char* path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y);
+	static Sprite FromSpriteSheet(const char* path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y, const Color& alpha_color);
+	static Sprite FromSpriteSheet(const std::string& path, int frame_width, int frame_height);
+	static Sprite FromSpriteSheet(const std::string& path, int frame_width, int frame_height, int origin_x, int origin_y);
+	static Sprite FromSpriteSheet(const std::string& path, int frame_width, int frame_height, int origin_x, int origin_y, const Color& alpha_color);
+	static Sprite FromSpriteSheet(const std::string& path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y);
+	static Sprite FromSpriteSheet(const std::string& path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y, const Color& alpha_color);
+	
 	unsigned int Width() const;
 	unsigned int Height() const;
 	// If loaded from a sprite sheet, returns the length of each strip. Otherwise, returns the number of subimages.

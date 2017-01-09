@@ -4,6 +4,10 @@
 
 namespace SuperMarioBros {
 
+	class Player : public Object {
+
+	};
+
 	void RunGame(int argc, char *argv[]) {
 
 		try {
@@ -12,7 +16,7 @@ namespace SuperMarioBros {
 			Framework::Initialize();
 
 			// Set up game resources.
-			std::string resource_directory = IO::Path::Combine(IO::Directory::GetCurrentDirectory(), IO::Path::Combine("data", "ExampleGame2"));
+			std::string resource_directory = IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data", "ExampleGame2");
 
 			// Set up Game Properties.
 			GameProperties properties;
@@ -23,9 +27,12 @@ namespace SuperMarioBros {
 
 			// Set up the initial Scene.
 			Scene scene(properties.DisplaySize.Width(), properties.DisplaySize.Height(), new CollisionGrid(16, 16));
-			scene.SetBackgroundColor(Color::Red);
-			scene.AddObject(new RotatingBox(100.0f, 100.0f));
-			scene.AddObject(new RotatingBox(500.0f, 100.0f));
+			scene.SetBackgroundColor(Color::Silver);
+			Player* player = new Player();
+			std::shared_ptr<Sprite> spr = std::make_shared<Sprite>(Sprite::FromSpriteSheet(IO::Path::Combine(resource_directory, "mario_small_walk.png"), 16, 32, 0, 0, Color(157, 159, 159)));
+			player->SetSprite(spr);
+			player->SetImageSpeed(0.1f);
+			scene.AddObject(player, 100, 100);
 
 			// Create a new Runner instance to handle the game logic.
 			Runner(properties, scene).Loop();

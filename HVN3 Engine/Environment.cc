@@ -33,15 +33,14 @@ std::string Environment::CurrentDirectory() {
 	char* dir = al_get_current_directory();
 
 	if (dir) {
-		
+
 		// If the directory is not null, copy the contents of the buffer to a string.
 		std::string current_directory = dir;
 
 		// Free the buffer.
 		al_free(dir);
 
-		// Return the directory with the executable named trimmed off.
-		current_directory = current_directory.substr(0, current_directory.rfind(IO::Path::DirectorySeparatorChar()));
+		// Return the directory.
 		return current_directory;
 
 	}
@@ -64,15 +63,9 @@ std::string get_current_directory() {
 	char buf[MAX_PATH];
 	char* cwd = getcwd(buf, MAX_PATH);
 
-	if (cwd) {
-		
-		// If the directory is not null, copy the contents of the buffer to a string.
-		std::string current_directory = cwd;
-
-		// Return the directory with the executable named trimmed off.
-		return current_directory.substr(0, current_directory.rfind(IO::Path::DirectorySeparatorChar()));
-
-	}
+	if (cwd) 
+		// If the directory is not null, copy the contents of the buffer to a string and return the result.
+		return std::string(cwd);
 	else
 		// Otherwise, throw an exception.
 		throw Exception("Unable to get the current directory (getcwd returned null).");
