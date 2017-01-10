@@ -74,7 +74,8 @@ void Display::SetTitle(const char* value) {
 	al_set_window_title(__display, value);
 
 }
-void Display::SetTitle(std::string value) {
+void Display::SetTitle(const std::string& value) {
+	
 	if (!__display) return;
 
 	SetTitle(value.c_str());

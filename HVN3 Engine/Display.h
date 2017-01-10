@@ -47,7 +47,7 @@ public:
 	~Display();
 
 	void SetTitle(const char* value);
-	void SetTitle(std::string value);
+	void SetTitle(const std::string& value);
 
 	void SetIcon(const Bitmap& icon);
 	void SetIcon(const Sprite& icon);

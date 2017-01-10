@@ -28,7 +28,7 @@ public:
 	static Sprite FromSpriteSheet(const std::string& path, int frame_width, int frame_height, int origin_x, int origin_y, const Color& alpha_color);
 	static Sprite FromSpriteSheet(const std::string& path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y);
 	static Sprite FromSpriteSheet(const std::string& path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y, const Color& alpha_color);
-	
+
 	unsigned int Width() const;
 	unsigned int Height() const;
 	// If loaded from a sprite sheet, returns the length of each strip. Otherwise, returns the number of subimages.
@@ -45,7 +45,7 @@ public:
 
 	ALLEGRO_BITMAP* AlPtr() const;
 	ALLEGRO_BITMAP* AlPtr(int frame) const;
-	
+
 	ALLEGRO_BITMAP* operator[] (const int frame) const;
 
 private:
