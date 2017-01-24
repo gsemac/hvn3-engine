@@ -20,7 +20,7 @@ namespace SuperMarioBros {
 			else if (Keyboard::KeyDown(KEY_ANY)) {
 
 			}
-			
+
 
 		}
 
@@ -31,34 +31,31 @@ namespace SuperMarioBros {
 		try {
 
 			// Initialize the Framework.
-			Framework::Initialize();
+			InitializeFramework();
 
-			{
-				// Set up game resources.
-				std::string resource_directory = IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data", "ExampleGame2");
+			// Set up game resources.
+			std::string resource_directory = IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data", "ExampleGame2");
 
-				// Set up Game Properties.
-				GameProperties properties;
-				properties.DisplayTitle = "HVN3 Engine";
-				properties.OutsideColor = Color::Black;
-				properties.DebugMode = true;
-				properties.ScalingMode = ScalingMode::MaintainAspectRatio;
+			// Set up Game Properties.
+			GameProperties properties;
+			properties.DisplayTitle = "HVN3 Engine";
+			properties.OutsideColor = Color::Black;
+			properties.DebugMode = true;
+			properties.ScalingMode = ScalingMode::MaintainAspectRatio;
 
-				// Set up the initial Scene.
-				Scene scene(properties.DisplaySize.Width(), properties.DisplaySize.Height(), new CollisionGrid(16, 16));
-				scene.SetBackgroundColor(Color::Silver);
-				Player* player = new Player(100, 100);
-				std::shared_ptr<Sprite> spr = std::make_shared<Sprite>(Sprite::FromSpriteSheet(IO::Path::Combine(resource_directory, "mario_small_walk.png"), 16, 32, 0, 0, Color(157, 159, 159)));
-				player->SetSprite(spr);
-				scene.AddObject(player);
+			// Set up the initial Scene.
+			Scene scene(properties.DisplaySize.Width(), properties.DisplaySize.Height(), new CollisionGrid(16, 16));
+			scene.SetBackgroundColor(Color::Silver);
+			Player* player = new Player(100, 100);
+			std::shared_ptr<Sprite> spr = std::make_shared<Sprite>(Sprite::FromSpriteSheet(IO::Path::Combine(resource_directory, "mario_small_walk.png"), 16, 32, 0, 0, Color(157, 159, 159)));
+			player->SetSprite(spr);
+			scene.AddObject(player);
 
-				// Create a new Runner instance to handle the game logic.
-				Runner(properties, scene).Loop();
-
-			}
+			// Create a new Runner instance to handle the game logic.
+			Runner(properties, scene).Loop();
 
 			// Shut down the Framework.
-			Framework::Shutdown();
+			ShutdownFramework();
 
 		}
 		catch (std::exception& ex) {

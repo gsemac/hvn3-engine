@@ -1,4 +1,6 @@
 #pragma once
+#define InitializeFramework() Framework::Initialize(); {
+#define ShutdownFramework() } Framework::Shutdown();
 
 class Framework {
 
