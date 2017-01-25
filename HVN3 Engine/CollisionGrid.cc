@@ -7,9 +7,9 @@
 
 // Public members
 
-CollisionGrid::CollisionGrid(const Size& cell_size) : 
+CollisionGrid::CollisionGrid(const Size& cell_size) :
 	__cell_size(cell_size) {}
-CollisionGrid::CollisionGrid(float cell_width, float cell_height) : 
+CollisionGrid::CollisionGrid(float cell_width, float cell_height) :
 	CollisionGrid(Size(cell_width, cell_height)) {}
 
 // Inherited from IBroadphase
@@ -37,7 +37,7 @@ void CollisionGrid::Update() {
 	// Map all colliders to grid spaces.
 	for (auto it = __colliders.begin(); it != __colliders.end(); ++it)
 		MapToCells(*it);
-
+	
 }
 
 const std::vector<std::pair<ICollidable*, ICollidable*>>& CollisionGrid::FindPairs() {
@@ -88,7 +88,7 @@ void CollisionGrid::QueryRegion(const Rectangle& region, std::vector<ICollidable
 	for (size_t i = 0; i < cells.size(); ++i) {
 		auto r = __grid.equal_range(cells[i]);
 		for (auto j = r.first; j != r.second; ++j)
-			if (filter == 0 || j->second->CollisionId() & filter)
+			if (filter == 0 || j->second->GetCollisionId() & filter)
 				colliders.insert(j->second);
 	}
 
@@ -100,7 +100,7 @@ ICollidable* CollisionGrid::QueryNearest(const Point& point, int filter) const {
 
 	// The algorithm will check a region surrounding the the given Point, and if no relevant colliders are found, the region will be expanded according by the cell size.
 	// To potentially improve efficiency, the difference of the cells of the two regions could be checked instead.
-	
+
 	//ICollidable* closest = nullptr;
 	//std::vector<Point> cells;
 	//Rectangle region(point.X() - __cell_size.Width() / 2.0f, point.Y() - __cell_size.Height() / 2.0f, __cell_size.Width(), __cell_size.Height());
@@ -130,7 +130,7 @@ ICollidable* CollisionGrid::QueryNearest(const Point& point, int filter) const {
 void CollisionGrid::GetIntersectedCells(ICollidable* collider, std::vector<Point>& cells) const {
 
 	// Get the collider's AABB. If the mask type is undefined, do not assign it to any cells.
-	if (collider->Mask().Type() == MaskType::Undefined) return;
+	if (collider->GetCollisionMask().Type() == MaskType::Undefined) return;
 	Rectangle aabb = collider->AABB();
 
 	// Get cells intersected by the AABB.

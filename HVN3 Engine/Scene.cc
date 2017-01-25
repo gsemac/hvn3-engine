@@ -172,7 +172,7 @@ void Scene::AddObject(std::shared_ptr<Object> object, float x, float y) {
 	object->SetXY(x, y);
 
 	// Add the object to the collision manager.
-	//CollisionManager().Broadphase().Add(object.get());
+	CollisionManager().Broadphase().Add(object.get());
 
 	// If there are no objects in the list, just insert the new object.
 	if (__objects.size() == 0) {

@@ -9,12 +9,12 @@ class ICollidable : public IPositionable {
 public:
 	ICollidable(float x, float y);
 
-	CollisionMask& Mask();
 	Rectangle AABB() const;
-	void SetMask(const CollisionMask& mask);
-	int CollisionId() const;
+	CollisionMask& GetCollisionMask();
+	void SetCollisionMask(const ::CollisionMask& mask);
+	int GetCollisionId() const;
 	void SetCollisionId(int id);
-	int CollisionFilter() const;
+	int GetCollisionFilter() const;
 	void SetCollisionFilter(int filter);
 	// Returns a pointer to the Scene the object belongs to, or nullptr if the object does not belong to a Scene.
 	Scene& Scene();

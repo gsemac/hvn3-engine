@@ -1,4 +1,5 @@
 #include "Sprite.h"
+#include "Directory.h"
 #include "Exception.h"
 #include <limits>
 

@@ -11,3 +11,4 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Vector2d.h"
+#include "ResourceCollection.h"

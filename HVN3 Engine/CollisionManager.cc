@@ -98,29 +98,31 @@ CollisionManager::CollisionManager(IBroadphase* broadphase) {
 
 }
 bool CollisionManager::TestCollision(ICollidable* a, ICollidable* b) const {
-
+	
 	return TestCollision(a, a->X(), a->Y(), b, b->X(), b->Y());
 
 }
 bool CollisionManager::TestCollision(ICollidable* a, float ax, float ay, ICollidable* b, float bx, float by) const {
 	
 	// Get the masks for both Objects.
-	const ICollisionMask& maska = a->Mask();
-	const ICollisionMask& maskb = b->Mask();
+	const ICollisionMask& maska = a->GetCollisionMask();
+	const ICollisionMask& maskb = b->GetCollisionMask();
 
 	// Get AABBs for both Objects.
 	Rectangle aabb_a = maska.AABB();
 	Rectangle aabb_b = maskb.AABB();
-	aabb_a.SetX(aabb_a.X() + ax);
-	aabb_a.SetY(aabb_a.Y() + ay);
-	aabb_b.SetX(aabb_a.X() + bx);
-	aabb_b.SetY(aabb_a.Y() + by);
+	aabb_a.Translate(ax, ay);
+	aabb_b.Translate(bx, by);
 
-	// Check if the AABBs intersect.
+	// If the bounding boxes do not intersect, return false.
 	if (!Intersects(aabb_a, aabb_b))
 		return false;
+
+	// If both masks are rectangles, then they are the same as the bounding box, so the Objects collided.
 	if (maska.Type() == MaskType::Rectangle && maskb.Type() == MaskType::Rectangle)
-		return true; // (Same as AABB)
+		return true;
+
+
 
 					 // Perform more precise collision checking.
 	//if (maska.IsCircle()) {
