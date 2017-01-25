@@ -55,22 +55,22 @@ namespace Gui {
 			BackColor()->Darken();
 
 			if (Mouse::ButtonDown(MB_LEFT))
-				__text_offset.Y = 0.0f;
+				__text_offset.Y() = 0.0f;
 
 			Invalidate();
 
 		}
 		virtual void OnMouseDown() {
 
-			bool invalidate_req = (__text_offset.Y == 0.0f);
-			__text_offset.Y = 1.0f;
+			bool invalidate_req = (__text_offset.Y() == 0.0f);
+			__text_offset.Y() = 1.0f;
 			if (invalidate_req)
 				Invalidate();
 
 		}
 		virtual void OnMouseUp() {
 
-			__text_offset.Y = 0.0f;
+			__text_offset.Y() = 0.0f;
 			Invalidate();
 
 		}

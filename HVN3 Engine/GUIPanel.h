@@ -63,21 +63,21 @@ namespace Gui {
 					if (c->Anchors() & ANCHOR_LEFT)
 						c->Resize(c->Width() + width_diff, c->Height());
 					else
-						c->X += width_diff;
+						c->TranslateX(width_diff);
 				}
 
 				if (c->Anchors() & ANCHOR_BOTTOM) {
 					if (c->Anchors() & ANCHOR_TOP)
 						c->Resize(c->Width(), c->Height() + height_diff);
 					else
-						c->Y += height_diff;
+						c->TranslateY(height_diff);
 				}
 
 				if (c->Anchors() == ANCHOR_NONE || (!(c->Anchors() & ANCHOR_RIGHT) && !(c->Anchors() & ANCHOR_LEFT)))
-					c->X += width_diff / 2.0f;
+					c->TranslateX(width_diff / 2.0f);
 
 				if (c->Anchors() == ANCHOR_NONE || (!(c->Anchors() & ANCHOR_TOP) && !(c->Anchors() & ANCHOR_BOTTOM)))
-					c->Y += height_diff / 2.0f;
+					c->TranslateY(height_diff / 2.0f);
 
 			}
 
@@ -97,7 +97,7 @@ namespace Gui {
 			Graphics::ResetDrawingTarget();
 
 			// Draw child Controls Bitmap.
-			al_draw_bitmap(__child_bitmap, X, Y, NULL);
+			al_draw_bitmap(__child_bitmap, X(), Y(), NULL);
 
 		}
 

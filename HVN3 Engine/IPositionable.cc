@@ -3,8 +3,50 @@
 IPositionable::IPositionable() : IPositionable(0.0f, 0.0f) {}
 IPositionable::IPositionable(float x, float y) {
 
-	this->X = x;
-	this->Y = y;
+	this->__x = x;
+	this->__y = y;
+
+}
+float IPositionable::X() const {
+
+	return __x;
+
+}
+float IPositionable::Y() const {
+
+	return __y;
+
+}
+void IPositionable::SetX(float x) {
+
+	__x = x;
+
+}
+void IPositionable::SetY(float y) {
+
+	__y = y;
+
+}
+void IPositionable::SetXY(float x, float y) {
+
+	SetX(x);
+	SetY(y);
+
+}
+void IPositionable::TranslateX(float x_offset) {
+
+	SetX(X() + x_offset);
+
+}
+void IPositionable::TranslateY(float y_offset) {
+
+	SetY(Y() + y_offset);
+
+}
+void IPositionable::Translate(float x_offset, float y_offset) {
+
+	TranslateX(x_offset);
+	TranslateY(y_offset);
 
 }
 

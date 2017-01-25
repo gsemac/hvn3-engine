@@ -134,11 +134,11 @@ private:
 		Point midpoint = __bounds.Midpoint();
 
 		// Determine what quadrant the rectangle fits inside of.
-		bool top_quadrant = (rect.Y < midpoint.Y &&  rect.Y2() < midpoint.Y); // Can fit in top quadrant
-		bool bottom_quadrant = (rect.Y > midpoint.Y); // Can fit in bottom quadrant
-		if (rect.X < midpoint.X && rect.X2() < midpoint.X) // Can fit in left quadrant
+		bool top_quadrant = (rect.Y() < midpoint.Y() &&  rect.Y2() < midpoint.Y); // Can fit in top quadrant
+		bool bottom_quadrant = (rect.Y() > midpoint.Y); // Can fit in bottom quadrant
+		if (rect.X() < midpoint.X() && rect.X2() < midpoint.X) // Can fit in left quadrant
 			index = top_quadrant ? 1 : 2;
-		else if (rect.X > midpoint.X) // Can fit in right quadrant
+		else if (rect.X() > midpoint.X) // Can fit in right quadrant
 			index = top_quadrant ? 0 : 3;
 
 		// If it didn't fit in any quadrants, we'll assign it to the parent node.

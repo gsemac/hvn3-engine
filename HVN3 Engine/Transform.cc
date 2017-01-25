@@ -48,7 +48,7 @@ namespace Graphics {
 	}
 	void Transform::Rotate(const Point& origin, float degrees) {
 
-		Rotate(origin.X, origin.Y, degrees);
+		Rotate(origin.X(), origin.Y(), degrees);
 
 	}
 	void Transform::Compose(const Transform& other) {
@@ -70,7 +70,7 @@ namespace Graphics {
 	}
 	void Transform::HorizontalShear(const Point& origin, float degrees) {
 
-		HorizontalShear(origin.X, origin.Y, degrees);
+		HorizontalShear(origin.X(), origin.Y(), degrees);
 
 	}
 	void Transform::VerticalShear(float degrees) {
@@ -87,7 +87,7 @@ namespace Graphics {
 	}
 	void Transform::VerticalShear(const Point& origin, float degrees) {
 
-		VerticalShear(origin.X, origin.Y, degrees);
+		VerticalShear(origin.X(), origin.Y(), degrees);
 
 	}
 	void Transform::TransformPoint(float& x, float& y) {
@@ -97,7 +97,10 @@ namespace Graphics {
 	}
 	void Transform::TransformPoint(Point& point) {
 
-		TransformPoint(point.X, point.Y);
+		float x = point.X();
+		float y = point.Y();
+		TransformPoint(x, y);
+		point.SetXY(x, y);
 
 	}
 	const ALLEGRO_TRANSFORM* Transform::AlPtr() const {

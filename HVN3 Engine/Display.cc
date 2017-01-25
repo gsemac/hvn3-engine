@@ -140,7 +140,7 @@ void Display::SetPosition(int x, int y) {
 }
 void Display::SetPosition(const Point& position) {
 
-	SetPosition((int)position.X, (int)position.Y);
+	SetPosition((int)position.X(), (int)position.Y());
 
 }
 bool Display::IsFullscreen() const {

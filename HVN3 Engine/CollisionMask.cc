@@ -1,10 +1,10 @@
 #include "CollisionMask.h"
 
-RectangleMask::RectangleMask(const Rectangle& rect) : __mask(rect.Width(), rect.Height()), __offset(rect.X, rect.Y) {}
+RectangleMask::RectangleMask(const Rectangle& rect) : __mask(rect.Width(), rect.Height()), __offset(rect.X(), rect.Y()) {}
 void RectangleMask::SetOffset(float x_offset, float y_offset) {
 
-	__offset.X = x_offset;
-	__offset.Y = y_offset;
+	__offset.SetX(__offset.X() + x_offset);
+	__offset.SetY(__offset.Y() + y_offset);
 
 }
 const Point& RectangleMask::GetOffset() const {
@@ -15,8 +15,8 @@ const Point& RectangleMask::GetOffset() const {
 Rectangle RectangleMask::AABB() const {
 
 	Rectangle aabb = __mask;
-	aabb.X = __offset.X;
-	aabb.Y = __offset.Y;
+	aabb.SetX(aabb.X() + __offset.X());
+	aabb.SetY(aabb.Y() + __offset.Y());
 	return aabb;
 
 }
@@ -134,10 +134,10 @@ bool CollisionMask::Intersects(const Line& line) const {
 //		return Rectangle(__points[0], __points[1]);
 //
 //	case CIRCLE:
-//		return Rectangle(Point(__points[0].X - __radius, __points[0].Y - __radius), Point(__points[0].X + __radius, __points[0].Y + __radius));
+//		return Rectangle(Point(__points[0].X() - __radius, __points[0].Y() - __radius), Point(__points[0].X() + __radius, __points[0].Y() + __radius));
 //
 //	case LINE:
-//		return Rectangle(__points[0].X, __points[1].Y);
+//		return Rectangle(__points[0].X(), __points[1].Y);
 //
 //	case SPRITE:
 //		return Rectangle(Point(__x_offset, __y_offset), Point(__x_offset + __sprite->Width(), __y_offset + __sprite->Height()));
@@ -184,8 +184,8 @@ bool CollisionMask::Intersects(const Line& line) const {
 //	assert(__type == RECTANGLE);
 //
 //	return Rectangle(
-//		Point(x + __x_offset + __points[0].X, y + __y_offset + __points[0].Y),
-//		Point(x + __x_offset + __points[1].X, y + __y_offset + __points[1].Y)
+//		Point(x + __x_offset + __points[0].X(), y + __y_offset + __points[0].Y),
+//		Point(x + __x_offset + __points[1].X(), y + __y_offset + __points[1].Y)
 //	);
 //
 //}

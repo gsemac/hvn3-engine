@@ -315,7 +315,7 @@ namespace Gui {
 		void DeselectAll() {
 
 			__sel.Resize(__caret.Position(), __caret.Position());
-			__sel_draw_pos.Resize(__caret.X, __caret.X);
+			__sel_draw_pos.Resize(__caret.X(), __caret.X);
 
 		}
 
@@ -326,7 +326,7 @@ namespace Gui {
 
 			// Calculate the visible region of text and the (actual) caret position.
 			Range<float> visible_region(-__scroll_h_offset, -__scroll_h_offset + Width(), false);
-			float caret_x = __caret.X + __padding;
+			float caret_x = __caret.X() + __padding;
 
 			// If the caret is already within this range, do nothing.
 			if (visible_region.ContainsValue(caret_x)) return;
@@ -364,23 +364,23 @@ namespace Gui {
 			static const int ERROR_THRESHOLD = 3;
 			Point real = FixedPosition();
 			int width = __text.Width(__font);
-			int text_x1 = real.X + __scroll_h_offset + __padding;
+			int text_x1 = real.X() + __scroll_h_offset + __padding;
 			int text_x2 = text_x1 + width;
 
 			// If the string is empty, return first index.
 			if (Utf8String::IsNullOrEmpty(__text)) return 0;
 
 			// If the point is out of the textbox bounds, return first index.
-			if (!PointIn(point, Rectangle(real.X, real.Y, Width(), Height()))) return 0;
+			if (!PointIn(point, Rectangle(real.X(), real.Y(), Width(), Height()))) return 0;
 
 			// If the point is beyond the position of the string, return the last index.
-			if (point.X > text_x2) return (int)__text.Length();
+			if (point.X() > text_x2) return (int)__text.Length();
 
 			// To select the best starting position, figure out what percentage down the string width our point is.
-			double percent = (point.X - text_x1) / width;
+			double percent = (point.X() - text_x1) / width;
 			int pos = (std::round)(__text.Length() * percent);
 			int pos_x = text_x1 + __text.RefSubstring(0, pos).Width(__font);
-			int err = point.X - pos_x;
+			int err = point.X() - pos_x;
 			int aerr = (std::abs)(err);
 
 			// If the error is above the threshold, keep attempting to correct it until it can no longer be improved.
@@ -390,7 +390,7 @@ namespace Gui {
 				do {
 					new_pos = pos + Sign(err);
 					new_pos_x = text_x1 + __text.RefSubstring(0, new_pos).Width(__font);
-					new_err = (std::abs)(point.X - new_pos_x);
+					new_err = (std::abs)(point.X() - new_pos_x);
 					if (new_err < besterr) {
 						pos = new_pos;
 						besterr = new_err;
@@ -806,14 +806,14 @@ namespace Gui {
 
 			// Draw selection box.
 			if (!__sel.IsEmpty())
-				Graphics::DrawFilledRectangle(Rectangle(text_pos.X + __sel_draw_pos.Start(), text_pos.Y,
+				Graphics::DrawFilledRectangle(Rectangle(text_pos.X() + __sel_draw_pos.Start(), text_pos.Y(),
 					__sel_draw_pos.Length() * (__sel_draw_pos.IsAscending() ? 1 : -1), __font->Height()), HasFocus() ? __highlight_color : Color::Silver());
 
 			// Draw text.
 			if (__font && !Utf8String::IsNullOrEmpty(__text))
-				Graphics::DrawText(text_pos.X, text_pos.Y, __text, __font, Color::Black());
+				Graphics::DrawText(text_pos.X(), text_pos.Y(), __text, __font, Color::Black());
 			if (__sel.Length() > 0)
-				Graphics::DrawText(text_pos.X + __sel_draw_pos.Min(), text_pos.Y, __text.RefSubstring(__sel.Min(), __sel.Max()), __font,
+				Graphics::DrawText(text_pos.X() + __sel_draw_pos.Min(), text_pos.Y(), __text.RefSubstring(__sel.Min(), __sel.Max()), __font,
 					HasFocus() ? Color::White() : Color::DimGrey());
 
 			// Draw cursor (if focused).
@@ -845,9 +845,9 @@ namespace Gui {
 
 				// Set the caret and adjust the selection range.
 				Point p = Mouse::Position();
-				if (__mouse_last_pos != Mouse::Position() && Range<float>(bounds.X, bounds.X2()).ContainsValue(Mouse::X)) {
-					p.X = Clamp(p.X, bounds.X + 1, bounds.X2() - 1);
-					p.Y = bounds.Y;
+				if (__mouse_last_pos != Mouse::Position() && Range<float>(bounds.X(), bounds.X2()).ContainsValue(Mouse::X)) {
+					p.X() = Clamp(p.X(), bounds.X() + 1, bounds.X2() - 1);
+					p.Y() = bounds.Y;
 					__caret.SetPosition(GetCharacterIndexFromPoint(p));
 					__sel.AssignToMax((__caret.Position()));
 					__sel_draw_pos.AssignToMax(__caret.X);
@@ -855,17 +855,17 @@ namespace Gui {
 				}
 				else {
 					// The mouse is outside the horizontal bounds of the textbox.
-					if (p.X > bounds.X2() && __caret.Position() < __text.Length()) {
+					if (p.X() > bounds.X2() && __caret.Position() < __text.Length()) {
 						// If the mouse is to the right of the textbox, keep increasing the selected area right.
-						int speed = (std::ceil)((p.X - bounds.X2()) / 10);
+						int speed = (std::ceil)((p.X() - bounds.X2()) / 10);
 						__caret.SetPosition(__caret.Position() + speed);
 						__sel.AssignToMax((__caret.Position()));
 						__sel_draw_pos.AssignToMax(__caret.X);
 						__caret.Hide();
 					}
-					else if (p.X < bounds.X && __caret.Position() > 0) {
+					else if (p.X() < bounds.X() && __caret.Position() > 0) {
 						// If the mouse is to the left of the textbox, keep increasing the selected area left.
-						int speed = (std::ceil)((bounds.X - p.X) / 10);
+						int speed = (std::ceil)((bounds.X() - p.X) / 10);
 						__caret.SetPosition(__caret.Position() - speed);
 						__sel.AssignToMax((__caret.Position()));
 						__sel_draw_pos.AssignToMax(__caret.X);

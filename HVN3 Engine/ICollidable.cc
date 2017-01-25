@@ -19,8 +19,8 @@ CollisionMask& ICollidable::Mask() {
 Rectangle ICollidable::AABB() const {
 
 	Rectangle aabb = __mask.AABB();
-	aabb.X += X;
-	aabb.Y += Y;
+	aabb.TranslateX(X());
+	aabb.TranslateY(Y());
 
 	return aabb;
 
@@ -74,7 +74,7 @@ bool ICollidable::PlaceFree(float x, float y, bool notme) {
 	if (v.size() == 0 || (notme && v.size() == 1 && v[0] == this)) return true;
 
 	for (size_t i = 0; i < v.size(); ++i)
-		if (__scene->CollisionManager().TestCollision(this, x, y, v[i], v[i]->X, v[i]->Y))
+		if (__scene->CollisionManager().TestCollision(this, x, y, v[i], v[i]->X(), v[i]->Y()))
 			return false;
 
 	return true;
@@ -83,11 +83,10 @@ bool ICollidable::PlaceFree(float x, float y, bool notme) {
 void ICollidable::MoveContact(float direction, int max_distance) {
 
 	for (int i = 0; i < max_distance; ++i) {
-		Point new_position = PointInDirection(Point(X, Y), direction, 1);
-		if (!PlaceFree(new_position.X, new_position.Y, true))
+		Point new_position = PointInDirection(Point(X(), Y()), direction, 1);
+		if (!PlaceFree(new_position.X(), new_position.Y(), true))
 			break;
-		X = new_position.X;
-		Y = new_position.Y;
+		SetXY(new_position.X(), new_position.Y());
 	}
 
 }

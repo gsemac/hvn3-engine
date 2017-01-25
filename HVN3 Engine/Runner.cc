@@ -340,7 +340,7 @@ void Runner::OnMouseAxes(Event& ev) {
 					continue;
 
 				Point pos = __scene->View(i).MousePosition();
-				Mouse::StateAccessor::SetPosition(pos.X, pos.Y);
+				Mouse::StateAccessor::SetPosition(pos.X(), pos.Y());
 				break;
 
 			}
@@ -350,7 +350,7 @@ void Runner::OnMouseAxes(Event& ev) {
 
 			// If Views are not used, set the mouse position to its position relative to the display.
 			Point pos = Mouse::DisplayPosition();
-			Mouse::StateAccessor::SetPosition(pos.X, pos.Y);
+			Mouse::StateAccessor::SetPosition(pos.X(), pos.Y());
 
 		}
 

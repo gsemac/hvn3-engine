@@ -131,8 +131,7 @@ Emitter::Particle::Particle(float x, float y, const ParticleType& type, unsigned
 }
 void Emitter::Particle::Reset(float x, float y, const ParticleType& type) {
 
-	X = x;
-	Y = y;
+	SetXY(x, y);
 	__velocity = Vector2d(Random::Float(type.__dir_min, type.__dir_max), Random::Float(type.__speed_min, type.__speed_max));
 	__gravity = Vector2d(type.__grav_amount, type.__grav_direction);
 
@@ -228,8 +227,7 @@ void Emitter::Particle::Update(float dt) {
 	__velocity = Vector2d(new_direction, (std::max)(0.0f, new_speed));
 
 	// Update position.
-	X += __velocity.X() + __gravity.X();
-	Y += __velocity.Y() + __gravity.Y();
+	Translate(__velocity.X() + __gravity.X(), __velocity.Y() + __gravity.Y());
 
 	// Update the life of the particle.
 	--__life;
@@ -241,14 +239,14 @@ void Emitter::Particle::Draw() {
 		al_draw_tinted_scaled_rotated_bitmap(
 			Sprite()->AlPtr(ImageIndex()),
 			al_map_rgba_f(ImageAlpha(), ImageAlpha(), ImageAlpha(), ImageAlpha()),
-			0 + Sprite()->Origin().X, 0 + Sprite()->Origin().Y,
-			X, Y,
+			0 + Sprite()->Origin().X(), 0 + Sprite()->Origin().Y(),
+			X(), Y(),
 			ImageXScale(), ImageYScale(),
 			ImageAngle(), NULL
 		);
 	}
 	else {
-		al_draw_rectangle(X, Y, X + 10, Y + 10, al_map_rgb(0, 0, 0), 5.0f);
+		al_draw_rectangle(X(), Y(), X() + 10, Y() + 10, al_map_rgb(0, 0, 0), 5.0f);
 	}
 
 }
@@ -271,7 +269,7 @@ Emitter::Emitter(float x, float y) : IPositionable(x, y) {
 }
 void Emitter::Burst(const ParticleType& type, int number) {
 
-	Burst(X, Y, type, number);
+	Burst(X(), Y(), type, number);
 
 }
 void Emitter::Burst(float x, float y, const ParticleType& type, int number) {
@@ -282,11 +280,11 @@ void Emitter::Burst(float x, float y, const ParticleType& type, int number) {
 	// Add particles to the particle list until we have the necessary amount free to work with.
 	int total_size = static_cast<int>(__particles.size());
 	int usable_particles = total_size - __particle_count;
-	for (size_t i = usable_particles; i < number; ++i)
+	for (int i = usable_particles; i < number; ++i)
 		__particles.push_back(Particle(x, y, type, ++top_depth));
 
 	// Reset particles for use (only the ones we didn't add).
-	for (size_t i = __particle_count; i < __particle_count + usable_particles; ++i)
+	for (int i = __particle_count; i < __particle_count + usable_particles; ++i)
 		__particles[i].Reset(x, y, type);
 	//for (size_t i = __particle_count; i < (std::min)(total_size, number); ++i) {
 	//	int ind = __free_indices.front();
@@ -306,7 +304,7 @@ int Emitter::Count() {
 void Emitter::Update() {
 
 	// Update the state of all particles.
-	size_t i = 0;
+	int i = 0;
 	while (i < __particle_count) {
 
 		Particle& p = __particles[i];
@@ -332,7 +330,7 @@ void Emitter::Update() {
 void Emitter::Draw() {
 
 	// Draw all particles.
-	for (size_t i = 0; i < __particle_count; ++i)
+	for (int i = 0; i < __particle_count; ++i)
 		__particles[i].Draw();
 
 }

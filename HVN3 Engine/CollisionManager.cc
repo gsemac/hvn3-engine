@@ -12,8 +12,8 @@ bool Intersects(Sprite* s1, Sprite* s2, const Point& p1, const Point& p2) {
 	ALLEGRO_BITMAP* bb = s2->AlPtr();
 
 	// Create bounding Rectangles from the Sprites.
-	Rectangle a(p1.X - s1->Origin().X, p1.Y - s1->Origin().Y, s1->Width(), s1->Height());
-	Rectangle b(p2.X - s2->Origin().X, p2.Y - s2->Origin().Y, s2->Width(), s2->Height());
+	Rectangle a(p1.X() - s1->Origin().X(), p1.Y() - s1->Origin().Y(), s1->Width(), s1->Height());
+	Rectangle b(p2.X() - s2->Origin().X(), p2.Y() - s2->Origin().Y(), s2->Width(), s2->Height());
 	if (!Intersects(a, b)) return false;
 
 	// Create Rectangle to represent the overlap area.
@@ -32,8 +32,8 @@ bool Intersects(Sprite* s1, Sprite* s2, const Point& p1, const Point& p2) {
 	bool collided = false;
 	for (int i = 0; i < overlap_a.Width(); ++i) {
 		for (int j = 0; j < overlap_a.Height(); ++j) {
-			ALLEGRO_COLOR pixel_a = al_get_pixel(ba, overlap_a.X + i, overlap_a.Y + j);
-			ALLEGRO_COLOR pixel_b = al_get_pixel(bb, overlap_b.X + i, overlap_b.Y + j);
+			ALLEGRO_COLOR pixel_a = al_get_pixel(ba, overlap_a.X() + i, overlap_a.Y() + j);
+			ALLEGRO_COLOR pixel_b = al_get_pixel(bb, overlap_b.X() + i, overlap_b.Y() + j);
 			if (pixel_a.a > 0.0f && pixel_b.a > 0.0f) {
 				collided = true;
 				break;
@@ -62,18 +62,18 @@ bool Intersects(Sprite* sprite, const Circle& circle, const Point& pos) {
 	*/
 
 	// Generate a bounding Rectangle for the Sprite.
-	Rectangle bounds(pos.X - sprite->Origin().X, pos.Y - sprite->Origin().Y, sprite->Width(), sprite->Height());
-	Point center = Point(bounds.X + bounds.Width() / 2.0f, bounds.Y + bounds.Height() / 2.0f);
+	Rectangle bounds(pos.X() - sprite->Origin().X(), pos.Y() - sprite->Origin().Y(), sprite->Width(), sprite->Height());
+	Point center = Point(bounds.X() + bounds.Width() / 2.0f, bounds.Y() + bounds.Height() / 2.0f);
 
 	// Find the closest edge.
 	float dist_x, dist_y;
 	Direction edge;
-	dist_x = (std::abs)(circle.X - center.X);
-	dist_y = (std::abs)(circle.Y - center.Y);
+	dist_x = (std::abs)(circle.X() - center.X());
+	dist_y = (std::abs)(circle.Y() - center.Y());
 	if (dist_x > dist_y)
-		edge = (circle.X < center.X) ? LEFT : RIGHT;
+		edge = (circle.X() < center.X()) ? LEFT : RIGHT;
 	else
-		edge = (circle.Y < center.Y) ? UP : DOWN;
+		edge = (circle.Y() < center.Y()) ? UP : DOWN;
 
 	return false;
 
@@ -82,7 +82,7 @@ bool Intersects(Sprite* sprite, const Circle& circle, const Point& pos) {
 bool Intersects(const SpriteMask& mask, const Circle& circle, const Point& pos) {
 
 	// Adjust Point of Circle to be relative to the (0, 0)-based SpriteMask.
-	Point adj = Point(circle.X - pos.X, circle.Y - pos.Y);
+	Point adj = Point(circle.X() - pos.X(), circle.Y() - pos.Y());
 	Circle c = Circle(adj, circle.Radius());
 
 	// Check for intersection.
@@ -99,7 +99,7 @@ CollisionManager::CollisionManager(IBroadphase* broadphase) {
 }
 bool CollisionManager::TestCollision(ICollidable* a, ICollidable* b) const {
 
-	return TestCollision(a, a->X, a->Y, b, b->X, b->Y);
+	return TestCollision(a, a->X(), a->Y(), b, b->X(), b->Y());
 
 }
 bool CollisionManager::TestCollision(ICollidable* a, float ax, float ay, ICollidable* b, float bx, float by) const {
@@ -111,10 +111,10 @@ bool CollisionManager::TestCollision(ICollidable* a, float ax, float ay, ICollid
 	// Get AABBs for both Objects.
 	Rectangle aabb_a = maska.AABB();
 	Rectangle aabb_b = maskb.AABB();
-	aabb_a.X += ax;
-	aabb_a.Y += ay;
-	aabb_b.X += bx;
-	aabb_b.Y += by;
+	aabb_a.SetX(aabb_a.X() + ax);
+	aabb_a.SetY(aabb_a.Y() + ay);
+	aabb_b.SetX(aabb_a.X() + bx);
+	aabb_b.SetY(aabb_a.Y() + by);
 
 	// Check if the AABBs intersect.
 	if (!Intersects(aabb_a, aabb_b))

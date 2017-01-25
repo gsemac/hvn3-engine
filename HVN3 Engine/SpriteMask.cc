@@ -51,7 +51,7 @@ void SpriteMask::GenerateMask(Sprite* sprite) {
 				bool matched_strip = false;
 				for (size_t k = strips_last_row; k > 0; --k) {
 					size_t ind = __strips.size() - k;
-					if (strip_start.X == __strips[ind].X && strip_width == __strips[ind].Width()) {
+					if (strip_start.X() == __strips[ind].X() && strip_width == __strips[ind].Width()) {
 						__strips[ind].Resize(__strips[ind].Width(), __strips[ind].Height() + 1);
 						matched_strip = true;
 						break;
@@ -60,7 +60,7 @@ void SpriteMask::GenerateMask(Sprite* sprite) {
 
 				// If the strip wasn't matched to an existing strip, just add it to the list.
 				if (!matched_strip)
-					__strips.push_back(Rectangle(strip_start.X, strip_start.Y, strip_width, 1));
+					__strips.push_back(Rectangle(strip_start.X(), strip_start.Y(), strip_width, 1));
 
 				// Reset ths strip (so we can look for new ones), and increase the number of strips.
 				strip_width = 0;

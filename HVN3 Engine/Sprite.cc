@@ -184,8 +184,7 @@ Point Sprite::Origin() const {
 }
 void Sprite::SetOrigin(float origin_x, float origin_y) {
 
-	__origin.X = origin_x;
-	__origin.Y = origin_y;
+	__origin.SetXY(origin_x, origin_y);
 
 }
 

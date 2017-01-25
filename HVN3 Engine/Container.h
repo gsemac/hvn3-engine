@@ -43,20 +43,19 @@ namespace Gui {
 					if (c->Anchors() & ANCHOR_LEFT)
 						c->Resize(c->Width() + width_diff, c->Height());
 					else
-						c->X += width_diff;
+						c->TranslateX(width_diff);
 				}
 
 				if (c->Anchors() & ANCHOR_BOTTOM) {
 					if (c->Anchors() & ANCHOR_TOP)
 						c->Resize(c->Width(), c->Height() + height_diff);
 					else
-						c->Y += height_diff;
+						c->TranslateY(height_diff);
 				}
 
 				if (c->Anchors() == ANCHOR_NONE) {
 
-					c->X += width_diff / 2.0f;
-					c->Y += height_diff / 2.0f;
+					c->Translate(width_diff / 2.0f, height_diff / 2.0f);
 
 				}
 
@@ -83,12 +82,11 @@ namespace Gui {
 			// Move all child Controls with the Container.
 			for (auto it = Controls().rbegin(); it != Controls().rend(); ++it) {
 				Control* c = *it;
-				c->X += (X - __prev_pos.X);
-				c->Y += (Y - __prev_pos.Y);
+				c->Translate(X() - __prev_pos.X(), Y() - __prev_pos.Y());
 			}
 
 			// Update last position.
-			__prev_pos = Point(X, Y);
+			__prev_pos = Point(X(), Y());
 
 		}
 

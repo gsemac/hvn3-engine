@@ -14,8 +14,8 @@ public:
 	Rectangle Region() const;
 	Rectangle Port() const;
 	Point& ViewPosition();
-	float& ViewX();
-	float& ViewY();
+	float ViewX() const;
+	float ViewY() const;
 	float ScaleX() const;
 	float ScaleY() const;
 

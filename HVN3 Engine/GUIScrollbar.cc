@@ -103,8 +103,8 @@ void Gui::Scrollbar::Update() {
 void Gui::Scrollbar::Draw() {
 
 	if (!Shown()) return;
-	al_draw_filled_rectangle(X, Y, X + __width, X + __height, Color::Grey.AlPtr());
-	al_draw_filled_rectangle(X, Y + __position, X + __width, Y + __position + __slider_height, (MouseOn()) ? Color::White.AlPtr() : Color::LtGrey.AlPtr());
+	al_draw_filled_rectangle(X(), Y(), X() + __width, X() + __height, Color::Grey.AlPtr());
+	al_draw_filled_rectangle(X(), Y() + __position, X() + __width, Y() + __position + __slider_height, (MouseOn()) ? Color::White.AlPtr() : Color::LtGrey.AlPtr());
 
 }
 
@@ -117,7 +117,7 @@ float Gui::Scrollbar::PositionPercentage() {
 }
 bool Gui::Scrollbar::MouseOn() {
 
-	return (Mouse::X > X && Mouse::X < X + __width && Mouse::Y > Y + __position && Mouse::Y < Y + __position + __slider_height);
+	return (Mouse::X > X() && Mouse::X < X() + __width && Mouse::Y > Y() + __position && Mouse::Y < Y() + __position + __slider_height);
 
 }
 void Gui::Scrollbar::ResizeSlider() {

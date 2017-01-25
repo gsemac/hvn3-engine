@@ -16,11 +16,28 @@ namespace SuperMarioBros {
 		void Update(float dt) override {
 
 			if (Keyboard::KeyDown(ALLEGRO_KEY_RIGHT))
-				X += 5;
+				TranslateX(5);
 			else if (Keyboard::KeyDown(KEY_ANY)) {
 
 			}
 
+
+		}
+
+	};
+
+	class Block : public Object {
+
+	public:
+		Block(float x, float y) : Object(x, y) {}
+		void Update(float dt) override {
+
+
+
+		}
+		void Draw() override {
+
+			Graphics::DrawFilledRectangle(Rectangle(X(), Y(), 16, 16), Color::Black);
 
 		}
 

@@ -14,13 +14,12 @@ bool Gui::Control::HasActiveChild() {
 }
 Point Gui::Control::GetFixedPosition() {
 
-	Point p(X, Y);
+	Point p(X(), Y());
 	Control* control = this;
 
 	while (control->Parent()) {
 		control = control->Parent();
-		p.X += control->X;
-		p.Y += control->Y;
+		p.Translate(control->X(), control->Y());
 	}
 
 	return p;
@@ -31,13 +30,13 @@ Point Gui::Control::GetFixedPosition() {
 
 Gui::Control::Control() : Control(Point(0.0f, 0.0f), Size(0.0f, 0.0f)) {}
 Gui::Control::Control(const Point& location, const Size& size) :
-	IPositionable(location.X, location.Y),
+	IPositionable(location.X(), location.Y()),
 	ISizeable(size.Width(), size.Height()),
-	__fixed_pos(location.X, location.Y),
+	__fixed_pos(location.X(), location.Y()),
 	__mouse_last_pos(Mouse::X, Mouse::Y),
 	__minimum_size(0.0f, 0.0f),
 	__maximum_size(FLT_MAX, FLT_MAX),
-	__previous_pos(location.X, location.Y)
+	__previous_pos(location.X(), location.Y())
 	{
 
 	__parent = nullptr;
@@ -80,15 +79,14 @@ void Gui::Control::Draw() {
 		// If the Control's bitmap exists, redraw by calling OnPaint event.
 		if (__image) {
 
-			Point pos(X, Y);
+			Point pos(X(), Y());
 			Graphics::SetDrawingTarget(__image);
 			al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-			X = 0.0f;
-			Y = 0.0f;
+			SetX(0.0f);
+			SetY(0.0f);
 			OnPaint();
 			Graphics::ResetDrawingTarget();
-			X = pos.X;
-			Y = pos.Y;
+			SetXY(pos.X(), pos.Y());
 
 		}
 
@@ -107,8 +105,8 @@ void Gui::Control::Draw() {
 			0.0f,
 			Width(),
 			Height(),
-			X,
-			Y,
+			X(),
+			Y(),
 			Width() * scale,
 			Height() * scale,
 			NULL
@@ -296,7 +294,7 @@ Point Gui::Control::FixedPosition() {
 }
 Rectangle Gui::Control::Bounds() {
 
-	return Rectangle(__fixed_pos.X, __fixed_pos.Y, Width(), Height());
+	return Rectangle(__fixed_pos.X(), __fixed_pos.Y(), Width(), Height());
 
 }
 

@@ -7,14 +7,12 @@
 // Class Functions
 
 Circle::Circle(float radius) : Circle(0.0f, 0.0f, radius) {}
-Circle::Circle(float x, float y, float radius) {
+Circle::Circle(float x, float y, float radius) : IPositionable(x, y) {
 
-	X = x;
-	Y = y;
 	__radius = radius;
 
 }
-Circle::Circle(Point pos, float radius) : Circle(pos.X, pos.Y, radius) {}
+Circle::Circle(Point pos, float radius) : Circle(pos.X(), pos.Y(), radius) {}
 float Circle::Radius() const {
 
 	return __radius;
@@ -39,7 +37,7 @@ float Line::Length() const {
 
 bool PointIn(const Point& point, const Rectangle& rect) {
 
-	return (point.X >= rect.X && point.X < rect.X2() && point.Y >= rect.Y && point.Y < rect.Y2());
+	return (point.X() >= rect.X() && point.X() < rect.X2() && point.Y() >= rect.Y() && point.Y() < rect.Y2());
 
 }
 float PointDistance(const Point& a, const Point& b) {
@@ -49,10 +47,10 @@ float PointDistance(const Point& a, const Point& b) {
 }
 float PointDistance(const Point& point, const Line& line) {
 
-	float a = point.X - line.First().X;
-	float b = point.Y - line.First().Y;
-	float c = line.Second().X - line.First().X;
-	float d = line.Second().Y - line.First().Y;
+	float a = point.X() - line.First().X();
+	float b = point.Y() - line.First().Y();
+	float c = line.Second().X() - line.First().X();
+	float d = line.Second().Y() - line.First().Y();
 
 	float dot = a * c + b * d;
 	float len_sq = c * c + d * d;
@@ -63,20 +61,20 @@ float PointDistance(const Point& point, const Line& line) {
 	float xx, yy;
 
 	if (param < 0) {
-		xx = line.First().X;
-		yy = line.First().Y;
+		xx = line.First().X();
+		yy = line.First().Y();
 	}
 	else if (param > 1) {
-		xx = line.Second().X;
-		yy = line.Second().Y;
+		xx = line.Second().X();
+		yy = line.Second().Y();
 	}
 	else {
-		xx = line.First().X + param * c;
-		yy = line.First().Y + param * d;
+		xx = line.First().X() + param * c;
+		yy = line.First().Y() + param * d;
 	}
 
-	float dx = point.X - xx;
-	float dy = point.Y - yy;
+	float dx = point.X() - xx;
+	float dy = point.Y() - yy;
 
 	return std::sqrt(dx * dx + dy * dy);
 
@@ -89,15 +87,15 @@ float PointDistance(const Point& point, const Rectangle& rect) {
 }
 float PointDistanceSquared(const Point& a, const Point& b) {
 
-	float dx = b.X - a.X;
-	float dy = b.Y - a.Y;
+	float dx = b.X() - a.X();
+	float dy = b.Y() - a.Y();
 	return dx * dx + dy * dy;
 
 }
 float PointDistanceSquared(const Point& point, const Rectangle& rect) {
 
-	int dx = (std::max)((std::abs)(point.X - rect.X + rect.Width() / 2.0f) - rect.Width() / 2.0f, 0.0f);
-	int dy = (std::max)((std::abs)(point.Y - rect.Y + rect.Height() / 2.0f) - rect.Height() / 2.0f, 0.0f);
+	int dx = (std::max)((std::abs)(point.X() - rect.X() + rect.Width() / 2.0f) - rect.Width() / 2.0f, 0.0f);
+	int dy = (std::max)((std::abs)(point.Y() - rect.Y() + rect.Height() / 2.0f) - rect.Height() / 2.0f, 0.0f);
 
 	return dx * dx + dy * dy;
 
@@ -105,12 +103,12 @@ float PointDistanceSquared(const Point& point, const Rectangle& rect) {
 Point PointInDirection(const Point& point, float degrees, float distance) {
 
 	float rad = DegreesToRadians(degrees);
-	return Point(point.X + std::cos(rad) * distance, point.Y - std::sin(rad) * distance);
+	return Point(point.X() + std::cos(rad) * distance, point.Y() - std::sin(rad) * distance);
 
 }
 float PointDirection(const Point& a, const Point& b) {
 
-	return PointDirection(a.X, a.Y, b.X, b.Y);
+	return PointDirection(a.X(), a.Y(), b.X(), b.Y());
 	
 }
 float PointDirection(float ax, float ay, float bx, float by) {
@@ -128,16 +126,22 @@ void PointRotate(Point& point, const Point& origin, float angle) {
 	float c = std::cos(rad);
 
 	// Translate the Point to the origin.
-	point.X -= origin.X;
-	point.Y -= origin.Y;
+	point -= origin;
 
 	// Rotate the Point.
-	float xnew = point.X * c - point.Y * s;
-	float ynew = point.X * s + point.Y * c;
+	float xnew = point.X() * c - point.Y() * s;
+	float ynew = point.X() * s + point.Y() * c;
 
 	// Translate the Point back.
-	point.X = xnew + origin.X;
-	point.Y = ynew + origin.Y;
+	point.SetXY(xnew + origin.X(), ynew + origin.Y());
+
+}
+IPositionable& Translate(IPositionable& obj, float x_offset, float y_offset) {
+
+	obj.SetX(obj.X() + x_offset);
+	obj.SetY(obj.Y() + y_offset);
+
+	return obj;
 
 }
 float Distance(const Rectangle& a, const Rectangle& b) {
@@ -174,17 +178,17 @@ float Distance(const Rectangle& a, const Rectangle& b) {
 
 bool Intersects(const Rectangle& a, const Rectangle& b) {
 	
-	return (a.X < b.X2() && a.X2() > b.X &&	a.Y < b.Y2() && a.Y2() > b.Y);
+	return (a.X() < b.X2() && a.X2() > b.X() &&	a.Y() < b.Y2() && a.Y2() > b.Y());
 
 }
 bool Intersects(const Circle& a, const Line& b) {
 
 	// Note: This procedure uses the same logic as PointDistance, but avoids using the costly sqrt function.
 
-	float _a = a.X - b.First().X;
-	float _b = a.Y - b.First().Y;
-	float _c = b.Second().X - b.First().X;
-	float _d = b.Second().Y - b.First().Y;
+	float _a = a.X() - b.First().X();
+	float _b = a.Y() - b.First().Y();
+	float _c = b.Second().X() - b.First().X();
+	float _d = b.Second().Y() - b.First().Y();
 
 	float dot = _a * _c + _b * _d;
 	float len_sq = _c * _c + _d * _d;
@@ -195,33 +199,33 @@ bool Intersects(const Circle& a, const Line& b) {
 	float xx, yy;
 
 	if (param < 0) {
-		xx = b.First().X;
-		yy = b.First().Y;
+		xx = b.First().X();
+		yy = b.First().Y();
 	}
 	else if (param > 1) {
-		xx = b.Second().X;
-		yy = b.Second().Y;
+		xx = b.Second().X();
+		yy = b.Second().Y();
 	}
 	else {
-		xx = b.First().X + param * _c;
-		yy = b.First().Y + param * _d;
+		xx = b.First().X() + param * _c;
+		yy = b.First().Y() + param * _d;
 	}
 
-	float dx = a.X - xx;
-	float dy = a.Y - yy;
+	float dx = a.X() - xx;
+	float dy = a.Y() - yy;
 
 	return (dx * dx + dy * dy) < (std::pow)(a.Radius(), 2.0f);
 
-	// return PointDistance(Point(a.X, a.Y), b) <= a.Radius();
+	// return PointDistance(Point(a.X(), a.Y), b) <= a.Radius();
 
 }
 bool Intersects(const Rectangle& a, const Circle& b) {
 
-	return PointIn(Point(b.X, b.Y), a) ||
-		Intersects(b, Line(a.X, a.Y, a.X2(), a.Y)) || // top
-		Intersects(b, Line(a.X, a.Y2(), a.X2(), a.Y2())) || // bottom 
-		Intersects(b, Line(a.X, a.Y, a.X, a.Y2())) || // left
-		Intersects(b, Line(a.X2(), a.Y, a.X2(), a.Y2())); // right
+	return PointIn(Point(b.X(), b.Y()), a) ||
+		Intersects(b, Line(a.X(), a.Y(), a.X2(), a.Y())) || // top
+		Intersects(b, Line(a.X(), a.Y2(), a.X2(), a.Y2())) || // bottom 
+		Intersects(b, Line(a.X(), a.Y(), a.X(), a.Y2())) || // left
+		Intersects(b, Line(a.X2(), a.Y(), a.X2(), a.Y2())); // right
 
 }
 bool Intersects(const Rectangle& a, const Line& b) {
@@ -229,7 +233,7 @@ bool Intersects(const Rectangle& a, const Line& b) {
 }
 bool Intersects(const Circle& a, const Circle& b) {
 
-	return PointDistance(Point(a.X, a.Y), Point(b.X, b.Y)) < (a.Radius() + b.Radius());
+	return PointDistance(Point(a.X(), a.Y()), Point(b.X(), b.Y())) < (a.Radius() + b.Radius());
 
 }
 bool Intersects(const Line& a, const Line& b) {

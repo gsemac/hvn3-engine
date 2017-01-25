@@ -35,12 +35,12 @@ Object* View::GetFollowing() {
 
 Rectangle View::Region() const {
 
-	return Rectangle(__view_pos.X, __view_pos.Y, __view_size.Width(), __view_size.Height());
+	return Rectangle(__view_pos.X(), __view_pos.Y(), __view_size.Width(), __view_size.Height());
 
 }
 Rectangle View::Port() const {
 
-	return Rectangle(__port_pos.X, __port_pos.Y, __port_size.Width(), __port_size.Height());
+	return Rectangle(__port_pos.X(), __port_pos.Y(), __port_size.Width(), __port_size.Height());
 
 }
 Point& View::ViewPosition() {
@@ -48,14 +48,14 @@ Point& View::ViewPosition() {
 	return __view_pos;
 
 }
-float& View::ViewX() {
+float View::ViewX() const {
 
-	return __view_pos.X;
+	return __view_pos.X();
 
 }
-float& View::ViewY() {
+float View::ViewY() const {
 
-	return __view_pos.Y;
+	return __view_pos.Y();
 
 }
 float View::ScaleX() const {
@@ -123,7 +123,7 @@ Point View::MousePosition() const {
 	// Transform the mouse position against the view transformations.
 	Graphics::Transform t;
 	t.Rotate(Port().Midpoint(), -Angle());
-	t.Translate(__view_pos.X * ScaleX(), __view_pos.Y * ScaleY());
+	t.Translate(__view_pos.X() * ScaleX(), __view_pos.Y() * ScaleY());
 	t.Scale(1.0f / ScaleX(), 1.0f / ScaleY());
 	t.TransformPoint(pos);
 

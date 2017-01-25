@@ -48,7 +48,7 @@ void Scene::Update(float dt) {
 	// Update Backgrounds.
 	for (size_t i = 0; i < __backgrounds.size(); ++i)
 		if (__backgrounds[i].Velocity().Magnitude() != 0.0f)
-			__backgrounds[i].SetOffset(__backgrounds[i].Offset().X + __backgrounds[i].Velocity().X(), __backgrounds[i].Offset().Y + __backgrounds[i].Velocity().Y());
+			__backgrounds[i].SetOffset(__backgrounds[i].Offset().X() + __backgrounds[i].Velocity().X(), __backgrounds[i].Offset().Y() + __backgrounds[i].Velocity().Y());
 
 	// Update views.
 	UpdateViews();
@@ -57,7 +57,7 @@ void Scene::Update(float dt) {
 void Scene::Draw(const Rectangle& clipping_region) {
 
 	// Bound drawing by the Scene borders.
-	Graphics::SetClippingRegion(clipping_region.X, clipping_region.Y, clipping_region.Width(), clipping_region.Height());
+	Graphics::SetClippingRegion(clipping_region.X(), clipping_region.Y(), clipping_region.Width(), clipping_region.Height());
 
 	// Clear to background color.
 	Graphics::DrawClear(__background_color);
@@ -149,7 +149,7 @@ void Scene::SetBackgroundColor(const Color& color) {
 }
 void Scene::AddObject(Object* object) {
 
-	AddObject(object, object->X, object->Y);
+	AddObject(object, object->X(), object->Y());
 
 }
 void Scene::AddObject(Object* object, float x, float y) {
@@ -160,7 +160,7 @@ void Scene::AddObject(Object* object, float x, float y) {
 }
 void Scene::AddObject(std::shared_ptr<Object> object) {
 
-	AddObject(object, object->X, object->Y);
+	AddObject(object, object->X(), object->Y());
 
 }
 void Scene::AddObject(std::shared_ptr<Object> object, float x, float y) {
@@ -169,8 +169,7 @@ void Scene::AddObject(std::shared_ptr<Object> object, float x, float y) {
 	object->__scene = this;
 
 	// Set the Object's position.
-	object->X = x;
-	object->Y = y;
+	object->SetXY(x, y);
 
 	// Add the object to the collision manager.
 	//CollisionManager().Broadphase().Add(object.get());
@@ -260,8 +259,8 @@ void Scene::DrawBackground(const BackgroundProperties& background) {
 	const std::shared_ptr<::Background>& bg = background.Ptr();
 
 	// Calculate scaled dimensions of the background.
-	float scale_x = background.Scale().X;
-	float scale_y = background.Scale().Y;
+	float scale_x = background.Scale().X();
+	float scale_y = background.Scale().Y();
 	float width = bg->Width() * (std::abs)(scale_x);
 	float height = bg->Height() * (std::abs)(scale_y);
 
@@ -270,8 +269,8 @@ void Scene::DrawBackground(const BackgroundProperties& background) {
 		return;
 
 	// Calculate the offset of the background. If the background is tiled, this is the starting offset.
-	float offset_x = background.Offset().X;
-	float offset_y = background.Offset().Y;
+	float offset_x = background.Offset().X();
+	float offset_y = background.Offset().Y();
 
 	if (background.IsTiledHorizontally())
 		// Subtract the width of the background from the offset until it is "0" or negative.
@@ -290,18 +289,18 @@ void Scene::DrawBackground(const BackgroundProperties& background) {
 		// Draw background tiled horizontally and vertically.
 		for (; offset_x < (scale_x < 0.0f ? Width() + width : Width()); offset_x += width)
 			for (float j = offset_y; j < ((scale_y < 0.0f) ? (Height() + height) : Height()); j += height)
-				Graphics::DrawBitmap(bg->Bitmap(), offset_x, j, background.Scale().X, background.Scale().Y);
+				Graphics::DrawBitmap(bg->Bitmap(), offset_x, j, background.Scale().X(), background.Scale().Y());
 	else if (background.IsTiledHorizontally())
 		// Draw background tiled horizontally only.
 		for (; offset_x < (scale_x < 0.0f ? Width() + width : Width()); offset_x += width)
-			Graphics::DrawBitmap(bg->Bitmap(), offset_x, offset_y, background.Scale().X, background.Scale().Y);
+			Graphics::DrawBitmap(bg->Bitmap(), offset_x, offset_y, background.Scale().X(), background.Scale().Y());
 	else if (background.IsTiledVertically())
 		// Draw background tiled vertically only.
 		for (; offset_y < (scale_y < 0.0f ? Height() + height : Height()); offset_y += height)
-			Graphics::DrawBitmap(bg->Bitmap(), offset_x, offset_y, background.Scale().X, background.Scale().Y);
+			Graphics::DrawBitmap(bg->Bitmap(), offset_x, offset_y, background.Scale().X(), background.Scale().Y());
 	else
 		// Draw background without tiling.
-		Graphics::DrawBitmap(bg->Bitmap(), offset_x, offset_y, background.Scale().X, background.Scale().Y);
+		Graphics::DrawBitmap(bg->Bitmap(), offset_x, offset_y, background.Scale().X(), background.Scale().Y());
 	Graphics::HoldBitmapDrawing(false);
 
 }
@@ -322,8 +321,8 @@ void Scene::UpdateViews() {
 		if (!obj || !view.Enabled()) continue;
 
 		// Calculate the distance of the Object from the center of the view (to compare with borders).
-		float diff_x = (view.ViewX() + view.Region().Width() / 2.0f) - obj->X;
-		float diff_y = (view.ViewY() + view.Region().Height() / 2.0f) - obj->Y;
+		float diff_x = (view.ViewX() + view.Region().Width() / 2.0f) - obj->X();
+		float diff_y = (view.ViewY() + view.Region().Height() / 2.0f) - obj->Y();
 
 		// Check for overlap in view horizonal view border.
 		if ((std::abs)(diff_x) > (view.Region().Width() / 2.0f - view.HorizontalBorder())) {
@@ -332,10 +331,10 @@ void Scene::UpdateViews() {
 			float diff = (view.HorizontalBorder() - ((view.Region().Width() / 2.0f) - (std::abs)(diff_x))) * Sign(diff_x);
 
 			// Make sure the View doesn't shift outside of the room boundaries.
-			diff = Clamp(diff, -(Dimensions().Width() - view.Region().Width() - view.ViewPosition().X), view.ViewPosition().X);
+			diff = Clamp(diff, -(Dimensions().Width() - view.Region().Width() - view.ViewPosition().X()), view.ViewPosition().X());
 
 			// Adjust View position.
-			view.ViewPosition().X -= diff;
+			view.ViewPosition().TranslateX(-diff);
 
 		}
 
@@ -346,18 +345,18 @@ void Scene::UpdateViews() {
 			float diff = (view.VerticalBorder() - ((view.Region().Height() / 2.0f) - (std::abs)(diff_y))) * Sign(diff_y);
 
 			// Make sure the View doesn't shift outside of the room boundaries.
-			diff = Clamp(diff, -(Dimensions().Height() - view.Region().Height() - view.ViewPosition().Y), view.ViewPosition().Y);
+			diff = Clamp(diff, -(Dimensions().Height() - view.Region().Height() - view.ViewPosition().Y()), view.ViewPosition().Y());
 
 			// Adjust View/mouse position.
-			view.ViewPosition().Y -= diff;
+			view.ViewPosition().TranslateY(-diff);
 
 		}
 
 		// Adjust mouse position (if applicable).
 		if (has_mouse) {
 			Point pos = view.MousePosition();
-			Mouse::X = pos.X;
-			Mouse::Y = pos.Y;
+			Mouse::X = pos.X();
+			Mouse::Y = pos.Y();
 		}
 
 	}
@@ -389,8 +388,7 @@ const Point& Scene::BackgroundProperties::Offset() const {
 }
 void Scene::BackgroundProperties::SetOffset(float x_offset, float y_offset) {
 
-	__offset.X = x_offset;
-	__offset.Y = y_offset;
+	__offset.SetXY(x_offset, y_offset);
 
 }
 const Point& Scene::BackgroundProperties::Scale() const {
@@ -400,8 +398,7 @@ const Point& Scene::BackgroundProperties::Scale() const {
 }
 void Scene::BackgroundProperties::SetScale(float x_scale, float y_scale) {
 
-	__scale.X = x_scale;
-	__scale.Y = y_scale;
+	__scale.SetXY(x_scale, y_scale);
 
 }
 const Vector2d& Scene::BackgroundProperties::Velocity() const {
@@ -456,7 +453,7 @@ void Scene::BackgroundProperties::SetVisible(bool visible) {
 }
 void Scene::BackgroundProperties::ScaleToFit() {
 
-	__scale.X = __in_scene->Width() / __background->Width();
-	__scale.Y = __in_scene->Height() / __background->Height();
+	__scale.SetXY(__in_scene->Width() / __background->Width(), __in_scene->Height() / __background->Height());
+
 
 }

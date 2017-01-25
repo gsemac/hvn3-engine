@@ -77,7 +77,7 @@ namespace Gui {
 			Control* c = *it;
 			Point p = c->GetFixedPosition();
 
-			bool mouse_on = Mouse::InRegion(p.X, p.Y, p.X + c->Width(), p.Y + c->Height());
+			bool mouse_on = Mouse::InRegion(p.X(), p.Y(), p.X() + c->Width(), p.Y() + c->Height());
 
 			if ( // Only handle the following events if...
 				__mouse_events_enabled && // Mouse events are enabled.
@@ -106,9 +106,8 @@ namespace Gui {
 				c->OnMouseHover();
 
 				// Handle OnMouseMove event.
-				if (Mouse::X != __mouse_last_pos.X || Mouse::Y != __mouse_last_pos.Y) {
-					__mouse_last_pos.X = Mouse::X;
-					__mouse_last_pos.Y = Mouse::Y;
+				if (Mouse::X != __mouse_last_pos.X() || Mouse::Y != __mouse_last_pos.Y()) {
+					__mouse_last_pos.SetXY(Mouse::X, Mouse::Y);
 					c->OnMouseMove();
 				}
 
@@ -128,10 +127,9 @@ namespace Gui {
 			}
 
 			// Handle OnMove event.
-			if (__mouse_events_enabled && (c->__previous_pos.X != c->X || c->__previous_pos.Y || c->Y)) {
+			if (__mouse_events_enabled && (c->__previous_pos.X() != c->X() || c->__previous_pos.Y() || c->Y())) {
 				c->OnMove();
-				c->__previous_pos.X = c->X;
-				c->__previous_pos.Y = c->Y;
+				c->__previous_pos.SetXY(c->X(), c->Y());
 			}
 
 			// Handle OnGotFocus/OnLostFocus events.

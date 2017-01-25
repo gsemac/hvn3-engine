@@ -34,7 +34,7 @@ Bitmap::Bitmap(ALLEGRO_BITMAP* bitmap, const Rectangle& region) {
 
 	__bmp = al_create_bitmap(region.Width(), region.Height());
 	Graphics::SetDrawingTarget(__bmp);
-	al_draw_bitmap_region(bitmap, region.X, region.Y, region.Width(), region.Height(), 0, 0, NULL);
+	al_draw_bitmap_region(bitmap, region.X(), region.Y(), region.Width(), region.Height(), 0, 0, NULL);
 	Graphics::ResetDrawingTarget();
 	__free = true;
 
@@ -76,7 +76,7 @@ Bitmap Bitmap::RefBitmap(const Bitmap& other, const Rectangle& region) {
 }
 Bitmap Bitmap::RefBitmap(ALLEGRO_BITMAP* other, const Rectangle& region) {
 
-	Bitmap bm(al_create_sub_bitmap(other, region.X, region.Y, region.Width(), region.Height()));
+	Bitmap bm(al_create_sub_bitmap(other, region.X(), region.Y(), region.Width(), region.Height()));
 
 	return bm;
 
@@ -127,7 +127,7 @@ BitmapData Bitmap::LockRegion(const Rectangle& region, IO::FileAccess access) {
 	case IO::FileAccess::ReadWrite: flags = ALLEGRO_LOCK_READWRITE; break;
 	}
 
-	ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap_region(__bmp, region.X, region.Y, region.Width(), region.Height(), al_get_bitmap_format(__bmp), flags);
+	ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap_region(__bmp, region.X(), region.Y(), region.Width(), region.Height(), al_get_bitmap_format(__bmp), flags);
 
 	BitmapData bmpdata;
 	bmpdata.Scan0 = (unsigned char*)lr->data;

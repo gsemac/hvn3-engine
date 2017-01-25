@@ -138,7 +138,7 @@ void Gui::GridVisualizer::Draw() {
 
 	// Draw the grid.
 	if (!__grid_bmp) GenerateBitmap();
-	al_draw_bitmap(__grid_bmp, X, Y, NULL);
+	al_draw_bitmap(__grid_bmp, X(), Y(), NULL);
 
 }
 Point Gui::GridVisualizer::MouseOnCell() {
@@ -147,8 +147,8 @@ Point Gui::GridVisualizer::MouseOnCell() {
 	if (!__grid_bmp) return Point(-1.0f, -1.0f);
 
 	// Caculate the mouse's relative position to the grid.
-	float mouse_x_rel = Mouse::X - (X + (__grid.Cells().Margin() * __scale) / 2.0f);
-	float mouse_y_rel = Mouse::Y - (Y + (__grid.Cells().Margin() * __scale) / 2.0f);
+	float mouse_x_rel = Mouse::X - (X() + (__grid.Cells().Margin() * __scale) / 2.0f);
+	float mouse_y_rel = Mouse::Y - (Y() + (__grid.Cells().Margin() * __scale) / 2.0f);
 	if (
 		mouse_x_rel < __grid_p || mouse_y_rel < __grid_p ||
 		mouse_x_rel > __width - __outline_w * __scale - 1.0f ||
@@ -165,7 +165,7 @@ Point Gui::GridVisualizer::MouseOnCell() {
 }
 bool Gui::GridVisualizer::IsValidCell(Point& point) {
 
-	return !(point.X < 0 && point.Y < 0);
+	return !(point.X() < 0 && point.Y() < 0);
 
 }
 void Gui::GridVisualizer::Redraw() {
@@ -209,8 +209,8 @@ float Gui::GridVisualizer::RowHeight() {
 Point Gui::GridVisualizer::CellOffset(Point& position) {
 
 	Point p;
-	p.X = (__grid_p + position.X * (__grid.Cells().Width() + __grid.Cells().Margin())) * __scale; // +(__outline_w * __scale); // / 2.0f;
-	p.Y = (__grid_p + position.Y * (__grid.Cells().Height() + __grid.Cells().Margin())) * __scale; // +(__outline_w * __scale); // / 2.0f;
+	p.SetX((__grid_p + position.X() * (__grid.Cells().Width() + __grid.Cells().Margin())) * __scale); // +(__outline_w * __scale); // / 2.0f;
+	p.SetY((__grid_p + position.Y() * (__grid.Cells().Height() + __grid.Cells().Margin())) * __scale); // +(__outline_w * __scale); // / 2.0f;
 	return p;
 
 }
@@ -218,8 +218,8 @@ Rectangle Gui::GridVisualizer::CellBounds(Point& position) {
 
 	Point cell_offset = CellOffset(position);
 	Rectangle r(
-		cell_offset.X,
-		cell_offset.Y,
+		cell_offset.X(),
+		cell_offset.Y(),
 		__grid.Cells().Width() * __scale - (__outline_w * __scale), 
 		__grid.Cells().Height() * __scale - (__outline_w * __scale));
 	return r;

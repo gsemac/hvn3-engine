@@ -40,26 +40,26 @@ struct RotatingBox : Object {
 
 		// Draw the cube shadow.
 		for (int i = 0; i < 30; ++i) {
-			trans.Rotate(Point(X + -y_off + i + 48 + width / 2, Y + i + 48 + width / 2), ImageAngle());
+			trans.Rotate(Point(X() + -y_off + i + 48 + width / 2, Y() + i + 48 + width / 2), ImageAngle());
 			Graphics::SetTransform(trans);
-			Graphics::DrawRectangle(Rectangle(X + -y_off + i + 48, Y + i + 48, width, width), Color(Color::Red).Darken(0.1f), thick);
+			Graphics::DrawRectangle(Rectangle(X() + -y_off + i + 48, Y() + i + 48, width, width), Color(Color::Red).Darken(0.1f), thick);
 			trans.Reset(); 
 			Graphics::ResetTransform();
 		}
 
 		// Draw the cube itself.
 		for (int i = 0; i < 30; ++i) {
-			trans.Rotate(Point(X + i + width / 2, Y + y_off + i + width / 2), ImageAngle());
+			trans.Rotate(Point(X() + i + width / 2, Y() + y_off + i + width / 2), ImageAngle());
 			Graphics::SetTransform(trans);
-			Graphics::DrawRectangle(Rectangle(X + i, Y + y_off + i, width, width), Color::Black, thick);
+			Graphics::DrawRectangle(Rectangle(X() + i, Y() + y_off + i, width, width), Color::Black, thick);
 			trans.Reset();
 			Graphics::ResetTransform();
 		}
 
 		// Draw the upper edge of the cube.
-		trans.Rotate(Point(X + width / 2, Y + y_off + width / 2), ImageAngle());
+		trans.Rotate(Point(X() + width / 2, Y() + y_off + width / 2), ImageAngle());
 		Graphics::SetTransform(trans);
-		Graphics::DrawRectangle(Rectangle(X, Y + y_off, width, width), Color::White, thick);
+		Graphics::DrawRectangle(Rectangle(X(), Y() + y_off, width, width), Color::White, thick);
 		Graphics::ResetTransform();
 
 	}

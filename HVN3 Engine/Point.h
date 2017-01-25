@@ -32,8 +32,8 @@ namespace std {
 		std::size_t operator()(const Point& point) const {
 
 			size_t seed = 0;
-			hash_combine(seed, point.X);
-			hash_combine(seed, point.Y);
+			hash_combine(seed, point.X());
+			hash_combine(seed, point.Y());
 			return seed;
 
 		}

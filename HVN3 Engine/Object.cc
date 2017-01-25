@@ -19,10 +19,8 @@ void Object::Update(float dt) {
 
 	IncrementImageIndex();
 
-	if (Velocity.Magnitude() > 0.0f) {
-		X += Velocity.X();
-		Y += Velocity.Y();
-	}
+	if (Velocity.Magnitude() > 0.0f)
+		Translate(Velocity.X(), Velocity.Y());
 
 }
 void Object::Draw() {
@@ -33,8 +31,8 @@ void Object::Draw() {
 		Graphics::DrawSprite(
 			*Sprite(), 
 			ImageIndex(), 
-			X, 
-			Y,
+			X(), 
+			Y(),
 			Color::FromArgbf(1.0f, 1.0f, 1.0f, ImageAlpha()),
 			ImageXScale(),
 			ImageYScale(),

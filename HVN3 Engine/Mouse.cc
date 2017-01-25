@@ -75,7 +75,7 @@ bool Mouse::ScrolledUp() {
 }
 bool Mouse::InRegion(Rectangle rect) {
 
-	return InRegion(rect.X, rect.Y, rect.X + rect.Width(), rect.Y + rect.Height());
+	return InRegion(rect.X(), rect.Y(), rect.X() + rect.Width(), rect.Y() + rect.Height());
 
 }
 bool Mouse::InRegion(float x1, float y1, float x2, float y2) {
@@ -204,8 +204,7 @@ void Mouse::StateAccessor::SetPosition(float x, float y) {
 }
 void Mouse::StateAccessor::SetDisplayPosition(int x, int y) {
 
-	__display_mouse_position.X = x;
-	__display_mouse_position.Y = y;
+	__display_mouse_position.SetXY(x, y);
 
 }
 void Mouse::StateAccessor::SetScrollState(bool scrolled_up, bool scrolled_down) {

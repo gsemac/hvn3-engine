@@ -36,14 +36,14 @@ namespace Gui {
 			unsigned int side = 0;
 			float scale = Scale();
 
-			if (Mouse::InRegion(X, Y + Height() * scale - __resize_region_thickness * scale, X + Width() * scale, Y + Height() * scale))
+			if (Mouse::InRegion(X(), Y() + Height() * scale - __resize_region_thickness * scale, X() + Width() * scale, Y() + Height() * scale))
 				side |= BOTTOM;
-			else if (Mouse::InRegion(X, Y, X + Width() * scale, Y + __resize_region_thickness * scale))
+			else if (Mouse::InRegion(X(), Y(), X() + Width() * scale, Y() + __resize_region_thickness * scale))
 				side |= TOP;
 
-			if (Mouse::InRegion(X, Y, X + __resize_region_thickness * scale, Y + Height() * scale))
+			if (Mouse::InRegion(X(), Y(), X() + __resize_region_thickness * scale, Y() + Height() * scale))
 				side |= LEFT;
-			else if (Mouse::InRegion(X + Width() * scale - __resize_region_thickness * scale, Y, X + Width() * scale, Y + Height() * scale))
+			else if (Mouse::InRegion(X() + Width() * scale - __resize_region_thickness * scale, Y(), X() + Width() * scale, Y() + Height() * scale))
 				side |= RIGHT;
 
 			return side;
@@ -88,7 +88,7 @@ namespace Gui {
 			if (__resizing_side & BOTTOM) {
 
 				// Calculate the differnce in height between the mouse's current position and it's new position.
-				__height_diff = Mouse::Y - __drag_offset.Y;
+				__height_diff = Mouse::Y - __drag_offset.Y();
 	
 				// If there is a difference, resize the Control.
 				if (std::abs((__orig_height + __height_diff) - Height()) > 0.0f)
@@ -98,19 +98,19 @@ namespace Gui {
 			else if (__resizing_side & TOP) {
 
 				// Calculate the differnce in height between the mouse's current position and it's new position.
-				__height_diff = Mouse::Y - __drag_offset.Y;
+				__height_diff = Mouse::Y - __drag_offset.Y();
 
 				// If there is a difference, resize the Control.
 				if (std::abs((__orig_height - __height_diff) - Height()) > 0.0f) {
 					new_height = Clamp(__orig_height - (__height_diff / scale), MinimumSize().Height(), MaximumSize().Height());
-					Y = __orig_y + (__orig_height - new_height) * scale;
+					SetY(__orig_y + (__orig_height - new_height) * scale);
 				}
 
 			}
 			if (__resizing_side & RIGHT) {
 
 				// Calculate the difference in width between the mouse's current position and it's new position.
-				__width_diff = Mouse::X - __drag_offset.X;
+				__width_diff = Mouse::X - __drag_offset.X();
 
 				// If there is a difference, resize the Control.
 				if (std::abs((__orig_width + __width_diff) - Width()) > 0.0f)
@@ -120,12 +120,12 @@ namespace Gui {
 			else if (__resizing_side & LEFT) {
 
 				// Calculate the difference in width between the mouse's current position and it's new position.
-				__width_diff = Mouse::X - __drag_offset.X;
+				__width_diff = Mouse::X - __drag_offset.X();
 
 				// If there is a difference, resize the Control.
 				if (std::abs((__orig_width - __width_diff) - Width()) > 0.0f) {
 					new_width = Clamp(__orig_width - (__width_diff / scale), MinimumSize().Width(), MaximumSize().Width());
-					X = __orig_x + (__orig_width - new_width) * scale;
+					SetX(__orig_x + (__orig_width - new_width) * scale);
 				}
 
 			}
@@ -208,12 +208,11 @@ namespace Gui {
 				// Initialize resizing variables.
 				__resizing = true;
 				__resizing_side = GetMouseResizeRegions();
-				__drag_offset.X = Mouse::X;
-				__drag_offset.Y = Mouse::Y;
+				__drag_offset.SetXY(Mouse::X, Mouse::Y);
 				__orig_width = Width();
 				__orig_height = Height();
-				__orig_x = X;
-				__orig_y = Y;
+				__orig_x = X();
+				__orig_y = Y();
 				__width_diff = 0;
 				__height_diff = 0;
 
@@ -222,8 +221,7 @@ namespace Gui {
 
 				// Initialize dragging variables.
 				__dragging = true;
-				__drag_offset.X = X - Mouse::X;
-				__drag_offset.Y = Y - Mouse::Y;
+				__drag_offset.SetXY(X() - Mouse::X, Y() - Mouse::Y);
 
 			}
 
@@ -264,23 +262,23 @@ namespace Gui {
 		void OnPaint() override {
 
 			// Draw titlebar.
-			al_draw_filled_rectangle(X, Y, X + Width(), Y + __titlebar_height, BackColor()->AlPtr());
-			al_draw_rectangle(X + 1, Y + 1, X + Width(), Y + __titlebar_height, al_map_rgb(17, 17, 17), 1.0f);
+			al_draw_filled_rectangle(X(), Y(), X() + Width(), Y() + __titlebar_height, BackColor()->AlPtr());
+			al_draw_rectangle(X() + 1, Y() + 1, X() + Width(), Y() + __titlebar_height, al_map_rgb(17, 17, 17), 1.0f);
 
 			// Draw titlebar text.
 			if (__font)
-				al_draw_shadow_ustr(__font->AlPtr(), al_map_rgb(186, 186, 186), Color::FromArgb(0, 0, 0, 0.5f).AlPtr(), (std::round)(X + Width() / 2.0f),
-				(std::round)(Y + (__titlebar_height / 2.0f) - (__font->Height() / 2.0f)) - 1, ALLEGRO_ALIGN_CENTRE, __text->AlPtr());
+				al_draw_shadow_ustr(__font->AlPtr(), al_map_rgb(186, 186, 186), Color::FromArgb(0, 0, 0, 0.5f).AlPtr(), (std::round)(X() + Width() / 2.0f),
+				(std::round)(Y() + (__titlebar_height / 2.0f) - (__font->Height() / 2.0f)) - 1, ALLEGRO_ALIGN_CENTRE, __text->AlPtr());
 
 			// Draw exit button.
-			float exit_x = X + Width() - __exit_icon->Width() - (__exit_icon->Width() / 2.0f);
-			float exit_y = Y + (__exit_icon->Height() / 2.0f) + 1.0f;
+			float exit_x = X() + Width() - __exit_icon->Width() - (__exit_icon->Width() / 2.0f);
+			float exit_y = Y() + (__exit_icon->Height() / 2.0f) + 1.0f;
 			al_draw_tinted_bitmap(__exit_icon->AlPtr(),
 				Mouse::InRegion(exit_x, exit_y, exit_x + __exit_icon->Width(), exit_y + __exit_icon->Height()) ? al_map_rgba_f(0.5f, 0.5f, 0.5f, 1.0f) : al_map_rgba_f(1.0f, 1.0f, 1.0f, 1.0f),
 				exit_x, exit_y, NULL);
 
 			// Draw main window area.
-			al_draw_filled_rectangle(X, Y + __titlebar_height, X + Width(), Y + Height(), BackColor()->AlPtr());
+			al_draw_filled_rectangle(X(), Y() + __titlebar_height, X() + Width(), Y() + Height(), BackColor()->AlPtr());
 
 			// Draw Panel's child Controls.
 			Graphics::SetDrawingTarget(__child_bitmap.AlPtr());
@@ -289,10 +287,10 @@ namespace Gui {
 			Graphics::ResetDrawingTarget();
 
 			// Draw main window border.
-			al_draw_rectangle(X + 1, Y + __titlebar_height, X + Width(), Y + Height(), al_map_rgb(17, 17, 17), 1.0f);
+			al_draw_rectangle(X() + 1, Y() + __titlebar_height, X() + Width(), Y() + Height(), al_map_rgb(17, 17, 17), 1.0f);
 
 			// Draw child control surface.
-			al_draw_bitmap(__child_bitmap.AlPtr(), X + 1, Y + __titlebar_height, NULL);
+			al_draw_bitmap(__child_bitmap.AlPtr(), X() + 1, Y() + __titlebar_height, NULL);
 
 		}
 
@@ -311,8 +309,7 @@ namespace Gui {
 			if (__resizing)
 				HandleResizing();
 			else if (__dragging) {
-				X = __drag_offset.X + Mouse::X;
-				Y = __drag_offset.Y + Mouse::Y;
+				SetXY(__drag_offset.X() + Mouse::X, __drag_offset.Y() + Mouse::Y);
 			}
 
 		}

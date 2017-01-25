@@ -39,6 +39,7 @@ Point PointInDirection(const Point& point, float degrees, float distance);
 float PointDirection(const Point& a, const Point& b);
 float PointDirection(float ax, float ay, float bx, float by);
 void PointRotate(Point& point, const Point& origin, float angle);
+IPositionable& Translate(IPositionable& obj, float x_offset, float y_offset);
 float Distance(const Rectangle& a, const Rectangle& b);
 
 bool Intersects(const Rectangle& a, const Rectangle& b);

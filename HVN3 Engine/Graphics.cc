@@ -55,22 +55,22 @@ namespace Graphics {
 
 		// Note: 0.5 is added to the position of the rectangle to fix graphical glitches in Allegro (uneven corners).
 
-		al_draw_rounded_rectangle(rect.X + 0.5f, rect.Y + 0.5f, rect.X2() + 0.5f, rect.Y2() + 0.5f, radius, radius, color.AlPtr(), thickness);
+		al_draw_rounded_rectangle(rect.X() + 0.5f, rect.Y() + 0.5f, rect.X2() + 0.5f, rect.Y2() + 0.5f, radius, radius, color.AlPtr(), thickness);
 
 	}
 	void DrawFilledRoundRect(const Rectangle& rect, float radius, const Color& color) {
 
 		// Note: 0.5 is added to the position of the rectangle to fix graphical glitches in Allegro (uneven corners).
 
-		al_draw_filled_rounded_rectangle(rect.X + 0.5f, rect.Y + 0.5f, rect.X2() + 0.5f, rect.Y2() + 0.5f, radius, radius, color.AlPtr());
+		al_draw_filled_rounded_rectangle(rect.X() + 0.5f, rect.Y() + 0.5f, rect.X2() + 0.5f, rect.Y2() + 0.5f, radius, radius, color.AlPtr());
 
 	}
 
 	void DrawRectangle(const Rectangle& rect, const Color& color, float thickness) {
 
 		al_draw_rectangle(
-			rect.X,
-			rect.Y,
+			rect.X(),
+			rect.Y(),
 			rect.X2(),
 			rect.Y2(),
 			color.AlPtr(),
@@ -81,8 +81,8 @@ namespace Graphics {
 	void DrawFilledRectangle(const Rectangle& rect, const Color& color) {
 
 		al_draw_filled_rectangle(
-			rect.X,
-			rect.Y,
+			rect.X(),
+			rect.Y(),
 			rect.X2(),
 			rect.Y2(),
 			color.AlPtr()
@@ -97,7 +97,7 @@ namespace Graphics {
 	}
 	void DrawLine(const Line& line, const Color& color, float thickness) {
 
-		al_draw_line(line.First().X, line.First().Y, line.Second().X, line.Second().Y, color.AlPtr(), thickness);
+		al_draw_line(line.First().X(), line.First().Y(), line.Second().X(), line.Second().Y(), color.AlPtr(), thickness);
 
 	}
 
@@ -169,7 +169,7 @@ namespace Graphics {
 	}
 	void SetClippingRegion(const Rectangle& rect) {
 
-		SetClippingRegion(rect.X, rect.Y, rect.Width(), rect.Height());
+		SetClippingRegion(rect.X(), rect.Y(), rect.Width(), rect.Height());
 
 	}
 	Rectangle GetClippingRegion() {
@@ -238,7 +238,7 @@ namespace Graphics {
 
 	/*void DrawView(const View& view) {
 
-		DrawView(view.Port().X, view.Port().Y, view);
+		DrawView(view.Port().X(), view.Port().Y(), view);
 
 	}
 	void DrawView(float x, float y, const View& view) {
@@ -253,8 +253,8 @@ namespace Graphics {
 		Graphics::SetClippingRegion(x, y, view.Port().Width(), view.Port().Height());
 		al_draw_scaled_rotated_bitmap(
 			src_bitmap,
-			view.Region().X + view.Region().Width() / 2.0f,
-			view.Region().Y + view.Region().Height() / 2.0f,
+			view.Region().X() + view.Region().Width() / 2.0f,
+			view.Region().Y() + view.Region().Height() / 2.0f,
 			x + view.Port().Width() / 2.0f,
 			x + view.Port().Height() / 2.0f,
 			view.ScaleX(),
@@ -270,8 +270,8 @@ namespace Graphics {
 
 		al_draw_bitmap(
 			sprite[subimage % (int)sprite.Length()],
-			x + sprite.Origin().X,
-			y + sprite.Origin().Y,
+			x + sprite.Origin().X(),
+			y + sprite.Origin().Y(),
 			NULL
 			);
 
@@ -281,8 +281,8 @@ namespace Graphics {
 		al_draw_tinted_scaled_rotated_bitmap(
 			sprite[subimage % (int)sprite.Length()],
 			al_map_rgba_f(blend.Rf() * blend.Alphaf(), blend.Gf() * blend.Alphaf(), blend.Bf() * blend.Alphaf(), blend.Alphaf()),
-			sprite.Origin().X,
-			sprite.Origin().Y,
+			sprite.Origin().X(),
+			sprite.Origin().Y(),
 			x,
 			y,
 			xscale,

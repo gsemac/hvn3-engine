@@ -103,7 +103,7 @@ ICollidable* CollisionGrid::QueryNearest(const Point& point, int filter) const {
 	
 	//ICollidable* closest = nullptr;
 	//std::vector<Point> cells;
-	//Rectangle region(point.X - __cell_size.Width() / 2.0f, point.Y - __cell_size.Height() / 2.0f, __cell_size.Width(), __cell_size.Height());
+	//Rectangle region(point.X() - __cell_size.Width() / 2.0f, point.Y() - __cell_size.Height() / 2.0f, __cell_size.Width(), __cell_size.Height());
 	//do {
 	//	float shortest_sq = -1.0f;
 	//	GetIntersectedCells(region, cells);
@@ -140,14 +140,14 @@ void CollisionGrid::GetIntersectedCells(ICollidable* collider, std::vector<Point
 void CollisionGrid::GetIntersectedCells(const Rectangle& region, std::vector<Point>& cells) const {
 
 	// Determine the cells intersected by each corner.
-	Point tl = CellAt(region.X, region.Y);
+	Point tl = CellAt(region.X(), region.Y());
 	Point br = CellAt(region.X2() - 1.0f, region.Y2() - 1.0f);
 
 	// Add all cells in-between to the collection.
 	int cw = __cell_size.Width();
 	int ch = __cell_size.Height();
-	for (int i = tl.X * cw; i <= br.X * cw; i += cw)
-		for (int j = tl.Y * ch; j <= br.Y * ch; j += ch)
+	for (int i = tl.X() * cw; i <= br.X() * cw; i += cw)
+		for (int j = tl.Y() * ch; j <= br.Y() * ch; j += ch)
 			cells.push_back(CellAt(i, j));
 
 }
@@ -180,13 +180,13 @@ void CollisionGrid::MapToCells(ICollidable* collider) {
 //			continue;
 //		}
 //		cell = CellAt(current_pos);
-//		std::vector<Object*>& objects = ObjectsAt(cell.X, cell.Y);
+//		std::vector<Object*>& objects = ObjectsAt(cell.X(), cell.Y);
 //		// Find the best candidate in this cell.
 //		for (size_t i = 0; i < objects.size(); ++i) {
 //			return objects[0];
 //		}
 //		current_pos = PointInDirection(current_pos, dir, 1.0f);
-//	} while (current_pos.X < ray.Second().X && current_pos.Y < ray.Second().Y);
+//	} while (current_pos.X() < ray.Second().X() && current_pos.Y() < ray.Second().Y);
 //
 //	return nullptr;
 //}
@@ -195,7 +195,7 @@ void CollisionGrid::MapToCells(ICollidable* collider) {
 
 Point CollisionGrid::CellAt(const Point& point) const {
 
-	return CellAt(point.X, point.Y);
+	return CellAt(point.X(), point.Y());
 
 }
 Point CollisionGrid::CellAt(float x, float y) const {
