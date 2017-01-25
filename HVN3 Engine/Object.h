@@ -28,16 +28,20 @@ class Object : public ObjectBase, public ICollidable, public ISpriteable {
 	friend class CollisionGrid;
 
 public:
-	Vector2d Velocity;
-	int Depth;
-
 	Object();
 	Object(float x, float y);
 	virtual void Update(float dt) override;
 	virtual void Draw() override;
 
+	int Depth() const;
+	void SetDepth(int depth);
+	Vector2d& Velocity();
+
 private:
 	float __image_index_timer;
+	Vector2d __velocity;
+	int __depth;
+
 	void IncrementImageIndex();
 
 };

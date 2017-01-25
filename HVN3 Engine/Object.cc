@@ -11,7 +11,7 @@ Object::Object() : Object(0.0f, 0.0f) {}
 Object::Object(float x, float y) : ICollidable(x, y) {
 
 	__image_index_timer = 0;
-	Depth = 0;
+	SetDepth(0);
 
 }
 
@@ -19,8 +19,8 @@ void Object::Update(float dt) {
 
 	IncrementImageIndex();
 
-	if (Velocity.Magnitude() > 0.0f)
-		Translate(Velocity.X(), Velocity.Y());
+	if (Velocity().Magnitude() > 0.0f)
+		Translate(Velocity().X(), Velocity().Y());
 
 }
 void Object::Draw() {
@@ -29,17 +29,32 @@ void Object::Draw() {
 	if (Sprite()) {
 
 		Graphics::DrawSprite(
-			*Sprite(), 
-			ImageIndex(), 
-			X(), 
+			*Sprite(),
+			ImageIndex(),
+			X(),
 			Y(),
 			Color::FromArgbf(1.0f, 1.0f, 1.0f, ImageAlpha()),
 			ImageXScale(),
 			ImageYScale(),
 			ImageAngle()
-		);
-		
+			);
+
 	}
+
+}
+int Object::Depth() const {
+
+	return __depth;
+
+}
+void Object::SetDepth(int depth) {
+
+	__depth = depth;
+
+}
+Vector2d& Object::Velocity() {
+
+	return __velocity;
 
 }
 

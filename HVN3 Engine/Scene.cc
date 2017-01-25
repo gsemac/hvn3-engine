@@ -181,21 +181,21 @@ void Scene::AddObject(std::shared_ptr<Object> object, float x, float y) {
 	}
 
 	// Get the highest and lowest depths in the list.
-	int lowest_depth = __objects.back()->Depth;
-	int highest_depth = __objects.front()->Depth;
+	int lowest_depth = __objects.back()->Depth();
+	int highest_depth = __objects.front()->Depth();
 
-	if (object->Depth <= lowest_depth) {
+	if (object->Depth() <= lowest_depth) {
 		// If the object's depth is <= than the lowest depth, insert last.
 		__objects.push_back(object);
 	}
-	else if (object->Depth >= highest_depth) {
+	else if (object->Depth() >= highest_depth) {
 		// If the objects depth is >= the highest depth, insert first.
 		__objects.push_front(object);
 	}
 	else {
 		// Find a proper position for the object according to its depth.
 		for (auto it = __objects.begin(); it != __objects.end(); ++it) {
-			if ((*it)->Depth < object->Depth) {
+			if ((*it)->Depth() < object->Depth()) {
 				__objects.insert(it, object);
 				return;
 			}

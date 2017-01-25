@@ -10,7 +10,7 @@ namespace SuperMarioBros {
 		Player(float x, float y) : Object(x, y) {
 
 			SetImageSpeed(0.1f);
-			Velocity.SetX(1);
+			Velocity().SetX(1);
 
 		}
 		void Update(float dt) override {
