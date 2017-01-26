@@ -1,17 +1,21 @@
 #ifndef __OBJECT_H
 #define __OBJECT_H
 #include <initializer_list>
-#include "IDrawable.h"
+//#include "IDrawable.h"
 #include "IUpdatable.h"
 #include "ICollidable.h"
 #include "ISpriteable.h"
 #include "Vector2d.h"
 
-class ObjectBase : public IDrawable, public IUpdatable {
+namespace Drawing {
+	class Graphics;
+}
+
+class ObjectBase : public IUpdatable {
 
 public:
 	ObjectBase();
-	virtual void Draw();
+	virtual void Draw(Drawing::Graphics& graphics);
 	virtual void Update();
 	void Destroy();
 	bool IsDestroyed();
@@ -31,7 +35,7 @@ public:
 	Object();
 	Object(float x, float y);
 	virtual void Update(float dt) override;
-	virtual void Draw() override;
+	virtual void Draw(Drawing::Graphics& graphics) override;
 
 	int Depth() const;
 	void SetDepth(int depth);

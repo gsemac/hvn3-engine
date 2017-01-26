@@ -17,25 +17,28 @@ Bitmap::Bitmap(const char* filename) {
 	__free = true;
 
 }
-Bitmap::Bitmap(ALLEGRO_BITMAP* bitmap, bool managed) {
+Bitmap::Bitmap(ALLEGRO_BITMAP* bitmap, bool free) {
 
 	__bmp = bitmap;
 	__width = 0;
 	__height = 0;
-	__free = managed;
+	__free = free;
 
 	if (bitmap) {
 		__width = al_get_bitmap_width(__bmp);
 		__height = al_get_bitmap_height(__bmp);
-	} 
+	}
 
 }
-Bitmap::Bitmap(ALLEGRO_BITMAP* bitmap, const Rectangle& region) {
+Bitmap::Bitmap(const Bitmap& other, const Rectangle& region) {
 
+	// Create a new bitmap.
 	__bmp = al_create_bitmap(region.Width(), region.Height());
-	Graphics::SetDrawingTarget(__bmp);
-	al_draw_bitmap_region(bitmap, region.X(), region.Y(), region.Width(), region.Height(), 0, 0, NULL);
-	Graphics::ResetDrawingTarget();
+
+	// Copy the given bitmap onto the new bitmap.
+	Drawing::Graphics(Bitmap(__bmp, false)).DrawBitmap(other, region, 0.0f, 0.0f);
+
+	// Set free to true, because we need to free the new bitmap.
 	__free = true;
 
 }
@@ -45,9 +48,6 @@ Bitmap::Bitmap(const Bitmap& other) {
 	__width = al_get_bitmap_width(__bmp);
 	__height = al_get_bitmap_height(__bmp);
 	__free = true;
-
-}
-Bitmap::Bitmap(const Bitmap& other, const Rectangle& region) : Bitmap(other.AlPtr(), region) {
 
 }
 Bitmap::Bitmap(Bitmap&& other) {
@@ -151,15 +151,13 @@ bool Bitmap::IsLocked() const {
 }
 void Bitmap::SetPixel(int x, int y, const Color& color) {
 
-	Graphics::SetDrawingTarget(__bmp);
-	al_put_pixel(x, y, color.AlPtr());
-	Graphics::ResetDrawingTarget();
+	Drawing::Graphics(*this).DrawPoint(x, y, color);
 
 }
 Color Bitmap::GetPixel(int x, int y) const {
 
 	return Color(al_get_pixel(__bmp, x, y));
-	
+
 }
 
 ALLEGRO_BITMAP* Bitmap::AlPtr() const {
@@ -179,6 +177,11 @@ Bitmap& Bitmap::operator=(Bitmap&& other) {
 	other.__height = 0;
 
 	return *this;
+
+}
+Bitmap::operator bool() const {
+
+	return __bmp != nullptr;
 
 }
 

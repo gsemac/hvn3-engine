@@ -54,13 +54,10 @@ void Scene::Update(float dt) {
 	UpdateViews();
 
 }
-void Scene::Draw(const Rectangle& clipping_region) {
-
-	// Bound drawing by the Scene borders.
-	Graphics::SetClippingRegion(clipping_region.X(), clipping_region.Y(), clipping_region.Width(), clipping_region.Height());
+void Scene::Draw(Drawing::Graphics graphics) {
 
 	// Clear to background color.
-	Graphics::DrawClear(__background_color);
+	graphics.Clear(__background_color);
 
 	// Each View needs to be drawn separately to improve the appearance of scaled Bitmaps.
 	if (__views.size() > 0) {
@@ -77,39 +74,39 @@ void Scene::Draw(const Rectangle& clipping_region) {
 			if (!view.Enabled()) continue;
 
 			// Set the clipping region according to the viewport.
-			Graphics::SetClippingRegion(view.Port());
+			graphics.SetClip(view.Port());
 
 			// Clear to background color.
-			Graphics::DrawClear(__background_color);
+			graphics.Clear(__background_color);
 
 			// Set transform according to view state.
-			Graphics::Transform transform;
+			Drawing::Transform transform;
 			transform.Translate(-view.ViewX(), -view.ViewY());
 			transform.Scale(view.ScaleX(), view.ScaleY());
 			transform.Rotate(view.Port().Midpoint(), view.Angle());
-			Graphics::SetTransform(transform);
+			graphics.SetTransform(transform);
 
 			// Draw all Backgrounds (foregrounds are skipped for now).
 			for (size_t i = 0; i < __backgrounds.size(); ++i)
 				if (!__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-					DrawBackground(__backgrounds[i]);
+					DrawBackground(graphics, __backgrounds[i]);
 
 			// Draw all Objects.
 			for (auto it = __objects.begin(); it != __objects.end(); ++it)
-				(*it)->Draw();
+				(*it)->Draw(graphics);
 
 			// Draw all Foregrounds.
 			for (size_t i = 0; i < __backgrounds.size(); ++i)
 				if (__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-					DrawBackground(__backgrounds[i]);
+					DrawBackground(graphics, __backgrounds[i]);
 
 		}
 
 		// Restore the previous transform.
-		Graphics::ResetTransform();
+		graphics.ResetTransform();
 
 		// Reset the clipping region.
-		Graphics::ResetClippingRegion();
+		graphics.ResetClip();
 
 		// Reset current view to 0.
 		__current_view = 0;
@@ -120,21 +117,18 @@ void Scene::Draw(const Rectangle& clipping_region) {
 		// Draw all Backgrounds (foregrounds are skipped for now).
 		for (size_t i = 0; i < __backgrounds.size(); ++i)
 			if (!__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-				DrawBackground(__backgrounds[i]);
+				DrawBackground(graphics, __backgrounds[i]);
 
 		// If no Views are used, simply draw all of the Objects with normal scaling.
 		for (auto it = __objects.begin(); it != __objects.end(); ++it)
-			(*it)->Draw();
+			(*it)->Draw(graphics);
 
 		// Draw all Foregrounds.
 		for (size_t i = 0; i < __backgrounds.size(); ++i)
 			if (__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-				DrawBackground(__backgrounds[i]);
+				DrawBackground(graphics, __backgrounds[i]);
 
 	}
-
-	// Reset drawing bounds.
-	Graphics::ResetClippingRegion();
 
 }
 void Scene::SetBackgroundColor(int r, int g, int b) {
@@ -253,7 +247,7 @@ CollisionManager& Scene::CollisionManager() {
 
 }
 
-void Scene::DrawBackground(const BackgroundProperties& background) {
+void Scene::DrawBackground(Drawing::Graphics& graphics, const BackgroundProperties& background) {
 
 	// Get a referen ce to the pointer to the background we're going to be drawing.
 	const std::shared_ptr<::Background>& bg = background.Ptr();
@@ -284,24 +278,24 @@ void Scene::DrawBackground(const BackgroundProperties& background) {
 	if (scale_x < 0.0f) offset_x += width;
 	if (scale_y < 0.0f) offset_y += height;
 
-	Graphics::HoldBitmapDrawing(true);
+	graphics.HoldBitmapDrawing(true);
 	if (background.IsTiledHorizontally() && background.IsTiledVertically())
 		// Draw background tiled horizontally and vertically.
 		for (; offset_x < (scale_x < 0.0f ? Width() + width : Width()); offset_x += width)
 			for (float j = offset_y; j < ((scale_y < 0.0f) ? (Height() + height) : Height()); j += height)
-				Graphics::DrawBitmap(bg->Bitmap(), offset_x, j, background.Scale().X(), background.Scale().Y());
+				graphics.DrawBitmap(bg->Bitmap(), offset_x, j, background.Scale().X(), background.Scale().Y());
 	else if (background.IsTiledHorizontally())
 		// Draw background tiled horizontally only.
 		for (; offset_x < (scale_x < 0.0f ? Width() + width : Width()); offset_x += width)
-			Graphics::DrawBitmap(bg->Bitmap(), offset_x, offset_y, background.Scale().X(), background.Scale().Y());
+			graphics.DrawBitmap(bg->Bitmap(), offset_x, offset_y, background.Scale().X(), background.Scale().Y());
 	else if (background.IsTiledVertically())
 		// Draw background tiled vertically only.
 		for (; offset_y < (scale_y < 0.0f ? Height() + height : Height()); offset_y += height)
-			Graphics::DrawBitmap(bg->Bitmap(), offset_x, offset_y, background.Scale().X(), background.Scale().Y());
+			graphics.DrawBitmap(bg->Bitmap(), offset_x, offset_y, background.Scale().X(), background.Scale().Y());
 	else
 		// Draw background without tiling.
-		Graphics::DrawBitmap(bg->Bitmap(), offset_x, offset_y, background.Scale().X(), background.Scale().Y());
-	Graphics::HoldBitmapDrawing(false);
+		graphics.DrawBitmap(bg->Bitmap(), offset_x, offset_y, background.Scale().X(), background.Scale().Y());
+	graphics.HoldBitmapDrawing(false);
 
 }
 void Scene::UpdateViews() {

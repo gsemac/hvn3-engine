@@ -17,15 +17,16 @@
 Runner::Runner() : Runner(GameProperties()) {}
 Runner::Runner(const GameProperties& properties) :
 	__properties(properties),
-	__timer(1.0 / properties.FPS) {
+	__timer(1.0 / properties.FPS),
+	__display(__properties.DisplaySize.Width(), __properties.DisplaySize.Height(), properties.DisplayTitle.c_str(), DisplayFlags::Resizable),
+	__graphics(__display.BackBuffer()) {
 
 	// Create the display, and initialize its parameters.
-	__display = new Display(__properties.DisplaySize.Width(), __properties.DisplaySize.Height(), properties.DisplayTitle.c_str(), DisplayFlags::Resizable);
 	if (__properties.Fullscreen)
-		__display->SetFullscreen(true);
+		__display.SetFullscreen(true);
 
 	// Initialize the event queue.
-	__event_queue.AddEventSource(__display->EventSource());
+	__event_queue.AddEventSource(__display.EventSource());
 	__event_queue.AddEventSource(__timer.EventSource());
 	__event_queue.AddEventSource(Mouse::EventSource());
 	__event_queue.AddEventSource(Keyboard::EventSource());
@@ -54,10 +55,6 @@ Runner::~Runner() {
 		delete __default_font;
 	__default_font = nullptr;
 
-	if (__display)
-		delete __display;
-	__display = nullptr;
-
 }
 void Runner::Draw() {
 
@@ -65,54 +62,56 @@ void Runner::Draw() {
 	__allow_redraw = false;
 
 	// Clear the drawing surface with the outside outside color.
-	Graphics::DrawClear(Properties().OutsideColor);
+	__graphics.Clear(Properties().OutsideColor);
 
 	// Set the Transform according to the scaling mode.
-	Graphics::Transform scaling_transform;
+	Drawing::Transform scaling_transform;
 	Rectangle clipping_rectangle(0.0f, 0.0f, __scene->Width(), __scene->Height());
 
 	switch (Properties().ScalingMode) {
 
 	case ScalingMode::Full:
 		// Stretch drawing to fill up the Display.
-		scaling_transform.Scale(__display->Scale().Width(), __display->Scale().Height());
-		clipping_rectangle = Rectangle(0.0f, 0.0f, __scene->Width() * __display->Scale().Width(), __scene->Height() * __display->Scale().Height());
+		scaling_transform.Scale(__display.Scale().Width(), __display.Scale().Height());
+		clipping_rectangle = Rectangle(0.0f, 0.0f, __scene->Width() * __display.Scale().Width(), __scene->Height() * __display.Scale().Height());
 		break;
 
 	case ScalingMode::Fixed:
 		// Center drawing while maintaining original scale.
-		scaling_transform.Translate(__display->Width() / 2.0f - __scene->Width() / 2.0f, __display->Height() / 2.0f - __scene->Height() / 2.0f);
-		clipping_rectangle = Rectangle(__display->Width() / 2.0f - __scene->Width() / 2.0f, __display->Height() / 2.0f - __scene->Height() / 2.0f, __scene->Width(), __scene->Height());
+		scaling_transform.Translate(__display.Width() / 2.0f - __scene->Width() / 2.0f, __display.Height() / 2.0f - __scene->Height() / 2.0f);
+		clipping_rectangle = Rectangle(__display.Width() / 2.0f - __scene->Width() / 2.0f, __display.Height() / 2.0f - __scene->Height() / 2.0f, __scene->Width(), __scene->Height());
 		break;
 
 	case ScalingMode::MaintainAspectRatio:
 		// Stretch drawing as much as possible while maintaining the aspect ratio.
-		float scale_factor = Min(__display->Scale().Width(), __display->Scale().Height());
+		float scale_factor = Min(__display.Scale().Width(), __display.Scale().Height());
 		scaling_transform.Scale(scale_factor, scale_factor);
-		scaling_transform.Translate(__display->Width() / 2.0f - __scene->Width() * scale_factor / 2.0f, __display->Height() / 2.0f - __scene->Height() * scale_factor / 2.0f);
-		clipping_rectangle = Rectangle(__display->Width() / 2.0f - __scene->Width() * scale_factor / 2.0f, __display->Height() / 2.0f - __scene->Height() * scale_factor / 2.0f, __scene->Width() * scale_factor, __scene->Height() * scale_factor);
+		scaling_transform.Translate(__display.Width() / 2.0f - __scene->Width() * scale_factor / 2.0f, __display.Height() / 2.0f - __scene->Height() * scale_factor / 2.0f);
+		clipping_rectangle = Rectangle(__display.Width() / 2.0f - __scene->Width() * scale_factor / 2.0f, __display.Height() / 2.0f - __scene->Height() * scale_factor / 2.0f, __scene->Width() * scale_factor, __scene->Height() * scale_factor);
 		break;
 
 	}
 
-	Graphics::SetTransform(scaling_transform);
+	__graphics.SetTransform(scaling_transform);
+	__graphics.SetClip(clipping_rectangle);
 
 	if (__scene)
 		// Render the active Scene.
-		__scene->Draw(clipping_rectangle);
+		__scene->Draw(__graphics);
 	else
 		// Draw placeholder graphics.
-		Graphics::DrawText(__display->Width() / 2.0f, __display->Height() / 2.0f, Properties().DisplayTitle.c_str(), SystemFont(), Color::White, Alignment::Center);
+		__graphics.DrawText(__display.Width() / 2.0f, __display.Height() / 2.0f, Properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);
 
 	// Reset the Transform.
-	Graphics::ResetTransform();
+	__graphics.ResetTransform();
+	__graphics.ResetClip();
 
 	// If running in debug mode, draw the FPS counter.
 	if (Properties().DebugMode)
 		DrawFPS();
 
 	// Swap out the backbuffer.
-	__display->Refresh();
+	__display.Refresh();
 
 }
 void Runner::Update() {
@@ -219,8 +218,8 @@ void Runner::DrawFPS() {
 	//int fps = std::round((std::min)(Properties().FPS, (float)(1.0f / fps_timer.SecondsElapsed())));
 	std::stringstream ss;
 	ss << (int)(std::min)(fps_sum / 60, Properties().FPS) << " FPS";
-	Graphics::DrawText(11, 11, ss.str().c_str(), SystemFont(), Color::Black);
-	Graphics::DrawText(10, 10, ss.str().c_str(), SystemFont(), Color::White);
+	__graphics.DrawText(11, 11, ss.str().c_str(), *SystemFont(), Color::Black);
+	__graphics.DrawText(10, 10, ss.str().c_str(), *SystemFont(), Color::White);
 
 	// Reset the FPS timer.
 	fps_timer.Reset(true);
@@ -229,7 +228,7 @@ void Runner::DrawFPS() {
 
 void Runner::OnTimerTick(Event& ev) {
 
-	if (__scene && (!Properties().FreezeWhenLostFocus || __display->HasFocus()) && __frames_skipped++ <= Properties().MaxFrameSkip) {
+	if (__scene && (!Properties().FreezeWhenLostFocus || __display.HasFocus()) && __frames_skipped++ <= Properties().MaxFrameSkip) {
 
 		// Initialize the delta timer. At some point, the frame timer could be used for this.
 		static Stopwatch delta_timer(true);
@@ -261,7 +260,7 @@ void Runner::OnKeyDown(Event& ev) {
 
 	// Toggle fullscreen if F11 is pressed.
 	if (ev.AlPtr()->keyboard.keycode == ALLEGRO_KEY_F11)
-		__display->SetFullscreen(!__display->IsFullscreen());
+		__display.SetFullscreen(!__display.IsFullscreen());
 
 	// Exit the loop if the escape key has been pressed.
 	if (ev.AlPtr()->keyboard.keycode == ALLEGRO_KEY_ESCAPE && Properties().ExitWithEscapeKey)
@@ -325,7 +324,7 @@ void Runner::OnMouseButtonUp(Event& ev) {
 }
 void Runner::OnMouseAxes(Event& ev) {
 
-	if (!Properties().FreezeWhenLostFocus || __display->HasFocus()) {
+	if (!Properties().FreezeWhenLostFocus || __display.HasFocus()) {
 
 		// Set the Mouse' position relative to the display.
 		Mouse::StateAccessor::SetDisplayPosition(ev.AlPtr()->mouse.x, ev.AlPtr()->mouse.y);
@@ -375,19 +374,19 @@ void Runner::OnMouseLeaveDisplay(Event& ev) {
 }
 void Runner::OnDisplayResize(Event& ev) {
 
-	al_acknowledge_resize(__display->AlPtr());
-	__display->Resize(ev.AlPtr()->display.width, ev.AlPtr()->display.height);
+	al_acknowledge_resize(__display.AlPtr());
+	__display.Resize(ev.AlPtr()->display.width, ev.AlPtr()->display.height);
 
 }
 void Runner::OnDisplaySwitchOut(Event& ev) {
 
-	Display::StateAccessor(__display).SetFocus(false);
+	Display::StateAccessor(&__display).SetFocus(false);
 	Keyboard::StateAccessor::ResetKeyStates();
 
 }
 void Runner::OnDisplaySwitchIn(Event& ev) {
 
-	Display::StateAccessor(__display).SetFocus(true);
+	Display::StateAccessor(&__display).SetFocus(true);
 
 }
 void Runner::OnRedraw() {

@@ -3,6 +3,7 @@
 #include "EventQueue.h"
 #include "Timer.h"
 #include "GameProperties.h"
+#include "Graphics.h"
 
 class Font;
 class Scene;
@@ -54,8 +55,9 @@ private:
 	Timer __timer;
 
 	Scene* __scene;
-	Display* __display;
+	Display __display;
 	Font* __default_font;
 	GameProperties __properties;
+	Drawing::Graphics __graphics;
 
 };

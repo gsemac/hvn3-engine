@@ -5,12 +5,6 @@
 #include "Geometry.h"
 #include "Color.h"
 #include "IO_File.h"
-#include "Graphics.h"
-
-namespace Graphics {
-	void DrawBitmap(const Bitmap& bitmap, float x, float y);
-	void DrawBitmap(const Bitmap& bitmap, float x, float y, float xscale, float yscale);
-}
 
 struct BitmapData {
 	BitmapData();
@@ -21,21 +15,13 @@ struct BitmapData {
 };
 
 class Bitmap {
-	friend void Graphics::DrawBitmap(const Bitmap& bitmap, float x, float y);
-	friend void Graphics::DrawBitmap(const Bitmap& bitmap, float x, float y, float xscale, float yscale);
-
-private:
-	ALLEGRO_BITMAP* __bmp;
-	unsigned int __width, __height;
-	bool __free;
 
 public:
 	Bitmap(int width, int height);
 	Bitmap(const char* filename);
 	Bitmap(ALLEGRO_BITMAP* bitmap, bool free = true);
-	Bitmap(ALLEGRO_BITMAP* bitmap, const Rectangle& region);
-	Bitmap(const Bitmap& other);
 	Bitmap(const Bitmap& other, const Rectangle& region);
+	Bitmap(const Bitmap& other);
 	Bitmap(Bitmap&& other);
 	~Bitmap();
 
@@ -57,6 +43,12 @@ public:
 	ALLEGRO_BITMAP* AlPtr() const;
 
 	Bitmap& operator=(Bitmap&& other);
+	explicit operator bool() const;
+
+private:
+	ALLEGRO_BITMAP* __bmp;
+	unsigned int __width, __height;
+	bool __free;
 
 };
 

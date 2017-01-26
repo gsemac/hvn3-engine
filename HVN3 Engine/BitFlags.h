@@ -87,6 +87,6 @@ template<typename Enum>
 typename std::enable_if<EnableBitFlagOperators<Enum>::enable, bool>::type HasFlag(Enum a, Enum b) {
 
 	using underlying_type = typename std::underlying_type<Enum>::type;
-	return (int)(static_cast<underlying_type>(a) & static_cast<underlying_type>(b));
+	return (bool)(static_cast<underlying_type>(a) & static_cast<underlying_type>(b));
 
 };

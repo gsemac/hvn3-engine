@@ -130,6 +130,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AllegroExtensions.cc" />
     <ClCompile Include="Background.cc" />
     <ClCompile Include="Bitmap.cc" />
     <ClCompile Include="BitPacker.cc" />
@@ -200,6 +201,7 @@
     <ClCompile Include="View.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AllegroExtensions.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="BitFlags.h" />
     <ClInclude Include="Bitmap.h" />

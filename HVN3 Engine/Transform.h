@@ -2,7 +2,7 @@
 #include <allegro5/allegro_primitives.h>
 #include "Point.h"
 
-namespace Graphics {
+namespace Drawing {
 
 	class Transform {
 

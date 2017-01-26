@@ -4,6 +4,7 @@
 #include "Helper.h"
 #include "Mouse.h"
 #include "Scene.h"
+#include "Transform.h"
 
 View::View(Point view_position, Size view_size, Point port_position, Size port_size, Object* follow_obj, float horizontal_border, float vertical_border) :__view_size(view_size), __port_size(port_size) {
 
@@ -121,7 +122,7 @@ Point View::MousePosition() const {
 	Point pos = Mouse::DisplayPosition();
 
 	// Transform the mouse position against the view transformations.
-	Graphics::Transform t;
+	Drawing::Transform t;
 	t.Rotate(Port().Midpoint(), -Angle());
 	t.Translate(__view_pos.X() * ScaleX(), __view_pos.Y() * ScaleY());
 	t.Scale(1.0f / ScaleX(), 1.0f / ScaleY());

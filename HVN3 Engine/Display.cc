@@ -43,9 +43,6 @@ Display::Display(int x, int y, int width, int height, const char* title, Display
 	// Assert that the display could be created.
 	assert(__display);
 
-	// Set the drawing target to the back buffer of the display.
-	Graphics::SetDrawingTarget(BackBuffer());
-
 }
 Display::~Display() {
 	if (!__display) return;

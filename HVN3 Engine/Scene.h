@@ -10,6 +10,7 @@
 #include "View.h"
 #include "CollisionGrid.h"
 #include "CollisionManager.h"
+#include "Graphics.h"
 
 class Object;
 
@@ -58,7 +59,7 @@ public:
 	~Scene();
 
 	void Update(float dt) override;
-	void Draw(const Rectangle& clipping_region);
+	void Draw(Drawing::Graphics graphics);
 
 	void SetBackgroundColor(int, int, int);
 	void SetBackgroundColor(const Color& color);
@@ -99,7 +100,7 @@ private:
 	IBroadphase* __broadphase_handler;
 	//CollisionGrid __collision_grid;
 
-	void DrawBackground(const BackgroundProperties& background);
+	void DrawBackground(Drawing::Graphics& graphics, const BackgroundProperties& background);
 	void UpdateViews();
 
 };

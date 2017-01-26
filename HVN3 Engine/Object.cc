@@ -23,12 +23,12 @@ void Object::Update(float dt) {
 		Translate(Velocity().X(), Velocity().Y());
 
 }
-void Object::Draw() {
+void Object::Draw(Drawing::Graphics& graphics) {
 
 	// Draw sprite (if it exists).
 	if (Sprite()) {
 
-		Graphics::DrawSprite(
+		graphics.DrawSprite(
 			*Sprite(),
 			ImageIndex(),
 			X(),
@@ -83,7 +83,7 @@ ObjectBase::ObjectBase() {
 	__active = false;
 
 }
-void ObjectBase::Draw() {}
+void ObjectBase::Draw(Drawing::Graphics& graphics) {}
 void ObjectBase::Update() {}
 void ObjectBase::Destroy() {
 

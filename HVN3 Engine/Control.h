@@ -7,6 +7,7 @@
 #include "BitFlags.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "Graphics.h"
 
 namespace Gui {
 	
@@ -52,7 +53,8 @@ namespace Gui {
 		
 		Control* __parent;
 		GuiManager* __manager;
-		ALLEGRO_BITMAP* __image;
+		Bitmap __image;
+		Drawing::Graphics __graphics;
 		Color __backcolor, __forecolor;
 		ANCHOR __anchor;
 		float __opacity;

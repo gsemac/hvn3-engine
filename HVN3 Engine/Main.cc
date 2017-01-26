@@ -1,8 +1,27 @@
 #include "HVN3.h"
-#include "ExampleGame.h"
+//#include "ExampleGame.h"
 #include "ExampleGame2.h"
+#include "Display.h"
+#include "Graphics.h"
 
 int main(int argc, char *argv[]) {
+
+	//InitializeFramework();
+
+	//Display disp(640, 480);
+	//Display disp2(640, 480);
+
+	//while (1) {
+	//
+	//	Drawing::Graphics(disp.BackBuffer()).DrawCircle(100, 100, 100, Color::White, 2);
+	//	disp.Refresh();
+
+	//	Drawing::Graphics(disp2.BackBuffer()).DrawCircle(100, 100, 100, Color::DodgerBlue, 2);
+	//	disp2.Refresh();
+
+	//}
+
+	//ShutdownFramework();
 
 	SuperMarioBros::RunGame(argc, argv);
 

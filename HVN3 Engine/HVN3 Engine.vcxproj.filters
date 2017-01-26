@@ -294,6 +294,9 @@
     <ClCompile Include="Path.cc">
       <Filter>Source Files\IO</Filter>
     </ClCompile>
+    <ClCompile Include="AllegroExtensions.cc">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -571,6 +574,9 @@
     </ClInclude>
     <ClInclude Include="Directory.h">
       <Filter>Header Files\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="AllegroExtensions.h">
+      <Filter>Header Files\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

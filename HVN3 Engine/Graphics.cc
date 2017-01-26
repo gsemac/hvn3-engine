@@ -1,107 +1,122 @@
 #include <stack>
 #include "Graphics.h"
 #include "Exception.h"
-#include "Transform.h"
-#include "Bitmap.h"
 
-void al_draw_wrapped_text(const ALLEGRO_FONT *font, ALLEGRO_COLOR color, float x, float y, float w, float h, int flags, char const *text) {
+namespace Drawing {
 
-	throw NotImplementedException();
+	Graphics::Graphics(Bitmap& surface) :
+		__surface(surface),
+		__clipping_region(0.0f, 0.0f, surface.Width(), surface.Height()) {}
 
-}
-void al_draw_shadow_ustr(const ALLEGRO_FONT *font, ALLEGRO_COLOR color, ALLEGRO_COLOR shadow_color, float x, float y, int flags, const ALLEGRO_USTR* ustr) {
+	void Graphics::DrawRectangle(const Rectangle& rect, const Color& color, float thickness) {
 
-	al_draw_ustr(font, shadow_color, x + 1, y + 1, flags, ustr);
-	al_draw_ustr(font, color, x, y, flags, ustr);
-
-}
-void al_draw_shadow_text(const ALLEGRO_FONT* font, ALLEGRO_COLOR color, ALLEGRO_COLOR shadow_color, float x, float y, int flags, const char* str) {
-
-	al_draw_text(font, shadow_color, x + 1, y + 1, flags, str);
-	al_draw_text(font, color, x, y, flags, str);
-
-}
-void al_draw_gradient_rectangle(float x, float y, float width, float height, ALLEGRO_COLOR color_top, ALLEGRO_COLOR color_bottom) {
-
-
-	ALLEGRO_VERTEX v[] = {
-		{ x, y, 0, 0, 0, color_top },
-		{ x + width, y, 0, 0, 0, color_top },
-		{ x, y + height, 0, 0, 0, color_bottom },
-		{ x + width, y + height, 0, 0, 0, color_bottom }
-	};
-	al_draw_prim(v, NULL, NULL, 0, 4, ALLEGRO_PRIM_TRIANGLE_STRIP);
-
-}
-void al_draw_horizontal_gradient_rectangle(float x, float y, float width, float height, ALLEGRO_COLOR color_left, ALLEGRO_COLOR color_right) {
-
-	ALLEGRO_VERTEX v[] = {
-		{ x, y, 0, 0, 0, color_left },
-		{ x + width, y, 0, 0, 0, color_right },
-		{ x, y + height, 0, 0, 0, color_left },
-		{ x + width, y + height, 0, 0, 0, color_right }
-	};
-	al_draw_prim(v, NULL, NULL, 0, 4, ALLEGRO_PRIM_TRIANGLE_STRIP);
-
-}
-
-namespace Graphics {
-
-	static std::stack<Rectangle> __clipping_region_stack;
-	static std::stack<ALLEGRO_BITMAP*> __drawing_target_stack;
-	static std::stack<Transform> __transform_stack;
-
-	void DrawRoundRect(const Rectangle& rect, float radius, const Color& color, float thickness) {
-
-		// Note: 0.5 is added to the position of the rectangle to fix graphical glitches in Allegro (uneven corners).
-
-		al_draw_rounded_rectangle(rect.X() + 0.5f, rect.Y() + 0.5f, rect.X2() + 0.5f, rect.Y2() + 0.5f, radius, radius, color.AlPtr(), thickness);
+		DrawRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color, thickness);
 
 	}
-	void DrawFilledRoundRect(const Rectangle& rect, float radius, const Color& color) {
+	void Graphics::DrawRectangle(float x, float y, float width, float height, const Color& color, float thickness) {
 
-		// Note: 0.5 is added to the position of the rectangle to fix graphical glitches in Allegro (uneven corners).
-
-		al_draw_filled_rounded_rectangle(rect.X() + 0.5f, rect.Y() + 0.5f, rect.X2() + 0.5f, rect.Y2() + 0.5f, radius, radius, color.AlPtr());
-
-	}
-
-	void DrawRectangle(const Rectangle& rect, const Color& color, float thickness) {
+		PrepareDrawingSurface();
 
 		al_draw_rectangle(
-			rect.X(),
-			rect.Y(),
-			rect.X2(),
-			rect.Y2(),
+			x,
+			y,
+			x + width,
+			y + height,
 			color.AlPtr(),
 			thickness
 			);
 
 	}
-	void DrawFilledRectangle(const Rectangle& rect, const Color& color) {
+	void Graphics::DrawFilledRectangle(const Rectangle& rect, const Color& color) {
+
+		DrawFilledRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color);
+
+	}
+	void Graphics::DrawFilledRectangle(float x, float y, float width, float height, const Color& color) {
+
+		PrepareDrawingSurface();
 
 		al_draw_filled_rectangle(
-			rect.X(),
-			rect.Y(),
-			rect.X2(),
-			rect.Y2(),
+			x,
+			y,
+			x + width,
+			y + height,
 			color.AlPtr()
 			);
 
 	}
 
-	void DrawLine(const Line& line) {
+	void Graphics::DrawRoundRectangle(const Rectangle& rect, const Color& color, float radius, float thickness) {
+
+		DrawRoundRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color, radius, thickness);
+
+	}
+	void Graphics::DrawRoundRectangle(float x, float y, float width, float height, const Color& color, float radius, float thickness) {
+
+		PrepareDrawingSurface();
+
+		// Note: 0.5 is added to each coordinate to fix the uneven corners drawn by Allegro.
+		al_draw_rounded_rectangle(x + 0.5f, y + 0.5f, x + width + 0.5f, y + height + 0.5f, radius, radius, color.AlPtr(), thickness);
+
+	}
+	void Graphics::DrawFilledRoundRectangle(const Rectangle& rect, const Color& color, float radius) {
+
+		DrawFilledRoundRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color, radius);
+
+	}
+	void Graphics::DrawFilledRoundRectangle(float x, float y, float width, float height, const Color& color, float radius) {
+
+		PrepareDrawingSurface();
+
+		// Note: 0.5 is added to each coordinate to fix the uneven corners drawn by Allegro.
+		al_draw_filled_rounded_rectangle(x + 0.5f, y + 0.5f, x + width + 0.5f, y + height + 0.5f, radius, radius, color.AlPtr());
+
+	}
+
+	void Graphics::DrawLine(const Line& line) {
 
 		DrawLine(line, Color::Black, 1.0f);
 
 	}
-	void DrawLine(const Line& line, const Color& color, float thickness) {
+	void Graphics::DrawLine(const Line& line, const Color& color, float thickness) {
 
-		al_draw_line(line.First().X(), line.First().Y(), line.Second().X(), line.Second().Y(), color.AlPtr(), thickness);
+		DrawLine(line.First(), line.Second(), color, thickness);
+
+	}
+	void Graphics::DrawLine(const Point& p1, const Point& p2, const Color& color, float thickness) {
+
+		DrawLine(p1.X(), p1.Y(), p2.X(), p2.Y(), color, thickness);
+
+	}
+	void Graphics::DrawLine(float x1, float y1, float x2, float y2, const Color& color, float thickness) {
+
+		PrepareDrawingSurface();
+
+		al_draw_line(x1, y1, x2, y2, color.AlPtr(), thickness);
 
 	}
 
-	void DrawCircle(float x, float y, float radius, const Color& color, float thickness) {
+	void Graphics::DrawPoint(const Point& point, const Color& color) {
+
+		DrawPoint(point.X(), point.Y(), color);
+
+	}
+	void Graphics::DrawPoint(float x, float y, const Color& color) {
+
+		PrepareDrawingSurface();
+
+		al_put_pixel(x, y, color.AlPtr());
+
+	}
+
+	void Graphics::DrawCircle(const Point& point, float radius, const Color& color, float thickness) {
+
+		DrawCircle(point.X(), point.Y(), radius, color, thickness);
+
+	}
+	void Graphics::DrawCircle(float x, float y, float radius, const Color& color, float thickness) {
+
+		PrepareDrawingSurface();
 
 		al_draw_circle(
 			x,
@@ -112,19 +127,33 @@ namespace Graphics {
 			);
 
 	}
+	void Graphics::DrawFilledCircle(const Point& point, float radius, const Color& color) {
 
-	void DrawClear(const Color& color) {
+		DrawFilledCircle(point.X(), point.Y(), radius, color);
+
+	}
+	void Graphics::DrawFilledCircle(float x, float y, float radius, const Color& color) {
+
+		PrepareDrawingSurface();
+
+		al_draw_filled_circle(
+			x,
+			y,
+			radius,
+			color.AlPtr()
+			);
+
+	}
+	
+	void Graphics::Clear(const Color& color) {
 
 		al_clear_to_color(color.AlPtr());
 
 	}
-	void DrawClear(Color* color) {
 
-		al_clear_to_color(color->AlPtr());
+	void Graphics::DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment align) {
 
-	}
-
-	void DrawText(float x, float y, const char* text, const Font* font, const Color& color, Alignment align) {
+		PrepareDrawingSurface();
 
 		int flags = 0;
 		switch (align) {
@@ -139,134 +168,25 @@ namespace Graphics {
 			break;
 		}
 
-		al_draw_text(font->AlPtr(), color.AlPtr(), x, y, flags, text);
+		al_draw_text(font.AlPtr(), color.AlPtr(), x, y, flags, text);
 
 	}
-	void DrawText(float x, float y, const std::string& text, const Font* font, const Color& color) {
+	void Graphics::DrawText(float x, float y, const std::string& text, const Font& font, const Color& color) {
 
 		DrawText(x, y, text.c_str(), font, color);
 
 	}
-	void DrawText(float x, float y, Utf8String& text, const Font* font, const Color& color) {
+	void Graphics::DrawText(float x, float y, Utf8String& text, const Font& font, const Color& color) {
 
-		DrawText(x, y, &text, font, color);
+		PrepareDrawingSurface();
 
-	}
-	void DrawText(float x, float y, Utf8String* text, const Font* font, const Color& color) {
-
-		al_draw_ustr(font->AlPtr(), color.AlPtr(), x, y, NULL, text->AlPtr());
+		al_draw_ustr(font.AlPtr(), color.AlPtr(), x, y, NULL, text.AlPtr());
 
 	}
 
-	void SetClippingRegion(int x, int y, int width, int height) {
+	void Graphics::DrawSprite(const Sprite& sprite, int subimage, float x, float y) {
 
-		// Push the new clipping region onto the stack.
-		__clipping_region_stack.push(Rectangle(x, y, width, height));
-
-		// Apply the new clipping region.
-		al_set_clipping_rectangle(x, y, width, height);
-
-	}
-	void SetClippingRegion(const Rectangle& rect) {
-
-		SetClippingRegion(rect.X(), rect.Y(), rect.Width(), rect.Height());
-
-	}
-	Rectangle GetClippingRegion() {
-
-		int x, y, w, h;
-		al_get_clipping_rectangle(&x, &y, &w, &h);
-		return Rectangle(x, y, w, h);
-
-	}
-	void ResetClippingRegion() {
-
-		// Pop the current clipping region from the stack.
-		__clipping_region_stack.pop();
-
-		// If the stack is empty, reset the clipping region. Otherwise, use the next one.
-		if (__clipping_region_stack.empty())
-			al_reset_clipping_rectangle();
-		else
-			SetClippingRegion(__clipping_region_stack.top());
-
-
-	}
-	void SetDrawingTarget(const Bitmap& bitmap) {
-
-		SetDrawingTarget(bitmap.AlPtr());
-
-	}
-	void SetDrawingTarget(ALLEGRO_BITMAP* target) {
-
-		// Push the new drawing target onto the stack.
-		__drawing_target_stack.push(target);
-
-		// Set the new drawing target.
-		al_set_target_bitmap(target);
-
-	}
-	Bitmap GetDrawingTarget() {
-
-		// If the drawing target stack is empty, return a null Bitmap.
-		if (__drawing_target_stack.empty())
-			return Bitmap(nullptr, false);
-
-		// Otherwise, return a Bitmap containing the target at the top of the stack.
-		return Bitmap(__drawing_target_stack.top(), false);
-
-	}
-
-	void ResetDrawingTarget() {
-
-		// If there is only one drawing target on the stack, don't allow it to be popped, because it acts as our default target.
-		if (__drawing_target_stack.size() <= 1)
-			return;
-
-		// Pop the current drawing target from the stack.
-		__drawing_target_stack.pop();
-
-		// Set the drawing target to the target now at the top of the stack.
-		al_set_target_bitmap(__drawing_target_stack.top());
-
-	}
-	void HoldBitmapDrawing(bool hold) {
-
-		al_hold_bitmap_drawing(hold);
-
-	}
-
-	/*void DrawView(const View& view) {
-
-		DrawView(view.Port().X(), view.Port().Y(), view);
-
-	}
-	void DrawView(float x, float y, const View& view) {
-
-		// Get Bitmap to draw portion of.
-		ALLEGRO_BITMAP* src_bitmap = Game::SceneSurface().AlPtr();
-
-		// If the Bitmap is null, do nothing (no error).
-		if (!src_bitmap) return;
-
-		// Draw the View.
-		Graphics::SetClippingRegion(x, y, view.Port().Width(), view.Port().Height());
-		al_draw_scaled_rotated_bitmap(
-			src_bitmap,
-			view.Region().X() + view.Region().Width() / 2.0f,
-			view.Region().Y() + view.Region().Height() / 2.0f,
-			x + view.Port().Width() / 2.0f,
-			x + view.Port().Height() / 2.0f,
-			view.ScaleX(),
-			view.ScaleY(),
-			DegreesToRadians(view.Angle()),
-			NULL
-		);
-		Graphics::ResetClippingRegion();
-
-	}*/
-
-	void DrawSprite(const Sprite& sprite, int subimage, float x, float y) {
+		PrepareDrawingSurface();
 
 		al_draw_bitmap(
 			sprite[subimage % (int)sprite.Length()],
@@ -276,7 +196,9 @@ namespace Graphics {
 			);
 
 	}
-	void DrawSprite(const Sprite& sprite, int subimage, float x, float y, const Color& blend, float xscale, float yscale, float angle) {
+	void Graphics::DrawSprite(const Sprite& sprite, int subimage, float x, float y, const Color& blend, float xscale, float yscale, float angle) {
+
+		PrepareDrawingSurface();
 
 		al_draw_tinted_scaled_rotated_bitmap(
 			sprite[subimage % (int)sprite.Length()],
@@ -293,20 +215,24 @@ namespace Graphics {
 
 	}
 
-	void DrawBitmap(const Bitmap& bitmap, float x, float y) {
+	void Graphics::DrawBitmap(const Bitmap& bitmap, float x, float y) {
+
+		PrepareDrawingSurface();
 
 		al_draw_bitmap(
-			bitmap.__bmp,
+			bitmap.AlPtr(),
 			x,
 			y,
 			NULL
 			);
 
 	}
-	void DrawBitmap(const Bitmap& bitmap, float x, float y, float xscale, float yscale) {
+	void Graphics::DrawBitmap(const Bitmap& bitmap, float x, float y, float xscale, float yscale) {
+
+		PrepareDrawingSurface();
 
 		al_draw_scaled_bitmap(
-			bitmap.__bmp,
+			bitmap.AlPtr(),
 			0.0f,
 			0.0f,
 			bitmap.Width(),
@@ -319,41 +245,87 @@ namespace Graphics {
 			);
 
 	}
+	void Graphics::DrawBitmap(const Bitmap& bitmap, const Rectangle& region, float x, float y) {
 
-	void SetTransform(const Transform& transform) {
+		PrepareDrawingSurface();
 
-		// Get the current Transform.
-		const ALLEGRO_TRANSFORM* current_transform = __transform_stack.empty() ? al_get_current_transform() : __transform_stack.top().AlPtr();
-
-		// Create a new Transform by composing the existing one with the new one.
-		Transform new_transform(transform);
-		al_compose_transform((ALLEGRO_TRANSFORM*)new_transform.AlPtr(), current_transform);
-
-		// Push the new Transform onto the stack.
-		__transform_stack.push(new_transform);
-
-		// Apply the new Transform.
-		al_use_transform(__transform_stack.top().AlPtr());
+		al_draw_bitmap_region(bitmap.AlPtr(), region.X(), region.Y(), region.Width(), region.Height(), x, y, NULL);
 
 	}
-	const Transform& GetTransform() {
 
-		return __transform_stack.top();
+	void Graphics::SetClip(const Rectangle& rect) {
+
+		SetClip(rect.X(), rect.Y(), rect.Width(), rect.Height());
 
 	}
-	void ResetTransform() {
+	void Graphics::SetClip(int x, int y, int width, int height) {
 
-		// If the stack is not empty, pop the current Transform.
-		if (!__transform_stack.empty())
-			__transform_stack.pop();
+		__clipping_region = Rectangle(x, y, width, height);
 
-		if (!__transform_stack.empty())
-			// If the stack is still not empty, apply the next Transform.
-			al_use_transform(__transform_stack.top().AlPtr());
-		else
-			// Otherwise, apply default Transform.
-			al_use_transform(Transform().AlPtr());
-	
+		if (IsActiveSurface())
+			ApplyClip();
+
+	}
+	Rectangle Graphics::Clip() const {
+
+		return __clipping_region;
+
+	}
+	void Graphics::ResetClip() {
+
+		SetClip(0, 0, __surface.Width(), __surface.Height());
+
+	}
+
+	void Graphics::HoldBitmapDrawing(bool hold) {
+
+		al_hold_bitmap_drawing(hold);
+
+	}
+
+	void Graphics::SetTransform(const Transform& transform) {
+
+		__transform = transform;
+
+		if (IsActiveSurface())
+			ApplyTransform();
+
+	}
+	const Transform& Graphics::GetTransform() const {
+
+		return __transform;
+
+	}
+	void Graphics::ResetTransform() {
+
+		__transform.Reset();
+
+	}
+
+	void Graphics::PrepareDrawingSurface() {
+
+		// If this Object's drawing surface is not set as the current drawing surface, set it.
+		if (!IsActiveSurface()) {
+			al_set_target_bitmap(__surface.AlPtr());
+			ApplyClip();
+			ApplyTransform();
+		}
+
+	}
+	void Graphics::ApplyTransform() {
+
+		al_use_transform(__transform.AlPtr());
+
+	}
+	void Graphics::ApplyClip() {
+
+		al_set_clipping_rectangle(__clipping_region.X(), __clipping_region.Y(), __clipping_region.Width(), __clipping_region.Height());
+
+	}
+	bool Graphics::IsActiveSurface() const {
+
+		return al_get_target_bitmap() == __surface.AlPtr();
+
 	}
 
 }

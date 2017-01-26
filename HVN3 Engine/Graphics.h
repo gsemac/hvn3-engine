@@ -1,60 +1,78 @@
 #pragma once
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_primitives.h>
 #include <string>
 #include "Color.h"
 #include "Geometry.h"
 #include "Font.h"
 #include "UTF8String.h"
-//#include "Bitmap.h"
 #include "View.h"
 #include "Transform.h"
+#include "Bitmap.h"
 
-class Bitmap;
+namespace Drawing {
 
-void al_draw_wrapped_text(const ALLEGRO_FONT*, ALLEGRO_COLOR, float, float, float, float, int, char const*);
-void al_draw_shadow_ustr(const ALLEGRO_FONT *font, ALLEGRO_COLOR color, ALLEGRO_COLOR shadow_color, float x, float y, int flags, const ALLEGRO_USTR* ustr);
-void al_draw_shadow_text(const ALLEGRO_FONT*, ALLEGRO_COLOR, ALLEGRO_COLOR, float, float, int, const char*);
-void al_draw_gradient_rectangle(float x, float y, float width, float height, ALLEGRO_COLOR color_top, ALLEGRO_COLOR color_bottom);
-void al_draw_horizontal_gradient_rectangle(float x, float y, float width, float height, ALLEGRO_COLOR color_left, ALLEGRO_COLOR color_right);
+	class Graphics {
 
-namespace Graphics {
+	public:
+		Graphics(Bitmap& surface);
 
-	void DrawRoundRect(const Rectangle& rect, float radius, const Color& color, float thickness);
-	void DrawFilledRoundRect(const Rectangle& rect, float radius, const Color& color);
-	void DrawRectangle(const Rectangle& rect, const Color& color, float thickness);
-	void DrawFilledRectangle(const Rectangle& rect, const Color& color);
-	void DrawLine(const Line& line);
-	void DrawLine(const Line& line, const Color& color, float thickness);
-	void DrawCircle(float x, float y, float radius, const Color& color, float thickness);
-	void DrawClear(const Color& color);
-	void DrawClear(Color* color);
-	void DrawText(float x, float y, const char* text, const Font* font, const Color& color, Alignment align = Alignment::Left);
-	void DrawText(float x, float y, const std::string& text, const Font* font, const Color& color);
-	void DrawText(float x, float y, Utf8String& text, const Font* font, const Color& color);
-	void DrawText(float x, float y, Utf8String* text, const Font* font, const Color& color);
-	void SetClippingRegion(int x, int y, int width, int height);
-	void SetClippingRegion(const Rectangle& rect);
-	Rectangle GetClippingRegion();
-	void ResetClippingRegion();
-	void SetDrawingTarget(const Bitmap& bitmap);
-	void SetDrawingTarget(ALLEGRO_BITMAP* target);
-	Bitmap GetDrawingTarget();
-	void ResetDrawingTarget();
-	void HoldBitmapDrawing(bool hold);
+		void DrawRectangle(const Rectangle& rect, const Color& color, float thickness);
+		void DrawRectangle(float x, float y, float width, float height, const Color& color, float thickness);
+		void DrawFilledRectangle(const Rectangle& rect, const Color& color);
+		void DrawFilledRectangle(float x, float y, float width, float height, const Color& color);
 
-	void DrawView(const View& view);
-	void DrawView(float x, float y, const View& view);
+		void DrawRoundRectangle(const Rectangle& rect, const Color& color, float radius, float thickness);
+		void DrawRoundRectangle(float x, float y, float width, float height, const Color& color, float radius, float thickness);
+		void DrawFilledRoundRectangle(const Rectangle& rect, const Color& color, float radius);
+		void DrawFilledRoundRectangle(float x, float y, float width, float height, const Color& color, float radius);
 
-	void DrawSprite(const Sprite& sprite, int subimage, float x, float y);
-	void DrawSprite(const Sprite& sprite, int subimage, float x, float y, const Color& blend, float xscale, float yscale, float angle);
+		void DrawLine(const Line& line);
+		void DrawLine(const Line& line, const Color& color, float thickness);
+		void DrawLine(const Point& p1, const Point& p2, const Color& color, float thickness);
+		void DrawLine(float x1, float y1, float x2, float y2, const Color& color, float thickness);
 
-	void DrawBitmap(const Bitmap& bitmap, float x, float y);
-	void DrawBitmap(const Bitmap& bitmap, float x, float y, float xscale, float yscale);
+		void DrawPoint(const Point& point, const Color& color);
+		void DrawPoint(float x, float y, const Color& color);
 
-	void SetTransform(const Transform& transform);
-	const Transform& GetTransform();
-	void ResetTransform();
+		void DrawCircle(const Point& point, float radius, const Color& color, float thickness);
+		void DrawCircle(float x, float y, float radius, const Color& color, float thickness);
+		void DrawFilledCircle(const Point& point, float radius, const Color& color);
+		void DrawFilledCircle(float x, float y, float radius, const Color& color);
+
+		void Clear(const Color& color);
+
+		void DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment align = Alignment::Left);
+		void DrawText(float x, float y, const std::string& text, const Font& font, const Color& color);
+		void DrawText(float x, float y, Utf8String& text, const Font& font, const Color& color);
+
+		void DrawSprite(const Sprite& sprite, int subimage, float x, float y);
+		void DrawSprite(const Sprite& sprite, int subimage, float x, float y, const Color& blend, float xscale, float yscale, float angle);
+
+		void DrawBitmap(const Bitmap& bitmap, float x, float y);
+		void DrawBitmap(const Bitmap& bitmap, float x, float y, float xscale, float yscale);
+		void DrawBitmap(const Bitmap& bitmap, const Rectangle& region, float x, float y);
+
+		void SetClip(const Rectangle& rect);
+		void SetClip(int x, int y, int width, int height);
+		Rectangle Clip() const;
+		void ResetClip();
+
+		void SetTransform(const Transform& transform);
+		const Transform& GetTransform() const;
+		void ResetTransform();
+
+		void HoldBitmapDrawing(bool hold);
+
+	private:
+		Bitmap& __surface;
+		Transform __transform;
+		Rectangle __clipping_region;
+
+		// Called at the beginning of every drawing function to ensure the surface is ready.
+		void PrepareDrawingSurface();
+		void ApplyTransform();
+		void ApplyClip();
+		bool IsActiveSurface() const;
+
+	};
 
 }
