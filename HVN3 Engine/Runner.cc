@@ -17,12 +17,12 @@
 Runner::Runner() : Runner(GameProperties()) {}
 Runner::Runner(const GameProperties& properties) :
 	__properties(properties),
-	__timer(1.0 / properties.FPS),
-	__display(__properties.DisplaySize.Width(), __properties.DisplaySize.Height(), properties.DisplayTitle.c_str(), DisplayFlags::Resizable),
+	__timer(1.0f / properties.FPS),
+	__display(properties.DisplaySize.Width(), properties.DisplaySize.Height(), properties.DisplayTitle.c_str(), DisplayFlags::Resizable),
 	__graphics(__display.BackBuffer()) {
 
 	// Create the display, and initialize its parameters.
-	if (__properties.Fullscreen)
+	if (properties.Fullscreen)
 		__display.SetFullscreen(true);
 
 	// Initialize the event queue.
@@ -32,7 +32,7 @@ Runner::Runner(const GameProperties& properties) :
 	__event_queue.AddEventSource(Keyboard::EventSource());
 
 	// Initialize mouse parameters.
-	if (!__properties.DisplayCursor)
+	if (!properties.DisplayCursor)
 		Mouse::HideCursor();
 
 	// Initialize other member variables.

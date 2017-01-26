@@ -34,7 +34,8 @@ Display::Display(int x, int y, int width, int height, const char* title, Display
 
 	// Create the display.
 	__display = al_create_display(width, height);
-	__fullscreen = false;
+
+	//__fullscreen = false;
 	SetFocus(true);
 
 	// Restore display flags.
@@ -47,7 +48,7 @@ Display::Display(int x, int y, int width, int height, const char* title, Display
 Display::~Display() {
 	if (!__display) return;
 
-	//al_destroy_display(__display);
+	al_destroy_display(__display);
 	__display = nullptr;
 
 }
