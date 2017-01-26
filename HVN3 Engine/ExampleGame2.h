@@ -31,7 +31,7 @@ namespace SuperMarioBros {
 				TranslateX(5);
 			else if (Keyboard::KeyDown(ALLEGRO_KEY_LEFT) && PlaceFree(X() - 5, Y()))
 				TranslateX(-5);
-			
+
 			/*if (PlaceFree(X(), Y() + 1))
 				TranslateY(1);*/
 
@@ -81,31 +81,44 @@ namespace SuperMarioBros {
 
 		try {
 
+			// todo next: Make it possible to reset the game state/current scene.
+
 			// Initialize the Framework.
 			InitializeFramework();
 
-			// Set up Game Resources.
-			IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data", "ExampleGame2"));
-			spr_player = std::make_shared<Sprite>(Sprite::FromSpriteSheet(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "mario_small_walk.png"), 16, 32, 0, 0, Color(157, 159, 159)));
-			spr_block = std::make_shared<Sprite>(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "block_001.png"));
+			Display first_display(200, 200, "Window #1");
+			Display second_display(200, 200, "Window #2");
 
-			// Set up Game Properties.
-			GameProperties properties;
-			properties.DisplayTitle = "HVN3 Engine";
-			properties.OutsideColor = Color::Black;
-			properties.DebugMode = true;
-			properties.ScalingMode = ScalingMode::MaintainAspectRatio;
+			do {
+				Graphics::DrawCircle(100, 100, 10, Color::White, 2);
+				first_display.Refresh();
+				second_display.Refresh();
+			} while (1);
 
-			// Set up the initial Scene.
-			Scene scene(properties.DisplaySize.Width(), properties.DisplaySize.Height(), new CollisionGrid(16, 16));
-			scene.SetBackgroundColor(Color::Silver);
+			//// Set up Game Resources.
+			//IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data", "ExampleGame2"));
+			//spr_player = std::make_shared<Sprite>(Sprite::FromSpriteSheet(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "mario_small_walk.png"), 16, 32, 0, 0, Color(157, 159, 159)));
+			//spr_block = std::make_shared<Sprite>(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "block_001.png"));
 
-			scene.AddObject(new Player(100, 100));
-			for (int i = 68; i <= 148; i += 16)
-				scene.AddObject(new Block(i, 148));
+			//// Set up Game Properties.
+			//GameProperties properties;
+			//properties.DisplayTitle = "HVN3 Engine";
+			//properties.OutsideColor = Color::Black;
+			//properties.DebugMode = true;
+			//properties.ScalingMode = ScalingMode::MaintainAspectRatio;
 
-			// Create a new Runner instance to handle the game logic.
-			Runner(properties, scene).Loop();
+			//// Set up the initial Scene.
+			//Scene scene(properties.DisplaySize.Width(), properties.DisplaySize.Height(), new CollisionGrid(16, 16));
+			//scene.SetBackgroundColor(Color::Silver);
+
+			//scene.AddObject(new Player(100, 100));
+			//for (int i = 68; i <= 148; i += 16)
+			//	scene.AddObject(new Block(i, 148));
+			//for (int i = 148; i <= 404; i += 16)
+			//	scene.AddObject(new Block(i, 180));
+
+			//// Create a new Runner instance to handle the game logic.
+			//Runner(properties, scene).Loop();
 
 			// Shut down the Framework.
 			ShutdownFramework();

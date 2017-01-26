@@ -1,28 +1,25 @@
 #include <cassert>
+#include <limits>
 #include "Display.h"
 #include "Graphics.h"
+#define UNDEFINED_WINDOW_POSITION_X INT_MAX
+#define UNDEFINED_WINDOW_POSITION_Y INT_MAX
 
 Display* Display::__active_display = nullptr;
 
 // Public member functions
 
-Display::Display() :
-	__original_size(0.0f, 0.0f),
-	__size_before_fullscreen(0.0f, 0.0f) {
-
-	__display = nullptr;
-	__fullscreen = false;
-	__has_focus = false;
-
-}
-Display::Display(DisplayResolution resolution, DisplayOptions flags) :
-	Display(ResolutionToSize(resolution).Width(), ResolutionToSize(resolution).Height(), flags) {
-
-	if (resolution == DisplayResolution::Fullscreen)
-		SetFullscreen(true);
-
-}
-Display::Display(float width, float height, DisplayOptions flags) :
+Display::Display(int width, int height) :
+	Display(width, height, "") {}
+Display::Display(int width, int height, const char* title) :
+	Display(width, height, title, DisplayFlags::None) {}
+Display::Display(int width, int height, const char* title, DisplayFlags flags) :
+	Display(UNDEFINED_WINDOW_POSITION_X, UNDEFINED_WINDOW_POSITION_Y, width, height, title, flags) {}
+Display::Display(int x, int y, int width, int height) :
+	Display(x, y, width, height, "") {}
+Display::Display(int x, int y, int width, int height, const char* title) :
+	Display(x, y, width, height, title, DisplayFlags::None) {}
+Display::Display(int x, int y, int width, int height, const char* title, DisplayFlags flags) :
 	ISizeable(width, height),
 	__original_size(width, height),
 	__size_before_fullscreen(0.0f, 0.0f) {
@@ -31,6 +28,8 @@ Display::Display(float width, float height, DisplayOptions flags) :
 	int new_display_flags = al_get_new_display_flags();
 
 	// Set new display flags.
+	if (x != UNDEFINED_WINDOW_POSITION_X || y != UNDEFINED_WINDOW_POSITION_Y)
+		al_set_new_window_position(x, y);
 	al_set_new_display_flags(new_display_flags | (int)flags);
 
 	// Create the display.
@@ -48,7 +47,6 @@ Display::Display(float width, float height, DisplayOptions flags) :
 	Graphics::SetDrawingTarget(BackBuffer());
 
 }
-Display::Display(Size size, DisplayOptions flags) : Display(size.Width(), size.Height(), flags) {}
 Display::~Display() {
 	if (!__display) return;
 
@@ -56,29 +54,15 @@ Display::~Display() {
 	__display = nullptr;
 
 }
-Display& Display::operator= (Display&& other) {
-
-	__display = other.__display;
-	__fullscreen = other.__fullscreen;
-	ISizeable::Resize(other.Width(), other.Height());
-
-	other.__display = nullptr;
-
-	return *this;
-
-}
 
 void Display::SetTitle(const char* value) {
-	if (!__display) return;
 
+	// If the display is null, do nothing.
+	if (!__display)
+		return;
+
+	// Set the title of the window.
 	al_set_window_title(__display, value);
-
-}
-void Display::SetTitle(const std::string& value) {
-	
-	if (!__display) return;
-
-	SetTitle(value.c_str());
 
 }
 void Display::SetIcon(const Bitmap& icon) {
@@ -193,7 +177,7 @@ Bitmap Display::BackBuffer() const {
 	return Bitmap(al_get_backbuffer(__display), false);
 
 }
-void Display::Flip() {
+void Display::Refresh() {
 
 	al_flip_display();
 
@@ -209,14 +193,15 @@ Display* Display::ActiveDisplay() {
 
 }
 
-Display::StateAccessor::StateAccessor(Display* display) {
+Display& Display::operator= (Display&& other) {
 
-	__display = display;
+	__display = other.__display;
+	__fullscreen = other.__fullscreen;
+	ISizeable::Resize(other.Width(), other.Height());
 
-}
-void Display::StateAccessor::SetFocus(bool has_focus) {
+	other.__display = nullptr;
 
-	__display->SetFocus(has_focus);
+	return *this;
 
 }
 
@@ -250,5 +235,16 @@ Size Display::ResolutionToSize(DisplayResolution resolution) {
 		return Size(640, 480);
 
 	}
+
+}
+
+Display::StateAccessor::StateAccessor(Display* display) {
+
+	__display = display;
+
+}
+void Display::StateAccessor::SetFocus(bool has_focus) {
+
+	__display->SetFocus(has_focus);
 
 }

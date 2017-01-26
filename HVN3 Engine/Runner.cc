@@ -20,8 +20,7 @@ Runner::Runner(const GameProperties& properties) :
 	__timer(1.0 / properties.FPS) {
 
 	// Create the display, and initialize its parameters.
-	__display = new Display(__properties.DisplaySize, DisplayOptions::Resizable);
-	__display->SetTitle(__properties.DisplayTitle);
+	__display = new Display(__properties.DisplaySize.Width(), __properties.DisplaySize.Height(), properties.DisplayTitle.c_str(), DisplayFlags::Resizable);
 	if (__properties.Fullscreen)
 		__display->SetFullscreen(true);
 
@@ -113,7 +112,7 @@ void Runner::Draw() {
 		DrawFPS();
 
 	// Swap out the backbuffer.
-	__display->Flip();
+	__display->Refresh();
 
 }
 void Runner::Update() {

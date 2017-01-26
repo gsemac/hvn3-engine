@@ -18,12 +18,12 @@ enum class DisplayResolution {
 	Fullscreen
 };
 
-enum class DisplayOptions {
+enum class DisplayFlags {
 	None = 0x00,
 	Resizable = 0x10,
 	NoBorder = 0x20
 };
-ENABLE_BITFLAG_OPERATORS(DisplayOptions);
+ENABLE_BITFLAG_OPERATORS(DisplayFlags);
 
 class Display : public ISizeable {
 	friend class StateAccessor;
@@ -40,15 +40,15 @@ public:
 
 	};
 
-	Display();
-	Display(DisplayResolution resolution, DisplayOptions flags = DisplayOptions::None);
-	Display(float width, float height, DisplayOptions flags = DisplayOptions::None);
-	Display(Size size, DisplayOptions flags = DisplayOptions::None);
+	Display(int width, int height);
+	Display(int width, int height, const char* title);
+	Display(int width, int height, const char* title, DisplayFlags flags);
+	Display(int x, int y, int width, int height);
+	Display(int x, int y, int width, int height, const char* title);
+	Display(int x, int y, int width, int height, const char* title, DisplayFlags flags);
 	~Display();
 
 	void SetTitle(const char* value);
-	void SetTitle(const std::string& value);
-
 	void SetIcon(const Bitmap& icon);
 	void SetIcon(const Sprite& icon);
 	void SetIcon(const Sprite* icon);
@@ -67,12 +67,12 @@ public:
 	::EventSource EventSource() const;
 	Bitmap BackBuffer() const;
 	ALLEGRO_DISPLAY* AlPtr() const;
-	void Flip();
+	void Refresh();
 
 	static Display* ActiveDisplay();
 
 	Display& Display::operator= (Display&& other);
-	
+
 private:
 	ALLEGRO_DISPLAY* __display;
 	bool __fullscreen;
