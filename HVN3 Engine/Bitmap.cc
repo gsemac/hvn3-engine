@@ -1,195 +1,212 @@
 #include "Bitmap.h"
 #include "Graphics.h"
 
-Bitmap::Bitmap(int width, int height) {
+namespace Drawing {
 
-	__bmp = al_create_bitmap(width, height);
-	__width = width;
-	__height = height;
-	__free = true;
+	Bitmap::Bitmap() {
 
-}
-Bitmap::Bitmap(const char* filename) {
+		__bmp = nullptr;
+		__free = false;
 
-	__bmp = al_load_bitmap(filename);
-	__width = al_get_bitmap_width(__bmp);
-	__height = al_get_bitmap_height(__bmp);
-	__free = true;
+	}
+	Bitmap::Bitmap(int width, int height) {
 
-}
-Bitmap::Bitmap(ALLEGRO_BITMAP* bitmap, bool free) {
+		__bmp = al_create_bitmap(width, height);
+		__free = true;
 
-	__bmp = bitmap;
-	__width = 0;
-	__height = 0;
-	__free = free;
+	}
+	Bitmap::Bitmap(const char* filename) {
 
-	if (bitmap) {
-		__width = al_get_bitmap_width(__bmp);
-		__height = al_get_bitmap_height(__bmp);
+		__bmp = al_load_bitmap(filename);
+		__free = true;
+
+	}
+	Bitmap::Bitmap(ALLEGRO_BITMAP* bitmap, bool free) {
+
+		__bmp = bitmap;
+		__free = free;
+
+	}
+	//Bitmap::Bitmap(const Bitmap& other, const Rectangle& region) {
+	//
+	//	// Create a new bitmap.
+	//	__bmp = al_create_bitmap(region.Width(), region.Height());
+	//
+	//	// Copy the given bitmap onto the new bitmap.
+	//	Drawing::Graphics(Bitmap(__bmp, false)).DrawBitmap(other, region, 0.0f, 0.0f);
+	//
+	//	// Set free to true, because we need to free the new bitmap.
+	//	__free = true;
+	//
+	//}
+	//Bitmap::Bitmap(const Bitmap& other) {
+	//
+	//	__bmp = al_clone_bitmap(other.__bmp);
+	//	__width = al_get_bitmap_width(__bmp);
+	//	__height = al_get_bitmap_height(__bmp);
+	//	__free = true;
+	//
+	//}
+	Bitmap::Bitmap(const Bitmap& other) {
+
+		// Create a shallow copy of the source Bitmap. Both Bitmaps will share the same pixel data.
+		__bmp = other.__bmp;
+
+		// We will not free the underlying memory; this will be left up to the source Bitmap.
+		__free = false;
+
+	}
+	Bitmap::Bitmap(Bitmap&& other) {
+	
+		__bmp = other.__bmp;
+		__free = other.__free;	
+		
+		other.__bmp = nullptr;
+		other.__free = false;
+	
+	}
+	Bitmap::~Bitmap() {
+
+		if (__bmp && __free)
+			al_destroy_bitmap(__bmp);
+
 	}
 
-}
-Bitmap::Bitmap(const Bitmap& other, const Rectangle& region) {
+	Bitmap Bitmap::Clone() {
 
-	// Create a new bitmap.
-	__bmp = al_create_bitmap(region.Width(), region.Height());
+		return Bitmap(al_clone_bitmap(__bmp), true);
 
-	// Copy the given bitmap onto the new bitmap.
-	Drawing::Graphics(Bitmap(__bmp, false)).DrawBitmap(other, region, 0.0f, 0.0f);
-
-	// Set free to true, because we need to free the new bitmap.
-	__free = true;
-
-}
-Bitmap::Bitmap(const Bitmap& other) {
-
-	__bmp = al_clone_bitmap(other.__bmp);
-	__width = al_get_bitmap_width(__bmp);
-	__height = al_get_bitmap_height(__bmp);
-	__free = true;
-
-}
-Bitmap::Bitmap(Bitmap&& other) {
-
-	__bmp = other.__bmp;
-	__width = other.__width;
-	__height = other.__height;
-	__free = other.__free;
-
-	other.__bmp = nullptr;
-	other.__width = 0;
-	other.__height = 0;
-
-}
-Bitmap::~Bitmap() {
-
-	if (__bmp && __free)
-		al_destroy_bitmap(__bmp);
-
-}
-
-Bitmap Bitmap::RefBitmap(const Bitmap& other, const Rectangle& region) {
-
-	return RefBitmap(other.AlPtr(), region);
-
-}
-Bitmap Bitmap::RefBitmap(ALLEGRO_BITMAP* other, const Rectangle& region) {
-
-	Bitmap bm(al_create_sub_bitmap(other, region.X(), region.Y(), region.Width(), region.Height()));
-
-	return bm;
-
-}
-bool Bitmap::IsRefBitmap() const {
-
-	return al_is_sub_bitmap(__bmp);
-
-}
-
-unsigned int Bitmap::Width() const {
-
-	return __width;
-
-}
-unsigned int Bitmap::Height() const {
-
-	return __height;
-
-}
-
-BitmapData Bitmap::Lock(IO::FileAccess access) {
-
-	int flags;
-	switch (access) {
-	case IO::FileAccess::Read: flags = ALLEGRO_LOCK_READONLY; break;
-	case IO::FileAccess::Write: flags = ALLEGRO_LOCK_WRITEONLY; break;
-	case IO::FileAccess::ReadWrite: flags = ALLEGRO_LOCK_READWRITE; break;
 	}
 
-	ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap(__bmp, al_get_bitmap_format(__bmp), flags);
+	//Bitmap Bitmap::RefBitmap(const Bitmap& other, const Rectangle& region) {
+	//
+	//	return RefBitmap(other.AlPtr(), region);
+	//
+	//}
+	//Bitmap Bitmap::RefBitmap(ALLEGRO_BITMAP* other, const Rectangle& region) {
+	//
+	//	Bitmap bm(al_create_sub_bitmap(other, region.X(), region.Y(), region.Width(), region.Height()));
+	//
+	//	return bm;
+	//
+	//}
+	//bool Bitmap::IsRefBitmap() const {
+	//
+	//	return al_is_sub_bitmap(__bmp);
+	//
+	//}
 
-	BitmapData bmpdata;
-	bmpdata.Scan0 = (unsigned char*)lr->data;
-	bmpdata.PixelFormat = lr->format;
-	bmpdata.Stride = lr->pitch;
-	bmpdata.BytesPerPixel = lr->pixel_size;
+	unsigned int Bitmap::Width() const {
 
-	return bmpdata;
+		if (!__bmp)
+			return 0U;
 
-}
-BitmapData Bitmap::LockRegion(const Rectangle& region, IO::FileAccess access) {
+		return static_cast<unsigned int>(al_get_bitmap_width(__bmp));
 
-	int flags;
-	switch (access) {
-	case IO::FileAccess::Read: flags = ALLEGRO_LOCK_READONLY; break;
-	case IO::FileAccess::Write: flags = ALLEGRO_LOCK_WRITEONLY; break;
-	case IO::FileAccess::ReadWrite: flags = ALLEGRO_LOCK_READWRITE; break;
+	}
+	unsigned int Bitmap::Height() const {
+
+		if (!__bmp)
+			return 0U;
+
+		return static_cast<unsigned int>(al_get_bitmap_height(__bmp));
+
 	}
 
-	ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap_region(__bmp, region.X(), region.Y(), region.Width(), region.Height(), al_get_bitmap_format(__bmp), flags);
+	BitmapData Bitmap::Lock(IO::FileAccess access) {
 
-	BitmapData bmpdata;
-	bmpdata.Scan0 = (unsigned char*)lr->data;
-	bmpdata.PixelFormat = lr->format;
-	bmpdata.Stride = lr->pitch;
-	bmpdata.BytesPerPixel = lr->pixel_size;
+		int flags;
+		switch (access) {
+		case IO::FileAccess::Read: flags = ALLEGRO_LOCK_READONLY; break;
+		case IO::FileAccess::Write: flags = ALLEGRO_LOCK_WRITEONLY; break;
+		case IO::FileAccess::ReadWrite: flags = ALLEGRO_LOCK_READWRITE; break;
+		}
 
-	return bmpdata;
+		ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap(__bmp, al_get_bitmap_format(__bmp), flags);
 
-}
-void Bitmap::Unlock() {
-	if (!IsLocked()) return;
+		BitmapData bmpdata;
+		bmpdata.Scan0 = (unsigned char*)lr->data;
+		bmpdata.PixelFormat = lr->format;
+		bmpdata.Stride = lr->pitch;
+		bmpdata.BytesPerPixel = lr->pixel_size;
 
-	al_unlock_bitmap(__bmp);
+		return bmpdata;
 
-}
-bool Bitmap::IsLocked() const {
+	}
+	BitmapData Bitmap::LockRegion(const Rectangle& region, IO::FileAccess access) {
 
-	return al_is_bitmap_locked(__bmp);
+		int flags;
+		switch (access) {
+		case IO::FileAccess::Read: flags = ALLEGRO_LOCK_READONLY; break;
+		case IO::FileAccess::Write: flags = ALLEGRO_LOCK_WRITEONLY; break;
+		case IO::FileAccess::ReadWrite: flags = ALLEGRO_LOCK_READWRITE; break;
+		}
 
-}
-void Bitmap::SetPixel(int x, int y, const Color& color) {
+		ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap_region(__bmp, region.X(), region.Y(), region.Width(), region.Height(), al_get_bitmap_format(__bmp), flags);
 
-	Drawing::Graphics(*this).DrawPoint(x, y, color);
+		BitmapData bmpdata;
+		bmpdata.Scan0 = (unsigned char*)lr->data;
+		bmpdata.PixelFormat = lr->format;
+		bmpdata.Stride = lr->pitch;
+		bmpdata.BytesPerPixel = lr->pixel_size;
 
-}
-Color Bitmap::GetPixel(int x, int y) const {
+		return bmpdata;
 
-	return Color(al_get_pixel(__bmp, x, y));
+	}
+	void Bitmap::Unlock() {
+		if (!IsLocked()) return;
 
-}
+		al_unlock_bitmap(__bmp);
 
-ALLEGRO_BITMAP* Bitmap::AlPtr() const {
+	}
+	bool Bitmap::IsLocked() const {
 
-	return __bmp;
+		return al_is_bitmap_locked(__bmp);
 
-}
+	}
+	void Bitmap::SetPixel(int x, int y, const Color& color) {
 
-Bitmap& Bitmap::operator=(Bitmap&& other) {
+		Drawing::Graphics(*this).DrawPoint(x, y, color);
 
-	__bmp = other.__bmp;
-	__width = other.__width;
-	__height = other.__height;
+	}
+	Color Bitmap::GetPixel(int x, int y) const {
 
-	other.__bmp = nullptr;
-	other.__width = 0;
-	other.__height = 0;
+		return Color(al_get_pixel(__bmp, x, y));
 
-	return *this;
+	}
 
-}
-Bitmap::operator bool() const {
+	ALLEGRO_BITMAP* Bitmap::AlPtr() const {
 
-	return __bmp != nullptr;
+		return __bmp;
 
-}
+	}
 
-BitmapData::BitmapData() {
+	Bitmap& Bitmap::operator=(Bitmap&& other) {
 
-	Scan0 = nullptr;
-	PixelFormat = -1;
-	Stride = 0;
-	BytesPerPixel = 0;
+		// Perform a shallow copy of the other object.
+		__bmp = other.__bmp;
+		__free = other.__free;
+
+		// Clear values from the other object.
+		other.__bmp = nullptr;
+		other.__free = false;
+
+		return *this;
+
+	}
+	Bitmap::operator bool() const {
+
+		return __bmp;
+
+	}
+
+	BitmapData::BitmapData() {
+
+		Scan0 = nullptr;
+		PixelFormat = -1;
+		Stride = 0;
+		BytesPerPixel = 0;
+
+	}
 
 }

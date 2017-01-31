@@ -55,7 +55,7 @@ void Scene::Update(float dt) {
 
 }
 void Scene::Draw(Drawing::Graphics graphics) {
-
+	
 	// Clear to background color.
 	graphics.Clear(__background_color);
 

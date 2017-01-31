@@ -63,11 +63,11 @@ namespace Drawing {
 		void HoldBitmapDrawing(bool hold);
 
 	private:
-		Bitmap& __surface;
+		Bitmap __surface;
 		Transform __transform;
 		Rectangle __clipping_region;
 
-		// Called at the beginning of every drawing function to ensure the surface is ready.
+		// Called at the beginning of every drawing function to set the drawing target and its and tranforms/clipping region.
 		void PrepareDrawingSurface();
 		void ApplyTransform();
 		void ApplyClip();

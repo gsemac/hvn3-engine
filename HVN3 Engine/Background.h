@@ -5,7 +5,7 @@
 class Background {
 
 private:
-	Bitmap __bitmap;
+	Drawing::Bitmap __bitmap;
 
 public:
 	Background(const char* filename);
@@ -14,7 +14,7 @@ public:
 	unsigned int Height() const;
 
 	// Returns a reference to the underlying Bitmap.
-	const Bitmap& Bitmap() const;
+	const Drawing::Bitmap& Bitmap() const;
 
 };
 

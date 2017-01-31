@@ -58,6 +58,8 @@ private:
 	Display __display;
 	Font* __default_font;
 	GameProperties __properties;
-	Drawing::Graphics __graphics;
+	Drawing::Graphics* __graphics;
+
+	void ApplyScalingMode();
 
 };

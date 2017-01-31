@@ -147,6 +147,8 @@ namespace Drawing {
 	
 	void Graphics::Clear(const Color& color) {
 
+		PrepareDrawingSurface();
+
 		al_clear_to_color(color.AlPtr());
 
 	}
@@ -300,6 +302,9 @@ namespace Drawing {
 
 		__transform.Reset();
 
+		if (IsActiveSurface())
+			ApplyTransform();
+
 	}
 
 	void Graphics::PrepareDrawingSurface() {
@@ -318,7 +323,7 @@ namespace Drawing {
 
 	}
 	void Graphics::ApplyClip() {
-
+		
 		al_set_clipping_rectangle(__clipping_region.X(), __clipping_region.Y(), __clipping_region.Width(), __clipping_region.Height());
 
 	}

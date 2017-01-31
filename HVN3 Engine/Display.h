@@ -49,7 +49,7 @@ public:
 	~Display();
 
 	void SetTitle(const char* value);
-	void SetIcon(const Bitmap& icon);
+	void SetIcon(const Drawing::Bitmap& icon);
 	void SetIcon(const Sprite& icon);
 	void SetIcon(const Sprite* icon);
 	void SetIcon(ALLEGRO_BITMAP* icon);
@@ -65,7 +65,7 @@ public:
 	void SetFullscreen(bool value);
 	bool HasFocus() const;
 	::EventSource EventSource() const;
-	Bitmap BackBuffer() const;
+	Drawing::Bitmap BackBuffer() const;
 	ALLEGRO_DISPLAY* AlPtr() const;
 	void Refresh();
 

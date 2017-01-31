@@ -62,7 +62,7 @@ void Display::SetTitle(const char* value) {
 	al_set_window_title(__display, value);
 
 }
-void Display::SetIcon(const Bitmap& icon) {
+void Display::SetIcon(const Drawing::Bitmap& icon) {
 
 	SetIcon(icon.AlPtr());
 
@@ -169,9 +169,9 @@ bool Display::HasFocus() const {
 	return ::EventSource(al_get_display_event_source(__display));
 
 }
-Bitmap Display::BackBuffer() const {
+Drawing::Bitmap Display::BackBuffer() const {
 
-	return Bitmap(al_get_backbuffer(__display), false);
+	return Drawing::Bitmap(al_get_backbuffer(__display), false);
 
 }
 void Display::Refresh() {

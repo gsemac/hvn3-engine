@@ -6,50 +6,56 @@
 #include "Color.h"
 #include "IO_File.h"
 
-struct BitmapData {
-	BitmapData();
-	unsigned char* Scan0;
-	int PixelFormat;
-	int Stride;
-	int BytesPerPixel;
-};
+namespace Drawing {
 
-class Bitmap {
+	struct BitmapData {
+		BitmapData();
+		unsigned char* Scan0;
+		int PixelFormat;
+		int Stride;
+		int BytesPerPixel;
+	};
+	
+	class Bitmap {
 
-public:
-	Bitmap(int width, int height);
-	Bitmap(const char* filename);
-	Bitmap(ALLEGRO_BITMAP* bitmap, bool free = true);
-	Bitmap(const Bitmap& other, const Rectangle& region);
-	Bitmap(const Bitmap& other);
-	Bitmap(Bitmap&& other);
-	~Bitmap();
+	public:
+		Bitmap(int width, int height);
+		Bitmap(const char* filename);
+		Bitmap(ALLEGRO_BITMAP* bitmap, bool free = true);
+		//Bitmap(const Bitmap& other, const Rectangle& region);
+		Bitmap(const Bitmap& other);
+		Bitmap(Bitmap&& other);
+		~Bitmap();
 
-	static Bitmap RefBitmap(const Bitmap& other, const Rectangle& region);
-	static Bitmap RefBitmap(ALLEGRO_BITMAP* other, const Rectangle& region);
-	bool IsRefBitmap() const;
+		Bitmap Clone();
 
-	unsigned int Width() const;
-	unsigned int Height() const;
+		//static Bitmap RefBitmap(const Bitmap& other, const Rectangle& region);
+		//static Bitmap RefBitmap(ALLEGRO_BITMAP* other, const Rectangle& region);
+		//bool IsRefBitmap() const;
 
-	BitmapData Lock(IO::FileAccess access = IO::FileAccess::ReadWrite);
-	BitmapData LockRegion(const Rectangle& region, IO::FileAccess access = IO::FileAccess::ReadWrite);
-	void Unlock();
-	bool IsLocked() const;
+		unsigned int Width() const;
+		unsigned int Height() const;
 
-	void SetPixel(int x, int y, const Color& color);
-	Color GetPixel(int x, int y) const;
+		BitmapData Lock(IO::FileAccess access = IO::FileAccess::ReadWrite);
+		BitmapData LockRegion(const Rectangle& region, IO::FileAccess access = IO::FileAccess::ReadWrite);
+		void Unlock();
+		bool IsLocked() const;
 
-	ALLEGRO_BITMAP* AlPtr() const;
+		void SetPixel(int x, int y, const Color& color);
+		Color GetPixel(int x, int y) const;
 
-	Bitmap& operator=(Bitmap&& other);
-	explicit operator bool() const;
+		ALLEGRO_BITMAP* AlPtr() const;
 
-private:
-	ALLEGRO_BITMAP* __bmp;
-	unsigned int __width, __height;
-	bool __free;
+		Bitmap& operator=(Bitmap&& other);
+		explicit operator bool() const;
 
-};
+	private:
+		Bitmap();
+		ALLEGRO_BITMAP* __bmp;
+		bool __free;
+
+	};
+
+}
 
 #endif

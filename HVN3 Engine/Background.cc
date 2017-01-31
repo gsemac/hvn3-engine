@@ -14,7 +14,7 @@ unsigned int Background::Height() const {
 
 }
 
-const Bitmap& Background::Bitmap() const {
+const Drawing::Bitmap& Background::Bitmap() const {
 
 	return __bitmap;
 
