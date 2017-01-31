@@ -82,6 +82,18 @@
     <Filter Include="Source Files\Structures">
       <UniqueIdentifier>{474c18fb-5f90-4f62-a91b-c06a605865d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\System\Events">
+      <UniqueIdentifier>{ed08272a-88ac-4c42-8f08-f26a2bb80c89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System\Events">
+      <UniqueIdentifier>{1e45f25d-72b3-4f15-b436-70b7ca63786f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System\Allegro">
+      <UniqueIdentifier>{ca474e7c-3c29-45b1-839e-8540c963f389}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System\Allegro">
+      <UniqueIdentifier>{87aec444-bd1b-41c5-a29c-c616df7131d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -255,15 +267,6 @@
     <ClCompile Include="Display.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
-    <ClCompile Include="Event.cc">
-      <Filter>Source Files\System</Filter>
-    </ClCompile>
-    <ClCompile Include="EventQueue.cc">
-      <Filter>Source Files\System</Filter>
-    </ClCompile>
-    <ClCompile Include="EventSource.cc">
-      <Filter>Source Files\System</Filter>
-    </ClCompile>
     <ClCompile Include="Exception.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
@@ -294,8 +297,17 @@
     <ClCompile Include="Path.cc">
       <Filter>Source Files\IO</Filter>
     </ClCompile>
+    <ClCompile Include="Event.cc">
+      <Filter>Source Files\System\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="EventQueue.cc">
+      <Filter>Source Files\System\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSource.cc">
+      <Filter>Source Files\System\Events</Filter>
+    </ClCompile>
     <ClCompile Include="AllegroExtensions.cc">
-      <Filter>Source Files\System</Filter>
+      <Filter>Source Files\System\Allegro</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -349,15 +361,6 @@
     </ClInclude>
     <ClInclude Include="Encryption.h">
       <Filter>Header Files\Helper\Encryption</Filter>
-    </ClInclude>
-    <ClInclude Include="EventQueue.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Event.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="EventSource.h">
-      <Filter>Header Files\System</Filter>
     </ClInclude>
     <ClInclude Include="Exception.h">
       <Filter>Header Files\System</Filter>
@@ -575,8 +578,17 @@
     <ClInclude Include="Directory.h">
       <Filter>Header Files\IO</Filter>
     </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Header Files\System\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventQueue.h">
+      <Filter>Header Files\System\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSource.h">
+      <Filter>Header Files\System\Events</Filter>
+    </ClInclude>
     <ClInclude Include="AllegroExtensions.h">
-      <Filter>Header Files\System</Filter>
+      <Filter>Header Files\System\Allegro</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -54,7 +54,7 @@ void Scene::Update(float dt) {
 	UpdateViews();
 
 }
-void Scene::Draw(Drawing::Graphics graphics) {
+void Scene::Draw(Drawing::Graphics& graphics) {
 
 	// Each View needs to be drawn separately to improve the appearance of scaled Bitmaps.
 	if (__views.size() > 0) {

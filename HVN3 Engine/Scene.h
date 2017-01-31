@@ -59,7 +59,7 @@ public:
 	~Scene();
 
 	void Update(float dt) override;
-	void Draw(Drawing::Graphics graphics);
+	void Draw(Drawing::Graphics& graphic);
 
 	void SetBackgroundColor(int, int, int);
 	void SetBackgroundColor(const Color& color);
