@@ -69,7 +69,7 @@ void Framework::InitializeUnderlyingFramework() {
 
 }
 void Framework::ShutdownUnderlyingFramework() {
-	
+
 	try {
 
 		// Shut down IO add-ons.
@@ -92,7 +92,7 @@ void Framework::ShutdownUnderlyingFramework() {
 	catch (...) {
 
 		// It's okay for this to fail, as it would typically be called at the end of the program.
-		
+
 	}
 
 }

@@ -55,12 +55,13 @@ void Scene::Update(float dt) {
 
 }
 void Scene::Draw(Drawing::Graphics graphics) {
-	
-	// Clear to background color.
-	graphics.Clear(__background_color);
 
 	// Each View needs to be drawn separately to improve the appearance of scaled Bitmaps.
 	if (__views.size() > 0) {
+
+		// Save the original transform.
+		Drawing::Transform original_tranform(graphics.GetTransform());
+		Rectangle original_clip(graphics.Clip());
 
 		for (size_t i = 0; i < __views.size(); ++i) {
 
@@ -71,16 +72,21 @@ void Scene::Draw(Drawing::Graphics graphics) {
 			::View& view = __views[i];
 
 			// If the View isn't enabled, do nothing.
-			if (!view.Enabled()) continue;
-
-			// Set the clipping region according to the viewport.
-			graphics.SetClip(view.Port());
+			if (!view.Enabled())
+				continue;
+			
+			// Set the clipping region according to the view port.
+			Point p1 = view.Port().TopLeft();
+			Point p2 = view.Port().BottomRight();
+			original_tranform.TransformPoint(p1);
+			original_tranform.TransformPoint(p2);
+			graphics.SetClip(Rectangle(p1, p2));
 
 			// Clear to background color.
 			graphics.Clear(__background_color);
 
 			// Set transform according to view state.
-			Drawing::Transform transform;
+			Drawing::Transform transform(original_tranform);
 			transform.Translate(-view.ViewX(), -view.ViewY());
 			transform.Scale(view.ScaleX(), view.ScaleY());
 			transform.Rotate(view.Port().Midpoint(), view.Angle());
@@ -103,16 +109,19 @@ void Scene::Draw(Drawing::Graphics graphics) {
 		}
 
 		// Restore the previous transform.
-		graphics.ResetTransform();
+		graphics.SetTransform(original_tranform);
 
 		// Reset the clipping region.
-		graphics.ResetClip();
+		graphics.SetClip(original_clip);
 
 		// Reset current view to 0.
 		__current_view = 0;
 
 	}
 	else {
+
+		// Clear to background color.
+		graphics.Clear(__background_color);
 
 		// Draw all Backgrounds (foregrounds are skipped for now).
 		for (size_t i = 0; i < __backgrounds.size(); ++i)

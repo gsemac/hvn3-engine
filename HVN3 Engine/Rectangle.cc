@@ -1,5 +1,7 @@
 #pragma once
 #include "Rectangle.h"
+#include "Exception.h"
+#include <algorithm>
 
 Rectangle::Rectangle(float X, float Y, float width, float height) : IPositionable(X, Y), ISizeable(width, height) {}
 Rectangle::Rectangle(float width, float height) : Rectangle(0, 0, width, height) {}
@@ -61,10 +63,22 @@ void Rectangle::Translate(float x_offset, float y_offset) {
 	IPositionable::Translate(x_offset, y_offset);
 
 }
-void Rectangle::Scale(float x_scale, float y_scale) {}
+void Rectangle::Scale(float x_scale, float y_scale) {
+
+	throw NotImplementedException();
+
+}
 void Rectangle::Move(float x, float y) {
 
 	SetXY(x, y);
+
+}
+Rectangle Rectangle::Intersect(const Rectangle& a, const Rectangle& b) {
+
+	Point tl((std::max)(a.Left(), b.Left()), (std::max)(a.Top(), b.Top()));
+	Point br((std::min)(a.Right(), b.Right()), (std::min)(a.Bottom(), b.Bottom()));
+	
+	return Rectangle(tl, br);
 
 }
 float Rectangle::Area() const {

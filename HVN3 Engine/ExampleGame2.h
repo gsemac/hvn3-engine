@@ -86,16 +86,16 @@ namespace SuperMarioBros {
 			// Initialize the Framework.
 			InitializeFramework();
 
-		/*	Display first_display(200, 200, "Window #1");
-			Display second_display(200, 200, "Window #2");
+			/*	Display first_display(200, 200, "Window #1");
+				Display second_display(200, 200, "Window #2");
 
-			do {
-				Graphics::DrawCircle(100, 100, 10, Color::White, 2);
-				first_display.Refresh();
-				second_display.Refresh();
-			} while (1);
-*/
-			// Set up Game Resources.
+				do {
+					Graphics::DrawCircle(100, 100, 10, Color::White, 2);
+					first_display.Refresh();
+					second_display.Refresh();
+				} while (1);
+	*/
+	// Set up Game Resources.
 			IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data", "ExampleGame2"));
 			spr_player = std::make_shared<Sprite>(Sprite::FromSpriteSheet(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "mario_small_walk.png"), 16, 32, 0, 0, Color(157, 159, 159)));
 			spr_block = std::make_shared<Sprite>(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "block_001.png"));
@@ -111,7 +111,15 @@ namespace SuperMarioBros {
 			Scene scene(properties.DisplaySize.Width(), properties.DisplaySize.Height(), new CollisionGrid(16, 16));
 			scene.SetBackgroundColor(Color::Silver);
 
-			scene.AddObject(new Player(100, 100));
+			Player* player = new Player(100, 100);
+			//scene.AddView(View(Point(0, 0), Size(640, 480), Point(0, 0), Size(640, 480), player, 0.0f, 0.0f));
+			scene.AddView(View(Point(0, 0), Size(320, 240), Point(0, 0), Size(320, 240), player, 0.0f, 0.0f));
+			scene.AddView(View(Point(0, 0), Size(320, 240), Point(320, 240), Size(320, 240), player, 0.0f, 0.0f));
+
+			for (int i = 0; i < scene.ViewCount(); ++i)
+				scene.View(i).Enable();
+
+			scene.AddObject(player);
 			for (int i = 68; i <= 148; i += 16)
 				scene.AddObject(new Block(i, 148));
 			for (int i = 148; i <= 404; i += 16)

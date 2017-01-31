@@ -26,6 +26,8 @@ public:
 	void Scale(float x_scale, float y_scale);
 	void Move(float x, float y);
 
+	static Rectangle Intersect(const Rectangle& a, const Rectangle& b);
+
 	float Area() const;
 
 };
