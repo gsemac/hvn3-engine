@@ -309,6 +309,12 @@
     <ClCompile Include="AllegroExtensions.cc">
       <Filter>Source Files\System\Allegro</Filter>
     </ClCompile>
+    <ClCompile Include="EventArgs.cc">
+      <Filter>Source Files\System\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEventArgs.cc">
+      <Filter>Source Files\System\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -589,6 +595,12 @@
     </ClInclude>
     <ClInclude Include="AllegroExtensions.h">
       <Filter>Header Files\System\Allegro</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEventArgs.h">
+      <Filter>Header Files\System\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventArgs.h">
+      <Filter>Header Files\System\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

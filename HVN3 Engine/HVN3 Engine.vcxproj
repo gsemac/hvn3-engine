@@ -145,8 +145,10 @@
     <ClCompile Include="Control.cc" />
     <ClCompile Include="Directory.cc" />
     <ClCompile Include="Display.cc" />
+    <ClCompile Include="DrawEventArgs.cc" />
     <ClCompile Include="Environment.cc" />
     <ClCompile Include="Event.cc" />
+    <ClCompile Include="EventArgs.cc" />
     <ClCompile Include="EventQueue.cc" />
     <ClCompile Include="EventSource.cc" />
     <ClCompile Include="Exception.cc" />
@@ -218,7 +220,9 @@
     <ClInclude Include="DataGrid.h" />
     <ClInclude Include="Directory.h" />
     <ClInclude Include="Display.h" />
+    <ClInclude Include="DrawEventArgs.h" />
     <ClInclude Include="Encryption.h" />
+    <ClInclude Include="EventArgs.h" />
     <ClInclude Include="ExampleGame3.h" />
     <ClInclude Include="HVN3.h" />
     <ClInclude Include="Event.h" />
