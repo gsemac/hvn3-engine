@@ -7,6 +7,7 @@
 #include "Helper.h"
 #include "Graphics.h"
 #include "DrawEventArgs.h"
+#include "UpdateEventArgs.h"
 
 Object::Object() : Object(0.0f, 0.0f) {}
 Object::Object(float x, float y) : ICollidable(x, y) {
@@ -16,7 +17,7 @@ Object::Object(float x, float y) : ICollidable(x, y) {
 
 }
 
-void Object::Update(float dt) {
+void Object::Update(UpdateEventArgs e) {
 
 	IncrementImageIndex();
 
@@ -85,7 +86,7 @@ ObjectBase::ObjectBase() {
 
 }
 void ObjectBase::Draw(DrawEventArgs e) {}
-void ObjectBase::Update() {}
+void ObjectBase::Update(UpdateEventArgs e) {}
 void ObjectBase::Destroy() {
 
 	__is_destroyed = true;

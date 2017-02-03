@@ -198,6 +198,7 @@
     <ClCompile Include="UdpClient.cc" />
     <ClCompile Include="UdpListener.cc" />
     <ClCompile Include="UdpServer.cc" />
+    <ClCompile Include="UpdateEventArgs.cc" />
     <ClCompile Include="UTF8String.cc" />
     <ClCompile Include="Vector2d.cc" />
     <ClCompile Include="View.cc" />
@@ -295,6 +296,7 @@
     <ClInclude Include="UdpClient.h" />
     <ClInclude Include="UdpListener.h" />
     <ClInclude Include="UdpServer.h" />
+    <ClInclude Include="UpdateEventArgs.h" />
     <ClInclude Include="UTF8String.h" />
     <ClInclude Include="Vector2d.h" />
     <ClInclude Include="View.h" />

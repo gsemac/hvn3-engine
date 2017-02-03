@@ -8,6 +8,8 @@
 #include "IDrawable.h"
 #include "ISpriteable.h"
 #include "Vector2d.h"
+#include "UpdateEventArgs.h"
+#include "DrawEventArgs.h"
 
 enum class ParticleDistribution {
 	Linear,
@@ -49,7 +51,7 @@ public:
 
 };
 
-class Emitter : public IPositionable, public IDrawable {
+class Emitter : public IPositionable, public IUpdatable, public IDrawable {
 
 private:
 	class Particle : public IPositionable, public IUpdatable, public IDrawable, public ISpriteable {
@@ -82,8 +84,8 @@ private:
 		void Reset(float x, float y, const ParticleType& type);
 		bool IsDead();
 
-		void Update(float dt) override;
-		void Draw();
+		void Update(UpdateEventArgs e) override;
+		void Draw(DrawEventArgs e) override;
 
 	};
 
@@ -111,8 +113,8 @@ public:
 
 	int Count();
 
-	void Update();
-	void Draw();
+	void Update(UpdateEventArgs e) override;
+	void Draw(DrawEventArgs e) override;
 
 	friend bool operator<(const Particle& a, const Particle& b);
 	friend bool operator==(const Particle& a, const Particle& b);

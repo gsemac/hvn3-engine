@@ -13,6 +13,7 @@
 #include "Scene.h"
 #include "Mouse.h"
 #include "Keyboard.h"
+#include "DrawEventArgs.h"
 
 Runner::Runner() : Runner(GameProperties()) {}
 Runner::Runner(const GameProperties& properties) :
@@ -77,7 +78,7 @@ void Runner::Draw() {
 
 	if (__scene)
 		// Render the active Scene.
-		__scene->Draw(*__graphics);
+		__scene->Draw(DrawEventArgs(*__graphics));
 	else
 		// Draw placeholder graphics.
 		__graphics->DrawText(__display.Width() / 2.0f, __display.Height() / 2.0f, Properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);

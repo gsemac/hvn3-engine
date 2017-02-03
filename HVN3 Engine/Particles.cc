@@ -178,7 +178,7 @@ bool Emitter::Particle::IsDead() {
 	return __life <= 0;
 
 }
-void Emitter::Particle::Update(float dt) {
+void Emitter::Particle::Update(UpdateEventArgs e) {
 
 	// Update image index.
 	__image_index_timer += (std::fabs)(ImageSpeed());
@@ -186,7 +186,7 @@ void Emitter::Particle::Update(float dt) {
 		switch (Sign(ImageSpeed())) {
 		case -1:
 			if (ImageIndex() == 0)
-				 SetImageIndex(INT_MAX);
+				SetImageIndex(INT_MAX);
 			else
 				SetImageIndex(ImageIndex() - 1);
 		case 1:
@@ -233,21 +233,24 @@ void Emitter::Particle::Update(float dt) {
 	--__life;
 
 }
-void Emitter::Particle::Draw() {
+void Emitter::Particle::Draw(DrawEventArgs e) {
 
 	if (Sprite()) {
-		al_draw_tinted_scaled_rotated_bitmap(
-			Sprite()->AlPtr(ImageIndex()),
-			al_map_rgba_f(ImageAlpha(), ImageAlpha(), ImageAlpha(), ImageAlpha()),
-			0 + Sprite()->Origin().X(), 0 + Sprite()->Origin().Y(),
-			X(), Y(),
-			ImageXScale(), ImageYScale(),
-			ImageAngle(), NULL
-		);
+
+		e.Graphics().DrawSprite(
+			*Sprite(),
+			ImageIndex(),
+			X(),
+			Y(),
+			Color::FromArgbf(ImageAlpha(), ImageAlpha(), ImageAlpha(), ImageAlpha()),
+			ImageXScale(),
+			ImageYScale(),
+			ImageAngle()
+			);
+
 	}
-	else {
-		al_draw_rectangle(X(), Y(), X() + 10, Y() + 10, al_map_rgb(0, 0, 0), 5.0f);
-	}
+	else 
+		e.Graphics().DrawRectangle(X(), Y(), 10.0f, 10.0f, Color::Black, 5.0f);
 
 }
 bool operator<(const Emitter::Particle& a, const Emitter::Particle& b) {
@@ -301,7 +304,7 @@ int Emitter::Count() {
 	return __particle_count;
 
 }
-void Emitter::Update() {
+void Emitter::Update(UpdateEventArgs e) {
 
 	// Update the state of all particles.
 	int i = 0;
@@ -327,10 +330,10 @@ void Emitter::Update() {
 	//std::cout << "Count(): " << Count() << std::endl;
 
 }
-void Emitter::Draw() {
+void Emitter::Draw(DrawEventArgs e) {
 
 	// Draw all particles.
 	for (int i = 0; i < __particle_count; ++i)
-		__particles[i].Draw();
+		__particles[i].Draw(e);
 
 }

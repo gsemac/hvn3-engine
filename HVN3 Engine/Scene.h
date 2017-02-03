@@ -11,10 +11,11 @@
 #include "CollisionGrid.h"
 #include "CollisionManager.h"
 #include "Graphics.h"
+#include "UpdateEventArgs.h"
 
 class Object;
 
-class Scene : public IUpdatable, public ISizeable {
+class Scene : public IUpdatable, public IDrawable, public ISizeable {
 
 public:
 	class BackgroundProperties {
@@ -58,8 +59,8 @@ public:
 	Scene(unsigned int width, unsigned int height, IBroadphase* broadphase_handler);
 	~Scene();
 
-	void Update(float dt) override;
-	void Draw(Drawing::Graphics& graphic);
+	void Update(UpdateEventArgs e) override;
+	void Draw(DrawEventArgs e) override;
 
 	void SetBackgroundColor(int, int, int);
 	void SetBackgroundColor(const Color& color);

@@ -37,11 +37,11 @@ Scene::~Scene() {
 	__broadphase_handler = nullptr;
 
 }
-void Scene::Update(float dt) {
+void Scene::Update(UpdateEventArgs e) {
 
 	// Update all Objects in the Scene.
 	for (auto it = __objects.begin(); it != __objects.end(); ++it)
-		(*it)->Update(dt);
+		(*it)->Update(e);
 
 	// Update the Collision Manager.
 	__collision_manager.Update();
@@ -55,14 +55,14 @@ void Scene::Update(float dt) {
 	UpdateViews();
 
 }
-void Scene::Draw(Drawing::Graphics& graphics) {
+void Scene::Draw(DrawEventArgs e) {
 
 	// Each View needs to be drawn separately to improve the appearance of scaled Bitmaps.
 	if (__views.size() > 0) {
 
 		// Save the original transform.
-		Drawing::Transform original_tranform(graphics.GetTransform());
-		Rectangle original_clip(graphics.Clip());
+		Drawing::Transform original_tranform(e.Graphics().GetTransform());
+		Rectangle original_clip(e.Graphics().Clip());
 
 		for (size_t i = 0; i < __views.size(); ++i) {
 
@@ -81,39 +81,39 @@ void Scene::Draw(Drawing::Graphics& graphics) {
 			Point p2 = view.Port().BottomRight();
 			original_tranform.TransformPoint(p1);
 			original_tranform.TransformPoint(p2);
-			graphics.SetClip(Rectangle(p1, p2));
+			e.Graphics().SetClip(Rectangle(p1, p2));
 
 			// Clear to background color.
-			graphics.Clear(__background_color);
+			e.Graphics().Clear(__background_color);
 
 			// Set transform according to view state.
 			Drawing::Transform transform(original_tranform);
 			transform.Translate(-view.ViewX() + view.Port().X(), -view.ViewY() + view.Port().Y());
 			transform.Scale(view.ScaleX(), view.ScaleY());
 			transform.Rotate(view.Port().Midpoint(), view.Angle());
-			graphics.SetTransform(transform);
+			e.Graphics().SetTransform(transform);
 
 			// Draw all Backgrounds (foregrounds are skipped for now).
 			for (size_t i = 0; i < __backgrounds.size(); ++i)
 				if (!__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-					DrawBackground(graphics, __backgrounds[i]);
+					DrawBackground(e.Graphics(), __backgrounds[i]);
 
 			// Draw all Objects.
 			for (auto it = __objects.begin(); it != __objects.end(); ++it)
-				(*it)->Draw(DrawEventArgs(graphics));
+				(*it)->Draw(DrawEventArgs(e.Graphics()));
 
 			// Draw all Foregrounds.
 			for (size_t i = 0; i < __backgrounds.size(); ++i)
 				if (__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-					DrawBackground(graphics, __backgrounds[i]);
+					DrawBackground(e.Graphics(), __backgrounds[i]);
 
 		}
 
 		// Restore the previous transform.
-		graphics.SetTransform(original_tranform);
+		e.Graphics().SetTransform(original_tranform);
 
 		// Reset the clipping region.
-		graphics.SetClip(original_clip);
+		e.Graphics().SetClip(original_clip);
 
 		// Reset current view to 0.
 		__current_view = 0;
@@ -122,21 +122,21 @@ void Scene::Draw(Drawing::Graphics& graphics) {
 	else {
 
 		// Clear to background color.
-		graphics.Clear(__background_color);
+		e.Graphics().Clear(__background_color);
 
 		// Draw all Backgrounds (foregrounds are skipped for now).
 		for (size_t i = 0; i < __backgrounds.size(); ++i)
 			if (!__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-				DrawBackground(graphics, __backgrounds[i]);
+				DrawBackground(e.Graphics(), __backgrounds[i]);
 
 		// If no Views are used, simply draw all of the Objects with normal scaling.
 		for (auto it = __objects.begin(); it != __objects.end(); ++it)
-			(*it)->Draw(graphics);
+			(*it)->Draw(e.Graphics());
 
 		// Draw all Foregrounds.
 		for (size_t i = 0; i < __backgrounds.size(); ++i)
 			if (__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-				DrawBackground(graphics, __backgrounds[i]);
+				DrawBackground(e.Graphics(), __backgrounds[i]);
 
 	}
 

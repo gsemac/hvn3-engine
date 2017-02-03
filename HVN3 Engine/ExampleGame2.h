@@ -26,7 +26,7 @@ namespace SuperMarioBros {
 			SetCollisionMask(CollisionMask(Rectangle(0, 16, 16, 16)));
 
 		}
-		void Update(float dt) override {
+		void Update(UpdateEventArgs e) override {
 
 			if (Keyboard::KeyDown(ALLEGRO_KEY_RIGHT) && PlaceFree(X() + 5, Y()))
 				TranslateX(5);
@@ -42,7 +42,7 @@ namespace SuperMarioBros {
 
 			//MoveContact(270.0f, 1);
 
-			Object::Update(dt);
+			Object::Update(e);
 
 		}
 
@@ -67,7 +67,7 @@ namespace SuperMarioBros {
 			SetCollisionMask(CollisionMask(Rectangle(0, 0, 16, 16)));
 
 		}
-		void Update(float dt) override {
+		void Update(UpdateEventArgs e) override {
 
 
 
