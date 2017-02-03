@@ -6,6 +6,7 @@
 class EventArgs {
 
 public:
+	EventArgs();
 	EventArgs(const EventSource& source);
 
 	const EventSource& Source() const;

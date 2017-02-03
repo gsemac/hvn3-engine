@@ -2,10 +2,15 @@
 #include "Exception.h"
 #include "allegro5\allegro.h"
 
-EventArgs::EventArgs(const EventSource& source) {
+EventArgs::EventArgs() {
+
+	__timestamp = al_get_time();
+
+}
+EventArgs::EventArgs(const EventSource& source) : EventArgs() {
 
 	//__source = source;
-	__timestamp = al_get_time();
+	
 
 }
 const EventSource& EventArgs::Source() const {
@@ -13,5 +18,10 @@ const EventSource& EventArgs::Source() const {
 	throw NotImplementedException();
 
 	//return __source;
+
+}
+double EventArgs::Timestamp() const {
+
+	return __timestamp;
 
 }

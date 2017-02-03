@@ -6,6 +6,7 @@
 #include "Sprite.h"
 #include "Helper.h"
 #include "Graphics.h"
+#include "DrawEventArgs.h"
 
 Object::Object() : Object(0.0f, 0.0f) {}
 Object::Object(float x, float y) : ICollidable(x, y) {
@@ -23,12 +24,12 @@ void Object::Update(float dt) {
 		Translate(Velocity().X(), Velocity().Y());
 
 }
-void Object::Draw(Drawing::Graphics& graphics) {
+void Object::Draw(DrawEventArgs e) {
 
 	// Draw sprite (if it exists).
 	if (Sprite()) {
 
-		graphics.DrawSprite(
+		e.Graphics().DrawSprite(
 			*Sprite(),
 			ImageIndex(),
 			X(),
@@ -83,7 +84,7 @@ ObjectBase::ObjectBase() {
 	__active = false;
 
 }
-void ObjectBase::Draw(Drawing::Graphics& graphics) {}
+void ObjectBase::Draw(DrawEventArgs e) {}
 void ObjectBase::Update() {}
 void ObjectBase::Destroy() {
 

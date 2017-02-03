@@ -1,8 +1,8 @@
 #pragma once
-#include "Event.h"
+#include "EventArgs.h"
 #include "Graphics.h"
 
-class DrawEventArgs : public Event {
+class DrawEventArgs : public EventArgs {
 
 public:
 	DrawEventArgs(Drawing::Graphics& graphics);

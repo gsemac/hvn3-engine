@@ -7,15 +7,13 @@
 #include "ISpriteable.h"
 #include "Vector2d.h"
 
-namespace Drawing {
-	class Graphics;
-}
+class DrawEventArgs;
 
 class ObjectBase : public IUpdatable {
 
 public:
 	ObjectBase();
-	virtual void Draw(Drawing::Graphics& graphics);
+	virtual void Draw(DrawEventArgs e);
 	virtual void Update();
 	void Destroy();
 	bool IsDestroyed();
@@ -35,7 +33,7 @@ public:
 	Object();
 	Object(float x, float y);
 	virtual void Update(float dt) override;
-	virtual void Draw(Drawing::Graphics& graphics) override;
+	virtual void Draw(DrawEventArgs e) override;
 
 	int Depth() const;
 	void SetDepth(int depth);

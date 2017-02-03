@@ -1,6 +1,7 @@
 #pragma once
 #include "HVN3.h"
 #include "String.h"
+#include "DrawEventArgs.h"
 
 namespace SuperMarioBros {
 
@@ -41,11 +42,11 @@ namespace SuperMarioBros {
 
 		}
 
-		void Draw(Drawing::Graphics& graphics) override {
+		void Draw(DrawEventArgs e) override {
 
-			Object::Draw(graphics);
+			Object::Draw(e);
 
-			graphics.DrawRectangle(AABB(), Color::Red, 1);
+			e.Graphics().DrawRectangle(AABB(), Color::Red, 1);
 
 		}
 
@@ -67,11 +68,11 @@ namespace SuperMarioBros {
 
 
 		}
-		void Draw(Drawing::Graphics& graphics) override {
+		void Draw(DrawEventArgs e) override {
 
-			Object::Draw(graphics);
+			Object::Draw(e);
 
-			graphics.DrawRectangle(AABB(), Color::Red, 1);
+			e.Graphics().DrawRectangle(AABB(), Color::Red, 1);
 
 		}
 
@@ -124,6 +125,8 @@ namespace SuperMarioBros {
 				scene.AddObject(new Block(i, 148));
 			for (int i = 148; i <= 404; i += 16)
 				scene.AddObject(new Block(i, 180));
+			for (int i = 320; i <= 404; i += 16)
+				scene.AddObject(new Block(i, 300));
 
 			// Create a new Runner instance to handle the game logic.
 			Runner(properties, scene).Loop();

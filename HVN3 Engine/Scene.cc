@@ -7,6 +7,7 @@
 #include "Object.h"
 #include "Graphics.h"
 #include "Mouse.h"
+#include "DrawEventArgs.h"
 
 #define CELL_DIMENSIONS 32
 
@@ -99,7 +100,7 @@ void Scene::Draw(Drawing::Graphics& graphics) {
 
 			// Draw all Objects.
 			for (auto it = __objects.begin(); it != __objects.end(); ++it)
-				(*it)->Draw(graphics);
+				(*it)->Draw(DrawEventArgs(graphics));
 
 			// Draw all Foregrounds.
 			for (size_t i = 0; i < __backgrounds.size(); ++i)
