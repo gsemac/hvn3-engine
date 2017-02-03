@@ -88,7 +88,7 @@ void Scene::Draw(Drawing::Graphics& graphics) {
 
 			// Set transform according to view state.
 			Drawing::Transform transform(original_tranform);
-			transform.Translate(-view.ViewX(), -view.ViewY());
+			transform.Translate(-view.ViewX() + view.Port().X(), -view.ViewY() + view.Port().Y());
 			transform.Scale(view.ScaleX(), view.ScaleY());
 			transform.Rotate(view.Port().Midpoint(), view.Angle());
 			graphics.SetTransform(transform);

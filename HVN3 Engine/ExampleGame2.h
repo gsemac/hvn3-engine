@@ -32,11 +32,15 @@ namespace SuperMarioBros {
 				TranslateX(5);
 			else if (Keyboard::KeyDown(ALLEGRO_KEY_LEFT) && PlaceFree(X() - 5, Y()))
 				TranslateX(-5);
+			else if (Keyboard::KeyDown(ALLEGRO_KEY_UP))
+				TranslateY(-5);
+			else if (Keyboard::KeyDown(ALLEGRO_KEY_DOWN))
+				TranslateY(5);
 
 			/*if (PlaceFree(X(), Y() + 1))
 				TranslateY(1);*/
 
-			MoveContact(270.0f, 1);
+			//MoveContact(270.0f, 1);
 
 			Object::Update(dt);
 
