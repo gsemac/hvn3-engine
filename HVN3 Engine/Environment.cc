@@ -54,6 +54,26 @@ std::string Environment::CurrentDirectory() {
 	return ENVIRONMENT;
 
 }
+std::vector<std::string> Environment::GetCommandLineArgs() {
+
+	// Use a static declaration so it only needs to be built once.
+	static std::vector<std::string> args;
+
+	// Return the arguments if the collection has already been built.
+	if (args.size() > 0)
+		return args;
+
+	// Otherwise, build the collection.
+	for (int i = 0; i < argc; ++i)
+		args.push_back(std::string(argv[i]));
+
+	// Return the result.
+	return args;
+
+}
+
+int Environment::argc = 0;
+char** Environment::argv = nullptr;
 
 // Helper methods
 

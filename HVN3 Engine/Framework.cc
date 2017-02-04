@@ -1,5 +1,5 @@
 #include "Framework.h"
-#include "Directory.h"
+#include "Environment.h"
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_font.h>
@@ -28,7 +28,12 @@ void Framework::Initialize() {
 }
 void Framework::Initialize(int argc, char *argv[]) {
 
-	// Todo: Store the command line parameters so they can be accessed later from anywhere in the program.
+	// Run basic initialization routine.
+	Initialize();
+
+	// Store the command line parameters so that they can be accessed from anywhere in the program.
+	Environment::argc = argc;
+	Environment::argv = argv;
 
 }
 void Framework::Shutdown() {

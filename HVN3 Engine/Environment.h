@@ -1,6 +1,7 @@
 #pragma once
 #include "BitFlags.h"
 #include <string>
+#include <vector>
 
 enum class OperatingSystem {
 	Unknown = 0x00,
@@ -16,11 +17,15 @@ enum class OperatingSystem {
 ENABLE_BITFLAG_OPERATORS(OperatingSystem);
 
 class Environment {
-
+	friend class Framework;
+	
 public:
 	static std::string CurrentDirectory();
 	static OperatingSystem OperatingSystem();
+	static std::vector<std::string> GetCommandLineArgs();
 
 private:
+	static int argc;
+	static char** argv;
 
 };
