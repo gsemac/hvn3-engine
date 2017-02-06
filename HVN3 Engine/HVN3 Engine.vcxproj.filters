@@ -318,6 +318,9 @@
     <ClCompile Include="UpdateEventArgs.cc">
       <Filter>Source Files\System\Events</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionFilter.cc">
+      <Filter>Source Files\System\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -607,6 +610,9 @@
     </ClInclude>
     <ClInclude Include="UpdateEventArgs.h">
       <Filter>Header Files\System\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionFilter.h">
+      <Filter>Header Files\System\Collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

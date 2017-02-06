@@ -88,7 +88,7 @@ void CollisionGrid::QueryRegion(const Rectangle& region, std::vector<ICollidable
 	for (size_t i = 0; i < cells.size(); ++i) {
 		auto r = __grid.equal_range(cells[i]);
 		for (auto j = r.first; j != r.second; ++j)
-			if (filter == 0 || j->second->GetCollisionId() & filter)
+			if (filter == 0 || j->second->Filter().CategoryBits() & filter)
 				colliders.insert(j->second);
 	}
 
@@ -130,7 +130,7 @@ ICollidable* CollisionGrid::QueryNearest(const Point& point, int filter) const {
 void CollisionGrid::GetIntersectedCells(ICollidable* collider, std::vector<Point>& cells) const {
 
 	// Get the collider's AABB. If the mask type is undefined, do not assign it to any cells.
-	if (collider->GetCollisionMask().Type() == MaskType::Undefined) return;
+	if (collider->CollisionMask().Type() == MaskType::Undefined) return;
 	Rectangle aabb = collider->AABB();
 
 	// Get cells intersected by the AABB.

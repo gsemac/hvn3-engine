@@ -1,5 +1,6 @@
 #pragma once
 #include "CollisionMask.h"
+#include "CollisionFilter.h"
 
 class Scene;
 
@@ -10,12 +11,10 @@ public:
 	ICollidable(float x, float y);
 
 	Rectangle AABB() const;
-	CollisionMask& GetCollisionMask();
+	CollisionMask& CollisionMask();
 	void SetCollisionMask(const ::CollisionMask& mask);
-	int GetCollisionId() const;
-	void SetCollisionId(int id);
-	int GetCollisionFilter() const;
-	void SetCollisionFilter(int filter);
+	CollisionFilter& Filter();
+
 	// Returns a pointer to the Scene the object belongs to, or nullptr if the object does not belong to a Scene.
 	Scene& Scene();
 
@@ -29,8 +28,8 @@ public:
 	void MoveContact(float direction, int max_distance);
 
 private:
-	CollisionMask __mask;
-	int __bit_filter, __bit_id;
+	::CollisionMask __mask;
+	CollisionFilter __filter;
 	::Scene* __scene;
 	
 };

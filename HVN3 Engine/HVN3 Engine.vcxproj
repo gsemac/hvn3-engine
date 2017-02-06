@@ -135,6 +135,7 @@
     <ClCompile Include="Bitmap.cc" />
     <ClCompile Include="BitPacker.cc" />
     <ClCompile Include="Clipboard.cc" />
+    <ClCompile Include="CollisionFilter.cc" />
     <ClCompile Include="CollisionGrid.cc" />
     <ClCompile Include="CollisionManager.cc" />
     <ClCompile Include="CollisionMask.cc" />
@@ -210,6 +211,7 @@
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="BitPacker.h" />
     <ClInclude Include="Clipboard.h" />
+    <ClInclude Include="CollisionFilter.h" />
     <ClInclude Include="CollisionGrid.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="CollisionMask.h" />

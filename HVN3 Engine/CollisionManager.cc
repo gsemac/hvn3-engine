@@ -105,8 +105,8 @@ bool CollisionManager::TestCollision(ICollidable* a, ICollidable* b) const {
 bool CollisionManager::TestCollision(ICollidable* a, float ax, float ay, ICollidable* b, float bx, float by) const {
 	
 	// Get the masks for both Objects.
-	const ICollisionMask& maska = a->GetCollisionMask();
-	const ICollisionMask& maskb = b->GetCollisionMask();
+	const ICollisionMask& maska = a->CollisionMask();
+	const ICollisionMask& maskb = b->CollisionMask();
 
 	// Get AABBs for both Objects.
 	Rectangle aabb_a = maska.AABB();

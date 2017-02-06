@@ -81,14 +81,15 @@ void Scene::Draw(DrawEventArgs e) {
 			Point p2 = view.Port().BottomRight();
 			original_tranform.TransformPoint(p1);
 			original_tranform.TransformPoint(p2);
-			e.Graphics().SetClip(Rectangle(p1, p2));
+			Rectangle clip(p1, p2);
+			e.Graphics().SetClip(clip);
 
 			// Clear to background color.
 			e.Graphics().Clear(__background_color);
 
 			// Set transform according to view state.
 			Drawing::Transform transform(original_tranform);
-			transform.Translate(-view.ViewX() + view.Port().X(), -view.ViewY() + view.Port().Y());
+			transform.Translate(-view.ViewX() + clip.X(), -view.ViewY() + clip.Y());
 			transform.Scale(view.ScaleX(), view.ScaleY());
 			transform.Rotate(view.Port().Midpoint(), view.Angle());
 			e.Graphics().SetTransform(transform);

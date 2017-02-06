@@ -5,8 +5,6 @@
 ICollidable::ICollidable(float x, float y) : 
 	IPositionable(x, y) {
 
-	__bit_filter = 0;
-	__bit_id = 0;
 	__scene = nullptr;
 
 }
@@ -20,7 +18,7 @@ Rectangle ICollidable::AABB() const {
 	return aabb;
 
 }
-CollisionMask& ICollidable::GetCollisionMask() {
+CollisionMask& ICollidable::CollisionMask() {
 
 	return __mask;
 
@@ -30,24 +28,9 @@ void ICollidable::SetCollisionMask(const ::CollisionMask& mask) {
 	__mask = mask;
 
 }
-int ICollidable::GetCollisionId() const {
+CollisionFilter& ICollidable::Filter() {
 
-	return __bit_id;
-
-}
-void ICollidable::SetCollisionId(int id) {
-
-	__bit_id = id;
-
-}
-int ICollidable::GetCollisionFilter() const {
-
-	return __bit_filter;
-
-}
-void ICollidable::SetCollisionFilter(int filter) {
-
-	__bit_filter = filter;
+	return __filter;
 
 }
 ::Scene& ICollidable::Scene() {
@@ -58,7 +41,7 @@ void ICollidable::SetCollisionFilter(int filter) {
 
 bool ICollidable::CollidesWith(const ICollidable* other) const {
 
-	return __bit_filter & other->GetCollisionId();
+	return __filter.CheckMatch(other->__filter);
 
 }
 void ICollidable::Collide(ICollidable* other) {}
@@ -70,7 +53,7 @@ bool ICollidable::PlaceFree(float x, float y, bool notme) {
 		return true;
 
 	std::vector<ICollidable*> v;
-	__scene->CollisionManager().Broadphase().QueryRegion(AABB(), v, GetCollisionFilter());
+	__scene->CollisionManager().Broadphase().QueryRegion(AABB(), v, __filter.MaskBits());
 	if (v.size() == 0 || (notme && v.size() == 1 && v[0] == this))
 		return true;
 

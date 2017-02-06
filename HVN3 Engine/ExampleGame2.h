@@ -21,9 +21,9 @@ namespace SuperMarioBros {
 			SetSprite(spr_player);
 			SetImageSpeed(0.0f);
 
-			SetCollisionId(OBJ_PLAYER);
-			SetCollisionFilter(OBJ_SOLID);
-			SetCollisionMask(CollisionMask(Rectangle(0, 16, 16, 16)));
+			Filter().SetCategoryBits(OBJ_PLAYER);
+			Filter().SetMaskBits(OBJ_SOLID);
+			SetCollisionMask(::CollisionMask(Rectangle(0, 16, 16, 16)));
 
 		}
 		void Update(UpdateEventArgs e) override {
@@ -40,7 +40,7 @@ namespace SuperMarioBros {
 			/*if (PlaceFree(X(), Y() + 1))
 				TranslateY(1);*/
 
-			//MoveContact(270.0f, 1);
+			MoveContact(270.0f, 1);
 
 			Object::Update(e);
 
@@ -63,8 +63,8 @@ namespace SuperMarioBros {
 
 			SetSprite(spr_block);
 
-			SetCollisionId(OBJ_SOLID);
-			SetCollisionMask(CollisionMask(Rectangle(0, 0, 16, 16)));
+			Filter().SetCategoryBits(OBJ_SOLID);
+			SetCollisionMask(::CollisionMask(Rectangle(0, 0, 16, 16)));
 
 		}
 		void Update(UpdateEventArgs e) override {
@@ -90,17 +90,8 @@ namespace SuperMarioBros {
 
 			// Initialize the Framework.
 			InitializeFramework();
-
-			/*	Display first_display(200, 200, "Window #1");
-				Display second_display(200, 200, "Window #2");
-
-				do {
-					Graphics::DrawCircle(100, 100, 10, Color::White, 2);
-					first_display.Refresh();
-					second_display.Refresh();
-				} while (1);
-	*/
-	// Set up Game Resources.
+			
+			// Set up Game Resources.
 			IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data", "ExampleGame2"));
 			spr_player = std::make_shared<Sprite>(Sprite::FromSpriteSheet(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "mario_small_walk.png"), 16, 32, 0, 0, Color(157, 159, 159)));
 			spr_block = std::make_shared<Sprite>(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "block_001.png"));
