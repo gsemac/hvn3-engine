@@ -226,7 +226,7 @@ void Room::AddObject(std::shared_ptr<Object> object) {
 void Room::AddObject(std::shared_ptr<Object> object, float x, float y) {
 
 	// Set the Object's parent Scene to this Scene.
-	object->__scene = this;
+	object->__room = this;
 
 	// Set the Object's position.
 	object->SetXY(x, y);

@@ -28,6 +28,7 @@ private:
 
 class Object : public ObjectBase, public ICollidable, public ISpriteable {
 	friend class CollisionGrid;
+	friend class Room;
 
 public:
 	Object();
@@ -39,10 +40,19 @@ public:
 	void SetDepth(int depth);
 	Vector2d& Velocity();
 
+	::Room* Room();
+
+	// Returns true if the object meets any objects that it is able to collide with at the given position.
+	bool PlaceFree(float x, float y, bool notme = true);
+
+	// Moves the object a set distance in a given direction (in degrees) until it comes in contact with an object in its collision filter.
+	void MoveContact(float direction, int max_distance);
+
 private:
 	float __image_index_timer;
 	Vector2d __velocity;
 	int __depth;
+	::Room* __room;
 
 	void IncrementImageIndex();
 

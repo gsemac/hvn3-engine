@@ -42,7 +42,7 @@ namespace SuperMarioBros {
 				TranslateY(5);
 
 			if (Keyboard::KeyDown(ALLEGRO_KEY_F5)) {
-				Scene().Restart();
+				Room()->Restart();
 			}
 
 			/*if (PlaceFree(X(), Y() + 1))

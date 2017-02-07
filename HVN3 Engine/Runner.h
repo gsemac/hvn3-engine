@@ -22,6 +22,8 @@ public:
 	// Returns an object representing a collection of game properties. 
 	const GameProperties& Properties() const;
 
+	Room& CurrentRoom();
+
 protected:
 	// Renders the current game state to the display surface.
 	virtual void Draw();

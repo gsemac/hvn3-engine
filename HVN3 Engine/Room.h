@@ -14,8 +14,10 @@
 #include "UpdateEventArgs.h"
 
 class Object;
+class Runner;
 
 class Room : public IUpdatable, public IDrawable, public ISizeable {
+	friend class Runner;
 
 public:
 	class BackgroundProperties {

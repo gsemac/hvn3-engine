@@ -394,6 +394,11 @@ const GameProperties& Runner::Properties() const {
 	return __properties;
 
 }
+Room& Runner::CurrentRoom() {
+
+	return *__scene;
+
+}
 
 void Runner::ApplyScalingMode() {
 
