@@ -137,16 +137,28 @@ void Room::Draw(DrawEventArgs e) {
 			original_tranform.TransformPoint(p1);
 			original_tranform.TransformPoint(p2);
 			Rectangle clip(p1, p2);
-			e.Graphics().SetClip(clip);
+			e.Graphics().SetClip(Rectangle(p1, p2));
 
 			// Clear to background color.
 			e.Graphics().Clear(__background_color);
 
 			// Set transform according to view state.
+			//Drawing::Transform transform(original_tranform);
+			////transform.Translate(-view.ViewX(), -view.ViewY());
+			//transform.Translate(-view.ViewX() + p1.X(), -view.ViewY() + p1.Y());
+			//transform.Scale(view.ScaleX(), view.ScaleY());
+			//transform.Rotate(view.Port().Midpoint(), view.Angle());
+
+			//Drawing::Transform transform;
+			//transform.Translate(-view.ViewX(), -view.ViewY());
+			//transform.Scale(view.ScaleX() * (clip.Width() / view.Port().Width()), view.ScaleY() * (clip.Height() / view.Port().Height()));
+			//transform.Translate(p1.X(), p1.Y());
+			
+			Point off(view.ViewX(), view.ViewY());
+			original_tranform.TransformPoint(off);
 			Drawing::Transform transform(original_tranform);
-			transform.Translate(-view.ViewX() + clip.X(), -view.ViewY() + clip.Y());
-			transform.Scale(view.ScaleX(), view.ScaleY());
-			transform.Rotate(view.Port().Midpoint(), view.Angle());
+			transform.Translate(-off.X() + p1.X(), -off.Y() + p1.Y());
+
 			e.Graphics().SetTransform(transform);
 
 			// Draw all Backgrounds (foregrounds are skipped for now).
@@ -154,7 +166,7 @@ void Room::Draw(DrawEventArgs e) {
 				if (!__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
 					DrawBackground(e.Graphics(), __backgrounds[i]);
 
-			// Draw all Objects.
+			// Draw all Objects.v
 			for (auto it = __objects.begin(); it != __objects.end(); ++it)
 				(*it)->Draw(DrawEventArgs(e.Graphics()));
 

@@ -102,8 +102,10 @@ namespace SuperMarioBros {
 		void Build() override {
 
 			SetBackgroundColor(Color::Silver);
+			
 
 			Player* player = new Player(100, 100);
+			//AddView(::View(Point(0, 0), Size(640, 480), Point(0, 0), Size(640, 480), player, 0.0f, 0.0f));
 			AddView(::View(Point(0, 0), Size(320, 240), Point(0, 0), Size(320, 240), player, 0.0f, 0.0f));
 			AddView(::View(Point(0, 0), Size(320, 240), Point(320, 240), Size(320, 240), player, 0.0f, 0.0f));
 
@@ -149,7 +151,7 @@ namespace SuperMarioBros {
 
 			// Set up the initial Scene.
 			Stage001 scene;
-
+			al_set_new_display_flags(ALLEGRO_OPENGL);
 			// Create a new Runner instance to handle the game logic.
 			Runner(properties, scene).Loop();
 
