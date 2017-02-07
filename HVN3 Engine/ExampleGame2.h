@@ -37,6 +37,10 @@ namespace SuperMarioBros {
 			else if (Keyboard::KeyDown(ALLEGRO_KEY_DOWN))
 				TranslateY(5);
 
+			if (Keyboard::KeyDown(ALLEGRO_KEY_F5)) {
+				Scene().Restart();
+			}
+			
 			/*if (PlaceFree(X(), Y() + 1))
 				TranslateY(1);*/
 
@@ -82,6 +86,40 @@ namespace SuperMarioBros {
 
 	};
 
+	class Stage001 : public Scene {
+
+	public:
+		Stage001() : Scene(640, 480, new CollisionGrid(16, 16)) {
+
+			Build();
+
+		}
+		void Build() override {
+
+			SetBackgroundColor(Color::Silver);
+
+			Player* player = new Player(100, 100);
+			AddView(::View(Point(0, 0), Size(320, 240), Point(0, 0), Size(320, 240), player, 0.0f, 0.0f));
+			AddView(::View(Point(0, 0), Size(320, 240), Point(320, 240), Size(320, 240), player, 0.0f, 0.0f));
+
+			for (int i = 0; i < ViewCount(); ++i)
+				View(i).Enable();
+
+			AddObject(player);
+			for (int i = 68; i <= 148; i += 16)
+				AddObject(new Block(i, 148));
+			for (int i = 148; i <= 404; i += 16)
+				AddObject(new Block(i, 180));
+			for (int i = 320; i <= 404; i += 16)
+				AddObject(new Block(i, 300));
+
+		}
+
+	private:
+
+
+	};
+
 	void RunGame(int argc, char *argv[]) {
 
 		try {
@@ -90,7 +128,7 @@ namespace SuperMarioBros {
 
 			// Initialize the Framework.
 			InitializeFramework();
-			
+
 			// Set up Game Resources.
 			IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data", "ExampleGame2"));
 			spr_player = std::make_shared<Sprite>(Sprite::FromSpriteSheet(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "mario_small_walk.png"), 16, 32, 0, 0, Color(157, 159, 159)));
@@ -104,24 +142,7 @@ namespace SuperMarioBros {
 			properties.ScalingMode = ScalingMode::MaintainAspectRatio;
 
 			// Set up the initial Scene.
-			Scene scene(properties.DisplaySize.Width(), properties.DisplaySize.Height(), new CollisionGrid(16, 16));
-			scene.SetBackgroundColor(Color::Silver);
-
-			Player* player = new Player(100, 100);
-			//scene.AddView(View(Point(0, 0), Size(640, 480), Point(0, 0), Size(640, 480), player, 0.0f, 0.0f));
-			scene.AddView(View(Point(0, 0), Size(320, 240), Point(0, 0), Size(320, 240), player, 0.0f, 0.0f));
-			scene.AddView(View(Point(0, 0), Size(320, 240), Point(320, 240), Size(320, 240), player, 0.0f, 0.0f));
-
-			for (int i = 0; i < scene.ViewCount(); ++i)
-				scene.View(i).Enable();
-
-			scene.AddObject(player);
-			for (int i = 68; i <= 148; i += 16)
-				scene.AddObject(new Block(i, 148));
-			for (int i = 148; i <= 404; i += 16)
-				scene.AddObject(new Block(i, 180));
-			for (int i = 320; i <= 404; i += 16)
-				scene.AddObject(new Block(i, 300));
+			Stage001 scene;
 
 			// Create a new Runner instance to handle the game logic.
 			Runner(properties, scene).Loop();

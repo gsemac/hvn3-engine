@@ -55,6 +55,10 @@ public:
 		Scene* __in_scene;
 	};
 	
+	// 
+	virtual void Build();
+	void Restart();
+
 	Scene(unsigned int width, unsigned int height);
 	Scene(unsigned int width, unsigned int height, IBroadphase* broadphase_handler);
 	~Scene();
@@ -88,6 +92,10 @@ public:
 
 	CollisionManager& CollisionManager();
 
+protected:
+	void Reset();
+	void Rebuild();
+
 private:
 	std::list<std::shared_ptr<Object>> __objects;
 
@@ -100,6 +108,8 @@ private:
 	::CollisionManager __collision_manager;
 	IBroadphase* __broadphase_handler;
 	//CollisionGrid __collision_grid;
+
+	bool __restart_pending;
 
 	void DrawBackground(Drawing::Graphics& graphics, const BackgroundProperties& background);
 	void UpdateViews();

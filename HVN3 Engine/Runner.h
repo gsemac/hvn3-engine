@@ -13,7 +13,7 @@ class Runner {
 public:
 	Runner();
 	Runner(const GameProperties& properties);
-	Runner(const GameProperties& properties, const Scene& scene);
+	Runner(const GameProperties& properties, Scene& scene);
 	~Runner();
 
 	// Processes the main game loop.

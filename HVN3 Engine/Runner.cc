@@ -46,10 +46,10 @@ Runner::Runner(const GameProperties& properties) :
 	__scene = nullptr;
 
 }
-Runner::Runner(const GameProperties& properties, const Scene& scene) :
+Runner::Runner(const GameProperties& properties, Scene& scene) :
 	Runner(properties) {
 
-	__scene = new Scene(scene);
+	__scene = &scene;
 
 }
 Runner::~Runner() {

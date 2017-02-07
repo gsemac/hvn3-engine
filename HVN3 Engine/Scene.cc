@@ -8,8 +8,58 @@
 #include "Graphics.h"
 #include "Mouse.h"
 #include "DrawEventArgs.h"
-
 #define CELL_DIMENSIONS 32
+
+// Virtual members
+
+void Scene::Build() {}
+void Scene::Restart() {
+
+	__restart_pending = true;
+
+
+
+}
+
+// Protected members
+
+void Scene::Reset() {
+
+	// Clear the list of Objects.
+	__objects.clear();
+
+	// Clear the list of Backgrounds.
+	__backgrounds.clear();
+
+	// Clear the list of Views.
+	__views.clear();
+
+	// Reset members to default values.
+	__background_color = Color::Black;
+	__current_view = 0;
+
+	// Todo: Reset the collision management members.
+	delete __broadphase_handler;
+	__broadphase_handler = nullptr;
+	__broadphase_handler = new CollisionGrid(16, 16);
+	__collision_manager = ::CollisionManager(__broadphase_handler);
+
+}
+void Scene::Rebuild() {
+
+	Reset();
+	Build();
+
+}
+
+
+
+
+
+
+
+
+
 
 Scene::Scene(unsigned int width, unsigned int height) :
 	Scene(width, height, new CollisionGrid(Size(CELL_DIMENSIONS, CELL_DIMENSIONS))) {}
@@ -20,12 +70,11 @@ Scene::Scene(unsigned int width, unsigned int height, IBroadphase* broadphase_ha
 	// Set the default background color to black.
 	__background_color = Color::Black;
 
-	// The current View is 0 because no views have been added yet.
-	// When drawing occurs, this value corresponds to the view currently being drawn.
+	// The current View is 0 because no views have been added yet. When drawing occurs, this value corresponds to the view currently being drawn.
 	__current_view = 0;
+	__restart_pending = false;
 
-	// Set the broadphase handler, which handles broadphase collision detection.
-	// The Scene stores this (even though it doesn't use it directly) to delete it when the Scene is destructed.
+	// Set the broadphase handler, which handles broadphase collision detection. The Scene stores this (even though it doesn't use it directly) to delete it when the Scene is destructed.
 	__broadphase_handler = broadphase_handler;
 
 }
@@ -42,6 +91,12 @@ void Scene::Update(UpdateEventArgs e) {
 	// Update all Objects in the Scene.
 	for (auto it = __objects.begin(); it != __objects.end(); ++it)
 		(*it)->Update(e);
+
+	// If a restart is pending, perform the restart now.
+	if (__restart_pending) {
+		Rebuild();
+		__restart_pending = false;
+	}
 
 	// Update the Collision Manager.
 	__collision_manager.Update();
@@ -98,7 +153,7 @@ void Scene::Draw(DrawEventArgs e) {
 			for (size_t i = 0; i < __backgrounds.size(); ++i)
 				if (!__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
 					DrawBackground(e.Graphics(), __backgrounds[i]);
-
+			
 			// Draw all Objects.
 			for (auto it = __objects.begin(); it != __objects.end(); ++it)
 				(*it)->Draw(DrawEventArgs(e.Graphics()));
