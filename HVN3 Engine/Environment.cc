@@ -46,7 +46,7 @@ std::string Environment::CurrentDirectory() {
 	}
 	else
 		// Otherwise, throw an exception.
-		throw Exception("Unable to get the current directory.");
+		throw IO::IOException("Failed to get the current working directory.");
 
 }
 ::OperatingSystem Environment::OperatingSystem() {

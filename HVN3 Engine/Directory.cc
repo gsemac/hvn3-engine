@@ -2,26 +2,24 @@
 #include "Path.h"
 #include "Environment.h"
 #include "String.h"
+#include "Exception.h"
+#include <allegro5/allegro.h>
 
 namespace IO {
 
 	// Static methods and member variables
 
-	std::string Directory::__current_directory;
-
 	const std::string Directory::GetCurrentDirectory() {
 
-		// If the current directory hasn't yet been set, get the current directory.
-		if (__current_directory.empty())
-			__current_directory = Environment::CurrentDirectory();
-
-		// Return the current directory.
-		return __current_directory;
+		// Return the current working directory.
+		return Environment::CurrentDirectory();
 
 	}
 	void Directory::SetCurrentDirectory(const std::string path) {
 
-		__current_directory = RTrim(path, { IO::Path::DirectorySeparatorChar() });
+		// Set the new working directory.
+		if (!al_change_directory(RTrim(path, { IO::Path::DirectorySeparatorChar() }).c_str()))
+			throw IOException("Failed to set the working directory.");
 
 	}
 

@@ -53,7 +53,6 @@ namespace SuperMarioBros {
 			Object::Update(e);
 
 		}
-
 		void Draw(DrawEventArgs e) override {
 
 			Object::Draw(e);
@@ -135,9 +134,9 @@ namespace SuperMarioBros {
 
 			// Set up Game Resources.
 			IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data", "ExampleGame2"));
-			sprites.Add(SPR_PLAYER, new Sprite(Sprite::FromSpriteSheet(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "mario_small_walk.png"), 16, 32, 0, 0, Color(157, 159, 159))));
-			sprites.Add(SPR_BLOCK, new Sprite(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "block_001.png")));
-
+			sprites.Add(SPR_PLAYER, new Sprite(Sprite::FromSpriteSheet("mario_small_walk.png", 16, 32, 0, 0, Color(157, 159, 159))));
+			sprites.Add(SPR_BLOCK, new Sprite("block_001.png"));
+			
 			// Set up Game Properties.
 			GameProperties properties;
 			properties.DisplayTitle = "HVN3 Engine";
