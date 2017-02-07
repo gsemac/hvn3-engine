@@ -25,11 +25,11 @@ public:
 	Color ImageBlend();
 	void SetImageBlend(const Color& value);
 
-	::Sprite* Sprite();
-	void SetSprite(::Sprite* sprite);
+	std::shared_ptr<::Sprite> Sprite();
+	void SetSprite(std::shared_ptr<::Sprite> sprite);
 
 private:
-	::Sprite* __sprite;
+	std::shared_ptr<::Sprite> __sprite;
 	int __sprite_index, __image_index;
 	float __image_speed, __image_xscale, __image_yscale, __image_angle;
 	float __image_alpha;

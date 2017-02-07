@@ -1,7 +1,9 @@
 #include "Background.h"
 
-Background::Background(const char* filename) : __bitmap(filename) {}
-Background::Background(Background&& other) : __bitmap(other.__bitmap) {}
+Background::Background(const char* filename) : 
+	__bitmap(filename) {}
+Background::Background(Background&& other) : 
+	__bitmap(std::move(other.__bitmap)) {}
 
 unsigned int Background::Width() const {
 

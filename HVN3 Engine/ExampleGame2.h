@@ -10,12 +10,14 @@ namespace SuperMarioBros {
 		OBJ_SOLID
 	};
 
-	enum SPRITE_ID {
+	enum RES_ID {
 		SPR_PLAYER,
-		SPR_BLOCK
+		SPR_BLOCK,
+		BG_HILLS
 	};
 
-	ResourceCollection<SPRITE_ID, Sprite> sprites;
+	ResourceCollection<RES_ID, Sprite> sprites;
+	ResourceCollection<RES_ID, Background> backgrounds;
 
 	class Player : public Object {
 
@@ -116,6 +118,8 @@ namespace SuperMarioBros {
 			for (int i = 320; i <= 404; i += 16)
 				AddObject(new Block(i, 300));
 
+			Background(AddBackground(backgrounds[BG_HILLS])).SetFixed(true);
+			
 		}
 
 	private:
@@ -127,16 +131,15 @@ namespace SuperMarioBros {
 
 		try {
 
-			// todo next: Make it possible to reset the game state/current scene.
-
 			// Initialize the Framework.
 			InitializeFramework();
 
 			// Set up Game Resources.
 			IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data", "ExampleGame2"));
-			sprites.Add(SPR_PLAYER, new Sprite(Sprite::FromSpriteSheet("mario_small_walk.png", 16, 32, 0, 0, Color(157, 159, 159))));
-			sprites.Add(SPR_BLOCK, new Sprite("block_001.png"));
-			
+			sprites.Add(SPR_PLAYER, Sprite::FromSpriteSheet("mario_small_walk.png", 16, 32, 0, 0, Color(157, 159, 159)));
+			sprites.Add(SPR_BLOCK, Sprite("block_001.png"));
+			backgrounds.Add(BG_HILLS, Background("background_001.png"));
+
 			// Set up Game Properties.
 			GameProperties properties;
 			properties.DisplayTitle = "HVN3 Engine";
@@ -152,6 +155,7 @@ namespace SuperMarioBros {
 
 			// Dispose of resources.
 			sprites.Clear();
+			backgrounds.Clear();
 
 			// Shut down the Framework.
 			ShutdownFramework();

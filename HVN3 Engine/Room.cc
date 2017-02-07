@@ -130,7 +130,7 @@ void Room::Draw(DrawEventArgs e) {
 			// If the View isn't enabled, do nothing.
 			if (!view.Enabled())
 				continue;
-			
+
 			// Set the clipping region according to the view port.
 			Point p1 = view.Port().TopLeft();
 			Point p2 = view.Port().BottomRight();
@@ -153,7 +153,7 @@ void Room::Draw(DrawEventArgs e) {
 			for (size_t i = 0; i < __backgrounds.size(); ++i)
 				if (!__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
 					DrawBackground(e.Graphics(), __backgrounds[i]);
-			
+
 			// Draw all Objects.
 			for (auto it = __objects.begin(); it != __objects.end(); ++it)
 				(*it)->Draw(DrawEventArgs(e.Graphics()));
@@ -316,7 +316,7 @@ CollisionManager& Room::CollisionManager() {
 void Room::DrawBackground(Drawing::Graphics& graphics, const BackgroundProperties& background) {
 
 	// Get a referen ce to the pointer to the background we're going to be drawing.
-	const std::shared_ptr<::Background>& bg = background.Ptr();
+	const std::shared_ptr<::Background>& bg = background.Background();
 
 	// Calculate scaled dimensions of the background.
 	float scale_x = background.Scale().X();
@@ -433,10 +433,11 @@ Room::BackgroundProperties::BackgroundProperties(std::shared_ptr<::Background> b
 	__tile_h = false;
 	__tile_v = false;
 	__visible = true;
+	__fixed = false;
 	__in_scene = nullptr;
 
 }
-const std::shared_ptr<::Background>& Room::BackgroundProperties::Ptr() const {
+const std::shared_ptr<::Background>& Room::BackgroundProperties::Background() const {
 
 	return __background;
 
@@ -509,6 +510,16 @@ bool Room::BackgroundProperties::Visible() const {
 void Room::BackgroundProperties::SetVisible(bool visible) {
 
 	__visible = visible;
+
+}
+bool Room::BackgroundProperties::Fixed() const {
+
+	return __fixed;
+
+}
+void Room::BackgroundProperties::SetFixed(bool fixed) {
+
+	__fixed = fixed;
 
 }
 void Room::BackgroundProperties::ScaleToFit() {

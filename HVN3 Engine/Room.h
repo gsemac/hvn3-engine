@@ -26,7 +26,7 @@ public:
 	public:
 		BackgroundProperties(std::shared_ptr<::Background> background);
 		
-		const std::shared_ptr<::Background>& Ptr() const;
+		const std::shared_ptr<::Background>& Background() const;
 
 		const Point& Offset() const;
 		void SetOffset(float x_offset, float y_offset);
@@ -43,6 +43,8 @@ public:
 		void SetTiledVertically(bool tile_vertically);
 		bool Visible() const;
 		void SetVisible(bool visible);
+		bool Fixed() const;
+		void SetFixed(bool fixed);
 
 		void ScaleToFit();
 
@@ -55,6 +57,7 @@ public:
 		bool __tile_h, __tile_v;
 		bool __visible;
 		Room* __in_scene;
+		bool __fixed;
 	};
 	
 	// 
