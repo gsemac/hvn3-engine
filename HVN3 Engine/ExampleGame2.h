@@ -5,20 +5,24 @@
 
 namespace SuperMarioBros {
 
-	typedef std::shared_ptr<Sprite> SpritePtr;
-	SpritePtr spr_player, spr_block;
-
 	enum OBJECT_ID {
 		OBJ_PLAYER,
 		OBJ_SOLID
 	};
+
+	enum SPRITE_ID {
+		SPR_PLAYER,
+		SPR_BLOCK
+	};
+
+	ResourceCollection<SPRITE_ID, Sprite> sprites;
 
 	class Player : public Object {
 
 	public:
 		Player(float x, float y) : Object(x, y) {
 
-			SetSprite(spr_player);
+			SetSprite(sprites[SPR_PLAYER]);
 			SetImageSpeed(0.0f);
 
 			Filter().SetCategoryBits(OBJ_PLAYER);
@@ -40,7 +44,7 @@ namespace SuperMarioBros {
 			if (Keyboard::KeyDown(ALLEGRO_KEY_F5)) {
 				Scene().Restart();
 			}
-			
+
 			/*if (PlaceFree(X(), Y() + 1))
 				TranslateY(1);*/
 
@@ -65,7 +69,7 @@ namespace SuperMarioBros {
 	public:
 		Block(float x, float y) : Object(x, y) {
 
-			SetSprite(spr_block);
+			SetSprite(sprites[SPR_BLOCK]);
 
 			Filter().SetCategoryBits(OBJ_SOLID);
 			SetCollisionMask(::CollisionMask(Rectangle(0, 0, 16, 16)));
@@ -131,8 +135,8 @@ namespace SuperMarioBros {
 
 			// Set up Game Resources.
 			IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data", "ExampleGame2"));
-			spr_player = std::make_shared<Sprite>(Sprite::FromSpriteSheet(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "mario_small_walk.png"), 16, 32, 0, 0, Color(157, 159, 159)));
-			spr_block = std::make_shared<Sprite>(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "block_001.png"));
+			sprites.Add(SPR_PLAYER, new Sprite(Sprite::FromSpriteSheet(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "mario_small_walk.png"), 16, 32, 0, 0, Color(157, 159, 159))));
+			sprites.Add(SPR_BLOCK, new Sprite(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "block_001.png")));
 
 			// Set up Game Properties.
 			GameProperties properties;
@@ -146,10 +150,13 @@ namespace SuperMarioBros {
 
 			// Create a new Runner instance to handle the game logic.
 			Runner(properties, scene).Loop();
-	
+
+			// Dispose of resources.
+			sprites.Clear();
+
 			// Shut down the Framework.
 			ShutdownFramework();
-			
+
 		}
 		catch (std::exception& ex) {
 

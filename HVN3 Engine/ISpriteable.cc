@@ -90,12 +90,12 @@ void ISpriteable::SetImageBlend(const Color& value) {
 
 }
 
-std::shared_ptr<Sprite>& ISpriteable::Sprite() {
+Sprite* ISpriteable::Sprite() {
 
 	return __sprite;
 
 }
-void ISpriteable::SetSprite(const std::shared_ptr<::Sprite>& sprite) {
+void ISpriteable::SetSprite(::Sprite* sprite) {
 
 	__sprite_index = -1;
 	__sprite = sprite;
