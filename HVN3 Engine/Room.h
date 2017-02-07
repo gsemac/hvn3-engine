@@ -15,11 +15,11 @@
 
 class Object;
 
-class Scene : public IUpdatable, public IDrawable, public ISizeable {
+class Room : public IUpdatable, public IDrawable, public ISizeable {
 
 public:
 	class BackgroundProperties {
-		friend class Scene;
+		friend class Room;
 
 	public:
 		BackgroundProperties(std::shared_ptr<::Background> background);
@@ -52,16 +52,16 @@ public:
 		bool __foreground;
 		bool __tile_h, __tile_v;
 		bool __visible;
-		Scene* __in_scene;
+		Room* __in_scene;
 	};
 	
 	// 
 	virtual void Build();
 	void Restart();
 
-	Scene(unsigned int width, unsigned int height);
-	Scene(unsigned int width, unsigned int height, IBroadphase* broadphase_handler);
-	~Scene();
+	Room(unsigned int width, unsigned int height);
+	Room(unsigned int width, unsigned int height, IBroadphase* broadphase_handler);
+	~Room();
 
 	void Update(UpdateEventArgs e) override;
 	void Draw(DrawEventArgs e) override;

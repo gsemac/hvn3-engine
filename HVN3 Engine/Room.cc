@@ -2,7 +2,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <algorithm>
 #include <cassert>
-#include "Scene.h"
+#include "Room.h"
 #include "Background.h"
 #include "Object.h"
 #include "Graphics.h"
@@ -12,8 +12,8 @@
 
 // Virtual members
 
-void Scene::Build() {}
-void Scene::Restart() {
+void Room::Build() {}
+void Room::Restart() {
 
 	__restart_pending = true;
 
@@ -23,7 +23,7 @@ void Scene::Restart() {
 
 // Protected members
 
-void Scene::Reset() {
+void Room::Reset() {
 
 	// Clear the list of Objects.
 	__objects.clear();
@@ -45,7 +45,7 @@ void Scene::Reset() {
 	__collision_manager = ::CollisionManager(__broadphase_handler);
 
 }
-void Scene::Rebuild() {
+void Room::Rebuild() {
 
 	Reset();
 	Build();
@@ -61,9 +61,9 @@ void Scene::Rebuild() {
 
 
 
-Scene::Scene(unsigned int width, unsigned int height) :
-	Scene(width, height, new CollisionGrid(Size(CELL_DIMENSIONS, CELL_DIMENSIONS))) {}
-Scene::Scene(unsigned int width, unsigned int height, IBroadphase* broadphase_handler) :
+Room::Room(unsigned int width, unsigned int height) :
+	Room(width, height, new CollisionGrid(Size(CELL_DIMENSIONS, CELL_DIMENSIONS))) {}
+Room::Room(unsigned int width, unsigned int height, IBroadphase* broadphase_handler) :
 	ISizeable(width, height),
 	__collision_manager(broadphase_handler) {
 
@@ -78,7 +78,7 @@ Scene::Scene(unsigned int width, unsigned int height, IBroadphase* broadphase_ha
 	__broadphase_handler = broadphase_handler;
 
 }
-Scene::~Scene() {
+Room::~Room() {
 
 	// Free the broadphase handler object.
 	if (__broadphase_handler)
@@ -86,7 +86,7 @@ Scene::~Scene() {
 	__broadphase_handler = nullptr;
 
 }
-void Scene::Update(UpdateEventArgs e) {
+void Room::Update(UpdateEventArgs e) {
 
 	// Update all Objects in the Scene.
 	for (auto it = __objects.begin(); it != __objects.end(); ++it)
@@ -110,7 +110,7 @@ void Scene::Update(UpdateEventArgs e) {
 	UpdateViews();
 
 }
-void Scene::Draw(DrawEventArgs e) {
+void Room::Draw(DrawEventArgs e) {
 
 	// Each View needs to be drawn separately to improve the appearance of scaled Bitmaps.
 	if (__views.size() > 0) {
@@ -197,33 +197,33 @@ void Scene::Draw(DrawEventArgs e) {
 	}
 
 }
-void Scene::SetBackgroundColor(int r, int g, int b) {
+void Room::SetBackgroundColor(int r, int g, int b) {
 
 	__background_color = Color(r, g, b);
 
 }
-void Scene::SetBackgroundColor(const Color& color) {
+void Room::SetBackgroundColor(const Color& color) {
 
 	__background_color = color;
 
 }
-void Scene::AddObject(Object* object) {
+void Room::AddObject(Object* object) {
 
 	AddObject(object, object->X(), object->Y());
 
 }
-void Scene::AddObject(Object* object, float x, float y) {
+void Room::AddObject(Object* object, float x, float y) {
 
 	std::shared_ptr<Object> ptr(object);
 	AddObject(ptr, x, y);
 
 }
-void Scene::AddObject(std::shared_ptr<Object> object) {
+void Room::AddObject(std::shared_ptr<Object> object) {
 
 	AddObject(object, object->X(), object->Y());
 
 }
-void Scene::AddObject(std::shared_ptr<Object> object, float x, float y) {
+void Room::AddObject(std::shared_ptr<Object> object, float x, float y) {
 
 	// Set the Object's parent Scene to this Scene.
 	object->__scene = this;
@@ -264,35 +264,35 @@ void Scene::AddObject(std::shared_ptr<Object> object, float x, float y) {
 	}
 
 }
-View& Scene::View(int index) {
+View& Room::View(int index) {
 
 	// Return the View at the specified index.
 	return __views[index];
 
 }
-int Scene::AddView(const ::View& view) {
+int Room::AddView(const ::View& view) {
 
 	__views.push_back(view);
 	return (int)__views.size() - 1;
 
 }
-int Scene::ViewCount() {
+int Room::ViewCount() {
 
 	return (int)__views.size();
 
 }
-int Scene::CurrentView() {
+int Room::CurrentView() {
 
 	return __current_view;
 
 }
-Scene::BackgroundProperties& Scene::Background(int index) {
+Room::BackgroundProperties& Room::Background(int index) {
 	assert(index >= 0 && index < (int)__backgrounds.size() && "Background index is out of bounds.");
 
 	return __backgrounds[index];
 
 }
-int Scene::AddBackground(std::shared_ptr<::Background> background) {
+int Room::AddBackground(std::shared_ptr<::Background> background) {
 
 	BackgroundProperties bgp(background);
 	bgp.__in_scene = this;
@@ -302,18 +302,18 @@ int Scene::AddBackground(std::shared_ptr<::Background> background) {
 	return (int)__backgrounds.size() - 1;
 
 }
-int Scene::BackgroundCount() {
+int Room::BackgroundCount() {
 
 	return (int)__backgrounds.size();
 
 }
-CollisionManager& Scene::CollisionManager() {
+CollisionManager& Room::CollisionManager() {
 
 	return __collision_manager;
 
 }
 
-void Scene::DrawBackground(Drawing::Graphics& graphics, const BackgroundProperties& background) {
+void Room::DrawBackground(Drawing::Graphics& graphics, const BackgroundProperties& background) {
 
 	// Get a referen ce to the pointer to the background we're going to be drawing.
 	const std::shared_ptr<::Background>& bg = background.Ptr();
@@ -364,7 +364,7 @@ void Scene::DrawBackground(Drawing::Graphics& graphics, const BackgroundProperti
 	graphics.HoldBitmapDrawing(false);
 
 }
-void Scene::UpdateViews() {
+void Room::UpdateViews() {
 
 	// Keep track of whether a view has already taken control of the mouse (to prevent multiple views from doing so).
 	bool mouse_taken = false;
@@ -423,7 +423,7 @@ void Scene::UpdateViews() {
 
 }
 
-Scene::BackgroundProperties::BackgroundProperties(std::shared_ptr<::Background> background) :
+Room::BackgroundProperties::BackgroundProperties(std::shared_ptr<::Background> background) :
 	__background(background),
 	__offset(0.0f, 0.0f),
 	__scale(1.0f, 1.0f),
@@ -436,82 +436,82 @@ Scene::BackgroundProperties::BackgroundProperties(std::shared_ptr<::Background> 
 	__in_scene = nullptr;
 
 }
-const std::shared_ptr<::Background>& Scene::BackgroundProperties::Ptr() const {
+const std::shared_ptr<::Background>& Room::BackgroundProperties::Ptr() const {
 
 	return __background;
 
 }
-const Point& Scene::BackgroundProperties::Offset() const {
+const Point& Room::BackgroundProperties::Offset() const {
 
 	return __offset;
 
 }
-void Scene::BackgroundProperties::SetOffset(float x_offset, float y_offset) {
+void Room::BackgroundProperties::SetOffset(float x_offset, float y_offset) {
 
 	__offset.SetXY(x_offset, y_offset);
 
 }
-const Point& Scene::BackgroundProperties::Scale() const {
+const Point& Room::BackgroundProperties::Scale() const {
 
 	return __scale;
 
 }
-void Scene::BackgroundProperties::SetScale(float x_scale, float y_scale) {
+void Room::BackgroundProperties::SetScale(float x_scale, float y_scale) {
 
 	__scale.SetXY(x_scale, y_scale);
 
 }
-const Vector2d& Scene::BackgroundProperties::Velocity() const {
+const Vector2d& Room::BackgroundProperties::Velocity() const {
 
 	return __velocity;
 
 }
-void Scene::BackgroundProperties::SetVelocity(const Vector2d& velocity) {
+void Room::BackgroundProperties::SetVelocity(const Vector2d& velocity) {
 
 	__velocity = velocity;
 
 }
-bool Scene::BackgroundProperties::IsForeground() const {
+bool Room::BackgroundProperties::IsForeground() const {
 
 	return __foreground;
 
 }
-void Scene::BackgroundProperties::SetForeground(bool is_foreground) {
+void Room::BackgroundProperties::SetForeground(bool is_foreground) {
 
 	__foreground = is_foreground;
 
 }
-bool Scene::BackgroundProperties::IsTiledHorizontally() const {
+bool Room::BackgroundProperties::IsTiledHorizontally() const {
 
 	return __tile_h;
 
 }
-void Scene::BackgroundProperties::SetTiledHorizontally(bool tile_horizontally) {
+void Room::BackgroundProperties::SetTiledHorizontally(bool tile_horizontally) {
 
 	__tile_h = tile_horizontally;
 
 }
-bool Scene::BackgroundProperties::IsTiledVertically() const {
+bool Room::BackgroundProperties::IsTiledVertically() const {
 
 	return __tile_v;
 
 }
-void Scene::BackgroundProperties::SetTiledVertically(bool tile_vertically) {
+void Room::BackgroundProperties::SetTiledVertically(bool tile_vertically) {
 
 	__tile_v = tile_vertically;
 
 }
-bool Scene::BackgroundProperties::Visible() const {
+bool Room::BackgroundProperties::Visible() const {
 
 	return __visible;
 
 }
-void Scene::BackgroundProperties::SetVisible(bool visible) {
+void Room::BackgroundProperties::SetVisible(bool visible) {
 
 	__visible = visible;
 
 }
-void Scene::BackgroundProperties::ScaleToFit() {
+void Room::BackgroundProperties::ScaleToFit() {
 
 	__scale.SetXY(__in_scene->Width() / __background->Width(), __in_scene->Height() / __background->Height());
 

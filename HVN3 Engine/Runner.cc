@@ -10,7 +10,7 @@
 #include <sstream>
 #include "Runner.h"
 #include "Font.h"
-#include "Scene.h"
+#include "Room.h"
 #include "Mouse.h"
 #include "Keyboard.h"
 #include "DrawEventArgs.h"
@@ -46,7 +46,7 @@ Runner::Runner(const GameProperties& properties) :
 	__scene = nullptr;
 
 }
-Runner::Runner(const GameProperties& properties, Scene& scene) :
+Runner::Runner(const GameProperties& properties, Room& scene) :
 	Runner(properties) {
 
 	__scene = &scene;

@@ -6,14 +6,14 @@
 #include "Graphics.h"
 
 class Font;
-class Scene;
+class Room;
 
 class Runner {
 
 public:
 	Runner();
 	Runner(const GameProperties& properties);
-	Runner(const GameProperties& properties, Scene& scene);
+	Runner(const GameProperties& properties, Room& scene);
 	~Runner();
 
 	// Processes the main game loop.
@@ -54,7 +54,7 @@ private:
 	EventQueue __event_queue;
 	Timer __timer;
 
-	Scene* __scene;
+	Room* __scene;
 	Display __display;
 	Font* __default_font;
 	GameProperties __properties;

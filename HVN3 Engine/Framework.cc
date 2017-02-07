@@ -9,6 +9,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <xmmintrin.h>
 #include <memory>
+#include <iostream>
 
 void Framework::Initialize() {
 
@@ -49,6 +50,11 @@ void Framework::Shutdown() {
 	__initialized = false;
 
 }
+bool Framework::Initialized() {
+
+	return __initialized;
+
+}
 
 void Framework::InitializeUnderlyingFramework() {
 
@@ -74,7 +80,7 @@ void Framework::InitializeUnderlyingFramework() {
 
 }
 void Framework::ShutdownUnderlyingFramework() {
-
+	
 	try {
 
 		// Shut down IO add-ons.

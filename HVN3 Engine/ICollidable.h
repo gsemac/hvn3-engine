@@ -2,10 +2,10 @@
 #include "CollisionMask.h"
 #include "CollisionFilter.h"
 
-class Scene;
+class Room;
 
 class ICollidable : public IPositionable {
-	friend class Scene;
+	friend class Room;
 
 public:
 	ICollidable(float x, float y);
@@ -16,7 +16,7 @@ public:
 	CollisionFilter& Filter();
 
 	// Returns a pointer to the Scene the object belongs to, or nullptr if the object does not belong to a Scene.
-	Scene& Scene();
+	Room& Scene();
 
 	bool CollidesWith(const ICollidable* other) const;
 	virtual void Collide(ICollidable* other);
@@ -30,6 +30,6 @@ public:
 private:
 	::CollisionMask __mask;
 	CollisionFilter __filter;
-	::Scene* __scene;
+	::Room* __scene;
 	
 };

@@ -3,7 +3,7 @@
 #include "CollisionGrid.h"
 #include "Vector2d.h"
 #include "Graphics.h"
-#include "Scene.h"
+#include "Room.h"
 
 // Public members
 

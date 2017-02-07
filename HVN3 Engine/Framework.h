@@ -9,6 +9,8 @@ public:
 	static void Initialize(int argc, char *argv[]);
 	static void Shutdown();
 
+	static bool Initialized();
+
 private:
 	static bool __initialized;
 

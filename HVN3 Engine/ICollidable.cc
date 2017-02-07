@@ -1,5 +1,5 @@
 #include "ICollidable.h"
-#include "Scene.h"
+#include "Room.h"
 #include "Object.h"
 
 ICollidable::ICollidable(float x, float y) : 
@@ -33,7 +33,7 @@ CollisionFilter& ICollidable::Filter() {
 	return __filter;
 
 }
-::Scene& ICollidable::Scene() {
+::Room& ICollidable::Scene() {
 
 	return *__scene;
 

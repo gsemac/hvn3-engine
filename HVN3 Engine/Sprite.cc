@@ -1,6 +1,7 @@
 #include "Sprite.h"
 #include "Directory.h"
 #include "Exception.h"
+#include "Framework.h"
 #include <limits>
 
 Sprite::Sprite() {}
@@ -59,6 +60,12 @@ Sprite::Sprite(Sprite&& other) {
 
 }
 Sprite::~Sprite() {
+
+	// If the framework has been shut down before freeing resources, do nothing (or else we'd get an error), but alert the user.
+	if (!Framework::Initialized()) {
+		std::cerr << "Warning: Framework was shutdown before this resource could be freed. Free all resources before shutting down the framework.\n";
+		return;
+	}
 
 	// Dispose of all frames.
 	for (size_t i = 0; i < __frames.size(); ++i)

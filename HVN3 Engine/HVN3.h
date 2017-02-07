@@ -5,7 +5,7 @@
 
 #include "Framework.h"
 #include "Runner.h"
-#include "Scene.h"
+#include "Room.h"
 #include "IO.h"
 #include "Environment.h"
 #include "Keyboard.h"

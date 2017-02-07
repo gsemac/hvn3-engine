@@ -249,9 +249,6 @@
     <ClCompile Include="View.cc">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cc">
-      <Filter>Source Files\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="Sound.cc">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
@@ -320,6 +317,9 @@
     </ClCompile>
     <ClCompile Include="CollisionFilter.cc">
       <Filter>Source Files\System\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Room.cc">
+      <Filter>Source Files\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -545,9 +545,6 @@
     <ClInclude Include="Sound.h">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="Vector2d.h">
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
@@ -613,6 +610,9 @@
     </ClInclude>
     <ClInclude Include="CollisionFilter.h">
       <Filter>Header Files\System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

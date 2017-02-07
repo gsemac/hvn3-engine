@@ -32,6 +32,12 @@ public:
 	NotImplementedException();
 };
 
+class FrameworkException : public Exception {
+public:
+	using Exception::Exception;
+	FrameworkException();
+};
+
 namespace IO {
 
 	class IOException : public Exception {

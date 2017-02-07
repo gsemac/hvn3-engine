@@ -86,10 +86,10 @@ namespace SuperMarioBros {
 
 	};
 
-	class Stage001 : public Scene {
+	class Stage001 : public Room {
 
 	public:
-		Stage001() : Scene(640, 480, new CollisionGrid(16, 16)) {
+		Stage001() : Room(640, 480, new CollisionGrid(16, 16)) {
 
 			Build();
 
@@ -146,10 +146,10 @@ namespace SuperMarioBros {
 
 			// Create a new Runner instance to handle the game logic.
 			Runner(properties, scene).Loop();
-
+	
 			// Shut down the Framework.
 			ShutdownFramework();
-
+			
 		}
 		catch (std::exception& ex) {
 

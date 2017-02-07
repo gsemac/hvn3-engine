@@ -18,6 +18,7 @@ std::string Exception::Message() const {
 InvalidOperationException::InvalidOperationException() : Exception("") {}
 NotSupportedException::NotSupportedException() : Exception("Specified method is not supported.") {}
 NotImplementedException::NotImplementedException() : Exception("Function not yet implemented.") {}
+FrameworkException::FrameworkException() : Exception("An error was thrown by the engine framework.") {}
 
 IO::IOException::IOException() : Exception("I/O error occurred.") {}
 IO::FileNotFoundException::FileNotFoundException() : IOException("Unable to find the specified file.") {}
