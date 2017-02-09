@@ -17,6 +17,7 @@ public:
 	friend bool operator!=(const Point& a, const Point& b);
 	friend Point operator+(const Point& a, const Point& b);
 	friend Point operator-(const Point& a, const Point& b);
+	friend Point operator-(const Point& a);
 	Point& operator+=(const Point& other);
 	Point& operator-=(const Point& other);
 

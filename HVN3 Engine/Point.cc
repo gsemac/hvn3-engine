@@ -42,6 +42,11 @@ Point operator-(const Point& a, const Point& b) {
 	return Point(a.X() - b.X(), a.Y() - b.Y());
 
 }
+Point operator-(const Point& a) {
+
+	return Point(-a.X(), -a.Y());
+
+}
 Point& Point::operator+=(const Point& other) {
 
 	Translate(other.X(), other.Y());
