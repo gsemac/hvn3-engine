@@ -151,7 +151,7 @@ void Room::Draw(DrawEventArgs e) {
 			// Draw all Backgrounds (foregrounds are skipped for now).
 			for (size_t i = 0; i < __backgrounds.size(); ++i)
 				if (!__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-					DrawBackground(e.Graphics(), __backgrounds[i]);
+					DrawBackground(e.Graphics(), __backgrounds[i], offset);
 
 			// Draw all Objects.
 			for (auto it = __objects.begin(); it != __objects.end(); ++it)
@@ -160,7 +160,7 @@ void Room::Draw(DrawEventArgs e) {
 			// Draw all Foregrounds.
 			for (size_t i = 0; i < __backgrounds.size(); ++i)
 				if (__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-					DrawBackground(e.Graphics(), __backgrounds[i]);
+					DrawBackground(e.Graphics(), __backgrounds[i], offset);
 
 		}
 
@@ -182,7 +182,7 @@ void Room::Draw(DrawEventArgs e) {
 		// Draw all Backgrounds (foregrounds are skipped for now).
 		for (size_t i = 0; i < __backgrounds.size(); ++i)
 			if (!__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-				DrawBackground(e.Graphics(), __backgrounds[i]);
+				DrawBackground(e.Graphics(), __backgrounds[i], Point(0.0f, 0.0f));
 
 		// If no Views are used, simply draw all of the Objects with normal scaling.
 		for (auto it = __objects.begin(); it != __objects.end(); ++it)
@@ -191,7 +191,7 @@ void Room::Draw(DrawEventArgs e) {
 		// Draw all Foregrounds.
 		for (size_t i = 0; i < __backgrounds.size(); ++i)
 			if (__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-				DrawBackground(e.Graphics(), __backgrounds[i]);
+				DrawBackground(e.Graphics(), __backgrounds[i], Point(0.0f, 0.0f));
 
 	}
 
@@ -312,9 +312,9 @@ CollisionManager& Room::CollisionManager() {
 
 }
 
-void Room::DrawBackground(Drawing::Graphics& graphics, const BackgroundProperties& background) {
+void Room::DrawBackground(Drawing::Graphics& graphics, const BackgroundProperties& background, const Point& view_offset) {
 
-	// Get a referen ce to the pointer to the background we're going to be drawing.
+	// Get a reference to the pointer to the background we're going to be drawing.
 	const std::shared_ptr<::Background>& bg = background.Background();
 
 	// Calculate scaled dimensions of the background.
@@ -328,38 +328,41 @@ void Room::DrawBackground(Drawing::Graphics& graphics, const BackgroundPropertie
 		return;
 
 	// Calculate the offset of the background. If the background is tiled, this is the starting offset.
-	float offset_x = background.Offset().X();
-	float offset_y = background.Offset().Y();
+	Point offset = background.Offset();
+
+	// If the background is fixed, counteract this by the (already transformed) view offset.
+	if (background.Fixed())
+		offset += view_offset;
 
 	if (background.IsTiledHorizontally())
 		// Subtract the width of the background from the offset until it is "0" or negative.
-		while (offset_x > 0.1f) offset_x -= width;
+		while (offset.X() > 0.1f) offset.TranslateX(-width);
 
 	if (background.IsTiledVertically())
 		// Subtract the height of the background from the offset until it is "0" or negative.
-		while (offset_y > 0.1f) offset_y -= height;
+		while (offset.Y() > 0.1f) offset.TranslateY(-height);
 
 	// If the scale is negative, adjust the offset so that the tiles are drawn in the proper location (it will be flipped over axis).
-	if (scale_x < 0.0f) offset_x += width;
-	if (scale_y < 0.0f) offset_y += height;
+	if (scale_x < 0.0f) offset.TranslateX(width);
+	if (scale_y < 0.0f) offset.TranslateY(height);
 
 	graphics.HoldBitmapDrawing(true);
 	if (background.IsTiledHorizontally() && background.IsTiledVertically())
 		// Draw background tiled horizontally and vertically.
-		for (; offset_x < (scale_x < 0.0f ? Width() + width : Width()); offset_x += width)
-			for (float j = offset_y; j < ((scale_y < 0.0f) ? (Height() + height) : Height()); j += height)
-				graphics.DrawBitmap(bg->Bitmap(), offset_x, j, background.Scale().X(), background.Scale().Y());
+		for (; offset.X() < (scale_x < 0.0f ? Width() + width : Width()); offset.TranslateX(width))
+			for (float j = offset.Y(); j < ((scale_y < 0.0f) ? (Height() + height) : Height()); j += height)
+				graphics.DrawBitmap(bg->Bitmap(), offset.X(), j, background.Scale().X(), background.Scale().Y());
 	else if (background.IsTiledHorizontally())
 		// Draw background tiled horizontally only.
-		for (; offset_x < (scale_x < 0.0f ? Width() + width : Width()); offset_x += width)
-			graphics.DrawBitmap(bg->Bitmap(), offset_x, offset_y, background.Scale().X(), background.Scale().Y());
+		for (; offset.X() < (scale_x < 0.0f ? Width() + width : Width()); offset.TranslateX(width))
+			graphics.DrawBitmap(bg->Bitmap(), offset.X(), offset.Y(), background.Scale().X(), background.Scale().Y());
 	else if (background.IsTiledVertically())
 		// Draw background tiled vertically only.
-		for (; offset_y < (scale_y < 0.0f ? Height() + height : Height()); offset_y += height)
-			graphics.DrawBitmap(bg->Bitmap(), offset_x, offset_y, background.Scale().X(), background.Scale().Y());
+		for (; offset.Y() < (scale_y < 0.0f ? Height() + height : Height()); offset.TranslateY(height))
+			graphics.DrawBitmap(bg->Bitmap(), offset.X(), offset.Y(), background.Scale().X(), background.Scale().Y());
 	else
 		// Draw background without tiling.
-		graphics.DrawBitmap(bg->Bitmap(), offset_x, offset_y, background.Scale().X(), background.Scale().Y());
+		graphics.DrawBitmap(bg->Bitmap(), offset.X(), offset.Y(), background.Scale().X(), background.Scale().Y());
 	graphics.HoldBitmapDrawing(false);
 
 }

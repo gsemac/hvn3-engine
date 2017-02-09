@@ -116,7 +116,7 @@ private:
 
 	bool __restart_pending;
 
-	void DrawBackground(Drawing::Graphics& graphics, const BackgroundProperties& background);
+	void DrawBackground(Drawing::Graphics& graphics, const BackgroundProperties& background, const Point& view_offset);
 	void UpdateViews();
 
 };
