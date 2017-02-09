@@ -4,7 +4,7 @@
 
 class IScrollable;
 
-namespace Gui {
+namespace GUI {
 
 	class Scrollbar : public Object {
 

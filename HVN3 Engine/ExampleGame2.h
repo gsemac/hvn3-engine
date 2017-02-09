@@ -97,6 +97,36 @@ namespace SuperMarioBros {
 
 	};
 
+	class Button;
+	class WidgetManager {
+
+	public:
+		WidgetManager() {
+		
+
+
+		}
+
+	public:
+		std::vector<Button*> __widgets;
+
+	};
+
+	class Button : public Object {
+
+	public:
+		Button(float x, float y) : 
+			Object(x, y) {
+		
+			//__global_manager.__widgets.push_back(this);
+
+		}
+
+	public:
+		//static WidgetManager __global_manager;
+
+	};
+
 	class Stage001 : public Room {
 
 	public:
@@ -117,16 +147,18 @@ namespace SuperMarioBros {
 			for (int i = 0; i < ViewCount(); ++i)
 				View(i).Enable();
 
-			AddObject(player);
+			AddInstance(player);
 			for (int i = 68; i <= 148; i += 16)
-				AddObject(new Block(i, 148));
+				AddInstance(new Block(i, 148));
 			for (int i = 148; i <= 404; i += 16)
-				AddObject(new Block(i, 180));
+				AddInstance(new Block(i, 180));
 			for (int i = 320; i <= 404; i += 16)
-				AddObject(new Block(i, 300));
+				AddInstance(new Block(i, 300));
 
 			Background(AddBackground(backgrounds[BG_HILLS])).SetFixed(true);
 			
+			//GUI::Button button(0, 0, 100, 50, "Button 1");
+
 		}
 
 	private:

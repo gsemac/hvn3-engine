@@ -11,7 +11,7 @@
 #include "Mouse.h"
 #include "AllegroExtensions.h"
 
-namespace Gui {
+namespace GUI {
 
 	class Button : public Control {
 
@@ -24,7 +24,7 @@ namespace Gui {
 	public:
 		Button(float x, float y, float width, float height, const char* text) : Control(Point(x, y), Size(width, height)), __text_offset(0.0f, 0.0f) {
 
-			__font = Gui::ActiveTheme()->DefaultFont();
+			__font = GUI::ActiveTheme()->DefaultFont();
 			__text = new Utf8String(text);
 
 		}

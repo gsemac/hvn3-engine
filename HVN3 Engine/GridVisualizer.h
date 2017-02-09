@@ -8,7 +8,7 @@
 
 class Grid;
 
-namespace Gui {
+namespace GUI {
 
 	class GridVisualizer : public IDrawable, public IPositionable {
 

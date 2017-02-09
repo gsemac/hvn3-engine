@@ -74,10 +74,10 @@ public:
 	void SetBackgroundColor(int, int, int);
 	void SetBackgroundColor(const Color& color);
 
-	void AddObject(Object* object);
-	void AddObject(Object* object, float x, float y);
-	void AddObject(std::shared_ptr<Object> object);
-	void AddObject(std::shared_ptr<Object> object, float x, float y);
+	void AddInstance(Object* object);
+	void AddInstance(Object* object, float x, float y);
+	void AddInstance(std::shared_ptr<Object> object);
+	void AddInstance(std::shared_ptr<Object> object, float x, float y);
 
 	// Returns the View at the specified index.
 	View& View(int index);

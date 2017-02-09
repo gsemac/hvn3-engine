@@ -4,7 +4,7 @@
 #include "GUIScrollbar.h"
 
 class IScrollable : public IFocusable {
-	friend class Gui::Scrollbar;
+	friend class GUI::Scrollbar;
 
 protected:
 	float ScrollPercent;

@@ -31,10 +31,10 @@ public:
 		// If it wasn't found, return nullptr.
 		if (it == __map.end())
 			return std::shared_ptr<resource_type>();
-		
+
 		// Otherwise, return the value.
 		return it->second;
-	
+
 	}
 	// Removes the resource with the given key from the collection.
 	void Remove(const key_type& key) {

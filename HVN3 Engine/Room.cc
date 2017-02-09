@@ -205,23 +205,23 @@ void Room::SetBackgroundColor(const Color& color) {
 	__background_color = color;
 
 }
-void Room::AddObject(Object* object) {
+void Room::AddInstance(Object* object) {
 
-	AddObject(object, object->X(), object->Y());
+	AddInstance(object, object->X(), object->Y());
 
 }
-void Room::AddObject(Object* object, float x, float y) {
+void Room::AddInstance(Object* object, float x, float y) {
 
 	std::shared_ptr<Object> ptr(object);
-	AddObject(ptr, x, y);
+	AddInstance(ptr, x, y);
 
 }
-void Room::AddObject(std::shared_ptr<Object> object) {
+void Room::AddInstance(std::shared_ptr<Object> object) {
 
-	AddObject(object, object->X(), object->Y());
+	AddInstance(object, object->X(), object->Y());
 
 }
-void Room::AddObject(std::shared_ptr<Object> object, float x, float y) {
+void Room::AddInstance(std::shared_ptr<Object> object, float x, float y) {
 
 	// Set the Object's parent Scene to this Scene.
 	object->__room = this;

@@ -8,8 +8,8 @@
 
 // Public
 
-Gui::Scrollbar::Scrollbar() : Scrollbar(nullptr, 0) {}
-Gui::Scrollbar::Scrollbar(IScrollable* object, float height) {
+GUI::Scrollbar::Scrollbar() : Scrollbar(nullptr, 0) {}
+GUI::Scrollbar::Scrollbar(IScrollable* object, float height) {
 
 	__obj = object;
 	__height = height;
@@ -21,7 +21,7 @@ Gui::Scrollbar::Scrollbar(IScrollable* object, float height) {
 
 }
 
-void Gui::Scrollbar::SetHeight(float height) {
+void GUI::Scrollbar::SetHeight(float height) {
 
 	// Calculate the percentage positioning of the slider.
 	float per = PositionPercentage();
@@ -34,13 +34,13 @@ void Gui::Scrollbar::SetHeight(float height) {
 	if (__slider_height > 0) __position = (__height - __slider_height) * per;
 
 }
-void Gui::Scrollbar::SetTarget(IScrollable* target) {
+void GUI::Scrollbar::SetTarget(IScrollable* target) {
 
 	// Set the new target.
 	__obj = target;
 
 }
-void Gui::Scrollbar::SetPosition(float percentage) {
+void GUI::Scrollbar::SetPosition(float percentage) {
 
 	// Make sure that percentage value is valid.
 	if (percentage > 1.0f) percentage = 1.0f;
@@ -53,31 +53,31 @@ void Gui::Scrollbar::SetPosition(float percentage) {
 	if (__obj) __obj->Scroll(PositionPercentage());
 
 }
-void Gui::Scrollbar::ScrollToTop() {
+void GUI::Scrollbar::ScrollToTop() {
 
 	SetPosition(0);
 
 }
-void Gui::Scrollbar::ScrollToBottom() {
+void GUI::Scrollbar::ScrollToBottom() {
 
 	SetPosition(1.0f);
 
 }
 
-float Gui::Scrollbar::Width() {
+float GUI::Scrollbar::Width() {
 
 	if (!Shown()) return 0;
 	return __width;
 
 }
-bool Gui::Scrollbar::Shown() {
+bool GUI::Scrollbar::Shown() {
 
 	return true;
 	//return (__obj->ScrollMax < __height);
 
 }
 
-void Gui::Scrollbar::Update() {
+void GUI::Scrollbar::Update() {
 
 	if (Mouse::ButtonPressed(MB_LEFT) && MouseOn() && Shown()) {
 		__mouse_clicked_pos = Mouse::Y;
@@ -100,7 +100,7 @@ void Gui::Scrollbar::Update() {
 	ResizeSlider();
 
 }
-void Gui::Scrollbar::Draw() {
+void GUI::Scrollbar::Draw() {
 
 	if (!Shown()) return;
 	al_draw_filled_rectangle(X(), Y(), X() + __width, X() + __height, Color::Grey.AlPtr());
@@ -110,17 +110,17 @@ void Gui::Scrollbar::Draw() {
 
 // Private
 
-float Gui::Scrollbar::PositionPercentage() {
+float GUI::Scrollbar::PositionPercentage() {
 
 	return __position / (__height - __slider_height);
 
 }
-bool Gui::Scrollbar::MouseOn() {
+bool GUI::Scrollbar::MouseOn() {
 
 	return (Mouse::X > X() && Mouse::X < X() + __width && Mouse::Y > Y() + __position && Mouse::Y < Y() + __position + __slider_height);
 
 }
-void Gui::Scrollbar::ResizeSlider() {
+void GUI::Scrollbar::ResizeSlider() {
 
 	// Default to 0 for invalid/missing parameters.
 	if (!__obj || __obj->ScrollMax < __height) {

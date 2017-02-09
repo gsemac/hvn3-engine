@@ -12,7 +12,7 @@ Todo:
 - Implement undo/redo buffer
 */
 
-namespace Gui {
+namespace GUI {
 	class Textbox : public Control {
 		friend class Caret;
 
@@ -232,8 +232,8 @@ namespace Gui {
 			__sel_draw_pos(0.0f, 0.0f),
 			__mouse_last_pos(Mouse::X, Mouse::Y) {
 
-			__font = Gui::ActiveTheme()->DefaultFont();
-			__highlight_color = Gui::ActiveTheme()->HighlightColor();
+			__font = GUI::ActiveTheme()->DefaultFont();
+			__highlight_color = GUI::ActiveTheme()->HighlightColor();
 			__text = "";
 			__padding = 3.0f;
 			__hold_timer = 0.0f;

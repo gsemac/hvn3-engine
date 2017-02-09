@@ -4,7 +4,7 @@
 #include "Sprite.h"
 #include "Color.h"
 
-namespace Gui {
+namespace GUI {
 
 	class GUITheme {
 		static GUITheme* __active_theme;

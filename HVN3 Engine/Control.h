@@ -9,7 +9,7 @@
 #include "Mouse.h"
 #include "Graphics.h"
 
-namespace Gui {
+namespace GUI {
 	
 	enum ANCHOR {
 		ANCHOR_NONE = 0x00,
@@ -42,7 +42,7 @@ namespace Gui {
 		SIDE ChangedSides;
 	};
 
-	class Control : public IDrawable, public IPositionable, public ISizeable, public IDisposable, public IFocusable {
+	class Control : public IPositionable, public ISizeable, public IDisposable, public IFocusable {
 		friend class GuiManager;
 
 	private:
