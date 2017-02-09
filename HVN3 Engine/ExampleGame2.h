@@ -2,6 +2,7 @@
 #include "HVN3.h"
 #include "String.h"
 #include "DrawEventArgs.h"
+#include "GUIButton.h"
 
 namespace SuperMarioBros {
 
@@ -103,7 +104,6 @@ namespace SuperMarioBros {
 
 			SetBackgroundColor(Color::Silver);
 			
-
 			Player* player = new Player(100, 100);
 			//AddView(::View(Point(0, 0), Size(640, 480), Point(0, 0), Size(640, 480), player, 0.0f, 0.0f));
 			AddView(::View(Point(0, 0), Size(320, 240), Point(0, 0), Size(320, 240), player, 0.0f, 0.0f));

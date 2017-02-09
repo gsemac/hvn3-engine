@@ -53,7 +53,7 @@ namespace Gui {
 		
 		Control* __parent;
 		GuiManager* __manager;
-		Bitmap __image;
+		Drawing::Bitmap __image;
 		Drawing::Graphics __graphics;
 		Color __backcolor, __forecolor;
 		ANCHOR __anchor;
