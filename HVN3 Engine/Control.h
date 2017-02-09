@@ -18,7 +18,7 @@ namespace Gui {
 		ANCHOR_TOP = 0x04,
 		ANCHOR_BOTTOM = 0x08
 	};
-	ENABLE_BITFLAG_OPERATORS(ANCHOR);
+	//ENABLE_BITFLAG_OPERATORS(ANCHOR);
 
 	enum SIDE {
 		TOP = 0x01,
@@ -26,7 +26,7 @@ namespace Gui {
 		LEFT = 0x04,
 		RIGHT = 0x08
 	};
-	ENABLE_BITFLAG_OPERATORS(SIDE);
+	//ENABLE_BITFLAG_OPERATORS(SIDE);
 
 	struct EventArgs {};
 	struct ResizeEventArgs {

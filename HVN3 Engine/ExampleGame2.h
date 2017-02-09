@@ -77,6 +77,11 @@ namespace SuperMarioBros {
 			SetCollisionMask(::CollisionMask(Rectangle(0, 0, 16, 16)));
 
 		}
+		void BeginUpdate(UpdateEventArgs e) override {
+
+
+
+		}
 		void Update(UpdateEventArgs e) override {
 
 

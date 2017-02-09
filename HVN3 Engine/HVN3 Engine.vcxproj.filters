@@ -321,6 +321,9 @@
     <ClCompile Include="Room.cc">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="IUpdatable.cc">
+      <Filter>Source Files\Interfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">

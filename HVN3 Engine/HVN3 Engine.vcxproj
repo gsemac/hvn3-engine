@@ -172,6 +172,7 @@
     <ClCompile Include="IPositionable.cc" />
     <ClCompile Include="ISizeable.cc" />
     <ClCompile Include="ISpriteable.cc" />
+    <ClCompile Include="IUpdatable.cc" />
     <ClCompile Include="Keyboard.cc" />
     <ClCompile Include="Main.cc" />
     <ClCompile Include="Mouse.cc" />

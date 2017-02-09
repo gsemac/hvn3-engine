@@ -52,15 +52,6 @@ void Room::Rebuild() {
 
 }
 
-
-
-
-
-
-
-
-
-
 Room::Room(unsigned int width, unsigned int height) :
 	Room(width, height, new CollisionGrid(Size(CELL_DIMENSIONS, CELL_DIMENSIONS))) {}
 Room::Room(unsigned int width, unsigned int height, IBroadphase* broadphase_handler) :
@@ -88,18 +79,26 @@ Room::~Room() {
 }
 void Room::Update(UpdateEventArgs e) {
 
-	// Update all Objects in the Scene.
+	// Run the pre-update procedure for all Objects.
+	for (auto it = __objects.begin(); it != __objects.end(); ++it)
+		(*it)->BeginUpdate(e);
+
+	// Run the primary update procedure for all Objects.
 	for (auto it = __objects.begin(); it != __objects.end(); ++it)
 		(*it)->Update(e);
+
+	// Update the Collision Manager.
+	__collision_manager.Update();
+
+	// Run the post update procedure for all Objects.
+	for (auto it = __objects.begin(); it != __objects.end(); ++it)
+		(*it)->EndUpdate(e);
 
 	// If a restart is pending, perform the restart now.
 	if (__restart_pending) {
 		Rebuild();
 		__restart_pending = false;
 	}
-
-	// Update the Collision Manager.
-	__collision_manager.Update();
 
 	// Update Backgrounds.
 	for (size_t i = 0; i < __backgrounds.size(); ++i)
