@@ -146,11 +146,11 @@ void Room::Draw(DrawEventArgs e) {
 			Drawing::Transform transform(original_tranform);
 			transform.Translate(-offset.X() + p1.X(), -offset.Y() + p1.Y());
 			e.Graphics().SetTransform(transform);
-
+			
 			// Draw all Backgrounds (foregrounds are skipped for now).
 			for (size_t i = 0; i < __backgrounds.size(); ++i)
 				if (!__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-					DrawBackground(e.Graphics(), __backgrounds[i], offset);
+					DrawBackground(e.Graphics(), __backgrounds[i], Point(view.ViewX(), view.ViewY()));
 
 			// Draw all Objects.
 			for (auto it = __objects.begin(); it != __objects.end(); ++it)
@@ -159,7 +159,7 @@ void Room::Draw(DrawEventArgs e) {
 			// Draw all Foregrounds.
 			for (size_t i = 0; i < __backgrounds.size(); ++i)
 				if (__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-					DrawBackground(e.Graphics(), __backgrounds[i], offset);
+					DrawBackground(e.Graphics(), __backgrounds[i], Point(view.ViewX(), view.ViewY()));
 
 		}
 
@@ -329,7 +329,7 @@ void Room::DrawBackground(Drawing::Graphics& graphics, const BackgroundPropertie
 	// Calculate the offset of the background. If the background is tiled, this is the starting offset.
 	Point offset = background.Offset();
 
-	// If the background is fixed, counteract this by the (already transformed) view offset.
+	// If the background is fixed, counteract this by the view offset.
 	if (background.Fixed())
 		offset += view_offset;
 
