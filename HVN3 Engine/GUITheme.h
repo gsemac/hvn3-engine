@@ -44,8 +44,8 @@ namespace GUI {
 			// Initialize resources (if they haven't already been initialized).
 			if (__ref_count == 1) {
 
-				__font_ptr = new Font("sys/fonts/webly.ttf", 11, FontOptions::Monochrome);
-				__exit_icon_ptr = new Sprite("sys/icons/close.png");
+				//__font_ptr = new Font("sys/fonts/webly.ttf", 11, FontOptions::Monochrome);
+				//__exit_icon_ptr = new Sprite("sys/icons/close.png");
 
 			}
 

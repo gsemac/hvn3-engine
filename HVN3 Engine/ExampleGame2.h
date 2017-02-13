@@ -3,6 +3,7 @@
 #include "String.h"
 #include "DrawEventArgs.h"
 #include "GUIButton.h"
+#include "GUIManager.h"
 
 namespace SuperMarioBros {
 
@@ -102,7 +103,7 @@ namespace SuperMarioBros {
 
 	public:
 		WidgetManager() {
-		
+
 
 
 		}
@@ -115,9 +116,9 @@ namespace SuperMarioBros {
 	class Button : public Object {
 
 	public:
-		Button(float x, float y) : 
+		Button(float x, float y) :
 			Object(x, y) {
-		
+
 			//__global_manager.__widgets.push_back(this);
 
 		}
@@ -138,7 +139,7 @@ namespace SuperMarioBros {
 		void Build() override {
 
 			SetBackgroundColor(Color::Silver);
-			
+
 			Player* player = new Player(100, 100);
 			//AddView(::View(Point(0, 0), Size(640, 480), Point(0, 0), Size(640, 480), player, 0.0f, 0.0f));
 			AddView(::View(Point(0, 0), Size(320, 240), Point(0, 0), Size(320, 240), player, 0.0f, 0.0f));
@@ -155,9 +156,12 @@ namespace SuperMarioBros {
 			for (int i = 320; i <= 404; i += 16)
 				AddInstance(new Block(i, 300));
 
-			Background(AddBackground(backgrounds[BG_HILLS])).SetFixed(true);
-			
-			//GUI::Button button(0, 0, 100, 50, "Button 1");
+			//Background(AddBackground(backgrounds[BG_HILLS])).SetFixed(true);
+
+			GUI::GuiManager* manager = new GUI::GuiManager();
+			GUI::Button* button = new GUI::Button(0, 0, 100, 50, "Button 1");
+			manager->AddControl(button);
+			AddInstance(manager);
 
 		}
 

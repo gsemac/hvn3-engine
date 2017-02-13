@@ -8,6 +8,8 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
+#include "DrawEventArgs.h"
+#include "UpdateEventArgs.h"
 
 namespace GUI {
 	
@@ -42,7 +44,7 @@ namespace GUI {
 		SIDE ChangedSides;
 	};
 
-	class Control : public IPositionable, public ISizeable, public IDisposable, public IFocusable {
+	class Control : public IDrawable, public IUpdatable, public IPositionable, public ISizeable, public IDisposable, public IFocusable {
 		friend class GuiManager;
 
 	private:
@@ -80,8 +82,8 @@ namespace GUI {
 		Control();
 		Control(const Point& location, const Size& size);
 
-		virtual void Update();
-		void Draw();
+		virtual void Update(UpdateEventArgs e) override;
+		void Draw(DrawEventArgs e) override;
 		void Resize(float width, float height);
 
 		virtual void Invalidate();
