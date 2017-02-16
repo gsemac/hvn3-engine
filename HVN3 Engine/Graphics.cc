@@ -3,13 +3,14 @@
 #include "Exception.h"
 
 namespace Drawing {
-
+	
 	Graphics::Graphics(Bitmap& surface) :
 		__surface(surface),
 		__clipping_region(0.0f, 0.0f, surface.Width(), surface.Height()) {}
 	Graphics::~Graphics() {
 		
-		al_set_target_bitmap(nullptr);
+		if (__last_to_draw == this)
+			__last_to_draw = nullptr;
 
 	}
 
@@ -323,6 +324,7 @@ namespace Drawing {
 			al_set_target_bitmap(__surface.AlPtr());
 			ApplyClip();
 			ApplyTransform();
+			__last_to_draw = this;
 		}
 
 	}
@@ -339,7 +341,7 @@ namespace Drawing {
 	}
 	bool Graphics::IsActiveSurface() const {
 		
-		return al_get_target_bitmap() == __surface.AlPtr();
+		return (__last_to_draw == this);
 
 	}
 	int Graphics::GetAllegroFlags(Alignment value) const {
@@ -361,5 +363,7 @@ namespace Drawing {
 		return flags;
 
 	}
+
+	Graphics* Graphics::__last_to_draw = nullptr;
 
 }

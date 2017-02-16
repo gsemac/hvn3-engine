@@ -72,6 +72,7 @@ namespace Drawing {
 		Transform __transform;
 		Rectangle __clipping_region;
 		bool __state_changed;
+		static Graphics* __last_to_draw;
 
 		// Called at the beginning of every drawing function to set the drawing target and its and tranforms/clipping region.
 		void PrepareDrawingSurface();
