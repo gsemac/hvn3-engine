@@ -171,15 +171,25 @@ void Mouse::StateAccessor::SetButtonState(MOUSE_BUTTONS button, bool pressed) {
 	}
 
 }
-void Mouse::StateAccessor::ResetButtonStates() {
+void Mouse::StateAccessor::ResetButtonStates(bool pressed, bool released, bool held) {
 
-	__left.pressed = false;
-	__right.pressed = false;
-	__middle.pressed = false;
+	if (pressed) {
+		__left.pressed = false;
+		__right.pressed = false;
+		__middle.pressed = false;
+	}
 
-	__left.released = false;
-	__right.released = false;
-	__middle.released = false;
+	if (released) {
+		__left.released = false;
+		__right.released = false;
+		__middle.released = false;
+	}
+
+	if (held) {
+		__left.held = false;
+		__right.held = false;
+		__middle.held = false;
+	}
 
 	__scrolled_up = false;
 	__scrolled_down = false;

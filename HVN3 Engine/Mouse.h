@@ -42,7 +42,7 @@ public:
 	class StateAccessor {
 
 	public:
-		static void ResetButtonStates();
+		static void ResetButtonStates(bool pressed, bool released, bool held);
 		static void SetButtonState(MOUSE_BUTTONS button, bool pressed);
 		static void SetScrollState(bool scrolled_up, bool scrolled_down);
 		static void SetPosition(float x, float y);
