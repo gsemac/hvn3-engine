@@ -223,6 +223,9 @@ void Runner::OnTimerTick(Event& ev) {
 		// Unset all pressed/released keys so the values will be false until next triggered.
 		Keyboard::StateAccessor::ResetKeyStates(true, true, false);
 
+		// Unset all pressed/released mouse buttons so the values will be false until next triggered.
+		Mouse::StateAccessor::ResetButtonStates();
+
 		// Reset the delta timer.
 		delta_timer.Reset(true);
 

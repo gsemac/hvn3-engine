@@ -68,20 +68,24 @@ namespace GUI {
 			if (invalidate_req)
 				Invalidate();
 
+			std::cout << "Mouse down!\n";
+
 		}
 		virtual void OnMouseUp() {
 
 			__text_offset.SetY(0.0f);
 			Invalidate();
 
+			std::cout << "Mouse up!\n";
+
 		}
 		virtual void OnClick() {
 
 			static int i = 0;
-			//std::cout << "Button: Clicked!\n" << i++;
+			std::cout << "Button: Clicked!\n" << i++;
 
 			
-			//SetText("Clicked!");
+			SetText("Clicked!");
 
 		}
 		virtual void OnPaint(PaintEventArgs e) override {

@@ -31,9 +31,9 @@ bool Mouse::ButtonPressed(MOUSE_BUTTONS mouse_button) {
 
 	if (mouse_button & MB_LEFT && __left.pressed)
 		return true;
-	if (mouse_button & MB_RIGHT&& __right.pressed)
+	if (mouse_button & MB_RIGHT && __right.pressed)
 		return true;
-	if (mouse_button & MB_MIDDLE&& __middle.pressed)
+	if (mouse_button & MB_MIDDLE && __middle.pressed)
 		return true;
 
 	return false;
@@ -110,7 +110,7 @@ void Mouse::SetCursor(SystemCursor cursor) {
 }
 ::EventSource Mouse::EventSource() {
 
-	return al_get_mouse_event_source();
+	return ::EventSource(al_get_mouse_event_source());
 
 }
 

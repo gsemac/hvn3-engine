@@ -158,7 +158,7 @@ void Room::Draw(DrawEventArgs& e) {
 			e.Graphics().HoldBitmapDrawing(false);
 
 			// Draw all Objects.
-			for (auto it = __objects.begin(); it != __objects.end(); ++it) 
+			for (auto it = __objects.begin(); it != __objects.end(); ++it)
 				(*it)->Draw(e);
 
 			// Draw all Foregrounds.

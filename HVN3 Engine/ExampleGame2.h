@@ -160,8 +160,8 @@ namespace SuperMarioBros {
 
 			GUI::GuiManager* manager = new GUI::GuiManager();
 			manager->AddControl(new GUI::Button(50, 50, 100, 25, "Button 1"));
-			manager->AddControl(new GUI::Button(50, 80, 100, 25, "Button 2"));
-			manager->AddControl(new GUI::Button(50, 100, 100, 25, "Button 3"));
+			//manager->AddControl(new GUI::Button(50, 80, 100, 25, "Button 2"));
+			//manager->AddControl(new GUI::Button(50, 100, 100, 25, "Button 3"));
 			AddInstance(manager);
 
 		}
