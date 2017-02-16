@@ -112,13 +112,12 @@ void Room::Update(UpdateEventArgs& e) {
 }
 void Room::Draw(DrawEventArgs& e) {
 
-	Stopwatch watch(true);
+	//Stopwatch watch(true);
 
 	// Each View needs to be drawn separately to improve the appearance of scaled Bitmaps.
 	if (__views.size() > 0) {
 
 		// Save the original state.
-		//Drawing::GraphicsState gs = e.Graphics().Save();
 		Drawing::Transform original_tranform(e.Graphics().GetTransform());
 		Rectangle original_clip(e.Graphics().Clip());
 
@@ -139,8 +138,7 @@ void Room::Draw(DrawEventArgs& e) {
 			Point p2 = view.Port().BottomRight();
 			original_tranform.TransformPoint(p1);
 			original_tranform.TransformPoint(p2);
-			Rectangle clip(p1, p2);
-			e.Graphics().SetClip(clip);
+			e.Graphics().SetClip(Rectangle(p1, p2));
 
 			// Clear to background color.
 			e.Graphics().Clear(__background_color);
@@ -160,12 +158,8 @@ void Room::Draw(DrawEventArgs& e) {
 			e.Graphics().HoldBitmapDrawing(false);
 
 			// Draw all Objects.
-			//Drawing::Transform restore = e.Graphics().GetTransform();
-			for (auto it = __objects.begin(); it != __objects.end(); ++it) {
+			for (auto it = __objects.begin(); it != __objects.end(); ++it) 
 				(*it)->Draw(e);
-				//e.Graphics().SetClip(clip);
-				//e.Graphics().SetTransform(transform);
-			}
 
 			// Draw all Foregrounds.
 			e.Graphics().HoldBitmapDrawing(true);
@@ -185,8 +179,6 @@ void Room::Draw(DrawEventArgs& e) {
 		// Reset current view to 0.
 		__current_view = 0;
 
-		std::cout << watch.MilliSecondsElapsed() << std::endl;
-
 	}
 	else {
 
@@ -202,10 +194,8 @@ void Room::Draw(DrawEventArgs& e) {
 		Drawing::GraphicsState orig = e.Graphics().Save();
 
 		// If no Views are used, simply draw all of the Objects with normal scaling.
-		for (auto it = __objects.begin(); it != __objects.end(); ++it) {
+		for (auto it = __objects.begin(); it != __objects.end(); ++it)
 			(*it)->Draw(e);
-			//e.Graphics().Restore(orig);
-		}
 
 		// Draw all Foregrounds.
 		for (size_t i = 0; i < __backgrounds.size(); ++i)
