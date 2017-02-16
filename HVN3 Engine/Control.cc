@@ -27,7 +27,7 @@ Point GUI::Control::GetFixedPosition() {
 
 // Public members
 
-GUI::Control::Control() : 
+GUI::Control::Control() :
 	Control(Point(0.0f, 0.0f), Size(0.0f, 0.0f)) {}
 GUI::Control::Control(const Point& location, const Size& size) :
 	IPositionable(location.X(), location.Y()),
@@ -37,8 +37,8 @@ GUI::Control::Control(const Point& location, const Size& size) :
 	__minimum_size(0.0f, 0.0f),
 	__maximum_size(FLT_MAX, FLT_MAX),
 	__previous_pos(location.X(), location.Y()),
-	__image(al_create_bitmap(size.Width(), size.Height()), true),
-	__graphics(__image) {
+	__bmp(al_create_bitmap(size.Width(), size.Height()), true),
+	__graphics(__bmp) {
 
 	__parent = nullptr;
 	__manager = nullptr;
@@ -61,56 +61,80 @@ GUI::Control::Control(const Point& location, const Size& size) :
 
 }
 
-void GUI::Control::Update(UpdateEventArgs e) {}
-void GUI::Control::Draw(DrawEventArgs e) {
+void GUI::Control::Update(UpdateEventArgs& e) {}
+void GUI::Control::Draw(DrawEventArgs& e) {
 
-	//if (Invalidated()) {
+	// Save the state of the Graphics object.
+	Drawing::GraphicsState orig = e.Graphics().Save();
+	
+	// Translate drawing so that the Control can draw itself at (0, 0).
+	Drawing::Transform t;
+	t.Translate(X(), Y());
+	t.Compose(e.Graphics().GetTransform());
+	e.Graphics().SetTransform(t);
 
-	//	// Create a new bitmap if the size of the Control has changed, or the size has become valid (area > 0).
-	//	if (Width() <= 0.0f || Height() <= 0.0f) {
-	//		if (__image) al_destroy_bitmap(__image);
-	//		__image = nullptr;
-	//	}
-	//	else if (!__image || (Width() != al_get_bitmap_width(__image) || Height() != al_get_bitmap_height(__image))) {
-	//		if (__image) al_destroy_bitmap(__image);
-	//		__image = al_create_bitmap(Width(), Height());
-	//	}
+	// Set the clipping rectangle to match the dimensions of the Control.
+	Point p2(Width(), Height());
+	t.TransformPoint(p2);
+	e.Graphics().SetClip(Rectangle::Intersect(e.Graphics().Clip(), Rectangle(Point(0.0f, 0.0f), p2)));
 
-	//	// If the Control's bitmap exists, redraw by calling OnPaint event.
-	//	if (__image) {
+	// Call the Control's OnPaint method.
+	OnPaint(PaintEventArgs(e.Graphics()));
 
-	//		Point pos(X(), Y());
-	//		__graphics.Clear(Color::Transparent);
-	//		SetXY(0.0f, 0.0f);
-	//		OnPaint();
-	//		SetXY(pos.X(), pos.Y());
+	// Restore the original state of the Graphics object.
+	e.Graphics().Restore(orig);
 
-	//	}
+	// The Control has now been validated. This isn't important right now, but will be for future drawing optimizations.
+	__invalidated = false;
 
-	//	// The Control is now validated.
-	//	__invalidated = false;
+	/*
+	if (Invalidated()) {
 
-	//}
+		// When a Control is "Invalidated", that means it needs to be redrawn.
 
-	//// Draw the Control's bitmap image (if it exists).
-	//if (__image) {
-	//	float scale = __manager ? __manager->Scale() : 1.0f;
-	//	al_draw_tinted_scaled_bitmap(
-	//		__image, 
-	//		al_map_rgba_f(1.0f * __opacity, 1.0f * __opacity, 1.0f * __opacity, __opacity), 
-	//		0.0f,
-	//		0.0f,
-	//		Width(),
-	//		Height(),
-	//		X(),
-	//		Y(),
-	//		Width() * scale,
-	//		Height() * scale,
-	//		NULL
-	//	);
+		// If the size of the Control has changed, or its size has become invalid, create a new Bitmap.
+		if (Width() <= 0.0f || Height() <= 0.0f)
+			__bmp = Drawing::Bitmap(0, 0);
+		else if (!__bmp || (Width() != __bmp.Width() || Height() != __bmp.Height()))
+			__bmp = Drawing::Bitmap(Width(), Height());
 
-	//}
-		
+		// If the Control's Bitmap is valid, redraw by calling OnPaint event.
+		if (__bmp) {
+
+			Point pos(X(), Y());
+			__graphics.Clear(Color::Transparent);
+			SetXY(0.0f, 0.0f);
+			OnPaint();
+			SetXY(pos.X(), pos.Y());
+
+		}
+
+		// The Control is now validated.
+		__invalidated = false;
+
+	}
+
+	// Draw the Control's bitmap image (if it exists).
+	if (__bmp) {
+		float scale = __manager ? __manager->Scale() : 1.0f;
+		al_draw_tinted_scaled_bitmap(
+			__bmp,
+			al_map_rgba_f(1.0f * __opacity, 1.0f * __opacity, 1.0f * __opacity, __opacity), 
+			0.0f,
+			0.0f,
+			Width(),
+			Height(),
+			X(),
+			Y(),
+			Width() * scale,
+			Height() * scale,
+			NULL
+		);
+
+	}
+
+	*/
+
 }
 void GUI::Control::Resize(float width, float height) {
 
@@ -154,14 +178,14 @@ bool GUI::Control::IsDisposed() {
 
 }
 
-Color* GUI::Control::ForeColor() {
+const Color& GUI::Control::ForeColor() const {
 
-	return &__forecolor;
+	return __forecolor;
 
 }
-Color* GUI::Control::BackColor() {
+const Color& GUI::Control::BackColor() const {
 
-	return &__backcolor;
+	return __backcolor;
 
 }
 void GUI::Control::SetForeColor(const Color& color) {
@@ -309,7 +333,7 @@ void GUI::Control::OnMouseUp() {}
 void GUI::Control::OnMouseMove() {}
 void GUI::Control::OnClick() {}
 void GUI::Control::OnDoubleClick() {}
-void GUI::Control::OnPaint() {}
+void GUI::Control::OnPaint(PaintEventArgs e) {}
 void GUI::Control::OnResize() {}
 void GUI::Control::OnMove() {
 

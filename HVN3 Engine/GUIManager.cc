@@ -58,7 +58,7 @@ namespace GUI {
 
 	}
 
-	void GuiManager::Update(UpdateEventArgs e) {
+	void GuiManager::Update(UpdateEventArgs& e) {
 
 		// Get mouse state.
 		bool mouse_is_held = Mouse::ButtonDown(MB_LEFT | MB_RIGHT | MB_MIDDLE);
@@ -164,14 +164,16 @@ namespace GUI {
 		}
 
 	}
-	void GuiManager::Draw(DrawEventArgs e) {
+	void GuiManager::Draw(DrawEventArgs& e) {
 
 		for (auto it = __controls.rbegin(); it != __controls.rend(); ++it) {
 
-			Control* c = *it;
+			// If the Control is not visible, do not draw it.
+			if (!(*it)->Visible())
+				continue;
 
-			if (c->Visible())
-				c->Draw(e);
+			// Draw the Control.
+			(*it)->Draw(e);
 
 		}
 
@@ -239,4 +241,3 @@ namespace GUI {
 	}
 
 }
-

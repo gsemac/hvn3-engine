@@ -158,6 +158,7 @@
     <ClCompile Include="GameProperties.cc" />
     <ClCompile Include="Geometry.cc" />
     <ClCompile Include="Graphics.cc" />
+    <ClCompile Include="GraphicsState.cc" />
     <ClCompile Include="Grid.cc" />
     <ClCompile Include="GridVisualizer.cc" />
     <ClCompile Include="GUIManager.cc" />
@@ -228,6 +229,7 @@
     <ClInclude Include="Encryption.h" />
     <ClInclude Include="EventArgs.h" />
     <ClInclude Include="ExampleGame3.h" />
+    <ClInclude Include="GraphicsState.h" />
     <ClInclude Include="HVN3.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventQueue.h" />

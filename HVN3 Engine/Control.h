@@ -30,7 +30,6 @@ namespace GUI {
 	};
 	//ENABLE_BITFLAG_OPERATORS(SIDE);
 
-	struct EventArgs {};
 	struct ResizeEventArgs {
 		ResizeEventArgs(float old_width, float old_height, float new_width, float new_height) : OldSize(old_width, old_height), NewSize(new_width, new_height) {
 
@@ -44,6 +43,13 @@ namespace GUI {
 		SIDE ChangedSides;
 	};
 
+	class PaintEventArgs : public DrawEventArgs {
+
+	public:
+		using DrawEventArgs::DrawEventArgs;
+
+	};
+
 	class Control : public IDrawable, public IUpdatable, public IPositionable, public ISizeable, public IDisposable, public IFocusable {
 		friend class GuiManager;
 
@@ -55,7 +61,7 @@ namespace GUI {
 		
 		Control* __parent;
 		GuiManager* __manager;
-		Drawing::Bitmap __image;
+		Drawing::Bitmap __bmp;
 		Drawing::Graphics __graphics;
 		Color __backcolor, __forecolor;
 		ANCHOR __anchor;
@@ -82,8 +88,8 @@ namespace GUI {
 		Control();
 		Control(const Point& location, const Size& size);
 
-		virtual void Update(UpdateEventArgs e) override;
-		void Draw(DrawEventArgs e) override;
+		virtual void Update(UpdateEventArgs& e) override;
+		void Draw(DrawEventArgs& e) override;
 		void Resize(float width, float height);
 
 		virtual void Invalidate();
@@ -91,8 +97,8 @@ namespace GUI {
 		void Dispose();
 		bool IsDisposed();
 
-		Color* ForeColor();
-		Color* BackColor();
+		const Color& ForeColor() const;
+		const Color& BackColor() const;
 		void SetForeColor(const Color& color);
 		void SetBackColor(const Color& color);
 
@@ -138,7 +144,7 @@ namespace GUI {
 		virtual void OnMouseUp();
 		virtual void OnClick();
 		virtual void OnDoubleClick();
-		virtual void OnPaint();
+		virtual void OnPaint(PaintEventArgs e);
 		virtual void OnResize();
 		virtual void OnMove();
 		virtual void OnGotFocus();

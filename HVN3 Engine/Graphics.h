@@ -7,6 +7,7 @@
 #include "View.h"
 #include "Transform.h"
 #include "Bitmap.h"
+#include "GraphicsState.h"
 
 namespace Drawing {
 
@@ -14,6 +15,7 @@ namespace Drawing {
 
 	public:
 		Graphics(Bitmap& surface);
+		~Graphics();
 
 		void DrawRectangle(const Rectangle& rect, const Color& color, float thickness);
 		void DrawRectangle(float x, float y, float width, float height, const Color& color, float thickness);
@@ -40,9 +42,9 @@ namespace Drawing {
 
 		void Clear(const Color& color);
 
-		void DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment align = Alignment::Left);
+		void DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment = Alignment::Left);
 		void DrawText(float x, float y, const std::string& text, const Font& font, const Color& color);
-		void DrawText(float x, float y, Utf8String& text, const Font& font, const Color& color);
+		void DrawText(float x, float y, Utf8String& text, const Font& font, const Color& color, Alignment alignment = Alignment::Left);
 
 		void DrawSprite(const Sprite& sprite, int subimage, float x, float y);
 		void DrawSprite(const Sprite& sprite, int subimage, float x, float y, const Color& blend, float xscale, float yscale, float angle);
@@ -62,16 +64,22 @@ namespace Drawing {
 
 		void HoldBitmapDrawing(bool hold);
 
+		GraphicsState Save() const;
+		void Restore(const GraphicsState& state);
+
 	private:
 		Bitmap __surface;
 		Transform __transform;
 		Rectangle __clipping_region;
+		bool __state_changed;
 
 		// Called at the beginning of every drawing function to set the drawing target and its and tranforms/clipping region.
 		void PrepareDrawingSurface();
 		void ApplyTransform();
 		void ApplyClip();
 		bool IsActiveSurface() const;
+		
+		int GetAllegroFlags(Alignment value) const;
 
 	};
 

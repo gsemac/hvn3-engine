@@ -25,8 +25,8 @@ namespace Drawing {
 		void VerticalShear(float degrees);
 		void VerticalShear(float origin_x, float origin_y, float degrees);
 		void VerticalShear(const Point& origin, float degrees);
-		void TransformPoint(float& x, float& y);
-		void TransformPoint(Point& point);
+		void TransformPoint(float& x, float& y) const;
+		void TransformPoint(Point& point) const;
 		const ALLEGRO_TRANSFORM* AlPtr() const;
 		Transform& operator=(const Transform& other);
 

@@ -90,12 +90,12 @@ namespace Drawing {
 		VerticalShear(origin.X(), origin.Y(), degrees);
 
 	}
-	void Transform::TransformPoint(float& x, float& y) {
+	void Transform::TransformPoint(float& x, float& y) const {
 
 		al_transform_coordinates(&__t, &x, &y);
 
 	}
-	void Transform::TransformPoint(Point& point) {
+	void Transform::TransformPoint(Point& point) const {
 
 		float x = point.X();
 		float y = point.Y();

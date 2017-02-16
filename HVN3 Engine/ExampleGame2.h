@@ -34,7 +34,7 @@ namespace SuperMarioBros {
 			SetCollisionMask(::CollisionMask(Rectangle(0, 16, 16, 16)));
 
 		}
-		void Update(UpdateEventArgs e) override {
+		void Update(UpdateEventArgs& e) override {
 
 			if (Keyboard::KeyDown(ALLEGRO_KEY_RIGHT) && PlaceFree(X() + 5, Y()))
 				TranslateX(5);
@@ -57,7 +57,7 @@ namespace SuperMarioBros {
 			Object::Update(e);
 
 		}
-		void Draw(DrawEventArgs e) override {
+		void Draw(DrawEventArgs& e) override {
 
 			Object::Draw(e);
 
@@ -78,17 +78,17 @@ namespace SuperMarioBros {
 			SetCollisionMask(::CollisionMask(Rectangle(0, 0, 16, 16)));
 
 		}
-		void BeginUpdate(UpdateEventArgs e) override {
+		void BeginUpdate(UpdateEventArgs& e) override {
 
 
 
 		}
-		void Update(UpdateEventArgs e) override {
+		void Update(UpdateEventArgs& e) override {
 
 
 
 		}
-		void Draw(DrawEventArgs e) override {
+		void Draw(DrawEventArgs& e) override {
 
 			Object::Draw(e);
 
@@ -159,8 +159,9 @@ namespace SuperMarioBros {
 			//Background(AddBackground(backgrounds[BG_HILLS])).SetFixed(true);
 
 			GUI::GuiManager* manager = new GUI::GuiManager();
-			GUI::Button* button = new GUI::Button(0, 0, 100, 50, "Button 1");
-			manager->AddControl(button);
+			manager->AddControl(new GUI::Button(50, 50, 100, 25, "Button 1"));
+			manager->AddControl(new GUI::Button(50, 80, 100, 25, "Button 2"));
+			manager->AddControl(new GUI::Button(50, 100, 100, 25, "Button 3"));
 			AddInstance(manager);
 
 		}
@@ -176,12 +177,12 @@ namespace SuperMarioBros {
 
 			// Initialize the Framework.
 			InitializeFramework();
-
+			
 			// Set up Game Resources.
-			IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data", "ExampleGame2"));
-			sprites.Add(SPR_PLAYER, Sprite::FromSpriteSheet("mario_small_walk.png", 16, 32, 0, 0, Color(157, 159, 159)));
-			sprites.Add(SPR_BLOCK, Sprite("block_001.png"));
-			backgrounds.Add(BG_HILLS, Background("background_001.png"));
+			IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data"));
+			sprites.Add(SPR_PLAYER, Sprite::FromSpriteSheet("ExampleGame2/mario_small_walk.png", 16, 32, 0, 0, Color(157, 159, 159)));
+			sprites.Add(SPR_BLOCK, Sprite("ExampleGame2/block_001.png"));
+			backgrounds.Add(BG_HILLS, Background("ExampleGame2/background_001.png"));
 
 			// Set up Game Properties.
 			GameProperties properties;

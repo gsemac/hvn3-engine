@@ -20,7 +20,7 @@ namespace GUI {
 		Font* __font;
 
 		Point __text_offset;
-		
+
 	public:
 		Button(float x, float y, float width, float height, const char* text) : Control(Point(x, y), Size(width, height)), __text_offset(0.0f, 0.0f) {
 
@@ -47,13 +47,13 @@ namespace GUI {
 
 		virtual void OnMouseEnter() {
 
-			BackColor()->Lighten();
+			SetBackColor(BackColor().Lighter());
 			Invalidate();
 
 		}
 		virtual void OnMouseLeave() {
 
-			BackColor()->Darken();
+			SetBackColor(BackColor().Darker());
 
 			if (Mouse::ButtonDown(MB_LEFT))
 				__text_offset.SetY(0.0f);
@@ -77,25 +77,29 @@ namespace GUI {
 		}
 		virtual void OnClick() {
 
-			std::cout << "Button: Clicked!\n";
+			static int i = 0;
+			//std::cout << "Button: Clicked!\n" << i++;
 
-
-			SetText("Clicked!");
+			
+			//SetText("Clicked!");
 
 		}
-		virtual void OnPaint() {
-
+		virtual void OnPaint(PaintEventArgs e) override {
+			//std::cout << *__text << std::endl;
 			// Draw background.
-			al_draw_filled_rectangle(X(), Y(), X() + Width(), Y() + Height(), BackColor()->AlPtr());
+			e.Graphics().DrawFilledRectangle(0.0f, 0.0f, Width(), Height(), BackColor());
 
 			// Draw text.
-			if (__font)
-				al_draw_shadow_ustr(__font->AlPtr(), al_map_rgb(186, 186, 186), Color::FromArgb(0, 0, 0, 0.5f).AlPtr(), (std::round)((X() + Width() / 2.0f) + __text_offset.X()),
-				(std::round)((Y() + Height() / 2.0f - __font->Height() / 2.0f - 1) + __text_offset.Y()), ALLEGRO_ALIGN_CENTRE, __text->AlPtr());
+			if (__font) {
+				float tx = (std::round)((Width() / 2.0f) + __text_offset.X());
+				float ty = (std::round)((Height() / 2.0f - __font->Height() / 2.0f - 1.0f) + __text_offset.Y());
+				e.Graphics().DrawText(tx + 1.0f, ty + 1.0f, *__text, *__font, Color::FromArgb(0, 0, 0, 0.5f), Alignment::Center);
+				e.Graphics().DrawText(tx, ty, *__text, *__font, Color::FromArgb(186, 186, 186), Alignment::Center);
+			}
 
 			// Draw outline.
-			al_draw_rectangle(X() + 1, Y() + 1, X() + Width(), Y() + Height(), al_map_rgb(17, 17, 17), 1);
-
+			e.Graphics().DrawRectangle(0.0f, 0.0f, Width(), Height(), Color::FromArgb(17, 17, 17), 1.0f);
+		
 		}
 
 	};

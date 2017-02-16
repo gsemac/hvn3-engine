@@ -215,7 +215,7 @@ void Runner::OnTimerTick(Event& ev) {
 		static Stopwatch delta_timer(true);
 
 		// Update the active scene.
-		__scene->Update(delta_timer.SecondsElapsed());
+		__scene->Update(UpdateEventArgs(delta_timer.SecondsElapsed()));
 
 		// Allow redrawing, since actors have been updated.
 		__allow_redraw = true;

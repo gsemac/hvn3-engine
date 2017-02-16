@@ -158,7 +158,7 @@ float Color::Saturation() const {
 
 }
 
-Color& Color::Lighten(float factor) {
+Color Color::Lighter(float factor) const {
 
 	// Increase luminance.
 	float h = Hue();
@@ -166,12 +166,10 @@ Color& Color::Lighten(float factor) {
 	float l = Clamp(Luminance() + factor, 0.0f, 1.0f);
 
 	// Recalculate RGB values.
-	HslToRgb(h, s, l);
-
-	return *this;
+	return Color::FromHsl(h, s, l);
 
 }
-Color& Color::Darken(float factor) {
+Color Color::Darker(float factor) const {
 
 	// Decrease luminance.
 	float h = Hue();
@@ -179,9 +177,7 @@ Color& Color::Darken(float factor) {
 	float l = Clamp(Luminance() - factor, 0.0f, 1.0f);
 
 	// Recalculate RGB values.
-	HslToRgb(h, s, l);
-
-	return *this;
+	return Color::FromHsl(h, s, l);
 
 }
 

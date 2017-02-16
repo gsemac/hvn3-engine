@@ -178,7 +178,7 @@ bool Emitter::Particle::IsDead() {
 	return __life <= 0;
 
 }
-void Emitter::Particle::Update(UpdateEventArgs e) {
+void Emitter::Particle::Update(UpdateEventArgs& e) {
 
 	// Update image index.
 	__image_index_timer += (std::fabs)(ImageSpeed());
@@ -233,7 +233,7 @@ void Emitter::Particle::Update(UpdateEventArgs e) {
 	--__life;
 
 }
-void Emitter::Particle::Draw(DrawEventArgs e) {
+void Emitter::Particle::Draw(DrawEventArgs& e) {
 
 	if (Sprite()) {
 
@@ -304,7 +304,7 @@ int Emitter::Count() {
 	return __particle_count;
 
 }
-void Emitter::Update(UpdateEventArgs e) {
+void Emitter::Update(UpdateEventArgs& e) {
 
 	// Update the state of all particles.
 	int i = 0;
@@ -313,7 +313,7 @@ void Emitter::Update(UpdateEventArgs e) {
 		Particle& p = __particles[i];
 
 		// Update the particle.
-		p.Update(1.0f);
+		p.Update(e);
 
 		// Check if the vector is dead.
 		if (p.IsDead()) {
@@ -330,7 +330,7 @@ void Emitter::Update(UpdateEventArgs e) {
 	//std::cout << "Count(): " << Count() << std::endl;
 
 }
-void Emitter::Draw(DrawEventArgs e) {
+void Emitter::Draw(DrawEventArgs& e) {
 
 	// Draw all particles.
 	for (int i = 0; i < __particle_count; ++i)

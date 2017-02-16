@@ -68,8 +68,8 @@ public:
 	Room(unsigned int width, unsigned int height, IBroadphase* broadphase_handler);
 	~Room();
 
-	void Update(UpdateEventArgs e) override;
-	void Draw(DrawEventArgs e) override;
+	void Update(UpdateEventArgs& e) override;
+	void Draw(DrawEventArgs& e) override;
 
 	void SetBackgroundColor(int, int, int);
 	void SetBackgroundColor(const Color& color);
@@ -78,6 +78,7 @@ public:
 	void AddInstance(Object* object, float x, float y);
 	void AddInstance(std::shared_ptr<Object> object);
 	void AddInstance(std::shared_ptr<Object> object, float x, float y);
+	void AddInstance(ObjectBase* object);
 
 	// Returns the View at the specified index.
 	View& View(int index);

@@ -7,6 +7,11 @@ namespace Drawing {
 	Graphics::Graphics(Bitmap& surface) :
 		__surface(surface),
 		__clipping_region(0.0f, 0.0f, surface.Width(), surface.Height()) {}
+	Graphics::~Graphics() {
+		
+		al_set_target_bitmap(nullptr);
+
+	}
 
 	void Graphics::DrawRectangle(const Rectangle& rect, const Color& color, float thickness) {
 
@@ -153,24 +158,11 @@ namespace Drawing {
 
 	}
 
-	void Graphics::DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment align) {
+	void Graphics::DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment) {
 
 		PrepareDrawingSurface();
 
-		int flags = 0;
-		switch (align) {
-		case Alignment::Left:
-			flags |= ALLEGRO_ALIGN_LEFT;
-			break;
-		case Alignment::Center:
-			flags |= ALLEGRO_ALIGN_CENTER;
-			break;
-		case Alignment::Right:
-			flags |= ALLEGRO_ALIGN_RIGHT;
-			break;
-		}
-
-		al_draw_text(font.AlPtr(), color.AlPtr(), x, y, flags, text);
+		al_draw_text(font.AlPtr(), color.AlPtr(), x, y, GetAllegroFlags(alignment), text);
 
 	}
 	void Graphics::DrawText(float x, float y, const std::string& text, const Font& font, const Color& color) {
@@ -178,11 +170,11 @@ namespace Drawing {
 		DrawText(x, y, text.c_str(), font, color);
 
 	}
-	void Graphics::DrawText(float x, float y, Utf8String& text, const Font& font, const Color& color) {
+	void Graphics::DrawText(float x, float y, Utf8String& text, const Font& font, const Color& color, Alignment alignment) {
 
 		PrepareDrawingSurface();
 
-		al_draw_ustr(font.AlPtr(), color.AlPtr(), x, y, NULL, text.AlPtr());
+		al_draw_ustr(font.AlPtr(), color.AlPtr(), x, y, GetAllegroFlags(alignment), text.AlPtr());
 
 	}
 
@@ -285,6 +277,23 @@ namespace Drawing {
 
 	}
 
+	GraphicsState Graphics::Save() const {
+
+		return GraphicsState(*this);
+
+	}
+	void Graphics::Restore(const GraphicsState& state) {
+
+		__clipping_region = state.__clip;
+		__transform = state.__transform;
+
+		if (!IsActiveSurface()) {
+			ApplyClip();
+			ApplyTransform();
+		}
+
+	}
+
 	void Graphics::SetTransform(const Transform& transform) {
 
 		__transform = transform;
@@ -317,6 +326,7 @@ namespace Drawing {
 		}
 
 	}
+
 	void Graphics::ApplyTransform() {
 
 		al_use_transform(__transform.AlPtr());
@@ -328,8 +338,27 @@ namespace Drawing {
 
 	}
 	bool Graphics::IsActiveSurface() const {
-
+		
 		return al_get_target_bitmap() == __surface.AlPtr();
+
+	}
+	int Graphics::GetAllegroFlags(Alignment value) const {
+
+		int flags = 0;
+	
+		switch (value) {
+		case Alignment::Left:
+			flags |= ALLEGRO_ALIGN_LEFT;
+			break;
+		case Alignment::Center:
+			flags |= ALLEGRO_ALIGN_CENTER;
+			break;
+		case Alignment::Right:
+			flags |= ALLEGRO_ALIGN_RIGHT;
+			break;
+		}
+
+		return flags;
 
 	}
 

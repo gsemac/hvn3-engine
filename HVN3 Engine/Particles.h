@@ -84,8 +84,8 @@ private:
 		void Reset(float x, float y, const ParticleType& type);
 		bool IsDead();
 
-		void Update(UpdateEventArgs e) override;
-		void Draw(DrawEventArgs e) override;
+		void Update(UpdateEventArgs& e) override;
+		void Draw(DrawEventArgs& e) override;
 
 	};
 
@@ -113,8 +113,8 @@ public:
 
 	int Count();
 
-	void Update(UpdateEventArgs e) override;
-	void Draw(DrawEventArgs e) override;
+	void Update(UpdateEventArgs& e) override;
+	void Draw(DrawEventArgs& e) override;
 
 	friend bool operator<(const Particle& a, const Particle& b);
 	friend bool operator==(const Particle& a, const Particle& b);

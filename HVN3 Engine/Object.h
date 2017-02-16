@@ -13,8 +13,8 @@ class ObjectBase : public IUpdatable, public IDrawable {
 
 public:
 	ObjectBase();
-	virtual void Draw(DrawEventArgs e) override;
-	virtual void Update(UpdateEventArgs e) override;
+	virtual void Draw(DrawEventArgs& e) override;
+	virtual void Update(UpdateEventArgs& e) override;
 	void Destroy();
 	bool IsDestroyed();
 	void Deactivate();
@@ -33,8 +33,8 @@ class Object : public ObjectBase, public ICollidable, public ISpriteable {
 public:
 	Object();
 	Object(float x, float y);
-	virtual void Update(UpdateEventArgs e) override;
-	virtual void Draw(DrawEventArgs e) override;
+	virtual void Update(UpdateEventArgs& e) override;
+	virtual void Draw(DrawEventArgs& e) override;
 
 	int Depth() const;
 	void SetDepth(int depth);

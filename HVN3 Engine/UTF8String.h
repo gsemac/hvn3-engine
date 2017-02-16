@@ -473,6 +473,11 @@ public:
 		return *this;
 
 	}
+	int32_t operator[](const int index) {
+
+		return CharAt(index);
+
+	}
 
 };
 

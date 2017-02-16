@@ -11,6 +11,14 @@ namespace Drawing {
 	}
 	Bitmap::Bitmap(int width, int height) {
 
+		// If either the width or height is 0, do not allocate any memory for the bitmap.
+		if (width == 0 || height == 0) {
+			__bmp = nullptr;
+			__free = false;
+			return;
+		}
+			
+		// Otherwise, allocate memory for the bitmap.
 		__bmp = al_create_bitmap(width, height);
 		__free = true;
 
@@ -196,7 +204,7 @@ namespace Drawing {
 	}
 	Bitmap::operator bool() const {
 
-		return __bmp;
+		return (__bmp != nullptr);
 
 	}
 

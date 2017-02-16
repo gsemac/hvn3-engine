@@ -41,8 +41,8 @@ public:
 	float Hue() const;
 	float Saturation() const;
 
-	Color& Lighten(float factor = 0.05f);
-	Color& Darken(float factor = 0.05f);
+	Color Lighter(float factor = 0.05f) const;
+	Color Darker(float factor = 0.05f) const;
 
 	ALLEGRO_COLOR AlPtr() const;
 

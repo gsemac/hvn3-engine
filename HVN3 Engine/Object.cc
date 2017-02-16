@@ -19,7 +19,7 @@ Object::Object(float x, float y) : ICollidable(x, y) {
 
 }
 
-void Object::Update(UpdateEventArgs e) {
+void Object::Update(UpdateEventArgs& e) {
 
 	IncrementImageIndex();
 
@@ -27,7 +27,7 @@ void Object::Update(UpdateEventArgs e) {
 		Translate(Velocity().X(), Velocity().Y());
 
 }
-void Object::Draw(DrawEventArgs e) {
+void Object::Draw(DrawEventArgs& e) {
 
 	// Draw sprite (if it exists).
 	if (Sprite()) {
@@ -92,8 +92,8 @@ ObjectBase::ObjectBase() {
 	__active = false;
 
 }
-void ObjectBase::Draw(DrawEventArgs e) {}
-void ObjectBase::Update(UpdateEventArgs e) {}
+void ObjectBase::Draw(DrawEventArgs& e) {}
+void ObjectBase::Update(UpdateEventArgs& e) {}
 void ObjectBase::Destroy() {
 
 	__is_destroyed = true;

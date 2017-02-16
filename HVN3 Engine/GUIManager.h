@@ -29,8 +29,8 @@ namespace GUI {
 		float Scale();
 		void SetScale(float scale);
 
-		void Update(UpdateEventArgs e) override;
-		void Draw(DrawEventArgs e) override;
+		void Update(UpdateEventArgs& e) override;
+		void Draw(DrawEventArgs& e) override;
 
 	private:
 		Control* __held_control;

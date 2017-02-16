@@ -324,6 +324,9 @@
     <ClCompile Include="IUpdatable.cc">
       <Filter>Source Files\Interfaces</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicsState.cc">
+      <Filter>Source Files\Drawing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -616,6 +619,9 @@
     </ClInclude>
     <ClInclude Include="Room.h">
       <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsState.h">
+      <Filter>Header Files\Drawing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

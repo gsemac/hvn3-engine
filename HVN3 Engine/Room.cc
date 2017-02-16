@@ -8,6 +8,7 @@
 #include "Graphics.h"
 #include "Mouse.h"
 #include "DrawEventArgs.h"
+#include "Exception.h"
 #define CELL_DIMENSIONS 32
 
 // Virtual members
@@ -77,7 +78,7 @@ Room::~Room() {
 	__broadphase_handler = nullptr;
 
 }
-void Room::Update(UpdateEventArgs e) {
+void Room::Update(UpdateEventArgs& e) {
 
 	// Run the pre-update procedure for all Objects.
 	for (auto it = __objects.begin(); it != __objects.end(); ++it)
@@ -109,12 +110,15 @@ void Room::Update(UpdateEventArgs e) {
 	UpdateViews();
 
 }
-void Room::Draw(DrawEventArgs e) {
+void Room::Draw(DrawEventArgs& e) {
+
+	Stopwatch watch(true);
 
 	// Each View needs to be drawn separately to improve the appearance of scaled Bitmaps.
 	if (__views.size() > 0) {
 
-		// Save the original transform.
+		// Save the original state.
+		//Drawing::GraphicsState gs = e.Graphics().Save();
 		Drawing::Transform original_tranform(e.Graphics().GetTransform());
 		Rectangle original_clip(e.Graphics().Clip());
 
@@ -135,7 +139,8 @@ void Room::Draw(DrawEventArgs e) {
 			Point p2 = view.Port().BottomRight();
 			original_tranform.TransformPoint(p1);
 			original_tranform.TransformPoint(p2);
-			e.Graphics().SetClip(Rectangle(p1, p2));
+			Rectangle clip(p1, p2);
+			e.Graphics().SetClip(clip);
 
 			// Clear to background color.
 			e.Graphics().Clear(__background_color);
@@ -146,20 +151,28 @@ void Room::Draw(DrawEventArgs e) {
 			Drawing::Transform transform(original_tranform);
 			transform.Translate(-offset.X() + p1.X(), -offset.Y() + p1.Y());
 			e.Graphics().SetTransform(transform);
-			
+
 			// Draw all Backgrounds (foregrounds are skipped for now).
+			e.Graphics().HoldBitmapDrawing(true);
 			for (size_t i = 0; i < __backgrounds.size(); ++i)
 				if (!__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
 					DrawBackground(e.Graphics(), __backgrounds[i], Point(view.ViewX(), view.ViewY()));
+			e.Graphics().HoldBitmapDrawing(false);
 
 			// Draw all Objects.
-			for (auto it = __objects.begin(); it != __objects.end(); ++it)
-				(*it)->Draw(DrawEventArgs(e.Graphics()));
+			//Drawing::Transform restore = e.Graphics().GetTransform();
+			for (auto it = __objects.begin(); it != __objects.end(); ++it) {
+				(*it)->Draw(e);
+				//e.Graphics().SetClip(clip);
+				//e.Graphics().SetTransform(transform);
+			}
 
 			// Draw all Foregrounds.
+			e.Graphics().HoldBitmapDrawing(true);
 			for (size_t i = 0; i < __backgrounds.size(); ++i)
 				if (__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
 					DrawBackground(e.Graphics(), __backgrounds[i], Point(view.ViewX(), view.ViewY()));
+			e.Graphics().HoldBitmapDrawing(false);
 
 		}
 
@@ -172,6 +185,8 @@ void Room::Draw(DrawEventArgs e) {
 		// Reset current view to 0.
 		__current_view = 0;
 
+		std::cout << watch.MilliSecondsElapsed() << std::endl;
+
 	}
 	else {
 
@@ -183,9 +198,14 @@ void Room::Draw(DrawEventArgs e) {
 			if (!__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
 				DrawBackground(e.Graphics(), __backgrounds[i], Point(0.0f, 0.0f));
 
+		// Save the state of the Graphics object in case any of the Draw calls modify it.
+		Drawing::GraphicsState orig = e.Graphics().Save();
+
 		// If no Views are used, simply draw all of the Objects with normal scaling.
-		for (auto it = __objects.begin(); it != __objects.end(); ++it)
-			(*it)->Draw(e.Graphics());
+		for (auto it = __objects.begin(); it != __objects.end(); ++it) {
+			(*it)->Draw(e);
+			//e.Graphics().Restore(orig);
+		}
 
 		// Draw all Foregrounds.
 		for (size_t i = 0; i < __backgrounds.size(); ++i)
@@ -260,6 +280,11 @@ void Room::AddInstance(std::shared_ptr<Object> object, float x, float y) {
 		}
 		__objects.push_back(object);
 	}
+
+}
+void Room::AddInstance(ObjectBase* object) {
+
+	throw NotImplementedException();
 
 }
 View& Room::View(int index) {
@@ -345,7 +370,6 @@ void Room::DrawBackground(Drawing::Graphics& graphics, const BackgroundPropertie
 	if (scale_x < 0.0f) offset.TranslateX(width);
 	if (scale_y < 0.0f) offset.TranslateY(height);
 
-	graphics.HoldBitmapDrawing(true);
 	if (background.IsTiledHorizontally() && background.IsTiledVertically())
 		// Draw background tiled horizontally and vertically.
 		for (; offset.X() < (scale_x < 0.0f ? Width() + width : Width()); offset.TranslateX(width))
@@ -362,7 +386,6 @@ void Room::DrawBackground(Drawing::Graphics& graphics, const BackgroundPropertie
 	else
 		// Draw background without tiling.
 		graphics.DrawBitmap(bg->Bitmap(), offset.X(), offset.Y(), background.Scale().X(), background.Scale().Y());
-	graphics.HoldBitmapDrawing(false);
 
 }
 void Room::UpdateViews() {
