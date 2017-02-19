@@ -31,8 +31,6 @@ public:
 	void Disable();
 	bool Enabled() const;
 
-	bool HasMouse() const;
-	Point MousePosition() const;
 	bool TracksMouse() const;
 	void TracksMouse(bool tracks);
 	

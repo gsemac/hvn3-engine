@@ -113,31 +113,6 @@ bool View::Enabled() const {
 
 }
 
-bool View::HasMouse() const {
-
-	if (!__tracks_mouse) 
-		return false;
-
-	return PointIn(Mouse::DisplayPosition(), Port());
-
-}
-Point View::MousePosition() const {
-
-	// Get the mouse position relative to the display.
-	Point pos = Mouse::DisplayPosition();
-
-	// Transform the mouse position against the view transformations.
-	Drawing::Transform t;
-	::Scale scale = Scale();
-	t.Rotate(Port().Midpoint(), -Angle());
-	t.Translate(__view_pos.X() * scale.XScale(), __view_pos.Y() * scale.YScale());
-	t.Scale(1.0f / scale.XScale(), 1.0f / scale.YScale());
-	t.TransformPoint(pos);
-
-	// Return the result.
-	return pos;
-
-}
 bool View::TracksMouse() const {
 
 	return __tracks_mouse;

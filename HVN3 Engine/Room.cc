@@ -401,17 +401,12 @@ void Room::DrawBackground(Drawing::Graphics& graphics, const BackgroundPropertie
 }
 void Room::UpdateViews() {
 
-	// Keep track of whether a view has already taken control of the mouse (to prevent multiple views from doing so).
-	bool mouse_taken = false;
-
 	for (int i = ViewCount() - 1; i >= 0; --i) {
 
 		// Initialize variables.	
 		::View& view = View(i);
 		Object* obj = view.GetFollowing();
-		bool has_mouse = !mouse_taken && view.HasMouse();
-		if (has_mouse) mouse_taken = true;
-		has_mouse = false; // debug
+
 		// If the View isn't following an Object, or is disabled, there's nothing to do.
 		if (!obj || !view.Enabled()) continue;
 
@@ -445,13 +440,6 @@ void Room::UpdateViews() {
 			// Adjust View/mouse position.
 			view.SetPosition(view.ViewX(), view.ViewY() - diff);
 
-		}
-
-		// Adjust mouse position (if applicable).
-		if (has_mouse) {
-			Point pos = view.MousePosition();
-			Mouse::X = pos.X();
-			Mouse::Y = pos.Y();
 		}
 
 	}

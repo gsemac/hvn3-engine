@@ -447,55 +447,12 @@ void Runner::RecalculateMousePosition() {
 
 			// Scale it according to the view scale.
 			(view_scale * port_scale).Inverse().ScalePoint(pos);
-			
 
 			// Rotate it against the view's angle.
 			PointRotate(pos, view.Port().Midpoint(), -view.Angle());
 
-
 			// Translate it according to the view's offset.
 			pos += view.Position();
-
-
-			/*Point view_offset(view.ViewPosition());
-			Scale view_scale(view.Scale().Inverse());
-			view_scale.Inverse().ScalePoint(view_offset);
-			view_scale.ScalePoint(pos);
-			
-			pos.Translate(-port_p1.X() + view_offset.X(), -port_p1.Y() + view_offset.Y());*/
-
-			//// Now we need to calculate the position of the mouse within the view.
-
-			//// Rotate the position around the midpoint of the viewport, against the view angle.
-			////PointRotate(pos, view.Scale().ScalePoint(viewport.Midpoint()), -view.Angle());
-			//PointRotate(pos, view.Port().Midpoint(), -view.Angle());
-
-			///*pos += view.Scale().ScalePoint(Point(view.ViewPosition()));
-			//view.Scale().Inverse().ScalePoint(pos);
-			//pos.Translate(-port_p1.X(), -port_p1.Y());*/
-			//
-			//// ---------------------------------------------------------------------------------------------------------
-			//		// Translate the position so that the origin is the top-left coordinate of the viewport.
-			//Point offset(view.ViewPosition());
-
-			////offset.SetX(offset.X());
-			////view.Scale().ScalePoint(offset);
-			////Scale(viewport, view.Port()).ScalePoint(offset);
-			////view.Scale().ScalePoint(offset);
-
-			////offset.SetX(offset.X() * (view.Port().Width() * view.Scale().XScale() / viewport.Width()));
-			////offset.SetY(offset.Y() * (view.Port().Height() * view.Scale().YScale() / viewport.Height()));
-
-			////pos.Translate(-port_p1.X() * view.Scale().XScale() + offset.X(), -port_p1.Y() * view.Scale().XScale() + offset.Y());
-
-			////pos.Translate(-port_p1.X() + offset.X(), -port_p1.Y() + offset.Y());
-			//pos.Translate(offset.X(), offset.Y());
-
-			//// Scale the position to match the transformed scale of the viewport.
-			//pos.SetX(pos.X() * (view.Port().Width() / view.Scale().XScale() / viewport.Width()));
-			//pos.SetY(pos.Y() * (view.Port().Height() / view.Scale().YScale() / viewport.Height()));
-			//pos.Translate(-port_p1.X(), -port_p1.Y());
-			//// ---------------------------------------------------------------------------------------------------------
 
 			Mouse::StateAccessor::SetPosition(pos.X(), pos.Y());
 			break;
