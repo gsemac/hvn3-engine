@@ -10,8 +10,10 @@ class Font;
 
 extern const float PI;
 
-// Returns the sign of a given number (1, 0, or -1). 
+// Returns the sign of a given number (1 for all numbers greater than or equal to 0; -1 otherwise). 
 short Sign(float);
+// Returns the sign of a given number (1, 0, or -1). 
+short Signum(float);
 
 // Returns the absolute difference between two numbers.
 float AbsDiff(float a, float b);

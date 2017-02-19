@@ -18,8 +18,6 @@ void Room::Restart() {
 
 	__restart_pending = true;
 
-
-
 }
 
 // Protected members
@@ -138,23 +136,46 @@ void Room::Draw(DrawEventArgs& e) {
 			Point p2 = view.Port().BottomRight();
 			original_tranform.TransformPoint(p1);
 			original_tranform.TransformPoint(p2);
-			e.Graphics().SetClip(Rectangle(p1, p2));
+			Rectangle clip(p1, p2);
+			e.Graphics().SetClip(clip);
 
 			// Clear to background color.
 			e.Graphics().Clear(__background_color);
 
 			// Set transform according to view state.		
 			Point offset(view.ViewX(), view.ViewY());
-			original_tranform.TransformPoint(offset);
-			Drawing::Transform transform(original_tranform);
-			transform.Translate(-offset.X() + p1.X(), -offset.Y() + p1.Y());
+			//original_tranform.TransformPoint(offset);
+			Drawing::Transform transform;
+			transform.Translate(-offset.X() + view.Port().X(), -offset.Y() + view.Port().Y());
+			transform.Rotate(view.Port().Midpoint(), view.Angle());
+			////transform.Scale(Scale(clip, view.Port()) * view.Scale());
+			//Point scp(view.Scale().XScale(), view.Scale().YScale());
+			//original_tranform.TransformPoint(scp);
+			//Scale sc(scp.X(), scp.Y());
+			//transform.Scale(sc);
+			transform.Scale(view.Scale());
+			transform.Compose(original_tranform);
 			e.Graphics().SetTransform(transform);
+
+			//// Set transform according to view state.		
+			//Point offset(view.ViewX(), view.ViewY());
+			//original_tranform.TransformPoint(offset);
+			//Drawing::Transform transform(original_tranform);
+			//transform.Translate(-offset.X() + p1.X(), -offset.Y() + p1.Y());
+			//transform.Rotate(clip.Midpoint(), view.Angle());
+			//////transform.Scale(Scale(clip, view.Port()) * view.Scale());
+			////Point scp(view.Scale().XScale(), view.Scale().YScale());
+			////original_tranform.TransformPoint(scp);
+			////Scale sc(scp.X(), scp.Y());
+			////transform.Scale(sc);
+			//transform.Scale(view.Scale());
+			//e.Graphics().SetTransform(transform);
 
 			// Draw all Backgrounds (foregrounds are skipped for now).
 			e.Graphics().HoldBitmapDrawing(true);
 			for (size_t i = 0; i < __backgrounds.size(); ++i)
 				if (!__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-					DrawBackground(e.Graphics(), __backgrounds[i], Point(view.ViewX(), view.ViewY()));
+					DrawBackground(e.Graphics(), __backgrounds[i], &view);
 			e.Graphics().HoldBitmapDrawing(false);
 
 			// Draw all Objects.
@@ -165,7 +186,7 @@ void Room::Draw(DrawEventArgs& e) {
 			e.Graphics().HoldBitmapDrawing(true);
 			for (size_t i = 0; i < __backgrounds.size(); ++i)
 				if (__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-					DrawBackground(e.Graphics(), __backgrounds[i], Point(view.ViewX(), view.ViewY()));
+					DrawBackground(e.Graphics(), __backgrounds[i], &view);
 			e.Graphics().HoldBitmapDrawing(false);
 
 		}
@@ -188,7 +209,7 @@ void Room::Draw(DrawEventArgs& e) {
 		// Draw all Backgrounds (foregrounds are skipped for now).
 		for (size_t i = 0; i < __backgrounds.size(); ++i)
 			if (!__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-				DrawBackground(e.Graphics(), __backgrounds[i], Point(0.0f, 0.0f));
+				DrawBackground(e.Graphics(), __backgrounds[i], nullptr);
 
 		// Save the state of the Graphics object in case any of the Draw calls modify it.
 		Drawing::GraphicsState orig = e.Graphics().Save();
@@ -200,7 +221,7 @@ void Room::Draw(DrawEventArgs& e) {
 		// Draw all Foregrounds.
 		for (size_t i = 0; i < __backgrounds.size(); ++i)
 			if (__backgrounds[i].IsForeground() && __backgrounds[i].Visible())
-				DrawBackground(e.Graphics(), __backgrounds[i], Point(0.0f, 0.0f));
+				DrawBackground(e.Graphics(), __backgrounds[i], nullptr);
 
 	}
 
@@ -294,9 +315,9 @@ int Room::ViewCount() {
 	return (int)__views.size();
 
 }
-int Room::CurrentView() {
+const View& Room::CurrentView() const {
 
-	return __current_view;
+	return __views[__current_view];
 
 }
 Room::BackgroundProperties& Room::Background(int index) {
@@ -326,7 +347,7 @@ CollisionManager& Room::CollisionManager() {
 
 }
 
-void Room::DrawBackground(Drawing::Graphics& graphics, const BackgroundProperties& background, const Point& view_offset) {
+void Room::DrawBackground(Drawing::Graphics& graphics, const BackgroundProperties& background, ::View* view) {
 
 	// Get a reference to the pointer to the background we're going to be drawing.
 	const std::shared_ptr<::Background>& bg = background.Background();
@@ -345,8 +366,8 @@ void Room::DrawBackground(Drawing::Graphics& graphics, const BackgroundPropertie
 	Point offset = background.Offset();
 
 	// If the background is fixed, counteract this by the view offset.
-	if (background.Fixed())
-		offset += view_offset;
+	if (background.Fixed() && view)
+		offset += view->Position();
 
 	if (background.IsTiledHorizontally())
 		// Subtract the width of the background from the offset until it is "0" or negative.
@@ -364,18 +385,18 @@ void Room::DrawBackground(Drawing::Graphics& graphics, const BackgroundPropertie
 		// Draw background tiled horizontally and vertically.
 		for (; offset.X() < (scale_x < 0.0f ? Width() + width : Width()); offset.TranslateX(width))
 			for (float j = offset.Y(); j < ((scale_y < 0.0f) ? (Height() + height) : Height()); j += height)
-				graphics.DrawBitmap(bg->Bitmap(), offset.X(), j, background.Scale().X(), background.Scale().Y());
+				graphics.DrawBitmap(offset.X(), j, bg->Bitmap(), background.Scale().X(), background.Scale().Y());
 	else if (background.IsTiledHorizontally())
 		// Draw background tiled horizontally only.
 		for (; offset.X() < (scale_x < 0.0f ? Width() + width : Width()); offset.TranslateX(width))
-			graphics.DrawBitmap(bg->Bitmap(), offset.X(), offset.Y(), background.Scale().X(), background.Scale().Y());
+			graphics.DrawBitmap(offset.X(), offset.Y(), bg->Bitmap(), background.Scale().X(), background.Scale().Y());
 	else if (background.IsTiledVertically())
 		// Draw background tiled vertically only.
 		for (; offset.Y() < (scale_y < 0.0f ? Height() + height : Height()); offset.TranslateY(height))
-			graphics.DrawBitmap(bg->Bitmap(), offset.X(), offset.Y(), background.Scale().X(), background.Scale().Y());
+			graphics.DrawBitmap(offset.X(), offset.Y(), bg->Bitmap(), background.Scale().X(), background.Scale().Y());
 	else
 		// Draw background without tiling.
-		graphics.DrawBitmap(bg->Bitmap(), offset.X(), offset.Y(), background.Scale().X(), background.Scale().Y());
+		graphics.DrawBitmap(offset.X(), offset.Y(), bg->Bitmap(), background.Scale().X(), background.Scale().Y());
 
 }
 void Room::UpdateViews() {
@@ -390,7 +411,7 @@ void Room::UpdateViews() {
 		Object* obj = view.GetFollowing();
 		bool has_mouse = !mouse_taken && view.HasMouse();
 		if (has_mouse) mouse_taken = true;
-
+		has_mouse = false; // debug
 		// If the View isn't following an Object, or is disabled, there's nothing to do.
 		if (!obj || !view.Enabled()) continue;
 
@@ -402,13 +423,13 @@ void Room::UpdateViews() {
 		if ((std::abs)(diff_x) > (view.Region().Width() / 2.0f - view.HorizontalBorder())) {
 
 			// Calculate the amount that the view has to shift by.
-			float diff = (view.HorizontalBorder() - ((view.Region().Width() / 2.0f) - (std::abs)(diff_x))) * Sign(diff_x);
+			float diff = (view.HorizontalBorder() - ((view.Region().Width() / 2.0f) - (std::abs)(diff_x))) * Signum(diff_x);
 
 			// Make sure the View doesn't shift outside of the room boundaries.
-			diff = Clamp(diff, -(Dimensions().Width() - view.Region().Width() - view.ViewPosition().X()), view.ViewPosition().X());
+			diff = Clamp(diff, -(Dimensions().Width() - view.Region().Width() - view.Position().X()), view.Position().X());
 
 			// Adjust View position.
-			view.ViewPosition().TranslateX(-diff);
+			view.SetPosition(view.ViewX() - diff, view.ViewY());
 
 		}
 
@@ -416,13 +437,13 @@ void Room::UpdateViews() {
 		if ((std::abs)(diff_y) > (view.Region().Height() / 2.0f - view.VerticalBorder())) {
 
 			// Calculate the amount that the view has to shift by.
-			float diff = (view.VerticalBorder() - ((view.Region().Height() / 2.0f) - (std::abs)(diff_y))) * Sign(diff_y);
+			float diff = (view.VerticalBorder() - ((view.Region().Height() / 2.0f) - (std::abs)(diff_y))) * Signum(diff_y);
 
 			// Make sure the View doesn't shift outside of the room boundaries.
-			diff = Clamp(diff, -(Dimensions().Height() - view.Region().Height() - view.ViewPosition().Y()), view.ViewPosition().Y());
+			diff = Clamp(diff, -(Dimensions().Height() - view.Region().Height() - view.Position().Y()), view.Position().Y());
 
 			// Adjust View/mouse position.
-			view.ViewPosition().TranslateY(-diff);
+			view.SetPosition(view.ViewX(), view.ViewY() - diff);
 
 		}
 

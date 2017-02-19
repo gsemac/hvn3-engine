@@ -8,6 +8,11 @@ const float PI = std::acos(-1.0L);
 
 short Sign(float x) {
 
+	return (x >= 0 ? 1 : -1);
+
+}
+short Signum(float x) {
+
 	return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
 
 }

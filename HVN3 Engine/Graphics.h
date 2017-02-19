@@ -46,12 +46,13 @@ namespace Drawing {
 		void DrawText(float x, float y, const std::string& text, const Font& font, const Color& color);
 		void DrawText(float x, float y, Utf8String& text, const Font& font, const Color& color, Alignment alignment = Alignment::Left);
 
-		void DrawSprite(const Sprite& sprite, int subimage, float x, float y);
-		void DrawSprite(const Sprite& sprite, int subimage, float x, float y, const Color& blend, float xscale, float yscale, float angle);
+		void DrawSprite(float x, float y, const Sprite& sprite, int subimage);
+		void DrawSprite(float x, float y, const Sprite& sprite, int subimage, float xscale, float yscale, float angle, const Color& blend);
 
-		void DrawBitmap(const Bitmap& bitmap, float x, float y);
-		void DrawBitmap(const Bitmap& bitmap, float x, float y, float xscale, float yscale);
-		void DrawBitmap(const Bitmap& bitmap, const Rectangle& region, float x, float y);
+		void DrawBitmap(float x, float y, const Bitmap& bitmap);
+		void DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale);
+		void DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const Point& origin, float angle);
+		void DrawBitmap(float x, float y, const Bitmap& bitmap, const Rectangle& region);
 
 		void SetClip(const Rectangle& rect);
 		void SetClip(int x, int y, int width, int height);

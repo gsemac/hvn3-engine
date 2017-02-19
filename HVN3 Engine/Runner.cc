@@ -67,11 +67,9 @@ Runner::~Runner() {
 }
 void Runner::Draw() {
 
-	// Redrawing will be disabled until the event queue is cleared.
-	__allow_redraw = false;
-
 	// Clear the drawing surface with the outside outside color.
 	__graphics->Clear(Properties().OutsideColor);
+	Drawing::Graphics(__display.BackBuffer()).Clear(Properties().OutsideColor);
 
 	// Set the Transform according to the scaling mode.
 	ApplyScalingMode();
@@ -81,13 +79,9 @@ void Runner::Draw() {
 		__scene->Draw(DrawEventArgs(*__graphics));
 	else
 		// Draw placeholder graphics.
-		__graphics->DrawText(__display.Width() / 2.0f, __display.Height() / 2.0f, Properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);
+		__graphics->DrawText(Round(__display.Width() / 2.0f), Round(__display.Height() / 2.0f), Properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);
 
-	// Reset the Transform.
-	__graphics->ResetTransform();
-	__graphics->ResetClip();
-
-	//// If running in debug mode, draw the FPS counter.
+	// If running in debug mode, draw the FPS counter.
 	if (Properties().DebugMode)
 		DrawFPS();
 
@@ -209,27 +203,24 @@ void Runner::DrawFPS() {
 
 void Runner::OnTimerTick(Event& ev) {
 
-	if (__scene && (!Properties().FreezeWhenLostFocus || __display.HasFocus()) && __frames_skipped++ <= Properties().MaxFrameSkip) {
+	// Initialize the delta timer. At some point, the frame timer could be used for this.
+	static Stopwatch delta_timer(true);
 
-		// Initialize the delta timer. At some point, the frame timer could be used for this.
-		static Stopwatch delta_timer(true);
-
+	if (__scene && (!Properties().FreezeWhenLostFocus || __display.HasFocus()) && __frames_skipped++ <= Properties().MaxFrameSkip)
 		// Update the active scene.
 		__scene->Update(UpdateEventArgs(delta_timer.SecondsElapsed()));
+	RecalculateMousePosition();
+	// Unset all pressed/released keys so the values will be false until next triggered.
+	Keyboard::StateAccessor::ResetKeyStates(true, true, false);
 
-		// Allow redrawing, since actors have been updated.
-		__allow_redraw = true;
+	// Unset all pressed/released mouse buttons so the values will be false until next triggered.
+	Mouse::StateAccessor::ResetButtonStates(true, true, false);
 
-		// Unset all pressed/released keys so the values will be false until next triggered.
-		Keyboard::StateAccessor::ResetKeyStates(true, true, false);
+	// Reset the delta timer.
+	delta_timer.Reset(true);
 
-		// Unset all pressed/released mouse buttons so the values will be false until next triggered.
-		Mouse::StateAccessor::ResetButtonStates(true, true, false);
-
-		// Reset the delta timer.
-		delta_timer.Reset(true);
-
-	}
+	// Allow redrawing, since actors have been updated.
+	__allow_redraw = true;
 
 }
 void Runner::OnDisplayClose(Event& ev) {
@@ -313,28 +304,8 @@ void Runner::OnMouseAxes(Event& ev) {
 		// Set the Mouse' position relative to the display.
 		Mouse::StateAccessor::SetDisplayPosition(ev.AlPtr()->mouse.x, ev.AlPtr()->mouse.y);
 
-		if (__scene && __scene->ViewCount()) {
-
-			// If the mouse is inside of a View, position it relative to the View (where 0, 0 is the top left of the View).
-			for (int i = __scene->ViewCount() - 1; i >= 0; --i) {
-
-				if (!__scene->View(i).HasMouse() || !__scene->View(i).Enabled())
-					continue;
-
-				Point pos = __scene->View(i).MousePosition();
-				Mouse::StateAccessor::SetPosition(pos.X(), pos.Y());
-				break;
-
-			}
-
-		}
-		else {
-
-			// If Views are not used, set the mouse position to its position relative to the display.
-			Point pos = Mouse::DisplayPosition();
-			Mouse::StateAccessor::SetPosition(pos.X(), pos.Y());
-
-		}
+		// Calculate the mouse position relative to the view that it's in.
+		RecalculateMousePosition();
 
 		// If the scroll wheel was moved, set the scroll state.
 		static int scroll_position = 0;
@@ -378,6 +349,9 @@ void Runner::OnRedraw() {
 	// Draw the game state to the application surface.
 	Draw();
 
+	// Redrawing will be disabled until the event queue is cleared.
+	__allow_redraw = false;
+
 	// Reset the skipped frame count.
 	__frames_skipped = 0;
 
@@ -404,6 +378,9 @@ Room& Runner::CurrentRoom() {
 }
 
 void Runner::ApplyScalingMode() {
+
+	if (!__scene)
+		return;
 
 	// Set the Transform according to the scaling mode.
 	Drawing::Transform scaling_transform;
@@ -435,5 +412,103 @@ void Runner::ApplyScalingMode() {
 
 	__graphics->SetTransform(scaling_transform);
 	__graphics->SetClip(clipping_rectangle);
+
+}
+void Runner::RecalculateMousePosition() {
+
+	if (__scene && __scene->ViewCount()) {
+
+		// If the mouse is inside of a View, position it relative to the View (where 0, 0 is the top left of the View).
+		for (int i = __scene->ViewCount() - 1; i >= 0; --i) {
+
+			// Get a reference to the view so it's easy to access.
+			View& view = __scene->View(i);
+
+			// If the View is disabled or doesn't track the mouse position, do nothing.
+			if (!view.TracksMouse() || !view.Enabled())
+				continue;
+
+			// If the mouse is not inside of the View's viewport, do nothing.
+			Point pos = Mouse::DisplayPosition();
+			Point port_p1 = view.Port().TopLeft();
+			Point port_p2 = view.Port().BottomRight();
+			__graphics->GetTransform().TransformPoint(port_p1);
+			__graphics->GetTransform().TransformPoint(port_p2);
+			Rectangle viewport(port_p1, port_p2);
+			if (!PointIn(pos, viewport))
+				continue;
+
+			// Get the scale of the actual viewport relative to the view's port, as well as the view's scale.
+			Scale port_scale = Scale(viewport, view.Port());
+			Scale view_scale(view.Scale());
+
+			// Get the mouse position relative to the viewport.
+			pos -= port_p1;
+
+			// Scale it according to the view scale.
+			(view_scale * port_scale).Inverse().ScalePoint(pos);
+			
+
+			// Rotate it against the view's angle.
+			PointRotate(pos, view.Port().Midpoint(), -view.Angle());
+
+
+			// Translate it according to the view's offset.
+			pos += view.Position();
+
+
+			/*Point view_offset(view.ViewPosition());
+			Scale view_scale(view.Scale().Inverse());
+			view_scale.Inverse().ScalePoint(view_offset);
+			view_scale.ScalePoint(pos);
+			
+			pos.Translate(-port_p1.X() + view_offset.X(), -port_p1.Y() + view_offset.Y());*/
+
+			//// Now we need to calculate the position of the mouse within the view.
+
+			//// Rotate the position around the midpoint of the viewport, against the view angle.
+			////PointRotate(pos, view.Scale().ScalePoint(viewport.Midpoint()), -view.Angle());
+			//PointRotate(pos, view.Port().Midpoint(), -view.Angle());
+
+			///*pos += view.Scale().ScalePoint(Point(view.ViewPosition()));
+			//view.Scale().Inverse().ScalePoint(pos);
+			//pos.Translate(-port_p1.X(), -port_p1.Y());*/
+			//
+			//// ---------------------------------------------------------------------------------------------------------
+			//		// Translate the position so that the origin is the top-left coordinate of the viewport.
+			//Point offset(view.ViewPosition());
+
+			////offset.SetX(offset.X());
+			////view.Scale().ScalePoint(offset);
+			////Scale(viewport, view.Port()).ScalePoint(offset);
+			////view.Scale().ScalePoint(offset);
+
+			////offset.SetX(offset.X() * (view.Port().Width() * view.Scale().XScale() / viewport.Width()));
+			////offset.SetY(offset.Y() * (view.Port().Height() * view.Scale().YScale() / viewport.Height()));
+
+			////pos.Translate(-port_p1.X() * view.Scale().XScale() + offset.X(), -port_p1.Y() * view.Scale().XScale() + offset.Y());
+
+			////pos.Translate(-port_p1.X() + offset.X(), -port_p1.Y() + offset.Y());
+			//pos.Translate(offset.X(), offset.Y());
+
+			//// Scale the position to match the transformed scale of the viewport.
+			//pos.SetX(pos.X() * (view.Port().Width() / view.Scale().XScale() / viewport.Width()));
+			//pos.SetY(pos.Y() * (view.Port().Height() / view.Scale().YScale() / viewport.Height()));
+			//pos.Translate(-port_p1.X(), -port_p1.Y());
+			//// ---------------------------------------------------------------------------------------------------------
+
+			Mouse::StateAccessor::SetPosition(pos.X(), pos.Y());
+			break;
+
+		}
+
+	}
+	else {
+
+		// If Views are not used, set the mouse position to its position relative to the display.
+		Point pos = Mouse::DisplayPosition();
+		Mouse::StateAccessor::SetPosition(pos.X(), pos.Y());
+
+	}
 
 }

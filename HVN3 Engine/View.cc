@@ -44,9 +44,19 @@ Rectangle View::Port() const {
 	return Rectangle(__port_pos.X(), __port_pos.Y(), __port_size.Width(), __port_size.Height());
 
 }
-Point& View::ViewPosition() {
+const Point& View::Position() const {
 
 	return __view_pos;
+
+}
+void View::SetPosition(float x, float y) {
+
+	__view_pos.SetXY(x, y);
+
+}
+void View::SetPosition(const Point& position) {
+
+	__view_pos = position;
 
 }
 float View::ViewX() const {
@@ -59,14 +69,9 @@ float View::ViewY() const {
 	return __view_pos.Y();
 
 }
-float View::ScaleX() const {
+Scale View::Scale() const {
 
-	return Port().Width() / Region().Width();
-
-}
-float View::ScaleY() const {
-
-	return Port().Height() / Region().Height();
+	return ::Scale(Port().Width() / Region().Width(), Port().Height() / Region().Height());
 
 }
 
@@ -123,9 +128,10 @@ Point View::MousePosition() const {
 
 	// Transform the mouse position against the view transformations.
 	Drawing::Transform t;
+	::Scale scale = Scale();
 	t.Rotate(Port().Midpoint(), -Angle());
-	t.Translate(__view_pos.X() * ScaleX(), __view_pos.Y() * ScaleY());
-	t.Scale(1.0f / ScaleX(), 1.0f / ScaleY());
+	t.Translate(__view_pos.X() * scale.XScale(), __view_pos.Y() * scale.YScale());
+	t.Scale(1.0f / scale.XScale(), 1.0f / scale.YScale());
 	t.TransformPoint(pos);
 
 	// Return the result.

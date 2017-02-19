@@ -1,6 +1,7 @@
 #ifndef __VIEW_H
 #define __VIEW_H
 #include "Object.h"
+#include "Scale.h"
 
 class View {
 
@@ -13,11 +14,12 @@ public:
 
 	Rectangle Region() const;
 	Rectangle Port() const;
-	Point& ViewPosition();
+	const Point& Position() const;
+	void SetPosition(float x, float y);
+	void SetPosition(const Point& position);
 	float ViewX() const;
 	float ViewY() const;
-	float ScaleX() const;
-	float ScaleY() const;
+	Scale Scale() const;
 
 	float HorizontalBorder() const;
 	float VerticalBorder() const;
@@ -33,7 +35,7 @@ public:
 	Point MousePosition() const;
 	bool TracksMouse() const;
 	void TracksMouse(bool tracks);
-
+	
 private:
 	Point __view_pos;
 	Size __view_size;

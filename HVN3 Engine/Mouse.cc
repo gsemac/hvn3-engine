@@ -85,7 +85,7 @@ bool Mouse::InRegion(float x1, float y1, float x2, float y2) {
 }
 Point Mouse::Position() {
 
-	return Point(Mouse::X, Mouse::Y);
+	return Point(X, Y);
 
 }
 const Point& Mouse::DisplayPosition() {

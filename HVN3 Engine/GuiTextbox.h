@@ -388,7 +388,7 @@ namespace GUI {
 				int besterr = aerr;
 				int new_pos, new_pos_x, new_err;
 				do {
-					new_pos = pos + Sign(err);
+					new_pos = pos + Signum(err);
 					new_pos_x = text_x1 + __text.RefSubstring(0, new_pos).Width(__font);
 					new_err = (std::abs)(point.X() - new_pos_x);
 					if (new_err < besterr) {

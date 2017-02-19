@@ -64,25 +64,8 @@ GUI::Control::Control(const Point& location, const Size& size) :
 void GUI::Control::Update(UpdateEventArgs& e) {}
 void GUI::Control::Draw(DrawEventArgs& e) {
 
-	// Save the state of the Graphics object.
-	Drawing::GraphicsState orig = e.Graphics().Save();
-	
-	// Translate drawing so that the Control can draw itself at (0, 0).
-	Drawing::Transform t;
-	t.Translate(X(), Y());
-	t.Compose(e.Graphics().GetTransform());
-	e.Graphics().SetTransform(t);
-
-	// Set the clipping rectangle to match the dimensions of the Control.
-	Point p2(Width(), Height());
-	t.TransformPoint(p2);
-	e.Graphics().SetClip(Rectangle::Intersect(e.Graphics().Clip(), Rectangle(Point(0.0f, 0.0f), p2)));
-
 	// Call the Control's OnPaint method.
 	OnPaint(PaintEventArgs(e.Graphics()));
-
-	// Restore the original state of the Graphics object.
-	e.Graphics().Restore(orig);
 
 	// The Control has now been validated. This isn't important right now, but will be for future drawing optimizations.
 	__invalidated = false;

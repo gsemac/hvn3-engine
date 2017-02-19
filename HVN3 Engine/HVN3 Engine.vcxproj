@@ -189,6 +189,7 @@
     <ClCompile Include="Rectangle.cc" />
     <ClCompile Include="Runner.cc" />
     <ClCompile Include="Room.cc" />
+    <ClCompile Include="Scale.cc" />
     <ClCompile Include="Size.cc" />
     <ClCompile Include="Socket.cc" />
     <ClCompile Include="Sound.cc" />
@@ -288,6 +289,7 @@
     <ClInclude Include="ResourceCollection.h" />
     <ClInclude Include="Runner.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="Scale.h" />
     <ClInclude Include="Size.h" />
     <ClInclude Include="Socket.h" />
     <ClInclude Include="Sorting.h" />

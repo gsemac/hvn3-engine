@@ -34,6 +34,11 @@ namespace Drawing {
 		al_scale_transform(&__t, x_factor, y_factor);
 
 	}
+	void Transform::Scale(const ::Scale& scale) {
+
+		al_scale_transform(&__t, scale.XScale(), scale.YScale());
+
+	}
 	void Transform::Rotate(float degrees) {
 
 		al_rotate_transform(&__t, DegreesToRadians(degrees));
@@ -114,6 +119,33 @@ namespace Drawing {
 		al_copy_transform(&__t, &other.__t);
 
 		return *this;
+
+	}
+
+	Point Transform::GetScale() const {
+
+		float scale_x = Sign(__t.m[0][0]) * std::sqrt(std::pow(__t.m[0][0], 2.0f) + std::pow(__t.m[1][0], 2.0f));
+		float scale_y = Sign(__t.m[1][1]) * std::sqrt(std::pow(__t.m[0][1], 2.0f) + std::pow(__t.m[1][1], 2.0f));
+
+		return Point(scale_x, scale_y);
+
+	}
+	float Transform::GetAngle() const {
+		
+		for (int i = 0; i < 4; ++i) {
+			for (int j = 0; j < 4; ++j)
+				std::cout << __t.m[j][i] << " ";
+			std::cout << std::endl;
+		}
+
+		return RadiansToDegrees(std::atan2(__t.m[0][1],__t.m[1][1]));
+
+		//return 0;
+
+	}
+	Point Transform::GetOffset() const {
+
+		return Point(__t.m[3][0], __t.m[3][1]);
 
 	}
 

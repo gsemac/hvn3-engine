@@ -36,6 +36,11 @@ namespace SuperMarioBros {
 		}
 		void Update(UpdateEventArgs& e) override {
 
+
+			static float angle = 0;
+			Room()->View(0).SetAngle(angle);
+			angle += 0.5;
+
 			if (Keyboard::KeyDown(ALLEGRO_KEY_RIGHT) && PlaceFree(X() + 5, Y()))
 				TranslateX(5);
 			else if (Keyboard::KeyDown(ALLEGRO_KEY_LEFT) && PlaceFree(X() - 5, Y()))
@@ -47,6 +52,7 @@ namespace SuperMarioBros {
 
 			if (Keyboard::KeyDown(ALLEGRO_KEY_F5)) {
 				Room()->Restart();
+				angle = 0;
 			}
 
 			/*if (PlaceFree(X(), Y() + 1))
@@ -62,6 +68,8 @@ namespace SuperMarioBros {
 			Object::Draw(e);
 
 			e.Graphics().DrawRectangle(AABB(), Color::Red, 1);
+			//std::cout << "Mouse::Position(): " << Mouse::Position() << std::endl;
+			e.Graphics().DrawCircle(Mouse::Position(), 4, Color::Red, 2);
 
 		}
 
@@ -139,16 +147,7 @@ namespace SuperMarioBros {
 		void Build() override {
 
 			SetBackgroundColor(Color::Silver);
-
-			Player* player = new Player(100, 100);
-			//AddView(::View(Point(0, 0), Size(640, 480), Point(0, 0), Size(640, 480), player, 0.0f, 0.0f));
-			AddView(::View(Point(0, 0), Size(320, 240), Point(0, 0), Size(320, 240), player, 0.0f, 0.0f));
-			AddView(::View(Point(0, 0), Size(320, 240), Point(320, 240), Size(320, 240), player, 0.0f, 0.0f));
-
-			for (int i = 0; i < ViewCount(); ++i)
-				View(i).Enable();
-
-			AddInstance(player);
+			
 			for (int i = 68; i <= 148; i += 16)
 				AddInstance(new Block(i, 148));
 			for (int i = 148; i <= 404; i += 16)
@@ -156,7 +155,19 @@ namespace SuperMarioBros {
 			for (int i = 320; i <= 404; i += 16)
 				AddInstance(new Block(i, 300));
 
-			//Background(AddBackground(backgrounds[BG_HILLS])).SetFixed(true);
+			Player* player = new Player(100, 100);
+			//AddView(::View(Point(0, 0), Size(640, 480), Point(0, 0), Size(640, 480), player, 0.0f, 0.0f));
+			//AddView(::View(Point(0, 0), Size(160, 120), Point(0, 0), Size(320, 240), player, 0.0f, 0.0f));
+			AddView(::View(Point(0, 0), Size(320, 240), Point(0, 0), Size(320, 240), player, 0.0f, 0.0f));
+			AddView(::View(Point(0, 0), Size(320, 240), Point(320, 240), Size(320, 240), player, 0.0f, 0.0f));
+
+			for (int i = 0; i < ViewCount(); ++i)
+				View(i).Enable();
+
+			AddInstance(player);
+
+			AddBackground(backgrounds[BG_HILLS]);
+			Background(0).SetFixed(true);
 
 			GUI::GuiManager* manager = new GUI::GuiManager();
 			manager->AddControl(new GUI::Button(50, 50, 100, 25, "Button 1"));
@@ -177,7 +188,7 @@ namespace SuperMarioBros {
 
 			// Initialize the Framework.
 			InitializeFramework();
-			
+
 			// Set up Game Resources.
 			IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data"));
 			sprites.Add(SPR_PLAYER, Sprite::FromSpriteSheet("ExampleGame2/mario_small_walk.png", 16, 32, 0, 0, Color(157, 159, 159)));
@@ -193,7 +204,7 @@ namespace SuperMarioBros {
 
 			// Set up the initial Scene.
 			Stage001 scene;
-			al_set_new_display_flags(ALLEGRO_OPENGL);
+			//al_set_new_display_flags(ALLEGRO_OPENGL | ALLEGRO_RESIZABLE);
 			// Create a new Runner instance to handle the game logic.
 			Runner(properties, scene).Loop();
 

@@ -327,6 +327,9 @@
     <ClCompile Include="GraphicsState.cc">
       <Filter>Source Files\Drawing</Filter>
     </ClCompile>
+    <ClCompile Include="Scale.cc">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -622,6 +625,9 @@
     </ClInclude>
     <ClInclude Include="GraphicsState.h">
       <Filter>Header Files\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="Scale.h">
+      <Filter>Header Files\Helper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

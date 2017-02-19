@@ -63,5 +63,6 @@ private:
 	Drawing::Graphics* __graphics;
 
 	void ApplyScalingMode();
+	void RecalculateMousePosition();
 
 };

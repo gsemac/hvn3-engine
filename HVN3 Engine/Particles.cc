@@ -238,14 +238,14 @@ void Emitter::Particle::Draw(DrawEventArgs& e) {
 	if (Sprite()) {
 
 		e.Graphics().DrawSprite(
-			*Sprite(),
-			ImageIndex(),
 			X(),
 			Y(),
-			Color::FromArgbf(ImageAlpha(), ImageAlpha(), ImageAlpha(), ImageAlpha()),
+			*Sprite(),
+			ImageIndex(),			
 			ImageXScale(),
 			ImageYScale(),
-			ImageAngle()
+			ImageAngle(),
+			Color::FromArgbf(ImageAlpha(), ImageAlpha(), ImageAlpha(), ImageAlpha())
 			);
 
 	}

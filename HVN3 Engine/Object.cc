@@ -33,14 +33,14 @@ void Object::Draw(DrawEventArgs& e) {
 	if (Sprite()) {
 
 		e.Graphics().DrawSprite(
-			*Sprite(),
-			ImageIndex(),
 			X(),
 			Y(),
-			Color::FromArgbf(1.0f, 1.0f, 1.0f, ImageAlpha()),
+			*Sprite(),
+			ImageIndex(),
 			ImageXScale(),
 			ImageYScale(),
-			ImageAngle()
+			ImageAngle(),
+			Color::FromArgbf(1.0f, 1.0f, 1.0f, ImageAlpha())
 			);
 
 	}

@@ -58,6 +58,7 @@ public:
 		bool __visible;
 		Room* __in_scene;
 		bool __fixed;
+
 	};
 	
 	// 
@@ -87,7 +88,7 @@ public:
 	// Returns the number of Views in the Scene.
 	int ViewCount();
 	// Returns the index of the View currently being rendered.
-	int CurrentView();
+	const ::View& CurrentView() const;
 
 	// Returns the BackgroundProperties object at the specified index.
 	BackgroundProperties& Background(int index);
@@ -117,7 +118,7 @@ private:
 
 	bool __restart_pending;
 
-	void DrawBackground(Drawing::Graphics& graphics, const BackgroundProperties& background, const Point& view_offset);
+	void DrawBackground(Drawing::Graphics& graphics, const BackgroundProperties& background, ::View* view);
 	void UpdateViews();
 
 };

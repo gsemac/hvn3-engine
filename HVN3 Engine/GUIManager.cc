@@ -2,6 +2,7 @@
 #include "GUIManager.h"
 #include "Mouse.h"
 #include "Keyboard.h"
+#include "Room.h"
 
 namespace GUI {
 
@@ -166,16 +167,39 @@ namespace GUI {
 	}
 	void GuiManager::Draw(DrawEventArgs& e) {
 
+		// Save the state of the Graphics object.
+		Drawing::GraphicsState orig = e.Graphics().Save();
+
 		for (auto it = __controls.rbegin(); it != __controls.rend(); ++it) {
 
+			// Get a reference to the Control.
+			Control& control = *(*it);
+
 			// If the Control is not visible, do not draw it.
-			if (!(*it)->Visible())
+			if (!control.Visible())
 				continue;
 
+			// Rotate against the view rotation.
+			Drawing::Transform t;
+
+			// Translate drawing so that the Control can draw itself at (0, 0).
+			t.Translate(control.X(), control.Y());
+			t.Compose(e.Graphics().GetTransform());
+			t.Rotate(Room()->CurrentView().Port().Midpoint(), -Room()->CurrentView().Angle());
+			e.Graphics().SetTransform(t);
+
+			// Set the clipping rectangle to match the dimensions of the Control.
+			Point p2(control.Width(), control.Height());
+			t.TransformPoint(p2);
+			e.Graphics().SetClip(Rectangle::Intersect(e.Graphics().Clip(), Rectangle(Point(0.0f, 0.0f), p2)));
+			
 			// Draw the Control.
 			(*it)->Draw(e);
 
 		}
+
+		// Restore the previous transform.
+		e.Graphics().Restore(orig);
 
 	}
 	void  GuiManager::BringToFront(Control* control) {

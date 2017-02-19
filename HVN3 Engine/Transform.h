@@ -1,6 +1,6 @@
 #pragma once
 #include <allegro5/allegro_primitives.h>
-#include "Point.h"
+#include "Scale.h"
 
 namespace Drawing {
 
@@ -15,6 +15,7 @@ namespace Drawing {
 		void Invert();
 		void Translate(float x_offset, float y_offset);
 		void Scale(float x_factor, float y_factor);
+		void Scale(const ::Scale& scale);
 		void Rotate(float degrees);
 		void Rotate(float origin_x, float origin_y, float degrees);
 		void Rotate(const Point& origin, float degrees);
@@ -29,6 +30,10 @@ namespace Drawing {
 		void TransformPoint(Point& point) const;
 		const ALLEGRO_TRANSFORM* AlPtr() const;
 		Transform& operator=(const Transform& other);
+
+		Point GetScale() const;
+		float GetAngle() const;
+		Point GetOffset() const;
 
 	private:
 		ALLEGRO_TRANSFORM __t;

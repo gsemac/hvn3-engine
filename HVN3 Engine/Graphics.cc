@@ -179,7 +179,7 @@ namespace Drawing {
 
 	}
 
-	void Graphics::DrawSprite(const Sprite& sprite, int subimage, float x, float y) {
+	void Graphics::DrawSprite(float x, float y, const Sprite& sprite, int subimage) {
 
 		PrepareDrawingSurface();
 
@@ -191,7 +191,7 @@ namespace Drawing {
 			);
 
 	}
-	void Graphics::DrawSprite(const Sprite& sprite, int subimage, float x, float y, const Color& blend, float xscale, float yscale, float angle) {
+	void Graphics::DrawSprite(float x, float y, const Sprite& sprite, int subimage, float xscale, float yscale, float angle, const Color& blend) {
 
 		PrepareDrawingSurface();
 
@@ -210,7 +210,7 @@ namespace Drawing {
 
 	}
 
-	void Graphics::DrawBitmap(const Bitmap& bitmap, float x, float y) {
+	void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap) {
 
 		PrepareDrawingSurface();
 
@@ -222,7 +222,7 @@ namespace Drawing {
 			);
 
 	}
-	void Graphics::DrawBitmap(const Bitmap& bitmap, float x, float y, float xscale, float yscale) {
+	void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale) {
 
 		PrepareDrawingSurface();
 
@@ -240,7 +240,24 @@ namespace Drawing {
 			);
 
 	}
-	void Graphics::DrawBitmap(const Bitmap& bitmap, const Rectangle& region, float x, float y) {
+	void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const Point& origin, float angle) {
+
+		PrepareDrawingSurface();
+
+		al_draw_scaled_rotated_bitmap(
+			bitmap.AlPtr(),
+			origin.X(),
+			origin.Y(),
+			x,
+			y,
+			xscale,
+			yscale,
+			DegreesToRadians(angle),
+			NULL
+			);
+
+	}
+	void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, const Rectangle& region) {
 
 		PrepareDrawingSurface();
 
