@@ -87,7 +87,11 @@ namespace GUI {
 		}
 		virtual void OnPaint(PaintEventArgs& e) override {
 
-			e.Graphics().Clear(BackColor());
+			//e.Graphics().Clear(BackColor());
+
+			e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor());
+
+			ChildManager()->Draw(e);
 
 			//// Clear main Bitmap.
 			//Graphics::DrawClear(BackColor());

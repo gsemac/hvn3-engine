@@ -13,6 +13,8 @@ public:
 
 	float Width() const;
 	float Height() const;
+	void SetWidth(float value);
+	void SetHeight(float value);
 	void Resize(float width, float height);
 
 };

@@ -9,6 +9,16 @@ float Size::Width() const {
 float Size::Height() const {
 	return __height;
 }
+void Size::SetWidth(float value) {
+
+	Resize(value, __height);
+
+}
+void Size::SetHeight(float value) {
+
+	Resize(__width, value);
+
+}
 void Size::Resize(float width, float height) {
 	__width = width;
 	__height = height;

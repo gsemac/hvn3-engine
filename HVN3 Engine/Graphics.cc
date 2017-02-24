@@ -24,8 +24,8 @@ namespace Drawing {
 		PrepareDrawingSurface();
 
 		al_draw_rectangle(
-			x,
-			y,
+			x + 1.0f,
+			y + 1.0f,
 			x + width,
 			y + height,
 			color.AlPtr(),

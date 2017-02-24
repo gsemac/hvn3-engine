@@ -39,7 +39,7 @@ namespace SuperMarioBros {
 
 
 			static float angle = 0;
-			Room()->View(0).SetAngle(angle);
+			//Room()->View(0).SetAngle(angle);
 			angle += 0.5;
 
 			if (Keyboard::KeyDown(ALLEGRO_KEY_RIGHT) && PlaceFree(X() + 5, Y()))
@@ -159,8 +159,8 @@ namespace SuperMarioBros {
 			Player* player = new Player(100, 100);
 			//AddView(::View(Point(0, 0), Size(640, 480), Point(0, 0), Size(640, 480), player, 0.0f, 0.0f));
 			//AddView(::View(Point(0, 0), Size(160, 120), Point(0, 0), Size(320, 240), player, 0.0f, 0.0f));
-			AddView(::View(Point(0, 0), Size(320, 240), Point(0, 0), Size(320, 240), player, 0.0f, 0.0f));
-			AddView(::View(Point(0, 0), Size(320, 240), Point(320, 240), Size(320, 240), player, 0.0f, 0.0f));
+			//AddView(::View(Point(0, 0), Size(320, 240), Point(0, 0), Size(320, 240), player, 0.0f, 0.0f));
+			//AddView(::View(Point(0, 0), Size(320, 240), Point(320, 240), Size(320, 240), player, 0.0f, 0.0f));
 
 			for (int i = 0; i < ViewCount(); ++i)
 				View(i).Enable();
@@ -171,11 +171,14 @@ namespace SuperMarioBros {
 			Background(0).SetFixed(true);
 
 			GUI::GuiManager* manager = new GUI::GuiManager();
-			manager->AddControl(new GUI::Button(50, 50, 100, 25, "Button 1"));
-			manager->AddControl(new GUI::Window(100, 100, 200, 100, "Window 1"));
+			GUI::Window* window = new GUI::Window(100, 100, 200, 100, "Window 1");
+			window->AddControl(new GUI::Button(0, 0, 100, 29, "Button 1"));
+
+			manager->AddControl(new GUI::Button(50, 50, 100, 29, "Button 1"));
+			manager->AddControl(window);
 			//manager->AddControl(new GUI::Button(50, 80, 100, 25, "Button 2"));
 			//manager->AddControl(new GUI::Button(50, 100, 100, 25, "Button 3"));
-		
+
 			AddInstance(manager);
 
 		}
@@ -190,10 +193,10 @@ namespace SuperMarioBros {
 		try {
 
 			// Initialize the Framework.
-			InitializeFramework();			
-			
+			InitializeFramework();
+
 			// Set up Game Resources.
-			IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data"));			
+			IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data"));
 			sprites.Add(SPR_PLAYER, Sprite::FromSpriteSheet("ExampleGame2/mario_small_walk.png", 16, 32, 0, 0, Color(157, 159, 159)));
 			sprites.Add(SPR_BLOCK, Sprite("ExampleGame2/block_001.png"));
 			backgrounds.Add(BG_HILLS, Background("ExampleGame2/background_001.png"));
