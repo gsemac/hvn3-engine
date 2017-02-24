@@ -88,7 +88,7 @@ namespace GUI {
 			SetText("Clicked!");
 
 		}
-		virtual void OnPaint(PaintEventArgs e) override {
+		virtual void OnPaint(PaintEventArgs& e) override {
 			//std::cout << *__text << std::endl;
 			// Draw background.
 			e.Graphics().DrawFilledRectangle(0.0f, 0.0f, Width(), Height(), BackColor());

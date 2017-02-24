@@ -35,26 +35,15 @@ namespace Drawing {
 		__free = free;
 
 	}
-	//Bitmap::Bitmap(const Bitmap& other, const Rectangle& region) {
-	//
-	//	// Create a new bitmap.
-	//	__bmp = al_create_bitmap(region.Width(), region.Height());
-	//
-	//	// Copy the given bitmap onto the new bitmap.
-	//	Drawing::Graphics(Bitmap(__bmp, false)).DrawBitmap(other, region, 0.0f, 0.0f);
-	//
-	//	// Set free to true, because we need to free the new bitmap.
-	//	__free = true;
-	//
-	//}
-	//Bitmap::Bitmap(const Bitmap& other) {
-	//
-	//	__bmp = al_clone_bitmap(other.__bmp);
-	//	__width = al_get_bitmap_width(__bmp);
-	//	__height = al_get_bitmap_height(__bmp);
-	//	__free = true;
-	//
-	//}
+	Bitmap::Bitmap(const Bitmap& other, const Rectangle& region) {
+
+		// Create a sub-bitmap of the given bitmap. The new bitmap will share memory with the existing one.
+		__bmp = al_create_sub_bitmap(other.AlPtr(), region.X(), region.Y(), region.Width(), region.Height());
+
+		// It's fine to free sub-bitmaps.
+		__free = true;
+
+	}
 	Bitmap::Bitmap(const Bitmap& other) {
 
 		// Create a shallow copy of the source Bitmap. Both Bitmaps will share the same pixel data.
@@ -65,7 +54,7 @@ namespace Drawing {
 
 	}
 	Bitmap::Bitmap(Bitmap&& other) {
-	
+		
 		__bmp = other.__bmp;
 		__free = other.__free;	
 		
@@ -75,34 +64,30 @@ namespace Drawing {
 	}
 	Bitmap::~Bitmap() {
 
-		if (__bmp && __free)
+		if (__bmp && __free) {
 			al_destroy_bitmap(__bmp);
+			__bmp = nullptr;
+		}
 
 	}
 
-	Bitmap Bitmap::Clone() {
+	Bitmap Bitmap::Clone() const {
 
 		return Bitmap(al_clone_bitmap(__bmp), true);
 
 	}
+	Bitmap Bitmap::Clone(const Rectangle& region) const {
 
-	//Bitmap Bitmap::RefBitmap(const Bitmap& other, const Rectangle& region) {
-	//
-	//	return RefBitmap(other.AlPtr(), region);
-	//
-	//}
-	//Bitmap Bitmap::RefBitmap(ALLEGRO_BITMAP* other, const Rectangle& region) {
-	//
-	//	Bitmap bm(al_create_sub_bitmap(other, region.X(), region.Y(), region.Width(), region.Height()));
-	//
-	//	return bm;
-	//
-	//}
-	//bool Bitmap::IsRefBitmap() const {
-	//
-	//	return al_is_sub_bitmap(__bmp);
-	//
-	//}
+		// Create a new bitmap.
+		Bitmap bmp(al_create_bitmap(region.Width(), region.Height()), true);
+
+		// Copy the given bitmap onto the new bitmap.
+		Drawing::Graphics(bmp).DrawBitmap(0, 0, *this, region);
+
+		// Return the result.
+		return bmp;
+
+	}
 
 	unsigned int Bitmap::Width() const {
 
@@ -183,12 +168,31 @@ namespace Drawing {
 
 	}
 
+	void Bitmap::ConvertMaskToAlpha(const Color& color) {
+
+		al_convert_mask_to_alpha(__bmp, color.AlPtr());
+
+	}
+
 	ALLEGRO_BITMAP* Bitmap::AlPtr() const {
 
 		return __bmp;
 
 	}
 
+	Bitmap& Bitmap::operator=(Bitmap& other) {
+
+		// Perform a shallow copy of the other object.
+		__bmp = other.__bmp;
+		__free = other.__free;
+
+		// Clear values from the other object.
+		other.__bmp = nullptr;
+		other.__free = false;
+
+		return *this;
+
+	}
 	Bitmap& Bitmap::operator=(Bitmap&& other) {
 
 		// Perform a shallow copy of the other object.

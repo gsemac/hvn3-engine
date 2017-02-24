@@ -5,6 +5,7 @@
 #include <string>
 #include "Point.h"
 #include "Color.h"
+#include "Bitmap.h"
 
 class Sprite {
 
@@ -40,19 +41,18 @@ public:
 	// Sets the origin (offset) of the sprite to specified values.
 	void SetOrigin(float origin_x, float origin_y);
 
-	void Add(ALLEGRO_BITMAP* bitmap_frame);
-	void Add(const char* filename);
+	void Add(Drawing::Bitmap& subimage, bool owner = true);
+	void Add(const char* path);
 
 	ALLEGRO_BITMAP* AlPtr() const;
-	ALLEGRO_BITMAP* AlPtr(int frame) const;
 
-	ALLEGRO_BITMAP* operator[] (const int frame) const;
+	const Drawing::Bitmap& SubImage(int subimage) const;
+	const Drawing::Bitmap& operator[](int subimage) const;
 
 private:
-	std::vector<ALLEGRO_BITMAP*> __frames;
-	ALLEGRO_BITMAP* __sheet;
-	unsigned int __width, __height;
+	std::vector<Drawing::Bitmap> __frames;
 	Point __origin;
+	bool __using_sprite_sheet;
 	unsigned int __strip_length;
 
 	Sprite();

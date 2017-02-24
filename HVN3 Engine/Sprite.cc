@@ -3,6 +3,7 @@
 #include "Exception.h"
 #include "Framework.h"
 #include <limits>
+#include <cmath>
 
 Sprite::Sprite() {}
 Sprite::Sprite(const char* path) :
@@ -10,30 +11,27 @@ Sprite::Sprite(const char* path) :
 Sprite::Sprite(const char* path, int origin_x, int origin_y) :
 	__origin(origin_x, origin_y) {
 
-	// Load the sprite from the filesystem.
-	ALLEGRO_BITMAP* ptr = al_load_bitmap(path);
+	// Load the image from the filesystem.
+	Drawing::Bitmap bmp(path);
 
 	// If we failed to access the file, throw an error.
-	if (!ptr)
+	if (!bmp)
 		throw IO::IOException("Failed to access file '" + std::string(path) + "'.");
 
-	// Push the bitmap into the frame collection.
-	__frames.push_back(ptr);
-
-	// Set width and height members.
-	__width = al_get_bitmap_width(ptr);
-	__height = al_get_bitmap_height(ptr);
-
-	// (These members are only relevant for sprite sheets, so set them to null.)
-	__sheet = nullptr;
+	// We are not using a sprite sheet, so set these values accordingly.
+	__using_sprite_sheet = false;
 	__strip_length = 0;
+
+	// Add the image to the subimage collection.
+	Add(bmp, true);
 
 }
 Sprite::Sprite(const char* path, int origin_x, int origin_y, const Color& alpha_color)
 	: Sprite(path, origin_x, origin_y) {
 
-	if (__frames[0])
-		al_convert_mask_to_alpha(__frames[0], alpha_color.AlPtr());
+	// If the first frame was added successfully, remove the background color.
+	if (__frames[__using_sprite_sheet])
+		__frames[__using_sprite_sheet].ConvertMaskToAlpha(alpha_color);
 
 }
 Sprite::Sprite(const std::string& path) :
@@ -44,19 +42,17 @@ Sprite::Sprite(const std::string& path, int origin_x, int origin_y, const Color&
 	: Sprite(path.c_str(), origin_x, origin_y, alpha_color) {}
 Sprite::Sprite(Sprite&& other) {
 
-	__frames = other.__frames;
-	__sheet = other.__sheet;
-	__width = other.__width;
-	__height = other.__height;
+	// Move all frames to the other Sprite.
+	for (size_t i = 0; i < other.__frames.size(); ++i)
+		__frames.push_back(std::move(other.__frames[i]));
+
 	__origin = other.__origin;
 	__strip_length = other.__strip_length;
+	__using_sprite_sheet = other.__using_sprite_sheet;
 
-	other.__frames.clear();
-	other.__sheet = nullptr;
-	other.__width = 0;
-	other.__height = 0;
 	other.__origin = Point(0, 0);
 	other.__strip_length = 0;
+	other.__using_sprite_sheet = false;
 
 }
 Sprite::~Sprite() {
@@ -68,15 +64,7 @@ Sprite::~Sprite() {
 	}
 
 	// Dispose of all frames.
-	for (size_t i = 0; i < __frames.size(); ++i)
-		al_destroy_bitmap(__frames[i]);
 	__frames.clear();
-
-	// Dispose of the sprite sheet, if applicable.
-	if (__sheet) {
-		al_destroy_bitmap(__sheet);
-		__sheet = nullptr;
-	}
 
 }
 
@@ -88,43 +76,44 @@ Sprite Sprite::FromSpriteSheet(const char* path, int frame_width, int frame_heig
 Sprite Sprite::FromSpriteSheet(const char* path, int frame_width, int frame_height, int origin_x, int origin_y) {
 
 	// Load the sprite sheet from the filesystem.
-	ALLEGRO_BITMAP* sheet = al_load_bitmap(path);
+	Drawing::Bitmap sheet(path);
 
 	// If we failed to access the file, throw an error.
 	if (!sheet)
 		throw IO::IOException("Failed to access file '" + std::string(path) + "'.");
 
 	// Get the dimensions of the sheet, and determine the number of rows/columns.
-	int sheet_width = al_get_bitmap_width(sheet);
-	int sheet_height = al_get_bitmap_height(sheet);
+	int sheet_width = sheet.Width();
+	int sheet_height = sheet.Height();
 	int columns = sheet_width / frame_width;
 	int rows = sheet_height / frame_height;
 
-	// Initialize the new sprite. Note that the sheet must be maintained, because sub-bitmaps share its memory.
+	// Initialize the new Sprite. Note that the sheet must be maintained, because sub-bitmaps share its memory.
+	// The sheet will be maintained as the first of the subimages; calls to the first subimage will return the second, and so on.
 	Sprite spr;
-	spr.__sheet = sheet;
 	spr.__origin = Point(origin_x, origin_y);
-	spr.__width = frame_width;
-	spr.__height = frame_height;
 	spr.__strip_length = columns;
+	spr.__using_sprite_sheet = true;
+
+	// Add the sheet as the first subimage.
+	spr.Add(sheet);
 
 	// Create sub-sprites from the sheet.
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < columns; j++)
-			spr.Add(al_create_sub_bitmap(sheet, frame_width * j, frame_height * i, frame_width, frame_height));
+			spr.Add(Drawing::Bitmap(spr.__frames[0], Rectangle(frame_width * j, frame_height * i, frame_width, frame_height)));
 
 	// Return the new sprite.
 	return spr;
-
-	//return FromSpriteSheet(path, frame_width, frame_height, 0, 0, 0, 0, INT_MAX, origin_x, origin_y);
 
 }
 Sprite Sprite::FromSpriteSheet(const char* path, int frame_width, int frame_height, int origin_x, int origin_y, const Color& alpha_color) {
 
 	Sprite sprite = FromSpriteSheet(path, frame_width, frame_height, origin_x, origin_y);
+	sprite.__frames[0].ConvertMaskToAlpha(alpha_color);
 
-	for (size_t i = 0; i < sprite.__frames.size(); ++i)
-		al_convert_mask_to_alpha(sprite.__frames[i], alpha_color.AlPtr());
+	/*for (size_t i = 1; i < sprite.__frames.size(); ++i)
+		sprite.__frames[i].ConvertMaskToAlpha(alpha_color);*/
 
 	return sprite;
 
@@ -167,12 +156,12 @@ Sprite Sprite::FromSpriteSheet(const std::string& path, int frame_width, int fra
 
 unsigned int Sprite::Width() const {
 
-	return __width;
+	return (__frames[__using_sprite_sheet] ? __frames[__using_sprite_sheet].Width() : 0);
 
 }
 unsigned int Sprite::Height() const {
 
-	return __height;
+	return (__frames[__using_sprite_sheet] ? __frames[__using_sprite_sheet].Height() : 0);
 
 }
 unsigned int Sprite::StripLength() const {
@@ -198,29 +187,34 @@ void Sprite::SetOrigin(float origin_x, float origin_y) {
 
 ALLEGRO_BITMAP* Sprite::AlPtr() const {
 
-	return AlPtr(0);
-
-}
-ALLEGRO_BITMAP* Sprite::AlPtr(int frame) const {
-
-	frame = (__frames.size() == 0) ? 0 : frame % __frames.size();
-	return __frames[frame];
+	return (__frames.size() <= __using_sprite_sheet ? nullptr : __frames[__using_sprite_sheet].AlPtr());
 
 }
 
-void Sprite::Add(ALLEGRO_BITMAP* bitmap_frame) {
+void Sprite::Add(Drawing::Bitmap& subimage, bool owner) {
 
-	__frames.push_back(bitmap_frame);
-
-}
-void Sprite::Add(const char* filename) {
-
-	Add(al_load_bitmap(filename));
+	if (owner)
+		__frames.push_back(std::move(subimage));
+	else
+		__frames.push_back(subimage);
 
 }
+void Sprite::Add(const char* path) {
 
-ALLEGRO_BITMAP* Sprite::operator[] (const int frame) const {
+	Add(Drawing::Bitmap(path), true);
 
-	return AlPtr(frame);
+}
+
+const Drawing::Bitmap& Sprite::SubImage(int subimage) const {
+
+	int index = (std::abs)(subimage) % __frames.size();
+	index += __using_sprite_sheet;
+
+	return __frames[index];
+
+}
+const Drawing::Bitmap& Sprite::operator[] (int subimage) const {
+
+	return SubImage(subimage);
 
 }

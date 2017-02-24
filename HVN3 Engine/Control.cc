@@ -316,7 +316,7 @@ void GUI::Control::OnMouseUp() {}
 void GUI::Control::OnMouseMove() {}
 void GUI::Control::OnClick() {}
 void GUI::Control::OnDoubleClick() {}
-void GUI::Control::OnPaint(PaintEventArgs e) {}
+void GUI::Control::OnPaint(PaintEventArgs& e) {}
 void GUI::Control::OnResize() {}
 void GUI::Control::OnMove() {
 

@@ -184,7 +184,7 @@ namespace Drawing {
 		PrepareDrawingSurface();
 
 		al_draw_bitmap(
-			sprite[subimage % (int)sprite.Length()],
+			sprite[subimage].AlPtr(),
 			x + sprite.Origin().X(),
 			y + sprite.Origin().Y(),
 			NULL
@@ -196,7 +196,7 @@ namespace Drawing {
 		PrepareDrawingSurface();
 
 		al_draw_tinted_scaled_rotated_bitmap(
-			sprite[subimage % (int)sprite.Length()],
+			sprite[subimage].AlPtr(),
 			al_map_rgba_f(blend.Rf() * blend.Alphaf(), blend.Gf() * blend.Alphaf(), blend.Bf() * blend.Alphaf(), blend.Alphaf()),
 			sprite.Origin().X(),
 			sprite.Origin().Y(),
@@ -262,6 +262,13 @@ namespace Drawing {
 		PrepareDrawingSurface();
 
 		al_draw_bitmap_region(bitmap.AlPtr(), region.X(), region.Y(), region.Width(), region.Height(), x, y, NULL);
+
+	}
+	void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, const Color& tint) {
+
+		PrepareDrawingSurface();
+
+		al_draw_tinted_bitmap(bitmap.AlPtr(), tint.AlPtr(), x, y, NULL);
 
 	}
 

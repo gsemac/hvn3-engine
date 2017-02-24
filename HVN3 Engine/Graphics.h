@@ -53,6 +53,7 @@ namespace Drawing {
 		void DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale);
 		void DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const Point& origin, float angle);
 		void DrawBitmap(float x, float y, const Bitmap& bitmap, const Rectangle& region);
+		void DrawBitmap(float x, float y, const Bitmap& bitmap, const Color& tint);
 
 		void SetClip(const Rectangle& rect);
 		void SetClip(int x, int y, int width, int height);

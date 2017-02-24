@@ -15,6 +15,8 @@ namespace GUI {
 		__keyboard_events_enabled = true;
 		__mouse_events_enabled = true;
 
+		__gui_scale = 1.0f;
+
 	}
 
 	void GuiManager::AddControl(Control* control) {
@@ -168,7 +170,10 @@ namespace GUI {
 	void GuiManager::Draw(DrawEventArgs& e) {
 
 		// Save the state of the Graphics object.
-		Drawing::GraphicsState orig = e.Graphics().Save();
+		Drawing::Transform original_transform(e.Graphics().GetTransform());
+
+		// Create a new transform that will be used for transforming each control.
+		Drawing::Transform transform;
 
 		for (auto it = __controls.rbegin(); it != __controls.rend(); ++it) {
 
@@ -179,27 +184,19 @@ namespace GUI {
 			if (!control.Visible())
 				continue;
 
-			// Rotate against the view rotation.
-			Drawing::Transform t;
-
 			// Translate drawing so that the Control can draw itself at (0, 0).
-			t.Translate(control.X(), control.Y());
-			t.Compose(e.Graphics().GetTransform());
-			t.Rotate(Room()->CurrentView().Port().Midpoint(), -Room()->CurrentView().Angle());
-			e.Graphics().SetTransform(t);
+			transform.Reset();
+			transform.Translate(control.X(), control.Y());
+			transform.Compose(original_transform);
+			e.Graphics().SetTransform(transform);
 
-			// Set the clipping rectangle to match the dimensions of the Control.
-			Point p2(control.Width(), control.Height());
-			t.TransformPoint(p2);
-			e.Graphics().SetClip(Rectangle::Intersect(e.Graphics().Clip(), Rectangle(Point(0.0f, 0.0f), p2)));
-			
 			// Draw the Control.
 			(*it)->Draw(e);
 
 		}
 
 		// Restore the previous transform.
-		e.Graphics().Restore(orig);
+		e.Graphics().SetTransform(original_transform);
 
 	}
 	void  GuiManager::BringToFront(Control* control) {

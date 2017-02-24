@@ -3,6 +3,7 @@
 #include "String.h"
 #include "DrawEventArgs.h"
 #include "GUIButton.h"
+#include "GUIWindow.h"
 #include "GUIManager.h"
 
 namespace SuperMarioBros {
@@ -147,7 +148,7 @@ namespace SuperMarioBros {
 		void Build() override {
 
 			SetBackgroundColor(Color::Silver);
-			
+
 			for (int i = 68; i <= 148; i += 16)
 				AddInstance(new Block(i, 148));
 			for (int i = 148; i <= 404; i += 16)
@@ -171,8 +172,10 @@ namespace SuperMarioBros {
 
 			GUI::GuiManager* manager = new GUI::GuiManager();
 			manager->AddControl(new GUI::Button(50, 50, 100, 25, "Button 1"));
+			manager->AddControl(new GUI::Window(100, 100, 200, 100, "Window 1"));
 			//manager->AddControl(new GUI::Button(50, 80, 100, 25, "Button 2"));
 			//manager->AddControl(new GUI::Button(50, 100, 100, 25, "Button 3"));
+		
 			AddInstance(manager);
 
 		}
@@ -187,10 +190,10 @@ namespace SuperMarioBros {
 		try {
 
 			// Initialize the Framework.
-			InitializeFramework();
-
+			InitializeFramework();			
+			
 			// Set up Game Resources.
-			IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data"));
+			IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data"));			
 			sprites.Add(SPR_PLAYER, Sprite::FromSpriteSheet("ExampleGame2/mario_small_walk.png", 16, 32, 0, 0, Color(157, 159, 159)));
 			sprites.Add(SPR_BLOCK, Sprite("ExampleGame2/block_001.png"));
 			backgrounds.Add(BG_HILLS, Background("ExampleGame2/background_001.png"));

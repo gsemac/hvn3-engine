@@ -144,7 +144,7 @@ namespace GUI {
 		virtual void OnMouseUp();
 		virtual void OnClick();
 		virtual void OnDoubleClick();
-		virtual void OnPaint(PaintEventArgs e);
+		virtual void OnPaint(PaintEventArgs& e);
 		virtual void OnResize();
 		virtual void OnMove();
 		virtual void OnGotFocus();

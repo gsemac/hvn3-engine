@@ -22,12 +22,13 @@ namespace Drawing {
 		Bitmap(int width, int height);
 		Bitmap(const char* filename);
 		Bitmap(ALLEGRO_BITMAP* bitmap, bool free = true);
-		//Bitmap(const Bitmap& other, const Rectangle& region);
+		Bitmap(const Bitmap& other, const Rectangle& region);
 		Bitmap(const Bitmap& other);
 		Bitmap(Bitmap&& other);
 		~Bitmap();
 
-		Bitmap Clone();
+		Bitmap Clone() const;
+		Bitmap Clone(const Rectangle& region) const;
 
 		//static Bitmap RefBitmap(const Bitmap& other, const Rectangle& region);
 		//static Bitmap RefBitmap(ALLEGRO_BITMAP* other, const Rectangle& region);
@@ -44,8 +45,11 @@ namespace Drawing {
 		void SetPixel(int x, int y, const Color& color);
 		Color GetPixel(int x, int y) const;
 
+		void ConvertMaskToAlpha(const Color& color);
+
 		ALLEGRO_BITMAP* AlPtr() const;
 
+		Bitmap& operator=(Bitmap& other);
 		Bitmap& operator=(Bitmap&& other);
 		explicit operator bool() const;
 
