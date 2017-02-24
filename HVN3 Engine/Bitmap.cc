@@ -45,7 +45,7 @@ namespace Drawing {
 
 	}
 	Bitmap::Bitmap(const Bitmap& other) {
-
+		
 		// Create a shallow copy of the source Bitmap. Both Bitmaps will share the same pixel data.
 		__bmp = other.__bmp;
 
@@ -64,10 +64,8 @@ namespace Drawing {
 	}
 	Bitmap::~Bitmap() {
 
-		if (__bmp && __free) {
-			al_destroy_bitmap(__bmp);
-			__bmp = nullptr;
-		}
+		if (__bmp && __free)
+			Free();
 
 	}
 
@@ -182,27 +180,13 @@ namespace Drawing {
 
 	Bitmap& Bitmap::operator=(Bitmap& other) {
 
-		// Perform a shallow copy of the other object.
-		__bmp = other.__bmp;
-		__free = other.__free;
-
-		// Clear values from the other object.
-		other.__bmp = nullptr;
-		other.__free = false;
-
+		ShallowCopy(other);
 		return *this;
 
 	}
 	Bitmap& Bitmap::operator=(Bitmap&& other) {
 
-		// Perform a shallow copy of the other object.
-		__bmp = other.__bmp;
-		__free = other.__free;
-
-		// Clear values from the other object.
-		other.__bmp = nullptr;
-		other.__free = false;
-
+		ShallowCopy(other);
 		return *this;
 
 	}
@@ -218,6 +202,29 @@ namespace Drawing {
 		PixelFormat = -1;
 		Stride = 0;
 		BytesPerPixel = 0;
+
+	}
+
+	void Bitmap::ShallowCopy(Bitmap& other) {
+
+		// If we've already got data allocated, we need to free it before taking data from the other object.
+		if (__free && __bmp)
+			Free();
+
+		// Perform a shallow copy of the other object.
+		__bmp = other.__bmp;
+		__free = other.__free;
+
+		// Clear values from the other object.
+		other.__bmp = nullptr;
+		other.__free = false;
+
+	}
+	void Bitmap::Free() {
+
+		al_destroy_bitmap(__bmp);
+		__bmp = nullptr;
+		__free = false;
 
 	}
 

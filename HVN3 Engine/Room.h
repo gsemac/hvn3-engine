@@ -97,6 +97,8 @@ public:
 	// Returns the number of Backgrounds in the Scene.
 	int BackgroundCount();
 
+	Size Size() const;
+
 	CollisionManager& CollisionManager();
 
 protected:

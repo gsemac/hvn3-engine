@@ -1,6 +1,7 @@
 #include "GUIWindow.h"
 #define RESIZE_REGION_WIDTH 4.0f
 #define DEF_TITLEBAR_HEIGHT 29.0f
+#define DEF_OUTLINE_WIDTH 1.0f
 
 namespace GUI {
 
@@ -8,9 +9,8 @@ namespace GUI {
 
 	Window::Window(float x, float y, float width, float height, const char* text) :
 		Control(Point(x, y), Size(width, height + DEF_TITLEBAR_HEIGHT)),
-		__panel(0.0f, DEF_TITLEBAR_HEIGHT, width, height),
+		__panel(DEF_OUTLINE_WIDTH, DEF_TITLEBAR_HEIGHT, width - DEF_OUTLINE_WIDTH, height - DEF_OUTLINE_WIDTH),
 		__drag_offset(0.0f, 0.0f),
-		__child_bitmap(width, height),
 		__original_position(x, y),
 		__original_size(width, height + DEF_TITLEBAR_HEIGHT),
 		__size_diff(0, 0)
@@ -110,7 +110,7 @@ namespace GUI {
 	}
 	void Window::OnMouseMove() {
 		if (HasActiveChild()) return;
-		std::cout << "0";
+
 		// Set the cursor to a resize cursor if it passes over any edges.
 		if (!__resizing && !__dragging) SetResizeCursor();
 
@@ -124,10 +124,7 @@ namespace GUI {
 	void Window::OnResize() {
 
 		// Resize the Panel.
-		__panel.Resize(Width(), Height() - __titlebar_height);
-
-		// Resize child Bitmap.
-		__child_bitmap = Drawing::Bitmap(Width(), Height());
+		__panel.Resize(Width(), Height() - TitlebarHeight() - DEF_OUTLINE_WIDTH);
 
 	}
 	void Window::OnPaint(PaintEventArgs& e) {
@@ -135,13 +132,13 @@ namespace GUI {
 		// Draw titlebar.
 		e.Graphics().DrawFilledRectangle(0, 0, Width(), TitlebarHeight(), BackColor());
 		e.Graphics().DrawRectangle(0, 0, Width(), TitlebarHeight(), Color(17, 17, 17), 1);
-		
+
 		// Draw titlebar text.
 		float tx = Round(Width() / 2.0f);
 		float ty = Round((TitlebarHeight() / 2.0f) - (__font->Height() / 2.0f)) - 1;
 		e.Graphics().DrawText(tx + 1, ty + 1, *__text, *__font, Color(0, 0, 0, 0.5f), Alignment::Center);
 		e.Graphics().DrawText(tx, ty, *__text, *__font, Color(186, 186, 186), Alignment::Center);
-		
+
 		// Draw exit button.
 		float ex = Width() - __exit_icon->Width() - (__exit_icon->Width() / 2.0f);
 		float ey = (__exit_icon->Height() / 2.0f) + 1.0f;
@@ -150,21 +147,13 @@ namespace GUI {
 		e.Graphics().DrawBitmap(ex, ey, __exit_icon->SubImage(0), tint);
 
 		// Draw main window area.
-		e.Graphics().DrawFilledRectangle(0, TitlebarHeight() - 1.0f, Width(), Height()- TitlebarHeight(), BackColor());
+		e.Graphics().DrawFilledRectangle(0, TitlebarHeight() - DEF_OUTLINE_WIDTH, Width(), Height() - TitlebarHeight(), BackColor());
 
-
-		// Draw Panel's child Controls.
-		/*	e.Graphics().SetDrawingTarget(__child_bitmap.AlPtr());
-		Graphics::DrawClear(Color::Transparent);
-		__panel.ChildManager()->Draw();
-		Graphics::ResetDrawingTarget();*/
-		//__panel.Draw(e);
+		// Draw Panel containing the child Controls.
+		__panel.Draw(e);
 
 		// Draw main window border.
 		e.Graphics().DrawRectangle(0, TitlebarHeight() - 1.0f, Width(), Height() - TitlebarHeight(), Color(17, 17, 17), 1);
-
-		// Draw child control surface.
-		//al_draw_bitmap(__child_bitmap.AlPtr(), X() + 1, Y() + __titlebar_height, NULL);
 
 	}
 	void Window::Update(UpdateEventArgs& e) {

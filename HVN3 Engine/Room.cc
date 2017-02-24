@@ -52,7 +52,7 @@ void Room::Rebuild() {
 }
 
 Room::Room(unsigned int width, unsigned int height) :
-	Room(width, height, new CollisionGrid(Size(CELL_DIMENSIONS, CELL_DIMENSIONS))) {}
+	Room(width, height, new CollisionGrid(::Size(CELL_DIMENSIONS, CELL_DIMENSIONS))) {}
 Room::Room(unsigned int width, unsigned int height, IBroadphase* broadphase_handler) :
 	ISizeable(width, height),
 	__collision_manager(broadphase_handler) {
@@ -344,6 +344,11 @@ int Room::BackgroundCount() {
 CollisionManager& Room::CollisionManager() {
 
 	return __collision_manager;
+
+}
+Size Room::Size() const {
+
+	return ::Size(Width(), Height());
 
 }
 

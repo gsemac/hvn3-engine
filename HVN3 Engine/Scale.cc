@@ -1,6 +1,6 @@
 #include "Scale.h"
 
-Scale::Scale(float scale) : 
+Scale::Scale(float scale) :
 	Scale(scale, scale) {}
 Scale::Scale(float x_scale, float y_scale) {
 
@@ -8,11 +8,12 @@ Scale::Scale(float x_scale, float y_scale) {
 	__scale_factor_y = y_scale;
 
 }
-Scale::Scale(const Rectangle& a, const Rectangle& b) {
-
-	__scale_factor_x = a.Width() / b.Width();
-	__scale_factor_y = a.Height() / b.Height();
-}
+Scale::Scale(const Rectangle& a, const Rectangle& b) :
+	Scale(a.Width() / b.Width(), a.Height() / b.Height()) {}
+Scale::Scale(const Size& a, const Size& b) :
+	Scale(a.Width() / b.Width(), a.Height() / b.Height()) {}
+Scale::Scale(const ISizeable& a, const ISizeable& b) :
+	Scale(a.Width() / b.Width(), a.Height() / b.Height()) {}
 
 float Scale::XScale() const {
 

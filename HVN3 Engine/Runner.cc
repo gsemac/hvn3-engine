@@ -20,14 +20,14 @@ Runner::Runner(const GameProperties& properties) :
 	__properties(properties),
 	__timer(1.0f / properties.FPS),
 	__display(properties.DisplaySize.Width(), properties.DisplaySize.Height(), properties.DisplayTitle.c_str(), DisplayFlags::Resizable),
-	__graphics(nullptr) {
+	__graphics(__display.BackBuffer()) {
 
 	// Create the display, and initialize its parameters.
 	if (properties.Fullscreen)
 		__display.SetFullscreen(true);
 
 	// Initialize main graphics object.
-	__graphics = new Drawing::Graphics(__display.BackBuffer());
+	//__graphics = new Drawing::Graphics(__display.BackBuffer());
 
 	// Initialize the event queue.
 	__event_queue.AddEventSource(__display.EventSource());
@@ -60,15 +60,15 @@ Runner::~Runner() {
 		delete __default_font;
 	__default_font = nullptr;
 
-	if (__graphics)
-		delete __graphics;
-	__graphics = nullptr;
+	//if (__graphics)
+	//	delete __graphics;
+	//__graphics = nullptr;
 
 }
 void Runner::Draw() {
 
 	// Clear the drawing surface with the outside outside color.
-	__graphics->Clear(Properties().OutsideColor);
+	__graphics.Clear(Properties().OutsideColor);
 	Drawing::Graphics(__display.BackBuffer()).Clear(Properties().OutsideColor);
 
 	// Set the Transform according to the scaling mode.
@@ -76,10 +76,10 @@ void Runner::Draw() {
 
 	if (__scene)
 		// Render the active Scene.
-		__scene->Draw(DrawEventArgs(*__graphics));
+		__scene->Draw(DrawEventArgs(__graphics));
 	else
 		// Draw placeholder graphics.
-		__graphics->DrawText(Round(__display.Width() / 2.0f), Round(__display.Height() / 2.0f), Properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);
+		__graphics.DrawText(Round(__display.Width() / 2.0f), Round(__display.Height() / 2.0f), Properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);
 
 	// If running in debug mode, draw the FPS counter.
 	if (Properties().DebugMode)
@@ -193,8 +193,8 @@ void Runner::DrawFPS() {
 	//int fps = std::round((std::min)(Properties().FPS, (float)(1.0f / fps_timer.SecondsElapsed())));
 	std::stringstream ss;
 	ss << (int)(std::min)(fps_sum / 60, Properties().FPS) << " FPS";
-	__graphics->DrawText(11, 11, ss.str().c_str(), *SystemFont(), Color::Black);
-	__graphics->DrawText(10, 10, ss.str().c_str(), *SystemFont(), Color::White);
+	__graphics.DrawText(11, 11, ss.str().c_str(), *SystemFont(), Color::Black);
+	__graphics.DrawText(10, 10, ss.str().c_str(), *SystemFont(), Color::White);
 
 	// Reset the FPS timer.
 	fps_timer.Reset(true);
@@ -390,8 +390,8 @@ void Runner::ApplyScalingMode() {
 
 	case ScalingMode::Full:
 		// Stretch drawing to fill up the Display.
-		scaling_transform.Scale(__display.Scale().Width(), __display.Scale().Height());
-		clipping_rectangle = Rectangle(0.0f, 0.0f, __scene->Width() * __display.Scale().Width(), __scene->Height() * __display.Scale().Height());
+		scaling_transform.Scale(__display.Scale());
+		clipping_rectangle = Rectangle(0.0f, 0.0f, __scene->Width() * __display.Scale().XScale(), __scene->Height() * __display.Scale().YScale());
 		break;
 
 	case ScalingMode::Fixed:
@@ -402,7 +402,7 @@ void Runner::ApplyScalingMode() {
 
 	case ScalingMode::MaintainAspectRatio:
 		// Stretch drawing as much as possible while maintaining the aspect ratio.
-		float scale_factor = Min(__display.Scale().Width(), __display.Scale().Height());
+		float scale_factor = Min(__display.Scale().XScale(), __display.Scale().YScale());
 		scaling_transform.Scale(scale_factor, scale_factor);
 		scaling_transform.Translate(__display.Width() / 2.0f - __scene->Width() * scale_factor / 2.0f, __display.Height() / 2.0f - __scene->Height() * scale_factor / 2.0f);
 		clipping_rectangle = Rectangle(__display.Width() / 2.0f - __scene->Width() * scale_factor / 2.0f, __display.Height() / 2.0f - __scene->Height() * scale_factor / 2.0f, __scene->Width() * scale_factor, __scene->Height() * scale_factor);
@@ -410,8 +410,8 @@ void Runner::ApplyScalingMode() {
 
 	}
 
-	__graphics->SetTransform(scaling_transform);
-	__graphics->SetClip(clipping_rectangle);
+	__graphics.SetTransform(scaling_transform);
+	__graphics.SetClip(clipping_rectangle);
 
 }
 void Runner::RecalculateMousePosition() {
@@ -432,8 +432,8 @@ void Runner::RecalculateMousePosition() {
 			Point pos = Mouse::DisplayPosition();
 			Point port_p1 = view.Port().TopLeft();
 			Point port_p2 = view.Port().BottomRight();
-			__graphics->GetTransform().TransformPoint(port_p1);
-			__graphics->GetTransform().TransformPoint(port_p2);
+			__graphics.GetTransform().TransformPoint(port_p1);
+			__graphics.GetTransform().TransformPoint(port_p2);
 			Rectangle viewport(port_p1, port_p2);
 			if (!PointIn(pos, viewport))
 				continue;
@@ -464,6 +464,11 @@ void Runner::RecalculateMousePosition() {
 
 		// If Views are not used, set the mouse position to its position relative to the display.
 		Point pos = Mouse::DisplayPosition();
+
+		// Set the position relative to the clipping area.
+		pos -= __graphics.Clip().TopLeft();
+		Scale(__scene->Size(), __graphics.Clip().Size()).ScalePoint(pos);
+
 		Mouse::StateAccessor::SetPosition(pos.X(), pos.Y());
 
 	}

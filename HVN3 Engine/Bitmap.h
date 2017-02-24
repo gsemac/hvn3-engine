@@ -58,6 +58,9 @@ namespace Drawing {
 		ALLEGRO_BITMAP* __bmp;
 		bool __free;
 
+		void ShallowCopy(Bitmap& other);
+		void Free();
+
 	};
 
 }

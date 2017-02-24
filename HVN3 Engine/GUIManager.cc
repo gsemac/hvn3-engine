@@ -184,11 +184,11 @@ namespace GUI {
 			if (!control.Visible())
 				continue;
 
-			// Translate drawing so that the Control can draw itself at (0, 0).
-			transform.Reset();
-			transform.Translate(control.X(), control.Y());
-			transform.Compose(original_transform);
-			e.Graphics().SetTransform(transform);
+			//// Translate drawing so that the Control can draw itself at (0, 0).
+			//transform.Reset();
+			//transform.Translate(control.X(), control.Y());
+			//transform.Compose(original_transform);
+			//e.Graphics().SetTransform(transform);
 
 			// Draw the Control.
 			(*it)->Draw(e);

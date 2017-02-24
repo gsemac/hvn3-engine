@@ -7,6 +7,7 @@
 #include "Sprite.h"
 #include "BitFlags.h"
 #include "EventSource.h"
+#include "Scale.h"
 
 enum class DisplayResolution {
 	XGA,
@@ -56,8 +57,8 @@ public:
 
 	void Resize(float width, float height) override;
 	// Returns the current scale factor relative to the size at which the display was initialized.
-	Size Scale();
-	Point Position();
+	Scale Scale() const;
+	Point Position() const;
 	void SetPosition(int x, int y);
 	void SetPosition(const Point& position);
 

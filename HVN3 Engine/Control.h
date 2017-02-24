@@ -53,35 +53,6 @@ namespace GUI {
 	class Control : public IDrawable, public IUpdatable, public IPositionable, public ISizeable, public IDisposable, public IFocusable {
 		friend class GuiManager;
 
-	private:
-		bool __disposed;
-		bool __invalidated;
-		bool __visible;
-		bool __enabled;
-		
-		Control* __parent;
-		GuiManager* __manager;
-		Drawing::Bitmap __bmp;
-		Drawing::Graphics __graphics;
-		Color __backcolor, __forecolor;
-		ANCHOR __anchor;
-		float __opacity;
-		Size __minimum_size;
-		Size __maximum_size;
-
-		bool __mouse_is_on;
-		bool __mouse_is_down;
-		Point __mouse_last_pos;
-
-		Point __previous_pos; // Keeps track of previous position for OnMove event
-		bool __prev_focus; // Keeps track of focus state for OnGotFocus/OnLostFocus
-
-		virtual bool HasActiveChild();
-
-		Point __fixed_pos;
-
-		Point GetFixedPosition();
-
 	public:
 		int Z;
 
@@ -152,6 +123,34 @@ namespace GUI {
 		virtual void OnKeyDown();
 		virtual void OnKeyPressed();
 		virtual void OnKeyReleased();
+
+	private:
+		bool __disposed;
+		bool __invalidated;
+		bool __visible;
+		bool __enabled;
+
+		Control* __parent;
+		GuiManager* __manager;
+		Drawing::Bitmap __surface;
+		Color __backcolor, __forecolor;
+		ANCHOR __anchor;
+		float __opacity;
+		Size __minimum_size;
+		Size __maximum_size;
+
+		bool __mouse_is_on;
+		bool __mouse_is_down;
+		Point __mouse_last_pos;
+
+		Point __previous_pos; // Keeps track of previous position for OnMove event
+		bool __prev_focus; // Keeps track of focus state for OnGotFocus/OnLostFocus
+
+		virtual bool HasActiveChild();
+
+		Point __fixed_pos;
+
+		Point GetFixedPosition();
 
 	};
 

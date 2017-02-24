@@ -37,8 +37,8 @@ GUI::Control::Control(const Point& location, const Size& size) :
 	__minimum_size(0.0f, 0.0f),
 	__maximum_size(FLT_MAX, FLT_MAX),
 	__previous_pos(location.X(), location.Y()),
-	__bmp(al_create_bitmap(size.Width(), size.Height()), true),
-	__graphics(__bmp) {
+	__surface(size.Width(), size.Height())
+{
 
 	__parent = nullptr;
 	__manager = nullptr;
@@ -64,11 +64,27 @@ GUI::Control::Control(const Point& location, const Size& size) :
 void GUI::Control::Update(UpdateEventArgs& e) {}
 void GUI::Control::Draw(DrawEventArgs& e) {
 
-	// Call the Control's OnPaint method.
-	OnPaint(PaintEventArgs(e.Graphics()));
+	if (__invalidated) {
+
+		// If the Control's size is now invalid, set the bitmap to null.
+		if (Width() <= 0.0f || Height() <= 0.0f)
+			__surface = Drawing::Bitmap(nullptr, false);
+		else if (!__surface || Width() != __surface.Width() || Height() != __surface.Height())
+			__surface = Drawing::Bitmap(Width(), Height());
+
+		// Call the Control's OnPaint method to redraw it.
+		// Make sure we don't try to draw a Control with dimensions <= 1, because the Graphics object will throw an error when setting the clip.
+		if (Width() >= 1.0f && Height() >= 1.0f)
+			OnPaint(PaintEventArgs(Drawing::Graphics(__surface)));
+
+	}
 
 	// The Control has now been validated. This isn't important right now, but will be for future drawing optimizations.
 	__invalidated = false;
+
+	// Draw the Control's surface bitmap.
+	if (__surface)
+		e.Graphics().DrawBitmap(X(), Y(), __surface);
 
 	/*
 	if (Invalidated()) {
@@ -102,7 +118,7 @@ void GUI::Control::Draw(DrawEventArgs& e) {
 		float scale = __manager ? __manager->Scale() : 1.0f;
 		al_draw_tinted_scaled_bitmap(
 			__bmp,
-			al_map_rgba_f(1.0f * __opacity, 1.0f * __opacity, 1.0f * __opacity, __opacity), 
+			al_map_rgba_f(1.0f * __opacity, 1.0f * __opacity, 1.0f * __opacity, __opacity),
 			0.0f,
 			0.0f,
 			Width(),

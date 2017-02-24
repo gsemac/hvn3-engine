@@ -43,9 +43,7 @@ namespace GUI {
 		Point __original_position;
 		Size __original_size;
 		Size __size_diff;
-
 		Panel __panel;
-		Drawing::Bitmap __child_bitmap;
 
 		// Returns the resize regions that the mouse is currently in. Returns 0 if the mouse is not in a resize region.
 		unsigned int GetMouseResizeRegions();

@@ -7,6 +7,8 @@ public:
 	Scale(float scale);
 	Scale(float x_scale, float y_scale);
 	Scale(const Rectangle& a, const Rectangle& b);
+	Scale(const Size& a, const Size& b);
+	Scale(const ISizeable& a, const ISizeable& b);
 
 	float XScale() const;
 	float YScale() const;

@@ -98,12 +98,12 @@ void Display::Resize(float width, float height) {
 	al_flip_display();
 
 }
-Size Display::Scale() {
+Scale Display::Scale() const {
 
-	return Size(Width() / __original_size.Width(), Height() / __original_size.Height());
+	return ::Scale(Width() / __original_size.Width(), Height() / __original_size.Height());
 
 }
-Point Display::Position() {
+Point Display::Position() const {
 
 	if (!__display)
 		return Point();
