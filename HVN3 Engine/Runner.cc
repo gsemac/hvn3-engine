@@ -465,6 +465,10 @@ void Runner::RecalculateMousePosition() {
 		// If Views are not used, set the mouse position to its position relative to the display.
 		Point pos = Mouse::DisplayPosition();
 
+		// If the mouse is outside of the clipping area, don't track it.
+		if (!PointIn(pos, __graphics.Clip()))
+			return;
+
 		// Set the position relative to the clipping area.
 		pos -= __graphics.Clip().TopLeft();
 		Scale(__scene->Size(), __graphics.Clip().Size()).ScalePoint(pos);
