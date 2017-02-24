@@ -44,7 +44,7 @@ namespace Drawing {
 
 		void DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment = Alignment::Left);
 		void DrawText(float x, float y, const std::string& text, const Font& font, const Color& color);
-		void DrawText(float x, float y, Utf8String& text, const Font& font, const Color& color, Alignment alignment = Alignment::Left);
+		void DrawText(float x, float y, const Utf8String& text, const Font& font, const Color& color, Alignment alignment = Alignment::Left);
 
 		void DrawSprite(float x, float y, const Sprite& sprite, int subimage);
 		void DrawSprite(float x, float y, const Sprite& sprite, int subimage, float xscale, float yscale, float angle, const Color& blend);

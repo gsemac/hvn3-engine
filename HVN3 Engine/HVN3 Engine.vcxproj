@@ -173,6 +173,7 @@
     <ClCompile Include="IPositionable.cc" />
     <ClCompile Include="ISizeable.cc" />
     <ClCompile Include="ISpriteable.cc" />
+    <ClCompile Include="ITextable.cc" />
     <ClCompile Include="IUpdatable.cc" />
     <ClCompile Include="Keyboard.cc" />
     <ClCompile Include="Main.cc" />
@@ -269,6 +270,7 @@
     <ClInclude Include="ISizeable.h" />
     <ClInclude Include="ISpriteable.h" />
     <ClInclude Include="IStringable.h" />
+    <ClInclude Include="ITextable.h" />
     <ClInclude Include="ITransformable.h" />
     <ClInclude Include="IUpdatable.h" />
     <ClInclude Include="Keyboard.h" />

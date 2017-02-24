@@ -330,6 +330,9 @@
     <ClCompile Include="Scale.cc">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="ITextable.cc">
+      <Filter>Source Files\Interfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -628,6 +631,9 @@
     </ClInclude>
     <ClInclude Include="Scale.h">
       <Filter>Header Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="ITextable.h">
+      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

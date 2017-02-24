@@ -172,7 +172,8 @@ namespace SuperMarioBros {
 
 			GUI::GuiManager* manager = new GUI::GuiManager();
 			GUI::Window* window = new GUI::Window(100, 100, 200, 100, "Window 1");
-			window->AddControl(new GUI::Button(0, 0, 100, 29, "Button 1"));
+			window->AddControl(new GUI::Button(1, 0, 100, 29, "Button 1"));
+			window->AddControl(new GUI::Button(1, 29, 100, 29, "Button 2"));
 
 			manager->AddControl(new GUI::Button(50, 50, 100, 29, "Button 1"));
 			manager->AddControl(window);

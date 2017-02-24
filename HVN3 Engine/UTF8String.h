@@ -77,10 +77,11 @@ public:
 		info = nullptr;
 
 	}
-	Utf8String(Utf8String& other) {
+	Utf8String(const Utf8String& other) {
 
 		// Free existing string, if needed.
-		if (ustr) al_ustr_free(ustr);
+		if (ustr) 
+			al_ustr_free(ustr);
 
 		// Copy the other string (do not use same memory).
 		ustr = al_ustr_dup(other.ustr);
@@ -88,6 +89,10 @@ public:
 
 	}
 	Utf8String(Utf8String&& other) {
+
+		// Free existing string if needed.
+		if (ustr) 
+			al_ustr_free(ustr);
 
 		// Copy a pointer to the other object's ustr.
 		ustr = other.ustr;
@@ -114,12 +119,12 @@ public:
 
 	}
 
-	Utf8String Substring(int end_pos) {
+	Utf8String Substring(int end_pos) const {
 
 		return Substring(0, end_pos);
 
 	}
-	Utf8String Substring(int start_pos, int end_pos) {
+	Utf8String Substring(int start_pos, int end_pos) const {
 
 		// So that we can treat this like a regular string, find the nth and mth code points 
 		// based on the provided positions.
@@ -207,6 +212,14 @@ public:
 		return -1;
 
 	}
+	int IndexOf(const char* value) const {
+
+		if (!ustr)
+			return -1;
+
+		return al_ustr_find_cstr(ustr, 0, value);
+
+	}
 	int LastIndexOf(int32_t character) const {
 
 		return LastIndexOf(character, (int)Length());
@@ -238,7 +251,7 @@ public:
 		int index = start_pos;
 		for (int i = start_pos; i < (int)al_ustr_size(ustr);) {
 			int32_t cp = al_ustr_get_next(ustr, &i);
-			if (Contains(characters, cp)) return index;
+			if (::Contains(characters, cp)) return index;
 			++index;
 		}
 
@@ -272,7 +285,7 @@ public:
 		int index = start_pos;
 		for (int i = start_pos; i > 0;) {
 			int32_t cp = al_ustr_prev_get(ustr, &i);
-			if (Contains(characters, cp)) return index - 1;
+			if (::Contains(characters, cp)) return index - 1;
 			--index;
 		}
 
@@ -314,6 +327,16 @@ public:
 		bool result = al_ustr_equal(ustr, compare_to);
 		al_ustr_free(compare_to);
 		return result;
+
+	}
+	bool Contains(const char* value) const {
+
+		// Return false if the string is null.
+		if (!ustr)
+			return false;
+
+
+		return al_ustr_find_cstr(ustr, 0, value) != -1;
 
 	}
 
@@ -478,6 +501,7 @@ public:
 		return CharAt(index);
 
 	}
+	friend Utf8String operator+(const Utf8String& a, const char* b);
 
 };
 

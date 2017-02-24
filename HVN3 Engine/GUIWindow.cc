@@ -9,6 +9,7 @@ namespace GUI {
 
 	Window::Window(float x, float y, float width, float height, const char* text) :
 		Control(Point(x, y), Size(width, height + DEF_TITLEBAR_HEIGHT)),
+		ITextable(text),
 		__panel(DEF_OUTLINE_WIDTH, DEF_TITLEBAR_HEIGHT, width - DEF_OUTLINE_WIDTH, height - DEF_OUTLINE_WIDTH),
 		__drag_offset(0.0f, 0.0f),
 		__original_position(x, y),
@@ -19,7 +20,6 @@ namespace GUI {
 		// Set up titlebar.
 		__font = ActiveTheme()->DefaultFont();
 		__exit_icon = ActiveTheme()->ExitIcon();
-		__text = new Utf8String(text);
 
 		// Make sure the Window cannot be made smaller than its titlebar.
 		SetMinimumSize(Size(DEF_TITLEBAR_HEIGHT, DEF_TITLEBAR_HEIGHT));
@@ -35,9 +35,6 @@ namespace GUI {
 
 	}
 	Window::~Window() {
-
-		// Delete text objext.
-		if (__text) delete __text;
 
 	}
 
@@ -62,6 +59,8 @@ namespace GUI {
 	void Window::SetTitlebarHeight(float value) {
 
 		__titlebar_height = value;
+
+		Invalidate();
 
 	}
 	float Window::TitlebarHeight() const {
@@ -136,8 +135,8 @@ namespace GUI {
 		// Draw titlebar text.
 		float tx = Round(Width() / 2.0f);
 		float ty = Round((TitlebarHeight() / 2.0f) - (__font->Height() / 2.0f)) - 1;
-		e.Graphics().DrawText(tx + 1, ty + 1, *__text, *__font, Color(0, 0, 0, 0.5f), Alignment::Center);
-		e.Graphics().DrawText(tx, ty, *__text, *__font, Color(186, 186, 186), Alignment::Center);
+		e.Graphics().DrawText(tx + 1, ty + 1, Text(), *__font, Color(0, 0, 0, 0.5f), Alignment::Center);
+		e.Graphics().DrawText(tx, ty, Text(), *__font, Color(186, 186, 186), Alignment::Center);
 
 		// Draw exit button.
 		float ex = Width() - __exit_icon->Width() - (__exit_icon->Width() / 2.0f);

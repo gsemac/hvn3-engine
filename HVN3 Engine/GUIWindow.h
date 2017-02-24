@@ -4,13 +4,13 @@
 #include "Container.h"
 #include "GUITheme.h"
 #include "GUIPanel.h"
-#include "UTF8String.h"
 #include "Mouse.h"
 #include "Graphics.h"
+#include "ITextable.h"
 
 namespace GUI {
 
-	class Window : public Control {
+	class Window : public Control, public ITextable {
 
 	public:
 		Window(float x, float y, float width, float height, const char* text);
@@ -33,7 +33,6 @@ namespace GUI {
 	private:
 		int __titlebar_height;
 
-		Utf8String* __text;
 		Font* __font;
 		Sprite* __exit_icon;
 

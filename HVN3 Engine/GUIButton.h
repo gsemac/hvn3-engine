@@ -10,37 +10,43 @@
 #include "GUITheme.h"
 #include "Mouse.h"
 #include "AllegroExtensions.h"
+#include "ITextable.h"
 
 namespace GUI {
 
-	class Button : public Control {
+	class Button : public Control, public ITextable {
 
 	private:
-		Utf8String* __text;
+		Utf8String __text;
 		Font* __font;
 
 		Point __text_offset;
 
 	public:
-		Button(float x, float y, float width, float height, const char* text) : Control(Point(x, y), Size(width, height)), __text_offset(0.0f, 0.0f) {
+		Button(float x, float y, float width, float height, const char* text) :
+			Control(Point(x, y), Size(width, height)),
+			ITextable(text),
+			__text_offset(0.0f, 0.0f) {
 
 			__font = GUI::ActiveTheme()->DefaultFont();
-			__text = new Utf8String(text);
 
 		}
 
-		Utf8String* Text() {
+		virtual void SetText(const char* text) override {
 
-			return __text;
+			ITextable::SetText(text);
+			Invalidate();
 
 		}
-		void SetText(const char* text) {
+		virtual void SetText(const std::string& text) override {
 
-			if (__text)
-				delete __text;
+			ITextable::SetText(text);
+			Invalidate();
 
-			__text = new Utf8String(text);
+		}
+		virtual void SetText(const Utf8String& text) override {
 
+			ITextable::SetText(text);
 			Invalidate();
 
 		}
@@ -49,6 +55,8 @@ namespace GUI {
 
 			SetBackColor(BackColor().Lighter());
 			Invalidate();
+
+			std::cout << "Mouse Enter!\n";
 
 		}
 		virtual void OnMouseLeave() {
@@ -60,6 +68,8 @@ namespace GUI {
 
 			Invalidate();
 
+			std::cout << "Mouse Leave!\n";
+
 		}
 		virtual void OnMouseDown() {
 
@@ -68,7 +78,7 @@ namespace GUI {
 			if (invalidate_req)
 				Invalidate();
 
-			std::cout << "Mouse down!\n";
+			std::cout << "Mouse Down!\n";
 
 		}
 		virtual void OnMouseUp() {
@@ -76,20 +86,21 @@ namespace GUI {
 			__text_offset.SetY(0.0f);
 			Invalidate();
 
-			std::cout << "Mouse up!\n";
+			std::cout << "Mouse Up!\n";
 
 		}
 		virtual void OnClick() {
 
-			static int i = 0;
-			std::cout << "Button: Clicked!\n" << i++;
+			if (Text().Contains(" Clicked!"))
+				SetText(Text().Substring(0, Text().IndexOf(" Clicked!")));
+			else
+				SetText(Text() + " Clicked!");
 
-			
-			SetText("Clicked!");
+			std::cout << "Button Clicked!\n";
 
 		}
 		virtual void OnPaint(PaintEventArgs& e) override {
-			//std::cout << *__text << std::endl;
+			
 			// Draw background.
 			e.Graphics().DrawFilledRectangle(0.0f, 0.0f, Width(), Height(), BackColor());
 
@@ -97,13 +108,13 @@ namespace GUI {
 			if (__font) {
 				float tx = (std::round)((Width() / 2.0f) + __text_offset.X());
 				float ty = (std::round)((Height() / 2.0f - __font->Height() / 2.0f - 1.0f) + __text_offset.Y());
-				e.Graphics().DrawText(tx + 1.0f, ty + 1.0f, *__text, *__font, Color::FromArgb(0, 0, 0, 0.5f), Alignment::Center);
-				e.Graphics().DrawText(tx, ty, *__text, *__font, Color::FromArgb(186, 186, 186), Alignment::Center);
+				e.Graphics().DrawText(tx + 1.0f, ty + 1.0f, Text(), *__font, Color::FromArgb(0, 0, 0, 0.5f), Alignment::Center);
+				e.Graphics().DrawText(tx, ty, Text(), *__font, Color::FromArgb(186, 186, 186), Alignment::Center);
 			}
 
 			// Draw outline.
 			e.Graphics().DrawRectangle(0.0f, 0.0f, Width(), Height(), Color::FromArgb(17, 17, 17), 1.0f);
-		
+
 		}
 
 	};
