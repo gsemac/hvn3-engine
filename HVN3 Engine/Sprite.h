@@ -46,7 +46,7 @@ public:
 
 	ALLEGRO_BITMAP* AlPtr() const;
 
-	const Drawing::Bitmap& SubImage(int subimage) const;
+	const Drawing::Bitmap& Subimage(int subimage) const;
 	const Drawing::Bitmap& operator[](int subimage) const;
 
 private:

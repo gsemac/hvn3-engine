@@ -144,7 +144,7 @@ namespace GUI {
 		float ey = (__exit_icon->Height() / 2.0f) + 1.0f;
 		Color tint = Mouse::InRegion(X() + ex, Y() + ey, X() + ex + __exit_icon->Width(), Y() + ey + __exit_icon->Height()) ?
 			Color::FromArgbf(0.5f, 0.5f, 0.5f, 1.0f) : Color::FromArgbf(1.0f, 1.0f, 1.0f, 1.0f);
-		e.Graphics().DrawBitmap(ex, ey, __exit_icon->SubImage(0), tint);
+		e.Graphics().DrawBitmap(ex, ey, __exit_icon->Subimage(0), tint);
 
 		// Draw main window area.
 		e.Graphics().DrawFilledRectangle(0, TitlebarHeight() - DEF_OUTLINE_WIDTH, Width(), Height() - TitlebarHeight(), BackColor());

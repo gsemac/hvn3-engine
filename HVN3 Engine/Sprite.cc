@@ -205,7 +205,7 @@ void Sprite::Add(const char* path) {
 
 }
 
-const Drawing::Bitmap& Sprite::SubImage(int subimage) const {
+const Drawing::Bitmap& Sprite::Subimage(int subimage) const {
 
 	int index = (std::abs)(subimage) % __frames.size();
 	index += __using_sprite_sheet;
@@ -215,6 +215,6 @@ const Drawing::Bitmap& Sprite::SubImage(int subimage) const {
 }
 const Drawing::Bitmap& Sprite::operator[] (int subimage) const {
 
-	return SubImage(subimage);
+	return Subimage(subimage);
 
 }
