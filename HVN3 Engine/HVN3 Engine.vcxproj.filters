@@ -342,6 +342,9 @@
     <ClCompile Include="GUIButton.cc">
       <Filter>Source Files\Resources\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cc">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -643,6 +646,9 @@
     </ClInclude>
     <ClInclude Include="ITextableControl.h">
       <Filter>Header Files\Resources\GUI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -155,6 +155,7 @@
     <ClCompile Include="Exception.cc" />
     <ClCompile Include="Font.cc" />
     <ClCompile Include="Framework.cc" />
+    <ClCompile Include="Game.cc" />
     <ClCompile Include="GameProperties.cc" />
     <ClCompile Include="Geometry.cc" />
     <ClCompile Include="Graphics.cc" />
@@ -232,6 +233,7 @@
     <ClInclude Include="Encryption.h" />
     <ClInclude Include="EventArgs.h" />
     <ClInclude Include="ExampleGame3.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GraphicsState.h" />
     <ClInclude Include="HVN3.h" />
     <ClInclude Include="Event.h" />
