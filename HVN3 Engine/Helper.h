@@ -59,7 +59,7 @@ bool Contains(const std::initializer_list<T>& items, const T& item) {
 float Clamp(float value, float min, float max);
 
 // Converts seconds to the number of frames that would pass in that time.
-float SecondsToFrames(float sec);
+float SecondsToFrames(float fps, float sec);
 
 enum class Alignment {
 	Left,

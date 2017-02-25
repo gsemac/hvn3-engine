@@ -14,6 +14,8 @@ EventType Event::Type() {
 		return EventType::JoystickConfiguration;
 	case ALLEGRO_EVENT_KEY_DOWN:
 		return EventType::KeyDown;
+	case ALLEGRO_EVENT_KEY_CHAR:
+		return EventType::KeyChar;
 	case ALLEGRO_EVENT_KEY_UP:
 		return EventType::KeyUp;
 	case ALLEGRO_EVENT_MOUSE_AXES:

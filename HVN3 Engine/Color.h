@@ -15,7 +15,25 @@ public:
 	static Color FromHsl(float h, float s, float l, float a = 1.0f);
 	static Color FromHex(unsigned long hex);
 
+	static const Color AliceBlue;
+	static const Color AntiqueWhite;
+	static const Color Aqua;
+	static const Color Aquamarine;
+	static const Color Azure;
+	static const Color Beige;
+	static const Color Bisque;
 	static const Color Black;
+	static const Color BlanchedAlmond;
+	static const Color Blue;
+	static const Color BlueViolet;
+	static const Color Brown;
+	static const Color BurlyWood;
+	static const Color CadetBlue;
+	static const Color Chartreuse;
+	static const Color Chocolate;
+	static const Color Coral;
+	static const Color CornFlowerBlue;
+	static const Color CornSilk;
 	static const Color DarkGrey;
 	static const Color DimGrey;
 	static const Color DodgerBlue;

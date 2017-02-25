@@ -103,6 +103,7 @@ namespace GUI {
 					if (mouse_is_dbl_pressed)
 						c->OnDoubleClick();
 					__held_control = c;
+					c->Focus();
 				}
 
 				// Handle OnMouseHover.

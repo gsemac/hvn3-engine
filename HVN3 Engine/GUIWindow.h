@@ -6,11 +6,11 @@
 #include "GUIPanel.h"
 #include "Mouse.h"
 #include "Graphics.h"
-#include "ITextable.h"
+#include "ITextableControl.h"
 
 namespace GUI {
 
-	class Window : public Control, public ITextable {
+	class Window : public ITextableControl {
 
 	public:
 		Window(float x, float y, float width, float height, const char* text);
@@ -33,7 +33,6 @@ namespace GUI {
 	private:
 		int __titlebar_height;
 
-		Font* __font;
 		Sprite* __exit_icon;
 
 		Point __drag_offset;

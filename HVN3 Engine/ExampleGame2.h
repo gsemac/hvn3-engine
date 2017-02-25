@@ -5,6 +5,7 @@
 #include "GUIButton.h"
 #include "GUIWindow.h"
 #include "GUIManager.h"
+#include "GuiTextbox.h"
 
 namespace SuperMarioBros {
 
@@ -107,36 +108,6 @@ namespace SuperMarioBros {
 
 	};
 
-	class Button;
-	class WidgetManager {
-
-	public:
-		WidgetManager() {
-
-
-
-		}
-
-	public:
-		std::vector<Button*> __widgets;
-
-	};
-
-	class Button : public Object {
-
-	public:
-		Button(float x, float y) :
-			Object(x, y) {
-
-			//__global_manager.__widgets.push_back(this);
-
-		}
-
-	public:
-		//static WidgetManager __global_manager;
-
-	};
-
 	class Stage001 : public Room {
 
 	public:
@@ -174,6 +145,7 @@ namespace SuperMarioBros {
 			GUI::Window* window = new GUI::Window(100, 100, 200, 100, "Window 1");
 			window->AddControl(new GUI::Button(1, 0, 100, 29, "Button 1"));
 			window->AddControl(new GUI::Button(1, 29, 100, 29, "Button 2"));
+			manager->AddControl(new GUI::Textbox(1, 50, 100, 21));
 
 			manager->AddControl(new GUI::Button(50, 50, 100, 29, "Button 1"));
 			manager->AddControl(window);
@@ -196,7 +168,39 @@ namespace SuperMarioBros {
 			// Initialize the Framework.
 			InitializeFramework();
 
-			// Set up Game Resources.
+			/*		Font font(Font::BuiltIn());
+
+					Utf8String str("Hello, World!");
+					std::cout << "Full Length:          " << str.Width(font) << std::endl;
+					std::cout << "'Hello' Length:       " << str.Substring(0, 5).Width(font) << std::endl;
+					std::cout << "'Hello' Length (Ref): " << str.RefSubstring(0, 5).Width(font) << std::endl;
+					getchar();*/
+
+					//Display disp(640, 480);
+					//Drawing::Graphics gfx(disp.BackBuffer());
+					//Drawing::Bitmap bmp(640, 480);
+
+					//do {
+
+					//	gfx.Clear(Color::Red);
+					//	gfx.DrawCircle(10, 10, 10, Color::Chartreuse, 3);
+					//	float alpha = 0.1f;
+					//	
+					//	Drawing::Graphics(bmp).Clear(Color(al_map_rgba_f(1.0f, 1.0f, 1.0f, alpha)));
+
+					//	gfx.DrawBitmap(0, 0, bmp);
+
+					//	//al_draw_filled_rectangle(0, 0, 320, 240, al_map_rgba_f(alpha, alpha, alpha, alpha));
+
+					//	//al_clear_to_color(al_map_rgba_f(alpha, alpha, alpha, alpha));
+
+					//	disp.Refresh();
+
+					//} while (1);
+
+					//getchar();
+
+					// Set up Game Resources.
 			IO::Directory::SetCurrentDirectory(IO::Path::Combine(IO::Directory::GetCurrentDirectory(), "data"));
 			sprites.Add(SPR_PLAYER, Sprite::FromSpriteSheet("ExampleGame2/mario_small_walk.png", 16, 32, 0, 0, Color(157, 159, 159)));
 			sprites.Add(SPR_BLOCK, Sprite("ExampleGame2/block_001.png"));

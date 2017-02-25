@@ -47,6 +47,19 @@ private:
 
 	}
 
+	void Free() {
+
+		if (ustr)
+			al_ustr_free(ustr);
+
+		if (info)
+			delete info;
+
+		ustr = nullptr;
+		info = nullptr;
+
+	}
+
 public:
 	Utf8String() {
 
@@ -72,27 +85,23 @@ public:
 		info = nullptr;
 
 	}
-	Utf8String(ALLEGRO_USTR* ustr) : ustr(ustr) {
-
-		info = nullptr;
-
-	}
+	Utf8String(ALLEGRO_USTR* ustr) :
+		Utf8String(ustr, nullptr) {}
+	Utf8String(ALLEGRO_USTR* ustr, ALLEGRO_USTR_INFO* info) :
+		ustr(ustr), info(info) {}
 	Utf8String(const Utf8String& other) {
 
 		// Free existing string, if needed.
-		if (ustr) 
-			al_ustr_free(ustr);
+		Free();
 
 		// Copy the other string (do not use same memory).
 		ustr = al_ustr_dup(other.ustr);
-		info = nullptr;
 
 	}
 	Utf8String(Utf8String&& other) {
 
 		// Free existing string if needed.
-		if (ustr) 
-			al_ustr_free(ustr);
+		Free();
 
 		// Copy a pointer to the other object's ustr.
 		ustr = other.ustr;
@@ -150,15 +159,12 @@ public:
 	}
 	Utf8String RefSubstring(int start_pos, int end_pos) {
 
+		// Get the start and end positions of the substring.
 		int start = GetCodepointIndex(start_pos);
 		int end = GetCodepointIndexFromStart(end_pos, start_pos, start);
 
-		Utf8String utf8str;
-		utf8str.info = new _al_tagbstring();
-		ALLEGRO_USTR* refustr = (ALLEGRO_USTR*)al_ref_ustr(utf8str.info, ustr, start, end);
-		utf8str.ustr = refustr;
-
-		return utf8str;
+		ALLEGRO_USTR_INFO* inf = new ALLEGRO_USTR_INFO;
+		return Utf8String((ALLEGRO_USTR*)al_ref_ustr(inf, ustr, start, end), inf);
 
 	}
 
@@ -401,7 +407,7 @@ public:
 
 	void Clear() {
 
-		if (ustr) al_ustr_free(ustr);
+		Free();
 
 		ustr = al_ustr_new("");
 
@@ -471,7 +477,7 @@ public:
 
 	Utf8String& operator=(const char* other) {
 
-		if (ustr) al_ustr_free(ustr);
+		Free();
 
 		ustr = al_ustr_new(other);
 
@@ -480,7 +486,7 @@ public:
 	}
 	Utf8String& operator=(const std::string& other) {
 
-		if (ustr) al_ustr_free(ustr);
+		Free();
 
 		ustr = al_ustr_new(other.c_str());
 
@@ -489,7 +495,7 @@ public:
 	}
 	Utf8String& operator=(const Utf8String& other) {
 
-		if (ustr) al_ustr_free(ustr);
+		Free();
 
 		ustr = al_ustr_dup(other.ustr);
 

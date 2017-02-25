@@ -317,7 +317,25 @@ void Color::HslToRgb(float h, float s, float l) {
 
 // Static color definitions
 
-const Color Color::Black = FromArgbf(0.0f, 0.0f, 0.0f);
+const Color Color::AliceBlue = FromArgb(240, 248, 255);
+const Color Color::AntiqueWhite = FromArgb(250, 235, 215);
+const Color Color::Aqua = FromArgb(0, 255, 255);
+const Color Color::Aquamarine = FromArgb(127, 255, 212);
+const Color Color::Azure = FromArgb(240, 255, 255);
+const Color Color::Beige = FromArgb(245, 245, 220);
+const Color Color::Bisque = FromArgb(255, 228, 196);
+const Color Color::Black = FromArgb(0, 0, 0);
+const Color Color::BlanchedAlmond = FromArgb(255, 235, 205);
+const Color Color::Blue = FromArgb(0, 0, 255);
+const Color Color::BlueViolet = FromArgb(138, 43, 226);
+const Color Color::Brown = FromArgb(165, 42, 42);
+const Color Color::BurlyWood = FromArgb(222, 184, 135);
+const Color Color::CadetBlue = FromArgb(95, 158, 160);
+const Color Color::Chartreuse = FromArgb(127, 255, 0);
+const Color Color::Chocolate = FromArgb(210, 105, 30);
+const Color Color::Coral = FromArgb(255, 127, 80);
+const Color Color::CornFlowerBlue = FromArgb(100, 149, 237);
+const Color Color::CornSilk = FromArgb(255, 248, 220);
 const Color Color::DarkGrey = FromArgb(169, 169, 169);
 const Color Color::DimGrey = FromArgb(105, 105, 105);
 const Color Color::DodgerBlue = FromArgb(30, 144, 255);
@@ -327,5 +345,5 @@ const Color Color::LtGrey = FromArgbf(0.7f, 0.7f, 0.7f);
 const Color Color::Red = FromArgbf(1.0f, 0.0f, 0.0f);
 const Color Color::Silver = FromArgb(192, 192, 192);
 const Color Color::SlateGrey = FromArgb(112, 128, 144);
-const Color Color::Transparent = FromArgbf(0.0f, 0.0f, 0.0f, 0.0f);
+const Color Color::Transparent = FromArgb(1, 1, 1, 0.0f);
 const Color Color::White = FromArgbf(1.0f, 1.0f, 1.0f);

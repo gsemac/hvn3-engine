@@ -161,6 +161,7 @@
     <ClCompile Include="GraphicsState.cc" />
     <ClCompile Include="Grid.cc" />
     <ClCompile Include="GridVisualizer.cc" />
+    <ClCompile Include="GUIButton.cc" />
     <ClCompile Include="GUIManager.cc" />
     <ClCompile Include="GUIScrollbar.cc" />
     <ClCompile Include="GUITheme.cc" />
@@ -173,7 +174,7 @@
     <ClCompile Include="IPositionable.cc" />
     <ClCompile Include="ISizeable.cc" />
     <ClCompile Include="ISpriteable.cc" />
-    <ClCompile Include="ITextable.cc" />
+    <ClCompile Include="ITextableControl.cc" />
     <ClCompile Include="IUpdatable.cc" />
     <ClCompile Include="Keyboard.cc" />
     <ClCompile Include="Main.cc" />
@@ -270,7 +271,7 @@
     <ClInclude Include="ISizeable.h" />
     <ClInclude Include="ISpriteable.h" />
     <ClInclude Include="IStringable.h" />
-    <ClInclude Include="ITextable.h" />
+    <ClInclude Include="ITextableControl.h" />
     <ClInclude Include="ITransformable.h" />
     <ClInclude Include="IUpdatable.h" />
     <ClInclude Include="Keyboard.h" />

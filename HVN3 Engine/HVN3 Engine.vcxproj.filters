@@ -94,6 +94,12 @@
     <Filter Include="Source Files\System\Allegro">
       <UniqueIdentifier>{87aec444-bd1b-41c5-a29c-c616df7131d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Resources\GUI\Interfaces">
+      <UniqueIdentifier>{2b29dad2-80cc-4b8d-942f-8aad4d7d1e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Resources\GUI\Interfaces">
+      <UniqueIdentifier>{def8050c-4322-41d8-a658-5063d00f14f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -330,8 +336,11 @@
     <ClCompile Include="Scale.cc">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="ITextable.cc">
-      <Filter>Source Files\Interfaces</Filter>
+    <ClCompile Include="ITextableControl.cc">
+      <Filter>Source Files\Resources\GUI\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIButton.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -632,8 +641,8 @@
     <ClInclude Include="Scale.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="ITextable.h">
-      <Filter>Header Files\Interfaces</Filter>
+    <ClInclude Include="ITextableControl.h">
+      <Filter>Header Files\Resources\GUI\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
