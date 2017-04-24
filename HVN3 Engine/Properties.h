@@ -1,6 +1,7 @@
 #pragma once
 #include "Size.h"
 #include "Color.h"
+#include "Display.h"
 #include <string>
 
 enum class ScalingMode {
@@ -9,10 +10,10 @@ enum class ScalingMode {
 	MaintainAspectRatio
 };
 
-struct GameProperties {
+struct Properties {
 
 public:
-	GameProperties();
+	Properties();
 
 	// Display Properties
 
@@ -21,6 +22,7 @@ public:
 	bool Fullscreen;
 	::ScalingMode ScalingMode;
 	Color OutsideColor;
+	::DisplayFlags DisplayFlags;
 
 	// Flow Properties
 

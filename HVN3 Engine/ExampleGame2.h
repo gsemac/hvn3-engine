@@ -114,10 +114,10 @@ namespace SuperMarioBros {
 	public:
 		Stage001() : Room(640, 480, new CollisionGrid(16, 16)) {
 
-			Build();
+			SetUp();
 
 		}
-		void Build() override {
+		void SetUp() override {
 
 			SetBackgroundColor(Color::Silver);
 
@@ -174,7 +174,7 @@ namespace SuperMarioBros {
 			backgrounds.Add(BG_HILLS, Background("ExampleGame2/background_001.png"));
 
 			// Set up Game Properties.
-			GameProperties properties;
+			Properties properties;
 			properties.DisplayTitle = "HVN3 Engine";
 			properties.OutsideColor = Color::Black;
 			properties.DebugMode = true;
@@ -184,7 +184,7 @@ namespace SuperMarioBros {
 			Stage001 scene;
 
 			// Create a new Runner instance to handle the game logic.
-			Runner(properties, scene).Loop();
+			//Runner(properties, scene).Loop();
 
 			// Clear resources.
 			sprites.Clear();

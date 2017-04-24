@@ -31,6 +31,7 @@ Display::Display(int x, int y, int width, int height, const char* title, Display
 	if (x != UNDEFINED_WINDOW_POSITION_X || y != UNDEFINED_WINDOW_POSITION_Y)
 		al_set_new_window_position(x, y);
 	al_set_new_display_flags(new_display_flags | (int)flags);
+	al_set_new_window_title(title);
 
 	// Create the display.
 	__display = al_create_display(width, height);

@@ -3,11 +3,11 @@
 #include "Font.h"
 #include "Sprite.h"
 #include "Color.h"
+#include <memory>
 
 namespace GUI {
 
 	class GUITheme {
-		static GUITheme* __active_theme;
 		friend GUITheme* ActiveTheme();
 
 	public:
@@ -22,6 +22,9 @@ namespace GUI {
 
 		}
 
+	private:
+		static GUITheme* __active_theme;
+
 	};
 
 	// Returns the GUI theme currently in use.
@@ -32,6 +35,8 @@ namespace GUI {
 
 	private:
 		static unsigned int __ref_count;
+		//static std::shared_ptr<Font> __font_ptr;
+		//static std::shared_ptr<Sprite> __exit_icon_ptr;
 		static Font* __font_ptr;
 		static Sprite* __exit_icon_ptr;
 
@@ -57,9 +62,9 @@ namespace GUI {
 
 			// If reference count is 0, free resources.
 			if (__ref_count == 0) {
-
-				delete __font_ptr;
-				delete __exit_icon_ptr;
+				std::cout << "ref count 0\n";
+				//delete __font_ptr;
+				//delete __exit_icon_ptr;
 
 			}
 

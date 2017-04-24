@@ -20,9 +20,13 @@ enum class DisplayResolution {
 };
 
 enum class DisplayFlags {
-	None = 0x00,
-	Resizable = 0x10,
-	NoBorder = 0x20
+	None = 0,
+	Resizable = ALLEGRO_RESIZABLE,
+	NoBorder = ALLEGRO_NOFRAME,
+	OpenGL = ALLEGRO_OPENGL,
+	OpenGL3 = ALLEGRO_OPENGL_3_0,
+	OpenGLForwardCompatible = ALLEGRO_OPENGL_FORWARD_COMPATIBLE,
+	Direct3D = 8
 };
 ENABLE_BITFLAG_OPERATORS(DisplayFlags);
 

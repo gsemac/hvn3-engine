@@ -11,6 +11,22 @@
 #include <memory>
 #include <iostream>
 
+Framework::Framework() {
+
+	Initialize();
+
+}
+Framework::Framework(int argc, char *argv[]) {
+
+	Initialize(argc, argv);
+
+}
+Framework::~Framework() {
+
+	Shutdown();
+
+}
+
 void Framework::Initialize() {
 
 	// If the framework has already been initialized, do nothing.
@@ -35,6 +51,11 @@ void Framework::Initialize(int argc, char *argv[]) {
 	// Store the command line parameters so that they can be accessed from anywhere in the program.
 	Environment::argc = argc;
 	Environment::argv = argv;
+
+}
+void Framework::Loop(Runner& runner) {
+
+	runner.Loop();
 
 }
 void Framework::Shutdown() {
@@ -80,7 +101,7 @@ void Framework::InitializeUnderlyingFramework() {
 
 }
 void Framework::ShutdownUnderlyingFramework() {
-	
+
 	try {
 
 		// Shut down IO add-ons.

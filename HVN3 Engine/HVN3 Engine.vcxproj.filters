@@ -276,9 +276,6 @@
     <ClCompile Include="Framework.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
-    <ClCompile Include="GameProperties.cc">
-      <Filter>Source Files\System</Filter>
-    </ClCompile>
     <ClCompile Include="Runner.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
@@ -345,6 +342,15 @@
     <ClCompile Include="Game.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
+    <ClCompile Include="Tileset.cc">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Properties.cc">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomManager.cc">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -405,9 +411,6 @@
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Framework.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="GameProperties.h">
       <Filter>Header Files\System</Filter>
     </ClInclude>
     <ClInclude Include="Geometry.h">
@@ -648,6 +651,15 @@
       <Filter>Header Files\Resources\GUI\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Tileset.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Properties.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomManager.h">
       <Filter>Header Files\System</Filter>
     </ClInclude>
   </ItemGroup>

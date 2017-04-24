@@ -15,12 +15,12 @@
 #include "Keyboard.h"
 #include "DrawEventArgs.h"
 
-Runner::Runner() : Runner(GameProperties()) {}
-Runner::Runner(const GameProperties& properties) :
-	__properties(properties),
+Runner::Runner(::Properties& properties, RoomManager& room_manager) :
+	_properties(properties),
 	__timer(1.0f / properties.FPS),
-	__display(properties.DisplaySize.Width(), properties.DisplaySize.Height(), properties.DisplayTitle.c_str(), DisplayFlags::Resizable),
-	__graphics(__display.BackBuffer()) {
+	__display(properties.DisplaySize.Width(), properties.DisplaySize.Height(), properties.DisplayTitle.c_str(), properties.DisplayFlags),
+	__graphics(__display.BackBuffer()),
+	_room_manager(room_manager) {
 
 	// Create the display, and initialize its parameters.
 	if (properties.Fullscreen)
@@ -43,13 +43,6 @@ Runner::Runner(const GameProperties& properties) :
 	__allow_redraw = true;
 	__exit_loop = false;
 	__default_font = nullptr;
-	__scene = nullptr;
-
-}
-Runner::Runner(const GameProperties& properties, Room& scene) :
-	Runner(properties) {
-
-	__scene = &scene;
 
 }
 Runner::~Runner() {
@@ -69,14 +62,13 @@ void Runner::Draw() {
 
 	// Clear the drawing surface with the outside outside color.
 	__graphics.Clear(Properties().OutsideColor);
-	Drawing::Graphics(__display.BackBuffer()).Clear(Properties().OutsideColor);
 
 	// Set the Transform according to the scaling mode.
 	ApplyScalingMode();
 
-	if (__scene)
+	if (_room_manager.RoomCount() > 0)
 		// Render the active Scene.
-		__scene->Draw(DrawEventArgs(__graphics));
+		_room_manager.CurrentRoom().Draw(DrawEventArgs(__graphics));
 	else
 		// Draw placeholder graphics.
 		__graphics.DrawText(Round(__display.Width() / 2.0f), Round(__display.Height() / 2.0f), Properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);
@@ -206,9 +198,9 @@ void Runner::OnTimerTick(Event& ev) {
 	// Initialize the delta timer. At some point, the frame timer could be used for this.
 	static Stopwatch delta_timer(true);
 
-	if (__scene && (!Properties().FreezeWhenLostFocus || __display.HasFocus()) && __frames_skipped++ <= Properties().MaxFrameSkip)
+	if (_room_manager.RoomCount() > 0 && (!Properties().FreezeWhenLostFocus || __display.HasFocus()) && __frames_skipped++ <= Properties().MaxFrameSkip)
 		// Update the active scene.
-		__scene->Update(UpdateEventArgs(delta_timer.SecondsElapsed()));
+		_room_manager.CurrentRoom().Update(UpdateEventArgs(delta_timer.SecondsElapsed()));
 	RecalculateMousePosition();
 	// Unset all pressed/released keys so the values will be false until next triggered.
 	Keyboard::StateAccessor::ResetKeyStates(true, true, false);
@@ -366,46 +358,49 @@ const Font* Runner::SystemFont() {
 
 }
 
-const GameProperties& Runner::Properties() const {
+const Properties& Runner::Properties() const {
 
-	return __properties;
+	return _properties;
 
 }
 Room& Runner::CurrentRoom() {
 
-	return *__scene;
+	return _room_manager.CurrentRoom();
 
 }
 
 void Runner::ApplyScalingMode() {
 
-	if (!__scene)
+	// If no scene has been loaded, do nothing.
+	if (_room_manager.RoomCount() <= 0)
 		return;
+
+	Room& room = _room_manager.CurrentRoom();
 
 	// Set the Transform according to the scaling mode.
 	Drawing::Transform scaling_transform;
-	Rectangle clipping_rectangle(0.0f, 0.0f, __scene->Width(), __scene->Height());
+	Rectangle clipping_rectangle(0.0f, 0.0f, room.Width(), room.Height());
 
 	switch (Properties().ScalingMode) {
 
 	case ScalingMode::Full:
 		// Stretch drawing to fill up the Display.
 		scaling_transform.Scale(__display.Scale());
-		clipping_rectangle = Rectangle(0.0f, 0.0f, __scene->Width() * __display.Scale().XScale(), __scene->Height() * __display.Scale().YScale());
+		clipping_rectangle = Rectangle(0.0f, 0.0f, room.Width() * __display.Scale().XScale(), room.Height() * __display.Scale().YScale());
 		break;
 
 	case ScalingMode::Fixed:
 		// Center drawing while maintaining original scale.
-		scaling_transform.Translate(__display.Width() / 2.0f - __scene->Width() / 2.0f, __display.Height() / 2.0f - __scene->Height() / 2.0f);
-		clipping_rectangle = Rectangle(__display.Width() / 2.0f - __scene->Width() / 2.0f, __display.Height() / 2.0f - __scene->Height() / 2.0f, __scene->Width(), __scene->Height());
+		scaling_transform.Translate(__display.Width() / 2.0f - room.Width() / 2.0f, __display.Height() / 2.0f - room.Height() / 2.0f);
+		clipping_rectangle = Rectangle(__display.Width() / 2.0f - room.Width() / 2.0f, __display.Height() / 2.0f - room.Height() / 2.0f, room.Width(), room.Height());
 		break;
 
 	case ScalingMode::MaintainAspectRatio:
 		// Stretch drawing as much as possible while maintaining the aspect ratio.
 		float scale_factor = Min(__display.Scale().XScale(), __display.Scale().YScale());
 		scaling_transform.Scale(scale_factor, scale_factor);
-		scaling_transform.Translate(__display.Width() / 2.0f - __scene->Width() * scale_factor / 2.0f, __display.Height() / 2.0f - __scene->Height() * scale_factor / 2.0f);
-		clipping_rectangle = Rectangle(__display.Width() / 2.0f - __scene->Width() * scale_factor / 2.0f, __display.Height() / 2.0f - __scene->Height() * scale_factor / 2.0f, __scene->Width() * scale_factor, __scene->Height() * scale_factor);
+		scaling_transform.Translate(__display.Width() / 2.0f - room.Width() * scale_factor / 2.0f, __display.Height() / 2.0f - room.Height() * scale_factor / 2.0f);
+		clipping_rectangle = Rectangle(__display.Width() / 2.0f - room.Width() * scale_factor / 2.0f, __display.Height() / 2.0f - room.Height() * scale_factor / 2.0f, room.Width() * scale_factor, room.Height() * scale_factor);
 		break;
 
 	}
@@ -416,13 +411,19 @@ void Runner::ApplyScalingMode() {
 }
 void Runner::RecalculateMousePosition() {
 
-	if (__scene && __scene->ViewCount()) {
+	// If no scene has been loaded, do nothing.
+	if (_room_manager.RoomCount() <= 0)
+		return;
+
+	Room& room = _room_manager.CurrentRoom();
+
+	if (room.ViewCount()) {
 
 		// If the mouse is inside of a View, position it relative to the View (where 0, 0 is the top left of the View).
-		for (int i = __scene->ViewCount() - 1; i >= 0; --i) {
+		for (int i = room.ViewCount() - 1; i >= 0; --i) {
 
 			// Get a reference to the view so it's easy to access.
-			View& view = __scene->View(i);
+			View& view = room.View(i);
 
 			// If the View is disabled or doesn't track the mouse position, do nothing.
 			if (!view.TracksMouse() || !view.Enabled())
@@ -471,7 +472,7 @@ void Runner::RecalculateMousePosition() {
 
 		// Set the position relative to the clipping area.
 		pos -= __graphics.Clip().TopLeft();
-		Scale(__scene->Size(), __graphics.Clip().Size()).ScalePoint(pos);
+		Scale(room.Size(), __graphics.Clip().Size()).ScalePoint(pos);
 
 		Mouse::StateAccessor::SetPosition(pos.X(), pos.Y());
 

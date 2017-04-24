@@ -77,6 +77,15 @@
     <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
     <Allegro_AddonFont>true</Allegro_AddonFont>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Allegro_AddonImage>true</Allegro_AddonImage>
+    <Allegro_AddonTTF>true</Allegro_AddonTTF>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
+    <Allegro_AddonAudio>true</Allegro_AddonAudio>
+    <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
+    <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
+    <Allegro_AddonFont>true</Allegro_AddonFont>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -156,7 +165,7 @@
     <ClCompile Include="Font.cc" />
     <ClCompile Include="Framework.cc" />
     <ClCompile Include="Game.cc" />
-    <ClCompile Include="GameProperties.cc" />
+    <ClCompile Include="Properties.cc" />
     <ClCompile Include="Geometry.cc" />
     <ClCompile Include="Graphics.cc" />
     <ClCompile Include="GraphicsState.cc" />
@@ -190,6 +199,7 @@
     <ClCompile Include="Point.cc" />
     <ClCompile Include="Random.cc" />
     <ClCompile Include="Rectangle.cc" />
+    <ClCompile Include="RoomManager.cc" />
     <ClCompile Include="Runner.cc" />
     <ClCompile Include="Room.cc" />
     <ClCompile Include="Scale.cc" />
@@ -200,6 +210,7 @@
     <ClCompile Include="SpriteMask.cc" />
     <ClCompile Include="Stopwatch.cc" />
     <ClCompile Include="String.cc" />
+    <ClCompile Include="Tileset.cc" />
     <ClCompile Include="Timer.cc" />
     <ClCompile Include="Transform.cc" />
     <ClCompile Include="UdpClient.cc" />
@@ -244,7 +255,7 @@
     <ClInclude Include="Exception.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Framework.h" />
-    <ClInclude Include="GameProperties.h" />
+    <ClInclude Include="Properties.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Grid.h" />
@@ -295,6 +306,7 @@
     <ClInclude Include="Runner.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="Scale.h" />
+    <ClInclude Include="RoomManager.h" />
     <ClInclude Include="Size.h" />
     <ClInclude Include="Socket.h" />
     <ClInclude Include="Sorting.h" />
@@ -303,6 +315,7 @@
     <ClInclude Include="SpriteMask.h" />
     <ClInclude Include="Stopwatch.h" />
     <ClInclude Include="String.h" />
+    <ClInclude Include="Tileset.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UdpClient.h" />

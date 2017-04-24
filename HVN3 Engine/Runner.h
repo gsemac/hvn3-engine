@@ -2,8 +2,9 @@
 #include "Display.h"
 #include "EventQueue.h"
 #include "Timer.h"
-#include "GameProperties.h"
+#include "Properties.h"
 #include "Graphics.h"
+#include "RoomManager.h"
 
 class Font;
 class Room;
@@ -11,16 +12,14 @@ class Room;
 class Runner {
 
 public:
-	Runner();
-	Runner(const GameProperties& properties);
-	Runner(const GameProperties& properties, Room& scene);
+	Runner(Properties& properties, RoomManager& room_manager);
 	~Runner();
 
 	// Processes the main game loop.
 	virtual void Loop();
 
 	// Returns an object representing a collection of game properties. 
-	const GameProperties& Properties() const;
+	const Properties& Properties() const;
 
 	Room& CurrentRoom();
 
@@ -56,10 +55,10 @@ private:
 	EventQueue __event_queue;
 	Timer __timer;
 
-	Room* __scene;
+	RoomManager& _room_manager;
 	Display __display;
 	Font* __default_font;
-	GameProperties __properties;
+	::Properties& _properties;
 	Drawing::Graphics __graphics;
 
 	void ApplyScalingMode();

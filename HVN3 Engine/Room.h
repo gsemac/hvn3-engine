@@ -16,8 +16,9 @@
 class Object;
 class Runner;
 
+typedef int RoomId;
+
 class Room : public IUpdatable, public IDrawable, public ISizeable {
-	friend class Runner;
 
 public:
 	class BackgroundProperties {
@@ -62,12 +63,13 @@ public:
 	};
 	
 	// 
-	virtual void Build();
+	virtual void SetUp();
+	virtual void CleanUp();
 	void Restart();
 
 	Room(unsigned int width, unsigned int height);
 	Room(unsigned int width, unsigned int height, IBroadphase* broadphase_handler);
-	~Room();
+	virtual ~Room();
 
 	void Update(UpdateEventArgs& e) override;
 	void Draw(DrawEventArgs& e) override;
@@ -100,6 +102,8 @@ public:
 	Size Size() const;
 
 	CollisionManager& CollisionManager();
+
+	virtual ::RoomId RoomId() const;
 
 protected:
 	void Reset();

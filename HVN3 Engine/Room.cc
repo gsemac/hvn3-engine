@@ -13,7 +13,8 @@
 
 // Virtual members
 
-void Room::Build() {}
+void Room::SetUp() {}
+void Room::CleanUp() {}
 void Room::Restart() {
 
 	__restart_pending = true;
@@ -47,7 +48,7 @@ void Room::Reset() {
 void Room::Rebuild() {
 
 	Reset();
-	Build();
+	SetUp();
 
 }
 
@@ -67,8 +68,12 @@ Room::Room(unsigned int width, unsigned int height, IBroadphase* broadphase_hand
 	// Set the broadphase handler, which handles broadphase collision detection. The Scene stores this (even though it doesn't use it directly) to delete it when the Scene is destructed.
 	__broadphase_handler = broadphase_handler;
 
+	Room::SetUp();
+
 }
 Room::~Room() {
+
+	Room::CleanUp();
 
 	// Free the broadphase handler object.
 	if (__broadphase_handler)
@@ -93,12 +98,6 @@ void Room::Update(UpdateEventArgs& e) {
 	for (auto it = __objects.begin(); it != __objects.end(); ++it)
 		(*it)->EndUpdate(e);
 
-	// If a restart is pending, perform the restart now.
-	if (__restart_pending) {
-		Rebuild();
-		__restart_pending = false;
-	}
-
 	// Update Backgrounds.
 	for (size_t i = 0; i < __backgrounds.size(); ++i)
 		if (__backgrounds[i].Velocity().Magnitude() != 0.0f)
@@ -106,6 +105,12 @@ void Room::Update(UpdateEventArgs& e) {
 
 	// Update views.
 	UpdateViews();
+
+	// If a restart is pending, perform the restart now.
+	if (__restart_pending) {
+		Rebuild();
+		__restart_pending = false;
+	}
 
 }
 void Room::Draw(DrawEventArgs& e) {
@@ -344,6 +349,11 @@ int Room::BackgroundCount() {
 CollisionManager& Room::CollisionManager() {
 
 	return __collision_manager;
+
+}
+::RoomId Room::RoomId() const {
+
+	return 0;
 
 }
 Size Room::Size() const {
