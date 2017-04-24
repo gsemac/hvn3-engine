@@ -255,6 +255,10 @@
     <ClInclude Include="Exception.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="ICollisionManager.h" />
+    <ClInclude Include="INarrowPhaseCollisionManager.h" />
+    <ClInclude Include="IObjectManager.h" />
+    <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Properties.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Graphics.h" />
@@ -270,7 +274,7 @@
     <ClInclude Include="GUIWindow.h" />
     <ClInclude Include="Hash.h" />
     <ClInclude Include="Helper.h" />
-    <ClInclude Include="IBroadphase.h" />
+    <ClInclude Include="IBroadPhaseCollisionManager.h" />
     <ClInclude Include="ICloneable.h" />
     <ClInclude Include="ICollidable.h" />
     <ClInclude Include="IDisposable.h" />

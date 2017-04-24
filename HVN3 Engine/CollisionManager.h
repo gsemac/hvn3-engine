@@ -1,18 +1,21 @@
 #pragma once
-#include "IBroadphase.h"
+#include "IBroadPhaseCollisionManager.h"
 #include "IUpdatable.h"
+
+class IBroadPhaseCollisionManager;
+class INarrowPhaseCollisionManager;
 
 class CollisionManager {
 
 public:
-	CollisionManager(IBroadphase* broadphase);
+	CollisionManager(IBroadPhaseCollisionManager* broadphase);
 	bool TestCollision(ICollidable* a, ICollidable* b) const;
 	bool TestCollision(ICollidable* a, float ax, float ay, ICollidable* b, float bx, float by) const;
-	IBroadphase& Broadphase();
+	IBroadPhaseCollisionManager& Broadphase();
 	void Update();
 	
 private:
-	IBroadphase* __broadphase;
+	IBroadPhaseCollisionManager* __broadphase;
 	void ProcessCollisions(const std::vector<std::pair<ICollidable*, ICollidable*>>& pairs) const;
 
 };

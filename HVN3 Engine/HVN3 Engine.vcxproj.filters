@@ -461,9 +461,6 @@
     <ClInclude Include="IO.h">
       <Filter>Header Files\IO</Filter>
     </ClInclude>
-    <ClInclude Include="IBroadphase.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="ICloneable.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
@@ -661,6 +658,21 @@
     </ClInclude>
     <ClInclude Include="RoomManager.h">
       <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="IObjectManager.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IBroadPhaseCollisionManager.h">
+      <Filter>Header Files\System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="INarrowPhaseCollisionManager.h">
+      <Filter>Header Files\System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="ICollisionManager.h">
+      <Filter>Header Files\System\Collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

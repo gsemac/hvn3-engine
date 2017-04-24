@@ -68,7 +68,7 @@ public:
 	void Restart();
 
 	Room(unsigned int width, unsigned int height);
-	Room(unsigned int width, unsigned int height, IBroadphase* broadphase_handler);
+	Room(unsigned int width, unsigned int height, IBroadPhaseCollisionManager* broadphase_handler);
 	virtual ~Room();
 
 	void Update(UpdateEventArgs& e) override;
@@ -119,7 +119,7 @@ private:
 	int __current_view;
 
 	::CollisionManager __collision_manager;
-	IBroadphase* __broadphase_handler;
+	IBroadPhaseCollisionManager* __broadphase_handler;
 	//CollisionGrid __collision_grid;
 
 	bool __restart_pending;

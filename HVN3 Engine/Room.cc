@@ -54,7 +54,7 @@ void Room::Rebuild() {
 
 Room::Room(unsigned int width, unsigned int height) :
 	Room(width, height, new CollisionGrid(::Size(CELL_DIMENSIONS, CELL_DIMENSIONS))) {}
-Room::Room(unsigned int width, unsigned int height, IBroadphase* broadphase_handler) :
+Room::Room(unsigned int width, unsigned int height, IBroadPhaseCollisionManager* broadphase_handler) :
 	ISizeable(width, height),
 	__collision_manager(broadphase_handler) {
 

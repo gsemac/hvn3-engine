@@ -10,7 +10,7 @@ struct RayCastResult {
 	Point HitPosition;
 };
 
-class IBroadphase {
+class IBroadPhaseCollisionManager {
 
 public:
 	// Adds a new collider to the broadphase.

@@ -2,9 +2,9 @@
 #include <unordered_map>
 #include <list>
 #include "ICollidable.h"
-#include "IBroadphase.h"
+#include "IBroadPhaseCollisionManager.h"
 
-class CollisionGrid : public IBroadphase {
+class CollisionGrid : public IBroadPhaseCollisionManager {
 
 public:
 	CollisionGrid(float cell_width, float cell_height);

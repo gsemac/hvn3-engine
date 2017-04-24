@@ -92,7 +92,7 @@ bool Intersects(const SpriteMask& mask, const Circle& circle, const Point& pos) 
 
 // Public methods
 
-CollisionManager::CollisionManager(IBroadphase* broadphase) {
+CollisionManager::CollisionManager(IBroadPhaseCollisionManager* broadphase) {
 
 	__broadphase = broadphase;
 
@@ -140,7 +140,7 @@ bool CollisionManager::TestCollision(ICollidable* a, float ax, float ay, ICollid
 	return false;
 
 }
-IBroadphase& CollisionManager::Broadphase() {
+IBroadPhaseCollisionManager& CollisionManager::Broadphase() {
 
 	return *__broadphase;
 
