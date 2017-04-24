@@ -5,6 +5,7 @@
 #include "Graphics.h"
 #include "Tileset.h"
 #include "RoomManager.h"
+#include "ObjectManager.h"
 
 class TestRoom : public Room {
 
@@ -35,6 +36,10 @@ int main(int argc, char *argv[]) {
 	RoomManager room_manager;
 	room_manager.AddRoom(std::make_shared<TestRoom>());
 
+	CollisionGrid broadphase_collision_manager(32, 32);
+	CollisionManager collision_manager(&broadphase_collision_manager);
+	ObjectManager obj_manager(collision_manager);
+	
 	// Run the main game loop.
 	Framework(argc, argv).Loop(Runner(properties, room_manager));
 

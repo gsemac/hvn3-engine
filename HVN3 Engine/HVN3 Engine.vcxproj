@@ -165,6 +165,7 @@
     <ClCompile Include="Font.cc" />
     <ClCompile Include="Framework.cc" />
     <ClCompile Include="Game.cc" />
+    <ClCompile Include="ObjectManager.cc" />
     <ClCompile Include="Properties.cc" />
     <ClCompile Include="Geometry.cc" />
     <ClCompile Include="Graphics.cc" />

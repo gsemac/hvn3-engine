@@ -6,8 +6,11 @@
 #include "ICollidable.h"
 #include "ISpriteable.h"
 #include "Vector2d.h"
+#define noone 0
 
 class DrawEventArgs;
+
+typedef int ObjectId;
 
 class ObjectBase : public IUpdatable, public IDrawable {
 
@@ -36,6 +39,7 @@ public:
 	virtual void Update(UpdateEventArgs& e) override;
 	virtual void Draw(DrawEventArgs& e) override;
 
+	virtual ObjectId Id() const;
 	int Depth() const;
 	void SetDepth(int depth);
 	Vector2d& Velocity();

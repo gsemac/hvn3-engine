@@ -46,6 +46,11 @@ void Object::Draw(DrawEventArgs& e) {
 	}
 
 }
+ObjectId Object::Id() const {
+
+	return noone;
+
+}
 int Object::Depth() const {
 
 	return __depth;

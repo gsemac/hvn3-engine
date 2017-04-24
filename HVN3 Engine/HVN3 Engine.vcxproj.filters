@@ -351,6 +351,9 @@
     <ClCompile Include="RoomManager.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectManager.cc">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">

@@ -1,18 +1,18 @@
 #pragma once
+#include "ICollisionManager.h"
 #include "IBroadPhaseCollisionManager.h"
-#include "IUpdatable.h"
 
 class IBroadPhaseCollisionManager;
 class INarrowPhaseCollisionManager;
 
-class CollisionManager {
+class CollisionManager : public ICollisionManager {
 
 public:
 	CollisionManager(IBroadPhaseCollisionManager* broadphase);
 	bool TestCollision(ICollidable* a, ICollidable* b) const;
 	bool TestCollision(ICollidable* a, float ax, float ay, ICollidable* b, float bx, float by) const;
 	IBroadPhaseCollisionManager& Broadphase();
-	void Update();
+	void Update(UpdateEventArgs& e) override;
 	
 private:
 	IBroadPhaseCollisionManager* __broadphase;
