@@ -8,12 +8,12 @@ class ICollisionManager;
 class ObjectManager : public IObjectManager {
 
 public:
-	ObjectManager(ICollisionManager& collision_manager);
+	ObjectManager(std::unique_ptr<ICollisionManager> collision_manager);
 
 	// Inherited via IObjectManager
 	virtual void InstanceAdd(std::shared_ptr<Object> object) override;
 	virtual void Clear() override;
-	virtual ICollisionManager* CollisionManager() override;
+	virtual std::unique_ptr<ICollisionManager>& CollisionManager() override;
 	virtual Object* InstanceFind(ObjectId id) override;
 	virtual Object* InstanceFindNext(ObjectId id) override;
 	virtual size_t InstanceCount() const override;
@@ -25,7 +25,7 @@ public:
 
 private:
 	std::vector<std::shared_ptr<Object>> _objects;
-	ICollisionManager* _collision_manager;
+	std::unique_ptr<ICollisionManager> _collision_manager;
 	ObjectId _last_found_id;
 	size_t _last_found_index;
 

@@ -9,12 +9,12 @@
 #include "DrawEventArgs.h"
 #include "UpdateEventArgs.h"
 #include "Room.h"
+#include "NarrowPhaseCollisionManager.h"
 
 Object::Object() : Object(0.0f, 0.0f) {}
 Object::Object(float x, float y) : ICollidable(x, y) {
 
 	__image_index_timer = 0;
-	__room = nullptr;
 	SetDepth(0);
 
 }
@@ -66,28 +66,10 @@ Vector2d& Object::Velocity() {
 	return __velocity;
 
 }
-Room* Object::Room() {
 
-	return __room;
+float Object::DistanceTo(const Object* other) {
 
-}
-
-float DistanceToObject(const std::shared_ptr<Object>& a, const std::shared_ptr<Object>& b) {
-
-	return DistanceToObject(a.get(), b.get());
-
-}
-float DistanceToObject(const Object& a, const Object& b) {
-
-	return DistanceToObject(&a, &b);
-
-}
-float DistanceToObject(const Object* a, const Object* b) {
-
-	Rectangle ar = a->AABB();
-	Rectangle br = b->AABB();
-
-	return Distance(ar, br);
+	return Distance(AABB(), other->AABB());
 
 }
 
@@ -137,35 +119,6 @@ void Object::IncrementImageIndex() {
 				SetImageIndex(ImageIndex() + 1);
 		}
 		__image_index_timer -= 1.0f;
-	}
-
-}
-
-bool Object::PlaceFree(float x, float y, bool notme) {
-
-	// If the object is not part of a Scene, it can't collide with anything, so return true.
-	if (!Room())
-		return true;
-
-	std::vector<ICollidable*> v;
-	Room()->CollisionManager().Broadphase().QueryRegion(AABB(), v, Filter().MaskBits());
-	if (v.size() == 0 || (notme && v.size() == 1 && v[0] == this))
-		return true;
-
-	for (size_t i = 0; i < v.size(); ++i)
-		if (Room()->CollisionManager().TestCollision(this, x, y, v[i], v[i]->X(), v[i]->Y()))
-			return false;
-
-	return true;
-
-}
-void Object::MoveContact(float direction, int max_distance) {
-
-	for (int i = 0; i < max_distance; ++i) {
-		Point new_position = PointInDirection(Point(X(), Y()), direction, 1);
-		if (!PlaceFree(new_position.X(), new_position.Y(), true))
-			break;
-		SetXY(new_position.X(), new_position.Y());
 	}
 
 }

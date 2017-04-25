@@ -8,9 +8,9 @@ class RoomManager {
 public:
 	RoomManager();
 
-	void AddRoom(std::shared_ptr<Room> room);
-	void LoadRoom(std::shared_ptr<Room> room);
-	void LoadRoom(RoomId id);
+	void RoomAdd(std::unique_ptr<Room>& room);
+	void RoomLoad(std::unique_ptr<Room>& room);
+	void RoomLoad(RoomId id);
 	void LoadNext();
 	void LoadPrevious();
 
@@ -21,9 +21,9 @@ public:
 
 private:
 	size_t _current_room;
-	std::vector<std::shared_ptr<Room>> _rooms;
+	std::vector<std::unique_ptr<Room>> _rooms;
 
 	size_t FindRoomIndex(RoomId id) const;
-	size_t FindRoomIndex(const std::shared_ptr<Room>& room) const;
+	size_t FindRoomIndex(const std::unique_ptr<Room>& room) const;
 
 };

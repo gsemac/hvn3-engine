@@ -1,21 +1,27 @@
 #pragma once
+#include <memory>
 #include "ICollisionManager.h"
 #include "IBroadPhaseCollisionManager.h"
 
 class IBroadPhaseCollisionManager;
-class INarrowPhaseCollisionManager;
 
 class CollisionManager : public ICollisionManager {
 
 public:
-	CollisionManager(IBroadPhaseCollisionManager* broadphase);
-	bool TestCollision(ICollidable* a, ICollidable* b) const;
-	bool TestCollision(ICollidable* a, float ax, float ay, ICollidable* b, float bx, float by) const;
-	IBroadPhaseCollisionManager& Broadphase();
+	CollisionManager(std::unique_ptr<IBroadPhaseCollisionManager> broadphase);
+
+	void ColliderAdd(ICollidable* collider) override;
+	void ColliderRemove(ICollidable* collider) override;
+	void Clear() override;
+
+	bool PlaceFree(ICollidable* collider, float x, float y) override;
+	void MoveContact(ICollidable* collider, float direction, int max_distance) override;
+
 	void Update(UpdateEventArgs& e) override;
 	
 private:
-	IBroadPhaseCollisionManager* __broadphase;
+	std::unique_ptr<IBroadPhaseCollisionManager> _broadphase;
+
 	void ProcessCollisions(const std::vector<std::pair<ICollidable*, ICollidable*>>& pairs) const;
 
 };

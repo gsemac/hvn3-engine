@@ -165,6 +165,7 @@
     <ClCompile Include="Font.cc" />
     <ClCompile Include="Framework.cc" />
     <ClCompile Include="Game.cc" />
+    <ClCompile Include="NarrowPhaseCollisionManager.cc" />
     <ClCompile Include="ObjectManager.cc" />
     <ClCompile Include="Properties.cc" />
     <ClCompile Include="Geometry.cc" />
@@ -257,7 +258,7 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="ICollisionManager.h" />
-    <ClInclude Include="INarrowPhaseCollisionManager.h" />
+    <ClInclude Include="NarrowPhaseCollisionManager.h" />
     <ClInclude Include="IObjectManager.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Properties.h" />

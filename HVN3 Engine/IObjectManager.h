@@ -9,7 +9,7 @@ class IObjectManager {
 public:
 	virtual void InstanceAdd(std::shared_ptr<Object> object) = 0;
 	virtual void Clear() = 0;
-	virtual ICollisionManager* CollisionManager() = 0;
+	virtual std::unique_ptr<ICollisionManager>& CollisionManager() = 0;
 	// Finds and returns the first instance with the given id, or null if no such instance exists.
 	virtual Object* InstanceFind(ObjectId id) = 0;
 	virtual Object* InstanceFindNext(ObjectId id) = 0;

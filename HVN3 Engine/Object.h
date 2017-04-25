@@ -44,26 +44,22 @@ public:
 	void SetDepth(int depth);
 	Vector2d& Velocity();
 
-	::Room* Room();
+	template<typename T, typename ... Args>
+	static std::shared_ptr<Object> Create(Args &&... args) {
 
-	// Returns true if the object meets any objects that it is able to collide with at the given position.
-	bool PlaceFree(float x, float y, bool notme = true);
+		return std::make_shared<T>(std::forward<Args>(args)...);
 
-	// Moves the object a set distance in a given direction (in degrees) until it comes in contact with an object in its collision filter.
-	void MoveContact(float direction, int max_distance);
+	}
+
+	float DistanceTo(const Object* other);
 
 private:
 	float __image_index_timer;
 	Vector2d __velocity;
 	int __depth;
-	::Room* __room;
 
 	void IncrementImageIndex();
 
 };
-
-float DistanceToObject(const std::shared_ptr<Object>& a, const std::shared_ptr<Object>& b);
-float DistanceToObject(const Object* a, const Object* b);
-float DistanceToObject(const Object& a, const Object& b);
 
 #endif

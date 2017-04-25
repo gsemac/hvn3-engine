@@ -40,30 +40,30 @@ namespace SuperMarioBros {
 		void Update(UpdateEventArgs& e) override {
 
 
-			static float angle = 0;
-			//Room()->View(0).SetAngle(angle);
-			angle += 0.5;
+			//static float angle = 0;
+			////Room()->View(0).SetAngle(angle);
+			//angle += 0.5;
 
-			if (Keyboard::KeyDown(ALLEGRO_KEY_RIGHT) && PlaceFree(X() + 5, Y()))
-				TranslateX(5);
-			else if (Keyboard::KeyDown(ALLEGRO_KEY_LEFT) && PlaceFree(X() - 5, Y()))
-				TranslateX(-5);
-			else if (Keyboard::KeyDown(ALLEGRO_KEY_UP))
-				TranslateY(-5);
-			else if (Keyboard::KeyDown(ALLEGRO_KEY_DOWN))
-				TranslateY(5);
+			//if (Keyboard::KeyDown(ALLEGRO_KEY_RIGHT) && PlaceFree(X() + 5, Y()))
+			//	TranslateX(5);
+			//else if (Keyboard::KeyDown(ALLEGRO_KEY_LEFT) && PlaceFree(X() - 5, Y()))
+			//	TranslateX(-5);
+			//else if (Keyboard::KeyDown(ALLEGRO_KEY_UP))
+			//	TranslateY(-5);
+			//else if (Keyboard::KeyDown(ALLEGRO_KEY_DOWN))
+			//	TranslateY(5);
 
-			if (Keyboard::KeyDown(ALLEGRO_KEY_F5)) {
-				Room()->Restart();
-				angle = 0;
-			}
+			//if (Keyboard::KeyDown(ALLEGRO_KEY_F5)) {
+			//	Room()->Restart();
+			//	angle = 0;
+			//}
 
-			/*if (PlaceFree(X(), Y() + 1))
-				TranslateY(1);*/
+			///*if (PlaceFree(X(), Y() + 1))
+			//	TranslateY(1);*/
 
-			MoveContact(270.0f, 1);
+			//MoveContact(270.0f, 1);
 
-			Object::Update(e);
+			//Object::Update(e);
 
 		}
 		void Draw(DrawEventArgs& e) override {
@@ -112,7 +112,7 @@ namespace SuperMarioBros {
 	class Stage001 : public Room {
 
 	public:
-		Stage001() : Room(640, 480, new CollisionGrid(16, 16)) {
+		Stage001() : Room(640, 480) {
 
 			SetUp();
 
@@ -122,13 +122,13 @@ namespace SuperMarioBros {
 			SetBackgroundColor(Color::Silver);
 
 			for (int i = 68; i <= 148; i += 16)
-				AddInstance(new Block(i, 148));
+				ObjectManager().InstanceAdd(Object::Create<Block>(i, 148));
 			for (int i = 148; i <= 404; i += 16)
-				AddInstance(new Block(i, 180));
+				ObjectManager().InstanceAdd(Object::Create<Block>(i, 148));
 			for (int i = 320; i <= 404; i += 16)
-				AddInstance(new Block(i, 300));
+				ObjectManager().InstanceAdd(Object::Create<Block>(i, 148));
 
-			Player* player = new Player(100, 100);
+			std::shared_ptr<Object> player(new Player(100, 100));
 			//AddView(::View(Point(0, 0), Size(640, 480), Point(0, 0), Size(640, 480), player, 0.0f, 0.0f));
 			//AddView(::View(Point(0, 0), Size(160, 120), Point(0, 0), Size(320, 240), player, 0.0f, 0.0f));
 			//AddView(::View(Point(0, 0), Size(320, 240), Point(0, 0), Size(320, 240), player, 0.0f, 0.0f));
@@ -137,12 +137,12 @@ namespace SuperMarioBros {
 			for (int i = 0; i < ViewCount(); ++i)
 				View(i).Enable();
 
-			AddInstance(player);
+			ObjectManager().InstanceAdd(player);
 
 			AddBackground(backgrounds[BG_HILLS]);
 			Background(0).SetFixed(true);
 
-			GUI::GuiManager* manager = new GUI::GuiManager();
+			std::shared_ptr<GUI::GuiManager> manager(new GUI::GuiManager());
 			GUI::Window* window = new GUI::Window(100, 100, 200, 100, "Window 1");
 			window->AddControl(new GUI::Button(1, 0, 100, 29, "Button 1"));
 			window->AddControl(new GUI::Button(1, 29, 100, 29, "Button 2"));
@@ -153,7 +153,7 @@ namespace SuperMarioBros {
 			//manager->AddControl(new GUI::Button(50, 80, 100, 25, "Button 2"));
 			//manager->AddControl(new GUI::Button(50, 100, 100, 25, "Button 3"));
 
-			AddInstance(manager);
+			ObjectManager().InstanceAdd(manager);
 
 		}
 

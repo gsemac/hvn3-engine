@@ -2,6 +2,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <algorithm>
 #include <cassert>
+#include <memory>
 #include "Room.h"
 #include "Background.h"
 #include "Object.h"
@@ -9,7 +10,7 @@
 #include "Mouse.h"
 #include "DrawEventArgs.h"
 #include "Exception.h"
-#define CELL_DIMENSIONS 32
+#include "CollisionManager.h"
 
 // Virtual members
 
@@ -25,8 +26,8 @@ void Room::Restart() {
 
 void Room::Reset() {
 
-	// Clear the list of Objects.
-	__objects.clear();
+	// Reset the object manager.
+	_obj_manager.Clear();
 
 	// Clear the list of Backgrounds.
 	__backgrounds.clear();
@@ -38,12 +39,6 @@ void Room::Reset() {
 	__background_color = Color::Black;
 	__current_view = 0;
 
-	// Todo: Reset the collision management members.
-	delete __broadphase_handler;
-	__broadphase_handler = nullptr;
-	__broadphase_handler = new CollisionGrid(16, 16);
-	__collision_manager = ::CollisionManager(__broadphase_handler);
-
 }
 void Room::Rebuild() {
 
@@ -53,10 +48,8 @@ void Room::Rebuild() {
 }
 
 Room::Room(unsigned int width, unsigned int height) :
-	Room(width, height, new CollisionGrid(::Size(CELL_DIMENSIONS, CELL_DIMENSIONS))) {}
-Room::Room(unsigned int width, unsigned int height, IBroadPhaseCollisionManager* broadphase_handler) :
 	ISizeable(width, height),
-	__collision_manager(broadphase_handler) {
+	_obj_manager(std::unique_ptr<::ICollisionManager>(new ::CollisionManager(std::unique_ptr<IBroadPhaseCollisionManager>(new CollisionGrid(32, 32))))) {
 
 	// Set the default background color to black.
 	__background_color = Color::Black;
@@ -65,38 +58,16 @@ Room::Room(unsigned int width, unsigned int height, IBroadPhaseCollisionManager*
 	__current_view = 0;
 	__restart_pending = false;
 
-	// Set the broadphase handler, which handles broadphase collision detection. The Scene stores this (even though it doesn't use it directly) to delete it when the Scene is destructed.
-	__broadphase_handler = broadphase_handler;
-
-	Room::SetUp();
-
 }
 Room::~Room() {
 
 	Room::CleanUp();
 
-	// Free the broadphase handler object.
-	if (__broadphase_handler)
-		delete __broadphase_handler;
-	__broadphase_handler = nullptr;
-
 }
 void Room::Update(UpdateEventArgs& e) {
 
-	// Run the pre-update procedure for all Objects.
-	for (auto it = __objects.begin(); it != __objects.end(); ++it)
-		(*it)->BeginUpdate(e);
-
-	// Run the primary update procedure for all Objects.
-	for (auto it = __objects.begin(); it != __objects.end(); ++it)
-		(*it)->Update(e);
-
-	// Update the Collision Manager.
-	__collision_manager.Update();
-
-	// Run the post update procedure for all Objects.
-	for (auto it = __objects.begin(); it != __objects.end(); ++it)
-		(*it)->EndUpdate(e);
+	// Update objects.
+	_obj_manager.Update(e);
 
 	// Update Backgrounds.
 	for (size_t i = 0; i < __backgrounds.size(); ++i)
@@ -183,9 +154,8 @@ void Room::Draw(DrawEventArgs& e) {
 					DrawBackground(e.Graphics(), __backgrounds[i], &view);
 			e.Graphics().HoldBitmapDrawing(false);
 
-			// Draw all Objects.
-			for (auto it = __objects.begin(); it != __objects.end(); ++it)
-				(*it)->Draw(e);
+			// Draw all objects.
+			_obj_manager.Draw(e);
 
 			// Draw all Foregrounds.
 			e.Graphics().HoldBitmapDrawing(true);
@@ -220,8 +190,7 @@ void Room::Draw(DrawEventArgs& e) {
 		Drawing::GraphicsState orig = e.Graphics().Save();
 
 		// If no Views are used, simply draw all of the Objects with normal scaling.
-		for (auto it = __objects.begin(); it != __objects.end(); ++it)
-			(*it)->Draw(e);
+		_obj_manager.Draw(e);
 
 		// Draw all Foregrounds.
 		for (size_t i = 0; i < __backgrounds.size(); ++i)
@@ -239,68 +208,6 @@ void Room::SetBackgroundColor(int r, int g, int b) {
 void Room::SetBackgroundColor(const Color& color) {
 
 	__background_color = color;
-
-}
-void Room::AddInstance(Object* object) {
-
-	AddInstance(object, object->X(), object->Y());
-
-}
-void Room::AddInstance(Object* object, float x, float y) {
-
-	std::shared_ptr<Object> ptr(object);
-	AddInstance(ptr, x, y);
-
-}
-void Room::AddInstance(std::shared_ptr<Object> object) {
-
-	AddInstance(object, object->X(), object->Y());
-
-}
-void Room::AddInstance(std::shared_ptr<Object> object, float x, float y) {
-
-	// Set the Object's parent Scene to this Scene.
-	object->__room = this;
-
-	// Set the Object's position.
-	object->SetXY(x, y);
-
-	// Add the object to the collision manager.
-	CollisionManager().Broadphase().Add(object.get());
-
-	// If there are no objects in the list, just insert the new object.
-	if (__objects.size() == 0) {
-		__objects.push_back(object);
-		return;
-	}
-
-	// Get the highest and lowest depths in the list.
-	int lowest_depth = __objects.back()->Depth();
-	int highest_depth = __objects.front()->Depth();
-
-	if (object->Depth() <= lowest_depth) {
-		// If the object's depth is <= than the lowest depth, insert last.
-		__objects.push_back(object);
-	}
-	else if (object->Depth() >= highest_depth) {
-		// If the objects depth is >= the highest depth, insert first.
-		__objects.push_front(object);
-	}
-	else {
-		// Find a proper position for the object according to its depth.
-		for (auto it = __objects.begin(); it != __objects.end(); ++it) {
-			if ((*it)->Depth() < object->Depth()) {
-				__objects.insert(it, object);
-				return;
-			}
-		}
-		__objects.push_back(object);
-	}
-
-}
-void Room::AddInstance(ObjectBase* object) {
-
-	throw NotImplementedException();
 
 }
 View& Room::View(int index) {
@@ -346,9 +253,9 @@ int Room::BackgroundCount() {
 	return (int)__backgrounds.size();
 
 }
-CollisionManager& Room::CollisionManager() {
+ObjectManager& Room::ObjectManager() {
 
-	return __collision_manager;
+	return _obj_manager;
 
 }
 ::RoomId Room::RoomId() const {

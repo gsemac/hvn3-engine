@@ -354,6 +354,9 @@
     <ClCompile Include="ObjectManager.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
+    <ClCompile Include="NarrowPhaseCollisionManager.cc">
+      <Filter>Source Files\System\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -671,10 +674,10 @@
     <ClInclude Include="IBroadPhaseCollisionManager.h">
       <Filter>Header Files\System\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="INarrowPhaseCollisionManager.h">
+    <ClInclude Include="ICollisionManager.h">
       <Filter>Header Files\System\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="ICollisionManager.h">
+    <ClInclude Include="NarrowPhaseCollisionManager.h">
       <Filter>Header Files\System\Collision</Filter>
     </ClInclude>
   </ItemGroup>

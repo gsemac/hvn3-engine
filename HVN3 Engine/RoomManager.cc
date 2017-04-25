@@ -1,45 +1,46 @@
 #include "RoomManager.h"
+#include <utility>
 
 RoomManager::RoomManager() {
 
 	_current_room = 0;
 
 }
-void RoomManager::AddRoom(std::shared_ptr<Room> room) {
+void RoomManager::RoomAdd(std::unique_ptr<Room>& room) {
 
-	_rooms.push_back(room);
+	_rooms.push_back(std::move(room));
 
 }
-void RoomManager::LoadRoom(std::shared_ptr<Room> room) {
+void RoomManager::RoomLoad(std::unique_ptr<Room>& room) {
 
 	// Attempt to find the room in the list.
 	_current_room = FindRoomIndex(room);
 
 	// If we couldn't find the room, add it.
 	if (_current_room == _rooms.size())
-		AddRoom(room);
+		RoomAdd(room);
 
 	// Reset the state of the room.
 	RestartRoom();
 
 }
-void RoomManager::LoadRoom(RoomId id) {
+void RoomManager::RoomLoad(RoomId id) {
 
 	_current_room = FindRoomIndex(id);
 
-	LoadRoom(_rooms[_current_room]);
+	RoomLoad(_rooms[_current_room]);
 
 }
 void RoomManager::LoadNext() {
 
 	if (_current_room + 1 < _rooms.size())
-		LoadRoom(_rooms[++_current_room]);
+		RoomLoad(_rooms[++_current_room]);
 
 }
 void RoomManager::LoadPrevious() {
 
 	if (_current_room > 0)
-		LoadRoom(_rooms[--_current_room]);
+		RoomLoad(_rooms[--_current_room]);
 
 }
 void RoomManager::RestartRoom() {
@@ -69,7 +70,7 @@ size_t RoomManager::FindRoomIndex(RoomId id) const {
 	return _rooms.size();
 
 }
-size_t RoomManager::FindRoomIndex(const std::shared_ptr<Room>& room) const {
+size_t RoomManager::FindRoomIndex(const std::unique_ptr<Room>& room) const {
 
 	// Look through the list for a room with the same pointer.
 	for (size_t i = 0; i < _rooms.size(); ++i)

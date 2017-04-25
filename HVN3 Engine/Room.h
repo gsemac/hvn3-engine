@@ -12,6 +12,7 @@
 #include "CollisionManager.h"
 #include "Graphics.h"
 #include "UpdateEventArgs.h"
+#include "ObjectManager.h"
 
 class Object;
 class Runner;
@@ -68,7 +69,6 @@ public:
 	void Restart();
 
 	Room(unsigned int width, unsigned int height);
-	Room(unsigned int width, unsigned int height, IBroadPhaseCollisionManager* broadphase_handler);
 	virtual ~Room();
 
 	void Update(UpdateEventArgs& e) override;
@@ -76,12 +76,6 @@ public:
 
 	void SetBackgroundColor(int, int, int);
 	void SetBackgroundColor(const Color& color);
-
-	void AddInstance(Object* object);
-	void AddInstance(Object* object, float x, float y);
-	void AddInstance(std::shared_ptr<Object> object);
-	void AddInstance(std::shared_ptr<Object> object, float x, float y);
-	void AddInstance(ObjectBase* object);
 
 	// Returns the View at the specified index.
 	View& View(int index);
@@ -101,26 +95,29 @@ public:
 
 	Size Size() const;
 
-	CollisionManager& CollisionManager();
+	ObjectManager& ObjectManager();
 
 	virtual ::RoomId RoomId() const;
+
+	template<typename T, typename ... Args>
+	static std::unique_ptr<Room> Create(Args &&... args) {
+
+		return std::make_unique<T>(std::forward<Args>(args)...);
+
+	}
 
 protected:
 	void Reset();
 	void Rebuild();
 
 private:
-	std::list<std::shared_ptr<Object>> __objects;
+	::ObjectManager _obj_manager;
 
 	std::vector<BackgroundProperties> __backgrounds;
 	Color __background_color;
 
 	std::vector<::View> __views;
 	int __current_view;
-
-	::CollisionManager __collision_manager;
-	IBroadPhaseCollisionManager* __broadphase_handler;
-	//CollisionGrid __collision_grid;
 
 	bool __restart_pending;
 

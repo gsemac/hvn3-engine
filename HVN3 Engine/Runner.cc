@@ -44,6 +44,9 @@ Runner::Runner(::Properties& properties, RoomManager& room_manager) :
 	__exit_loop = false;
 	__default_font = nullptr;
 
+	if (_room_manager.RoomCount() > 0)
+		_room_manager.CurrentRoom().SetUp();
+
 }
 Runner::~Runner() {
 
