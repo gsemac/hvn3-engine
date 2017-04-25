@@ -79,10 +79,6 @@ int main(int argc, char *argv[]) {
 	RoomManager room_manager;
 	room_manager.RoomAdd(Room::Create<TestRoom>());
 
-	//ObjectManager obj_manager(std::unique_ptr<ICollisionManager>(new CollisionManager(std::unique_ptr<IBroadPhaseCollisionManager>(new CollisionGrid(32, 32)))));
-
-	//getchar();
-
 	// Run the main game loop.
 	framework.Loop(Runner(properties, room_manager));
 

@@ -8,7 +8,7 @@ class ICollisionManager;
 class ObjectManager : public IObjectManager {
 
 public:
-	ObjectManager(std::unique_ptr<ICollisionManager> collision_manager);
+	ObjectManager(std::unique_ptr<ICollisionManager>& collision_manager);
 
 	// Inherited via IObjectManager
 	virtual void InstanceAdd(std::shared_ptr<Object> object) override;

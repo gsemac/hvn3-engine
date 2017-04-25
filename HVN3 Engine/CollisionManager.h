@@ -8,7 +8,7 @@ class IBroadPhaseCollisionManager;
 class CollisionManager : public ICollisionManager {
 
 public:
-	CollisionManager(std::unique_ptr<IBroadPhaseCollisionManager> broadphase);
+	CollisionManager(std::unique_ptr<IBroadPhaseCollisionManager>& broadphase);
 
 	void ColliderAdd(ICollidable* collider) override;
 	void ColliderRemove(ICollidable* collider) override;

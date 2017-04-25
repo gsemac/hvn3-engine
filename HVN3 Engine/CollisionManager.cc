@@ -5,7 +5,7 @@
 #include "NarrowPhaseCollisionManager.h"
 #include "ICollidable.h"
 
-CollisionManager::CollisionManager(std::unique_ptr<IBroadPhaseCollisionManager> broadphase) :
+CollisionManager::CollisionManager(std::unique_ptr<IBroadPhaseCollisionManager>& broadphase) :
 	_broadphase(std::move(broadphase)) {
 }
 

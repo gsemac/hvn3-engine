@@ -4,7 +4,7 @@
 #include "UpdateEventArgs.h"
 #include <utility>
 
-ObjectManager::ObjectManager(std::unique_ptr<ICollisionManager> collision_manager) :
+ObjectManager::ObjectManager(std::unique_ptr<ICollisionManager>& collision_manager) :
 	_collision_manager(std::move(collision_manager)) {
 
 	_last_found_id = noone;
