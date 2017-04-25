@@ -1,13 +1,6 @@
 #include "HVN3.h"
-//#include "ExampleGame.h"
-#include "ExampleGame2.h"
-#include "Display.h"
-#include "Graphics.h"
-#include "Tileset.h"
-#include "RoomManager.h"
-#include "ObjectManager.h"
-#include "UpdateEventArgs.h"
-#include "Random.h"
+
+Game MyGame;
 
 class Ball : public Object {
 
@@ -40,6 +33,9 @@ public:
 		if ((X() - r < 0 && Velocity().X() < 0) || (X() + r > 640 && Velocity().X() > 0))
 			Velocity().SetX(Velocity().X() * -1);
 
+		if (Keyboard::KeyPressed(ALLEGRO_KEY_F5))
+			MyGame.RoomManager().LoadNext();
+
 	}
 
 private:
@@ -68,19 +64,18 @@ private:
 
 int main(int argc, char *argv[]) {
 
-	Framework framework(argc, argv);
+	// Initialize game properties.
+	MyGame.Initialize(argc, argv);
+	MyGame.Properties().DisplayTitle = "Hello, world!";
+	MyGame.Properties().OutsideColor = Color::Black;
+	MyGame.Properties().DebugMode = true;
+	MyGame.Properties().FPS = 60;
 
-	Properties properties;
-	properties.DisplayTitle = "Hello, world!";
-	properties.OutsideColor = Color::Black;
-	properties.DebugMode = true;
-	properties.FPS = 60;
-
-	RoomManager room_manager;
-	room_manager.RoomAdd(Room::Create<TestRoom>());
+	// Set up the first scene.
+	MyGame.RoomManager().RoomAdd(Room::Create<TestRoom>());
 
 	// Run the main game loop.
-	framework.Loop(Runner(properties, room_manager));
+	MyGame.Loop();
 
 	return 0;
 

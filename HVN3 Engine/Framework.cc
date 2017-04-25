@@ -53,11 +53,6 @@ void Framework::Initialize(int argc, char *argv[]) {
 	Environment::argv = argv;
 
 }
-void Framework::Loop(Runner& runner) {
-
-	runner.Loop();
-
-}
 void Framework::Shutdown() {
 
 	// If the framework has not been initialized, do nothing.

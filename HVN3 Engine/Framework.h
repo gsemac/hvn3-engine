@@ -14,8 +14,6 @@ public:
 	static void Initialize(int argc, char *argv[]);
 	static void Shutdown();
 
-	static void Loop(Runner& runner);
-
 	static bool Initialized();
 
 protected:

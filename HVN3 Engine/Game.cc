@@ -1,24 +1,49 @@
 #include "Game.h"
-#include "Framework.h"
 
-void Game::Init() {
+Game::Game() {
 
-	// Initialize the framework.
 	Framework::Initialize();
 
 }
-void Game::Run() {
+void Game::Initialize(int argc, char* argv[]) {
 
-
+	Framework::Initialize(argc, argv);
 
 }
-void Game::End() {
+void Game::Loop() {
 
-	// Dispose of resources.
-	//__sprites.Clear();
-	//__backgrounds.Clear();
+	_runner = new ::Runner(_properties, _room_manager);
 
-	// Shut down the framework.
+	_runner->Loop();
+
+	Shutdown();
+
+}
+void Game::Shutdown() {
+
+	delete _runner;
+
 	Framework::Shutdown();
 
 }
+
+::RoomManager& Game::RoomManager() {
+
+	return _room_manager;
+
+}
+Runner& Game::Runner() {
+
+	return *_runner;
+
+}
+Properties& Game::Properties() {
+
+	return _properties;
+
+}
+
+//Framework Game::_framework;
+//::Properties Game::_properties;
+//::RoomManager Game::_room_manager;
+//::Runner* Game::_runner = nullptr;

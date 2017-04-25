@@ -332,6 +332,9 @@
     <ClInclude Include="Vector2d.h" />
     <ClInclude Include="View.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="data\test\tileset1.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets')" />

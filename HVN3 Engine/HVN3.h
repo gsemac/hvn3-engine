@@ -3,6 +3,7 @@
 
 // This file includes all required engine components.
 
+#include "Game.h"
 #include "Framework.h"
 #include "Runner.h"
 #include "Room.h"
@@ -12,3 +13,6 @@
 #include "Mouse.h"
 #include "Vector2d.h"
 #include "ResourceCollection.h"
+#include "DrawEventArgs.h"
+#include "Random.h"
+#include "Tileset.h"

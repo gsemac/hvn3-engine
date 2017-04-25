@@ -100,6 +100,12 @@
     <Filter Include="Source Files\Resources\GUI\Interfaces">
       <UniqueIdentifier>{def8050c-4322-41d8-a658-5063d00f14f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\data">
+      <UniqueIdentifier>{51fc50fe-f797-44a1-8653-faa83ad1344c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\data\test">
+      <UniqueIdentifier>{b2294efc-1288-4ea0-98ac-ed12415c1c58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -680,5 +686,10 @@
     <ClInclude Include="NarrowPhaseCollisionManager.h">
       <Filter>Header Files\System\Collision</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="data\test\tileset1.png">
+      <Filter>Resource Files\data\test</Filter>
+    </Image>
   </ItemGroup>
 </Project>

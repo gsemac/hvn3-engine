@@ -43,6 +43,7 @@ void Room::Reset() {
 void Room::Rebuild() {
 
 	Reset();
+	CleanUp();
 	SetUp();
 
 }

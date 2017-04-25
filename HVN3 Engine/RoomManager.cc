@@ -33,14 +33,20 @@ void RoomManager::RoomLoad(RoomId id) {
 }
 void RoomManager::LoadNext() {
 
-	if (_current_room + 1 < _rooms.size())
-		RoomLoad(_rooms[++_current_room]);
+	// If we're at the last room, loop back to the beginning.
+	if (++_current_room >= _rooms.size())
+		_current_room = 0;
+
+	RoomLoad(_rooms[_current_room]);
 
 }
 void RoomManager::LoadPrevious() {
 
-	if (_current_room > 0)
-		RoomLoad(_rooms[--_current_room]);
+	// If we're at the first room, loop around to the end.
+	if (_current_room == 0)
+		_current_room = _rooms.size();
+
+	RoomLoad(_rooms[--_current_room]);
 
 }
 void RoomManager::RestartRoom() {
