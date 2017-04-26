@@ -7,6 +7,7 @@ class Game {
 
 public:
 	Game();
+	~Game();
 	void Initialize(int argc, char* argv[]);
 	void Loop();
 

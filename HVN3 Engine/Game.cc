@@ -5,6 +5,11 @@ Game::Game() {
 	Framework::Initialize();
 
 }
+Game::~Game() {
+
+	Shutdown();
+
+}
 void Game::Initialize(int argc, char* argv[]) {
 
 	Framework::Initialize(argc, argv);
@@ -15,8 +20,6 @@ void Game::Loop() {
 	_runner = new ::Runner(_properties, _room_manager);
 
 	_runner->Loop();
-
-	Shutdown();
 
 }
 void Game::Shutdown() {

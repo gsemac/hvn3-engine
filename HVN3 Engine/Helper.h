@@ -19,13 +19,26 @@ short Signum(float);
 float AbsDiff(float a, float b);
 // Returns the absolute difference between two numbers.
 int AbsDiff(int a, int b);
+// Returns the maximum of two values.
+template <typename T>
+inline T Max(T a, T b) {
 
+	return a > b ? a : b;
+
+}
 // Returns the maximum of two values.
-float Max(float a, float b);
+//float Max(float a, float b);
 // Returns the maximum of two values.
-float Max(int a, int b);
+//float Max(int a, int b);
 // Returns the minimum of two values.
-float Min(float a, float b);
+template <typename T>
+inline T Min(T a, T b) {
+
+	return a < b ? a : b;
+
+}
+// Returns the minimum of two values.
+//float Min(float a, float b);
 // Returns the given float rounded to the nearest integer.
 int Round(float n);
 // Returns true if n is within epsilon of 0.

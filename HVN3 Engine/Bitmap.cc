@@ -35,6 +35,7 @@ namespace Drawing {
 		__free = free;
 
 	}
+	// Creates a sub-bitmap from the given region of the parent bitmap that shares data with the parent bitmap.
 	Bitmap::Bitmap(const Bitmap& other, const Rectangle& region) {
 
 		// Create a sub-bitmap of the given bitmap. The new bitmap will share memory with the existing one.

@@ -1,16 +1,26 @@
 #include "HVN3.h"
 
 Game MyGame;
+Tileset tileset("data/test/tileset1.png", 32, 32);
 
 class oController : public Object {
 
 public:
 	oController() : Object(0, 0) {}
-	
+
 	void Update(UpdateEventArgs& e) override {
 
 		if (Keyboard::KeyPressed(ALLEGRO_KEY_F5))
 			MyGame.RoomManager().LoadNext();
+
+		if (Keyboard::KeyPressed(ALLEGRO_KEY_O)) {
+			std::cout << tileset.TileCount();
+		}
+
+	}
+	void Draw(DrawEventArgs& e) override {
+
+		e.Graphics().DrawBitmap(0, 0, tileset.TileAt(tileset.TileCount() - 1));
 
 	}
 
@@ -35,7 +45,7 @@ public:
 
 	}
 	void Update(UpdateEventArgs& e) override {
-		
+
 		Object::Update(e);
 
 		float r = _radius;
@@ -57,16 +67,15 @@ class TestRoom : public Room {
 
 public:
 	TestRoom() : Room(640, 480) {
-	
+
 		SetPersistent(false);
-		_room_id = Random::Integer();
 
 	}
 
 	void SetUp() override {
 
 		SetBackgroundColor(Color::DarkGrey);
-		
+
 		ObjectManager().InstanceAdd(Object::Create<oController>());
 
 		for (int i = 0; i < 100; ++i)
@@ -75,17 +84,14 @@ public:
 	}
 	void OnRoomEnter(RoomEnterEventArgs& e) override {
 
-		std::cout << "Entering room " << _room_id << " with " << ObjectManager().InstanceCount() << " instances\n";
+		std::cout << "Entering room " << this << " with " << ObjectManager().InstanceCount() << " instances\n";
 
 	}
 	void OnRoomExit(RoomExitEventArgs& e) override {
 
-		std::cout << "Exiting room " << _room_id << " with " << ObjectManager().InstanceCount() << " instances\n";
+		std::cout << "Exiting room " << this << " with " << ObjectManager().InstanceCount() << " instances\n";
 
 	}
-
-private:
-	RoomId _room_id;
 
 };
 
@@ -93,10 +99,7 @@ int main(int argc, char *argv[]) {
 
 	// Initialize game properties.
 	MyGame.Initialize(argc, argv);
-	MyGame.Properties().DisplayTitle = "Hello, world!";
-	MyGame.Properties().OutsideColor = Color::Black;
 	MyGame.Properties().DebugMode = true;
-	MyGame.Properties().FPS = 60;
 
 	// Set up the first scene.
 	MyGame.RoomManager().RoomAdd(Room::Create<TestRoom>());

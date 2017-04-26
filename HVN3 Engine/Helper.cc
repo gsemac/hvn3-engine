@@ -28,21 +28,21 @@ int AbsDiff(int a, int b) {
 
 }
 
-float Max(float a, float b) {
-
-	return (std::fmax)(a, b);
-
-}
-float Max(int a, int b) {
-
-	return (std::max)(a, b);
-
-}
-float Min(float a, float b) {
-
-	return (std::fmin)(a, b);
-
-}
+//float Max(float a, float b) {
+//
+//	return (std::fmax)(a, b);
+//
+//}
+//float Max(int a, int b) {
+//
+//	return (std::max)(a, b);
+//
+//}
+//float Min(float a, float b) {
+//
+//	return (std::fmin)(a, b);
+//
+//}
 int Round(float n) {
 
 	return (std::roundf)(n);
