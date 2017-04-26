@@ -15,14 +15,8 @@
 // Virtual members
 
 void Room::SetUp() {}
-void Room::CleanUp() {}
-void Room::Restart() {
-
-	__restart_pending = true;
-
-}
-
-// Protected members
+void Room::OnRoomEnter(RoomEnterEventArgs& e) {}
+void Room::OnRoomExit(RoomExitEventArgs& e) {}
 
 void Room::Reset() {
 
@@ -38,13 +32,7 @@ void Room::Reset() {
 	// Reset members to default values.
 	__background_color = Color::Black;
 	__current_view = 0;
-
-}
-void Room::Rebuild() {
-
-	Reset();
-	CleanUp();
-	SetUp();
+	_set_up = false;
 
 }
 
@@ -57,12 +45,8 @@ Room::Room(unsigned int width, unsigned int height) :
 
 	// The current View is 0 because no views have been added yet. When drawing occurs, this value corresponds to the view currently being drawn.
 	__current_view = 0;
-	__restart_pending = false;
-
-}
-Room::~Room() {
-
-	Room::CleanUp();
+	_persistent = false;
+	_set_up = false;
 
 }
 void Room::Update(UpdateEventArgs& e) {
@@ -77,12 +61,6 @@ void Room::Update(UpdateEventArgs& e) {
 
 	// Update views.
 	UpdateViews();
-
-	// If a restart is pending, perform the restart now.
-	if (__restart_pending) {
-		Rebuild();
-		__restart_pending = false;
-	}
 
 }
 void Room::Draw(DrawEventArgs& e) {
@@ -259,9 +237,19 @@ ObjectManager& Room::ObjectManager() {
 	return _obj_manager;
 
 }
-::RoomId Room::RoomId() const {
+::RoomId Room::Id() const {
 
 	return 0;
+
+}
+bool Room::Persistent() const {
+
+	return _persistent;
+
+}
+void Room::SetPersistent(bool value) {
+
+	_persistent = value;
 
 }
 Size Room::Size() const {

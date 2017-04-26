@@ -106,6 +106,18 @@
     <Filter Include="Resource Files\data\test">
       <UniqueIdentifier>{b2294efc-1288-4ea0-98ac-ed12415c1c58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Resources\Room">
+      <UniqueIdentifier>{984c7627-9231-4a5b-a971-f5e0cb12ac6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Resources\Room">
+      <UniqueIdentifier>{c49d179a-9737-4277-80d8-68438e9a323b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System\Events\EventArgs">
+      <UniqueIdentifier>{a6103987-5cd7-4289-96f3-5bfce27cee4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System\Events\EventArgs">
+      <UniqueIdentifier>{3b232c71-d50a-48cf-8873-c0bfc058ba43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -318,17 +330,8 @@
     <ClCompile Include="EventArgs.cc">
       <Filter>Source Files\System\Events</Filter>
     </ClCompile>
-    <ClCompile Include="DrawEventArgs.cc">
-      <Filter>Source Files\System\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="UpdateEventArgs.cc">
-      <Filter>Source Files\System\Events</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionFilter.cc">
       <Filter>Source Files\System\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Room.cc">
-      <Filter>Source Files\Resources</Filter>
     </ClCompile>
     <ClCompile Include="IUpdatable.cc">
       <Filter>Source Files\Interfaces</Filter>
@@ -362,6 +365,24 @@
     </ClCompile>
     <ClCompile Include="NarrowPhaseCollisionManager.cc">
       <Filter>Source Files\System\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Room.cc">
+      <Filter>Source Files\Resources\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomController.cc">
+      <Filter>Source Files\Resources\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEventArgs.cc">
+      <Filter>Source Files\System\Events\EventArgs</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateEventArgs.cc">
+      <Filter>Source Files\System\Events\EventArgs</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomEnterEventArgs.cc">
+      <Filter>Source Files\System\Events\EventArgs</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomExitEventArgs.cc">
+      <Filter>Source Files\System\Events\EventArgs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -635,20 +656,11 @@
     <ClInclude Include="AllegroExtensions.h">
       <Filter>Header Files\System\Allegro</Filter>
     </ClInclude>
-    <ClInclude Include="DrawEventArgs.h">
-      <Filter>Header Files\System\Events</Filter>
-    </ClInclude>
     <ClInclude Include="EventArgs.h">
-      <Filter>Header Files\System\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdateEventArgs.h">
       <Filter>Header Files\System\Events</Filter>
     </ClInclude>
     <ClInclude Include="CollisionFilter.h">
       <Filter>Header Files\System\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Room.h">
-      <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsState.h">
       <Filter>Header Files\Drawing</Filter>
@@ -685,6 +697,24 @@
     </ClInclude>
     <ClInclude Include="NarrowPhaseCollisionManager.h">
       <Filter>Header Files\System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Header Files\Resources\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomController.h">
+      <Filter>Header Files\Resources\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEventArgs.h">
+      <Filter>Header Files\System\Events\EventArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomEnterEventArgs.h">
+      <Filter>Header Files\System\Events\EventArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateEventArgs.h">
+      <Filter>Header Files\System\Events\EventArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomExitEventArgs.h">
+      <Filter>Header Files\System\Events\EventArgs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

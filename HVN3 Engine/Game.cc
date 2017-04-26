@@ -42,8 +42,3 @@ Properties& Game::Properties() {
 	return _properties;
 
 }
-
-//Framework Game::_framework;
-//::Properties Game::_properties;
-//::RoomManager Game::_room_manager;
-//::Runner* Game::_runner = nullptr;

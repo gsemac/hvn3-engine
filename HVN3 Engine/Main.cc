@@ -2,11 +2,24 @@
 
 Game MyGame;
 
-class Ball : public Object {
+class oController : public Object {
 
 public:
-	Ball(float x, float y) : Object(x, y) {
-		std::cout << "Ball created at " << x << ", " << y << "!\n";
+	oController() : Object(0, 0) {}
+	
+	void Update(UpdateEventArgs& e) override {
+
+		if (Keyboard::KeyPressed(ALLEGRO_KEY_F5))
+			MyGame.RoomManager().LoadNext();
+
+	}
+
+};
+
+class oBall : public Object {
+
+public:
+	oBall(float x, float y) : Object(x, y) {
 
 		_radius = Random::Float(10, 25);
 		Velocity() = Vector2d(Random::Float(0, 360), Random::Float(0.1, 1));
@@ -33,9 +46,6 @@ public:
 		if ((X() - r < 0 && Velocity().X() < 0) || (X() + r > 640 && Velocity().X() > 0))
 			Velocity().SetX(Velocity().X() * -1);
 
-		if (Keyboard::KeyPressed(ALLEGRO_KEY_F5))
-			MyGame.RoomManager().LoadNext();
-
 	}
 
 private:
@@ -46,19 +56,36 @@ private:
 class TestRoom : public Room {
 
 public:
-	TestRoom() : Room(640, 480) {}
+	TestRoom() : Room(640, 480) {
+	
+		SetPersistent(false);
+		_room_id = Random::Integer();
+
+	}
 
 	void SetUp() override {
 
 		SetBackgroundColor(Color::DarkGrey);
+		
+		ObjectManager().InstanceAdd(Object::Create<oController>());
 
 		for (int i = 0; i < 100; ++i)
-			ObjectManager().InstanceAdd(Object::Create<Ball>(200, 200));
+			ObjectManager().InstanceAdd(Object::Create<oBall>(200, 200));
+
+	}
+	void OnRoomEnter(RoomEnterEventArgs& e) override {
+
+		std::cout << "Entering room " << _room_id << " with " << ObjectManager().InstanceCount() << " instances\n";
+
+	}
+	void OnRoomExit(RoomExitEventArgs& e) override {
+
+		std::cout << "Exiting room " << _room_id << " with " << ObjectManager().InstanceCount() << " instances\n";
 
 	}
 
 private:
-
+	RoomId _room_id;
 
 };
 
@@ -72,6 +99,7 @@ int main(int argc, char *argv[]) {
 	MyGame.Properties().FPS = 60;
 
 	// Set up the first scene.
+	MyGame.RoomManager().RoomAdd(Room::Create<TestRoom>());
 	MyGame.RoomManager().RoomAdd(Room::Create<TestRoom>());
 
 	// Run the main game loop.

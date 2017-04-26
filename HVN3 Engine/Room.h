@@ -13,6 +13,8 @@
 #include "Graphics.h"
 #include "UpdateEventArgs.h"
 #include "ObjectManager.h"
+#include "RoomEnterEventArgs.h"
+#include "RoomExitEventArgs.h"
 
 class Object;
 class Runner;
@@ -20,6 +22,7 @@ class Runner;
 typedef int RoomId;
 
 class Room : public IUpdatable, public IDrawable, public ISizeable {
+	friend class RoomController;
 
 public:
 	class BackgroundProperties {
@@ -62,14 +65,8 @@ public:
 		bool __fixed;
 
 	};
-	
-	// 
-	virtual void SetUp();
-	virtual void CleanUp();
-	void Restart();
 
 	Room(unsigned int width, unsigned int height);
-	virtual ~Room();
 
 	void Update(UpdateEventArgs& e) override;
 	void Draw(DrawEventArgs& e) override;
@@ -97,7 +94,9 @@ public:
 
 	ObjectManager& ObjectManager();
 
-	virtual ::RoomId RoomId() const;
+	virtual ::RoomId Id() const;
+	bool Persistent() const;
+	void SetPersistent(bool value);
 
 	template<typename T, typename ... Args>
 	static std::unique_ptr<Room> Create(Args &&... args) {
@@ -107,10 +106,16 @@ public:
 	}
 
 protected:
-	void Reset();
-	void Rebuild();
+	virtual void OnRoomEnter(RoomEnterEventArgs& e);
+	virtual void OnRoomExit(RoomExitEventArgs& e);
+
+	// Sets up the room by initializing all objects and resources.
+	virtual void SetUp();
 
 private:
+	// Clears the object manager and collision manager, as well as all views and backgrounds.
+	void Reset();
+
 	::ObjectManager _obj_manager;
 
 	std::vector<BackgroundProperties> __backgrounds;
@@ -119,7 +124,8 @@ private:
 	std::vector<::View> __views;
 	int __current_view;
 
-	bool __restart_pending;
+	bool _set_up;
+	bool _persistent;
 
 	void DrawBackground(Drawing::Graphics& graphics, const BackgroundProperties& background, ::View* view);
 	void UpdateViews();

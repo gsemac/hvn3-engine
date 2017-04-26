@@ -18,7 +18,6 @@ protected:
 	void Shutdown();
 
 private:
-	Framework _framework;
 	::Properties _properties;
 	::RoomManager _room_manager;
 	::Runner* _runner;

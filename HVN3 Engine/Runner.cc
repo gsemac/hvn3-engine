@@ -14,6 +14,7 @@
 #include "Mouse.h"
 #include "Keyboard.h"
 #include "DrawEventArgs.h"
+#include "RoomController.h"
 
 Runner::Runner(::Properties& properties, RoomManager& room_manager) :
 	_properties(properties),
@@ -25,9 +26,6 @@ Runner::Runner(::Properties& properties, RoomManager& room_manager) :
 	// Create the display, and initialize its parameters.
 	if (properties.Fullscreen)
 		__display.SetFullscreen(true);
-
-	// Initialize main graphics object.
-	//__graphics = new Drawing::Graphics(__display.BackBuffer());
 
 	// Initialize the event queue.
 	__event_queue.AddEventSource(__display.EventSource());
@@ -43,9 +41,6 @@ Runner::Runner(::Properties& properties, RoomManager& room_manager) :
 	__allow_redraw = true;
 	__exit_loop = false;
 	__default_font = nullptr;
-
-	if (_room_manager.RoomCount() > 0)
-		_room_manager.CurrentRoom().SetUp();
 
 }
 Runner::~Runner() {
@@ -71,7 +66,7 @@ void Runner::Draw() {
 
 	if (_room_manager.RoomCount() > 0)
 		// Render the active Scene.
-		_room_manager.CurrentRoom().Draw(DrawEventArgs(__graphics));
+		_room_manager.Draw(DrawEventArgs(__graphics));
 	else
 		// Draw placeholder graphics.
 		__graphics.DrawText(Round(__display.Width() / 2.0f), Round(__display.Height() / 2.0f), Properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);
@@ -201,10 +196,13 @@ void Runner::OnTimerTick(Event& ev) {
 	// Initialize the delta timer. At some point, the frame timer could be used for this.
 	static Stopwatch delta_timer(true);
 
+	// Update the active scene.
 	if (_room_manager.RoomCount() > 0 && (!Properties().FreezeWhenLostFocus || __display.HasFocus()) && __frames_skipped++ <= Properties().MaxFrameSkip)
-		// Update the active scene.
-		_room_manager.CurrentRoom().Update(UpdateEventArgs(delta_timer.SecondsElapsed()));
+		_room_manager.Update(UpdateEventArgs(delta_timer.SecondsElapsed()));
+
+	// Update the mouse position.
 	RecalculateMousePosition();
+
 	// Unset all pressed/released keys so the values will be false until next triggered.
 	Keyboard::StateAccessor::ResetKeyStates(true, true, false);
 
