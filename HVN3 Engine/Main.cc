@@ -1,6 +1,6 @@
 #include "HVN3.h"
 
-Game MyGame;
+GameManager MyGame;
 Tileset tileset("data/test/tileset1.png", 32, 32);
 
 class oController : public Object {
@@ -75,7 +75,7 @@ public:
 	void SetUp() override {
 
 		SetBackgroundColor(Color::DarkGrey);
-
+		
 		ObjectManager().InstanceAdd(Object::Create<oController>());
 
 		for (int i = 0; i < 100; ++i)

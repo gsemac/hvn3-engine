@@ -3,11 +3,11 @@
 #include "RoomManager.h"
 #include "Runner.h"
 
-class Game {
+class GameManager {
 
 public:
-	Game();
-	~Game();
+	GameManager();
+	~GameManager();
 	void Initialize(int argc, char* argv[]);
 	void Loop();
 

@@ -164,7 +164,7 @@
     <ClCompile Include="Exception.cc" />
     <ClCompile Include="Font.cc" />
     <ClCompile Include="Framework.cc" />
-    <ClCompile Include="Game.cc" />
+    <ClCompile Include="GameManager.cc" />
     <ClCompile Include="NarrowPhaseCollisionManager.cc" />
     <ClCompile Include="ObjectManager.cc" />
     <ClCompile Include="Properties.cc" />
@@ -229,6 +229,8 @@
   <ItemGroup>
     <ClInclude Include="AllegroExtensions.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="BackgroundManager.h" />
+    <ClInclude Include="BackgroundProperties.h" />
     <ClInclude Include="BitFlags.h" />
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="BitPacker.h" />
@@ -249,7 +251,7 @@
     <ClInclude Include="Encryption.h" />
     <ClInclude Include="EventArgs.h" />
     <ClInclude Include="ExampleGame3.h" />
-    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="GraphicsState.h" />
     <ClInclude Include="HVN3.h" />
     <ClInclude Include="Event.h" />
@@ -260,6 +262,7 @@
     <ClInclude Include="Exception.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="IBackgroundManager.h" />
     <ClInclude Include="ICollisionManager.h" />
     <ClInclude Include="NarrowPhaseCollisionManager.h" />
     <ClInclude Include="IObjectManager.h" />

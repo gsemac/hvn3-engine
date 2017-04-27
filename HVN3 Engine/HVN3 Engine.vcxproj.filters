@@ -348,9 +348,6 @@
     <ClCompile Include="GUIButton.cc">
       <Filter>Source Files\Resources\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cc">
-      <Filter>Source Files\System</Filter>
-    </ClCompile>
     <ClCompile Include="Tileset.cc">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
@@ -383,6 +380,9 @@
     </ClCompile>
     <ClCompile Include="RoomExitEventArgs.cc">
       <Filter>Source Files\System\Events\EventArgs</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cc">
+      <Filter>Source Files\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -671,9 +671,6 @@
     <ClInclude Include="ITextableControl.h">
       <Filter>Header Files\Resources\GUI\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
     <ClInclude Include="Tileset.h">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
@@ -715,6 +712,18 @@
     </ClInclude>
     <ClInclude Include="RoomExitEventArgs.h">
       <Filter>Header Files\System\Events\EventArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="IBackgroundManager.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundProperties.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundManager.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Header Files\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

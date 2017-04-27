@@ -4,7 +4,7 @@
 #include <string>
 #include "EventSource.h"
 
-class Game;
+class GameManager;
 
 enum KEYS {
 	KEY_CONTROL = -2,

@@ -3,7 +3,7 @@
 
 // This file includes all required engine components.
 
-#include "Game.h"
+#include "GameManager.h"
 #include "Framework.h"
 #include "Runner.h"
 #include "Room.h"
