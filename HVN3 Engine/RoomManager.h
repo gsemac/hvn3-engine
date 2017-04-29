@@ -9,6 +9,7 @@ class RoomManager {
 
 public:
 	RoomManager();
+	~RoomManager();
 
 	void RoomAdd(std::unique_ptr<Room>& room);
 	void RoomLoad(RoomId id);

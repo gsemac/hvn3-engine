@@ -24,9 +24,16 @@ void GameManager::Loop() {
 }
 void GameManager::Shutdown() {
 
+	// Delete the runner.
 	delete _runner;
+	
+	// Call the destructor for the room manager to trigger the exit event for the current room.
+	_room_manager.~RoomManager();
+
+	// Clear all resources.
 	_resource_manager.Clear();
 
+	// Shutdown the underlying framework.
 	Framework::Shutdown();
 
 }

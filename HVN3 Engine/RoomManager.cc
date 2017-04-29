@@ -9,6 +9,17 @@ RoomManager::RoomManager() {
 	_current_room = 0;
 
 }
+RoomManager::~RoomManager() {
+
+	// Call the room exit event for the current room.
+	if (_rooms.size() >= 1) {
+		RoomController controller(CurrentRoom());
+		controller.Reset();
+		controller.CallRoomExitEvent(RoomExitEventArgs());
+	}
+	
+}
+
 void RoomManager::RoomAdd(std::unique_ptr<Room>& room) {
 
 	// Add the new room.
