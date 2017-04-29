@@ -26,3 +26,12 @@ ResourceCollection<Tileset>& ResourceManager::Tilesets() {
 	return _tilesets;
 
 }
+void ResourceManager::Clear() {
+
+	_sprites.Clear();
+	_fonts.Clear();
+	_sounds.Clear();
+	_backgrounds.Clear();
+	_tilesets.Clear();
+
+}

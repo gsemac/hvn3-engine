@@ -15,6 +15,7 @@ public:
 	ResourceCollection<Sound>& Sounds();
 	ResourceCollection<Sprite>& Sprites();
 	ResourceCollection<Tileset>& Tilesets();
+	void Clear();
 
 private:
 	ResourceCollection<Background> _backgrounds;

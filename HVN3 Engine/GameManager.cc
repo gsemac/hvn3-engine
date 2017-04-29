@@ -25,6 +25,7 @@ void GameManager::Loop() {
 void GameManager::Shutdown() {
 
 	delete _runner;
+	_resource_manager.Clear();
 
 	Framework::Shutdown();
 
