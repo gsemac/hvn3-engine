@@ -4,7 +4,6 @@
 #include "Helper.h"
 #include "Mouse.h"
 #include "Room.h"
-#include "Transform.h"
 
 View::View(Point view_position, Size view_size, Point port_position, Size port_size, Object* follow_obj, float horizontal_border, float vertical_border) :__view_size(view_size), __port_size(port_size) {
 
@@ -121,5 +120,17 @@ bool View::TracksMouse() const {
 void View::TracksMouse(bool tracks) {
 
 	__tracks_mouse = tracks;
+
+}
+
+Drawing::Transform View::GetTransform() const {
+
+	Point offset(ViewX(), ViewY());
+	Drawing::Transform transform;
+	transform.Translate(-offset.X() + Port().X(), -offset.Y() + Port().Y());
+	transform.Rotate(Port().Midpoint(), Angle());
+	transform.Scale(Scale());
+
+	return transform;
 
 }

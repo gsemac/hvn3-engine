@@ -79,20 +79,20 @@ public:
 
 		SetBackgroundColor(Color::DarkGrey);
 
-		ObjectManager().InstanceAdd(Object::Create<oController>());
+		ObjectManager()->InstanceAdd(Object::Create<oController>());
 
 		for (int i = 0; i < 100; ++i)
-			ObjectManager().InstanceAdd(Object::Create<oBall>(200, 200));
+			ObjectManager()->InstanceAdd(Object::Create<oBall>(200, 200));
 
 	}
 	void OnRoomEnter(RoomEnterEventArgs& e) override {
 
-		std::cout << "Entering room " << this << " with " << ObjectManager().InstanceCount() << " instances\n";
+		std::cout << "Entering room " << this << " with " << ObjectManager()->InstanceCount() << " instances\n";
 
 	}
 	void OnRoomExit(RoomExitEventArgs& e) override {
 
-		std::cout << "Exiting room " << this << " with " << ObjectManager().InstanceCount() << " instances\n";
+		std::cout << "Exiting room " << this << " with " << ObjectManager()->InstanceCount() << " instances\n";
 
 	}
 

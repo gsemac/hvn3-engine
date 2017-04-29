@@ -418,13 +418,13 @@ void Runner::RecalculateMousePosition() {
 
 	Room& room = _room_manager.CurrentRoom();
 
-	if (room.ViewCount()) {
+	if (room.ViewManager()->ViewCount()) {
 
 		// If the mouse is inside of a View, position it relative to the View (where 0, 0 is the top left of the View).
-		for (int i = room.ViewCount() - 1; i >= 0; --i) {
+		for (int i = room.ViewManager()->ViewCount() - 1; i >= 0; --i) {
 
 			// Get a reference to the view so it's easy to access.
-			View& view = room.View(i);
+			View& view = room.ViewManager()->ViewAt(i);
 
 			// If the View is disabled or doesn't track the mouse position, do nothing.
 			if (!view.TracksMouse() || !view.Enabled())
@@ -473,7 +473,7 @@ void Runner::RecalculateMousePosition() {
 
 		// Set the position relative to the clipping area.
 		pos -= __graphics.Clip().TopLeft();
-		Scale(room.Size(), __graphics.Clip().Size()).ScalePoint(pos);
+		Scale(Size(room.Width(), room.Height()), __graphics.Clip().Size()).ScalePoint(pos);
 
 		Mouse::StateAccessor::SetPosition(pos.X(), pos.Y());
 

@@ -387,6 +387,21 @@
     <ClCompile Include="ResourceManager.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
+    <ClCompile Include="BackgroundManager.cc">
+      <Filter>Source Files\Resources\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="BackgroundProperties.cc">
+      <Filter>Source Files\Resources\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewManager.cc">
+      <Filter>Source Files\Resources\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewUpdateEventArgs.cc">
+      <Filter>Source Files\System\Events\EventArgs</Filter>
+    </ClCompile>
+    <ClCompile Include="BackgroundDrawEventArgs.cc">
+      <Filter>Source Files\System\Events\EventArgs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -719,17 +734,35 @@
     <ClInclude Include="IBackgroundManager.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="BackgroundProperties.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="BackgroundManager.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>Header Files\System</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundManager.h">
+      <Filter>Header Files\Resources\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewManager.h">
+      <Filter>Header Files\Resources\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="IViewManager.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundProperties.h">
+      <Filter>Header Files\Resources\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="IRoom.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomExt.h">
+      <Filter>Header Files\Resources\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundDrawEventArgs.h">
+      <Filter>Header Files\System\Events\EventArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewUpdateEventArgs.h">
+      <Filter>Header Files\System\Events\EventArgs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

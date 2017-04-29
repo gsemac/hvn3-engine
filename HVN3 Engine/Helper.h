@@ -19,6 +19,12 @@ short Signum(float);
 float AbsDiff(float a, float b);
 // Returns the absolute difference between two numbers.
 int AbsDiff(int a, int b);
+template <typename T>
+inline T Abs(T value) {
+
+	return (std::abs)(value);
+
+}
 // Returns the maximum of two values.
 template <typename T>
 inline T Max(T a, T b) {

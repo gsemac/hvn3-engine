@@ -1,7 +1,7 @@
-#ifndef __VIEW_H
-#define __VIEW_H
+#pragma once
 #include "Object.h"
 #include "Scale.h"
+#include "Transform.h"
 
 class View {
 
@@ -33,7 +33,9 @@ public:
 
 	bool TracksMouse() const;
 	void TracksMouse(bool tracks);
-	
+
+	Drawing::Transform GetTransform() const;
+
 private:
 	Point __view_pos;
 	Size __view_size;
@@ -47,5 +49,3 @@ private:
 	bool __tracks_mouse;
 
 };
-
-#endif

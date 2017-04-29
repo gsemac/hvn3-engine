@@ -20,6 +20,47 @@ private:
 };
 
 template <typename resource_type>
+class ResourceHandle {
+
+public:
+	ResourceHandle(resource_type* resource) :
+		_resource(resource) {
+	}
+
+	explicit operator bool() const {
+
+		return _resource != nullptr;
+
+	}
+
+	resource_type* operator->() const {
+		
+		return _resource;
+
+	}
+	resource_type& operator*() const {
+	
+		return *_resource;
+
+	}
+
+	bool operator==(const ResourceHandle<resource_type> other) const {
+
+		return _resource == other._resource;
+
+	}
+	bool operator!=(const ResourceHandle<resource_type> other) const {
+
+		return !(*this == other);
+
+	}
+
+private:
+	resource_type* _resource;
+
+};
+
+template <typename resource_type>
 class ResourceCollection {
 
 public:
@@ -63,7 +104,7 @@ public:
 		__map.erase(it);
 
 	}
-	resource_type* Find(ResourceId id) {
+	ResourceHandle<resource_type> Find(ResourceId id) {
 
 		// Attempt to find the key in the map.
 		auto it = _map.find(id);
@@ -73,7 +114,7 @@ public:
 			return nullptr;
 
 		// Otherwise, return the value.
-		return it->second.get();
+		return ResourceHandle<resource_type>(it->second.get());
 
 	}
 	bool Exists(ResourceId id) {
@@ -81,14 +122,14 @@ public:
 		return ResourceFind(id) == nullptr;
 
 	}
-	
+
 	void Clear() {
 
 		_map.clear();
 
 	}
 
-	resource_type* operator[] (ResourceId id) {
+	ResourceHandle<resource_type> operator[] (ResourceId id) {
 
 		return Find(id);
 
