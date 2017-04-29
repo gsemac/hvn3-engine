@@ -3,44 +3,54 @@
 #include <utility>
 #include <memory>
 
-template <typename key_type, typename resource_type>
+typedef uintptr_t ResourceId;
+
+class Resource {
+
+public:
+	template<typename T, typename ... Args>
+	static std::unique_ptr<T> Create(Args &&... args) {
+
+		return std::make_unique<T>(std::forward<Args>(args)...);
+
+	}
+
+private:
+
+};
+
+template <typename resource_type>
 class ResourceCollection {
 
 public:
+	ResourceCollection() {}
 	~ResourceCollection() {
 
-		// Free all resources.
 		Clear();
 
 	}
 
-	// Adds a resource pointer to the collection with the given key.
-	int Add(const key_type& key, resource_type&& resource) {
+	ResourceId Add(std::unique_ptr<resource_type>& resource) {
 
-		__map.insert(std::pair<key_type, std::shared_ptr<resource_type>>(key, std::make_shared<resource_type>(std::move(resource))));
+		// Use the memory address of the resource as the key, since this is guaranteed to be 
+		// unique so long as the same resource isn't added multiple times.
+		uintptr_t id = reinterpret_cast<uintptr_t>(resource.get());
 
-		return key;
-
-	}
-	// Returns a pointer to the resource with the given key.
-	std::shared_ptr<resource_type> Find(const key_type& key) {
-
-		// Attempt to find the key in the map.
-		auto it = __map.find(key);
-
-		// If it wasn't found, return nullptr.
-		if (it == __map.end())
-			return std::shared_ptr<resource_type>();
-
-		// Otherwise, return the value.
-		return it->second;
+		// Add the resource to the collection.
+		return ResourceAdd(id, resource);
 
 	}
-	// Removes the resource with the given key from the collection.
-	void Remove(const key_type& key) {
+	ResourceId Add(ResourceId id, std::unique_ptr<resource_type>& resource) {
+
+		_map.insert(std::make_pair(id, std::move(resource)));
+
+		return id;
+
+	}
+	bool Remove(ResourceId id) {
 
 		// Attempt to find the key in the map.
-		auto it = __map.find(key);
+		auto it = __map.find(id);
 
 		// If it wasn't found, do nothing.
 		if (it == __map.end())
@@ -53,23 +63,38 @@ public:
 		__map.erase(it);
 
 	}
-	// Clears and frees all resources from the collection.
+	resource_type* Find(ResourceId id) {
+
+		// Attempt to find the key in the map.
+		auto it = _map.find(id);
+
+		// If it wasn't found, return nullptr.
+		if (it == _map.end())
+			return nullptr;
+
+		// Otherwise, return the value.
+		return it->second.get();
+
+	}
+	bool Exists(ResourceId id) {
+
+		return ResourceFind(id) == nullptr;
+
+	}
+	
 	void Clear() {
 
-		__map.clear();
-
-		//for (auto it = __map.cbegin(); it != __map.cend();)
-		//	it = __map.erase(it);
+		_map.clear();
 
 	}
 
-	std::shared_ptr<resource_type> operator[] (const key_type& key) {
+	resource_type* operator[] (ResourceId id) {
 
-		return Find(key);
+		return Find(id);
 
 	}
 
 private:
-	std::unordered_map<key_type, std::shared_ptr<resource_type>> __map;
+	std::unordered_map<ResourceId, std::unique_ptr<resource_type>> _map;
 
 };

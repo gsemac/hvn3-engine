@@ -201,6 +201,7 @@
     <ClCompile Include="Point.cc" />
     <ClCompile Include="Random.cc" />
     <ClCompile Include="Rectangle.cc" />
+    <ClCompile Include="ResourceManager.cc" />
     <ClCompile Include="RoomController.cc" />
     <ClCompile Include="RoomEnterEventArgs.cc" />
     <ClCompile Include="RoomExitEventArgs.cc" />
@@ -315,6 +316,7 @@
     <ClInclude Include="Range.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="ResourceCollection.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RoomEnterEventArgs.h" />
     <ClInclude Include="RoomController.h" />
     <ClInclude Include="RoomExitEventArgs.h" />

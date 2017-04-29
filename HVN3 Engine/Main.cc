@@ -1,7 +1,10 @@
 #include "HVN3.h"
 
 GameManager MyGame;
-Tileset tileset("data/test/tileset1.png", 32, 32);
+
+enum MyResources : ResourceId {
+	TILESET_1
+};
 
 class oController : public Object {
 
@@ -14,13 +17,13 @@ public:
 			MyGame.RoomManager().LoadNext();
 
 		if (Keyboard::KeyPressed(ALLEGRO_KEY_O)) {
-			std::cout << tileset.TileCount();
+			std::cout << MyGame.Resources().Tilesets()[TILESET_1]->TileCount();
 		}
 
 	}
 	void Draw(DrawEventArgs& e) override {
 
-		e.Graphics().DrawBitmap(0, 0, tileset.TileAt(tileset.TileCount() - 1));
+		e.Graphics().DrawBitmap(0, 0, MyGame.Resources().Tilesets()[TILESET_1]->TileAt(5));
 
 	}
 
@@ -100,6 +103,9 @@ int main(int argc, char *argv[]) {
 	// Initialize game properties.
 	MyGame.Initialize(argc, argv);
 	MyGame.Properties().DebugMode = true;
+
+	// Load resources.
+	MyGame.Resources().Tilesets().Add(TILESET_1, Resource::Create<Tileset>("data/test/tileset1.png", 32, 32));
 
 	// Set up the first scene.
 	MyGame.RoomManager().RoomAdd(Room::Create<TestRoom>());

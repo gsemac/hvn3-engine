@@ -384,6 +384,9 @@
     <ClCompile Include="GameManager.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceManager.cc">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -723,6 +726,9 @@
       <Filter>Header Files\System</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
       <Filter>Header Files\System</Filter>
     </ClInclude>
   </ItemGroup>

@@ -30,18 +30,23 @@ void GameManager::Shutdown() {
 
 }
 
+Properties& GameManager::Properties() {
+
+	return _properties;
+
+}
 ::RoomManager& GameManager::RoomManager() {
 
 	return _room_manager;
 
 }
+ResourceManager& GameManager::Resources() {
+
+	return _resource_manager;
+
+}
 Runner& GameManager::Runner() {
 
 	return *_runner;
-
-}
-Properties& GameManager::Properties() {
-
-	return _properties;
 
 }
