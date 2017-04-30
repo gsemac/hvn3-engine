@@ -205,12 +205,13 @@
     <ClCompile Include="Random.cc" />
     <ClCompile Include="Rectangle.cc" />
     <ClCompile Include="ResourceManager.cc" />
+    <ClCompile Include="Room.cc" />
     <ClCompile Include="RoomController.cc" />
     <ClCompile Include="RoomEnterEventArgs.cc" />
     <ClCompile Include="RoomExitEventArgs.cc" />
     <ClCompile Include="RoomManager.cc" />
     <ClCompile Include="Runner.cc" />
-    <ClCompile Include="Room.cc" />
+    <ClCompile Include="RoomBase.cc" />
     <ClCompile Include="Scale.cc" />
     <ClCompile Include="Size.cc" />
     <ClCompile Include="Socket.cc" />
@@ -272,6 +273,7 @@
     <ClInclude Include="IBackgroundManager.h" />
     <ClInclude Include="ICollisionManager.h" />
     <ClInclude Include="IRoom.h" />
+    <ClInclude Include="IRoomManager.h" />
     <ClInclude Include="IViewManager.h" />
     <ClInclude Include="NarrowPhaseCollisionManager.h" />
     <ClInclude Include="IObjectManager.h" />
@@ -328,9 +330,9 @@
     <ClInclude Include="RoomEnterEventArgs.h" />
     <ClInclude Include="RoomController.h" />
     <ClInclude Include="RoomExitEventArgs.h" />
-    <ClInclude Include="RoomExt.h" />
-    <ClInclude Include="Runner.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="Runner.h" />
+    <ClInclude Include="RoomBase.h" />
     <ClInclude Include="Scale.h" />
     <ClInclude Include="RoomManager.h" />
     <ClInclude Include="Size.h" />

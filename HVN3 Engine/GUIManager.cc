@@ -2,7 +2,7 @@
 #include "GUIManager.h"
 #include "Mouse.h"
 #include "Keyboard.h"
-#include "Room.h"
+#include "RoomBase.h"
 
 namespace GUI {
 

@@ -31,7 +31,7 @@ private:
 
 class Object : public ObjectBase, public ICollidable, public ISpriteable {
 	friend class CollisionGrid;
-	friend class Room;
+	friend class RoomBase;
 
 public:
 	Object();

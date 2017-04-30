@@ -1,7 +1,7 @@
 #include "RoomController.h"
-#include "Room.h"
+#include "RoomBase.h"
 
-RoomController::RoomController(Room& room) : _room(&room) {}
+RoomController::RoomController(RoomBase& room) : _room(&room) {}
 
 void RoomController::SetUp() {
 

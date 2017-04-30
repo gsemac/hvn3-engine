@@ -3,7 +3,7 @@
 #include "Object.h"
 #include "Helper.h"
 #include "Mouse.h"
-#include "Room.h"
+#include "RoomBase.h"
 
 View::View(Point view_position, Size view_size, Point port_position, Size port_size, Object* follow_obj, float horizontal_border, float vertical_border) :__view_size(view_size), __port_size(port_size) {
 

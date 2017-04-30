@@ -1,5 +1,5 @@
 #include "ICollidable.h"
-#include "Room.h"
+#include "RoomBase.h"
 #include "Object.h"
 
 ICollidable::ICollidable(float x, float y) : 

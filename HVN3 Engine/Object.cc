@@ -8,7 +8,7 @@
 #include "Graphics.h"
 #include "DrawEventArgs.h"
 #include "UpdateEventArgs.h"
-#include "Room.h"
+#include "RoomBase.h"
 #include "NarrowPhaseCollisionManager.h"
 
 Object::Object() : Object(0.0f, 0.0f) {}

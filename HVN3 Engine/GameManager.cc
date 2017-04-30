@@ -48,7 +48,7 @@ Properties& GameManager::Properties() {
 	return _room_manager;
 
 }
-ResourceManager& GameManager::Resources() {
+ResourceManager& GameManager::ResourceManager() {
 
 	return _resource_manager;
 

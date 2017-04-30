@@ -4,8 +4,9 @@
 #include "Room.h"
 #include "UpdateEventArgs.h"
 #include "DrawEventArgs.h"
+#include "IRoomManager.h"
 
-class RoomManager {
+class RoomManager : public IRoomManager {
 
 public:
 	RoomManager();

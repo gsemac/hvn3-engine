@@ -2,12 +2,12 @@
 #include "RoomEnterEventArgs.h"
 #include "RoomExitEventArgs.h"
 
-class Room;
+class RoomBase;
 
 class RoomController {
 
 public:
-	RoomController(Room& room);
+	RoomController(RoomBase& room);
 
 	void SetUp();
 	bool IsSetUp() const;
@@ -18,6 +18,6 @@ public:
 	void CallRoomExitEvent(RoomExitEventArgs& e);
 
 private:
-	Room* _room;
+	RoomBase* _room;
 
 };

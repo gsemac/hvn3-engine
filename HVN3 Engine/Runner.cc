@@ -10,7 +10,7 @@
 #include <sstream>
 #include "Runner.h"
 #include "Font.h"
-#include "Room.h"
+#include "RoomBase.h"
 #include "Mouse.h"
 #include "Keyboard.h"
 #include "DrawEventArgs.h"
@@ -364,7 +364,7 @@ const Properties& Runner::Properties() const {
 	return _properties;
 
 }
-Room& Runner::CurrentRoom() {
+RoomBase& Runner::CurrentRoom() {
 
 	return _room_manager.CurrentRoom();
 
@@ -376,7 +376,7 @@ void Runner::ApplyScalingMode() {
 	if (_room_manager.RoomCount() <= 0)
 		return;
 
-	Room& room = _room_manager.CurrentRoom();
+	RoomBase& room = _room_manager.CurrentRoom();
 
 	// Set the Transform according to the scaling mode.
 	Drawing::Transform scaling_transform;

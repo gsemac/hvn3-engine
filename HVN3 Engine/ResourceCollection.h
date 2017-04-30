@@ -29,7 +29,12 @@ public:
 
 	explicit operator bool() const {
 
-		return _resource != nullptr;
+		return !IsNull();
+
+	}
+	operator resource_type*() const {
+
+		return _resource;
 
 	}
 
@@ -52,6 +57,12 @@ public:
 	bool operator!=(const ResourceHandle<resource_type> other) const {
 
 		return !(*this == other);
+
+	}
+
+	bool IsNull() const {
+
+		return _resource == nullptr;
 
 	}
 
@@ -114,7 +125,7 @@ public:
 			return nullptr;
 
 		// Otherwise, return the value.
-		return ResourceHandle<resource_type>(it->second.get());
+		return it->second.get();
 
 	}
 	bool Exists(ResourceId id) {

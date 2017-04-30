@@ -118,6 +118,27 @@
     <Filter Include="Source Files\System\Events\EventArgs">
       <UniqueIdentifier>{3b232c71-d50a-48cf-8873-c0bfc058ba43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\System\Managers">
+      <UniqueIdentifier>{cdf963ef-2496-4655-9b51-530ea28a4b2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System\Controllers">
+      <UniqueIdentifier>{c499575c-c487-48ff-8156-1d6a587aadf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System\Properties">
+      <UniqueIdentifier>{33d25b72-36e2-4a76-9c02-17f9cd848e31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System\Controllers">
+      <UniqueIdentifier>{0c917679-558e-4e0a-a18f-86b4e0ea758c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System\Managers">
+      <UniqueIdentifier>{6bedb1ed-bb1a-43d3-880c-67c17de91d00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System\Properties">
+      <UniqueIdentifier>{f1a2e734-5b4b-4970-88bb-3a54d77b0924}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System\Managers\Interfaces">
+      <UniqueIdentifier>{0c551570-94f1-40a5-83d3-5fd7f501af0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -354,20 +375,8 @@
     <ClCompile Include="Properties.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
-    <ClCompile Include="RoomManager.cc">
-      <Filter>Source Files\System</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectManager.cc">
-      <Filter>Source Files\System</Filter>
-    </ClCompile>
     <ClCompile Include="NarrowPhaseCollisionManager.cc">
       <Filter>Source Files\System\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Room.cc">
-      <Filter>Source Files\Resources\Room</Filter>
-    </ClCompile>
-    <ClCompile Include="RoomController.cc">
-      <Filter>Source Files\Resources\Room</Filter>
     </ClCompile>
     <ClCompile Include="DrawEventArgs.cc">
       <Filter>Source Files\System\Events\EventArgs</Filter>
@@ -381,26 +390,41 @@
     <ClCompile Include="RoomExitEventArgs.cc">
       <Filter>Source Files\System\Events\EventArgs</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cc">
-      <Filter>Source Files\System</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cc">
-      <Filter>Source Files\System</Filter>
-    </ClCompile>
-    <ClCompile Include="BackgroundManager.cc">
-      <Filter>Source Files\Resources\Room</Filter>
-    </ClCompile>
-    <ClCompile Include="BackgroundProperties.cc">
-      <Filter>Source Files\Resources\Room</Filter>
-    </ClCompile>
-    <ClCompile Include="ViewManager.cc">
-      <Filter>Source Files\Resources\Room</Filter>
-    </ClCompile>
     <ClCompile Include="ViewUpdateEventArgs.cc">
       <Filter>Source Files\System\Events\EventArgs</Filter>
     </ClCompile>
     <ClCompile Include="BackgroundDrawEventArgs.cc">
       <Filter>Source Files\System\Events\EventArgs</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomBase.cc">
+      <Filter>Source Files\Resources\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomController.cc">
+      <Filter>Source Files\System\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="BackgroundManager.cc">
+      <Filter>Source Files\System\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="BackgroundProperties.cc">
+      <Filter>Source Files\System\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewManager.cc">
+      <Filter>Source Files\System\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cc">
+      <Filter>Source Files\System\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cc">
+      <Filter>Source Files\System\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cc">
+      <Filter>Source Files\System\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomManager.cc">
+      <Filter>Source Files\System\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Room.cc">
+      <Filter>Source Files\Resources\Room</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -692,18 +716,6 @@
     <ClInclude Include="Tileset.h">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Properties.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="RoomManager.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectManager.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="IObjectManager.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="IBroadPhaseCollisionManager.h">
       <Filter>Header Files\System\Collision</Filter>
     </ClInclude>
@@ -712,12 +724,6 @@
     </ClInclude>
     <ClInclude Include="NarrowPhaseCollisionManager.h">
       <Filter>Header Files\System\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Room.h">
-      <Filter>Header Files\Resources\Room</Filter>
-    </ClInclude>
-    <ClInclude Include="RoomController.h">
-      <Filter>Header Files\Resources\Room</Filter>
     </ClInclude>
     <ClInclude Include="DrawEventArgs.h">
       <Filter>Header Files\System\Events\EventArgs</Filter>
@@ -731,38 +737,59 @@
     <ClInclude Include="RoomExitEventArgs.h">
       <Filter>Header Files\System\Events\EventArgs</Filter>
     </ClInclude>
-    <ClInclude Include="IBackgroundManager.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="BackgroundManager.h">
-      <Filter>Header Files\Resources\Room</Filter>
-    </ClInclude>
-    <ClInclude Include="ViewManager.h">
-      <Filter>Header Files\Resources\Room</Filter>
-    </ClInclude>
-    <ClInclude Include="IViewManager.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="BackgroundProperties.h">
-      <Filter>Header Files\Resources\Room</Filter>
-    </ClInclude>
     <ClInclude Include="IRoom.h">
       <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="RoomExt.h">
-      <Filter>Header Files\Resources\Room</Filter>
     </ClInclude>
     <ClInclude Include="BackgroundDrawEventArgs.h">
       <Filter>Header Files\System\Events\EventArgs</Filter>
     </ClInclude>
     <ClInclude Include="ViewUpdateEventArgs.h">
       <Filter>Header Files\System\Events\EventArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomBase.h">
+      <Filter>Header Files\Resources\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Header Files\Resources\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Header Files\System\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>Header Files\System\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Header Files\System\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomManager.h">
+      <Filter>Header Files\System\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundManager.h">
+      <Filter>Header Files\System\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewManager.h">
+      <Filter>Header Files\System\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomController.h">
+      <Filter>Header Files\System\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Properties.h">
+      <Filter>Header Files\System\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundProperties.h">
+      <Filter>Header Files\System\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="IBackgroundManager.h">
+      <Filter>Header Files\System\Managers\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IObjectManager.h">
+      <Filter>Header Files\System\Managers\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IViewManager.h">
+      <Filter>Header Files\System\Managers\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IRoomManager.h">
+      <Filter>Header Files\System\Managers\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

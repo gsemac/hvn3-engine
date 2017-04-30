@@ -1,5 +1,5 @@
 #include "ViewManager.h"
-#include "Room.h"
+#include "RoomBase.h"
 
 size_t ViewManager::ViewAdd(const View & view) {
 

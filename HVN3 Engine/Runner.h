@@ -7,7 +7,7 @@
 #include "RoomManager.h"
 
 class Font;
-class Room;
+class RoomBase;
 
 class Runner {
 
@@ -21,7 +21,7 @@ public:
 	// Returns an object representing a collection of game properties. 
 	const Properties& Properties() const;
 
-	Room& CurrentRoom();
+	RoomBase& CurrentRoom();
 
 protected:
 	// Renders the current game state to the display surface.

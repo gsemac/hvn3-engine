@@ -6,7 +6,7 @@ Properties::Properties() :
 	DisplayTitle = "HVN3 Engine";
 	Fullscreen = false;
 	ScalingMode = ::ScalingMode::MaintainAspectRatio;
-	OutsideColor = Color::Silver;
+	OutsideColor = Color::Black;
 	DisplayFlags = ::DisplayFlags::None;
 
 	FreezeWhenLostFocus = true;

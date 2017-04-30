@@ -1,5 +1,4 @@
 #include "BackgroundManager.h"
-#include "Room.h"
 
 size_t BackgroundManager::BackgroundAdd(ResourceHandle<Background> background) {
 
@@ -11,7 +10,7 @@ size_t BackgroundManager::BackgroundAdd(ResourceHandle<Background> background, b
 	BackgroundProperties properties;
 	properties.SetForeground(true);
 
-	BackgroundAdd(background, properties);
+	return BackgroundAdd(background, properties);
 
 }
 size_t BackgroundManager::BackgroundAdd(ResourceHandle<Background> background, BackgroundProperties properties) {

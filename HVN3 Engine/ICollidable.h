@@ -2,7 +2,7 @@
 #include "CollisionMask.h"
 #include "CollisionFilter.h"
 
-class Room;
+class RoomBase;
 
 class ICollidable : public IPositionable {
 

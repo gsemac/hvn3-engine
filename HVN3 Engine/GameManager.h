@@ -14,7 +14,7 @@ public:
 
 	Properties& Properties();
 	RoomManager& RoomManager();
-	ResourceManager& Resources();
+	ResourceManager& ResourceManager();
 	Runner& Runner();
 
 protected:

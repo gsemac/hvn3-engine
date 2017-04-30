@@ -109,10 +109,10 @@ namespace SuperMarioBros {
 
 	};
 
-	class Stage001 : public Room {
+	class Stage001 : public RoomBase {
 
 	public:
-		Stage001() : Room(640, 480) {
+		Stage001() : RoomBase(640, 480) {
 
 			SetUp();
 

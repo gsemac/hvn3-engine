@@ -1,9 +1,8 @@
 #pragma once
 #include "IObjectManager.h"
+#include "ICollisionManager.h"
 #include <memory>
 #include <vector>
-
-class ICollisionManager;
 
 class ObjectManager : public IObjectManager {
 

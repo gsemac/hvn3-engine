@@ -3,7 +3,7 @@
 #include <vector>
 #include <utility>
 
-class Room;
+class RoomBase;
 
 class BackgroundManager : public IBackgroundManager {
 
