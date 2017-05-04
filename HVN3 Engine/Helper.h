@@ -5,7 +5,7 @@
 #include <initializer_list>
 #include "BitFlags.h"
 
-class Utf8String;
+class String;
 class Font;
 
 extern const float PI;
@@ -56,7 +56,7 @@ float DegreesToRadians(float degrees);
 float RadiansToDegrees(float radians);
 
 // Returns a collection of Utf8String, split into lines such that each line fits the specified width.
-std::vector<std::shared_ptr<Utf8String>> Fit(const std::shared_ptr<Utf8String>&, const Font&, float);
+std::vector<std::shared_ptr<String>> Fit(const std::shared_ptr<String>&, const Font&, float);
 
 // Returns true if the item is contained in the collection.
 template <typename T>

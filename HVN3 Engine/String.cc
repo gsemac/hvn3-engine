@@ -4,7 +4,7 @@
 #include "String.h"
 #include "UTF8String.h"
 
-std::vector<std::string> String::Split(const std::string& str, char delimiter) {
+std::vector<std::string> StringHelper::Split(const std::string& str, char delimiter) {
 
 	// Initialize variables.
 	std::stringstream ss(str);
@@ -19,24 +19,24 @@ std::vector<std::string> String::Split(const std::string& str, char delimiter) {
 	return items;
 
 }
-std::string String::Trim(const std::string &s) {
+std::string StringHelper::Trim(const std::string &s) {
 
 	auto wsfront = std::find_if_not(s.begin(), s.end(), [](int c) {return std::isspace(c); });
 	auto wsback = std::find_if_not(s.rbegin(), s.rend(), [](int c) {return std::isspace(c); }).base();
 	return (wsback <= wsfront ? std::string() : std::string(wsfront, wsback));
 
 }
-bool String::IsNullOrEmpty(const Utf8String& str) {
+bool StringHelper::IsNullOrEmpty(const String& str) {
 
-	return Utf8String::IsNullOrEmpty(str);
+	return String::IsNullOrEmpty(str);
 
 }
-bool String::IsWordBoundary(int ch) {
+bool StringHelper::IsWordBoundary(int ch) {
 
 	return (ispunct(ch) || isspace(ch)) && !(ch == '\'');
 
 }
-bool String::IsNumeric(int ch) {
+bool StringHelper::IsNumeric(int ch) {
 
 	return isdigit(ch);
 

@@ -14,6 +14,7 @@
 #include "Mouse.h"
 #include "Keyboard.h"
 #include "DrawEventArgs.h"
+#include "UpdateEventArgs.h"
 #include "RoomController.h"
 
 Runner::Runner(::Properties& properties, RoomManager& room_manager) :
@@ -56,30 +57,30 @@ Runner::~Runner() {
 	//__graphics = nullptr;
 
 }
-void Runner::Draw() {
-
-	// Clear the drawing surface with the outside outside color.
-	__graphics.Clear(Properties().OutsideColor);
-
-	// Set the Transform according to the scaling mode.
-	ApplyScalingMode();
+void Runner::Draw(DrawEventArgs& e) {
 
 	if (_room_manager.RoomCount() > 0)
+
 		// Render the active Scene.
-		_room_manager.Draw(DrawEventArgs(__graphics));
+		_room_manager.Draw(e);
+
 	else
 		// Draw placeholder graphics.
-		__graphics.DrawText(Round(__display.Width() / 2.0f), Round(__display.Height() / 2.0f), Properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);
+		e.Graphics().DrawText(Round(__display.Width() / 2.0f), Round(__display.Height() / 2.0f), Properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);
 
 	// If running in debug mode, draw the FPS counter.
 	if (Properties().DebugMode)
 		DrawFPS();
 
-	// Swap out the backbuffer.
-	__display.Refresh();
+}
+void Runner::Update(UpdateEventArgs& e) {
+
+	// Update the active scene.
+	if (_room_manager.RoomCount() > 0 && (!Properties().FreezeWhenLostFocus || __display.HasFocus()) && __frames_skipped++ <= Properties().MaxFrameSkip)
+		_room_manager.Update(e);
 
 }
-void Runner::Update() {
+void Runner::WaitForEvent() {
 
 	// Wait for the next event.
 	Event ev;
@@ -150,14 +151,14 @@ void Runner::Update() {
 void Runner::Loop() {
 
 	// Render once before starting the loop so there's something to see if the framerate is low.
-	Draw();
+	OnRedraw();
 
 	// Start the timer.
 	__timer.Start();
 
 	// Run the update loop.
 	while (!__exit_loop)
-		Update();
+		WaitForEvent();
 
 	// Call the destructor so resources can be disposed before the framework is shut down.
 	Runner::~Runner();
@@ -180,9 +181,8 @@ void Runner::DrawFPS() {
 		buf_index = 0;
 
 	// Draw the FPS.
-	//int fps = std::round((std::min)(Properties().FPS, (float)(1.0f / fps_timer.SecondsElapsed())));
 	std::stringstream ss;
-	ss << (int)(std::min)(fps_sum / 60, Properties().FPS) << " FPS";
+	ss << (int)(std::min)(fps_sum / 60.0f, Properties().FPS) << " FPS";
 	__graphics.DrawText(11, 11, ss.str().c_str(), *SystemFont(), Color::Black);
 	__graphics.DrawText(10, 10, ss.str().c_str(), *SystemFont(), Color::White);
 
@@ -196,9 +196,8 @@ void Runner::OnTimerTick(Event& ev) {
 	// Initialize the delta timer. At some point, the frame timer could be used for this.
 	static Stopwatch delta_timer(true);
 
-	// Update the active scene.
-	if (_room_manager.RoomCount() > 0 && (!Properties().FreezeWhenLostFocus || __display.HasFocus()) && __frames_skipped++ <= Properties().MaxFrameSkip)
-		_room_manager.Update(UpdateEventArgs(delta_timer.SecondsElapsed()));
+	// Update the state of the game.
+	Update(UpdateEventArgs(delta_timer.SecondsElapsed()));
 
 	// Update the mouse position.
 	RecalculateMousePosition();
@@ -339,8 +338,17 @@ void Runner::OnDisplaySwitchIn(Event& ev) {
 }
 void Runner::OnRedraw() {
 
+	// Clear the drawing surface with the outside outside color.
+	__graphics.Clear(Properties().OutsideColor);
+
+	// Set the Transform according to the scaling mode.
+	ApplyScalingMode();
+
 	// Draw the game state to the application surface.
-	Draw();
+	Draw(DrawEventArgs(__graphics));
+
+	// Swap out the backbuffer.
+	__display.Refresh();
 
 	// Redrawing will be disabled until the event queue is cleared.
 	__allow_redraw = false;

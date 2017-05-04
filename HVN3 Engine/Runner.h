@@ -8,6 +8,8 @@
 
 class Font;
 class RoomBase;
+class UpdateEventArgs;
+class DrawEventArgs;
 
 class Runner {
 
@@ -25,9 +27,11 @@ public:
 
 protected:
 	// Renders the current game state to the display surface.
-	virtual void Draw();
+	virtual void Draw(DrawEventArgs& e);
+	// Updates the state of the game.
+	virtual void Update(UpdateEventArgs& e);
 	// Waits for and processes the next event in the event queue.
-	virtual void Update();
+	virtual void WaitForEvent();
 
 	// Returns a pointer to the default system font.
 	const Font* SystemFont();

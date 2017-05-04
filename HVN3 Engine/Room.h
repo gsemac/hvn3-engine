@@ -7,7 +7,8 @@
 class Room : public RoomBase {
 
 public:
-	Room(float width, float height);
+	Room(unsigned int width, unsigned int height);
+	virtual ~Room();
 
 	const View* CurrentView();
 	IBackgroundManager* BackgroundManager();

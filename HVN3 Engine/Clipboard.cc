@@ -16,7 +16,7 @@ void Clipboard::SetText(const std::string& text) {
 		al_set_clipboard_text(active_display->AlPtr(), text.c_str());
 
 }
-void Clipboard::SetText(const Utf8String& text) {
+void Clipboard::SetText(const String& text) {
 
 	Display* active_display = Display::ActiveDisplay();
 	if (active_display)

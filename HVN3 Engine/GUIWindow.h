@@ -2,15 +2,14 @@
 #include <vector>
 #include "Bitmap.h"
 #include "Container.h"
-#include "GUITheme.h"
 #include "GUIPanel.h"
 #include "Mouse.h"
 #include "Graphics.h"
-#include "ITextableControl.h"
+#include "ITextable.h"
 
-namespace GUI {
+namespace Gui {
 
-	class Window : public ITextableControl {
+	class Window : public Control, public ITextable {
 
 	public:
 		Window(float x, float y, float width, float height, const char* text);

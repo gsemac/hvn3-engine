@@ -139,6 +139,12 @@
     <Filter Include="Header Files\System\Managers\Interfaces">
       <UniqueIdentifier>{0c551570-94f1-40a5-83d3-5fd7f501af0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\System\Extensions">
+      <UniqueIdentifier>{67cbd171-6e47-4461-b589-0569028b45e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System\Extensions">
+      <UniqueIdentifier>{6508da4f-f8ce-47f9-8d0d-177521bf73c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -265,9 +271,6 @@
       <Filter>Source Files\Resources\GUI</Filter>
     </ClCompile>
     <ClCompile Include="GUIScrollbar.cc">
-      <Filter>Source Files\Resources\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUITheme.cc">
       <Filter>Source Files\Resources\GUI</Filter>
     </ClCompile>
     <ClCompile Include="GUIWindow.cc">
@@ -426,6 +429,15 @@
     <ClCompile Include="Room.cc">
       <Filter>Source Files\Resources\Room</Filter>
     </ClCompile>
+    <ClCompile Include="GUIExtension.cc">
+      <Filter>Source Files\System\Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiStyleManager.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlController.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -516,9 +528,6 @@
       <Filter>Header Files\Resources\GUI</Filter>
     </ClInclude>
     <ClInclude Include="GuiTextbox.h">
-      <Filter>Header Files\Resources\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUITheme.h">
       <Filter>Header Files\Resources\GUI</Filter>
     </ClInclude>
     <ClInclude Include="GUIWindow.h">
@@ -710,9 +719,6 @@
     <ClInclude Include="Scale.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="ITextableControl.h">
-      <Filter>Header Files\Resources\GUI\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="Tileset.h">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
@@ -790,6 +796,21 @@
     </ClInclude>
     <ClInclude Include="IRoomManager.h">
       <Filter>Header Files\System\Managers\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IExtension.h">
+      <Filter>Header Files\System\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIExtension.h">
+      <Filter>Header Files\System\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiStyleManager.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlController.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ITextable.h">
+      <Filter>Header Files\Resources\GUI\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,14 +5,14 @@
 #include <initializer_list>
 #include "BitFlags.h"
 
-class Utf8String;
+class String;
 
-class String {
+class StringHelper {
 
 public:
 	static std::vector<std::string> Split(const std::string& str, char delimiter);
 	static std::string Trim(const std::string &s);
-	static bool IsNullOrEmpty(const Utf8String& str);
+	static bool IsNullOrEmpty(const String& str);
 	static bool IsWordBoundary(int ch);
 	static bool IsNumeric(int ch);
 

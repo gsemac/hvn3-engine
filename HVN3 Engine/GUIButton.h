@@ -1,12 +1,13 @@
 #pragma once
-#include "ITextableControl.h"
+#include "ITextable.h"
+#include "Control.h"
 
-namespace GUI {
+namespace Gui {
 
-	class Button : public ITextableControl {
+	class Button : public Control, public ITextable {
 
 	public:
-		Button(float x, float y, float width, float height, const char* text);
+		Button(float x, float y, float width, float height, const String& text);
 
 		virtual void OnMouseEnter() override;
 		virtual void OnMouseLeave() override;
@@ -16,7 +17,7 @@ namespace GUI {
 		virtual void OnPaint(PaintEventArgs& e) override;
 
 	private:
-		Point __text_offset;
+		Point _text_offset;
 
 	};
 

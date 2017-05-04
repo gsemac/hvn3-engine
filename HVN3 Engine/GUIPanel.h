@@ -3,8 +3,9 @@
 #include "GUIManager.h"
 #include "Control.h"
 #include "Graphics.h"
+#include "Exception.h"
 
-namespace GUI {
+namespace Gui {
 
 	class Panel : public Control {
 
@@ -22,13 +23,17 @@ namespace GUI {
 
 		void AddControl(Control* control) {
 
-			control->SetParent(this);
-			__manager.AddControl(control);
+			throw NotImplementedException();
+
+		/*	control->SetParent(this);
+			__manager.AddControl(control);*/
 
 		}
 		std::list<Control*>& Controls() {
 
-			return __manager.Controls();
+			throw NotImplementedException();
+
+			//return __manager.Controls();
 
 		}
 		void RemoveControl(Control* control) {

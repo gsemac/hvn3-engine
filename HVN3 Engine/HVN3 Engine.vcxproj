@@ -156,6 +156,7 @@
     <ClCompile Include="Connection.cc" />
     <ClCompile Include="Container.cc" />
     <ClCompile Include="Control.cc" />
+    <ClCompile Include="ControlController.cc" />
     <ClCompile Include="Directory.cc" />
     <ClCompile Include="Display.cc" />
     <ClCompile Include="DrawEventArgs.cc" />
@@ -168,6 +169,8 @@
     <ClCompile Include="Font.cc" />
     <ClCompile Include="Framework.cc" />
     <ClCompile Include="GameManager.cc" />
+    <ClCompile Include="GUIExtension.cc" />
+    <ClCompile Include="GuiStyleManager.cc" />
     <ClCompile Include="NarrowPhaseCollisionManager.cc" />
     <ClCompile Include="ObjectManager.cc" />
     <ClCompile Include="Properties.cc" />
@@ -179,7 +182,6 @@
     <ClCompile Include="GUIButton.cc" />
     <ClCompile Include="GUIManager.cc" />
     <ClCompile Include="GUIScrollbar.cc" />
-    <ClCompile Include="GUITheme.cc" />
     <ClCompile Include="GUIWindow.cc" />
     <ClCompile Include="Helper.cc" />
     <ClCompile Include="ICollidable.cc" />
@@ -252,6 +254,7 @@
     <ClInclude Include="Connection.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="Control.h" />
+    <ClInclude Include="ControlController.h" />
     <ClInclude Include="DataGrid.h" />
     <ClInclude Include="Directory.h" />
     <ClInclude Include="Display.h" />
@@ -261,6 +264,8 @@
     <ClInclude Include="ExampleGame3.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GraphicsState.h" />
+    <ClInclude Include="GUIExtension.h" />
+    <ClInclude Include="GuiStyleManager.h" />
     <ClInclude Include="HVN3.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventQueue.h" />
@@ -272,6 +277,7 @@
     <ClInclude Include="Framework.h" />
     <ClInclude Include="IBackgroundManager.h" />
     <ClInclude Include="ICollisionManager.h" />
+    <ClInclude Include="IExtension.h" />
     <ClInclude Include="IRoom.h" />
     <ClInclude Include="IRoomManager.h" />
     <ClInclude Include="IViewManager.h" />
@@ -289,7 +295,6 @@
     <ClInclude Include="GUIPanel.h" />
     <ClInclude Include="GUIScrollbar.h" />
     <ClInclude Include="GuiTextbox.h" />
-    <ClInclude Include="GUITheme.h" />
     <ClInclude Include="GUIWindow.h" />
     <ClInclude Include="Hash.h" />
     <ClInclude Include="Helper.h" />
@@ -307,7 +312,7 @@
     <ClInclude Include="ISizeable.h" />
     <ClInclude Include="ISpriteable.h" />
     <ClInclude Include="IStringable.h" />
-    <ClInclude Include="ITextableControl.h" />
+    <ClInclude Include="ITextable.h" />
     <ClInclude Include="ITransformable.h" />
     <ClInclude Include="IUpdatable.h" />
     <ClInclude Include="Keyboard.h" />

@@ -1,6 +1,54 @@
 #include "HVN3.h"
+using namespace Gui;
 
 GameManager MyGame;
+
+class MyRoom : public Room {
+
+public:
+	MyRoom(float width, float height) :
+		Room(width, height) {
+	}
+	~MyRoom() {
+
+		std::cout << "room destructed";
+
+	}
+
+	void Update(UpdateEventArgs& e) override {
+
+		Room::Update(e);
+
+		_gui_manager.Update(e);
+
+	}
+	void Draw(DrawEventArgs& e) override {
+
+		Room::Draw(e);
+
+		_gui_manager.Draw(e);
+
+	}
+
+	Gui::GuiManager* GuiManager() {
+
+		return &_gui_manager;
+
+	}
+
+protected:
+	void Reset() override {
+
+		Room::Reset();
+
+		_gui_manager.Clear();
+
+	}
+
+private:
+	Gui::GuiManager _gui_manager;
+
+};
 
 enum MyResources : ResourceId {
 	TILESET_1,
@@ -61,16 +109,21 @@ public:
 			Velocity().SetX(Velocity().X() * -1);
 
 	}
+	void Collide(ICollidable* other) override {
+
+
+
+	}
 
 private:
 	float _radius;
 
 };
 
-class TestRoom : public Room {
+class TestRoom : public MyRoom {
 
 public:
-	TestRoom() : Room(640, 480) {
+	TestRoom() : MyRoom(640, 480) {
 
 		SetPersistent(false);
 
@@ -88,6 +141,8 @@ public:
 
 		for (int i = 0; i < 100; ++i)
 			ObjectManager()->InstanceAdd(Object::Create<oBall>(200, 200));
+
+		GuiManager()->AddControl(Control::Create<Button>(100, 100, 150, 25, "Hello World"));
 
 	}
 	void OnRoomEnter(RoomEnterEventArgs& e) override {

@@ -9,7 +9,7 @@
 #include "Helper.h"
 #include "Font.h"
 
-class Utf8String {
+class String {
 
 private:
 	ALLEGRO_USTR* ustr;
@@ -61,35 +61,35 @@ private:
 	}
 
 public:
-	Utf8String() {
+	String() {
 
 		ustr = nullptr;
 		info = nullptr;
 
 	}
-	Utf8String(const char* str) {
+	String(const char* str) {
 
 		ustr = al_ustr_new(str);
 		info = nullptr;
 
 	}
-	Utf8String(const std::string& str) {
+	String(const std::string& str) {
 
 		ustr = al_ustr_new(str.c_str());
 		info = nullptr;
 
 	}
-	Utf8String(const char* str, size_t size) {
+	String(const char* str, size_t size) {
 
 		ustr = al_ustr_new_from_buffer(str, size);
 		info = nullptr;
 
 	}
-	Utf8String(ALLEGRO_USTR* ustr) :
-		Utf8String(ustr, nullptr) {}
-	Utf8String(ALLEGRO_USTR* ustr, ALLEGRO_USTR_INFO* info) :
+	String(ALLEGRO_USTR* ustr) :
+		String(ustr, nullptr) {}
+	String(ALLEGRO_USTR* ustr, ALLEGRO_USTR_INFO* info) :
 		ustr(ustr), info(info) {}
-	Utf8String(const Utf8String& other) {
+	String(const String& other) {
 
 		// Free existing string, if needed.
 		Free();
@@ -98,7 +98,7 @@ public:
 		ustr = al_ustr_dup(other.ustr);
 
 	}
-	Utf8String(Utf8String&& other) {
+	String(String&& other) {
 
 		// Free existing string if needed.
 		Free();
@@ -112,7 +112,7 @@ public:
 		other.info = nullptr;
 
 	}
-	~Utf8String() {
+	~String() {
 
 		if (ustr) al_ustr_free(ustr);
 		ustr = nullptr;
@@ -128,12 +128,12 @@ public:
 
 	}
 
-	Utf8String Substring(int end_pos) const {
+	String Substring(int end_pos) const {
 
 		return Substring(0, end_pos);
 
 	}
-	Utf8String Substring(int start_pos, int end_pos) const {
+	String Substring(int start_pos, int end_pos) const {
 
 		// So that we can treat this like a regular string, find the nth and mth code points 
 		// based on the provided positions.
@@ -148,23 +148,23 @@ public:
 			al_ustr_next(ustr, &it);
 		end_pos = it;
 
-		return Utf8String(al_ustr_dup_substr(ustr, start_pos, end_pos));
+		return String(al_ustr_dup_substr(ustr, start_pos, end_pos));
 
 	}
 
-	Utf8String RefSubstring(int end_pos) {
+	String RefSubstring(int end_pos) {
 
 		return RefSubstring(0, end_pos);
 
 	}
-	Utf8String RefSubstring(int start_pos, int end_pos) {
+	String RefSubstring(int start_pos, int end_pos) {
 
 		// Get the start and end positions of the substring.
 		int start = GetCodepointIndex(start_pos);
 		int end = GetCodepointIndexFromStart(end_pos, start_pos, start);
 
 		ALLEGRO_USTR_INFO* inf = new ALLEGRO_USTR_INFO;
-		return Utf8String((ALLEGRO_USTR*)al_ref_ustr(inf, ustr, start, end), inf);
+		return String((ALLEGRO_USTR*)al_ref_ustr(inf, ustr, start, end), inf);
 
 	}
 
@@ -372,7 +372,7 @@ public:
 		al_ustr_insert_chr(ustr, pos, character);
 
 	}
-	void Insert(int pos, const Utf8String& str) {
+	void Insert(int pos, const String& str) {
 
 		pos = GetCodepointIndex(pos);
 		al_ustr_insert(ustr, pos, str.ustr);
@@ -427,7 +427,7 @@ public:
 		al_ustr_rtrim_ws(ustr);
 
 	}
-	Utf8String& ToUpper() {
+	String& ToUpper() {
 
 		// Convert all charcters to uppercase.
 		int pos = 0;
@@ -441,7 +441,7 @@ public:
 		return *this;
 
 	}
-	Utf8String& ToLower() {
+	String& ToLower() {
 
 		// Convert all charcters to lowercase.
 		int pos = 0;
@@ -464,18 +464,18 @@ public:
 
 	}
 
-	static Utf8String Empty() {
+	static String Empty() {
 
-		return Utf8String("");
+		return String("");
 
 	}
-	static bool IsNullOrEmpty(const Utf8String& str) {
+	static bool IsNullOrEmpty(const String& str) {
 
 		return (!str.ustr || str.Length() == 0);
 
 	}
 
-	Utf8String& operator=(const char* other) {
+	String& operator=(const char* other) {
 
 		Free();
 
@@ -484,7 +484,7 @@ public:
 		return *this;
 
 	}
-	Utf8String& operator=(const std::string& other) {
+	String& operator=(const std::string& other) {
 
 		Free();
 
@@ -493,7 +493,7 @@ public:
 		return *this;
 
 	}
-	Utf8String& operator=(const Utf8String& other) {
+	String& operator=(const String& other) {
 
 		Free();
 
@@ -507,10 +507,10 @@ public:
 		return CharAt(index);
 
 	}
-	friend Utf8String operator+(const Utf8String& a, const char* b);
+	friend String operator+(const String& a, const char* b);
 
 };
 
-std::ostream& operator<< (std::ostream& stream, const Utf8String& str);
+std::ostream& operator<< (std::ostream& stream, const String& str);
 
 #endif

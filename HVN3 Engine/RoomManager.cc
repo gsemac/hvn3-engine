@@ -17,6 +17,9 @@ RoomManager::~RoomManager() {
 		controller.Reset();
 		controller.CallRoomExitEvent(RoomExitEventArgs());
 	}
+
+	// Clear all rooms.
+	_rooms.clear();
 	
 }
 

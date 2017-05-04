@@ -1,17 +1,16 @@
 #include <limits>
 #include "Control.h"
 #include "Mouse.h"
-#include "GUITheme.h"
 #include "GUIManager.h"
 
 // Private members
 
-bool GUI::Control::HasActiveChild() {
+bool Gui::Control::HasActiveChild() {
 
 	return false;
 
 }
-Point GUI::Control::GetFixedPosition() {
+Point Gui::Control::GetFixedPosition() {
 
 	Point p(X(), Y());
 	Control* control = this;
@@ -27,9 +26,9 @@ Point GUI::Control::GetFixedPosition() {
 
 // Public members
 
-GUI::Control::Control() :
+Gui::Control::Control() :
 	Control(Point(0.0f, 0.0f), Size(0.0f, 0.0f)) {}
-GUI::Control::Control(const Point& location, const Size& size) :
+Gui::Control::Control(const Point& location, const Size& size) :
 	IPositionable(location.X(), location.Y()),
 	ISizeable(size.Width(), size.Height()),
 	__fixed_pos(location.X(), location.Y()),
@@ -47,9 +46,9 @@ GUI::Control::Control(const Point& location, const Size& size) :
 	__invalidated = true;
 	__visible = true;
 	__enabled = true;
-	__backcolor = GUI::ActiveTheme()->PrimaryColor();
-	__forecolor = GUI::ActiveTheme()->SecondaryColor();
-	__anchor = (GUI::ANCHOR)(ANCHOR_LEFT | ANCHOR_TOP);
+	__backcolor = Color::FromArgb(35, 35, 35);
+	__forecolor = Color::FromArgb(186, 186, 186);
+	__anchor = (Gui::ANCHOR)(ANCHOR_LEFT | ANCHOR_TOP);
 	__opacity = 1.0f;
 
 	__mouse_is_on = false;
@@ -61,8 +60,8 @@ GUI::Control::Control(const Point& location, const Size& size) :
 
 }
 
-void GUI::Control::Update(UpdateEventArgs& e) {}
-void GUI::Control::Draw(DrawEventArgs& e) {
+void Gui::Control::Update(UpdateEventArgs& e) {}
+void Gui::Control::Draw(DrawEventArgs& e) {
 
 	if (__invalidated) {
 
@@ -135,7 +134,7 @@ void GUI::Control::Draw(DrawEventArgs& e) {
 	*/
 
 }
-void GUI::Control::Resize(float width, float height) {
+void Gui::Control::Resize(float width, float height) {
 
 	// Clamp values within the maximum/minimum size.
 	width = Clamp(width, __minimum_size.Width(), __maximum_size.Width());
@@ -154,110 +153,110 @@ void GUI::Control::Resize(float width, float height) {
 
 }
 
-void GUI::Control::Invalidate() {
+void Gui::Control::Invalidate() {
 
 	__invalidated = true;
 
 	if (__parent) __parent->Invalidate();
 
 }
-bool GUI::Control::Invalidated() {
+bool Gui::Control::Invalidated() {
 
 	return __invalidated;
 
 }
-void GUI::Control::Dispose() {
+void Gui::Control::Dispose() {
 
 	__disposed = true;
 
 }
-bool GUI::Control::IsDisposed() {
+bool Gui::Control::IsDisposed() {
 
 	return __disposed;
 
 }
 
-const Color& GUI::Control::ForeColor() const {
+const Color& Gui::Control::ForeColor() const {
 
 	return __forecolor;
 
 }
-const Color& GUI::Control::BackColor() const {
+const Color& Gui::Control::BackColor() const {
 
 	return __backcolor;
 
 }
-void GUI::Control::SetForeColor(const Color& color) {
+void Gui::Control::SetForeColor(const Color& color) {
 
 	__forecolor = color;
 
 }
-void GUI::Control::SetBackColor(const Color& color) {
+void Gui::Control::SetBackColor(const Color& color) {
 
 	__backcolor = color;
 
 }
 
-GUI::ANCHOR GUI::Control::Anchors() {
+Gui::ANCHOR Gui::Control::Anchors() {
 
 	return __anchor;
 
 }
-void GUI::Control::SetAnchors(GUI::ANCHOR anchors) {
+void Gui::Control::SetAnchors(Gui::ANCHOR anchors) {
 
 	__anchor = anchors;
 
 }
 
-float GUI::Control::Opacity() {
+float Gui::Control::Opacity() {
 
 	return __opacity;
 
 }
-void GUI::Control::SetOpacity(float opacity) {
+void Gui::Control::SetOpacity(float opacity) {
 
 	__opacity = opacity;
 
 }
 
-Size GUI::Control::MinimumSize() {
+Size Gui::Control::MinimumSize() {
 
 	return __minimum_size;
 
 }
-void GUI::Control::SetMinimumSize(const Size& size) {
+void Gui::Control::SetMinimumSize(const Size& size) {
 
 	__minimum_size = size;
 
 }
-Size GUI::Control::MaximumSize() {
+Size Gui::Control::MaximumSize() {
 
 	return __maximum_size;
 
 }
-void GUI::Control::SetMaximumSize(const Size& size) {
+void Gui::Control::SetMaximumSize(const Size& size) {
 
 	__maximum_size = size;
 
 }
 
-bool GUI::Control::Visible() {
+bool Gui::Control::Visible() {
 
 	return __visible;
 
 }
-void GUI::Control::SetVisible(bool is_visible) {
+void Gui::Control::SetVisible(bool is_visible) {
 
 	__visible = is_visible;
 
 }
 
-bool GUI::Control::Enabled() {
+bool Gui::Control::Enabled() {
 
 	return __enabled;
 
 }
-void GUI::Control::SetEnabled(bool is_enabled) {
+void Gui::Control::SetEnabled(bool is_enabled) {
 
 	__enabled = is_enabled;
 
@@ -266,23 +265,23 @@ void GUI::Control::SetEnabled(bool is_enabled) {
 
 }
 
-GUI::Control* GUI::Control::Parent() {
+Gui::Control* Gui::Control::Parent() {
 
 	return __parent;
 
 }
-void GUI::Control::SetParent(Control* parent) {
+void Gui::Control::SetParent(Control* parent) {
 
 	__parent = parent;
 
 }
-GUI::GuiManager* GUI::Control::Manager() {
+Gui::GuiManager* Gui::Control::Manager() {
 
 	return __manager;
 
 }
 
-void GUI::Control::BringToFront() {
+void Gui::Control::BringToFront() {
 
 	// If the Control has a Manager object, allow it to handle the repositioning.
 	if (__manager) {
@@ -294,7 +293,7 @@ void GUI::Control::BringToFront() {
 	Z = -INT_MAX;
 
 }
-void GUI::Control::SendToBack() {
+void Gui::Control::SendToBack() {
 
 	// If the Control has a Manager object, allow it to handle the repositioning.
 	if (__manager) {
@@ -307,41 +306,41 @@ void GUI::Control::SendToBack() {
 
 }
 
-Point GUI::Control::FixedPosition() {
+Point Gui::Control::FixedPosition() {
 
 	return __fixed_pos;
 
 }
-Rectangle GUI::Control::Bounds() {
+Rectangle Gui::Control::Bounds() {
 
 	return Rectangle(__fixed_pos.X(), __fixed_pos.Y(), Width(), Height());
 
 }
 
-float GUI::Control::Scale() const {
+float Gui::Control::Scale() const {
 
 	return __manager ? __manager->Scale() : 1.0f;
 
 }
 
-void GUI::Control::OnMouseLeave() {}
-void GUI::Control::OnMouseEnter() {}
-void GUI::Control::OnMouseHover() {}
-void GUI::Control::OnMouseDown() {}
-void GUI::Control::OnMouseUp() {}
-void GUI::Control::OnMouseMove() {}
-void GUI::Control::OnClick() {}
-void GUI::Control::OnDoubleClick() {}
-void GUI::Control::OnPaint(PaintEventArgs& e) {}
-void GUI::Control::OnResize() {}
-void GUI::Control::OnMove() {
+void Gui::Control::OnMouseLeave() {}
+void Gui::Control::OnMouseEnter() {}
+void Gui::Control::OnMouseHover() {}
+void Gui::Control::OnMouseDown() {}
+void Gui::Control::OnMouseUp() {}
+void Gui::Control::OnMouseMove() {}
+void Gui::Control::OnClick() {}
+void Gui::Control::OnDoubleClick() {}
+void Gui::Control::OnPaint(PaintEventArgs& e) {}
+void Gui::Control::OnResize() {}
+void Gui::Control::OnMove() {
 
 	// Update fixed coordinates (relative to view origin).
 	__fixed_pos = GetFixedPosition();
 
 }
-void GUI::Control::OnGotFocus() {}
-void GUI::Control::OnLostFocus() {}
-void GUI::Control::OnKeyDown() {}
-void GUI::Control::OnKeyPressed() {}
-void GUI::Control::OnKeyReleased() {}
+void Gui::Control::OnGotFocus() {}
+void Gui::Control::OnLostFocus() {}
+void Gui::Control::OnKeyDown() {}
+void Gui::Control::OnKeyPressed() {}
+void Gui::Control::OnKeyReleased() {}

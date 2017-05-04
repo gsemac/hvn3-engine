@@ -13,7 +13,7 @@ Todo:
 - Implement undo/redo buffer
 */
 
-namespace GUI {
+namespace Gui {
 
 	class Textbox : public Control {
 		friend class Caret;
@@ -25,8 +25,8 @@ namespace GUI {
 			__sel_draw_pos(0.0f, 0.0f),
 			__mouse_last_pos(Mouse::X, Mouse::Y) {
 
-			__font = GUI::ActiveTheme()->DefaultFont();
-			__highlight_color = GUI::ActiveTheme()->HighlightColor();
+			__font = Gui::ActiveTheme()->DefaultFont();
+			__highlight_color = Gui::ActiveTheme()->HighlightColor();
 			__text = "";
 			__padding = 3.0f;
 			__hold_timer = 0.0f;
@@ -41,12 +41,12 @@ namespace GUI {
 
 		}
 
-		Utf8String Text() {
+		String Text() {
 
 			return __text;
 
 		}
-		Utf8String SelectedText() {
+		String SelectedText() {
 
 			return __text.Substring(__sel.Min(), __sel.Max());
 
@@ -161,7 +161,7 @@ namespace GUI {
 			int text_x2 = text_x1 + width;
 
 			// If the string is empty, return first index.
-			if (Utf8String::IsNullOrEmpty(__text)) return 0;
+			if (String::IsNullOrEmpty(__text)) return 0;
 
 			// If the point is out of the textbox bounds, return first index.
 			if (!PointIn(point, Rectangle(real.X(), real.Y(), Width(), Height()))) return 0;
@@ -496,7 +496,7 @@ namespace GUI {
 				RemoveSelectedText();
 
 				// Get string from the clipboard.
-				Utf8String text = Clipboard::GetText();
+				String text = Clipboard::GetText();
 
 				// Convert the string to the appropriate case.
 				switch (__character_casing) {
@@ -602,7 +602,7 @@ namespace GUI {
 					__sel_draw_pos.Length() * (__sel_draw_pos.IsAscending() ? 1 : -1), __font->Height()), HasFocus() ? __highlight_color : Color::Silver);
 
 			// Draw text.
-			if (__font && !Utf8String::IsNullOrEmpty(__text))
+			if (__font && !String::IsNullOrEmpty(__text))
 				e.Graphics().DrawText(text_pos.X(), text_pos.Y(), __text, *__font, Color::Black);
 			if (__sel.Length() > 0)
 				e.Graphics().DrawText(text_pos.X() + __sel_draw_pos.Min(), text_pos.Y(), __text.RefSubstring(__sel.Min(), __sel.Max()), *__font,
@@ -767,7 +767,7 @@ namespace GUI {
 			}
 		};
 
-		Utf8String __text;
+		String __text;
 		::Font* __font;
 
 		Caret __caret;

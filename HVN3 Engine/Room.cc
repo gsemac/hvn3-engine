@@ -1,10 +1,11 @@
 #include "Room.h"
 
-Room::Room(float width, float height) :
+Room::Room(unsigned int width, unsigned int height) :
 	RoomBase(width, height),
 	_rendering_view(0) {
 
 }
+Room::~Room() {}
 
 const View* Room::CurrentView() {
 

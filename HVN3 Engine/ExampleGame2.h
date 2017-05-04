@@ -142,13 +142,13 @@ namespace SuperMarioBros {
 			AddBackground(backgrounds[BG_HILLS]);
 			Background(0).SetFixed(true);
 
-			std::shared_ptr<GUI::GuiManager> manager(new GUI::GuiManager());
-			GUI::Window* window = new GUI::Window(100, 100, 200, 100, "Window 1");
-			window->AddControl(new GUI::Button(1, 0, 100, 29, "Button 1"));
-			window->AddControl(new GUI::Button(1, 29, 100, 29, "Button 2"));
-			manager->AddControl(new GUI::Textbox(1, 50, 100, 21));
+			std::shared_ptr<Gui::GuiManager> manager(new Gui::GuiManager());
+			Gui::Window* window = new Gui::Window(100, 100, 200, 100, "Window 1");
+			window->AddControl(new Gui::Button(1, 0, 100, 29, "Button 1"));
+			window->AddControl(new Gui::Button(1, 29, 100, 29, "Button 2"));
+			manager->AddControl(new Gui::Textbox(1, 50, 100, 21));
 
-			manager->AddControl(new GUI::Button(50, 50, 100, 29, "Button 1"));
+			manager->AddControl(new Gui::Button(50, 50, 100, 29, "Button 1"));
 			manager->AddControl(window);
 			//manager->AddControl(new GUI::Button(50, 80, 100, 25, "Button 2"));
 			//manager->AddControl(new GUI::Button(50, 100, 100, 25, "Button 3"));

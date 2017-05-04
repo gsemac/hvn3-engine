@@ -1,18 +1,11 @@
-#ifndef __CONTROL_H
-#define __CONTROL_H
-#include "IDisposable.h"
-#include "IFocusable.h"
-#include "Object.h"
-#include "Color.h"
-#include "BitFlags.h"
-#include "Keyboard.h"
-#include "Mouse.h"
-#include "Graphics.h"
+#pragma once
 #include "DrawEventArgs.h"
-#include "UpdateEventArgs.h"
+#include "IFocusable.h"
 
-namespace GUI {
-	
+namespace Gui {
+
+	class GuiManager;
+
 	enum ANCHOR {
 		ANCHOR_NONE = 0x00,
 		ANCHOR_LEFT = 0x01,
@@ -50,8 +43,8 @@ namespace GUI {
 
 	};
 
-	class Control : public IDrawable, public IUpdatable, public IPositionable, public ISizeable, public IDisposable, public IFocusable {
-		friend class GuiManager;
+	class Control : public IDrawable, public IUpdatable, public IPositionable, public ISizeable, public IFocusable {
+		friend class ControlController;
 
 	public:
 		int Z;
@@ -84,7 +77,7 @@ namespace GUI {
 		Size MaximumSize();
 		void SetMaximumSize(const Size& size);
 		
-		Utf8String Tooltip();
+		String Tooltip();
 		void SetTooltip(const char* text);
 
 		bool Visible();
@@ -124,6 +117,13 @@ namespace GUI {
 		virtual void OnKeyPressed();
 		virtual void OnKeyReleased();
 
+		template<typename T, typename ... Args>
+		static std::unique_ptr<Control> Create(Args &&... args) {
+
+			return std::make_unique<T>(std::forward<Args>(args)...);
+
+		}
+
 	private:
 		bool __disposed;
 		bool __invalidated;
@@ -142,7 +142,7 @@ namespace GUI {
 		bool __mouse_is_on;
 		bool __mouse_is_down;
 		Point __mouse_last_pos;
-
+		
 		Point __previous_pos; // Keeps track of previous position for OnMove event
 		bool __prev_focus; // Keeps track of focus state for OnGotFocus/OnLostFocus
 
@@ -155,5 +155,3 @@ namespace GUI {
 	};
 
 }
-
-#endif

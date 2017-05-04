@@ -89,7 +89,7 @@ public:
 		uintptr_t id = reinterpret_cast<uintptr_t>(resource.get());
 
 		// Add the resource to the collection.
-		return ResourceAdd(id, resource);
+		return Add(id, resource);
 
 	}
 	ResourceId Add(ResourceId id, std::unique_ptr<resource_type>& resource) {
@@ -128,7 +128,7 @@ public:
 		return it->second.get();
 
 	}
-	bool Exists(ResourceId id) {
+	bool Contains(ResourceId id) {
 
 		return ResourceFind(id) == nullptr;
 

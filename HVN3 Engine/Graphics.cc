@@ -171,7 +171,7 @@ namespace Drawing {
 		DrawText(x, y, text.c_str(), font, color);
 
 	}
-	void Graphics::DrawText(float x, float y, const Utf8String& text, const Font& font, const Color& color, Alignment alignment) {
+	void Graphics::DrawText(float x, float y, const String& text, const Font& font, const Color& color, Alignment alignment) {
 
 		PrepareDrawingSurface();
 

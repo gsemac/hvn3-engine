@@ -8,9 +8,9 @@ class GameManager {
 
 public:
 	GameManager();
-	~GameManager();
-	void Initialize(int argc, char* argv[]);
-	void Loop();
+	virtual ~GameManager();
+	virtual void Initialize(int argc, char* argv[]);
+	virtual void Loop();
 
 	Properties& Properties();
 	RoomManager& RoomManager();
@@ -18,7 +18,7 @@ public:
 	Runner& Runner();
 
 protected:
-	void Shutdown();
+	virtual void Shutdown();
 
 private:
 	::Properties _properties;

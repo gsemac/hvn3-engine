@@ -16,3 +16,5 @@
 #include "DrawEventArgs.h"
 #include "Random.h"
 #include "Tileset.h"
+#include "GUIManager.h"
+#include "GUIButton.h"

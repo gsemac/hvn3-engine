@@ -1,63 +1,87 @@
-#include <limits>
 #include "GUIManager.h"
+#include "ControlController.h"
 #include "Mouse.h"
 #include "Keyboard.h"
-#include "RoomBase.h"
+#include <utility>
 
-namespace GUI {
+namespace Gui {
 
-	GuiManager::GuiManager() : __mouse_last_pos(Mouse::X, Mouse::Y) {
+	GuiManager::GuiManager() : _last_mouse_position(Mouse::X, Mouse::Y) {
 
-		__held_control = nullptr;
-		__hovered_control = nullptr;
-		__resort_needed = false;
+		_held_control = nullptr;
+		_hovered_control = nullptr;
+		_resort_needed = false;
 
-		__keyboard_events_enabled = true;
-		__mouse_events_enabled = true;
+		_keyboard_events_enabled = true;
+		_mouse_events_enabled = true;
 
-		__gui_scale = 1.0f;
+		_gui_scale = 1.0f;
+
+	}
+	GuiManager::~GuiManager() {
+
+		std::cout << "gui manager destructed\n";
 
 	}
 
-	void GuiManager::AddControl(Control* control) {
+	void GuiManager::AddControl(control_type& control) {
 
-		// Add the new Control.
-		control->__manager = this;
-		__controls.push_back(control);
+		// Set the control's parent manager to this object.
+		ControlController(*control).SetManager(*this);
 
-		// Sort the list of Controls by their Z value (larger Z => drawn earlier).
+		// Add the control to our list.
+		_controls.push_back(std::move(control));
+
+		// Sort the list of controls by their Z depth.
+		// Controls with smaller values of Z are drawn on top of those with larger values.
 		Sort();
 
 	}
-	void GuiManager::RemoveControl(Control*& control) {
-		if (!control) return;
+	void GuiManager::RemoveControl(Control* control) {
 
-		// Find the element in the list.
-		auto iter = std::find(__controls.begin(), __controls.end(), control);
+		// Find the control in the list.
+		auto iter = FindControlByAddress(control);
 
-		// Remove the element if it was found.
-		if (iter != __controls.end())
-			__controls.erase(iter);
-
-		// Free the memory used by object.
-		delete control;
-		control = nullptr;
+		// If it was found, remove it.
+		if (iter != _controls.end())
+			_controls.erase(iter);
 
 	}
 	Control* GuiManager::ActiveControl() {
 
-		return __hovered_control;
+		return _hovered_control;
+
+	}
+	Control* GuiManager::ControlAt(size_t index) {
+
+		return std::next(_controls.begin(), index)->get();
+
+	}
+	size_t GuiManager::ControlCount() const {
+
+		return _controls.size();
+
+	}
+	void GuiManager::Clear() {
+
+		_controls.clear();
 
 	}
 
-	float GuiManager::Scale() {
+	float GuiManager::Scale() const {
 
-		return __gui_scale;
+		return _gui_scale;
 
 	}
 	void GuiManager::SetScale(float scale) {
 
-		__gui_scale = scale;
+		_gui_scale = scale;
+
+	}
+
+	GuiStyleManager* GuiManager::StyleManager() {
+
+		return &_style_manager;
 
 	}
 
@@ -69,40 +93,41 @@ namespace GUI {
 		bool mouse_is_dbl_pressed = Mouse::ButtonDoubleClicked(MB_LEFT | MB_RIGHT | MB_MIDDLE);
 
 		// Reset the hovered Control pointer.
-		Control* __prev_hovered_control = __hovered_control;
-		__hovered_control = nullptr;
-		bool __nothing_held = (!mouse_is_pressed && mouse_is_held && !__held_control);
+		Control* __prev_hovered_control = _hovered_control;
+		_hovered_control = nullptr;
+		bool __nothing_held = (!mouse_is_pressed && mouse_is_held && !_held_control);
 
 		// Iterate through all of the Controls (lowest Z-depth to highest).
-		for (auto it = __controls.begin(); it != __controls.end(); ++it) {
+		for (auto it = _controls.begin(); it != _controls.end(); ++it) {
 
 			// Get a pointer to the Control.
-			Control* c = *it;
-			Point p = c->GetFixedPosition();
+			Control* c = (*it).get();
+			ControlController controller(*c);
+			Point p = controller.GetFixedPosition();
 
 			bool mouse_on = Mouse::InRegion(p.X(), p.Y(), p.X() + c->Width(), p.Y() + c->Height());
 
 			if ( // Only handle the following events if...
-				__mouse_events_enabled && // Mouse events are enabled.
+				_mouse_events_enabled && // Mouse events are enabled.
 				(mouse_on) // The mouse is currently on the Control.
-				&& ((!__held_control && !__nothing_held) || __held_control == c) // No Control is held, or the current Control is held.
-				&& (!__hovered_control) // No Control is assigned as the hovered Control for this iteration.
+				&& ((!_held_control && !__nothing_held) || _held_control == c) // No Control is held, or the current Control is held.
+				&& (!_hovered_control) // No Control is assigned as the hovered Control for this iteration.
 				) {
 
 				// Assign the current Control as the hovered Control.
-				__hovered_control = c;
+				_hovered_control = c;
 
 				// If this Control is different from the one the mouse was previously on, handle OnMouseEnter event.
-				if (__hovered_control != __prev_hovered_control)
+				if (_hovered_control != __prev_hovered_control)
 					c->OnMouseEnter();
 
 				// Handle OnMouseDown/OnMouseUp event.
 				if (mouse_is_pressed) {
-					if (__held_control != c)
+					if (_held_control != c)
 						c->OnMouseDown();
 					if (mouse_is_dbl_pressed)
 						c->OnDoubleClick();
-					__held_control = c;
+					_held_control = c;
 					c->Focus();
 				}
 
@@ -110,44 +135,44 @@ namespace GUI {
 				c->OnMouseHover();
 
 				// Handle OnMouseMove event.
-				if (Mouse::X != __mouse_last_pos.X() || Mouse::Y != __mouse_last_pos.Y()) {
-					__mouse_last_pos.SetXY(Mouse::X, Mouse::Y);
+				if (Mouse::X != _last_mouse_position.X() || Mouse::Y != _last_mouse_position.Y()) {
+					_last_mouse_position.SetXY(Mouse::X, Mouse::Y);
 					c->OnMouseMove();
 				}
 
 			}
 
 			// If the Control was hovered previously but isn't anymore, Handle OnMouseLeave event.
-			else if (__prev_hovered_control == c && __hovered_control != c)
+			else if (__prev_hovered_control == c && _hovered_control != c)
 				c->OnMouseLeave();
 
 			// If the mouse isn't currrently being held, but this Control is assigned as the held Control, unassign it, and handle OnClick and OnMouseUp events.
-			if (!mouse_is_held && __held_control == c) {
-				if (__hovered_control == c) {
+			if (!mouse_is_held && _held_control == c) {
+				if (_hovered_control == c) {
 					c->OnClick();
 					c->OnMouseUp();
 				}
-				__held_control = nullptr;
+				_held_control = nullptr;
 			}
 
 			// Handle OnMove event.
-			if (__mouse_events_enabled && (c->__previous_pos.X() != c->X() || c->__previous_pos.Y() || c->Y())) {
+			if (_mouse_events_enabled && (controller.PreviousPosition().X() != c->X() || controller.PreviousPosition().Y() || c->Y())) {
 				c->OnMove();
-				c->__previous_pos.SetXY(c->X(), c->Y());
+				controller.SetPreviousPosition(c->X(), c->Y());
 			}
 
 			// Handle OnGotFocus/OnLostFocus events.
-			if (c->HasFocus() && !c->__prev_focus) {
-				c->__prev_focus = true;
+			if (c->HasFocus() && !controller.PrevFocus()) {
+				controller.SetPrevFocus(true);
 				c->OnGotFocus();
 			}
-			else if (!c->HasFocus() && c->__prev_focus) {
-				c->__prev_focus = false;
+			else if (!c->HasFocus() && controller.PrevFocus()) {
+				controller.SetPrevFocus(false);
 				c->OnLostFocus();
 			}
 
 			// Handle keyboard events.
-			if (__keyboard_events_enabled) {
+			if (_keyboard_events_enabled) {
 				if (Keyboard::KeyPressed(KEY_ANY))
 					c->OnKeyPressed();
 				if (Keyboard::KeyReleased(KEY_ANY))
@@ -162,9 +187,9 @@ namespace GUI {
 		}
 
 		// Sort if a resort is pending.
-		if (__resort_needed) {
+		if (_resort_needed) {
 			Sort();
-			__resort_needed = false;
+			_resort_needed = false;
 		}
 
 	}
@@ -176,7 +201,7 @@ namespace GUI {
 		// Create a new transform that will be used for transforming each control.
 		Drawing::Transform transform;
 
-		for (auto it = __controls.rbegin(); it != __controls.rend(); ++it) {
+		for (auto it = _controls.rbegin(); it != _controls.rend(); ++it) {
 
 			// Get a reference to the Control.
 			Control& control = *(*it);
@@ -203,54 +228,56 @@ namespace GUI {
 	void  GuiManager::BringToFront(Control* control) {
 
 		// If this Control is the highest Control, do nothing.
-		if (__controls.front() == control) return;
+		if (_controls.front().get() == control) return;
 
 		// Set the Control's Z value equal to that of the highest Control.
-		control->Z = __controls.front()->Z;
+		control->Z = _controls.front()->Z;
 
 		// Find the Control in the list.
-		auto iter = std::find(__controls.begin(), __controls.end(), control);
+		auto iter = FindControlByAddress(control);
 
 		// Return (silently) if the Control doesn't exist in the list.
-		if (iter == __controls.end()) return;
+		if (iter == _controls.end()) return;
 
 		// Reposition the Control.
-		__controls.splice(__controls.begin(), __controls, iter);
+		_controls.splice(_controls.begin(), _controls, iter);
 
 
 	}
 	void  GuiManager::SendToBack(Control* control) {
 
-		// If this Control is the highest Control, do nothing.
-		if (__controls.back() == control) return;
+		//// If this Control is the highest Control, do nothing.
+		//if (_controls.back().get() == control) return;
 
-		// Set the Control's Z value equal to that of the lowest Control.
-		control->Z = __controls.back()->Z;
+		//// Set the Control's Z value equal to that of the lowest Control.
+		//control->Z = _controls.back()->Z;
 
-		// Find the Control in the list.
-		auto iter = std::find(__controls.begin(), __controls.end(), control);
+		//// Find the Control in the list.
+		//auto iter = std::find(_controls.begin(), _controls.end(), control);
 
-		// Return (silently) if the Control doesn't exist in the list.
-		if (iter == __controls.end()) return;
+		//// Return (silently) if the Control doesn't exist in the list.
+		//if (iter == _controls.end()) return;
 
-		// Reposition the Control.
-		__controls.splice(__controls.end(), __controls, iter);
+		//// Reposition the Control.
+		//_controls.splice(_controls.end(), _controls, iter);
 
-
-	}
-	std::list<Control*>& GuiManager::Controls() {
-
-		return __controls;
 
 	}
 	void GuiManager::SetMouseEventsEnabled(bool value) {
 
-		__mouse_events_enabled = value;
+		_mouse_events_enabled = value;
 
 	}
 	void GuiManager::SetkeyboardEventsEnabled(bool value) {
 
-		__keyboard_events_enabled = value;
+		_keyboard_events_enabled = value;
+
+	}
+
+	// Protected members
+	std::list<GuiManager::control_type>::iterator GuiManager::FindControlByAddress(Control* ptr) {
+
+		return std::find_if(_controls.begin(), _controls.end(), [&](control_type& p) { return p.get() == ptr; });
 
 	}
 
@@ -258,7 +285,7 @@ namespace GUI {
 
 	void GuiManager::Sort() {
 
-		__controls.sort([](Control* a, Control* b) {return a->Z < b->Z; });
+		//_controls.sort([](Control* a, Control* b) {return a->Z < b->Z; });
 
 	}
 

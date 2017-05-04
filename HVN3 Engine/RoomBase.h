@@ -17,6 +17,7 @@ class RoomBase : public IUpdatable, public IDrawable, public ISizeable {
 public:
 	RoomBase(unsigned int width, unsigned int height);
 	RoomBase(unsigned int width, unsigned int height, std::unique_ptr<IObjectManager>& object_manager);
+	virtual ~RoomBase();
 
 	virtual void Update(UpdateEventArgs& e) override;
 	virtual void Draw(DrawEventArgs& e) override;
