@@ -1,4 +1,4 @@
-#include "GUIExtension.h"
+#include "GuiExtension.h"
 #include <iostream>
 
 namespace Gui {

@@ -1,7 +1,7 @@
 #include <sstream>
 #include <cctype>
 #include <algorithm>
-#include "String.h"
+#include "StringHelper.h"
 #include "UTF8String.h"
 
 std::vector<std::string> StringHelper::Split(const std::string& str, char delimiter) {

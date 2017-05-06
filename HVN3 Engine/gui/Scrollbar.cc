@@ -1,9 +1,9 @@
 #include <allegro5/allegro_primitives.h>
 #include <algorithm>
 #include <iostream>
-#include "GUIScrollbar.h"
+#include "Scrollbar.h"
 #include "IScrollable.h"
-#include "Mouse.h"
+#include "io/Mouse.h"
 #include "Color.h"
 
 // Public

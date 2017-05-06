@@ -1,6 +1,6 @@
 #include "ControlController.h"
 #include "Control.h"
-#include "GUIManager.h"
+#include "GuiManager.h"
 
 namespace Gui {
 

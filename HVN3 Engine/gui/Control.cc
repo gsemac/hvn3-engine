@@ -1,6 +1,6 @@
 #include <limits>
 #include "Control.h"
-#include "Mouse.h"
+#include "io/Mouse.h"
 #include "GUIManager.h"
 
 // Private members

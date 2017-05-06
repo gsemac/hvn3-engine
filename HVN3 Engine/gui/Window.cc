@@ -1,4 +1,4 @@
-#include "GUIWindow.h"
+#include "Window.h"
 #define RESIZE_REGION_WIDTH 4.0f
 #define DEF_TITLEBAR_HEIGHT 29.0f
 #define DEF_OUTLINE_WIDTH 1.0f
@@ -14,11 +14,8 @@ namespace Gui {
 		__drag_offset(0.0f, 0.0f),
 		__original_position(x, y),
 		__original_size(width, height + DEF_TITLEBAR_HEIGHT),
-		__size_diff(0, 0)
-	{
-
-		// Set up titlebar.
-		//__exit_icon = ActiveTheme()->ExitIcon();
+		__size_diff(0, 0),
+		_exit_icon(nullptr) {
 
 		// Make sure the Window cannot be made smaller than its titlebar.
 		SetMinimumSize(Size(DEF_TITLEBAR_HEIGHT, DEF_TITLEBAR_HEIGHT));
@@ -138,11 +135,13 @@ namespace Gui {
 		e.Graphics().DrawText(tx, ty, Text(), *Font(), Color(186, 186, 186), Alignment::Center);
 
 		// Draw exit button.
-		float ex = Width() - __exit_icon->Width() - (__exit_icon->Width() / 2.0f);
-		float ey = (__exit_icon->Height() / 2.0f) + 1.0f;
-		Color tint = Mouse::InRegion(X() + ex, Y() + ey, X() + ex + __exit_icon->Width(), Y() + ey + __exit_icon->Height()) ?
-			Color::FromArgbf(0.5f, 0.5f, 0.5f, 1.0f) : Color::FromArgbf(1.0f, 1.0f, 1.0f, 1.0f);
-		e.Graphics().DrawBitmap(ex, ey, __exit_icon->Subimage(0), tint);
+		if (GetExitIcon()) {
+			float ex = Width() - _exit_icon->Width() - (_exit_icon->Width() / 2.0f);
+			float ey = (_exit_icon->Height() / 2.0f) + 1.0f;
+			bool mouse_on = Mouse::InRegion(X() + ex, Y() + ey, X() + ex + _exit_icon->Width(), Y() + ey + _exit_icon->Height());
+			Color tint = mouse_on ? Color::FromArgbf(0.5f, 0.5f, 0.5f, 1.0f) : Color::FromArgbf(1.0f, 1.0f, 1.0f, 1.0f);
+			e.Graphics().DrawBitmap(ex, ey, *_exit_icon, tint);
+		}
 
 		// Draw main window area.
 		e.Graphics().DrawFilledRectangle(0, TitlebarHeight() - DEF_OUTLINE_WIDTH, Width(), Height() - TitlebarHeight(), BackColor());
@@ -174,7 +173,17 @@ namespace Gui {
 
 	}
 
-	// Private
+	// Protected methods
+	const ResourceHandle<Drawing::Bitmap>& Window::GetExitIcon() {
+
+		if (!_exit_icon && Manager())
+			_exit_icon = Manager()->StyleManager()->GetImageResource(Gui::GuiBitmapResourceId::ExitButton);
+
+		return _exit_icon;
+
+	}
+
+	// Private methods
 
 	unsigned int Window::GetMouseResizeRegions() {
 

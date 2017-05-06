@@ -2,7 +2,7 @@
 #include "IUpdatable.h"
 #include "IDrawable.h"
 #include "Control.h"
-#include "GuiStyleManager.h"
+#include "gui/StyleManager.h"
 #include <list>
 #include <memory>
 

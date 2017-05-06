@@ -2,8 +2,8 @@
 #include <vector>
 #include "Bitmap.h"
 #include "Container.h"
-#include "GUIPanel.h"
-#include "Mouse.h"
+#include "Panel.h"
+#include "io/Mouse.h"
 #include "Graphics.h"
 #include "ITextable.h"
 
@@ -29,10 +29,13 @@ namespace Gui {
 		void OnPaint(PaintEventArgs& e) override;
 		void Update(UpdateEventArgs& e) override;
 
+	protected:
+		const ResourceHandle<Drawing::Bitmap>& GetExitIcon();
+
 	private:
 		int __titlebar_height;
 
-		Sprite* __exit_icon;
+		ResourceHandle<Drawing::Bitmap> _exit_icon;
 
 		Point __drag_offset;
 		bool __dragging, __resizing;

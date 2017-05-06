@@ -1,5 +1,5 @@
 #include "Sprite.h"
-#include "Directory.h"
+#include "io/Directory.h"
 #include "Exception.h"
 #include "Framework.h"
 #include <limits>

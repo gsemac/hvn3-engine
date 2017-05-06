@@ -91,6 +91,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -113,6 +114,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -146,7 +148,6 @@
     <ClCompile Include="BackgroundProperties.cc" />
     <ClCompile Include="Bitmap.cc" />
     <ClCompile Include="BitPacker.cc" />
-    <ClCompile Include="Clipboard.cc" />
     <ClCompile Include="CollisionFilter.cc" />
     <ClCompile Include="CollisionGrid.cc" />
     <ClCompile Include="CollisionManager.cc" />
@@ -154,10 +155,6 @@
     <ClCompile Include="Color.cc" />
     <ClCompile Include="Comparison.cc" />
     <ClCompile Include="Connection.cc" />
-    <ClCompile Include="Container.cc" />
-    <ClCompile Include="Control.cc" />
-    <ClCompile Include="ControlController.cc" />
-    <ClCompile Include="Directory.cc" />
     <ClCompile Include="Display.cc" />
     <ClCompile Include="DrawEventArgs.cc" />
     <ClCompile Include="Environment.cc" />
@@ -169,8 +166,23 @@
     <ClCompile Include="Font.cc" />
     <ClCompile Include="Framework.cc" />
     <ClCompile Include="GameManager.cc" />
-    <ClCompile Include="GUIExtension.cc" />
-    <ClCompile Include="GuiStyleManager.cc" />
+    <ClCompile Include="gui\Button.cc" />
+    <ClCompile Include="gui\Container.cc" />
+    <ClCompile Include="gui\Control.cc" />
+    <ClCompile Include="gui\ControlController.cc" />
+    <ClCompile Include="gui\GuiExtension.cc" />
+    <ClCompile Include="gui\GuiManager.cc" />
+    <ClCompile Include="gui\ITextable.cc" />
+    <ClCompile Include="gui\Panel.cc" />
+    <ClCompile Include="gui\Scrollbar.cc" />
+    <ClCompile Include="gui\StyleManager.cc" />
+    <ClCompile Include="gui\Window.cc" />
+    <ClCompile Include="io\Clipboard.cc" />
+    <ClCompile Include="io\Directory.cc" />
+    <ClCompile Include="io\File.cc" />
+    <ClCompile Include="io\Keyboard.cc" />
+    <ClCompile Include="io\Mouse.cc" />
+    <ClCompile Include="io\Path.cc" />
     <ClCompile Include="NarrowPhaseCollisionManager.cc" />
     <ClCompile Include="ObjectManager.cc" />
     <ClCompile Include="Properties.cc" />
@@ -179,30 +191,21 @@
     <ClCompile Include="GraphicsState.cc" />
     <ClCompile Include="Grid.cc" />
     <ClCompile Include="GridVisualizer.cc" />
-    <ClCompile Include="GUIButton.cc" />
-    <ClCompile Include="GUIManager.cc" />
-    <ClCompile Include="GUIScrollbar.cc" />
-    <ClCompile Include="GUIWindow.cc" />
     <ClCompile Include="Helper.cc" />
     <ClCompile Include="ICollidable.cc" />
     <ClCompile Include="IFocusable.cc" />
-    <ClCompile Include="IO_File.cc" />
     <ClCompile Include="IPAddress.cc" />
     <ClCompile Include="IPositionable.cc" />
     <ClCompile Include="ISizeable.cc" />
     <ClCompile Include="ISpriteable.cc" />
-    <ClCompile Include="ITextableControl.cc" />
     <ClCompile Include="IUpdatable.cc" />
-    <ClCompile Include="Keyboard.cc" />
     <ClCompile Include="Main.cc" />
-    <ClCompile Include="Mouse.cc" />
     <ClCompile Include="Movement.cc" />
     <ClCompile Include="NetStream.cc" />
     <ClCompile Include="NetworkConfig.cc" />
     <ClCompile Include="Object.cc" />
     <ClCompile Include="Packet.cc" />
     <ClCompile Include="Particles.cc" />
-    <ClCompile Include="Path.cc" />
     <ClCompile Include="Point.cc" />
     <ClCompile Include="Random.cc" />
     <ClCompile Include="Rectangle.cc" />
@@ -221,7 +224,7 @@
     <ClCompile Include="Sprite.cc" />
     <ClCompile Include="SpriteMask.cc" />
     <ClCompile Include="Stopwatch.cc" />
-    <ClCompile Include="String.cc" />
+    <ClCompile Include="StringHelper.cc" />
     <ClCompile Include="Tileset.cc" />
     <ClCompile Include="Timer.cc" />
     <ClCompile Include="Transform.cc" />
@@ -229,7 +232,7 @@
     <ClCompile Include="UdpListener.cc" />
     <ClCompile Include="UdpServer.cc" />
     <ClCompile Include="UpdateEventArgs.cc" />
-    <ClCompile Include="UTF8String.cc" />
+    <ClCompile Include="Utf8String.cc" />
     <ClCompile Include="Vector2d.cc" />
     <ClCompile Include="View.cc" />
     <ClCompile Include="ViewUpdateEventArgs.cc" />
@@ -244,7 +247,6 @@
     <ClInclude Include="BitFlags.h" />
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="BitPacker.h" />
-    <ClInclude Include="Clipboard.h" />
     <ClInclude Include="CollisionFilter.h" />
     <ClInclude Include="CollisionGrid.h" />
     <ClInclude Include="CollisionManager.h" />
@@ -252,11 +254,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Comparison.h" />
     <ClInclude Include="Connection.h" />
-    <ClInclude Include="Container.h" />
-    <ClInclude Include="Control.h" />
-    <ClInclude Include="ControlController.h" />
     <ClInclude Include="DataGrid.h" />
-    <ClInclude Include="Directory.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="DrawEventArgs.h" />
     <ClInclude Include="Encryption.h" />
@@ -264,8 +262,20 @@
     <ClInclude Include="ExampleGame3.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GraphicsState.h" />
-    <ClInclude Include="GUIExtension.h" />
-    <ClInclude Include="GuiStyleManager.h" />
+    <ClInclude Include="gui\Button.h" />
+    <ClInclude Include="gui\Container.h" />
+    <ClInclude Include="gui\Control.h" />
+    <ClInclude Include="gui\ControlController.h" />
+    <ClInclude Include="gui\Gui.h" />
+    <ClInclude Include="gui\GuiExtension.h" />
+    <ClInclude Include="gui\GuiManager.h" />
+    <ClInclude Include="gui\IContainer.h" />
+    <ClInclude Include="gui\ITextable.h" />
+    <ClInclude Include="gui\Panel.h" />
+    <ClInclude Include="gui\Scrollbar.h" />
+    <ClInclude Include="gui\StyleManager.h" />
+    <ClInclude Include="gui\Textbox.h" />
+    <ClInclude Include="gui\Window.h" />
     <ClInclude Include="HVN3.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventQueue.h" />
@@ -278,6 +288,13 @@
     <ClInclude Include="IBackgroundManager.h" />
     <ClInclude Include="ICollisionManager.h" />
     <ClInclude Include="IExtension.h" />
+    <ClInclude Include="io\Clipboard.h" />
+    <ClInclude Include="io\Directory.h" />
+    <ClInclude Include="io\File.h" />
+    <ClInclude Include="io\IO.h" />
+    <ClInclude Include="io\Keyboard.h" />
+    <ClInclude Include="io\Mouse.h" />
+    <ClInclude Include="io\Path.h" />
     <ClInclude Include="IRoom.h" />
     <ClInclude Include="IRoomManager.h" />
     <ClInclude Include="IViewManager.h" />
@@ -289,13 +306,6 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GridVisualizer.h" />
-    <ClInclude Include="GUI.h" />
-    <ClInclude Include="GUIButton.h" />
-    <ClInclude Include="GUIManager.h" />
-    <ClInclude Include="GUIPanel.h" />
-    <ClInclude Include="GUIScrollbar.h" />
-    <ClInclude Include="GuiTextbox.h" />
-    <ClInclude Include="GUIWindow.h" />
     <ClInclude Include="Hash.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="IBroadPhaseCollisionManager.h" />
@@ -304,27 +314,21 @@
     <ClInclude Include="IDisposable.h" />
     <ClInclude Include="IDrawable.h" />
     <ClInclude Include="IFocusable.h" />
-    <ClInclude Include="IO.h" />
-    <ClInclude Include="IO_File.h" />
     <ClInclude Include="IPAddress.h" />
     <ClInclude Include="IPositionable.h" />
     <ClInclude Include="IScrollable.h" />
     <ClInclude Include="ISizeable.h" />
     <ClInclude Include="ISpriteable.h" />
     <ClInclude Include="IStringable.h" />
-    <ClInclude Include="ITextable.h" />
     <ClInclude Include="ITransformable.h" />
     <ClInclude Include="IUpdatable.h" />
-    <ClInclude Include="Keyboard.h" />
     <ClInclude Include="MD5.h" />
-    <ClInclude Include="Mouse.h" />
     <ClInclude Include="Movement.h" />
     <ClInclude Include="NetStream.h" />
     <ClInclude Include="NetworkConfig.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="Particles.h" />
-    <ClInclude Include="Path.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Random.h" />
@@ -347,7 +351,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteMask.h" />
     <ClInclude Include="Stopwatch.h" />
-    <ClInclude Include="String.h" />
+    <ClInclude Include="StringHelper.h" />
     <ClInclude Include="Tileset.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
@@ -355,7 +359,7 @@
     <ClInclude Include="UdpListener.h" />
     <ClInclude Include="UdpServer.h" />
     <ClInclude Include="UpdateEventArgs.h" />
-    <ClInclude Include="UTF8String.h" />
+    <ClInclude Include="Utf8String.h" />
     <ClInclude Include="Vector2d.h" />
     <ClInclude Include="View.h" />
     <ClInclude Include="ViewManager.h" />

@@ -142,6 +142,7 @@ public:
 		for (int i = 0; i < 100; ++i)
 			ObjectManager()->InstanceAdd(Object::Create<oBall>(200, 200));
 
+		GuiManager()->AddControl(Control::Create<Window>(0, 0, 300, 400, "Window 1"));
 		GuiManager()->AddControl(Control::Create<Button>(100, 100, 150, 25, "Hello World"));
 
 	}

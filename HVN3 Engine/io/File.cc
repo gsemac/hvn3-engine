@@ -1,4 +1,4 @@
-#include "IO_File.h"
+#include "io/File.h"
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_physfs.h>
 #include <physfs.h>

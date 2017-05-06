@@ -1,4 +1,4 @@
-#include "GuiStyleManager.h"
+#include "StyleManager.h"
 #include "Font.h"
 
 namespace Gui {
@@ -25,22 +25,32 @@ namespace Gui {
 	}
 	ResourceHandle<Font> GuiStyleManager::GetFontResource(GuiFontResourceId id) {
 
-		// Get a resource handle for the requested font.
-		ResourceHandle<Font> font = _fonts.Find((ResourceId)id);
+		// Get a resource handle for the requested resource.
+		ResourceHandle<Font> resource = _fonts.Find((ResourceId)id);
 		
 		// If the resource is null, load the default resource, and get a handle for it.
-		if (!font) {
+		if (!resource) {
 			LoadDefaultFontResource(id);
-			font = _fonts[(ResourceId)id];
+			resource = _fonts[(ResourceId)id];
 		}
 
 		// Return the resource.
-		return font;
+		return resource;
 
 	}
 	ResourceHandle<Drawing::Bitmap> GuiStyleManager::GetImageResource(GuiBitmapResourceId id) {
 
-		return _bitmaps[(ResourceId)id];
+		// Get a resource handle for the requested resource.
+		ResourceHandle<Drawing::Bitmap> resource = _bitmaps.Find((ResourceId)id);
+
+		// If the resource is null, load the default resource, and get a handle for it.
+		if (!resource) {
+			LoadDefaultBitmapResource(id);
+			resource = _bitmaps[(ResourceId)id];
+		}
+
+		// Return the resource.
+		return resource;
 
 	}
 

@@ -1,7 +1,7 @@
 #ifndef __SCROLLABLE_H
 #define __SCROLLABLE_H
 #include "IFocusable.h"
-#include "GUIScrollbar.h"
+#include "gui/Scrollbar.h"
 
 class IScrollable : public IFocusable {
 	friend class Gui::Scrollbar;

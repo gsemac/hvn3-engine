@@ -94,12 +94,6 @@
     <Filter Include="Source Files\System\Allegro">
       <UniqueIdentifier>{87aec444-bd1b-41c5-a29c-c616df7131d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Resources\GUI\Interfaces">
-      <UniqueIdentifier>{2b29dad2-80cc-4b8d-942f-8aad4d7d1e7b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Resources\GUI\Interfaces">
-      <UniqueIdentifier>{def8050c-4322-41d8-a658-5063d00f14f4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\data">
       <UniqueIdentifier>{51fc50fe-f797-44a1-8653-faa83ad1344c}</UniqueIdentifier>
     </Filter>
@@ -180,9 +174,6 @@
     <ClCompile Include="Stopwatch.cc">
       <Filter>Source Files\Helper</Filter>
     </ClCompile>
-    <ClCompile Include="String.cc">
-      <Filter>Source Files\Helper</Filter>
-    </ClCompile>
     <ClCompile Include="BitPacker.cc">
       <Filter>Source Files\Networking</Filter>
     </ClCompile>
@@ -212,18 +203,6 @@
     </ClCompile>
     <ClCompile Include="UdpServer.cc">
       <Filter>Source Files\Networking</Filter>
-    </ClCompile>
-    <ClCompile Include="Clipboard.cc">
-      <Filter>Source Files\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="IO_File.cc">
-      <Filter>Source Files\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse.cc">
-      <Filter>Source Files\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Keyboard.cc">
-      <Filter>Source Files\IO</Filter>
     </ClCompile>
     <ClCompile Include="ICollidable.cc">
       <Filter>Source Files\Interfaces</Filter>
@@ -260,21 +239,6 @@
     </ClCompile>
     <ClCompile Include="Vector2d.cc">
       <Filter>Source Files\Structures</Filter>
-    </ClCompile>
-    <ClCompile Include="Control.cc">
-      <Filter>Source Files\Resources\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Container.cc">
-      <Filter>Source Files\Resources\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIManager.cc">
-      <Filter>Source Files\Resources\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIScrollbar.cc">
-      <Filter>Source Files\Resources\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIWindow.cc">
-      <Filter>Source Files\Resources\GUI</Filter>
     </ClCompile>
     <ClCompile Include="Background.cc">
       <Filter>Source Files\Resources</Filter>
@@ -327,17 +291,8 @@
     <ClCompile Include="Timer.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
-    <ClCompile Include="UTF8String.cc">
-      <Filter>Source Files\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Directory.cc">
-      <Filter>Source Files\IO</Filter>
-    </ClCompile>
     <ClCompile Include="Environment.cc">
       <Filter>Source Files\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Path.cc">
-      <Filter>Source Files\IO</Filter>
     </ClCompile>
     <ClCompile Include="Event.cc">
       <Filter>Source Files\System\Events</Filter>
@@ -365,12 +320,6 @@
     </ClCompile>
     <ClCompile Include="Scale.cc">
       <Filter>Source Files\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="ITextableControl.cc">
-      <Filter>Source Files\Resources\GUI\Interfaces</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIButton.cc">
-      <Filter>Source Files\Resources\GUI</Filter>
     </ClCompile>
     <ClCompile Include="Tileset.cc">
       <Filter>Source Files\Resources</Filter>
@@ -429,14 +378,62 @@
     <ClCompile Include="Room.cc">
       <Filter>Source Files\Resources\Room</Filter>
     </ClCompile>
-    <ClCompile Include="GUIExtension.cc">
-      <Filter>Source Files\System\Extensions</Filter>
-    </ClCompile>
-    <ClCompile Include="GuiStyleManager.cc">
+    <ClCompile Include="gui\Button.cc">
       <Filter>Source Files\Resources\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="ControlController.cc">
+    <ClCompile Include="gui\Container.cc">
       <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\Control.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ControlController.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\GuiExtension.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\GuiManager.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ITextable.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\Panel.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\Scrollbar.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\StyleManager.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\Window.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Utf8String.cc">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="StringHelper.cc">
+      <Filter>Source Files\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="io\Clipboard.cc">
+      <Filter>Source Files\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="io\Directory.cc">
+      <Filter>Source Files\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="io\File.cc">
+      <Filter>Source Files\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="io\Keyboard.cc">
+      <Filter>Source Files\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="io\Mouse.cc">
+      <Filter>Source Files\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="io\Path.cc">
+      <Filter>Source Files\IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -455,9 +452,6 @@
     <ClInclude Include="BitPacker.h">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="Clipboard.h">
-      <Filter>Header Files\IO</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionGrid.h">
       <Filter>Header Files\System\Collision</Filter>
     </ClInclude>
@@ -475,12 +469,6 @@
     </ClInclude>
     <ClInclude Include="Connection.h">
       <Filter>Header Files\Networking</Filter>
-    </ClInclude>
-    <ClInclude Include="Container.h">
-      <Filter>Header Files\Resources\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Control.h">
-      <Filter>Header Files\Resources\GUI</Filter>
     </ClInclude>
     <ClInclude Include="DataGrid.h">
       <Filter>Header Files\Structures</Filter>
@@ -512,38 +500,11 @@
     <ClInclude Include="GridVisualizer.h">
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
-    <ClInclude Include="GUI.h">
-      <Filter>Header Files\Resources\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIButton.h">
-      <Filter>Header Files\Resources\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIManager.h">
-      <Filter>Header Files\Resources\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIPanel.h">
-      <Filter>Header Files\Resources\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIScrollbar.h">
-      <Filter>Header Files\Resources\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GuiTextbox.h">
-      <Filter>Header Files\Resources\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIWindow.h">
-      <Filter>Header Files\Resources\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="Hash.h">
       <Filter>Header Files\Helper\Encryption</Filter>
     </ClInclude>
     <ClInclude Include="Helper.h">
       <Filter>Header Files\Helper</Filter>
-    </ClInclude>
-    <ClInclude Include="IO_File.h">
-      <Filter>Header Files\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="IO.h">
-      <Filter>Header Files\IO</Filter>
     </ClInclude>
     <ClInclude Include="ICloneable.h">
       <Filter>Header Files\Interfaces</Filter>
@@ -586,12 +547,6 @@
     </ClInclude>
     <ClInclude Include="MD5.h">
       <Filter>Header Files\Helper\Encryption</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
-      <Filter>Header Files\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>Header Files\IO</Filter>
     </ClInclude>
     <ClInclude Include="Movement.h">
       <Filter>Header Files\Helper</Filter>
@@ -656,17 +611,11 @@
     <ClInclude Include="Vector2d.h">
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
-    <ClInclude Include="UTF8String.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Header Files\Drawing</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="String.h">
-      <Filter>Header Files\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Runner.h">
       <Filter>Header Files\System</Filter>
@@ -688,12 +637,6 @@
     </ClInclude>
     <ClInclude Include="ExampleGame3.h">
       <Filter>Header Files\System\Example</Filter>
-    </ClInclude>
-    <ClInclude Include="Path.h">
-      <Filter>Header Files\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Directory.h">
-      <Filter>Header Files\IO</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
       <Filter>Header Files\System\Events</Filter>
@@ -800,17 +743,74 @@
     <ClInclude Include="IExtension.h">
       <Filter>Header Files\System\Extensions</Filter>
     </ClInclude>
-    <ClInclude Include="GUIExtension.h">
-      <Filter>Header Files\System\Extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="GuiStyleManager.h">
+    <ClInclude Include="gui\Panel.h">
       <Filter>Header Files\Resources\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="ControlController.h">
+    <ClInclude Include="gui\Scrollbar.h">
       <Filter>Header Files\Resources\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="ITextable.h">
-      <Filter>Header Files\Resources\GUI\Interfaces</Filter>
+    <ClInclude Include="gui\StyleManager.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\Textbox.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\Window.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\Button.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\Container.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\Control.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ControlController.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\Gui.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GuiExtension.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GuiManager.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\IContainer.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ITextable.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Utf8String.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="StringHelper.h">
+      <Filter>Header Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="io\Clipboard.h">
+      <Filter>Header Files\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="io\Directory.h">
+      <Filter>Header Files\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="io\File.h">
+      <Filter>Header Files\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="io\IO.h">
+      <Filter>Header Files\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="io\Keyboard.h">
+      <Filter>Header Files\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="io\Mouse.h">
+      <Filter>Header Files\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="io\Path.h">
+      <Filter>Header Files\IO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

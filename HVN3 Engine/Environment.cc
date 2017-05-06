@@ -1,5 +1,5 @@
 #include "Environment.h"
-#include "Path.h"
+#include "io/Path.h"
 #include "Exception.h"
 #include <allegro5\allegro.h>
 #ifdef _WIN64

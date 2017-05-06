@@ -1,7 +1,7 @@
 #include "Directory.h"
 #include "Path.h"
 #include "Environment.h"
-#include "String.h"
+#include "StringHelper.h"
 #include "Exception.h"
 #include <allegro5/allegro.h>
 

@@ -1,7 +1,7 @@
-#include "GUIManager.h"
+#include "GuiManager.h"
 #include "ControlController.h"
-#include "Mouse.h"
-#include "Keyboard.h"
+#include "io/Mouse.h"
+#include "io/Keyboard.h"
 #include <utility>
 
 namespace Gui {
@@ -18,11 +18,7 @@ namespace Gui {
 		_gui_scale = 1.0f;
 
 	}
-	GuiManager::~GuiManager() {
-
-		std::cout << "gui manager destructed\n";
-
-	}
+	GuiManager::~GuiManager() {}
 
 	void GuiManager::AddControl(control_type& control) {
 
@@ -278,7 +274,7 @@ namespace Gui {
 	std::list<GuiManager::control_type>::iterator GuiManager::FindControlByAddress(Control* ptr) {
 
 		return std::find_if(_controls.begin(), _controls.end(), [&](control_type& p) { return p.get() == ptr; });
-
+		
 	}
 
 	// Private members

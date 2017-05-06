@@ -1,13 +1,13 @@
-#ifndef __GUIPANEL_H
-#define __GUIPANEL_H
+#pragma once
 #include "GUIManager.h"
+#include "IContainer.h"
 #include "Control.h"
 #include "Graphics.h"
 #include "Exception.h"
 
 namespace Gui {
 
-	class Panel : public Control {
+	class Panel : public Control, public IContainer {
 
 	private:
 		Size __prev_size;
@@ -25,8 +25,8 @@ namespace Gui {
 
 			throw NotImplementedException();
 
-		/*	control->SetParent(this);
-			__manager.AddControl(control);*/
+			/*	control->SetParent(this);
+				__manager.AddControl(control);*/
 
 		}
 		std::list<Control*>& Controls() {
@@ -122,5 +122,3 @@ namespace Gui {
 	};
 
 }
-
-#endif
