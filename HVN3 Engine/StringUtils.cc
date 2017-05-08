@@ -1,10 +1,10 @@
 #include <sstream>
 #include <cctype>
 #include <algorithm>
-#include "StringHelper.h"
+#include "StringUtils.h"
 #include "UTF8String.h"
 
-std::vector<std::string> StringHelper::Split(const std::string& str, char delimiter) {
+std::vector<std::string> StringUtils::Split(const std::string& str, char delimiter) {
 
 	// Initialize variables.
 	std::stringstream ss(str);
@@ -19,30 +19,23 @@ std::vector<std::string> StringHelper::Split(const std::string& str, char delimi
 	return items;
 
 }
-std::string StringHelper::Trim(const std::string &s) {
-
-	auto wsfront = std::find_if_not(s.begin(), s.end(), [](int c) {return std::isspace(c); });
-	auto wsback = std::find_if_not(s.rbegin(), s.rend(), [](int c) {return std::isspace(c); }).base();
-	return (wsback <= wsfront ? std::string() : std::string(wsfront, wsback));
-
-}
-bool StringHelper::IsNullOrEmpty(const String& str) {
+bool StringUtils::IsNullOrEmpty(const String& str) {
 
 	return String::IsNullOrEmpty(str);
 
 }
-bool StringHelper::IsWordBoundary(int ch) {
+bool StringUtils::IsWordBoundary(int ch) {
 
 	return (ispunct(ch) || isspace(ch)) && !(ch == '\'');
 
 }
-bool StringHelper::IsNumeric(int ch) {
+bool StringUtils::IsNumeric(int ch) {
 
 	return isdigit(ch);
 
 }
 
-std::string Trim(const std::string& input_string) {
+std::string StringUtils::Trim(const std::string& input_string) {
 
 	auto front = std::find_if_not(input_string.begin(), input_string.end(), std::isspace);
 	auto back = std::find_if_not(input_string.rbegin(), input_string.rend(), std::isspace).base();
@@ -52,19 +45,19 @@ std::string Trim(const std::string& input_string) {
 	return std::string(front, back);
 
 }
-std::string LTrim(const std::string& input_string) {
+std::string StringUtils::LTrim(const std::string& input_string) {
 
 	auto front = std::find_if_not(input_string.begin(), input_string.end(), std::isspace);
 	return std::string(front, input_string.end());
 
 }
-std::string RTrim(const std::string& input_string) {
+std::string StringUtils::RTrim(const std::string& input_string) {
 
 	auto back = std::find_if_not(input_string.rbegin(), input_string.rend(), std::isspace).base();
 	return std::string(input_string.begin(), back);
 
 }
-std::string Trim(const std::string& input_string, const std::initializer_list<char>& chars) {
+std::string StringUtils::Trim(const std::string& input_string, const std::initializer_list<char>& chars) {
 
 	size_t start = input_string.find_first_not_of(chars);
 	size_t end = input_string.find_last_not_of(chars) + 1;
@@ -75,14 +68,14 @@ std::string Trim(const std::string& input_string, const std::initializer_list<ch
 	return input_string.substr(start, end - start);
 
 }
-std::string LTrim(const std::string& input_string, const std::initializer_list<char>& chars) {
+std::string StringUtils::LTrim(const std::string& input_string, const std::initializer_list<char>& chars) {
 
 	size_t pos = input_string.find_first_not_of(chars);
 	if (std::string::npos != pos)
 		return input_string.substr(pos);
 
 }
-std::string RTrim(const std::string& input_string, const std::initializer_list<char>& chars) {
+std::string StringUtils::RTrim(const std::string& input_string, const std::initializer_list<char>& chars) {
 
 	size_t pos = input_string.find_last_not_of(chars);
 	if (std::string::npos != pos)

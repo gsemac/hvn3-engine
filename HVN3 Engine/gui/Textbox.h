@@ -3,8 +3,8 @@
 #include "gui/Control.h"
 #include "io/Clipboard.h"
 #include "Range.h"
-#include "StringHelper.h"
-#include "Helper.h"
+#include "StringUtils.h"
+#include "Utility.h"
 #define DEF_BORDER_RADIUS 3.0f
 
 /*
@@ -32,7 +32,7 @@ namespace Gui {
 			__mouse_selecting = false;
 			__full_word_selecting = false;
 
-			__character_casing = CharacterCasing::Default;
+			__character_casing = StringUtils::CharacterCasing::Default;
 			__accepts_tab = false;
 			__numeric_only = false;
 			__use_password_char = false;
@@ -205,18 +205,18 @@ namespace Gui {
 			__numeric_only = value;
 
 		}
-		CharacterCasing CharacterCasing() {
+		StringUtils::CharacterCasing CharacterCasing() {
 
 			return __character_casing;
 
 		}
-		void  SetCharacterCasing(::CharacterCasing value) {
+		void  SetCharacterCasing(StringUtils::CharacterCasing value) {
 
 			// Convert the text into the new casing (if applicable).
 			switch (value) {
-			case ::CharacterCasing::Lower:
+			case StringUtils::CharacterCasing::Lower:
 				SetText(Text().ToLower()); break;
-			case ::CharacterCasing::Upper:
+			case StringUtils::CharacterCasing::Upper:
 				SetText(Text().ToUpper()); break;
 			}
 
@@ -342,16 +342,16 @@ namespace Gui {
 				int32_t c = Keyboard::LastChar();
 
 				// Check for character restrictions.
-				if ((c == 0x09 && !__accepts_tab) || (__numeric_only && !StringHelper::IsNumeric(c)))
+				if ((c == 0x09 && !__accepts_tab) || (__numeric_only && !StringUtils::IsNumeric(c)))
 					Keyboard::ClearLastChar();
 
 				else {
 
 					// Convert the character to the appropriate case.
 					switch (__character_casing) {
-					case ::CharacterCasing::Lower:
+					case StringUtils::CharacterCasing::Lower:
 						c = towlower(c); break;
-					case ::CharacterCasing::Upper:
+					case StringUtils::CharacterCasing::Upper:
 						c = towupper(c); break;
 					}
 
@@ -478,9 +478,9 @@ namespace Gui {
 
 				// Convert the string to the appropriate case.
 				switch (__character_casing) {
-				case ::CharacterCasing::Lower:
+				case StringUtils::CharacterCasing::Lower:
 					text.ToLower(); break;
-				case ::CharacterCasing::Upper:
+				case StringUtils::CharacterCasing::Upper:
 					text.ToUpper(); break;
 				}
 
@@ -764,7 +764,7 @@ namespace Gui {
 		bool __numeric_only;
 		bool __use_password_char;
 		int __password_char;
-		::CharacterCasing __character_casing;
+		StringUtils::CharacterCasing __character_casing;
 
 		void RemoveSelectedText() {
 			if (SelectionLength() <= 0) return;
@@ -777,11 +777,11 @@ namespace Gui {
 		void SelectWordAtCaret() {
 
 			// Find the left-most word boundary.
-			int left = Text().LastIndexOfAny(StringHelper::IsWordBoundary, __caret.Position()) + 1;
+			int left = Text().LastIndexOfAny(StringUtils::IsWordBoundary, __caret.Position()) + 1;
 			if (left < 0) left = 0;
 
 			// Find the right-most word boundary.
-			int right = Text().IndexOfAny(StringHelper::IsWordBoundary, __caret.Position());
+			int right = Text().IndexOfAny(StringUtils::IsWordBoundary, __caret.Position());
 			if (right < 0) right = (int)Text().Length();
 
 			// Select the word.
@@ -829,13 +829,13 @@ namespace Gui {
 		int NextWordPosition() {
 
 			// Find the index of the next word boundary character.
-			int wb_pos = Text().IndexOfAny(StringHelper::IsWordBoundary, __caret.Position());
+			int wb_pos = Text().IndexOfAny(StringUtils::IsWordBoundary, __caret.Position());
 
 			// If no boundary was found, go to the end of the string.
 			if (wb_pos == -1) return (int)Text().Length();
 
 			// Move forward until we're no longer sitting on a word boundary.
-			while (wb_pos < Text().Length() && StringHelper::IsWordBoundary(Text().CharAt(wb_pos)))
+			while (wb_pos < Text().Length() && StringUtils::IsWordBoundary(Text().CharAt(wb_pos)))
 				++wb_pos;
 
 			// Return the result.
@@ -845,14 +845,14 @@ namespace Gui {
 		int PrevWordPosition() {
 
 			// Find the index of the previous word boundary character.
-			int wb_pos = Text().LastIndexOfAny(StringHelper::IsWordBoundary, __caret.Position());
+			int wb_pos = Text().LastIndexOfAny(StringUtils::IsWordBoundary, __caret.Position());
 
 			// Move backward until we're no longer sitting on a word boundary.
-			while (StringHelper::IsWordBoundary(Text().CharAt(wb_pos - 1)))
+			while (StringUtils::IsWordBoundary(Text().CharAt(wb_pos - 1)))
 				--wb_pos;
 
 			// Get the index of the next word boundary (the start of the current word).
-			wb_pos = Text().LastIndexOfAny(StringHelper::IsWordBoundary, wb_pos) + 1;
+			wb_pos = Text().LastIndexOfAny(StringUtils::IsWordBoundary, wb_pos) + 1;
 
 			// Return the result.
 			return wb_pos;

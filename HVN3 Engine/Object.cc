@@ -4,7 +4,7 @@
 #include <algorithm>
 #include "Object.h"
 #include "Sprite.h"
-#include "Helper.h"
+#include "Utility.h"
 #include "Graphics.h"
 #include "DrawEventArgs.h"
 #include "UpdateEventArgs.h"

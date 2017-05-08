@@ -1,6 +1,6 @@
 #pragma once
 #include <allegro5/allegro.h>
-#include "Helper.h"
+#include "Utility.h"
 
 class Color {
 

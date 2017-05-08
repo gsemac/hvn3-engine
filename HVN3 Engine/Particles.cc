@@ -4,7 +4,7 @@
 #include "Particles.h"
 #include "Random.h"
 #include "Sprite.h"
-#include "Helper.h"
+#include "Utility.h"
 
 ParticleType::ParticleType() {
 

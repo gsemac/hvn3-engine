@@ -194,7 +194,7 @@
     <ClCompile Include="GraphicsState.cc" />
     <ClCompile Include="Grid.cc" />
     <ClCompile Include="GridVisualizer.cc" />
-    <ClCompile Include="Helper.cc" />
+    <ClCompile Include="Utility.cc" />
     <ClCompile Include="ICollidable.cc" />
     <ClCompile Include="IFocusable.cc" />
     <ClCompile Include="IPAddress.cc" />
@@ -227,7 +227,7 @@
     <ClCompile Include="Sprite.cc" />
     <ClCompile Include="SpriteMask.cc" />
     <ClCompile Include="Stopwatch.cc" />
-    <ClCompile Include="StringHelper.cc" />
+    <ClCompile Include="StringUtils.cc" />
     <ClCompile Include="Tileset.cc" />
     <ClCompile Include="Timer.cc" />
     <ClCompile Include="Transform.cc" />
@@ -314,7 +314,7 @@
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GridVisualizer.h" />
     <ClInclude Include="Hash.h" />
-    <ClInclude Include="Helper.h" />
+    <ClInclude Include="Utility.h" />
     <ClInclude Include="IBroadPhaseCollisionManager.h" />
     <ClInclude Include="ICloneable.h" />
     <ClInclude Include="ICollidable.h" />
@@ -358,7 +358,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteMask.h" />
     <ClInclude Include="Stopwatch.h" />
-    <ClInclude Include="StringHelper.h" />
+    <ClInclude Include="StringUtils.h" />
     <ClInclude Include="Tileset.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />

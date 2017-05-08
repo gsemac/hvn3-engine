@@ -1,4 +1,4 @@
-#include "Helper.h"
+#include "Utility.h"
 #include "UTF8String.h"
 #include "Font.h"
 #include "String.h"

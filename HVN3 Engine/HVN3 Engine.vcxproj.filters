@@ -162,9 +162,6 @@
     <ClCompile Include="Comparison.cc">
       <Filter>Source Files\Helper</Filter>
     </ClCompile>
-    <ClCompile Include="Helper.cc">
-      <Filter>Source Files\Helper</Filter>
-    </ClCompile>
     <ClCompile Include="Movement.cc">
       <Filter>Source Files\Helper</Filter>
     </ClCompile>
@@ -414,9 +411,6 @@
     <ClCompile Include="Utf8String.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
-    <ClCompile Include="StringHelper.cc">
-      <Filter>Source Files\Helper</Filter>
-    </ClCompile>
     <ClCompile Include="io\Clipboard.cc">
       <Filter>Source Files\IO</Filter>
     </ClCompile>
@@ -443,6 +437,12 @@
     </ClCompile>
     <ClCompile Include="gui\ControlCollection.cc">
       <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility.cc">
+      <Filter>Source Files\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="StringUtils.cc">
+      <Filter>Source Files\Helper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -511,9 +511,6 @@
     </ClInclude>
     <ClInclude Include="Hash.h">
       <Filter>Header Files\Helper\Encryption</Filter>
-    </ClInclude>
-    <ClInclude Include="Helper.h">
-      <Filter>Header Files\Helper</Filter>
     </ClInclude>
     <ClInclude Include="ICloneable.h">
       <Filter>Header Files\Interfaces</Filter>
@@ -797,9 +794,6 @@
     <ClInclude Include="Utf8String.h">
       <Filter>Header Files\System</Filter>
     </ClInclude>
-    <ClInclude Include="StringHelper.h">
-      <Filter>Header Files\Helper</Filter>
-    </ClInclude>
     <ClInclude Include="io\Clipboard.h">
       <Filter>Header Files\IO</Filter>
     </ClInclude>
@@ -831,6 +825,12 @@
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="gui\Handle.h">
+      <Filter>Header Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility.h">
+      <Filter>Header Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="StringUtils.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
   </ItemGroup>

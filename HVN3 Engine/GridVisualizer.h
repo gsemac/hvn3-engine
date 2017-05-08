@@ -4,7 +4,7 @@
 #include "IDrawable.h"
 #include "Grid.h"
 #include "Rectangle.h"
-#include "Helper.h"
+#include "Utility.h"
 
 class Grid;
 

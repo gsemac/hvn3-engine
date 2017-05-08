@@ -2,7 +2,7 @@
 #include <algorithm>
 #include "Geometry.h"
 #include "Sprite.h"
-#include "Helper.h"
+#include "Utility.h"
 
 // Class Functions
 

@@ -6,7 +6,7 @@
 #include <iostream>
 #include <initializer_list>
 #include <string>
-#include "Helper.h"
+#include "Utility.h"
 #include "Font.h"
 
 class String {

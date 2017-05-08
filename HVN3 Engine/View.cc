@@ -1,7 +1,7 @@
 #include <algorithm>
 #include "View.h"
 #include "Object.h"
-#include "Helper.h"
+#include "Utility.h"
 #include "io/Mouse.h"
 #include "RoomBase.h"
 

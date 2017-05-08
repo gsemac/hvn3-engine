@@ -1,5 +1,4 @@
-#ifndef __HELPER_H
-#define __HELPER_H
+#pragma once
 #include <memory>
 #include <vector>
 #include <initializer_list>
@@ -55,9 +54,6 @@ float DegreesToRadians(float degrees);
 // Converts from radians to degrees.
 float RadiansToDegrees(float radians);
 
-// Returns a collection of Utf8String, split into lines such that each line fits the specified width.
-std::vector<std::shared_ptr<String>> Break(const std::shared_ptr<String>&, const Font&, float);
-
 // Returns true if the item is contained in the collection.
 template <typename T>
 bool Contains(const std::vector<T>& items, const T& item) {
@@ -94,5 +90,3 @@ enum class SizeMode {
 	Stretch,
 	Zoom
 };
-
-#endif

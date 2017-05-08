@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Vector2d.h"
 #include "Geometry.h"
-#include "Helper.h"
+#include "Utility.h"
 
 Direction::Direction() {
 
