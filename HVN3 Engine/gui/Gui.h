@@ -1,9 +1,7 @@
-#ifndef __GUI_H
-#define __GUI_H
-#include "GUIManager.h"
-#include "GUIScrollbar.h"
-#include "GUIButton.h"
-#include "GUIWindow.h"
-#include "GuiTextbox.h"
-
-#endif
+#pragma once
+#include "gui/GuiManager.h"
+#include "gui/StyleManager.h"
+#include "gui/ControlManager.h"
+#include "gui/Button.h"
+#include "gui/Window.h"
+#include "gui/Textbox.h"

@@ -1,23 +1,24 @@
 #pragma once
 #include <vector>
 #include "Bitmap.h"
-#include "Container.h"
-#include "Panel.h"
+#include "gui/Panel.h"
+#include "gui/ITextable.h"
 #include "io/Mouse.h"
 #include "Graphics.h"
-#include "ITextable.h"
 
 namespace Gui {
 
-	class Window : public Control, public ITextable {
+	class ControlManager;
+
+	class Window : public Control, public ITextable, public IContainer {
 
 	public:
 		Window(float x, float y, float width, float height, const char* text);
 		~Window();
 
-		void AddControl(Control* control);
-		void RemoveControl(Control* control);
-		std::list<Control*>& Controls();
+		//void AddControl(std::unique_ptr<Control>& control);
+		//void RemoveControl(Control* control);
+		//Gui::ControlManager* Controls();
 		void SetTitlebarHeight(float value);
 		float TitlebarHeight() const;
 
@@ -25,12 +26,15 @@ namespace Gui {
 		void OnMouseUp() override;
 		void OnMouseMove() override;
 		void OnMouseLeave() override;
+		void OnClick() override;
 		void OnResize() override;
 		void OnPaint(PaintEventArgs& e) override;
 		void Update(UpdateEventArgs& e) override;
 
 	protected:
 		const ResourceHandle<Drawing::Bitmap>& GetExitIcon();
+		Point ExitButtonPosition() const;
+		bool MouseOnExitButton() const;
 
 	private:
 		int __titlebar_height;
@@ -43,7 +47,9 @@ namespace Gui {
 		Point __original_position;
 		Size __original_size;
 		Size __size_diff;
-		Panel __panel;
+		bool _mouse_on_exit_button;
+		bool _fade_out;
+		//Gui::Panel _panel;
 
 		// Returns the resize regions that the mouse is currently in. Returns 0 if the mouse is not in a resize region.
 		unsigned int GetMouseResizeRegions();

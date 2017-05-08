@@ -1,7 +1,7 @@
 #pragma once
-#include "Font.h"
 #include "ResourceCollection.h"
 #include "UTF8String.h"
+#include "gui/StyleManager.h"
 
 namespace Gui {
 
@@ -15,13 +15,16 @@ namespace Gui {
 		virtual const String& Text() const;
 		virtual void SetText(const String& text);
 
-		virtual const ResourceHandle<::Font>& Font();
-		virtual void SetFont(ResourceHandle<::Font>& font);
+		virtual const ResourceHandle<::Font> Font();
+		virtual void SetFont(Gui::FontResourceId font);
+
+	protected:
+		String& RefText();
 
 	private:
 		Control* _control;
 		String _text;
-		ResourceHandle<::Font> _font;
+		Gui::FontResourceId _font;
 
 	};
 

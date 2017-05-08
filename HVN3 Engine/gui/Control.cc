@@ -1,7 +1,9 @@
 #include <limits>
 #include "Control.h"
 #include "io/Mouse.h"
-#include "GUIManager.h"
+#include "gui/GuiManager.h"
+#include "gui/ControlManager.h"
+#include "gui/StyleManager.h"
 
 // Private members
 
@@ -36,14 +38,14 @@ Gui::Control::Control(const Point& location, const Size& size) :
 	__minimum_size(0.0f, 0.0f),
 	__maximum_size(FLT_MAX, FLT_MAX),
 	__previous_pos(location.X(), location.Y()),
-	__surface(size.Width(), size.Height())
+	_surface(size.Width(), size.Height())
 {
 
-	__parent = nullptr;
+	_parent = nullptr;
 	__manager = nullptr;
 
 	__disposed = false;
-	__invalidated = true;
+	_invalidated = true;
 	__visible = true;
 	__enabled = true;
 	__backcolor = Color::FromArgb(35, 35, 35);
@@ -63,79 +65,31 @@ Gui::Control::Control(const Point& location, const Size& size) :
 void Gui::Control::Update(UpdateEventArgs& e) {}
 void Gui::Control::Draw(DrawEventArgs& e) {
 
-	if (__invalidated) {
+	if (Invalidated()) {
 
 		// If the Control's size is now invalid, set the bitmap to null.
 		if (Width() <= 0.0f || Height() <= 0.0f)
-			__surface = Drawing::Bitmap(nullptr, false);
-		else if (!__surface || Width() != __surface.Width() || Height() != __surface.Height())
-			__surface = Drawing::Bitmap(Width(), Height());
+			_surface = Drawing::Bitmap(nullptr, false);
+		else if (!_surface || Width() != _surface.Width() || Height() != _surface.Height())
+			_surface = Drawing::Bitmap(Width(), Height());
 
 		// Call the Control's OnPaint method to redraw it.
 		// Make sure we don't try to draw a Control with dimensions <= 1, because the Graphics object will throw an error when setting the clip.
 		if (Width() >= 1.0f && Height() >= 1.0f)
-			OnPaint(PaintEventArgs(Drawing::Graphics(__surface)));
+			OnPaint(PaintEventArgs(Drawing::Graphics(_surface)));
 
 	}
 
-	// The Control has now been validated. This isn't important right now, but will be for future drawing optimizations.
-	__invalidated = false;
+	// The Control has now been validated.
+	_invalidated = false;
 
 	// Draw the Control's surface bitmap.
-	if (__surface)
-		e.Graphics().DrawBitmap(X(), Y(), __surface);
-
-	/*
-	if (Invalidated()) {
-
-		// When a Control is "Invalidated", that means it needs to be redrawn.
-
-		// If the size of the Control has changed, or its size has become invalid, create a new Bitmap.
-		if (Width() <= 0.0f || Height() <= 0.0f)
-			__bmp = Drawing::Bitmap(0, 0);
-		else if (!__bmp || (Width() != __bmp.Width() || Height() != __bmp.Height()))
-			__bmp = Drawing::Bitmap(Width(), Height());
-
-		// If the Control's Bitmap is valid, redraw by calling OnPaint event.
-		if (__bmp) {
-
-			Point pos(X(), Y());
-			__graphics.Clear(Color::Transparent);
-			SetXY(0.0f, 0.0f);
-			OnPaint();
-			SetXY(pos.X(), pos.Y());
-
-		}
-
-		// The Control is now validated.
-		__invalidated = false;
-
-	}
-
-	// Draw the Control's bitmap image (if it exists).
-	if (__bmp) {
-		float scale = __manager ? __manager->Scale() : 1.0f;
-		al_draw_tinted_scaled_bitmap(
-			__bmp,
-			al_map_rgba_f(1.0f * __opacity, 1.0f * __opacity, 1.0f * __opacity, __opacity),
-			0.0f,
-			0.0f,
-			Width(),
-			Height(),
-			X(),
-			Y(),
-			Width() * scale,
-			Height() * scale,
-			NULL
-		);
-
-	}
-
-	*/
+	if (_surface)
+		e.Graphics().DrawBitmap(X(), Y(), _surface, Color::FromArgbf(Opacity(), Opacity(), Opacity(), Opacity()));
 
 }
 void Gui::Control::Resize(float width, float height) {
-
+	
 	// Clamp values within the maximum/minimum size.
 	width = Clamp(width, __minimum_size.Width(), __maximum_size.Width());
 	height = Clamp(height, __minimum_size.Height(), __maximum_size.Height());
@@ -151,18 +105,21 @@ void Gui::Control::Resize(float width, float height) {
 	Invalidate();
 	OnResize();
 
+	std::cout << Invalidated();
+
 }
 
 void Gui::Control::Invalidate() {
 
-	__invalidated = true;
+	_invalidated = true;
 
-	if (__parent) __parent->Invalidate();
+	if (_parent) 
+		_parent->Invalidate();
 
 }
 bool Gui::Control::Invalidated() {
 
-	return __invalidated;
+	return _invalidated;
 
 }
 void Gui::Control::Dispose() {
@@ -215,6 +172,8 @@ float Gui::Control::Opacity() {
 }
 void Gui::Control::SetOpacity(float opacity) {
 
+	if (opacity < 0.0f)
+		opacity = 0.0f;
 	__opacity = opacity;
 
 }
@@ -267,12 +226,12 @@ void Gui::Control::SetEnabled(bool is_enabled) {
 
 Gui::Control* Gui::Control::Parent() {
 
-	return __parent;
+	return _parent;
 
 }
 void Gui::Control::SetParent(Control* parent) {
 
-	__parent = parent;
+	_parent = parent;
 
 }
 Gui::GuiManager* Gui::Control::Manager() {
@@ -285,7 +244,7 @@ void Gui::Control::BringToFront() {
 
 	// If the Control has a Manager object, allow it to handle the repositioning.
 	if (__manager) {
-		__manager->BringToFront(this);
+		__manager->ControlManager()->BringToFront(this);
 		return;
 	}
 
@@ -297,7 +256,7 @@ void Gui::Control::SendToBack() {
 
 	// If the Control has a Manager object, allow it to handle the repositioning.
 	if (__manager) {
-		__manager->SendToBack(this);
+		__manager->ControlManager()->SendToBack(this);
 		return;
 	}
 
@@ -319,7 +278,7 @@ Rectangle Gui::Control::Bounds() {
 
 float Gui::Control::Scale() const {
 
-	return __manager ? __manager->Scale() : 1.0f;
+	return __manager ? __manager->StyleManager()->DrawingScale() : 1.0f;
 
 }
 

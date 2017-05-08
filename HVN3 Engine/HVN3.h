@@ -16,6 +16,5 @@
 #include "DrawEventArgs.h"
 #include "Random.h"
 #include "Tileset.h"
-#include "gui/GuiManager.h"
-#include "gui/Button.h"
-#include "gui/Window.h"
+#include "gui/Gui.h"
+#include "ICollection.h"

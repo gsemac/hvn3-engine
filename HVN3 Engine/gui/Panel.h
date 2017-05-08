@@ -9,45 +9,17 @@ namespace Gui {
 
 	class Panel : public Control, public IContainer {
 
-	private:
-		Size __prev_size;
-		GuiManager __manager;
-		ALLEGRO_BITMAP* __child_bitmap;
-
 	public:
-		Panel(float x, float y, float width, float height) : Control(Point(x, y), Size(width, height)), __prev_size(width, height) {
-
-			__child_bitmap = nullptr;
-
-		}
-
-		void AddControl(Control* control) {
-
-			throw NotImplementedException();
-
-			/*	control->SetParent(this);
-				__manager.AddControl(control);*/
-
-		}
-		std::list<Control*>& Controls() {
-
-			throw NotImplementedException();
-
-			//return __manager.Controls();
-
-		}
-		void RemoveControl(Control* control) {
-
-			__manager.RemoveControl(control);
-
-		}
-		GuiManager* ChildManager() {
-
-			return &__manager;
-
+		Panel(float x, float y, float width, float height)
+			: Control(Point(x, y), Size(width, height)),
+			IContainer(this),
+			_prev_size(width, height) {
 		}
 
 		virtual void Invalidate() override {
+
+			Controls()->InvalidateAll();
+
 
 			Control::Invalidate();
 
@@ -56,13 +28,13 @@ namespace Gui {
 		virtual void OnResize() override {
 
 			// Calculate the difference in size.
-			float width_diff = Width() - __prev_size.Width();
-			float height_diff = Height() - __prev_size.Height();
+			float width_diff = Width() - _prev_size.Width();
+			float height_diff = Height() - _prev_size.Height();
 
 			// Reposition all anchored Controls.
-			for (auto it = Controls().rbegin(); it != Controls().rend(); ++it) {
+			for (auto it = Controls()->_controls.rbegin(); it != Controls()->_controls.rend(); ++it) {
 
-				Control* c = *it;
+				Control* c = it->get();
 
 				if (c->Anchors() & ANCHOR_RIGHT) {
 					if (c->Anchors() & ANCHOR_LEFT)
@@ -87,16 +59,18 @@ namespace Gui {
 			}
 
 			// Update previous size/position.
-			__prev_size.Resize(Width(), Height());
+			_prev_size.Resize(Width(), Height());
 
 		}
 		virtual void OnPaint(PaintEventArgs& e) override {
-
+			std::cout << "panel onpaint";
 			//e.Graphics().Clear(BackColor());
 
-			e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor());
+			e.Graphics().Clear(Color::Red);
 
-			ChildManager()->Draw(e);
+			//e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor());
+
+			Controls()->Draw(e);
 
 			//// Clear main Bitmap.
 			//Graphics::DrawClear(BackColor());
@@ -111,14 +85,24 @@ namespace Gui {
 			//al_draw_bitmap(__child_bitmap, X(), Y(), NULL);
 
 		}
-
 		virtual void Update(UpdateEventArgs& e) override {
 
 			// Update child Controls.
-			__manager.Update(e);
+			Controls()->Update(e);
+
+
+		}
+		virtual void Draw(DrawEventArgs& e) override {
+
+			std::cout << "panel drawing";
+
+			Control::Draw(e);
 
 		}
 
+	private:
+		Size _prev_size;
+		
 	};
 
 }

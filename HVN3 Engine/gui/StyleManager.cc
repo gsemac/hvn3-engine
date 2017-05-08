@@ -3,27 +3,28 @@
 
 namespace Gui {
 
-	GuiStyleManager::GuiStyleManager() :
+	StyleManager::StyleManager() :
 		_primary_color(Color::FromArgb(35, 35, 35)),
-		_secondary_color(Color::FromArgb(186, 186, 186)) {
+		_secondary_color(Color::FromArgb(186, 186, 186)),
+		_draw_scale(1.0f) {
 	}
-	GuiStyleManager::~GuiStyleManager() {
+	StyleManager::~StyleManager() {
 
 		_fonts.Clear();
 		_bitmaps.Clear();
 
 	}
-	const Color& GuiStyleManager::PrimaryColor() const {
+	const Color& StyleManager::PrimaryColor() const {
 
 		return _primary_color;
 
 	}
-	const Color& GuiStyleManager::SecondaryColor() const {
+	const Color& StyleManager::SecondaryColor() const {
 
 		return _secondary_color;
 
 	}
-	ResourceHandle<Font> GuiStyleManager::GetFontResource(GuiFontResourceId id) {
+	ResourceHandle<Font> StyleManager::GetFontResource(FontResourceId id) {
 
 		// Get a resource handle for the requested resource.
 		ResourceHandle<Font> resource = _fonts.Find((ResourceId)id);
@@ -38,7 +39,7 @@ namespace Gui {
 		return resource;
 
 	}
-	ResourceHandle<Drawing::Bitmap> GuiStyleManager::GetImageResource(GuiBitmapResourceId id) {
+	ResourceHandle<Drawing::Bitmap> StyleManager::GetImageResource(BitmapResourceId id) {
 
 		// Get a resource handle for the requested resource.
 		ResourceHandle<Drawing::Bitmap> resource = _bitmaps.Find((ResourceId)id);
@@ -54,15 +55,26 @@ namespace Gui {
 
 	}
 
+	float StyleManager::DrawingScale() const {
+
+		return _draw_scale;
+
+	}
+	void StyleManager::SetDrawingScale(float scale) {
+
+		_draw_scale = scale;
+
+	}
+
 	// Protected members
 
-	bool GuiStyleManager::LoadDefaultFontResource(GuiFontResourceId id) {
+	bool StyleManager::LoadDefaultFontResource(FontResourceId id) {
 
 		ResourceId resId = (ResourceId)id;
 
 		switch (id) {
 
-		case GuiFontResourceId::PrimaryFont:
+		case FontResourceId::PrimaryFont:
 			_fonts.Add(resId, Resource::Create<Font>("data/System/Fonts/webly.ttf", 11, FontOptions::Monochrome));
 			break;
 		default:
@@ -72,13 +84,13 @@ namespace Gui {
 		return true;
 
 	}
-	bool GuiStyleManager::LoadDefaultBitmapResource(GuiBitmapResourceId id) {
+	bool StyleManager::LoadDefaultBitmapResource(BitmapResourceId id) {
 
 		ResourceId resId = (ResourceId)id;
 
 		switch (id) {
 
-		case GuiBitmapResourceId::ExitButton:
+		case BitmapResourceId::ExitButton:
 			_bitmaps.Add(resId, Resource::Create<Drawing::Bitmap>("data/System/Icons/close.png"));
 			break;
 		default:

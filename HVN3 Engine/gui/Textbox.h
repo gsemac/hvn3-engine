@@ -1,9 +1,9 @@
 ﻿#pragma once
 #include <algorithm>
-#include "Control.h"
+#include "gui/Control.h"
+#include "io/Clipboard.h"
 #include "Range.h"
-#include "String.h"
-#include "Clipboard.h"
+#include "StringHelper.h"
 #include "Helper.h"
 #define DEF_BORDER_RADIUS 3.0f
 
@@ -15,7 +15,7 @@ Todo:
 
 namespace Gui {
 
-	class Textbox : public Control {
+	class Textbox : public Control, public ITextable {
 		friend class Caret;
 
 	public:
@@ -23,11 +23,10 @@ namespace Gui {
 			__caret(this),
 			__sel(0, 0),
 			__sel_draw_pos(0.0f, 0.0f),
-			__mouse_last_pos(Mouse::X, Mouse::Y) {
+			__mouse_last_pos(Mouse::X, Mouse::Y),
+			ITextable(this, "") {
 
-			__font = Gui::ActiveTheme()->DefaultFont();
-			__highlight_color = Gui::ActiveTheme()->HighlightColor();
-			__text = "";
+			__highlight_color = Color(27, 161, 226);
 			__padding = 3.0f;
 			__hold_timer = 0.0f;
 			__mouse_selecting = false;
@@ -40,34 +39,23 @@ namespace Gui {
 			__password_char = '*';
 
 		}
-
-		String Text() {
-
-			return __text;
-
-		}
 		String SelectedText() {
 
-			return __text.Substring(__sel.Min(), __sel.Max());
+			return Text().SubString(__sel.Min(), __sel.Max());
 
 		}
 
-		void SetText(const char* text) {
-
-			__text = text;
-
-			Invalidate();
-
-		}
 		void AppendText(const char* text) {
 
-			__text.Append(text);
+			RefText().Append(text);
+
 			Invalidate();
 
 		}
-		void AppendText(int ch) {
+		void AppendText(int32_t ch) {
 
-			__text.Append(ch);
+			RefText().Append(ch);
+
 			Invalidate();
 
 		}
@@ -78,8 +66,8 @@ namespace Gui {
 			__sel.Resize(start, end);
 
 			// Set the selection bounds.
-			int start_x = __text.RefSubstring(0, start).Width(__font);
-			int end_x = start_x + __text.RefSubstring(start, end).Width(__font);
+			int start_x = Text().RefSubString(0, start).Width(*Font());
+			int end_x = start_x + Text().RefSubString(start, end).Width(*Font());
 			__sel_draw_pos.Resize(start_x, end_x);
 
 			// Hide the caret.
@@ -102,7 +90,7 @@ namespace Gui {
 		void SelectAll() {
 
 			// Select all text.
-			Select(0, (int)__text.Length());
+			Select(0, (int)Text().Length());
 
 		}
 		void DeselectAll() {
@@ -115,7 +103,7 @@ namespace Gui {
 		void ScrollToCaret() {
 
 			// Clamp the offset within an acceptable range.
-			__scroll_h_offset = Clamp(__scroll_h_offset, (std::min)(0.0f, -(__text.Width(__font) + __padding * 2 - Width())), 0);
+			__scroll_h_offset = Clamp(__scroll_h_offset, (std::min)(0.0f, -(Text().Width(*Font()) + __padding * 2 - Width())), 0);
 
 			// Calculate the visible region of text and the (actual) caret position.
 			Range<float> visible_region(-__scroll_h_offset, -__scroll_h_offset + Width(), false);
@@ -124,9 +112,9 @@ namespace Gui {
 			// If the caret is already within this range, do nothing.
 			if (visible_region.ContainsValue(caret_x)) return;
 
-			if ((Keyboard::LastChar() && !(__caret.Position() == __text.Length()))) {
+			if ((Keyboard::LastChar() && !(__caret.Position() == Text().Length()))) {
 				// If a key was pressed and the cursor is not at the end of the textbox, scroll the textbox such that the caret is in the middle of the textbox (or at the end).
-				int diff_to_end = (__text.Width(__font) + __padding * 2 - Width()) + __scroll_h_offset;
+				int diff_to_end = (Text().Width(*Font()) + __padding * 2 - Width()) + __scroll_h_offset;
 				__scroll_h_offset -= (std::min)(visible_region.Length() / 2, diff_to_end);
 
 			}
@@ -143,8 +131,8 @@ namespace Gui {
 				else if (caret_x <= visible_region.Start())
 					__scroll_h_offset += (visible_region.Start() - caret_x) + __padding;
 				// If pasting in front of text, scroll the textbox such that the caret is in the middle of the textbox (or at the end).
-				if (Keyboard::KeyDown(ALLEGRO_KEY_LCTRL) && Keyboard::KeyDown(ALLEGRO_KEY_V) && !(__caret.Position() == __text.Length())) {
-					int diff_to_end = (__text.Width(__font) + __padding * 2 - Width()) + __scroll_h_offset;
+				if (Keyboard::KeyDown(ALLEGRO_KEY_LCTRL) && Keyboard::KeyDown(ALLEGRO_KEY_V) && !(__caret.Position() == Text().Length())) {
+					int diff_to_end = (Text().Width(*Font()) + __padding * 2 - Width()) + __scroll_h_offset;
 					__scroll_h_offset -= (std::min)(visible_region.Length() / 2, diff_to_end);
 				}
 			}
@@ -156,23 +144,23 @@ namespace Gui {
 			// Initialize variables that we'll need.
 			static const int ERROR_THRESHOLD = 3;
 			Point real = FixedPosition();
-			int width = __text.Width(__font);
+			int width = Text().Width(*Font());
 			int text_x1 = real.X() + __scroll_h_offset + __padding;
 			int text_x2 = text_x1 + width;
 
 			// If the string is empty, return first index.
-			if (String::IsNullOrEmpty(__text)) return 0;
+			if (String::IsNullOrEmpty(Text())) return 0;
 
 			// If the point is out of the textbox bounds, return first index.
 			if (!PointIn(point, Rectangle(real.X(), real.Y(), Width(), Height()))) return 0;
 
 			// If the point is beyond the position of the string, return the last index.
-			if (point.X() > text_x2) return (int)__text.Length();
+			if (point.X() > text_x2) return (int)Text().Length();
 
 			// To select the best starting position, figure out what percentage down the string width our point is.
 			double percent = (point.X() - text_x1) / width;
-			int pos = (std::round)(__text.Length() * percent);
-			int pos_x = text_x1 + __text.RefSubstring(0, pos).Width(__font);
+			int pos = (std::round)(Text().Length() * percent);
+			int pos_x = text_x1 + Text().RefSubString(0, pos).Width(*Font());
 			int err = point.X() - pos_x;
 			int aerr = (std::abs)(err);
 
@@ -182,7 +170,7 @@ namespace Gui {
 				int new_pos, new_pos_x, new_err;
 				do {
 					new_pos = pos + Signum(err);
-					new_pos_x = text_x1 + __text.RefSubstring(0, new_pos).Width(__font);
+					new_pos_x = text_x1 + Text().RefSubString(0, new_pos).Width(*Font());
 					new_err = (std::abs)(point.X() - new_pos_x);
 					if (new_err < besterr) {
 						pos = new_pos;
@@ -227,9 +215,9 @@ namespace Gui {
 			// Convert the text into the new casing (if applicable).
 			switch (value) {
 			case ::CharacterCasing::Lower:
-				__text.ToLower(); break;
+				SetText(Text().ToLower()); break;
 			case ::CharacterCasing::Upper:
-				__text.ToUpper(); break;
+				SetText(Text().ToUpper()); break;
 			}
 
 			__character_casing = value;
@@ -243,16 +231,6 @@ namespace Gui {
 		void SetPadding(float value) {
 
 			__padding = value;
-
-		}
-		Font* Font() {
-
-			return __font;
-
-		}
-		void SetFont(::Font* value) {
-
-			__font = value;
 
 		}
 		int PasswordChar() {
@@ -317,7 +295,7 @@ namespace Gui {
 				// Move Caret To End Of Text (Ctrl + End)
 				else if (Keyboard::KeyPressed(ALLEGRO_KEY_END)) {
 					DeselectAll();
-					__caret.SetPosition((int)__text.Length());
+					__caret.SetPosition((int)Text().Length());
 				}
 
 			}
@@ -331,7 +309,7 @@ namespace Gui {
 
 				// Select From Caret To End (Shift + Down / Shift + End)
 				if (Keyboard::KeyPressed(ALLEGRO_KEY_DOWN) || Keyboard::KeyPressed(ALLEGRO_KEY_END)) {
-					Select(__sel.Start(), (int)__text.Length());
+					Select(__sel.Start(), (int)Text().Length());
 					ScrollTo(__sel.Max());
 				}
 
@@ -347,7 +325,7 @@ namespace Gui {
 				// Move Caret To End Of Text (Down)
 				else if (Keyboard::KeyPressed(ALLEGRO_KEY_DOWN) || Keyboard::KeyPressed(ALLEGRO_KEY_END)) {
 					DeselectAll();
-					__caret.SetPosition((int)__text.Length());
+					__caret.SetPosition((int)Text().Length());
 				}
 
 			}
@@ -364,7 +342,7 @@ namespace Gui {
 				int32_t c = Keyboard::LastChar();
 
 				// Check for character restrictions.
-				if ((c == 0x09 && !__accepts_tab) || (__numeric_only && !String::IsNumeric(c)))
+				if ((c == 0x09 && !__accepts_tab) || (__numeric_only && !StringHelper::IsNumeric(c)))
 					Keyboard::ClearLastChar();
 
 				else {
@@ -381,7 +359,7 @@ namespace Gui {
 					RemoveSelectedText();
 
 					// Insert the new character, and adjust the position of the caret.
-					__text.Insert(__caret.Position(), c);
+					RefText().Insert(__caret.Position(), c);
 					__caret.MoveRight();
 					Keyboard::ClearLastChar();
 
@@ -449,7 +427,7 @@ namespace Gui {
 				// Remove The Previous Word (Ctrl + Backspace)
 				if (SelectionLength() == 0 && Keyboard::KeyDown(KEY_CONTROL)) {
 					int pos = PrevWordPosition();
-					__text.Remove(pos, __caret.Position() - pos);
+					RefText().Remove(pos, __caret.Position() - pos);
 					__caret.SetPosition(pos);
 					ScrollToCaret();
 				}
@@ -459,7 +437,7 @@ namespace Gui {
 					if (SelectionLength() > 0)
 						RemoveSelectedText();
 					else {
-						__text.Remove(__caret.Position() - 1);
+						RefText().Remove(__caret.Position() - 1);
 						__caret.MoveLeft();
 					}
 				}
@@ -469,7 +447,7 @@ namespace Gui {
 
 				// Remove The Next Word (Ctrl + Del)
 				if (SelectionLength() == 0 && Keyboard::KeyDown(KEY_CONTROL)) {
-					__text.Remove(__caret.Position(), NextWordPosition() - __caret.Position());
+					RefText().Remove(__caret.Position(), NextWordPosition() - __caret.Position());
 					ScrollToCaret();
 				}
 
@@ -478,7 +456,7 @@ namespace Gui {
 					if (SelectionLength() > 0)
 						RemoveSelectedText();
 					else {
-						__text.Remove(__caret.Position());
+						RefText().Remove(__caret.Position());
 						ScrollToCaret();
 					}
 				}
@@ -507,7 +485,7 @@ namespace Gui {
 				}
 
 				// Insert the string.
-				__text.Insert(__caret.Position(), text);
+				RefText().Insert(__caret.Position(), text);
 				__caret.SetPosition(__caret.Position() + (int)text.Length());
 
 			}
@@ -583,7 +561,7 @@ namespace Gui {
 		virtual void OnLostFocus() override {
 
 			__caret.Hide();
-			DeselectAll();
+			//DeselectAll();
 
 		}
 
@@ -599,13 +577,13 @@ namespace Gui {
 			// Draw selection box.
 			if (!__sel.IsEmpty())
 				e.Graphics().DrawFilledRectangle(Rectangle(text_pos.X() + __sel_draw_pos.Start(), text_pos.Y(),
-					__sel_draw_pos.Length() * (__sel_draw_pos.IsAscending() ? 1 : -1), __font->Height()), HasFocus() ? __highlight_color : Color::Silver);
+					__sel_draw_pos.Length() * (__sel_draw_pos.IsAscending() ? 1 : -1), Font()->Height()), HasFocus() ? __highlight_color : Color::Silver);
 
 			// Draw text.
-			if (__font && !String::IsNullOrEmpty(__text))
-				e.Graphics().DrawText(text_pos.X(), text_pos.Y(), __text, *__font, Color::Black);
+			if (Font() && !String::IsNullOrEmpty(Text()))
+				e.Graphics().DrawText(text_pos.X(), text_pos.Y(), Text(), *Font(), Color::Black);
 			if (__sel.Length() > 0)
-				e.Graphics().DrawText(text_pos.X() + __sel_draw_pos.Min(), text_pos.Y(), __text.RefSubstring(__sel.Min(), __sel.Max()), *__font,
+				e.Graphics().DrawText(text_pos.X() + __sel_draw_pos.Min(), text_pos.Y(), Text().RefSubString(__sel.Min(), __sel.Max()), *Font(),
 					HasFocus() ? Color::White : Color::DimGrey);
 
 			// Draw cursor (if focused).
@@ -647,7 +625,7 @@ namespace Gui {
 				}
 				else {
 					// The mouse is outside the horizontal bounds of the textbox.
-					if (p.X() > bounds.X2() && __caret.Position() < __text.Length()) {
+					if (p.X() > bounds.X2() && __caret.Position() < Text().Length()) {
 						// If the mouse is to the right of the textbox, keep increasing the selected area right.
 						int speed = (std::ceil)((p.X() - bounds.X2()) / 10);
 						__caret.SetPosition(__caret.Position() + speed);
@@ -711,7 +689,7 @@ namespace Gui {
 				float caret_x = X + XOffset + __tb->__padding + __tb->__scroll_h_offset;
 				float caret_y = __tb->__padding;
 
-				e.Graphics().DrawLine(Line(caret_x, caret_y, caret_x, caret_y + __tb->__font->Height()), Color::Black, 1);
+				e.Graphics().DrawLine(Line(caret_x, caret_y, caret_x, caret_y + __tb->Font()->Height()), Color::Black, 1);
 
 			}
 			int Position() {
@@ -729,7 +707,7 @@ namespace Gui {
 			}
 			void MoveRight() {
 
-				if (__position >= (int)__tb->__text.Length()) return;
+				if (__position >= (int)__tb->Text().Length()) return;
 
 				++__position;
 				SetPosition(__position);
@@ -738,11 +716,11 @@ namespace Gui {
 			void SetPosition(int pos) {
 
 				// Set the caret position (index).
-				pos = Clamp(pos, 0, __tb->__text.Length());
+				pos = Clamp(pos, 0, __tb->Text().Length());
 				__position = pos;
 
 				// Set the caret's actual position (pixel offset).
-				X = __tb->__text.RefSubstring(0, __position).Width(__tb->__font);
+				X = __tb->Text().RefSubString(0, __position).Width(__tb->Font());
 
 				Show();
 
@@ -766,9 +744,6 @@ namespace Gui {
 
 			}
 		};
-
-		String __text;
-		::Font* __font;
 
 		Caret __caret;
 		Color __highlight_color;
@@ -794,7 +769,7 @@ namespace Gui {
 		void RemoveSelectedText() {
 			if (SelectionLength() <= 0) return;
 
-			__text.Remove(SelectionStart(), SelectionLength());
+			RefText().Remove(SelectionStart(), SelectionLength());
 			__caret.SetPosition(SelectionStart());
 			DeselectAll();
 
@@ -802,12 +777,12 @@ namespace Gui {
 		void SelectWordAtCaret() {
 
 			// Find the left-most word boundary.
-			int left = __text.LastIndexOfAny(String::IsWordBoundary, __caret.Position()) + 1;
+			int left = Text().LastIndexOfAny(StringHelper::IsWordBoundary, __caret.Position()) + 1;
 			if (left < 0) left = 0;
 
 			// Find the right-most word boundary.
-			int right = __text.IndexOfAny(String::IsWordBoundary, __caret.Position());
-			if (right < 0) right = (int)__text.Length();
+			int right = Text().IndexOfAny(StringHelper::IsWordBoundary, __caret.Position());
+			if (right < 0) right = (int)Text().Length();
 
 			// Select the word.
 			Select(left, right);
@@ -816,18 +791,18 @@ namespace Gui {
 		void ScrollTo(int pos) {
 
 			// Clamp the offset within an acceptable range.
-			__scroll_h_offset = Clamp(__scroll_h_offset, (std::min)(0.0f, -(__text.Width(__font) + __padding * 2 - Width())), 0);
+			__scroll_h_offset = Clamp(__scroll_h_offset, (std::min)(0.0f, -(Text().Width(*Font()) + __padding * 2 - Width())), 0);
 
 			// Calculate the visible region of text and the (actual) caret position.
 			Range<float> visible_region(-__scroll_h_offset, -__scroll_h_offset + Width(), false);
-			float pos_x = __text.RefSubstring(pos).Width(__font) + __padding;
+			float pos_x = Text().RefSubString(pos).Width(*Font()) + __padding;
 
 			// If the caret is already within this range, do nothing.
 			if (visible_region.ContainsValue(pos_x)) return;
 
-			if ((Keyboard::LastChar() && !(pos == __text.Length()))) {
+			if ((Keyboard::LastChar() && !(pos == Text().Length()))) {
 				// If a key was pressed and the cursor is not at the end of the textbox, scroll the textbox such that the caret is in the middle of the textbox (or at the end).
-				int diff_to_end = (__text.Width(__font) + __padding * 2 - Width()) + __scroll_h_offset;
+				int diff_to_end = (Text().Width(*Font()) + __padding * 2 - Width()) + __scroll_h_offset;
 				__scroll_h_offset -= (std::min)(visible_region.Length() / 2, diff_to_end);
 
 			}
@@ -844,8 +819,8 @@ namespace Gui {
 				else if (pos_x <= visible_region.Start())
 					__scroll_h_offset += (visible_region.Start() - pos_x) + __padding;
 				// If pasting in front of text, scroll the textbox such that the caret is in the middle of the textbox (or at the end).
-				if (Keyboard::KeyDown(ALLEGRO_KEY_LCTRL) && Keyboard::KeyDown(ALLEGRO_KEY_V) && !(pos == __text.Length())) {
-					int diff_to_end = (__text.Width(__font) + __padding * 2 - Width()) + __scroll_h_offset;
+				if (Keyboard::KeyDown(ALLEGRO_KEY_LCTRL) && Keyboard::KeyDown(ALLEGRO_KEY_V) && !(pos == Text().Length())) {
+					int diff_to_end = (Text().Width(*Font()) + __padding * 2 - Width()) + __scroll_h_offset;
 					__scroll_h_offset -= (std::min)(visible_region.Length() / 2, diff_to_end);
 				}
 			}
@@ -854,13 +829,13 @@ namespace Gui {
 		int NextWordPosition() {
 
 			// Find the index of the next word boundary character.
-			int wb_pos = __text.IndexOfAny(String::IsWordBoundary, __caret.Position());
+			int wb_pos = Text().IndexOfAny(StringHelper::IsWordBoundary, __caret.Position());
 
 			// If no boundary was found, go to the end of the string.
-			if (wb_pos == -1) return (int)__text.Length();
+			if (wb_pos == -1) return (int)Text().Length();
 
 			// Move forward until we're no longer sitting on a word boundary.
-			while (wb_pos < __text.Length() && String::IsWordBoundary(__text.CharAt(wb_pos)))
+			while (wb_pos < Text().Length() && StringHelper::IsWordBoundary(Text().CharAt(wb_pos)))
 				++wb_pos;
 
 			// Return the result.
@@ -870,14 +845,14 @@ namespace Gui {
 		int PrevWordPosition() {
 
 			// Find the index of the previous word boundary character.
-			int wb_pos = __text.LastIndexOfAny(String::IsWordBoundary, __caret.Position());
+			int wb_pos = Text().LastIndexOfAny(StringHelper::IsWordBoundary, __caret.Position());
 
 			// Move backward until we're no longer sitting on a word boundary.
-			while (String::IsWordBoundary(__text.CharAt(wb_pos - 1)))
+			while (StringHelper::IsWordBoundary(Text().CharAt(wb_pos - 1)))
 				--wb_pos;
 
 			// Get the index of the next word boundary (the start of the current word).
-			wb_pos = __text.LastIndexOfAny(String::IsWordBoundary, wb_pos) + 1;
+			wb_pos = Text().LastIndexOfAny(StringHelper::IsWordBoundary, wb_pos) + 1;
 
 			// Return the result.
 			return wb_pos;

@@ -128,12 +128,12 @@ public:
 
 	}
 
-	String Substring(int end_pos) const {
+	String SubString(int end_pos) const {
 
-		return Substring(0, end_pos);
+		return SubString(0, end_pos);
 
 	}
-	String Substring(int start_pos, int end_pos) const {
+	String SubString(int start_pos, int end_pos) const {
 
 		// So that we can treat this like a regular string, find the nth and mth code points 
 		// based on the provided positions.
@@ -152,12 +152,12 @@ public:
 
 	}
 
-	String RefSubstring(int end_pos) {
+	String RefSubString(int end_pos) const {
 
-		return RefSubstring(0, end_pos);
+		return RefSubString(0, end_pos);
 
 	}
-	String RefSubstring(int start_pos, int end_pos) {
+	String RefSubString(int start_pos, int end_pos) const {
 
 		// Get the start and end positions of the substring.
 		int start = GetCodepointIndex(start_pos);
@@ -173,22 +173,22 @@ public:
 		return (ustr) ? al_ustr_length(ustr) : 0;
 
 	}
-	int Width(const Font& in_font) {
+	int Width(const Font& in_font) const {
 
 		return Width(&in_font);
 
 	}
-	int Width(const Font* in_font) {
+	int Width(const Font* in_font) const {
 
 		return al_get_ustr_width(in_font->AlPtr(), ustr);
 
 	}
-	int Height(const Font& int_font) {
+	int Height(const Font& int_font) const {
 
 		return Height(&int_font);
 
 	}
-	int Height(const Font* int_font) {
+	int Height(const Font* int_font) const {
 
 		int bbx, bby, bbw, bbh;
 		al_get_ustr_dimensions(int_font->AlPtr(), ustr, &bbx, &bby, &bbw, &bbh);
@@ -316,7 +316,7 @@ public:
 		return -1;
 
 	}
-	int32_t CharAt(int pos) {
+	int32_t CharAt(int pos) const {
 
 		// Find the code point corresponding to this index.
 		pos = GetCodepointIndex(pos);
@@ -427,32 +427,34 @@ public:
 		al_ustr_rtrim_ws(ustr);
 
 	}
-	String& ToUpper() {
+	String ToUpper() const {
+
+		String upper = *this;
 
 		// Convert all charcters to uppercase.
-		int pos = 0;
-		for (int i = 0; i < (int)al_ustr_size(ustr);) {
-			int32_t c = al_ustr_get(ustr, i);
-			al_ustr_set_chr(ustr, pos, towupper(c));
-			al_ustr_next(ustr, &i);
+		for (int i = 0, pos = 0; i < al_ustr_size(upper.ustr);) {
+			int32_t c = al_ustr_get(upper.ustr, i);
+			al_ustr_set_chr(upper.ustr, pos, towupper(c));
+			al_ustr_next(upper.ustr, &i);
 			++pos;
 		}
 
-		return *this;
+		return upper;
 
 	}
-	String& ToLower() {
+	String ToLower() const {
 
-		// Convert all charcters to lowercase.
-		int pos = 0;
-		for (int i = 0; i < (int)al_ustr_size(ustr);) {
-			int32_t c = al_ustr_get(ustr, i);
-			al_ustr_set_chr(ustr, pos, towlower(c));
-			al_ustr_next(ustr, &i);
+		String lower = *this;
+
+		// Convert all charcters to uppercase.
+		for (int i = 0, pos = 0; i < al_ustr_size(lower.ustr);) {
+			int32_t c = al_ustr_get(lower.ustr, i);
+			al_ustr_set_chr(lower.ustr, pos, towlower(c));
+			al_ustr_next(lower.ustr, &i);
 			++pos;
 		}
 
-		return *this;
+		return lower;
 
 	}
 

@@ -1,5 +1,4 @@
-#ifndef __STRING_H
-#define __STRING_H
+#pragma once
 #include <vector>
 #include <string>
 #include <initializer_list>
@@ -30,5 +29,3 @@ enum class CharacterCasing {
 	Lower = 0x01,
 	Upper = 0x02
 };
-
-#endif

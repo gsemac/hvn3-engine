@@ -7,30 +7,34 @@ class Font;
 
 namespace Gui {
 	
-	enum class GuiFontResourceId : ResourceId {
+	enum class FontResourceId : ResourceId {
 		PrimaryFont
 	};
 
-	enum class GuiBitmapResourceId : ResourceId {
+	enum class BitmapResourceId : ResourceId {
 		ExitButton
 	};
 
-	class GuiStyleManager {
+	class StyleManager {
 
 	public:
-		GuiStyleManager();
-		~GuiStyleManager();
+		StyleManager();
+		~StyleManager();
 
 		const Color& PrimaryColor() const;
 		const Color& SecondaryColor() const;
-		ResourceHandle<Font> GetFontResource(GuiFontResourceId id);
-		ResourceHandle<Drawing::Bitmap> GetImageResource(GuiBitmapResourceId id);
+		ResourceHandle<Font> GetFontResource(FontResourceId id);
+		ResourceHandle<Drawing::Bitmap> GetImageResource(BitmapResourceId id);
+
+		float DrawingScale() const;
+		void SetDrawingScale(float scale);
 
 	protected:
-		bool LoadDefaultFontResource(GuiFontResourceId id);
-		bool LoadDefaultBitmapResource(GuiBitmapResourceId id);
+		bool LoadDefaultFontResource(FontResourceId id);
+		bool LoadDefaultBitmapResource(BitmapResourceId id);
 
 	private:
+		float _draw_scale;
 		Color _primary_color;
 		Color _secondary_color;
 		ResourceCollection<Font> _fonts;

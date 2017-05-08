@@ -11,7 +11,7 @@ namespace Gui {
 	public:
 		ControlController(Control& control);
 
-		void SetManager(GuiManager& manager);
+		void SetManager(GuiManager* manager);
 		Point GetFixedPosition() const;
 		Point PreviousPosition() const;
 		void SetPreviousPosition(float x, float y);

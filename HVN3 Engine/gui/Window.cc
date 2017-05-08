@@ -1,4 +1,6 @@
 #include "Window.h"
+#include "gui/ControlManager.h"
+#include "UpdateEventArgs.h"
 #define RESIZE_REGION_WIDTH 4.0f
 #define DEF_TITLEBAR_HEIGHT 29.0f
 #define DEF_OUTLINE_WIDTH 1.0f
@@ -10,7 +12,8 @@ namespace Gui {
 	Window::Window(float x, float y, float width, float height, const char* text) :
 		Control(Point(x, y), Size(width, height + DEF_TITLEBAR_HEIGHT)),
 		ITextable(this, text),
-		__panel(DEF_OUTLINE_WIDTH, DEF_TITLEBAR_HEIGHT, width - DEF_OUTLINE_WIDTH, height - DEF_OUTLINE_WIDTH),
+		IContainer(this),
+		//_panel(DEF_OUTLINE_WIDTH, DEF_TITLEBAR_HEIGHT, width - DEF_OUTLINE_WIDTH, height - DEF_OUTLINE_WIDTH),
 		__drag_offset(0.0f, 0.0f),
 		__original_position(x, y),
 		__original_size(width, height + DEF_TITLEBAR_HEIGHT),
@@ -21,37 +24,39 @@ namespace Gui {
 		SetMinimumSize(Size(DEF_TITLEBAR_HEIGHT, DEF_TITLEBAR_HEIGHT));
 
 		// Set up Panel.
-		__panel.SetParent(this);
+		//_panel.SetParent(this);
 
 		// Set up state/state tracking variables.
 		__dragging = false;
 		__resizing = false;
 		__resizing_side = 0;
 		__titlebar_height = DEF_TITLEBAR_HEIGHT;
+		_mouse_on_exit_button = false;
+		_fade_out = false;
 
 	}
 	Window::~Window() {
 
 	}
 
-	void Window::AddControl(Control* control) {
+	//void Window::AddControl(std::unique_ptr<Control>& control) {
 
-		// Add the Control to the Panel.
-		__panel.AddControl(control);
+	//	// Add the Control to the Panel.
+	//	_panel.Controls()->AddControl(control);
 
-	}
-	void Window::RemoveControl(Control* control) {
+	//}
+	//void Window::RemoveControl(Control* control) {
 
-		// Remove the Control from the Panel.
-		__panel.RemoveControl(control);
+	//	// Remove the Control from the Panel.
+	//	_panel.Controls()->RemoveControl(control);
 
-	}
-	std::list<Control*>& Window::Controls() {
+	//}
+	//Gui::ControlManager* Window::Controls() {
 
-		// Return a reference to the Panel's Controls.
-		return __panel.Controls();
+	//	// Return a reference to the Panel's Controls.
+	//	return _panel.Controls();
 
-	}
+	//}
 	void Window::SetTitlebarHeight(float value) {
 
 		__titlebar_height = value;
@@ -68,9 +73,11 @@ namespace Gui {
 	void Window::OnMouseDown() {
 
 		// Place the Window in front of all other Controls under the same manager.
-		BringToFront();
+		if (!MouseOnExitButton())
+			BringToFront();
 
-		if (HasActiveChild()) return;
+		if (HasActiveChild())
+			return;
 
 		if (!__dragging && !__resizing && GetMouseResizeRegions()) {
 
@@ -107,7 +114,15 @@ namespace Gui {
 		if (HasActiveChild()) return;
 
 		// Set the cursor to a resize cursor if it passes over any edges.
-		if (!__resizing && !__dragging) SetResizeCursor();
+		if (!__resizing && !__dragging)
+			SetResizeCursor();
+
+		// Invalid the window when the mouse hovers over any dynamic elements.
+		if (MouseOnExitButton() != _mouse_on_exit_button) {
+			_mouse_on_exit_button = MouseOnExitButton();
+			std::cout << "Invalidated\n";
+			Invalidate();
+		}
 
 	}
 	void Window::OnMouseLeave() {
@@ -116,10 +131,16 @@ namespace Gui {
 		if (!__resizing) Mouse::SetCursor(SystemCursor::Default);
 
 	}
+	void Window::OnClick() {
+
+		if (MouseOnExitButton())
+			_fade_out = true;
+
+	}
 	void Window::OnResize() {
 
 		// Resize the Panel.
-		__panel.Resize(Width(), Height() - TitlebarHeight() - DEF_OUTLINE_WIDTH);
+		//_panel.Resize(Width(), Height() - TitlebarHeight() - DEF_OUTLINE_WIDTH);
 
 	}
 	void Window::OnPaint(PaintEventArgs& e) {
@@ -129,25 +150,29 @@ namespace Gui {
 		e.Graphics().DrawRectangle(0, 0, Width(), TitlebarHeight(), Color(17, 17, 17), 1);
 
 		// Draw titlebar text.
-		float tx = Round(Width() / 2.0f);
-		float ty = Round((TitlebarHeight() / 2.0f) - (Font()->Height() / 2.0f)) - 1;
-		e.Graphics().DrawText(tx + 1, ty + 1, Text(), *Font(), Color(0, 0, 0, 0.5f), Alignment::Center);
-		e.Graphics().DrawText(tx, ty, Text(), *Font(), Color(186, 186, 186), Alignment::Center);
+		if (Font()) {
+			float tx = Round(Width() / 2.0f);
+			float ty = Round((TitlebarHeight() / 2.0f) - (Font()->Height() / 2.0f)) - 1;
+			e.Graphics().DrawText(tx + 1, ty + 1, Text(), *Font(), Color(0, 0, 0, 0.5f), Alignment::Center);
+			e.Graphics().DrawText(tx, ty, Text(), *Font(), Color(186, 186, 186), Alignment::Center);
+		}
 
 		// Draw exit button.
 		if (GetExitIcon()) {
-			float ex = Width() - _exit_icon->Width() - (_exit_icon->Width() / 2.0f);
-			float ey = (_exit_icon->Height() / 2.0f) + 1.0f;
-			bool mouse_on = Mouse::InRegion(X() + ex, Y() + ey, X() + ex + _exit_icon->Width(), Y() + ey + _exit_icon->Height());
-			Color tint = mouse_on ? Color::FromArgbf(0.5f, 0.5f, 0.5f, 1.0f) : Color::FromArgbf(1.0f, 1.0f, 1.0f, 1.0f);
-			e.Graphics().DrawBitmap(ex, ey, *_exit_icon, tint);
+			Point pos = ExitButtonPosition();
+			Color tint = _mouse_on_exit_button ? Color::FromArgbf(0.5f, 0.5f, 0.5f, 1.0f) : Color::FromArgbf(1.0f, 1.0f, 1.0f, 1.0f);
+			std::cout << "Mosue is on?" << _mouse_on_exit_button << std::endl;
+			e.Graphics().DrawBitmap(pos.X(), pos.Y(), *_exit_icon, tint);
 		}
 
 		// Draw main window area.
 		e.Graphics().DrawFilledRectangle(0, TitlebarHeight() - DEF_OUTLINE_WIDTH, Width(), Height() - TitlebarHeight(), BackColor());
 
 		// Draw Panel containing the child Controls.
-		__panel.Draw(e);
+		//_panel.Invalidate();
+		//_panel.Draw(e);
+		Controls()->InvalidateAll();
+		Controls()->Draw(e);
 
 		// Draw main window border.
 		e.Graphics().DrawRectangle(0, TitlebarHeight() - 1.0f, Width(), Height() - TitlebarHeight(), Color(17, 17, 17), 1);
@@ -155,8 +180,10 @@ namespace Gui {
 	}
 	void Window::Update(UpdateEventArgs& e) {
 
-		__panel.ChildManager()->SetMouseEventsEnabled((Manager()->ActiveControl() == this));
-		__panel.Update(e);
+		//if (Manager())
+		//	_panel.Controls()->SetMouseEventsEnabled((Manager()->ControlManager()->ActiveControl() == this));
+
+		Controls()->Update(e);
 
 		if (!Mouse::ButtonDown(MB_LEFT) && (__dragging || __resizing)) {
 			__dragging = false;
@@ -171,15 +198,37 @@ namespace Gui {
 			SetXY(__drag_offset.X() + Mouse::X, __drag_offset.Y() + Mouse::Y);
 		}
 
+		if (_fade_out)
+			if (Opacity() > 0.0f)
+				SetOpacity(Opacity() - 3.0f * e.Delta());
+			else
+				Manager()->ControlManager()->RemoveControl(this);
+
 	}
 
 	// Protected methods
+
 	const ResourceHandle<Drawing::Bitmap>& Window::GetExitIcon() {
 
 		if (!_exit_icon && Manager())
-			_exit_icon = Manager()->StyleManager()->GetImageResource(Gui::GuiBitmapResourceId::ExitButton);
+			_exit_icon = Manager()->StyleManager()->GetImageResource(Gui::BitmapResourceId::ExitButton);
 
 		return _exit_icon;
+
+	}
+	Point Window::ExitButtonPosition() const {
+
+		float ex = Width() - _exit_icon->Width() - (_exit_icon->Width() / 2.0f);
+		float ey = (_exit_icon->Height() / 2.0f) + 1.0f;
+
+		return Point(ex, ey);
+
+	}
+	bool Window::MouseOnExitButton() const {
+
+		Point pos = ExitButtonPosition();
+
+		return Mouse::InRegion(X() + pos.X(), Y() + pos.Y(), X() + pos.X() + _exit_icon->Width(), Y() + pos.Y() + _exit_icon->Height());
 
 	}
 
@@ -294,7 +343,7 @@ namespace Gui {
 	}
 	bool Window::HasActiveChild() {
 
-		return __panel.ChildManager()->ActiveControl();
+		return Controls()->ActiveControl();
 
 	}
 

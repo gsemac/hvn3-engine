@@ -1,6 +1,7 @@
-#include "ControlController.h"
-#include "Control.h"
-#include "GuiManager.h"
+#include "gui/ControlController.h"
+#include "gui/Control.h"
+#include "gui/GuiManager.h"
+#include "gui/StyleManager.h"
 
 namespace Gui {
 
@@ -8,12 +9,15 @@ namespace Gui {
 		_control(&control) {
 	}
 
-	void ControlController::SetManager(GuiManager& manager) {
+	void ControlController::SetManager(GuiManager* manager) {
 
-		_control->__manager = &manager;
+		_control->__manager = manager;
 
-		_control->SetBackColor(manager.StyleManager()->PrimaryColor());
-		_control->SetForeColor(manager.StyleManager()->SecondaryColor());
+		// It's possible for the manager not to have a style manager at the moment (e.g., if it's a child manager).
+		if (manager->StyleManager()) {
+			_control->SetBackColor(manager->StyleManager()->PrimaryColor());
+			_control->SetForeColor(manager->StyleManager()->SecondaryColor());
+		}
 
 	}
 	Point ControlController::GetFixedPosition() const {

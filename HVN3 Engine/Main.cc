@@ -125,7 +125,7 @@ class TestRoom : public MyRoom {
 public:
 	TestRoom() : MyRoom(640, 480) {
 
-		SetPersistent(false);
+		SetPersistent(true);
 
 	}
 
@@ -142,8 +142,13 @@ public:
 		for (int i = 0; i < 100; ++i)
 			ObjectManager()->InstanceAdd(Object::Create<oBall>(200, 200));
 
-		GuiManager()->AddControl(Control::Create<Window>(0, 0, 300, 400, "Window 1"));
-		GuiManager()->AddControl(Control::Create<Button>(100, 100, 150, 25, "Hello World"));
+		Window* wind = new Window(0, 0, 300, 400, "Window 1");
+		wind->Controls()->AddControl(Control::Create<Button>(100, 100, 150, 25, "Window Button 1"));
+		wind->Controls()->AddControl(Control::Create<Textbox>(100, 200, 150, 25));
+
+		GuiManager()->ControlManager()->AddControl(Control::Create(wind));
+		GuiManager()->ControlManager()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"));
+		//GuiManager()->ControlManager()->AddControl(Control::Create<Button>(100, 100, 150, 25, "Hello World"));
 
 	}
 	void OnRoomEnter(RoomEnterEventArgs& e) override {

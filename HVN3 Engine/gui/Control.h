@@ -5,6 +5,9 @@
 namespace Gui {
 
 	class GuiManager;
+	class Control;
+
+	typedef std::unique_ptr<Control> ControlPtr;
 
 	enum ANCHOR {
 		ANCHOR_NONE = 0x00,
@@ -124,15 +127,22 @@ namespace Gui {
 
 		}
 
+		template<typename T>
+		static std::unique_ptr<Control> Create(T* ptr) {
+
+			return std::unique_ptr<T>(ptr);
+
+		}
+
 	private:
 		bool __disposed;
-		bool __invalidated;
+		bool _invalidated;
 		bool __visible;
 		bool __enabled;
 
-		Control* __parent;
+		Control* _parent;
 		GuiManager* __manager;
-		Drawing::Bitmap __surface;
+		Drawing::Bitmap _surface;
 		Color __backcolor, __forecolor;
 		ANCHOR __anchor;
 		float __opacity;

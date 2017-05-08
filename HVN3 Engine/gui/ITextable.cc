@@ -1,11 +1,12 @@
-#include "ITextable.h"
-#include "GuiManager.h"
+#include "gui/ITextable.h"
+#include "gui/GuiManager.h"
+#include "gui/Control.h"
 
 namespace Gui {
 
 	ITextable::ITextable(Control* control, const String& text) :
 		_text(text),
-		_font(nullptr),
+		_font(FontResourceId::PrimaryFont),
 		_control(control) {
 	}
 
@@ -22,19 +23,27 @@ namespace Gui {
 
 	}
 
-	const ResourceHandle<::Font>& ITextable::Font() {
+	const ResourceHandle<::Font> ITextable::Font() {
 		
-		if (!_font && _control->Manager())
-			_font = _control->Manager()->StyleManager()->GetFontResource(Gui::GuiFontResourceId::PrimaryFont);
+		if (_control->Manager() && _control->Manager()->StyleManager())
+			return _control->Manager()->StyleManager()->GetFontResource(_font);
 
-		return _font;
+		return nullptr;
 
 	}
-	void ITextable::SetFont(ResourceHandle<::Font>& font) {
+	void ITextable::SetFont(Gui::FontResourceId font) {
 
 		_font = font;
 
 		_control->Invalidate();
+
+	}
+
+	// Protected methods
+
+	String& ITextable::RefText() {
+
+		return _text;
 
 	}
 

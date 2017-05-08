@@ -6,6 +6,7 @@
 #include "Graphics.h"
 #include "io/Mouse.h"
 #include "gui/ITextable.h"
+#include "gui/GuiManager.h"
 
 namespace Gui {
 
@@ -56,11 +57,11 @@ namespace Gui {
 	void Button::OnClick() {
 
 		if (Text().Contains(" Clicked!"))
-			SetText(Text().Substring(0, Text().IndexOf(" Clicked!")));
+			SetText(Text().SubString(0, Text().IndexOf(" Clicked!")));
 		else
 			SetText(Text() + " Clicked!");
 
-		std::cout << "Button Clicked!\n";
+		std::cout << Text() <<  ": Button Clicked!\n";
 
 	}
 	void Button::OnPaint(PaintEventArgs& e) {
@@ -69,6 +70,7 @@ namespace Gui {
 		e.Graphics().DrawFilledRectangle(0.0f, 0.0f, Width(), Height(), BackColor());
 
 		// Draw text.
+		std::cout << Manager()->StyleManager() << std::endl;
 		if (Font()) {
 			float tx = (std::round)((Width() / 2.0f) + _text_offset.X());
 			float ty = (std::round)((Height() / 2.0f - Font()->Height() / 2.0f - 1.0f) + _text_offset.Y());

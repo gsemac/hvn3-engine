@@ -435,6 +435,15 @@
     <ClCompile Include="io\Path.cc">
       <Filter>Source Files\IO</Filter>
     </ClCompile>
+    <ClCompile Include="gui\IContainer.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ControlManager.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ControlCollection.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -811,6 +820,18 @@
     </ClInclude>
     <ClInclude Include="io\Path.h">
       <Filter>Header Files\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ControlManager.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ControlCollection.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ICollection.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\Handle.h">
+      <Filter>Header Files\Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

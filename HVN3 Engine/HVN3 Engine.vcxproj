@@ -169,9 +169,12 @@
     <ClCompile Include="gui\Button.cc" />
     <ClCompile Include="gui\Container.cc" />
     <ClCompile Include="gui\Control.cc" />
+    <ClCompile Include="gui\ControlCollection.cc" />
     <ClCompile Include="gui\ControlController.cc" />
+    <ClCompile Include="gui\ControlManager.cc" />
     <ClCompile Include="gui\GuiExtension.cc" />
     <ClCompile Include="gui\GuiManager.cc" />
+    <ClCompile Include="gui\IContainer.cc" />
     <ClCompile Include="gui\ITextable.cc" />
     <ClCompile Include="gui\Panel.cc" />
     <ClCompile Include="gui\Scrollbar.cc" />
@@ -265,10 +268,14 @@
     <ClInclude Include="gui\Button.h" />
     <ClInclude Include="gui\Container.h" />
     <ClInclude Include="gui\Control.h" />
+    <ClInclude Include="gui\ControlCollection.h" />
     <ClInclude Include="gui\ControlController.h" />
+    <ClInclude Include="gui\ControlManager.h" />
     <ClInclude Include="gui\Gui.h" />
     <ClInclude Include="gui\GuiExtension.h" />
     <ClInclude Include="gui\GuiManager.h" />
+    <ClInclude Include="gui\Handle.h" />
+    <ClInclude Include="ICollection.h" />
     <ClInclude Include="gui\IContainer.h" />
     <ClInclude Include="gui\ITextable.h" />
     <ClInclude Include="gui\Panel.h" />
