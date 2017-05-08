@@ -2,9 +2,11 @@
 #include <vector>
 #include <string>
 #include <initializer_list>
+#include <memory>
 #include "BitFlags.h"
 
 class String;
+class Font;
 
 namespace StringUtils {
 
@@ -15,6 +17,7 @@ namespace StringUtils {
 	};
 
 	std::vector<std::string> Split(const std::string& str, char delimiter);
+	std::vector<std::shared_ptr<String>> Break(const std::shared_ptr<String>& ustr, const Font& font, float width);
 	bool IsNullOrEmpty(const String& str);
 	bool IsWordBoundary(int ch);
 	bool IsNumeric(int ch);

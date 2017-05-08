@@ -65,48 +65,6 @@ float RadiansToDegrees(float radians) {
 
 }
 
-std::vector<std::shared_ptr<String>> Break(const std::shared_ptr<String>& ustr, const Font& font, float width) {
-
-	// Initialize return structure.
-	std::vector<std::shared_ptr<String>> resized_lines;
-
-	// Initialize other variables.
-	int last_split_index = 0;
-	int last_space_index = 0;
-	int next_space_index = 0;
-
-	while (1) {
-		next_space_index = ustr->IndexOf(' ', last_space_index + 1);
-		if (next_space_index == -1) {
-			// We've reached the end of the line. Cut off the last word if we need to (and can), then add both lines to
-			// the list and exit the loop.
-			String tmp(ustr->SubString(last_split_index, (int)ustr->Length()));
-			if (tmp.Width(font) > width) {
-				resized_lines.push_back(std::make_shared<String>(ustr->SubString(last_split_index, last_space_index + 1)));
-				last_split_index = last_space_index + 1;
-			}
-			resized_lines.push_back(std::make_shared<String>(ustr->SubString(last_split_index, (int)ustr->Length())));
-			break;
-		}
-		else {
-
-			// Check the width of the line up to this space. If it's too long, go back a space and add that (smallest fit).
-			String tmp(ustr->SubString(last_split_index, next_space_index));
-			if (tmp.Width(font) > width) {
-				resized_lines.push_back(std::make_shared<String>(ustr->SubString(last_split_index, last_space_index + 1)));
-				last_split_index = last_space_index + 1;
-			}
-			last_space_index = next_space_index;
-
-		}
-
-	}
-
-	// Return the result.
-	return resized_lines;
-
-}
-
 float Clamp(float value, float min, float max) {
 
 	if (value > max)
