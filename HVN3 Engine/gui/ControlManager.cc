@@ -58,6 +58,16 @@ namespace Gui {
 		return _hovered_control;
 
 	}
+	const Handle<Control> ControlManager::ActiveControl() const {
+
+		return _hovered_control;
+
+	}
+	void ControlManager::ClearActiveControl() {
+
+		_hovered_control = nullptr;
+
+	}
 	Handle<Control> ControlManager::ControlAt(size_t index) {
 
 		return std::next(_controls.begin(), index)->get();

@@ -25,11 +25,16 @@ namespace Gui {
 
 	protected:
 		Gui::GuiManager* ChildControlManager();
+		bool HasActiveChildControl() const;
+		const Rectangle& ChildRegion() const;
+		void SetChildRegion(const Rectangle& region);
+		bool MouseInChildRegion() const;
 
 	private:
 		Gui::GuiManager _manager;
 		ContainerControlManager _control_manager;
 		Control* _control;
+		Rectangle _child_region;
 
 		void SetUpStyleManager();
 

@@ -97,8 +97,8 @@ namespace Gui {
 		void BringToFront();
 		void SendToBack();
 
-		Point FixedPosition();
-		Rectangle Bounds();
+		Point FixedPosition() const;
+		Rectangle Bounds() const;
 
 		float Scale() const;
 

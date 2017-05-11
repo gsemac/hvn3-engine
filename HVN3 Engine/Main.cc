@@ -145,9 +145,10 @@ public:
 		Window* wind = new Window(0, 0, 300, 400, "Window 1");
 		wind->Controls()->AddControl(Control::Create<Button>(100, 100, 150, 25, "Window Button 1"));
 		wind->Controls()->AddControl(Control::Create<Textbox>(100, 200, 150, 25));
+		wind->Controls()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"));
 
 		GuiManager()->ControlManager()->AddControl(Control::Create(wind));
-		GuiManager()->ControlManager()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"));
+		
 		//GuiManager()->ControlManager()->AddControl(Control::Create<Button>(100, 100, 150, 25, "Hello World"));
 
 	}

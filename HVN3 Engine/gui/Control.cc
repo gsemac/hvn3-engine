@@ -176,6 +176,8 @@ void Gui::Control::SetOpacity(float opacity) {
 		opacity = 0.0f;
 	__opacity = opacity;
 
+	Invalidate();
+
 }
 
 Size Gui::Control::MinimumSize() {
@@ -265,12 +267,12 @@ void Gui::Control::SendToBack() {
 
 }
 
-Point Gui::Control::FixedPosition() {
+Point Gui::Control::FixedPosition() const {
 
 	return __fixed_pos;
 
 }
-Rectangle Gui::Control::Bounds() {
+Rectangle Gui::Control::Bounds() const {
 
 	return Rectangle(__fixed_pos.X(), __fixed_pos.Y(), Width(), Height());
 

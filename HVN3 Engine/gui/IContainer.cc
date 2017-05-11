@@ -1,12 +1,14 @@
 #include "gui/IContainer.h"
 #include "gui/Control.h"
+#include "io/Mouse.h"
 
 namespace Gui {
 
 	IContainer::IContainer(Control* control) :
 		_manager(&_control_manager, nullptr),
 		_control_manager(&_manager, control),
-		_control(control) {
+		_control(control),
+		_child_region(control->Width(), control->Height()) {
 
 	}
 
@@ -14,7 +16,6 @@ namespace Gui {
 
 		SetUpStyleManager();
 
-		// Return the control manager.
 		return &_control_manager;
 
 	}
@@ -29,6 +30,31 @@ namespace Gui {
 		return &_manager;
 
 	}
+	bool IContainer::HasActiveChildControl() const {
+
+		return _control_manager.ActiveControl() != nullptr;
+
+	}
+	const Rectangle& IContainer::ChildRegion() const {
+
+		return _child_region;
+
+	}
+	void IContainer::SetChildRegion(const Rectangle& region) {
+
+		_child_region = region;
+
+	}
+	bool IContainer::MouseInChildRegion() const {
+
+		// Get the child region and offset it to match the control's position.
+		Rectangle region = _child_region;
+		region.Translate(_control->FixedPosition().X(), _control->FixedPosition().Y());
+
+		// Check if the mouse is in this region.
+		return Mouse::InRegion(region);
+
+	}
 
 	// Private methods
 
@@ -41,7 +67,7 @@ namespace Gui {
 
 	}
 
-	// Private member classes
+	// Private classes
 
 	IContainer::ContainerControlManager::ContainerControlManager(GuiManager* gui_manager, Control* parent)
 		: ControlManager(gui_manager),

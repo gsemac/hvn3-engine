@@ -35,6 +35,7 @@ namespace Gui {
 		const ResourceHandle<Drawing::Bitmap>& GetExitIcon();
 		Point ExitButtonPosition() const;
 		bool MouseOnExitButton() const;
+		void UpdateChildRegion();
 
 	private:
 		int __titlebar_height;
@@ -52,7 +53,7 @@ namespace Gui {
 		//Gui::Panel _panel;
 
 		// Returns the resize regions that the mouse is currently in. Returns 0 if the mouse is not in a resize region.
-		unsigned int GetMouseResizeRegions();
+		unsigned int GetMouseResizeSides() const;
 		// Sets the cursor depending on where it is on the Window.
 		void SetResizeCursor();
 		// Adjusts the size/position of the Window when resizing.

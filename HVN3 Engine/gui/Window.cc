@@ -34,6 +34,8 @@ namespace Gui {
 		_mouse_on_exit_button = false;
 		_fade_out = false;
 
+		UpdateChildRegion();
+		
 	}
 	Window::~Window() {
 
@@ -79,11 +81,11 @@ namespace Gui {
 		if (HasActiveChild())
 			return;
 
-		if (!__dragging && !__resizing && GetMouseResizeRegions()) {
+		if (!__dragging && !__resizing && GetMouseResizeSides()) {
 
 			// Initialize resizing variables.
 			__resizing = true;
-			__resizing_side = GetMouseResizeRegions();
+			__resizing_side = GetMouseResizeSides();
 			__drag_offset.SetXY(Mouse::X, Mouse::Y);
 			__original_size = Size(Width(), Height());
 			__original_position = Point(X(), Y());
@@ -111,7 +113,9 @@ namespace Gui {
 
 	}
 	void Window::OnMouseMove() {
-		if (HasActiveChild()) return;
+
+		if (HasActiveChild()) 
+			return;
 
 		// Set the cursor to a resize cursor if it passes over any edges.
 		if (!__resizing && !__dragging)
@@ -142,8 +146,22 @@ namespace Gui {
 		// Resize the Panel.
 		//_panel.Resize(Width(), Height() - TitlebarHeight() - DEF_OUTLINE_WIDTH);
 
+
+		// Set child region (region in which child controls can be interacted with).
+		UpdateChildRegion();
+
 	}
 	void Window::OnPaint(PaintEventArgs& e) {
+
+		// Draw main window area.
+		e.Graphics().DrawFilledRectangle(0, TitlebarHeight() - DEF_OUTLINE_WIDTH, Width(), Height() - TitlebarHeight(), BackColor());
+
+		// Draw Panel containing the child Controls.
+		Controls()->InvalidateAll();
+		Controls()->Draw(e);
+
+		// Draw main window border.
+		e.Graphics().DrawRectangle(0, TitlebarHeight() - 1.0f, Width(), Height() - TitlebarHeight() + 1.0f, Color(17, 17, 17), 1);
 
 		// Draw titlebar.
 		e.Graphics().DrawFilledRectangle(0, 0, Width(), TitlebarHeight(), BackColor());
@@ -165,25 +183,16 @@ namespace Gui {
 			e.Graphics().DrawBitmap(pos.X(), pos.Y(), *_exit_icon, tint);
 		}
 
-		// Draw main window area.
-		e.Graphics().DrawFilledRectangle(0, TitlebarHeight() - DEF_OUTLINE_WIDTH, Width(), Height() - TitlebarHeight(), BackColor());
-
-		// Draw Panel containing the child Controls.
-		//_panel.Invalidate();
-		//_panel.Draw(e);
-		Controls()->InvalidateAll();
-		Controls()->Draw(e);
-
-		// Draw main window border.
-		e.Graphics().DrawRectangle(0, TitlebarHeight() - 1.0f, Width(), Height() - TitlebarHeight(), Color(17, 17, 17), 1);
-
 	}
 	void Window::Update(UpdateEventArgs& e) {
 
 		//if (Manager())
 		//	_panel.Controls()->SetMouseEventsEnabled((Manager()->ControlManager()->ActiveControl() == this));
 
-		Controls()->Update(e);
+		if (MouseInChildRegion())
+			Controls()->Update(e);
+		else
+			Controls()->ClearActiveControl();
 
 		if (!Mouse::ButtonDown(MB_LEFT) && (__dragging || __resizing)) {
 			__dragging = false;
@@ -196,13 +205,17 @@ namespace Gui {
 			HandleResizing();
 		else if (__dragging) {
 			SetXY(__drag_offset.X() + Mouse::X, __drag_offset.Y() + Mouse::Y);
+			if (Parent())
+				Parent()->Invalidate();
 		}
 
-		if (_fade_out)
+		if (_fade_out) {
 			if (Opacity() > 0.0f)
-				SetOpacity(Opacity() - 3.0f * e.Delta());
+				SetOpacity(Opacity() - 5.0f * e.Delta());
 			else
 				Manager()->ControlManager()->RemoveControl(this);
+			Invalidate();
+		}
 
 	}
 
@@ -227,39 +240,51 @@ namespace Gui {
 	bool Window::MouseOnExitButton() const {
 
 		Point pos = ExitButtonPosition();
+		Point my_pos = FixedPosition();
 
-		return Mouse::InRegion(X() + pos.X(), Y() + pos.Y(), X() + pos.X() + _exit_icon->Width(), Y() + pos.Y() + _exit_icon->Height());
+		return Mouse::InRegion(
+			my_pos.X() + pos.X(),
+			my_pos.Y() + pos.Y(),
+			my_pos.X() + pos.X() + _exit_icon->Width(),
+			my_pos.Y() + pos.Y() + _exit_icon->Height()
+			);
+
+	}
+	void Window::UpdateChildRegion() {
+
+		SetChildRegion(Rectangle(RESIZE_REGION_WIDTH, __titlebar_height, Width() - RESIZE_REGION_WIDTH, Height() - __titlebar_height));
 
 	}
 
 	// Private methods
 
-	unsigned int Window::GetMouseResizeRegions() {
+	unsigned int Window::GetMouseResizeSides() const {
 
+		// A combination of sides indicating which sides the mouse is hovering over (maximum of 2).
 		unsigned int side = 0;
+		// The control's scale factor.
 		float scale = Scale();
+		// The global position of the control.
+		Point gp = FixedPosition();
 
-		if (Mouse::InRegion(
-			X(),
-			Y() + (Height() - RESIZE_REGION_WIDTH) * scale,
-			X() + Width() * scale,
-			Y() + (Height() + TitlebarHeight()) * scale))
+		if (Mouse::InRegion(gp.X(), gp.Y() + (Height() - RESIZE_REGION_WIDTH) * scale, gp.X() + Width() * scale, gp.Y() + (Height() + TitlebarHeight()) * scale))
 			side |= BOTTOM;
 
-		else if (Mouse::InRegion(X(), Y(), X() + Width() * scale, Y() + RESIZE_REGION_WIDTH * scale))
+		else if (Mouse::InRegion(gp.X(), gp.Y(), gp.X() + Width() * scale, gp.Y() + RESIZE_REGION_WIDTH * scale))
 			side |= TOP;
 
-		if (Mouse::InRegion(X(), Y(), X() + RESIZE_REGION_WIDTH * scale, Y() + Height() * scale))
+		if (Mouse::InRegion(gp.X(), gp.Y(), gp.X() + RESIZE_REGION_WIDTH * scale, gp.Y() + Height() * scale))
 			side |= LEFT;
 
-		else if (Mouse::InRegion(X() + Width() * scale - RESIZE_REGION_WIDTH * scale, Y(), X() + Width() * scale, Y() + Height() * scale))
+		else if (Mouse::InRegion(gp.X() + Width() * scale - RESIZE_REGION_WIDTH * scale, gp.Y(), gp.X() + Width() * scale, gp.Y() + Height() * scale))
 			side |= RIGHT;
+
 		return side;
 
 	}
 	void Window::SetResizeCursor() {
 
-		unsigned int region = GetMouseResizeRegions();
+		unsigned int region = GetMouseResizeSides();
 
 		if (!region)
 			Mouse::SetCursor(SystemCursor::Default);

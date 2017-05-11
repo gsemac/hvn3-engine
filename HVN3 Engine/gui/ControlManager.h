@@ -24,6 +24,8 @@ namespace Gui {
 		// Removes a control from the manager. Does nothing if the control does not exist.
 		virtual void RemoveControl(const Handle<Control>& control);
 		Handle<Control> ActiveControl();
+		const Handle<Control> ActiveControl() const;
+		void ClearActiveControl();
 		// Returns the control at the given index.
 		Handle<Control> ControlAt(size_t index);
 		// Returns the number of controls belonging to the manager.
