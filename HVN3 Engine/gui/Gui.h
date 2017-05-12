@@ -5,3 +5,4 @@
 #include "gui/Button.h"
 #include "gui/Window.h"
 #include "gui/Textbox.h"
+#include "gui/Scrollbar.h"

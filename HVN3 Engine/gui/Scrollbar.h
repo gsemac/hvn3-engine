@@ -1,45 +1,41 @@
-#ifndef __GUISCROLLBAR_H
-#define __GUISCROLLBAR_H
-#include "Object.h"
+#pragma once
+#include "gui/Control.h"
 
 class IScrollable;
 
 namespace Gui {
 
-	class Scrollbar : public Object {
-
-	private:
-		IScrollable* __obj;
-		float __width, __height;
-		float __slider_height;
-		float __position;
-
-		bool __dragging;
-		float __mouse_clicked_pos;
-		float __starting_position;
-
-		float PositionPercentage();
-		void ResizeSlider();
-		bool MouseOn();
+	class Scrollbar : public Control {
 
 	public:
-		Scrollbar();
-		Scrollbar(IScrollable* object, float height);
+		Scrollbar(IScrollable* control, Point position, Size size);
+		Scrollbar(IScrollable* control, Point position, Size size, Orientation orientation);
 
-		void SetHeight(float height);
 		void SetTarget(IScrollable* target);
-		void SetPosition(float position);
+		void SetScrollPosition(float percent);
+		float ScrollPosition() const;
 		void ScrollToBottom();
 		void ScrollToTop();
 
-		float Width();
-		bool Shown();
+		void OnResize() override;
+		void Update(UpdateEventArgs& e) override;
+		void OnPaint(PaintEventArgs& e) override;
 
-		void Draw();
-		void Update();
+	private:
+		IScrollable* _target;
+		Orientation _orientation;
+		float _position;
+
+
+		float _slider_height;
+
+		bool _dragging;
+		float _mouse_clicked_pos;
+		float _starting_position;
+
+		void RecalculateSliderSize();
+		bool MouseOnSlider();
 
 	};
 
 }
-
-#endif

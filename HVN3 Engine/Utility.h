@@ -71,7 +71,16 @@ bool Contains(const std::initializer_list<T>& items, const T& item) {
 }
 
 // Forces a value to be between a minimum and maximum value.
-float Clamp(float value, float min, float max);
+template <typename T>
+float Clamp(T value, T min, T max) {
+
+	if (value > max)
+		value = max;
+	else if (value < min)
+		value = min;
+	return value;
+
+}
 
 // Converts seconds to the number of frames that would pass in that time.
 float SecondsToFrames(float fps, float sec);

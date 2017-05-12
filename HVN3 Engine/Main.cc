@@ -148,8 +148,8 @@ public:
 		wind->Controls()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"));
 
 		GuiManager()->ControlManager()->AddControl(Control::Create(wind));
-		
-		//GuiManager()->ControlManager()->AddControl(Control::Create<Button>(100, 100, 150, 25, "Hello World"));
+		GuiManager()->ControlManager()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"))->SetBackColor(Color::DodgerBlue);
+		GuiManager()->ControlManager()->AddControl(Control::Create<Scrollbar>(nullptr, Point(0, 0), Size(3, 480)));
 
 	}
 	void OnRoomEnter(RoomEnterEventArgs& e) override {

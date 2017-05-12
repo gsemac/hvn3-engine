@@ -103,7 +103,7 @@ namespace Gui {
 		void ScrollToCaret() {
 
 			// Clamp the offset within an acceptable range.
-			__scroll_h_offset = Clamp(__scroll_h_offset, (std::min)(0.0f, -(Text().Width(*Font()) + __padding * 2 - Width())), 0);
+			__scroll_h_offset = Clamp((float)__scroll_h_offset, (std::min)(0.0f, -(Text().Width(*Font()) + __padding * 2 - Width())), 0.0f);
 
 			// Calculate the visible region of text and the (actual) caret position.
 			Range<float> visible_region(-__scroll_h_offset, -__scroll_h_offset + Width(), false);
@@ -716,7 +716,7 @@ namespace Gui {
 			void SetPosition(int pos) {
 
 				// Set the caret position (index).
-				pos = Clamp(pos, 0, __tb->Text().Length());
+				pos = Clamp((unsigned int)pos, 0U, (unsigned int)__tb->Text().Length());
 				__position = pos;
 
 				// Set the caret's actual position (pixel offset).
@@ -791,7 +791,7 @@ namespace Gui {
 		void ScrollTo(int pos) {
 
 			// Clamp the offset within an acceptable range.
-			__scroll_h_offset = Clamp(__scroll_h_offset, (std::min)(0.0f, -(Text().Width(*Font()) + __padding * 2 - Width())), 0);
+			__scroll_h_offset = Clamp((float)__scroll_h_offset, (std::min)(0.0f, -(Text().Width(*Font()) + __padding * 2 - Width())), 0.0f);
 
 			// Calculate the visible region of text and the (actual) caret position.
 			Range<float> visible_region(-__scroll_h_offset, -__scroll_h_offset + Width(), false);

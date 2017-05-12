@@ -25,7 +25,12 @@ namespace Gui {
 		RIGHT = 0x08
 	};
 	//ENABLE_BITFLAG_OPERATORS(SIDE);
-
+	
+	enum class Orientation {
+		Horizontal = 1,
+		Vertical = 2
+	};
+	
 	struct ResizeEventArgs {
 		ResizeEventArgs(float old_width, float old_height, float new_width, float new_height) : OldSize(old_width, old_height), NewSize(new_width, new_height) {
 
@@ -101,6 +106,8 @@ namespace Gui {
 		Rectangle Bounds() const;
 
 		float Scale() const;
+
+		bool IsActiveControl();
 
 		// Events
 		virtual void OnMouseLeave();

@@ -16,9 +16,6 @@ namespace Gui {
 		Window(float x, float y, float width, float height, const char* text);
 		~Window();
 
-		//void AddControl(std::unique_ptr<Control>& control);
-		//void RemoveControl(Control* control);
-		//Gui::ControlManager* Controls();
 		void SetTitlebarHeight(float value);
 		float TitlebarHeight() const;
 

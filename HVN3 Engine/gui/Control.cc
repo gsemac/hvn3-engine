@@ -284,6 +284,15 @@ float Gui::Control::Scale() const {
 
 }
 
+bool Gui::Control::IsActiveControl() {
+
+	if (__manager == nullptr)
+		return false;
+
+	return __manager->ControlManager()->ActiveControl() == this;
+
+}
+
 void Gui::Control::OnMouseLeave() {}
 void Gui::Control::OnMouseEnter() {}
 void Gui::Control::OnMouseHover() {}

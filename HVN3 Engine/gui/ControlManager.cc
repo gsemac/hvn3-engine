@@ -65,6 +65,9 @@ namespace Gui {
 	}
 	void ControlManager::ClearActiveControl() {
 
+		if (_hovered_control != nullptr)
+			_hovered_control->OnMouseLeave();
+
 		_hovered_control = nullptr;
 
 	}

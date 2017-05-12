@@ -7,8 +7,6 @@
 
 namespace Gui {
 
-	// Public
-
 	Window::Window(float x, float y, float width, float height, const char* text) :
 		Control(Point(x, y), Size(width, height + DEF_TITLEBAR_HEIGHT)),
 		ITextable(this, text),
@@ -41,24 +39,6 @@ namespace Gui {
 
 	}
 
-	//void Window::AddControl(std::unique_ptr<Control>& control) {
-
-	//	// Add the Control to the Panel.
-	//	_panel.Controls()->AddControl(control);
-
-	//}
-	//void Window::RemoveControl(Control* control) {
-
-	//	// Remove the Control from the Panel.
-	//	_panel.Controls()->RemoveControl(control);
-
-	//}
-	//Gui::ControlManager* Window::Controls() {
-
-	//	// Return a reference to the Panel's Controls.
-	//	return _panel.Controls();
-
-	//}
 	void Window::SetTitlebarHeight(float value) {
 
 		__titlebar_height = value;
@@ -189,7 +169,7 @@ namespace Gui {
 		//if (Manager())
 		//	_panel.Controls()->SetMouseEventsEnabled((Manager()->ControlManager()->ActiveControl() == this));
 
-		if (MouseInChildRegion())
+		if (IsActiveControl() && MouseInChildRegion())
 			Controls()->Update(e);
 		else
 			Controls()->ClearActiveControl();

@@ -64,17 +64,6 @@ float RadiansToDegrees(float radians) {
 	return ((radians * 180.0f) / PI);
 
 }
-
-float Clamp(float value, float min, float max) {
-
-	if (value > max)
-		value = max;
-	else if (value < min)
-		value = min;
-	return value;
-
-}
-
 float SecondsToFrames(float fps, float sec) {
 
 	return fps * sec;
