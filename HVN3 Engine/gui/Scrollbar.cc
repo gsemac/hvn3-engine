@@ -1,9 +1,7 @@
-#include <allegro5/allegro_primitives.h>
-#include <algorithm>
-#include <iostream>
-#include "Scrollbar.h"
-#include "IScrollable.h"
+#include "gui/Scrollbar.h"
+#include "gui/IScrollable.h"
 #include "io/Mouse.h"
+#include "Utility.h"
 #include "Color.h"
 
 namespace Gui {
@@ -38,7 +36,7 @@ namespace Gui {
 
 		// Adjust the scroll value of the associated object.
 		if (_target != nullptr)
-			_target->Scroll(ScrollPosition());
+			ScrollTargetToPosition();
 
 	}
 	float Scrollbar::ScrollPosition() const {
@@ -78,8 +76,8 @@ namespace Gui {
 		}
 
 		if (_dragging) {
-			_position = Min(Height() - _slider_height, std::max((float)0, _starting_position - (_mouse_clicked_pos - Mouse::Y)));
-			if (_target) _target->Scroll(ScrollPosition());
+			_position = Min(Height() - _slider_height, Max((float)0, _starting_position - (_mouse_clicked_pos - Mouse::Y)));
+			if (_target) ScrollTargetToPosition();
 		}
 		else if ((Mouse::ScrolledDown() || Mouse::ScrolledUp()) && _target && _target->HasFocus()) {
 			SetScrollPosition(ScrollPosition() + ((Mouse::ScrolledDown()) ? -0.05f : 0.05f));
@@ -90,7 +88,7 @@ namespace Gui {
 
 	}
 	void Scrollbar::OnPaint(PaintEventArgs& e) {
-		
+
 		e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor());
 		e.Graphics().DrawFilledRectangle(0, _position, Width(), _slider_height, MouseOnSlider() ? Color::White : Color::LtGrey);
 
@@ -113,7 +111,15 @@ namespace Gui {
 		//}
 
 		// Adjust the height of the slider.
-		_slider_height = (std::max)((float)0, (Height() / 2000) * Height());
+		_slider_height = Max((float)0, (Height() / 2000) * Height());
+
+	}
+	void Gui::Scrollbar::ScrollTargetToPosition() {
+
+		if (_orientation == Orientation::Horizontal)
+			_target->ScrollVertical(ScrollPosition());
+		else
+			_target->ScrollHorizontal(ScrollPosition());
 
 	}
 

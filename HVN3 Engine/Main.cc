@@ -142,13 +142,16 @@ public:
 		for (int i = 0; i < 100; ++i)
 			ObjectManager()->InstanceAdd(Object::Create<oBall>(200, 200));
 
-		Window* wind = new Window(0, 0, 300, 400, "Window 1");
-		wind->Controls()->AddControl(Control::Create<Button>(100, 100, 150, 25, "Window Button 1"));
-		wind->Controls()->AddControl(Control::Create<Textbox>(100, 200, 150, 25));
-		wind->Controls()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"));
+		//Window* wind = new Window(0, 0, 300, 400, "Window 1");
+		//wind->Controls()->AddControl(Control::Create<Button>(100, 100, 150, 25, "Window Button 1"));
+		//wind->Controls()->AddControl(Control::Create<Textbox>(100, 200, 150, 25));
+		//wind->Controls()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"));
 
-		GuiManager()->ControlManager()->AddControl(Control::Create(wind));
-		GuiManager()->ControlManager()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"))->SetBackColor(Color::DodgerBlue);
+		//GuiManager()->ControlManager()->AddControl(Control::Create(wind));
+		//GuiManager()->ControlManager()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"))->SetBackColor(Color::DodgerBlue);
+		Panel* panel = new Panel(100, 100, 100, 100);
+		panel->Controls()->AddControl(Control::Create<Button>(10, 10, 120, 25, "Panel Button"));
+		GuiManager()->ControlManager()->AddControl(Control::Create<Panel>(panel));
 		GuiManager()->ControlManager()->AddControl(Control::Create<Scrollbar>(nullptr, Point(0, 0), Size(3, 480)));
 
 	}

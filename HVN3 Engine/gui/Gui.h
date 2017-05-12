@@ -6,3 +6,4 @@
 #include "gui/Window.h"
 #include "gui/Textbox.h"
 #include "gui/Scrollbar.h"
+#include "gui/Panel.h"

@@ -444,6 +444,9 @@
     <ClCompile Include="StringUtils.cc">
       <Filter>Source Files\Helper</Filter>
     </ClCompile>
+    <ClCompile Include="gui\IScrollable.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -531,9 +534,6 @@
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="IPositionable.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="IScrollable.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="ISizeable.h">
@@ -832,6 +832,9 @@
     </ClInclude>
     <ClInclude Include="StringUtils.h">
       <Filter>Header Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\IScrollable.h">
+      <Filter>Header Files\Resources\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

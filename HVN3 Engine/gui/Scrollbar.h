@@ -1,12 +1,12 @@
 #pragma once
 #include "gui/Control.h"
 
-class IScrollable;
-
 namespace Gui {
 
-	class Scrollbar : public Control {
+	class IScrollable;
 
+	class Scrollbar : public Control {
+		
 	public:
 		Scrollbar(IScrollable* control, Point position, Size size);
 		Scrollbar(IScrollable* control, Point position, Size size, Orientation orientation);
@@ -35,6 +35,7 @@ namespace Gui {
 
 		void RecalculateSliderSize();
 		bool MouseOnSlider();
+		void ScrollTargetToPosition();
 
 	};
 

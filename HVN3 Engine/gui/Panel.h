@@ -1,7 +1,8 @@
 #pragma once
-#include "GUIManager.h"
-#include "IContainer.h"
-#include "Control.h"
+#include "gui/GuiManager.h"
+#include "gui/IContainer.h"
+#include "gui/IScrollable.h"
+#include "gui/Control.h"
 #include "Graphics.h"
 #include "Exception.h"
 
@@ -18,7 +19,7 @@ namespace Gui {
 
 		virtual void Invalidate() override {
 
-			Controls()->InvalidateAll();
+			//Controls()->InvalidateAll();
 
 
 			Control::Invalidate();
@@ -63,10 +64,8 @@ namespace Gui {
 
 		}
 		virtual void OnPaint(PaintEventArgs& e) override {
-			std::cout << "panel onpaint";
-			//e.Graphics().Clear(BackColor());
-
-			e.Graphics().Clear(Color::Red);
+		
+			e.Graphics().Clear(BackColor());
 
 			//e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor());
 
@@ -90,13 +89,6 @@ namespace Gui {
 			// Update child Controls.
 			Controls()->Update(e);
 
-
-		}
-		virtual void Draw(DrawEventArgs& e) override {
-
-			std::cout << "panel drawing";
-
-			Control::Draw(e);
 
 		}
 
