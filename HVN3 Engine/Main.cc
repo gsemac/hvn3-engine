@@ -149,7 +149,7 @@ public:
 
 		//GuiManager()->ControlManager()->AddControl(Control::Create(wind));
 		//GuiManager()->ControlManager()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"))->SetBackColor(Color::DodgerBlue);
-		Panel* panel = new Panel(100, 100, 100, 100);
+		Panel* panel = new Panel(100, 100, 300, 300);
 		panel->Controls()->AddControl(Control::Create<Button>(10, 10, 120, 25, "Panel Button"));
 		GuiManager()->ControlManager()->AddControl(Control::Create<Panel>(panel));
 		GuiManager()->ControlManager()->AddControl(Control::Create<Scrollbar>(nullptr, Point(0, 0), Size(3, 480)));

@@ -29,7 +29,8 @@ Point Gui::Control::GetFixedPosition() {
 // Public members
 
 Gui::Control::Control() :
-	Control(Point(0.0f, 0.0f), Size(0.0f, 0.0f)) {}
+	Control(Point(0.0f, 0.0f), Size(0.0f, 0.0f)) {
+}
 Gui::Control::Control(const Point& location, const Size& size) :
 	IPositionable(location.X(), location.Y()),
 	ISizeable(size.Width(), size.Height()),
@@ -38,8 +39,7 @@ Gui::Control::Control(const Point& location, const Size& size) :
 	__minimum_size(0.0f, 0.0f),
 	__maximum_size(FLT_MAX, FLT_MAX),
 	__previous_pos(location.X(), location.Y()),
-	_surface(size.Width(), size.Height())
-{
+	_surface(size.Width(), size.Height()) {
 
 	_parent = nullptr;
 	__manager = nullptr;
@@ -89,7 +89,7 @@ void Gui::Control::Draw(DrawEventArgs& e) {
 
 }
 void Gui::Control::Resize(float width, float height) {
-	
+
 	// Clamp values within the maximum/minimum size.
 	width = Clamp(width, __minimum_size.Width(), __maximum_size.Width());
 	height = Clamp(height, __minimum_size.Height(), __maximum_size.Height());
@@ -113,7 +113,7 @@ void Gui::Control::Invalidate() {
 
 	_invalidated = true;
 
-	if (_parent) 
+	if (_parent)
 		_parent->Invalidate();
 
 }
@@ -235,8 +235,14 @@ void Gui::Control::SetParent(Control* parent) {
 
 	_parent = parent;
 
+	// Update the control's position relative to its parent.
+	__fixed_pos = GetFixedPosition();
+
 }
 Gui::GuiManager* Gui::Control::Manager() {
+
+	if (__manager == nullptr && Parent() != nullptr)
+		return Parent()->Manager();
 
 	return __manager;
 
@@ -314,3 +320,4 @@ void Gui::Control::OnLostFocus() {}
 void Gui::Control::OnKeyDown() {}
 void Gui::Control::OnKeyPressed() {}
 void Gui::Control::OnKeyReleased() {}
+void Gui::Control::OnManagerChanged(ManagerChangedEventArgs& e) {}

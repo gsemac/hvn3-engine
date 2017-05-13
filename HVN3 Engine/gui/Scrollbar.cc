@@ -62,10 +62,11 @@ namespace Gui {
 
 	}
 	void Scrollbar::Update(UpdateEventArgs& e) {
+
 		Invalidate();
 		if (MouseOnSlider() && Mouse::ButtonPressed(MB_LEFT)) {
 
-			_mouse_clicked_pos = Mouse::Y;
+			_mouse_clicked_pos = (_orientation == Orientation::Vertical ? Mouse::Y : Mouse::X);
 			_starting_position = _position;
 			_dragging = true;
 
@@ -76,8 +77,12 @@ namespace Gui {
 		}
 
 		if (_dragging) {
-			_position = Min(Height() - _slider_height, Max((float)0, _starting_position - (_mouse_clicked_pos - Mouse::Y)));
-			if (_target) ScrollTargetToPosition();
+			if(_orientation == Orientation::Vertical)
+				_position = Min(Height() - _slider_height, Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::Y)));
+			else
+				_position = Min(Width() - _slider_height, Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::X)));
+			if (_target) 
+				ScrollTargetToPosition();
 		}
 		else if ((Mouse::ScrolledDown() || Mouse::ScrolledUp()) && _target && _target->HasFocus()) {
 			SetScrollPosition(ScrollPosition() + ((Mouse::ScrolledDown()) ? -0.05f : 0.05f));
@@ -90,7 +95,11 @@ namespace Gui {
 	void Scrollbar::OnPaint(PaintEventArgs& e) {
 
 		e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor());
-		e.Graphics().DrawFilledRectangle(0, _position, Width(), _slider_height, MouseOnSlider() ? Color::White : Color::LtGrey);
+
+		if (_orientation == Orientation::Vertical)
+			e.Graphics().DrawFilledRectangle(0, _position, Width(), _slider_height, MouseOnSlider() ? Color::White : Color::LtGrey);
+		else
+			e.Graphics().DrawFilledRectangle(_position, 0, _slider_height, Height(), MouseOnSlider() ? Color::White : Color::LtGrey);
 
 	}
 
@@ -99,7 +108,10 @@ namespace Gui {
 
 		Point fp = FixedPosition();
 
-		return (Mouse::X > fp.X() && Mouse::X < fp.X() + Width() && Mouse::Y > fp.Y() + _position && Mouse::Y < fp.Y() + _position + _slider_height);
+		if (_orientation == Orientation::Vertical)
+			return Mouse::InRegion(fp.X(), fp.Y() + _position, fp.X() + Width(), fp.Y() + _position + _slider_height);
+		else
+			return Mouse::InRegion(fp.X() + _position, fp.Y(), fp.X() + _position + _slider_height, fp.Y() + Height());
 
 	}
 	void Gui::Scrollbar::RecalculateSliderSize() {
@@ -111,7 +123,10 @@ namespace Gui {
 		//}
 
 		// Adjust the height of the slider.
-		_slider_height = Max((float)0, (Height() / 2000) * Height());
+		if (_orientation == Orientation::Vertical)
+			_slider_height = Max((float)0, (Height() / 2000) * Height());
+		else
+			_slider_height = Max((float)0, (Width() / 2000) * Width());
 
 	}
 	void Gui::Scrollbar::ScrollTargetToPosition() {

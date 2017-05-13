@@ -51,6 +51,25 @@ namespace Gui {
 
 	};
 
+	class ManagerChangedEventArgs : public EventArgs {
+
+	public:
+		ManagerChangedEventArgs(GuiManager* old_manager) {
+
+			_old_manager = old_manager;
+
+		}
+		GuiManager* PreviousManager() {
+
+			return _old_manager;
+
+		}
+
+	private:
+		GuiManager* _old_manager;
+
+	};
+
 	class Control : public IDrawable, public IUpdatable, public IPositionable, public ISizeable, public IFocusable {
 		friend class ControlController;
 
@@ -59,6 +78,7 @@ namespace Gui {
 
 		Control();
 		Control(const Point& location, const Size& size);
+		virtual ~Control() = default;
 
 		virtual void Update(UpdateEventArgs& e) override;
 		void Draw(DrawEventArgs& e) override;
@@ -126,6 +146,7 @@ namespace Gui {
 		virtual void OnKeyDown();
 		virtual void OnKeyPressed();
 		virtual void OnKeyReleased();
+		virtual void OnManagerChanged(ManagerChangedEventArgs& e);
 
 		template<typename T, typename ... Args>
 		static std::unique_ptr<Control> Create(Args &&... args) {

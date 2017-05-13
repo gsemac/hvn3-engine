@@ -3,18 +3,33 @@
 #include "gui/IContainer.h"
 #include "gui/IScrollable.h"
 #include "gui/Control.h"
+#include "gui/Scrollbar.h"
 #include "Graphics.h"
 #include "Exception.h"
 
 namespace Gui {
 
-	class Panel : public Control, public IContainer {
+	class Panel : public Control, public IContainer, public IScrollable {
 
 	public:
 		Panel(float x, float y, float width, float height)
 			: Control(Point(x, y), Size(width, height)),
 			IContainer(this),
-			_prev_size(width, height) {
+			IScrollable(this),
+			_prev_size(width, height),
+			v_scrollbar(nullptr) {
+
+			Controls()->AddControl(Control::Create(new Scrollbar(this, Point(0, 20), Size(20, Height() - 20), Orientation::Vertical)))->SetParent(this);
+			Controls()->AddControl(Control::Create(new Scrollbar(this, Point(20, 0), Size(Width() - 20, 20), Orientation::Horizontal)))->SetParent(this);
+
+		}
+		~Panel() override {
+
+			if (v_scrollbar)
+				delete v_scrollbar;
+
+			v_scrollbar = nullptr;
+
 		}
 
 		virtual void Invalidate() override {
@@ -23,6 +38,15 @@ namespace Gui {
 
 
 			Control::Invalidate();
+
+		}
+
+		virtual void ScrollVertical(float percent) {
+
+
+
+		}
+		virtual void ScrollHorizontal(float percent) {
 
 		}
 
@@ -64,7 +88,7 @@ namespace Gui {
 
 		}
 		virtual void OnPaint(PaintEventArgs& e) override {
-		
+
 			e.Graphics().Clear(BackColor());
 
 			//e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor());
@@ -91,10 +115,22 @@ namespace Gui {
 
 
 		}
+		virtual void OnManagerChanged(ManagerChangedEventArgs& e) override {
+
+			//// Remove scrollbars from the previous manager.
+			//if (e.PreviousManager() != nullptr)
+			//	e.PreviousManager()->ControlManager()->RemoveControl(v_scrollbar);
+
+			//// Add scrollbars to the new manager.
+			//if (Manager() != nullptr)
+			//	Manager()->ControlManager()->AddControl(Control::Create(v_scrollbar));
+
+		}
 
 	private:
+		Handle<Scrollbar> v_scrollbar;
 		Size _prev_size;
-		
+
 	};
 
 }
