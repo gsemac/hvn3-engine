@@ -29,8 +29,8 @@ void IPositionable::SetY(float y) {
 }
 void IPositionable::SetXY(float x, float y) {
 
-	SetX(x);
-	SetY(y);
+	__x = x;
+	__y = y;
 
 }
 void IPositionable::TranslateX(float x_offset) {

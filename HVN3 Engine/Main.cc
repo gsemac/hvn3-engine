@@ -146,11 +146,12 @@ public:
 		//wind->Controls()->AddControl(Control::Create<Button>(100, 100, 150, 25, "Window Button 1"));
 		//wind->Controls()->AddControl(Control::Create<Textbox>(100, 200, 150, 25));
 		//wind->Controls()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"));
-
+		std::cout << "?: " << std::endl;
 		//GuiManager()->ControlManager()->AddControl(Control::Create(wind));
-		//GuiManager()->ControlManager()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"))->SetBackColor(Color::DodgerBlue);
+		GuiManager()->ControlManager()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"))->SetBackColor(Color::DodgerBlue);
 		Panel* panel = new Panel(100, 100, 300, 300);
-		panel->Controls()->AddControl(Control::Create<Button>(10, 10, 120, 25, "Panel Button"));
+		panel->Controls()->AddControl(Control::Create<Button>(0, 0, 120, 25, "Panel Button 1"));
+		panel->Controls()->AddControl(Control::Create<Button>(0, 250, 120, 25, "Panel Button 2"));
 		GuiManager()->ControlManager()->AddControl(Control::Create<Panel>(panel));
 		GuiManager()->ControlManager()->AddControl(Control::Create<Scrollbar>(nullptr, Point(0, 0), Size(3, 480)));
 

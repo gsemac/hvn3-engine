@@ -11,11 +11,11 @@ namespace Gui {
 	}
 	Scrollbar::Scrollbar(IScrollable* control, Point position, Size size, Orientation orientation) :
 		Control(position, size),
-		_target(control),
 		_orientation(orientation),
 		_position(0),
 		_dragging(false) {
 
+		SetTarget(control);
 		RecalculateSliderSize();
 
 	}
@@ -26,32 +26,44 @@ namespace Gui {
 		_target = target;
 
 	}
-	void Scrollbar::SetScrollPosition(float percent) {
+	void Scrollbar::SetScrollPercentage(float percent) {
 
 		// Make sure that percentage value is valid.
 		percent = Clamp(percent, 0.0f, 1.0f);
 
 		// Adjust the position of the slider.
-		_position = (Height() - _slider_height) * percent;
+		if (_orientation == Orientation::Vertical)
+			_position = (Height() - _slider_height) * percent;
+		else
+			_position = (Width() - _slider_height) * percent;
 
 		// Adjust the scroll value of the associated object.
 		if (_target != nullptr)
 			ScrollTargetToPosition();
 
 	}
-	float Scrollbar::ScrollPosition() const {
+	float Scrollbar::ScrollPercentage() const {
 
-		return _position / (Height() - _slider_height);
+		if (_orientation == Orientation::Vertical)
+			if (Height() == _slider_height)
+				return 0.0f;
+			else
+				return _position / (Height() - _slider_height);
+		else
+			if (Width() == _slider_height)
+				return 0.0f;
+			else
+				return _position / (Width() - _slider_height);
 
 	}
 	void Scrollbar::ScrollToTop() {
 
-		SetScrollPosition(0);
+		SetScrollPercentage(0);
 
 	}
 	void Scrollbar::ScrollToBottom() {
 
-		SetScrollPosition(1.0f);
+		SetScrollPercentage(1.0f);
 
 	}
 
@@ -77,15 +89,15 @@ namespace Gui {
 		}
 
 		if (_dragging) {
-			if(_orientation == Orientation::Vertical)
+			if (_orientation == Orientation::Vertical)
 				_position = Min(Height() - _slider_height, Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::Y)));
 			else
 				_position = Min(Width() - _slider_height, Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::X)));
-			if (_target) 
+			if (_target)
 				ScrollTargetToPosition();
 		}
 		else if ((Mouse::ScrolledDown() || Mouse::ScrolledUp()) && _target && _target->HasFocus()) {
-			SetScrollPosition(ScrollPosition() + ((Mouse::ScrolledDown()) ? -0.05f : 0.05f));
+			SetScrollPercentage(ScrollPercentage() + ((Mouse::ScrolledDown()) ? -0.05f : 0.05f));
 		}
 
 		// Update the slider height according to the maximum scroll value.
@@ -94,16 +106,17 @@ namespace Gui {
 	}
 	void Scrollbar::OnPaint(PaintEventArgs& e) {
 
-		e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor());
+		e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor().Lighter());
 
 		if (_orientation == Orientation::Vertical)
-			e.Graphics().DrawFilledRectangle(0, _position, Width(), _slider_height, MouseOnSlider() ? Color::White : Color::LtGrey);
+			e.Graphics().DrawFilledRectangle(0, _position, Width(), _slider_height, MouseOnSlider() ? Color::LtGrey : Color::Grey);
 		else
-			e.Graphics().DrawFilledRectangle(_position, 0, _slider_height, Height(), MouseOnSlider() ? Color::White : Color::LtGrey);
+			e.Graphics().DrawFilledRectangle(_position, 0, _slider_height, Height(), MouseOnSlider() ? Color::LtGrey : Color::Grey);
 
 	}
 
 	// Private methods
+
 	bool Gui::Scrollbar::MouseOnSlider() {
 
 		Point fp = FixedPosition();
@@ -116,25 +129,28 @@ namespace Gui {
 	}
 	void Gui::Scrollbar::RecalculateSliderSize() {
 
-		//// Default to 0 for invalid/missing parameters.
-		//if (!_target || _target->ScrollMax < Height()) {
-		//	_slider_height = 0;
-		//	return;
-		//}
-
 		// Adjust the height of the slider.
 		if (_orientation == Orientation::Vertical)
-			_slider_height = Max((float)0, (Height() / 2000) * Height());
+			if (_target == nullptr || _target->ScrollableRegion().Height() < Height())
+				_slider_height = Height();
+			else
+				_slider_height = Max(0.0f, (_target->VisibleRegion().Height() / _target->ScrollableRegion().Height()) * Height());
 		else
-			_slider_height = Max((float)0, (Width() / 2000) * Width());
+			if (_target == nullptr || _target->ScrollableRegion().Width() < Width())
+				_slider_height = Width();
+			else
+				_slider_height = Max(0.0f, (_target->VisibleRegion().Width() / _target->ScrollableRegion().Width()) * Width());
+
+		// Set a minimum size for the slider so it doesn't become unclickable.
+		_slider_height = Max(_slider_height, 15.0f);
 
 	}
 	void Gui::Scrollbar::ScrollTargetToPosition() {
 
-		if (_orientation == Orientation::Horizontal)
-			_target->ScrollVertical(ScrollPosition());
+		if (_orientation == Orientation::Vertical)
+			_target->OnScroll(ScrollEventArgs(ScrollPercentage(), (_target->ScrollableRegion().Height() - _target->VisibleRegion().Height()) * ScrollPercentage(), _orientation));
 		else
-			_target->ScrollHorizontal(ScrollPosition());
+			_target->OnScroll(ScrollEventArgs(ScrollPercentage(), (_target->ScrollableRegion().Width() - _target->VisibleRegion().Width()) * ScrollPercentage(), _orientation));
 
 	}
 

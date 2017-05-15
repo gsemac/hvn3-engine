@@ -6,29 +6,26 @@
 #include "gui/Scrollbar.h"
 #include "Graphics.h"
 #include "Exception.h"
+#define PANEL_SCROLLBAR_DEFAULT_WIDTH 10
 
 namespace Gui {
 
 	class Panel : public Control, public IContainer, public IScrollable {
 
+		enum SCROLLBAR : bool {
+			VERTICAL,
+			HORIZONTAL
+		};
+
 	public:
 		Panel(float x, float y, float width, float height)
 			: Control(Point(x, y), Size(width, height)),
 			IContainer(this),
-			IScrollable(this),
-			_prev_size(width, height),
-			v_scrollbar(nullptr) {
-
-			Controls()->AddControl(Control::Create(new Scrollbar(this, Point(0, 20), Size(20, Height() - 20), Orientation::Vertical)))->SetParent(this);
-			Controls()->AddControl(Control::Create(new Scrollbar(this, Point(20, 0), Size(Width() - 20, 20), Orientation::Horizontal)))->SetParent(this);
-
-		}
-		~Panel() override {
-
-			if (v_scrollbar)
-				delete v_scrollbar;
-
-			v_scrollbar = nullptr;
+			IScrollable(this, Rectangle(width, height)),
+			_prev_size(width, height) {
+		
+			_scrollbars[0] = nullptr;
+			_scrollbars[1] = nullptr;
 
 		}
 
@@ -41,15 +38,19 @@ namespace Gui {
 
 		}
 
-		virtual void ScrollVertical(float percent) {
+		virtual void OnScroll(ScrollEventArgs& e) override {
 
+			// For each child control, we want it to be shifted by the scroll offset.
+			if (e.Orientation() == Orientation::Vertical)
+				Controls()->SetControlOffset(Controls()->ControlOffset().X(), Round(-e.Position()));
+			else
+				Controls()->SetControlOffset(Round(-e.Position()), Controls()->ControlOffset().Y());
 
+			IScrollable::OnScroll(e);
+
+			Invalidate();
 
 		}
-		virtual void ScrollHorizontal(float percent) {
-
-		}
-
 		virtual void OnResize() override {
 
 			// Calculate the difference in size.
@@ -57,7 +58,7 @@ namespace Gui {
 			float height_diff = Height() - _prev_size.Height();
 
 			// Reposition all anchored Controls.
-			for (auto it = Controls()->_controls.rbegin(); it != Controls()->_controls.rend(); ++it) {
+			for (auto it = Controls()->ControlsEnd(); it-- != Controls()->ControlsBegin();) {
 
 				Control* c = it->get();
 
@@ -89,46 +90,65 @@ namespace Gui {
 		}
 		virtual void OnPaint(PaintEventArgs& e) override {
 
+			// Draw the background color of the control.
 			e.Graphics().Clear(BackColor());
 
-			//e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor());
-
+			// Draw child controls.
 			Controls()->Draw(e);
 
-			//// Clear main Bitmap.
-			//Graphics::DrawClear(BackColor());
+		}
+		virtual void OnMove(MoveEventArgs& e) override {
 
-			//// Draw child to a separate Bitmap (to allow for relative positioning).
-			//if (!__child_bitmap) __child_bitmap = al_create_bitmap(Width(), Height());
-			//Graphics::SetDrawingTarget(__child_bitmap);
-			//__manager.Draw();
-			//Graphics::ResetDrawingTarget();
+			// Update the position of the scrollbars to match the control's new position.
+			if (_scrollbars[VERTICAL] != nullptr)
+				_scrollbars[VERTICAL]->SetXY(X() + Width() - _scrollbars[VERTICAL]->Width(), Y());
+			if (_scrollbars[HORIZONTAL] != nullptr)
+				_scrollbars[HORIZONTAL]->SetXY(X(), Y() + Height() - _scrollbars[HORIZONTAL]->Height());
 
-			//// Draw child Controls Bitmap.
-			//al_draw_bitmap(__child_bitmap, X(), Y(), NULL);
+			Control::OnMove(e);
 
 		}
 		virtual void Update(UpdateEventArgs& e) override {
 
 			// Update child Controls.
-			Controls()->Update(e);
-
+			if (IsActiveControl())
+				Controls()->Update(e);
+			else
+				Controls()->ClearActiveControl();
 
 		}
 		virtual void OnManagerChanged(ManagerChangedEventArgs& e) override {
 
-			//// Remove scrollbars from the previous manager.
-			//if (e.PreviousManager() != nullptr)
-			//	e.PreviousManager()->ControlManager()->RemoveControl(v_scrollbar);
+			// If the new manager is null, do nothing but set scrollbars to null. 
+			// They would've been deleted by the previous manager's control manager.
+			if (Manager() == nullptr) {
+				_scrollbars[VERTICAL] = nullptr;
+				_scrollbars[HORIZONTAL] = nullptr;
+				return;
+			}
 
-			//// Add scrollbars to the new manager.
-			//if (Manager() != nullptr)
-			//	Manager()->ControlManager()->AddControl(Control::Create(v_scrollbar));
+			// If scrollbars haven't been created yet, create them.
+			if (_scrollbars[VERTICAL] == nullptr)
+				_scrollbars[VERTICAL] = new Scrollbar(this, Point(X() + Width() - PANEL_SCROLLBAR_DEFAULT_WIDTH, Y() + PANEL_SCROLLBAR_DEFAULT_WIDTH), Size(PANEL_SCROLLBAR_DEFAULT_WIDTH, Height() - PANEL_SCROLLBAR_DEFAULT_WIDTH), Orientation::Vertical);
+			if (_scrollbars[HORIZONTAL] == nullptr)
+				_scrollbars[HORIZONTAL] = new Scrollbar(this, Point(X(), Y() + Height() - PANEL_SCROLLBAR_DEFAULT_WIDTH), Size(Width() - PANEL_SCROLLBAR_DEFAULT_WIDTH, PANEL_SCROLLBAR_DEFAULT_WIDTH), Orientation::Horizontal);
+
+			// Move scrollbars from the previous manager to the new manager, if the previous manager was non-null.
+			if (e.PreviousManager() != nullptr) {
+				e.PreviousManager()->ControlManager()->MoveControl(_scrollbars[VERTICAL], Manager()->ControlManager());
+				e.PreviousManager()->ControlManager()->MoveControl(_scrollbars[HORIZONTAL], Manager()->ControlManager());
+			}
+
+			// Otherwise, just add them to the new manager.
+			else {
+				Manager()->ControlManager()->AddControl(Control::Create(_scrollbars[VERTICAL]));
+				Manager()->ControlManager()->AddControl(Control::Create(_scrollbars[HORIZONTAL]));
+			}
 
 		}
 
 	private:
-		Handle<Scrollbar> v_scrollbar;
+		Scrollbar* _scrollbars[2];
 		Size _prev_size;
 
 	};

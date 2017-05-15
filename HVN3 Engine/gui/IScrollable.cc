@@ -4,16 +4,48 @@
 namespace Gui {
 
 	IScrollable::IScrollable(Control* control) :
-		IScrollable(control, 0) {
+		IScrollable(control, control->Height()) {
 	}
-	IScrollable::IScrollable(Control* control, float vertical_max) :
-		IScrollable(control, vertical_max, 0) {
+	IScrollable::IScrollable(Control* control, float scroll_height) :
+		IScrollable(control, Rectangle(scroll_height, control->Width())) {
 	}
-	IScrollable::IScrollable(Control* control, float horizontal_max, float vertical_max) {
+	IScrollable::IScrollable(Control* control, Rectangle scrollable_region) :
+		_visible_region(control->Width(), control->Height()),
+		_scrollable_region(scrollable_region) {
 
 		_control = control;
-		_horizontal_max = horizontal_max;
-		_vertical_max = vertical_max;
+
+	}
+
+	void IScrollable::OnScroll(ScrollEventArgs& e) {
+
+		if (e.Orientation() == Orientation::Vertical)
+			_vertical_scroll_pos = e.Percentage();
+		else
+			_horizontal_scroll_pos = e.Percentage();
+
+		_control->Invalidate();
+
+	}
+
+	void IScrollable::SetVisibleRegion(const Rectangle& region) {
+
+		_visible_region = region;
+
+	}
+	const Rectangle& IScrollable::VisibleRegion() const {
+
+		return _visible_region;
+
+	}
+	void IScrollable::SetScrollableRegion(const Rectangle& region) {
+
+		_scrollable_region = region;
+
+	}
+	const Rectangle& IScrollable::ScrollableRegion() const {
+
+		return _scrollable_region;
 
 	}
 

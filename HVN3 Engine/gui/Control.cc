@@ -14,15 +14,21 @@ bool Gui::Control::HasActiveChild() {
 }
 Point Gui::Control::GetFixedPosition() {
 
-	Point p(X(), Y());
-	Control* control = this;
+	Point fp(X(), Y());
 
-	while (control->Parent()) {
-		control = control->Parent();
-		p.Translate(control->X(), control->Y());
-	}
+	if (Parent())
+		fp.Translate(Parent()->FixedPosition().X(), Parent()->FixedPosition().Y());
 
-	return p;
+	//while (control->Parent()) {
+	//	control = control->Parent();
+	//	p.Translate(control->X(), control->Y());
+	//}
+
+	// Apply the control manager's control offset.
+	if (Manager() && Manager()->ControlManager())
+		fp.Translate(Manager()->ControlManager()->ControlOffset().X(), Manager()->ControlManager()->ControlOffset().Y());
+
+	return fp;
 
 }
 
@@ -299,6 +305,34 @@ bool Gui::Control::IsActiveControl() {
 
 }
 
+void Gui::Control::SetX(float x) {
+
+	Point old_position(X(), Y());
+
+	IPositionable::SetX(x);
+
+	OnMove(MoveEventArgs(old_position));
+
+}
+void Gui::Control::SetY(float y) {
+
+	Point old_position(X(), Y());
+
+	IPositionable::SetY(y);
+
+	OnMove(MoveEventArgs(old_position));
+
+}
+void Gui::Control::SetXY(float x, float y) {
+
+	Point old_position(X(), Y());
+
+	IPositionable::SetXY(x, y);
+
+	OnMove(MoveEventArgs(old_position));
+
+}
+
 void Gui::Control::OnMouseLeave() {}
 void Gui::Control::OnMouseEnter() {}
 void Gui::Control::OnMouseHover() {}
@@ -309,7 +343,7 @@ void Gui::Control::OnClick() {}
 void Gui::Control::OnDoubleClick() {}
 void Gui::Control::OnPaint(PaintEventArgs& e) {}
 void Gui::Control::OnResize() {}
-void Gui::Control::OnMove() {
+void Gui::Control::OnMove(MoveEventArgs& e) {
 
 	// Update fixed coordinates (relative to view origin).
 	__fixed_pos = GetFixedPosition();

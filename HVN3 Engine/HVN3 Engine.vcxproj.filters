@@ -435,9 +435,6 @@
     <ClCompile Include="gui\ControlManager.cc">
       <Filter>Source Files\Resources\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="gui\ControlCollection.cc">
-      <Filter>Source Files\Resources\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="Utility.cc">
       <Filter>Source Files\Helper</Filter>
     </ClCompile>
@@ -445,6 +442,9 @@
       <Filter>Source Files\Helper</Filter>
     </ClCompile>
     <ClCompile Include="gui\IScrollable.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ScrollEventArgs.cc">
       <Filter>Source Files\Resources\GUI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -818,9 +818,6 @@
     <ClInclude Include="gui\ControlManager.h">
       <Filter>Header Files\Resources\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="gui\ControlCollection.h">
-      <Filter>Header Files\Resources\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="ICollection.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
@@ -834,6 +831,9 @@
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
     <ClInclude Include="gui\IScrollable.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ScrollEventArgs.h">
       <Filter>Header Files\Resources\GUI</Filter>
     </ClInclude>
   </ItemGroup>

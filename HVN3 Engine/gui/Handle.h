@@ -2,6 +2,9 @@ template <typename T>
 class Handle {
 
 public:
+	Handle() :
+		_ptr(nullptr) {
+	}
 	Handle(T* ptr) :
 		_ptr(ptr) {
 	}

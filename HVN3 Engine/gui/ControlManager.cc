@@ -21,7 +21,7 @@ namespace Gui {
 	}
 	ControlManager::~ControlManager() {}
 
-	Handle<Control> ControlManager::AddControl(ControlPtr& control) {
+	Handle<Control> ControlManager::AddControl(content_type& control) {
 
 		// Set the control's parent manager to this object.
 		ControlController(*control).SetManager(_gui_manager);
@@ -51,6 +51,24 @@ namespace Gui {
 		//// If it was found, remove it.
 		//if (iter != _controls.end())
 		//	_controls.erase(iter);
+
+	}
+	void ControlManager::MoveControl(const Handle<Control>& control, ControlManager* other) {
+
+		// Get a pointer to the control.
+		Control* ptr = control;
+
+		// Find the control in our collection.
+		auto iter = FindControlByAddress(ptr);
+
+		// Move it into a new smart pointer object, invalidating the old one.
+		ControlPtr new_ptr = std::move(*iter);
+
+		// Mark the old control for removal.
+		_pending_removal.push_back(iter);
+
+		// Add the control to the other manager.
+		other->AddControl(new_ptr);
 
 	}
 	Handle<Control> ControlManager::ActiveControl() {
@@ -84,6 +102,27 @@ namespace Gui {
 	void ControlManager::Clear() {
 
 		_controls.clear();
+
+	}
+
+	ControlManager::collection_type::iterator ControlManager::ControlsBegin() {
+
+		return _controls.begin();
+
+	}
+	ControlManager::collection_type::iterator ControlManager::ControlsEnd() {
+
+		return _controls.end();
+
+	}
+	ControlManager::collection_type::const_iterator ControlManager::ControlsBegin() const {
+
+		return _controls.begin();
+
+	}
+	ControlManager::collection_type::const_iterator ControlManager::ControlsEnd() const {
+
+		return _controls.end();
 
 	}
 
@@ -159,7 +198,7 @@ namespace Gui {
 
 			// Handle OnMove event.
 			if (_mouse_events_enabled && (controller.PreviousPosition().X() != c->X() || controller.PreviousPosition().Y() || c->Y())) {
-				c->OnMove();
+				c->OnMove(MoveEventArgs(controller.PreviousPosition()));
 				controller.SetPreviousPosition(c->X(), c->Y());
 			}
 
@@ -207,6 +246,9 @@ namespace Gui {
 
 		// Create a new transform that will be used for transforming each control.
 		Drawing::Transform transform;
+		transform.Translate(_control_offset.X(), _control_offset.Y());
+		transform.Compose(original_transform);
+		e.Graphics().SetTransform(transform);
 
 		for (auto it = _controls.rbegin(); it != _controls.rend(); ++it) {
 
@@ -232,7 +274,7 @@ namespace Gui {
 		e.Graphics().SetTransform(original_transform);
 
 	}
-	void  ControlManager::BringToFront(const Handle<Control>& control) {
+	void ControlManager::BringToFront(const Handle<Control>& control) {
 
 		// If this Control is the highest Control, do nothing.
 		if (_controls.front().get() == control) return;
@@ -251,7 +293,7 @@ namespace Gui {
 
 
 	}
-	void  ControlManager::SendToBack(const Handle<Control>& control) {
+	void ControlManager::SendToBack(const Handle<Control>& control) {
 
 		//// If this Control is the highest Control, do nothing.
 		//if (_controls.back().get() == control) return;
@@ -268,6 +310,16 @@ namespace Gui {
 		//// Reposition the Control.
 		//_controls.splice(_controls.end(), _controls, iter);
 
+
+	}
+	void ControlManager::SetControlOffset(float x_offset, float y_offset) {
+
+		_control_offset = Point(x_offset, y_offset);
+
+	}
+	const Point& ControlManager::ControlOffset() const {
+		
+		return _control_offset;
 
 	}
 	void ControlManager::SetMouseEventsEnabled(bool value) {
@@ -288,7 +340,7 @@ namespace Gui {
 	}
 
 	// Protected members
-	std::list<ControlPtr>::iterator ControlManager::FindControlByAddress(Control* ptr) {
+	ControlManager::collection_type::iterator ControlManager::FindControlByAddress(Control* ptr) {
 
 		return std::find_if(_controls.begin(), _controls.end(), [&](ControlPtr& p) { return p.get() == ptr; });
 

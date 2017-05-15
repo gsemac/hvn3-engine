@@ -12,8 +12,8 @@ namespace Gui {
 		Scrollbar(IScrollable* control, Point position, Size size, Orientation orientation);
 
 		void SetTarget(IScrollable* target);
-		void SetScrollPosition(float percent);
-		float ScrollPosition() const;
+		void SetScrollPercentage(float percent);
+		float ScrollPercentage() const;
 		void ScrollToBottom();
 		void ScrollToTop();
 
@@ -25,7 +25,6 @@ namespace Gui {
 		IScrollable* _target;
 		Orientation _orientation;
 		float _position;
-
 
 		float _slider_height;
 

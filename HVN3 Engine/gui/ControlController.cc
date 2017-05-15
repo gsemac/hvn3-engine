@@ -11,7 +11,14 @@ namespace Gui {
 
 	void ControlController::SetManager(GuiManager* manager) {
 
+		// Contruct a manager changed event.
+		ManagerChangedEventArgs e(_control->Manager());
+
+		// Change the control's manager.
 		_control->__manager = manager;
+
+		// Trigger the event.
+		_control->OnManagerChanged(e);
 
 		// It's possible for the manager not to have a style manager at the moment (e.g., if it's a child manager).
 		if (manager->StyleManager()) {

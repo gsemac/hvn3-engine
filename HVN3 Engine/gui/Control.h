@@ -25,12 +25,12 @@ namespace Gui {
 		RIGHT = 0x08
 	};
 	//ENABLE_BITFLAG_OPERATORS(SIDE);
-	
+
 	enum class Orientation {
 		Horizontal = 1,
 		Vertical = 2
 	};
-	
+
 	struct ResizeEventArgs {
 		ResizeEventArgs(float old_width, float old_height, float new_width, float new_height) : OldSize(old_width, old_height), NewSize(new_width, new_height) {
 
@@ -70,6 +70,24 @@ namespace Gui {
 
 	};
 
+	class MoveEventArgs : public EventArgs {
+
+	public:
+		MoveEventArgs(const Point& old_position) :
+			_old_position(old_position) {
+		}
+
+		const Point& OldPosition() const {
+
+			return _old_position;
+
+		}
+
+	private:
+		Point _old_position;
+
+	};
+
 	class Control : public IDrawable, public IUpdatable, public IPositionable, public ISizeable, public IFocusable {
 		friend class ControlController;
 
@@ -104,7 +122,7 @@ namespace Gui {
 		void SetMinimumSize(const Size& size);
 		Size MaximumSize();
 		void SetMaximumSize(const Size& size);
-		
+
 		String Tooltip();
 		void SetTooltip(const char* text);
 
@@ -129,6 +147,10 @@ namespace Gui {
 
 		bool IsActiveControl();
 
+		void SetX(float x) override;
+		void SetY(float y) override;
+		void SetXY(float x, float y) override;
+
 		// Events
 		virtual void OnMouseLeave();
 		virtual void OnMouseEnter();
@@ -140,7 +162,7 @@ namespace Gui {
 		virtual void OnDoubleClick();
 		virtual void OnPaint(PaintEventArgs& e);
 		virtual void OnResize();
-		virtual void OnMove();
+		virtual void OnMove(MoveEventArgs& e);
 		virtual void OnGotFocus();
 		virtual void OnLostFocus();
 		virtual void OnKeyDown();
@@ -180,7 +202,7 @@ namespace Gui {
 		bool __mouse_is_on;
 		bool __mouse_is_down;
 		Point __mouse_last_pos;
-		
+
 		Point __previous_pos; // Keeps track of previous position for OnMove event
 		bool __prev_focus; // Keeps track of focus state for OnGotFocus/OnLostFocus
 
