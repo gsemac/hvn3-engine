@@ -72,10 +72,24 @@ namespace Gui {
 		// Relculate the size of the slider to compensate for the new size.
 		RecalculateSliderSize();
 
-	}
-	void Scrollbar::Update(UpdateEventArgs& e) {
-
+		// Invalidate the control so slider is redrawn.
 		Invalidate();
+
+	}
+	void Scrollbar::OnMouseEnter() {
+
+		// Invalidate the control to update the highlight color.
+		Invalidate();
+
+	}
+	void Scrollbar::OnMouseLeave() {
+		std::cout << "left";
+		// Invalidate the control to update the highlight color.
+		Invalidate();
+
+	}
+	void Scrollbar::OnMouseDown() {
+
 		if (MouseOnSlider() && Mouse::ButtonPressed(MB_LEFT)) {
 
 			_mouse_clicked_pos = (_orientation == Orientation::Vertical ? Mouse::Y : Mouse::X);
@@ -83,25 +97,50 @@ namespace Gui {
 			_dragging = true;
 
 		}
-		else if (Mouse::ButtonReleased(MB_LEFT)) {
 
+	}
+	void Scrollbar::OnMouseUp() {
+
+
+	}
+	void Scrollbar::OnMouseMove() {
+
+
+
+	}
+	void Scrollbar::Update(UpdateEventArgs& e) {
+
+		// Stop dragging when the mouse button is released.
+		if (Mouse::ButtonReleased(MB_LEFT))
 			_dragging = false;
-		}
 
 		if (_dragging) {
+			
+			// Calculate the new position of the slider.
+			float new_position;
 			if (_orientation == Orientation::Vertical)
-				_position = Min(Height() - _slider_height, Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::Y)));
+				new_position = Min(Height() - _slider_height, Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::Y)));
 			else
-				_position = Min(Width() - _slider_height, Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::X)));
-			if (_target)
-				ScrollTargetToPosition();
+				new_position = Min(Width() - _slider_height, Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::X)));
+			
+			if (new_position != _position) {
+
+				// Update the position of the slider (if it has changed).
+				_position = new_position;
+
+				// If there is a target control, scroll it.
+				if (_target)
+					ScrollTargetToPosition();
+
+				// Invalidate the scrollbar to draw the new slider position.
+				Invalidate();
+
+			}
+
 		}
 		else if ((Mouse::ScrolledDown() || Mouse::ScrolledUp()) && _target && _target->HasFocus()) {
 			SetScrollPercentage(ScrollPercentage() + ((Mouse::ScrolledDown()) ? -0.05f : 0.05f));
 		}
-
-		// Update the slider height according to the maximum scroll value.
-		RecalculateSliderSize();
 
 	}
 	void Scrollbar::OnPaint(PaintEventArgs& e) {
@@ -118,6 +157,9 @@ namespace Gui {
 	// Private methods
 
 	bool Gui::Scrollbar::MouseOnSlider() {
+
+		if (!IsActiveControl())
+			return false;
 
 		Point fp = FixedPosition();
 

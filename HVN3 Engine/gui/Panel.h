@@ -21,7 +21,7 @@ namespace Gui {
 		Panel(float x, float y, float width, float height)
 			: Control(Point(x, y), Size(width, height)),
 			IContainer(this),
-			IScrollable(this, Rectangle(width, height)),
+			IScrollable(this, Rectangle(width, 500)),
 			_prev_size(width, height) {
 		
 			_scrollbars[0] = nullptr;

@@ -18,6 +18,11 @@ namespace Gui {
 		void ScrollToTop();
 
 		void OnResize() override;
+		void OnMouseEnter() override;
+		void OnMouseLeave() override;
+		void OnMouseDown() override;
+		void OnMouseUp() override;
+		void OnMouseMove() override;
 		void Update(UpdateEventArgs& e) override;
 		void OnPaint(PaintEventArgs& e) override;
 
