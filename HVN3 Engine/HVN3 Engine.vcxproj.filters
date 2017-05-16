@@ -139,6 +139,15 @@
     <Filter Include="Source Files\System\Extensions">
       <UniqueIdentifier>{6508da4f-f8ce-47f9-8d0d-177521bf73c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\data\system">
+      <UniqueIdentifier>{4ab5cb6f-a3ed-42d6-891e-e8bc2204d173}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\data\system\fonts">
+      <UniqueIdentifier>{3535728b-d35b-41d8-afa0-9118a1b7c52f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\data\system\icons">
+      <UniqueIdentifier>{1f881537-40ef-489d-a555-d29bc36266af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -844,5 +853,16 @@
     <Image Include="data\test\tileset1.png">
       <Filter>Resource Files\data\test</Filter>
     </Image>
+    <Image Include="data\System\Icons\close.png">
+      <Filter>Resource Files\data\system\icons</Filter>
+    </Image>
+    <Image Include="data\System\Icons\gm.png">
+      <Filter>Resource Files\data\system\icons</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="data\System\Fonts\webly.ttf">
+      <Filter>Resource Files\data\system\fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>

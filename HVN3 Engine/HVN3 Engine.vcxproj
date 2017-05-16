@@ -375,7 +375,12 @@
     <ClInclude Include="ViewUpdateEventArgs.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="data\System\Icons\close.png" />
+    <Image Include="data\System\Icons\gm.png" />
     <Image Include="data\test\tileset1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="data\System\Fonts\webly.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
