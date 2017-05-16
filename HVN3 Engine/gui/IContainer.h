@@ -29,6 +29,7 @@ namespace Gui {
 		const Rectangle& ChildRegion() const;
 		void SetChildRegion(const Rectangle& region);
 		bool MouseInChildRegion() const;
+		void UpdateAnchors(ResizeEventArgs& e);
 
 	private:
 		Gui::GuiManager _manager;

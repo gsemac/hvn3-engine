@@ -142,18 +142,34 @@ public:
 		for (int i = 0; i < 100; ++i)
 			ObjectManager()->InstanceAdd(Object::Create<oBall>(200, 200));
 
+		Window* wind = new Window(0, 0, 400, 400, "My Window");
+
+		//Button* button = new Button(0, 0, wind->Width(), wind->Height() - wind->TitlebarHeight(), "Anchored Button");
+		//button->SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM);
+		//wind->Controls()->AddControl(Control::Create<Button>(button));
+
+		Panel* panel = new Panel(Point(0, 0), Size(wind->Width(), wind->Height() - wind->TitlebarHeight()));
+		panel->SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM);
+		wind->Controls()->AddControl(Control::Create<Panel>(panel));
+
+		Button* butt = new Button(0, 0, 150, 25, "Window Button 1");
+		panel->Controls()->AddControl(Control::Create<Button>(butt));
+
+		GuiManager()->ControlManager()->AddControl(Control::Create<Window>(wind));
+
 		//Window* wind = new Window(0, 0, 300, 400, "Window 1");
-		//wind->Controls()->AddControl(Control::Create<Button>(100, 100, 150, 25, "Window Button 1"));
+		//Button* butt = new Button(100, 100, 150, 25, "Window Button 1");
+		//wind->Controls()->AddControl(Control::Create<Button>(butt));
 		//wind->Controls()->AddControl(Control::Create<Textbox>(100, 200, 150, 25));
 		//wind->Controls()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"));
-		std::cout << "?: " << std::endl;
 		//GuiManager()->ControlManager()->AddControl(Control::Create(wind));
-		GuiManager()->ControlManager()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"))->SetBackColor(Color::DodgerBlue);
-		Panel* panel = new Panel(100, 100, 300, 300);
-		panel->Controls()->AddControl(Control::Create<Button>(0, 0, 120, 25, "Panel Button 1"));
-		panel->Controls()->AddControl(Control::Create<Button>(0, 250, 120, 25, "Panel Button 2"));
-		GuiManager()->ControlManager()->AddControl(Control::Create<Panel>(panel));
-		GuiManager()->ControlManager()->AddControl(Control::Create<Scrollbar>(nullptr, Point(0, 0), Size(3, 480)));
+
+		//GuiManager()->ControlManager()->AddControl(Control::Create<Window>(100, 100, 100, 100, "Window 2"))->SetBackColor(Color::DodgerBlue);
+		//Panel* panel = new Panel(100, 100, 300, 300);
+		//panel->Controls()->AddControl(Control::Create<Button>(0, 0, 120, 25, "Panel Button 1"));
+		//panel->Controls()->AddControl(Control::Create<Button>(0, 250, 120, 25, "Panel Button 2"));
+		//GuiManager()->ControlManager()->AddControl(Control::Create<Panel>(panel));
+		//GuiManager()->ControlManager()->AddControl(Control::Create<Scrollbar>(nullptr, Point(0, 0), Size(3, 480)));
 
 	}
 	void OnRoomEnter(RoomEnterEventArgs& e) override {

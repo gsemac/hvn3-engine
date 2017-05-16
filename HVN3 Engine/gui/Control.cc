@@ -5,33 +5,6 @@
 #include "gui/ControlManager.h"
 #include "gui/StyleManager.h"
 
-// Private members
-
-bool Gui::Control::HasActiveChild() {
-
-	return false;
-
-}
-Point Gui::Control::GetFixedPosition() {
-
-	Point fp(X(), Y());
-
-	if (Parent())
-		fp.Translate(Parent()->FixedPosition().X(), Parent()->FixedPosition().Y());
-
-	//while (control->Parent()) {
-	//	control = control->Parent();
-	//	p.Translate(control->X(), control->Y());
-	//}
-
-	// Apply the control manager's control offset.
-	if (Manager() && Manager()->ControlManager())
-		fp.Translate(Manager()->ControlManager()->ControlOffset().X(), Manager()->ControlManager()->ControlOffset().Y());
-
-	return fp;
-
-}
-
 // Public members
 
 Gui::Control::Control() :
@@ -104,14 +77,17 @@ void Gui::Control::Resize(float width, float height) {
 	if (width == Width() && height == Height())
 		return;
 
+	// Create a resize event args object.
+	ResizeEventArgs e(Size(Width(), Height()), Size(width, height));
+
 	// Perform the resize.
 	ISizeable::Resize(width, height);
 
-	// Call related events.
-	Invalidate();
-	OnResize();
+	// Trigger the resize event for the control.
+	OnResize(e);
 
-	std::cout << Invalidated();
+	// Invalidate the control so that it can be redrawn.
+	Invalidate();
 
 }
 
@@ -160,12 +136,12 @@ void Gui::Control::SetBackColor(const Color& color) {
 
 }
 
-Gui::ANCHOR Gui::Control::Anchors() {
+int Gui::Control::Anchors() {
 
 	return __anchor;
 
 }
-void Gui::Control::SetAnchors(Gui::ANCHOR anchors) {
+void Gui::Control::SetAnchors(int anchors) {
 
 	__anchor = anchors;
 
@@ -234,6 +210,11 @@ void Gui::Control::SetEnabled(bool is_enabled) {
 
 Gui::Control* Gui::Control::Parent() {
 
+	return const_cast<Control*>(static_cast<const Control*>(this)->Parent());
+
+}
+const Gui::Control* Gui::Control::Parent() const {
+
 	return _parent;
 
 }
@@ -246,6 +227,11 @@ void Gui::Control::SetParent(Control* parent) {
 
 }
 Gui::GuiManager* Gui::Control::Manager() {
+
+	return const_cast<GuiManager*>(static_cast<const Control*>(this)->Manager());
+
+}
+const Gui::GuiManager* Gui::Control::Manager() const {
 
 	if (__manager == nullptr && Parent() != nullptr)
 		return Parent()->Manager();
@@ -280,6 +266,8 @@ void Gui::Control::SendToBack() {
 }
 
 Point Gui::Control::FixedPosition() const {
+	
+	return GetFixedPosition();
 
 	return __fixed_pos;
 
@@ -342,7 +330,7 @@ void Gui::Control::OnMouseMove() {}
 void Gui::Control::OnClick() {}
 void Gui::Control::OnDoubleClick() {}
 void Gui::Control::OnPaint(PaintEventArgs& e) {}
-void Gui::Control::OnResize() {}
+void Gui::Control::OnResize(ResizeEventArgs& e) {}
 void Gui::Control::OnMove(MoveEventArgs& e) {
 
 	// Update fixed coordinates (relative to view origin).
@@ -355,3 +343,25 @@ void Gui::Control::OnKeyDown() {}
 void Gui::Control::OnKeyPressed() {}
 void Gui::Control::OnKeyReleased() {}
 void Gui::Control::OnManagerChanged(ManagerChangedEventArgs& e) {}
+
+// Private members
+
+bool Gui::Control::HasActiveChild() {
+
+	return false;
+
+}
+Point Gui::Control::GetFixedPosition() const {
+
+	Point fp(X(), Y());
+
+	if (Parent())
+		fp.Translate(Parent()->FixedPosition().X(), Parent()->FixedPosition().Y());
+
+	// Apply the control manager's control offset.
+	if (Manager() && Manager()->ControlManager())
+		fp.Translate(Manager()->ControlManager()->ControlOffset().X(), Manager()->ControlManager()->ControlOffset().Y());
+
+	return fp;
+
+}

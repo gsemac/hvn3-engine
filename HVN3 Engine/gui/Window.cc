@@ -33,6 +33,9 @@ namespace Gui {
 		_fade_out = false;
 
 		UpdateChildRegion();
+
+		// Set the control offset for the control manager to account for the header bar.
+		Controls()->SetControlOffset(Controls()->ControlOffset().X(), __titlebar_height);
 		
 	}
 	Window::~Window() {
@@ -104,13 +107,12 @@ namespace Gui {
 		// Invalid the window when the mouse hovers over any dynamic elements.
 		if (MouseOnExitButton() != _mouse_on_exit_button) {
 			_mouse_on_exit_button = MouseOnExitButton();
-			std::cout << "Invalidated\n";
 			Invalidate();
 		}
 
 	}
 	void Window::OnMouseLeave() {
-		std::cout << "Window: OnMouseLeave()\n";
+		
 		// If the mouse leaves the Control and it's not resizing, reset the cursor.
 		if (!__resizing) Mouse::SetCursor(SystemCursor::Default);
 
@@ -121,14 +123,12 @@ namespace Gui {
 			_fade_out = true;
 
 	}
-	void Window::OnResize() {
-
-		// Resize the Panel.
-		//_panel.Resize(Width(), Height() - TitlebarHeight() - DEF_OUTLINE_WIDTH);
-
+	void Window::OnResize(ResizeEventArgs& e) {
 
 		// Set child region (region in which child controls can be interacted with).
 		UpdateChildRegion();
+
+		UpdateAnchors(e);
 
 	}
 	void Window::OnPaint(PaintEventArgs& e) {
@@ -159,22 +159,24 @@ namespace Gui {
 		if (GetExitIcon()) {
 			Point pos = ExitButtonPosition();
 			Color tint = _mouse_on_exit_button ? Color::FromArgbf(0.5f, 0.5f, 0.5f, 1.0f) : Color::FromArgbf(1.0f, 1.0f, 1.0f, 1.0f);
-			std::cout << "Mosue is on?" << _mouse_on_exit_button << std::endl;
 			e.Graphics().DrawBitmap(pos.X(), pos.Y(), *_exit_icon, tint);
 		}
 
 	}
 	void Window::Update(UpdateEventArgs& e) {
 
-		//if (Manager())
-		//	_panel.Controls()->SetMouseEventsEnabled((Manager()->ControlManager()->ActiveControl() == this));
-
-		if (IsActiveControl() && MouseInChildRegion())
-			Controls()->Update(e);
-		else
+		if (IsActiveControl() && MouseInChildRegion()) {
+			Controls()->SetMouseEventsEnabled(true);
+		}
+		else {
+			Controls()->SetMouseEventsEnabled(false);
 			Controls()->ClearActiveControl();
+		}
+		
+		Controls()->Update(e);
 
 		if (!Mouse::ButtonDown(MB_LEFT) && (__dragging || __resizing)) {
+			
 			__dragging = false;
 			__resizing = false;
 			Mouse::SetCursor(SystemCursor::Default);
@@ -232,7 +234,7 @@ namespace Gui {
 	}
 	void Window::UpdateChildRegion() {
 
-		SetChildRegion(Rectangle(RESIZE_REGION_WIDTH, __titlebar_height, Width() - RESIZE_REGION_WIDTH, Height() - __titlebar_height));
+		SetChildRegion(Rectangle(RESIZE_REGION_WIDTH, __titlebar_height, Width() - RESIZE_REGION_WIDTH * 2, Height() - __titlebar_height - RESIZE_REGION_WIDTH));
 
 	}
 

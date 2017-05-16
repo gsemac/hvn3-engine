@@ -48,6 +48,11 @@ namespace Gui {
 	}
 	ControlManager* GuiManager::ControlManager() {
 
+		return const_cast<Gui::ControlManager*>(static_cast<const GuiManager*>(this)->ControlManager());
+
+	}
+	const ControlManager* GuiManager::ControlManager() const {
+
 		return _control_manager;
 
 	}

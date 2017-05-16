@@ -17,7 +17,7 @@ namespace Gui {
 		void ScrollToBottom();
 		void ScrollToTop();
 
-		void OnResize() override;
+		void OnResize(ResizeEventArgs& e) override;
 		void OnMouseEnter() override;
 		void OnMouseLeave() override;
 		void OnMouseDown() override;

@@ -67,7 +67,7 @@ namespace Gui {
 
 	}
 
-	void Scrollbar::OnResize() {
+	void Scrollbar::OnResize(ResizeEventArgs& e) {
 
 		// Relculate the size of the slider to compensate for the new size.
 		RecalculateSliderSize();
@@ -76,14 +76,9 @@ namespace Gui {
 		Invalidate();
 
 	}
-	void Scrollbar::OnMouseEnter() {
-
-		// Invalidate the control to update the highlight color.
-		Invalidate();
-
-	}
+	void Scrollbar::OnMouseEnter() {}
 	void Scrollbar::OnMouseLeave() {
-		std::cout << "left";
+	
 		// Invalidate the control to update the highlight color.
 		Invalidate();
 
@@ -105,24 +100,25 @@ namespace Gui {
 	}
 	void Scrollbar::OnMouseMove() {
 
-
+		// Invalidate the control to update the highlight color.
+		Invalidate();
 
 	}
 	void Scrollbar::Update(UpdateEventArgs& e) {
 
 		// Stop dragging when the mouse button is released.
-		if (Mouse::ButtonReleased(MB_LEFT))
+		if (!Mouse::ButtonDown(MB_LEFT))
 			_dragging = false;
 
 		if (_dragging) {
-			
+
 			// Calculate the new position of the slider.
 			float new_position;
 			if (_orientation == Orientation::Vertical)
 				new_position = Min(Height() - _slider_height, Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::Y)));
 			else
 				new_position = Min(Width() - _slider_height, Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::X)));
-			
+
 			if (new_position != _position) {
 
 				// Update the position of the slider (if it has changed).

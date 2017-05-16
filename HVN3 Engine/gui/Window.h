@@ -24,7 +24,7 @@ namespace Gui {
 		void OnMouseMove() override;
 		void OnMouseLeave() override;
 		void OnClick() override;
-		void OnResize() override;
+		void OnResize(ResizeEventArgs& e) override;
 		void OnPaint(PaintEventArgs& e) override;
 		void Update(UpdateEventArgs& e) override;
 

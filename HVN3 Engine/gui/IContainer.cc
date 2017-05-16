@@ -55,6 +55,40 @@ namespace Gui {
 		return Mouse::InRegion(region);
 
 	}
+	void IContainer::UpdateAnchors(ResizeEventArgs& e) {
+
+		// Calculate the difference in size.
+		float width_diff = e.NewSize().Width() - e.OldSize().Width();
+		float height_diff = e.NewSize().Height() - e.OldSize().Height();
+
+		// Reposition all anchored Controls.
+		for (auto it = Controls()->ControlsEnd(); it-- != Controls()->ControlsBegin();) {
+
+			Control* c = it->get();
+
+			if (c->Anchors() & ANCHOR_RIGHT) {
+				if (c->Anchors() & ANCHOR_LEFT)
+					c->Resize(c->Width() + width_diff, c->Height());
+				else
+					c->TranslateX(width_diff);
+			}
+
+			if (c->Anchors() & ANCHOR_BOTTOM) {
+				if (c->Anchors() & ANCHOR_TOP)
+					c->Resize(c->Width(), c->Height() + height_diff);
+				else
+					c->TranslateY(height_diff);
+			}
+
+			if (c->Anchors() == ANCHOR_NONE || (!(c->Anchors() & ANCHOR_RIGHT) && !(c->Anchors() & ANCHOR_LEFT)))
+				c->TranslateX(width_diff / 2.0f);
+
+			if (c->Anchors() == ANCHOR_NONE || (!(c->Anchors() & ANCHOR_TOP) && !(c->Anchors() & ANCHOR_BOTTOM)))
+				c->TranslateY(height_diff / 2.0f);
+
+		}
+
+	}
 
 	// Private methods
 

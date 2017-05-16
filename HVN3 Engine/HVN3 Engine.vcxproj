@@ -296,6 +296,7 @@
     <ClInclude Include="Framework.h" />
     <ClInclude Include="IBackgroundManager.h" />
     <ClInclude Include="ICollisionManager.h" />
+    <ClInclude Include="UniqueCreateableBase.h" />
     <ClInclude Include="IExtension.h" />
     <ClInclude Include="io\Clipboard.h" />
     <ClInclude Include="io\Directory.h" />

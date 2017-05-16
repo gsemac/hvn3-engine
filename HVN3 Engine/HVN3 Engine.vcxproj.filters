@@ -836,6 +836,9 @@
     <ClInclude Include="gui\ScrollEventArgs.h">
       <Filter>Header Files\Resources\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="UniqueCreateableBase.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\test\tileset1.png">

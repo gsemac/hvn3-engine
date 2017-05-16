@@ -7,9 +7,9 @@ namespace Gui {
 		IScrollable(control, control->Height()) {
 	}
 	IScrollable::IScrollable(Control* control, float scroll_height) :
-		IScrollable(control, Rectangle(scroll_height, control->Width())) {
+		IScrollable(control, Size(scroll_height, control->Width())) {
 	}
-	IScrollable::IScrollable(Control* control, Rectangle scrollable_region) :
+	IScrollable::IScrollable(Control* control, const Size& scrollable_region) :
 		_visible_region(control->Width(), control->Height()),
 		_scrollable_region(scrollable_region) {
 
@@ -28,22 +28,22 @@ namespace Gui {
 
 	}
 
-	void IScrollable::SetVisibleRegion(const Rectangle& region) {
+	void IScrollable::SetVisibleRegion(const Size& region) {
 
 		_visible_region = region;
 
 	}
-	const Rectangle& IScrollable::VisibleRegion() const {
+	const Size& IScrollable::VisibleRegion() const {
 
 		return _visible_region;
 
 	}
-	void IScrollable::SetScrollableRegion(const Rectangle& region) {
+	void IScrollable::SetScrollableRegion(const Size& region) {
 
 		_scrollable_region = region;
 
 	}
-	const Rectangle& IScrollable::ScrollableRegion() const {
+	const Size& IScrollable::ScrollableRegion() const {
 
 		return _scrollable_region;
 

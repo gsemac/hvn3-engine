@@ -19,6 +19,7 @@ namespace Gui {
 
 		Gui::StyleManager* StyleManager();
 		Gui::ControlManager* ControlManager();
+		const Gui::ControlManager* ControlManager() const;
 
 		void Update(UpdateEventArgs& e) override;
 		void Draw(DrawEventArgs& e) override;

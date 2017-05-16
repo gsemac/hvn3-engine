@@ -18,23 +18,32 @@ namespace Gui {
 		};
 
 	public:
-		Panel(float x, float y, float width, float height)
-			: Control(Point(x, y), Size(width, height)),
+		Panel(const Point& position, const Size& dimensions) :
+			Panel(position, dimensions, dimensions) {
+		}
+		Panel(const Point& position, const Size& dimensions, const Size& scrollable_region) :
+			Control(position, dimensions),
 			IContainer(this),
-			IScrollable(this, Rectangle(width, 500)),
-			_prev_size(width, height) {
-		
+			IScrollable(this, scrollable_region),
+			_prev_size(dimensions.Width(), dimensions.Height()) {
+
 			_scrollbars[0] = nullptr;
 			_scrollbars[1] = nullptr;
 
 		}
+		virtual ~Panel() {
 
-		virtual void Invalidate() override {
+			// Remove scrollbars from the manager.
+			// This is important, because a panel could be removed from a control manager without destroying the control manager.
 
-			//Controls()->InvalidateAll();
+			if (!Manager() || !Manager()->ControlManager())
+				return;
 
+			if (_scrollbars[VERTICAL])
+				Manager()->ControlManager()->RemoveControl(_scrollbars[VERTICAL]);
 
-			Control::Invalidate();
+			if (_scrollbars[HORIZONTAL])
+				Manager()->ControlManager()->RemoveControl(_scrollbars[HORIZONTAL]);
 
 		}
 
@@ -51,41 +60,13 @@ namespace Gui {
 			Invalidate();
 
 		}
-		virtual void OnResize() override {
+		virtual void OnResize(ResizeEventArgs& e) override {
 
-			// Calculate the difference in size.
-			float width_diff = Width() - _prev_size.Width();
-			float height_diff = Height() - _prev_size.Height();
+			UpdateScrollbarPositionsAndSizes();
 
-			// Reposition all anchored Controls.
-			for (auto it = Controls()->ControlsEnd(); it-- != Controls()->ControlsBegin();) {
+			UpdateAnchors(e);
 
-				Control* c = it->get();
-
-				if (c->Anchors() & ANCHOR_RIGHT) {
-					if (c->Anchors() & ANCHOR_LEFT)
-						c->Resize(c->Width() + width_diff, c->Height());
-					else
-						c->TranslateX(width_diff);
-				}
-
-				if (c->Anchors() & ANCHOR_BOTTOM) {
-					if (c->Anchors() & ANCHOR_TOP)
-						c->Resize(c->Width(), c->Height() + height_diff);
-					else
-						c->TranslateY(height_diff);
-				}
-
-				if (c->Anchors() == ANCHOR_NONE || (!(c->Anchors() & ANCHOR_RIGHT) && !(c->Anchors() & ANCHOR_LEFT)))
-					c->TranslateX(width_diff / 2.0f);
-
-				if (c->Anchors() == ANCHOR_NONE || (!(c->Anchors() & ANCHOR_TOP) && !(c->Anchors() & ANCHOR_BOTTOM)))
-					c->TranslateY(height_diff / 2.0f);
-
-			}
-
-			// Update previous size/position.
-			_prev_size.Resize(Width(), Height());
+			SetVisibleRegion(e.NewSize());
 
 		}
 		virtual void OnPaint(PaintEventArgs& e) override {
@@ -100,10 +81,7 @@ namespace Gui {
 		virtual void OnMove(MoveEventArgs& e) override {
 
 			// Update the position of the scrollbars to match the control's new position.
-			if (_scrollbars[VERTICAL] != nullptr)
-				_scrollbars[VERTICAL]->SetXY(X() + Width() - _scrollbars[VERTICAL]->Width(), Y());
-			if (_scrollbars[HORIZONTAL] != nullptr)
-				_scrollbars[HORIZONTAL]->SetXY(X(), Y() + Height() - _scrollbars[HORIZONTAL]->Height());
+			UpdateScrollbarPositionsAndSizes();
 
 			Control::OnMove(e);
 
@@ -145,11 +123,29 @@ namespace Gui {
 				Manager()->ControlManager()->AddControl(Control::Create(_scrollbars[HORIZONTAL]));
 			}
 
+			UpdateScrollbarPositionsAndSizes();
+
 		}
 
 	private:
 		Scrollbar* _scrollbars[2];
 		Size _prev_size;
+
+		void UpdateScrollbarPositionsAndSizes() {
+
+			Point fp = Point(X(), Y());//FixedPosition();
+
+			if (_scrollbars[VERTICAL] != nullptr) {
+				_scrollbars[VERTICAL]->Resize(PANEL_SCROLLBAR_DEFAULT_WIDTH, Height() - PANEL_SCROLLBAR_DEFAULT_WIDTH);
+				_scrollbars[VERTICAL]->SetXY(fp.X() + Width() - _scrollbars[VERTICAL]->Width(), fp.Y());
+			}
+
+			if (_scrollbars[HORIZONTAL] != nullptr) {
+				_scrollbars[HORIZONTAL]->Resize(Width() - PANEL_SCROLLBAR_DEFAULT_WIDTH, PANEL_SCROLLBAR_DEFAULT_WIDTH);
+				_scrollbars[HORIZONTAL]->SetXY(fp.X(), fp.Y() + Height() - _scrollbars[HORIZONTAL]->Height());
+			}
+
+		}
 
 	};
 

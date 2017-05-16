@@ -1,6 +1,7 @@
 #pragma once
 #include "DrawEventArgs.h"
 #include "IFocusable.h"
+#include "UniqueCreateableBase.h"
 
 namespace Gui {
 
@@ -31,17 +32,29 @@ namespace Gui {
 		Vertical = 2
 	};
 
-	struct ResizeEventArgs {
-		ResizeEventArgs(float old_width, float old_height, float new_width, float new_height) : OldSize(old_width, old_height), NewSize(new_width, new_height) {
+	struct ResizeEventArgs : public EventArgs {
+
+	public:
+		ResizeEventArgs(const Size& old_size, const Size& new_size) :
+			_old_size(old_size),
+			_new_size(new_size) {
+		}
+		
+		const Size& OldSize() const {
+
+			return _old_size;
+
+		}
+		const Size& NewSize() const {
+
+			return _new_size;
 
 		}
 
-		// The former size of the Control.
-		Size OldSize;
-		// The new (current) size of the Control.
-		Size NewSize;
-		// The sides of the Control that have changed position as a result of resizing.
-		SIDE ChangedSides;
+	private:
+		Size _old_size;
+		Size _new_size;
+
 	};
 
 	class PaintEventArgs : public DrawEventArgs {
@@ -88,7 +101,7 @@ namespace Gui {
 
 	};
 
-	class Control : public IDrawable, public IUpdatable, public IPositionable, public ISizeable, public IFocusable {
+	class Control : public IDrawable, public IUpdatable, public IPositionable, public ISizeable, public IFocusable, public UniqueCreateableBase<Control> {
 		friend class ControlController;
 
 	public:
@@ -112,8 +125,8 @@ namespace Gui {
 		void SetForeColor(const Color& color);
 		void SetBackColor(const Color& color);
 
-		ANCHOR Anchors();
-		void SetAnchors(ANCHOR anchors);
+		int Anchors();
+		void SetAnchors(int anchors);
 
 		float Opacity();
 		void SetOpacity(float opacity);
@@ -133,9 +146,11 @@ namespace Gui {
 		void SetEnabled(bool is_enabled);
 
 		Control* Parent();
+		const Control* Parent() const;
 		void SetParent(Control* parent);
 
 		GuiManager* Manager();
+		const GuiManager* Manager() const;
 
 		void BringToFront();
 		void SendToBack();
@@ -161,7 +176,7 @@ namespace Gui {
 		virtual void OnClick();
 		virtual void OnDoubleClick();
 		virtual void OnPaint(PaintEventArgs& e);
-		virtual void OnResize();
+		virtual void OnResize(ResizeEventArgs& e);
 		virtual void OnMove(MoveEventArgs& e);
 		virtual void OnGotFocus();
 		virtual void OnLostFocus();
@@ -169,20 +184,6 @@ namespace Gui {
 		virtual void OnKeyPressed();
 		virtual void OnKeyReleased();
 		virtual void OnManagerChanged(ManagerChangedEventArgs& e);
-
-		template<typename T, typename ... Args>
-		static std::unique_ptr<Control> Create(Args &&... args) {
-
-			return std::make_unique<T>(std::forward<Args>(args)...);
-
-		}
-
-		template<typename T>
-		static std::unique_ptr<Control> Create(T* ptr) {
-
-			return std::unique_ptr<T>(ptr);
-
-		}
 
 	private:
 		bool __disposed;
@@ -194,7 +195,7 @@ namespace Gui {
 		GuiManager* __manager;
 		Drawing::Bitmap _surface;
 		Color __backcolor, __forecolor;
-		ANCHOR __anchor;
+		int __anchor;
 		float __opacity;
 		Size __minimum_size;
 		Size __maximum_size;
@@ -210,7 +211,7 @@ namespace Gui {
 
 		Point __fixed_pos;
 
-		Point GetFixedPosition();
+		Point GetFixedPosition() const;
 
 	};
 
