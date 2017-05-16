@@ -62,12 +62,15 @@ namespace Gui {
 		}
 		virtual void OnResize(ResizeEventArgs& e) override {
 
-			UpdateScrollbarPositionsAndSizes();
-
-			UpdateAnchors(e);
-
+			// Update the visible region.
 			SetVisibleRegion(e.NewSize());
 
+			// Update the positions of anchored controls.
+			UpdateAnchors(e);
+
+			// Update the positions/sizes of the scrollbars.
+			UpdateScrollbarPositionsAndSizes();
+			
 		}
 		virtual void OnPaint(PaintEventArgs& e) override {
 
@@ -133,16 +136,18 @@ namespace Gui {
 
 		void UpdateScrollbarPositionsAndSizes() {
 
-			Point fp = Point(X(), Y());//FixedPosition();
+			Point fp = Point(X(), Y());//FixedPosition(); ? 
 
 			if (_scrollbars[VERTICAL] != nullptr) {
 				_scrollbars[VERTICAL]->Resize(PANEL_SCROLLBAR_DEFAULT_WIDTH, Height() - PANEL_SCROLLBAR_DEFAULT_WIDTH);
 				_scrollbars[VERTICAL]->SetXY(fp.X() + Width() - _scrollbars[VERTICAL]->Width(), fp.Y());
+				_scrollbars[VERTICAL]->SetVisible(VisibleRegion().Height() < ScrollableRegion().Height());
 			}
 
 			if (_scrollbars[HORIZONTAL] != nullptr) {
 				_scrollbars[HORIZONTAL]->Resize(Width() - PANEL_SCROLLBAR_DEFAULT_WIDTH, PANEL_SCROLLBAR_DEFAULT_WIDTH);
 				_scrollbars[HORIZONTAL]->SetXY(fp.X(), fp.Y() + Height() - _scrollbars[HORIZONTAL]->Height());
+				_scrollbars[HORIZONTAL]->SetVisible(VisibleRegion().Width() < ScrollableRegion().Width());
 			}
 
 		}

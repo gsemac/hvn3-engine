@@ -134,7 +134,7 @@ namespace Gui {
 			}
 
 		}
-		else if ((Mouse::ScrolledDown() || Mouse::ScrolledUp()) && _target && _target->HasFocus()) {
+		else if ((Mouse::ScrolledDown() || Mouse::ScrolledUp()) && _target && (_target->HasFocus() || HasFocus())) {
 			SetScrollPercentage(ScrollPercentage() + ((Mouse::ScrolledDown()) ? -0.05f : 0.05f));
 		}
 
@@ -181,6 +181,10 @@ namespace Gui {
 
 		// Set a minimum size for the slider so it doesn't become unclickable.
 		_slider_height = Max(_slider_height, 15.0f);
+
+		// Adjust the scroll position to compensate for the new height of the slider.
+		// We want to maintain the same scroll position unless the visible region becomes large enough that we can no longer scroll that far.
+		SetScrollPercentage(ScrollPercentage());
 
 	}
 	void Gui::Scrollbar::ScrollTargetToPosition() {
