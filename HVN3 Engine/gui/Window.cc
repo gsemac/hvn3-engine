@@ -1,7 +1,7 @@
-#include "Window.h"
+#include "gui/Window.h"
 #include "gui/ControlManager.h"
 #include "UpdateEventArgs.h"
-#define RESIZE_REGION_WIDTH 4.0f
+#define RESIZE_REGION_WIDTH 3.0f
 #define DEF_TITLEBAR_HEIGHT 29.0f
 #define DEF_OUTLINE_WIDTH 1.0f
 
@@ -249,16 +249,18 @@ namespace Gui {
 		// The global position of the control.
 		Point gp = FixedPosition();
 
-		if (Mouse::InRegion(gp.X(), gp.Y() + (Height() - RESIZE_REGION_WIDTH) * scale, gp.X() + Width() * scale, gp.Y() + (Height() + TitlebarHeight()) * scale))
+		float rrw = RESIZE_REGION_WIDTH;
+
+		if (Mouse::InRegion(gp.X(), gp.Y() + (Height() - rrw) * scale, gp.X() + Width() * scale, gp.Y() + (Height() + TitlebarHeight()) * scale))
 			side |= BOTTOM;
 
-		else if (Mouse::InRegion(gp.X(), gp.Y(), gp.X() + Width() * scale, gp.Y() + RESIZE_REGION_WIDTH * scale))
+		else if (Mouse::InRegion(gp.X(), gp.Y(), gp.X() + Width() * scale, gp.Y() + rrw * scale))
 			side |= TOP;
 
-		if (Mouse::InRegion(gp.X(), gp.Y(), gp.X() + RESIZE_REGION_WIDTH * scale, gp.Y() + Height() * scale))
+		if (Mouse::InRegion(gp.X(), gp.Y(), gp.X() + rrw * scale, gp.Y() + Height() * scale))
 			side |= LEFT;
 
-		else if (Mouse::InRegion(gp.X() + Width() * scale - RESIZE_REGION_WIDTH * scale, gp.Y(), gp.X() + Width() * scale, gp.Y() + Height() * scale))
+		else if (Mouse::InRegion(gp.X() + Width() * scale - rrw * scale, gp.Y(), gp.X() + Width() * scale, gp.Y() + Height() * scale))
 			side |= RIGHT;
 
 		return side;

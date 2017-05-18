@@ -15,9 +15,12 @@ short Sign(float);
 short Signum(float);
 
 // Returns the absolute difference between two numbers.
-float AbsDiff(float a, float b);
-// Returns the absolute difference between two numbers.
-int AbsDiff(int a, int b);
+template <typename T>
+inline T Diff(T a, T b) {
+
+	return Abs(a - b);
+
+}
 template <typename T>
 inline T Abs(T value) {
 

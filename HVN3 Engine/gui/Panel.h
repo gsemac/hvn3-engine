@@ -62,15 +62,57 @@ namespace Gui {
 		}
 		virtual void OnResize(ResizeEventArgs& e) override {
 
-			// Update the visible region.
-			SetVisibleRegion(e.NewSize());
+			// Calculate the region in which all controls exist.
+			Rectangle control_region = GetControlBounds();
+			Size old_scrollable_region = ScrollableRegion();
 
-			// Update the positions of anchored controls.
-			UpdateAnchors(e);
+			// Normally, the visible region would be the width/height of the panel.
+			float vwidth = Width();
+			float vheight = Height();
+
+			// However, we need to take into account whether or not the scrollbars will be visible to get the final visible region.
+			if (control_region.Height() > vheight && VerticalScrollbar())
+				vwidth -= VerticalScrollbar()->Width();
+			if (control_region.Width() > vwidth && HorizontalScrollbar())
+				vheight -= HorizontalScrollbar()->Height();
+
+			// Now we can set the visible region.
+			SetVisibleRegion(Size(vwidth, vheight));
+
+			// We can also set the scrollable region, which will be the control region.
+			SetScrollableRegion(Size(Max(VisibleRegion().Width(), control_region.Width()), Max(VisibleRegion().Height(), control_region.Height())));
 
 			// Update the positions/sizes of the scrollbars.
 			UpdateScrollbarPositionsAndSizes();
-			
+			std::cout << VisibleRegion().Height() << "<" << ScrollableRegion().Height() << std::endl;
+			UpdateAnchors(ResizeEventArgs(old_scrollable_region, ScrollableRegion()));
+
+			//// If auto-scroll is enabled, adjust the scroll region so that all controls can remain accessible.
+			//if (AutoScrollEnabled()) {
+
+			//	Size old_scrollable_region = ScrollableRegion();
+			//	Size new_scrollable_region(GetControlBounds().Width(), GetControlBounds().Height());
+			//	
+			//	if (new_scrollable_region < VisibleRegion())
+			//		new_scrollable_region = VisibleRegion();
+
+
+			//	SetScrollableRegion(new_scrollable_region);
+
+			//	// Update the positions of anchored controls using the scrollable region.
+			//	UpdateAnchors(ResizeEventArgs(old_scrollable_region, ScrollableRegion()));
+
+
+			//}
+
+
+
+			// If scrollbars are visible, shrink the visible region accordingly.
+
+
+
+
+
 		}
 		virtual void OnPaint(PaintEventArgs& e) override {
 
@@ -138,17 +180,84 @@ namespace Gui {
 
 			Point fp = Point(X(), Y());//FixedPosition(); ? 
 
+			bool vscroll_visible = _scrollbars[VERTICAL] != nullptr && VisibleRegion().Height() < ScrollableRegion().Height();
+			bool hscroll_visible = _scrollbars[HORIZONTAL] != nullptr && VisibleRegion().Width() < ScrollableRegion().Width();
+
 			if (_scrollbars[VERTICAL] != nullptr) {
-				_scrollbars[VERTICAL]->Resize(PANEL_SCROLLBAR_DEFAULT_WIDTH, Height() - PANEL_SCROLLBAR_DEFAULT_WIDTH);
+				_scrollbars[VERTICAL]->Resize(
+					_scrollbars[VERTICAL]->Width(),
+					Height() - (hscroll_visible ? _scrollbars[HORIZONTAL]->Height() : 0.0f)
+					);
 				_scrollbars[VERTICAL]->SetXY(fp.X() + Width() - _scrollbars[VERTICAL]->Width(), fp.Y());
-				_scrollbars[VERTICAL]->SetVisible(VisibleRegion().Height() < ScrollableRegion().Height());
+				_scrollbars[VERTICAL]->SetVisible(vscroll_visible);
 			}
 
 			if (_scrollbars[HORIZONTAL] != nullptr) {
-				_scrollbars[HORIZONTAL]->Resize(Width() - PANEL_SCROLLBAR_DEFAULT_WIDTH, PANEL_SCROLLBAR_DEFAULT_WIDTH);
+				_scrollbars[HORIZONTAL]->Resize(
+					Width() - (vscroll_visible ? _scrollbars[VERTICAL]->Width() : 0.0f),
+					_scrollbars[HORIZONTAL]->Height()
+					);
 				_scrollbars[HORIZONTAL]->SetXY(fp.X(), fp.Y() + Height() - _scrollbars[HORIZONTAL]->Height());
-				_scrollbars[HORIZONTAL]->SetVisible(VisibleRegion().Width() < ScrollableRegion().Width());
+				_scrollbars[HORIZONTAL]->SetVisible(hscroll_visible);
 			}
+
+		}
+		Scrollbar* HorizontalScrollbar() {
+
+			return _scrollbars[HORIZONTAL];
+
+		}
+		Scrollbar* VerticalScrollbar() {
+
+			return _scrollbars[VERTICAL];
+
+		}
+		Size RecalculateVisibleRegion() {
+
+			float width = Width();
+			float height = Height();
+
+			if (VerticalScrollbar() && VerticalScrollbar()->Visible())
+				width -= VerticalScrollbar()->Width();
+
+			if (HorizontalScrollbar() && HorizontalScrollbar()->Visible())
+				height -= HorizontalScrollbar()->Height();
+
+			return Size(width, height);
+
+		}
+		// Recalculates the scrollable region based on the position and size of all child controls. The region's offset may be negative.
+		Rectangle GetControlBounds() {
+
+			float x1 = 0.0f;
+			float y1 = 0.0f;
+			float x2 = 0.0f;
+			float y2 = 0.0f;
+
+			for (auto i = Controls()->ControlsBegin(); i != Controls()->ControlsEnd(); ++i) {
+
+				ControlPtr& control = *i;
+
+				// Get the left offset. If the control is left-anchored, this is not important.
+				if (!(control->Anchors() & ANCHOR_LEFT) && control->X() < x1)
+					x1 = control->X();
+
+				// Get the upper offset. If the control is top-anchored, this is not important.
+				if (!(control->Anchors() & ANCHOR_TOP) && control->Y() < y1)
+					y1 = control->Y();
+
+				// Get the right offset. If the control is right-anchored, this is not important.
+				if (!(control->Anchors() & ANCHOR_RIGHT) && control->X() + control->Width() > x2)
+					x2 = control->X() + control->Width();
+
+				// Get the lower offset. If the control is bottom-anchored, this is not important.
+				if (!(control->Anchors() & ANCHOR_BOTTOM) && control->Y() + control->Height() > y2)
+					y2 = control->Y() + control->Height();
+
+			}
+
+			// Return the rectangle representing the new area.
+			return Rectangle(x1, y1, x2, y2);
 
 		}
 

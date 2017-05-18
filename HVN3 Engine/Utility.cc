@@ -17,17 +17,6 @@ short Signum(float x) {
 
 }
 
-float AbsDiff(float a, float b) {
-
-	return (std::fabs)(a - b);
-
-}
-int AbsDiff(int a, int b) {
-
-	return (std::abs)(a - b);
-
-}
-
 //float Max(float a, float b) {
 //
 //	return (std::fmax)(a, b);

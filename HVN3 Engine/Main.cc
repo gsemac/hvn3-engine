@@ -141,7 +141,7 @@ public:
 
 		for (int i = 0; i < 100; ++i)
 			ObjectManager()->InstanceAdd(Object::Create<oBall>(200, 200));
-		
+
 		GuiManager()->ControlManager()->AddControl(Control::Create<Window>(CreateGuiWindow()));
 		GuiManager()->ControlManager()->AddControl(Control::Create<Window>(CreateGuiWindow()));
 
@@ -173,6 +173,7 @@ private:
 		Button* butt = new Button(0, 0, panel->ScrollableRegion().Width(), 25, "Window Button 1");
 		butt->SetAnchors(ANCHOR_LEFT | ANCHOR_TOP | ANCHOR_RIGHT);
 		panel->Controls()->AddControl(Control::Create<Button>(butt));
+		panel->Controls()->AddControl(Control::Create<Button>(100, 100, 100, 25, "Non-Anchored")); // non-anchored
 
 		return wind;
 

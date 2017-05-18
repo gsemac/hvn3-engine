@@ -20,7 +20,6 @@ namespace Gui {
 
 	public:
 		IContainer(Control* control);
-
 		Gui::ControlManager* Controls();
 
 	protected:

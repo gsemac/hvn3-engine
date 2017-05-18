@@ -14,6 +14,7 @@ namespace Gui {
 		_scrollable_region(scrollable_region) {
 
 		_control = control;
+		_auto_scroll_enabled = true;
 
 	}
 
@@ -46,6 +47,17 @@ namespace Gui {
 	const Size& IScrollable::ScrollableRegion() const {
 
 		return _scrollable_region;
+
+	}
+
+	bool IScrollable::AutoScrollEnabled() const {
+
+		return _auto_scroll_enabled;
+
+	}
+	void IScrollable::SetAutoScrollEnabled(bool enabled) {
+
+		_auto_scroll_enabled = enabled;
 
 	}
 
