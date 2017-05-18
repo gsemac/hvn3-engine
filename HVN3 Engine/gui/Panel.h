@@ -6,7 +6,7 @@
 #include "gui/Scrollbar.h"
 #include "Graphics.h"
 #include "Exception.h"
-#define PANEL_SCROLLBAR_DEFAULT_WIDTH 10
+#define PANEL_SCROLLBAR_DEFAULT_WIDTH 12
 
 namespace Gui {
 
@@ -121,6 +121,10 @@ namespace Gui {
 
 			// Draw child controls.
 			Controls()->Draw(e);
+
+			// If both scrollbars are visible, fill in the space between the two scrollbars.
+			if (VerticalScrollbar() && VerticalScrollbar()->Visible() && HorizontalScrollbar() && HorizontalScrollbar()->Visible())
+				e.Graphics().DrawFilledRectangle(Width() - VerticalScrollbar()->Width(), Height() - HorizontalScrollbar()->Height(), VerticalScrollbar()->Width(), HorizontalScrollbar()->Height(), VerticalScrollbar()->BackColor());
 
 		}
 		virtual void OnMove(MoveEventArgs& e) override {

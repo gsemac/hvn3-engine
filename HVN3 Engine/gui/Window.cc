@@ -1,7 +1,7 @@
 #include "gui/Window.h"
 #include "gui/ControlManager.h"
 #include "UpdateEventArgs.h"
-#define RESIZE_REGION_WIDTH 3.0f
+#define RESIZE_REGION_WIDTH 4.0f
 #define DEF_TITLEBAR_HEIGHT 29.0f
 #define DEF_OUTLINE_WIDTH 1.0f
 

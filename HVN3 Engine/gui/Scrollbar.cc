@@ -78,7 +78,7 @@ namespace Gui {
 	}
 	void Scrollbar::OnMouseEnter() {}
 	void Scrollbar::OnMouseLeave() {
-	
+
 		// Invalidate the control to update the highlight color.
 		Invalidate();
 
@@ -134,8 +134,14 @@ namespace Gui {
 			}
 
 		}
-		else if ((Mouse::ScrolledDown() || Mouse::ScrolledUp()) && _target && (_target->HasFocus() || HasFocus())) {
-			SetScrollPercentage(ScrollPercentage() + ((Mouse::ScrolledDown()) ? -0.05f : 0.05f));
+		else if (_target && (_target->HasFocus() || HasFocus())) {
+
+			if (_orientation == Orientation::Vertical && (Mouse::ScrolledDown() || Mouse::ScrolledUp()))
+				SetScrollPercentage(ScrollPercentage() + ((Mouse::ScrolledDown()) ? -0.05f : 0.05f));
+
+			else if (_orientation == Orientation::Horizontal && (Mouse::ScrolledLeft() || Mouse::ScrolledRight()))
+				SetScrollPercentage(ScrollPercentage() + ((Mouse::ScrolledLeft()) ? -0.05f : 0.05f));
+
 		}
 
 	}

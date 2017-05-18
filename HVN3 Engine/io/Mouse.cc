@@ -12,6 +12,8 @@ Mouse::MouseButton Mouse::__middle = Mouse::MouseButton();
 Mouse::MouseButton Mouse::__right = Mouse::MouseButton();
 bool Mouse::__scrolled_down = false;
 bool Mouse::__scrolled_up = false;
+bool Mouse::_scrolled_left = false;
+bool Mouse::_scrolled_right = false;
 Point Mouse::__last_click_pos = Point(-1.0f, -1.0f);
 Point Mouse::__display_mouse_position = Point(Mouse::X, Mouse::Y);
 
@@ -71,6 +73,16 @@ bool Mouse::ScrolledDown() {
 bool Mouse::ScrolledUp() {
 
 	return __scrolled_up;
+
+}
+bool Mouse::ScrolledLeft() {
+
+	return _scrolled_left;
+
+}
+bool Mouse::ScrolledRight() {
+
+	return _scrolled_right;
 
 }
 bool Mouse::InRegion(Rectangle rect) {

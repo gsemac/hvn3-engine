@@ -58,6 +58,8 @@ public:
 	static bool ButtonDoubleClicked(MOUSE_BUTTONS);
 	static bool ScrolledUp();
 	static bool ScrolledDown();
+	static bool ScrolledLeft();
+	static bool ScrolledRight();
 	static bool InRegion(Rectangle rect);
 	static bool InRegion(float x1, float y1, float x2, float y2);
 	static Point Position();
@@ -81,7 +83,7 @@ private:
 	static Point __display_mouse_position; // Mouse position relative to the display
 
 	static MouseButton __left, __middle, __right;
-	static bool __scrolled_up, __scrolled_down;
+	static bool __scrolled_up, __scrolled_down, _scrolled_left, _scrolled_right;
 
 	Mouse();
 	static MouseButton* ToMouseButton(MOUSE_BUTTONS);
