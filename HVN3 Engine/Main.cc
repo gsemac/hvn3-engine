@@ -174,6 +174,7 @@ private:
 		butt->SetAnchors(ANCHOR_LEFT | ANCHOR_TOP | ANCHOR_RIGHT);
 		panel->Controls()->AddControl(Control::Create<Button>(butt));
 		panel->Controls()->AddControl(Control::Create<Button>(100, 100, 100, 25, "Non-Anchored")); // non-anchored
+		panel->Controls()->AddControl(Control::Create<Window>(120, 120, 100, 100, "Nested"));
 
 		return wind;
 

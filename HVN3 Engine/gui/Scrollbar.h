@@ -40,6 +40,8 @@ namespace Gui {
 		void RecalculateSliderSize();
 		bool MouseOnSlider();
 		void ScrollTargetToPosition();
+		int PercentageToPixels(float percentage);
+		float PixelsToPercentage(int pixels);
 
 	};
 

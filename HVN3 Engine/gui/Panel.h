@@ -84,34 +84,8 @@ namespace Gui {
 
 			// Update the positions/sizes of the scrollbars.
 			UpdateScrollbarPositionsAndSizes();
-			std::cout << VisibleRegion().Height() << "<" << ScrollableRegion().Height() << std::endl;
+		
 			UpdateAnchors(ResizeEventArgs(old_scrollable_region, ScrollableRegion()));
-
-			//// If auto-scroll is enabled, adjust the scroll region so that all controls can remain accessible.
-			//if (AutoScrollEnabled()) {
-
-			//	Size old_scrollable_region = ScrollableRegion();
-			//	Size new_scrollable_region(GetControlBounds().Width(), GetControlBounds().Height());
-			//	
-			//	if (new_scrollable_region < VisibleRegion())
-			//		new_scrollable_region = VisibleRegion();
-
-
-			//	SetScrollableRegion(new_scrollable_region);
-
-			//	// Update the positions of anchored controls using the scrollable region.
-			//	UpdateAnchors(ResizeEventArgs(old_scrollable_region, ScrollableRegion()));
-
-
-			//}
-
-
-
-			// If scrollbars are visible, shrink the visible region accordingly.
-
-
-
-
 
 		}
 		virtual void OnPaint(PaintEventArgs& e) override {
@@ -175,10 +149,21 @@ namespace Gui {
 			UpdateScrollbarPositionsAndSizes();
 
 		}
+		virtual void OnClick() override {
+
+			std::cout << "Panel clicked!\n";
+
+		}
 
 	private:
 		Scrollbar* _scrollbars[2];
 		Size _prev_size;
+		
+		bool HasActiveChild() override {
+
+			return Controls()->ActiveControl();
+
+		}
 
 		void UpdateScrollbarPositionsAndSizes() {
 

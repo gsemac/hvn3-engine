@@ -136,11 +136,11 @@ namespace Gui {
 		}
 		else if (_target && (_target->HasFocus() || HasFocus())) {
 
-			if (_orientation == Orientation::Vertical && (Mouse::ScrolledDown() || Mouse::ScrolledUp()))
-				SetScrollPercentage(ScrollPercentage() + ((Mouse::ScrolledDown()) ? -0.05f : 0.05f));
-
+			if (_orientation == Orientation::Vertical && (Mouse::ScrolledDown() || Mouse::ScrolledUp())) 
+				SetScrollPercentage(PixelsToPercentage(PercentageToPixels(ScrollPercentage()) + (Mouse::ScrolledDown() ? -10 : 10)));
+			
 			else if (_orientation == Orientation::Horizontal && (Mouse::ScrolledLeft() || Mouse::ScrolledRight()))
-				SetScrollPercentage(ScrollPercentage() + ((Mouse::ScrolledLeft()) ? -0.05f : 0.05f));
+				SetScrollPercentage(PixelsToPercentage(PercentageToPixels(ScrollPercentage()) + (Mouse::ScrolledLeft() ? -10 : 10)));
 
 		}
 
@@ -199,6 +199,16 @@ namespace Gui {
 			_target->OnScroll(ScrollEventArgs(ScrollPercentage(), (_target->ScrollableRegion().Height() - _target->VisibleRegion().Height()) * ScrollPercentage(), _orientation));
 		else
 			_target->OnScroll(ScrollEventArgs(ScrollPercentage(), (_target->ScrollableRegion().Width() - _target->VisibleRegion().Width()) * ScrollPercentage(), _orientation));
+
+	}
+	int Gui::Scrollbar::PercentageToPixels(float percentage) {
+
+		return (Height() - _slider_height) * percentage;
+
+	}
+	float Gui::Scrollbar::PixelsToPercentage(int pixels) {
+
+		return (float)pixels / (Height() - _slider_height);
 
 	}
 
