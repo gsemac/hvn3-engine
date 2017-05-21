@@ -100,6 +100,14 @@ Point Mouse::Position() {
 	return Point(X, Y);
 
 }
+Point Mouse::GlobalPosition() {
+
+	int x, y;
+	al_get_mouse_cursor_position(&x, &y);
+
+	return Point(x, y);
+
+}
 const Point& Mouse::DisplayPosition() {
 
 	return __display_mouse_position;

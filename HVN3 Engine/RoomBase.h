@@ -5,6 +5,7 @@
 #include "ObjectManager.h"
 #include "RoomEnterEventArgs.h"
 #include "RoomExitEventArgs.h"
+#include "DisplaySizeChangedEventArgs.h"
 #include "Color.h"
 
 typedef int RoomId;
@@ -21,6 +22,7 @@ public:
 
 	virtual void Update(UpdateEventArgs& e) override;
 	virtual void Draw(DrawEventArgs& e) override;
+	virtual void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e);
 
 	void SetBackgroundColor(const Color& color);
 	const Color& BackgroundColor() const;

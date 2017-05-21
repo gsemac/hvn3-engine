@@ -26,6 +26,11 @@ public:
 
 		Room::Draw(e);
 
+	}
+	void Render(DrawEventArgs& e) override {
+
+		Room::Render(e);
+
 		_gui_manager.Draw(e);
 
 	}
@@ -101,11 +106,12 @@ public:
 		Object::Update(e);
 
 		float r = _radius;
+		Room& room = MyGame.RoomManager().CurrentRoom();
 
-		if ((Y() - r < 0 && Velocity().Y() < 0) || (Y() + r > 480 && Velocity().Y() > 0))
+		if ((Y() - r < 0 && Velocity().Y() < 0) || (Y() + r > room.Height() && Velocity().Y() > 0))
 			Velocity().SetY(Velocity().Y() * -1);
 
-		if ((X() - r < 0 && Velocity().X() < 0) || (X() + r > 640 && Velocity().X() > 0))
+		if ((X() - r < 0 && Velocity().X() < 0) || (X() + r > room.Width() && Velocity().X() > 0))
 			Velocity().SetX(Velocity().X() * -1);
 
 	}
@@ -143,7 +149,7 @@ public:
 class TestRoom : public MyRoom {
 
 public:
-	TestRoom() : MyRoom(640, 480) {
+	TestRoom() : MyRoom(960, 720) {
 
 		SetPersistent(true);
 
@@ -163,6 +169,10 @@ public:
 			ObjectManager()->InstanceAdd(Object::Create<oBall>(200, 200));
 
 		GuiManager()->ControlManager()->AddControl(Control::Create<Window>(CreateGuiWindow()));
+
+		//ViewManager()->ViewAdd(View(Point(0, 0), Size(Width(), Height()), Point(0, 0), Size(Width(), Height())));
+		//ViewManager()->ViewAt(0).Enable();
+
 		//GuiManager()->ControlManager()->AddControl(Control::Create<Window>(CreateGuiWindow()));
 
 	}
@@ -174,6 +184,15 @@ public:
 	void OnRoomExit(RoomExitEventArgs& e) override {
 
 		std::cout << "Exiting room " << this << " with " << ObjectManager()->InstanceCount() << " instances\n";
+
+	}
+	void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e) override {
+
+		Resize(e.NewSize().Width(), e.NewSize().Height());
+		std::cout << "size changed\n";
+		//ViewManager()->ViewRemove(0);
+
+		//ViewManager()->ViewAt(0) = View(Point(0, 0), Size(e.NewSize().Width(), e.NewSize().Height()), Point(0, 0), Size(e.NewSize().Width(), e.NewSize().Height()));
 
 	}
 
@@ -216,6 +235,9 @@ int main(int argc, char *argv[]) {
 	MyGame.Initialize(argc, argv);
 	MyGame.Properties().DebugMode = true;
 	MyGame.Properties().OutsideColor = Color::Black;
+	MyGame.Properties().DisplaySize = Size(960, 720);
+	MyGame.Properties().DisplayFlags |= DisplayFlags::Resizable;
+	MyGame.Properties().ScalingMode = ScalingMode::Fixed;
 
 	// Load resources.
 	MyGame.ResourceManager().Tilesets().Add(TILESET_1, Resource::Create<Tileset>("data/test/tileset1.png", 32, 32));

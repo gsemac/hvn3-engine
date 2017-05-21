@@ -63,6 +63,7 @@ public:
 	static bool InRegion(Rectangle rect);
 	static bool InRegion(float x1, float y1, float x2, float y2);
 	static Point Position();
+	static Point GlobalPosition();
 	static const Point& DisplayPosition();
 	static void ShowCursor();
 	static void HideCursor();

@@ -79,6 +79,10 @@ void Runner::Update(UpdateEventArgs& e) {
 	if (_room_manager.RoomCount() > 0 && (!Properties().FreezeWhenLostFocus || __display.HasFocus()) && __frames_skipped++ <= Properties().MaxFrameSkip)
 		_room_manager.Update(e);
 
+	int x, y;
+	al_get_mouse_cursor_position(&x, &y);
+	Mouse::StateAccessor::SetPosition(x, y);
+
 }
 void Runner::WaitForEvent() {
 
@@ -320,9 +324,16 @@ void Runner::OnMouseLeaveDisplay(Event& ev) {
 
 }
 void Runner::OnDisplayResize(Event& ev) {
+	
+	Size old_size(__display.Width(), __display.Height());
 
 	al_acknowledge_resize(__display.AlPtr());
 	__display.Resize(ev.AlPtr()->display.width, ev.AlPtr()->display.height);
+
+	if (_room_manager.RoomCount() > 0)
+		_room_manager.CurrentRoom().OnDisplaySizeChanged(DisplaySizeChangedEventArgs(
+			old_size, Size(__display.Width(), __display.Height()), &__display)
+			);
 
 }
 void Runner::OnDisplaySwitchOut(Event& ev) {

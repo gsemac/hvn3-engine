@@ -156,6 +156,7 @@
     <ClCompile Include="Comparison.cc" />
     <ClCompile Include="Connection.cc" />
     <ClCompile Include="Display.cc" />
+    <ClCompile Include="DisplaySizeChangedEventArgs.cc" />
     <ClCompile Include="DrawEventArgs.cc" />
     <ClCompile Include="Environment.cc" />
     <ClCompile Include="Event.cc" />
@@ -261,6 +262,7 @@
     <ClInclude Include="Connection.h" />
     <ClInclude Include="DataGrid.h" />
     <ClInclude Include="Display.h" />
+    <ClInclude Include="DisplaySizeChangedEventArgs.h" />
     <ClInclude Include="DrawEventArgs.h" />
     <ClInclude Include="Encryption.h" />
     <ClInclude Include="EventArgs.h" />
