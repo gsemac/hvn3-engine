@@ -74,14 +74,10 @@ void Runner::Draw(DrawEventArgs& e) {
 
 }
 void Runner::Update(UpdateEventArgs& e) {
-
+	
 	// Update the active scene.
 	if (_room_manager.RoomCount() > 0 && (!Properties().FreezeWhenLostFocus || __display.HasFocus()) && __frames_skipped++ <= Properties().MaxFrameSkip)
 		_room_manager.Update(e);
-
-	int x, y;
-	al_get_mouse_cursor_position(&x, &y);
-	Mouse::StateAccessor::SetPosition(x, y);
 
 }
 void Runner::WaitForEvent() {
