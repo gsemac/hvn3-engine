@@ -1,3 +1,4 @@
+#pragma once
 #include "gui/ScrollEventArgs.h"
 
 namespace Gui {
@@ -21,6 +22,7 @@ namespace Gui {
 		bool AutoScrollEnabled() const;
 		void SetAutoScrollEnabled(bool enabled);
 
+		Point ScrollPosition() const;
 		bool HasFocus();
 
 	private:
@@ -28,8 +30,8 @@ namespace Gui {
 		Size _visible_region;
 		Size _scrollable_region;
 		bool _auto_scroll_enabled;
-		float _vertical_scroll_pos;
-		float _horizontal_scroll_pos;
+		float _vpos;
+		float _hpos;
 
 	};
 

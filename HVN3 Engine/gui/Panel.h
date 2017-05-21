@@ -6,7 +6,8 @@
 #include "gui/Scrollbar.h"
 #include "Graphics.h"
 #include "Exception.h"
-#define PANEL_SCROLLBAR_DEFAULT_WIDTH 12
+#include "gui/ScrollableControl.h"
+#define SCROLLBAR_DEFAULT_WIDTH 12
 
 namespace Gui {
 
@@ -24,8 +25,7 @@ namespace Gui {
 		Panel(const Point& position, const Size& dimensions, const Size& scrollable_region) :
 			Control(position, dimensions),
 			IContainer(this),
-			IScrollable(this, scrollable_region),
-			_prev_size(dimensions.Width(), dimensions.Height()) {
+			IScrollable(this, scrollable_region) {
 
 			_scrollbars[0] = nullptr;
 			_scrollbars[1] = nullptr;
@@ -130,9 +130,9 @@ namespace Gui {
 
 			// If scrollbars haven't been created yet, create them.
 			if (_scrollbars[VERTICAL] == nullptr)
-				_scrollbars[VERTICAL] = new Scrollbar(this, Point(X() + Width() - PANEL_SCROLLBAR_DEFAULT_WIDTH, Y() + PANEL_SCROLLBAR_DEFAULT_WIDTH), Size(PANEL_SCROLLBAR_DEFAULT_WIDTH, Height() - PANEL_SCROLLBAR_DEFAULT_WIDTH), Orientation::Vertical);
+				_scrollbars[VERTICAL] = new Scrollbar(this, Point(X() + Width() - SCROLLBAR_DEFAULT_WIDTH, Y() + SCROLLBAR_DEFAULT_WIDTH), Size(SCROLLBAR_DEFAULT_WIDTH, Height() - SCROLLBAR_DEFAULT_WIDTH), Orientation::Vertical);
 			if (_scrollbars[HORIZONTAL] == nullptr)
-				_scrollbars[HORIZONTAL] = new Scrollbar(this, Point(X(), Y() + Height() - PANEL_SCROLLBAR_DEFAULT_WIDTH), Size(Width() - PANEL_SCROLLBAR_DEFAULT_WIDTH, PANEL_SCROLLBAR_DEFAULT_WIDTH), Orientation::Horizontal);
+				_scrollbars[HORIZONTAL] = new Scrollbar(this, Point(X(), Y() + Height() - SCROLLBAR_DEFAULT_WIDTH), Size(Width() - SCROLLBAR_DEFAULT_WIDTH, SCROLLBAR_DEFAULT_WIDTH), Orientation::Horizontal);
 
 			// Move scrollbars from the previous manager to the new manager, if the previous manager was non-null.
 			if (e.PreviousManager() != nullptr) {
@@ -157,7 +157,6 @@ namespace Gui {
 
 	private:
 		Scrollbar* _scrollbars[2];
-		Size _prev_size;
 		
 		bool HasActiveChild() override {
 

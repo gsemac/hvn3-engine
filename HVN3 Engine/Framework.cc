@@ -95,7 +95,7 @@ void Framework::InitializeUnderlyingFramework() {
 	al_reserve_samples(3);
 
 	// Enable bilinear filtering for scaled bitmaps.
-	al_set_new_bitmap_flags(al_get_new_bitmap_flags() | ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
+	al_add_new_bitmap_flag(ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
 
 }
 void Framework::ShutdownUnderlyingFramework() {

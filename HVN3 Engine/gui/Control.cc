@@ -171,6 +171,10 @@ void Gui::Control::SetMinimumSize(const Size& size) {
 
 	__minimum_size = size;
 
+	// Resize the control if it is smaller than the minimum size.
+	if (Width() < size.Width() || Height() < size.Height())
+		Control::Resize(size.Width(), size.Height());
+
 }
 Size Gui::Control::MaximumSize() {
 
@@ -180,6 +184,10 @@ Size Gui::Control::MaximumSize() {
 void Gui::Control::SetMaximumSize(const Size& size) {
 
 	__maximum_size = size;
+
+	// Resize the control if it is larger than the maximum size.
+	if (Width() > size.Width() || Height() > size.Height())
+		Control::Resize(size.Width(), size.Height());
 
 }
 

@@ -21,9 +21,9 @@ namespace Gui {
 	void IScrollable::OnScroll(ScrollEventArgs& e) {
 
 		if (e.Orientation() == Orientation::Vertical)
-			_vertical_scroll_pos = e.Percentage();
+			_vpos = e.Position();
 		else
-			_horizontal_scroll_pos = e.Percentage();
+			_hpos = e.Position();
 
 		_control->Invalidate();
 
@@ -61,6 +61,11 @@ namespace Gui {
 
 	}
 
+	Point IScrollable::ScrollPosition() const {
+
+		return Point(_hpos, _vpos);
+
+	}
 	bool IScrollable::HasFocus() {
 
 		return _control->HasFocus();

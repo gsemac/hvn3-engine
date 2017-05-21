@@ -456,6 +456,9 @@
     <ClCompile Include="gui\ScrollEventArgs.cc">
       <Filter>Source Files\Resources\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="gui\ScrollableControl.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -847,6 +850,9 @@
     </ClInclude>
     <ClInclude Include="UniqueCreateableBase.h">
       <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ScrollableControl.h">
+      <Filter>Header Files\Resources\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
