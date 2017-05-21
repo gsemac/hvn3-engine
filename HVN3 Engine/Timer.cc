@@ -1,4 +1,5 @@
 #include "Timer.h"
+#include <allegro5/allegro.h>
 
 Timer::Timer(double seconds_per_tick) {
 

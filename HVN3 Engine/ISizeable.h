@@ -1,5 +1,4 @@
-#ifndef __ISIZEABLE_H
-#define __ISIZEABLE_H
+#pragma once
 #include "Size.h"
 
 class ISizeable {
@@ -25,5 +24,3 @@ public:
 	Size Dimensions() const;
 
 };
-
-#endif

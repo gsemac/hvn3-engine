@@ -462,6 +462,9 @@
     <ClCompile Include="DisplaySizeChangedEventArgs.cc">
       <Filter>Source Files\System\Events\EventArgs</Filter>
     </ClCompile>
+    <ClCompile Include="FrameworkAdapter.cc">
+      <Filter>Source Files\System\Allegro</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -859,6 +862,9 @@
     </ClInclude>
     <ClInclude Include="DisplaySizeChangedEventArgs.h">
       <Filter>Header Files\System\Events\EventArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameworkAdapter.h">
+      <Filter>Header Files\System\Allegro</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

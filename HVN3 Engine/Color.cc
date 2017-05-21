@@ -1,3 +1,4 @@
+#include <allegro5/allegro.h>
 #include <algorithm>
 #include <cmath>
 #include "Color.h"
@@ -11,9 +12,6 @@ Color::Color(unsigned char r, unsigned char g, unsigned char b, float a) {
 	__g = (g / 255.0f);
 	__b = (b / 255.0f);
 	__a = a;
-
-}
-Color::Color(ALLEGRO_COLOR color) : Color(color.r, color.b, color.b, color.a) {
 
 }
 Color::Color(const Color& color) : Color(color.R(), color.G(), color.B()) {}
@@ -181,13 +179,7 @@ Color Color::Darker(float factor) const {
 
 }
 
-ALLEGRO_COLOR Color::AlPtr() const {
-
-	return al_map_rgba_f(__r, __g, __b, __a);
-
-}
-
-bool Color::IsTransparent(ALLEGRO_COLOR& color) {
+bool Color::IsTransparent(const ALLEGRO_COLOR& color) {
 
 	return !(color.a > 0.0f);
 

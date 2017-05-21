@@ -1,5 +1,8 @@
 #pragma once
-#include "Event.h"
+
+class Event;
+class EventSource;
+struct ALLEGRO_EVENT_QUEUE;
 
 class EventQueue {
 

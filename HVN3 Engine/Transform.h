@@ -1,10 +1,13 @@
 #pragma once
-#include <allegro5/allegro_primitives.h>
 #include "Scale.h"
 
 namespace Drawing {
 
 	class Transform {
+
+		struct Matrix {
+			float m[4][4];
+		};
 
 	public:
 		Transform();
@@ -28,7 +31,6 @@ namespace Drawing {
 		void VerticalShear(const Point& origin, float degrees);
 		void TransformPoint(float& x, float& y) const;
 		void TransformPoint(Point& point) const;
-		const ALLEGRO_TRANSFORM* AlPtr() const;
 		Transform& operator=(const Transform& other);
 
 		Point GetScale() const;
@@ -36,7 +38,7 @@ namespace Drawing {
 		Point GetOffset() const;
 
 	private:
-		ALLEGRO_TRANSFORM __t;
+		float _matrix[4][4];
 
 	};
 

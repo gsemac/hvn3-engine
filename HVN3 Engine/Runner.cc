@@ -16,6 +16,7 @@
 #include "DrawEventArgs.h"
 #include "UpdateEventArgs.h"
 #include "RoomController.h"
+#include "Event.h"
 
 Runner::Runner(::Properties& properties, RoomManager& room_manager) :
 	_properties(properties),

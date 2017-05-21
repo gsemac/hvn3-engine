@@ -1,6 +1,7 @@
 #pragma once
-#include <allegro5/allegro.h>
 #include "EventSource.h"
+#include <cstdint>
+struct ALLEGRO_TIMER;
 
 class Timer {
 

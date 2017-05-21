@@ -1,10 +1,10 @@
-#ifndef __BITMAP_H
-#define __BITMAP_H
-#include <allegro5\allegro.h>
+#pragma once
 #include "ISizeable.h"
 #include "Geometry.h"
 #include "Color.h"
 #include "io/File.h"
+
+struct ALLEGRO_BITMAP;
 
 namespace Drawing {
 
@@ -64,5 +64,3 @@ namespace Drawing {
 	};
 
 }
-
-#endif

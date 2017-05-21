@@ -1,4 +1,5 @@
 #include "Sound.h"
+#include <allegro5/allegro_audio.h>
 
 Sound::Sound(const char* filename) {
 

@@ -1,7 +1,4 @@
-#ifndef __SIZE_H
-#define __SIZE_H
-
-struct Point;
+#pragma once
 
 struct Size {
 
@@ -24,5 +21,3 @@ bool operator>(const Size& a, const Size& b);
 bool operator<=(const Size& a, const Size& b);
 bool operator>=(const Size& a, const Size& b);
 bool operator==(const Size& a, const Size& b);
-
-#endif

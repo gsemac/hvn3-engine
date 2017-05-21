@@ -1,6 +1,4 @@
-#ifndef __SPRITE_H
-#define __SPRITE_H
-#include <allegro5/allegro.h>
+#pragma once
 #include <vector>
 #include <string>
 #include "Point.h"
@@ -58,5 +56,3 @@ private:
 	Sprite();
 
 };
-
-#endif

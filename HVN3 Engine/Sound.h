@@ -1,6 +1,7 @@
-#ifndef __SOUND_H
-#define __SOUND_H
-#include <allegro5/allegro_audio.h>
+#pragma once
+
+struct ALLEGRO_SAMPLE;
+struct ALLEGRO_SAMPLE_ID;
 
 class Sound {
 
@@ -18,5 +19,3 @@ public:
 	ALLEGRO_SAMPLE* AlPtr();
 
 };
-
-#endif

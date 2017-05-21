@@ -1,4 +1,5 @@
 #pragma once
+#include <allegro5/allegro.h>
 #include "SpriteMask.h"
 #include "Color.h"
 #include "Exception.h"

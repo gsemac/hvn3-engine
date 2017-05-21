@@ -1,4 +1,7 @@
 #include "EventQueue.h"
+#include "EventSource.h"
+#include "Event.h"
+#include <allegro5/allegro.h>
 
 EventQueue::EventQueue() {
 

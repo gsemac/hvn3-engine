@@ -1,7 +1,8 @@
 #pragma once
-#include <allegro5/allegro.h>
 #include <vector>
 #include <string>
+
+struct ALLEGRO_FILE;
 
 namespace IO {
 

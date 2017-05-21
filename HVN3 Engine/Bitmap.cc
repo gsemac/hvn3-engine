@@ -1,5 +1,6 @@
 #include "Bitmap.h"
 #include "Graphics.h"
+#include "FrameworkAdapter.h"
 
 namespace Drawing {
 
@@ -17,7 +18,7 @@ namespace Drawing {
 			__free = false;
 			return;
 		}
-			
+
 		// Otherwise, allocate memory for the bitmap.
 		__bmp = al_create_bitmap(width, height);
 		__free = true;
@@ -46,7 +47,7 @@ namespace Drawing {
 
 	}
 	Bitmap::Bitmap(const Bitmap& other) {
-		
+
 		// Create a shallow copy of the source Bitmap. Both Bitmaps will share the same pixel data.
 		__bmp = other.__bmp;
 
@@ -55,13 +56,13 @@ namespace Drawing {
 
 	}
 	Bitmap::Bitmap(Bitmap&& other) {
-		
+
 		__bmp = other.__bmp;
-		__free = other.__free;	
-		
+		__free = other.__free;
+
 		other.__bmp = nullptr;
 		other.__free = false;
-	
+
 	}
 	Bitmap::~Bitmap() {
 
@@ -163,13 +164,17 @@ namespace Drawing {
 	}
 	Color Bitmap::GetPixel(int x, int y) const {
 
-		return Color(al_get_pixel(__bmp, x, y));
+		ALLEGRO_COLOR px = al_get_pixel(__bmp, x, y);
+
+		return Color::FromArgbf(px.r, px.g, px.b, px.a);
 
 	}
 
 	void Bitmap::ConvertMaskToAlpha(const Color& color) {
 
-		al_convert_mask_to_alpha(__bmp, color.AlPtr());
+		ALLEGRO_COLOR al_color = al_map_rgba(color.R(), color.G(), color.B(), color.Alpha());
+
+		al_convert_mask_to_alpha(__bmp, al_color);
 
 	}
 

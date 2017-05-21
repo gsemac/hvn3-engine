@@ -1,6 +1,7 @@
 #include <stack>
 #include "Graphics.h"
 #include "Exception.h"
+#include "FrameworkAdapter.h"
 
 namespace Drawing {
 	
@@ -28,7 +29,7 @@ namespace Drawing {
 			y + 1.0f,
 			x + width,
 			y + height,
-			color.AlPtr(),
+			FrameworkAdapter::ToColor(color),
 			thickness
 			);
 
@@ -47,7 +48,7 @@ namespace Drawing {
 			y,
 			x + width,
 			y + height,
-			color.AlPtr()
+			FrameworkAdapter::ToColor(color)
 			);
 
 	}
@@ -62,7 +63,7 @@ namespace Drawing {
 		PrepareDrawingSurface();
 
 		// Note: 0.5 is added to each coordinate to fix the uneven corners drawn by Allegro.
-		al_draw_rounded_rectangle(x + 0.5f, y + 0.5f, x + width + 0.5f, y + height + 0.5f, radius, radius, color.AlPtr(), thickness);
+		al_draw_rounded_rectangle(x + 0.5f, y + 0.5f, x + width + 0.5f, y + height + 0.5f, radius, radius, FrameworkAdapter::ToColor(color), thickness);
 
 	}
 	void Graphics::DrawFilledRoundRectangle(const Rectangle& rect, const Color& color, float radius) {
@@ -75,7 +76,7 @@ namespace Drawing {
 		PrepareDrawingSurface();
 
 		// Note: 0.5 is added to each coordinate to fix the uneven corners drawn by Allegro.
-		al_draw_filled_rounded_rectangle(x + 0.5f, y + 0.5f, x + width + 0.5f, y + height + 0.5f, radius, radius, color.AlPtr());
+		al_draw_filled_rounded_rectangle(x + 0.5f, y + 0.5f, x + width + 0.5f, y + height + 0.5f, radius, radius, FrameworkAdapter::ToColor(color));
 
 	}
 
@@ -98,7 +99,7 @@ namespace Drawing {
 
 		PrepareDrawingSurface();
 
-		al_draw_line(x1, y1, x2, y2, color.AlPtr(), thickness);
+		al_draw_line(x1, y1, x2, y2, FrameworkAdapter::ToColor(color), thickness);
 
 	}
 
@@ -111,7 +112,7 @@ namespace Drawing {
 
 		PrepareDrawingSurface();
 
-		al_put_pixel(x, y, color.AlPtr());
+		al_put_pixel(x, y, FrameworkAdapter::ToColor(color));
 
 	}
 
@@ -128,7 +129,7 @@ namespace Drawing {
 			x,
 			y,
 			radius,
-			color.AlPtr(),
+			FrameworkAdapter::ToColor(color),
 			thickness
 			);
 
@@ -146,7 +147,7 @@ namespace Drawing {
 			x,
 			y,
 			radius,
-			color.AlPtr()
+			FrameworkAdapter::ToColor(color)
 			);
 
 	}
@@ -155,7 +156,7 @@ namespace Drawing {
 
 		PrepareDrawingSurface();
 
-		al_clear_to_color(color.AlPtr());
+		al_clear_to_color(FrameworkAdapter::ToColor(color));
 
 	}
 
@@ -163,7 +164,7 @@ namespace Drawing {
 
 		PrepareDrawingSurface();
 
-		al_draw_text(font.AlPtr(), color.AlPtr(), x, y, GetAllegroFlags(alignment), text);
+		al_draw_text(font.AlPtr(), FrameworkAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text);
 
 	}
 	void Graphics::DrawText(float x, float y, const std::string& text, const Font& font, const Color& color) {
@@ -175,7 +176,7 @@ namespace Drawing {
 
 		PrepareDrawingSurface();
 
-		al_draw_ustr(font.AlPtr(), color.AlPtr(), x, y, GetAllegroFlags(alignment), text.AlPtr());
+		al_draw_ustr(font.AlPtr(), FrameworkAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text.AlPtr());
 
 	}
 
@@ -268,7 +269,7 @@ namespace Drawing {
 
 		PrepareDrawingSurface();
 
-		al_draw_tinted_bitmap(bitmap.AlPtr(), tint.AlPtr(), x, y, NULL);
+		al_draw_tinted_bitmap(bitmap.AlPtr(), FrameworkAdapter::ToColor(tint), x, y, NULL);
 
 	}
 
@@ -355,7 +356,7 @@ namespace Drawing {
 
 	void Graphics::ApplyTransform() {
 
-		al_use_transform(__transform.AlPtr());
+		al_use_transform((ALLEGRO_TRANSFORM*)&__transform);
 
 	}
 	void Graphics::ApplyClip() {

@@ -2,6 +2,7 @@
 #include "Runner.h"
 #define InitializeFramework() Framework::Initialize(argc, argv); {
 #define ShutdownFramework() } Framework::Shutdown();
+#define HVN3_BACKEND_ALLEGRO5
 
 class Framework {
 

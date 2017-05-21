@@ -1,5 +1,4 @@
 #pragma once
-#include <allegro5\allegro.h>
 #include <string>
 #include "ISizeable.h"
 #include "Size.h"
@@ -8,6 +7,8 @@
 #include "BitFlags.h"
 #include "EventSource.h"
 #include "Scale.h"
+
+struct ALLEGRO_DISPLAY;
 
 enum class DisplayResolution {
 	XGA,
@@ -21,11 +22,11 @@ enum class DisplayResolution {
 
 enum class DisplayFlags {
 	None = 0,
-	Resizable = ALLEGRO_RESIZABLE,
-	NoBorder = ALLEGRO_NOFRAME,
-	OpenGL = ALLEGRO_OPENGL,
-	OpenGL3 = ALLEGRO_OPENGL_3_0,
-	OpenGLForwardCompatible = ALLEGRO_OPENGL_FORWARD_COMPATIBLE,
+	Resizable = 16, // ALLEGRO_RESIZABLE
+	NoBorder = 32, // ALLEGRO_NOFRAME
+	OpenGL = 4, // ALLEGRO_OPENGL
+	OpenGL3 = 128, // ALLEGRO_OPENGL_3_0
+	OpenGLForwardCompatible = 256, // ALLEGRO_OPENGL_FORWARD_COMPATIBLE
 	Direct3D = 8
 };
 ENABLE_BITFLAG_OPERATORS(DisplayFlags);

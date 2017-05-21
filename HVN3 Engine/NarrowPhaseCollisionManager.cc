@@ -2,6 +2,7 @@
 #include "ICollidable.h"
 #include "Sprite.h"
 #include "Vector2d.h"
+#include <allegro5/allegro.h>
 #include <algorithm>
 
 bool NarrowPhaseCollisionManager::TestCollision(ICollidable* a, ICollidable* b) {
