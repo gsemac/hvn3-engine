@@ -1,5 +1,7 @@
 #pragma once
 #include "BitFlags.h"
+#include "Size.h"
+#include "Rectangle.h"
 #include <string>
 #include <vector>
 
@@ -26,6 +28,24 @@ namespace hvn3 {
 		static OperatingSystem OperatingSystem();
 		static std::vector<std::string> GetCommandLineArgs();
 
+		class Screen {
+
+		public:			
+			const Rectangle& Bounds() const;
+			const Size& Resolution() const;
+
+			static Screen PrimaryScreen();
+			static Screen VirtualScreen();
+			static std::vector<Screen> AllScreens();
+			static int ScreenCount();
+
+		private:
+			Screen(const Rectangle& bounds);
+
+			Rectangle _bounds;
+
+		};
+		
 	private:
 		static int argc;
 		static char** argv;

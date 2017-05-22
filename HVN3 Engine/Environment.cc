@@ -2,6 +2,7 @@
 #include "io/Path.h"
 #include "Exception.h"
 #include <allegro5\allegro.h>
+#include <algorithm>
 #ifdef _WIN64
 #define ENVIRONMENT hvn3::OperatingSystem::Windows64
 #elif _WIN32
@@ -91,6 +92,73 @@ namespace hvn3 {
 		else
 			// Otherwise, throw an exception.
 			throw Exception("Unable to get the current directory (getcwd returned null).");
+
+	}
+
+	// Screen class
+	Environment::Screen::Screen(const Rectangle& bounds) :
+		_bounds(bounds) {
+	}
+	const Rectangle& Environment::Screen::Bounds() const {
+
+		return _bounds;
+
+	}
+	const Size& Environment::Screen::Resolution() const {
+
+		return _bounds.Size();
+
+	}
+	Environment::Screen Environment::Screen::PrimaryScreen() {
+
+		// The primary screen is the one at (0, 0).
+		// https://www.allegro.cc/manual/5/allegro_monitor_info
+
+		int count = ScreenCount();
+		ALLEGRO_MONITOR_INFO info;
+
+		for (int adapter = 0; adapter < count; ++adapter)
+			if (al_get_monitor_info(adapter, &info))
+				if (info.x1 == 0 && info.y1 == 0)
+					return Screen(Rectangle(info.x1, info.y1, info.x2 - info.x1, info.y2 - info.y1));
+
+		throw Exception("Could not find primary display.");
+
+	}
+	Environment::Screen Environment::Screen::VirtualScreen() {
+
+		int count = ScreenCount();
+		ALLEGRO_MONITOR_INFO info;
+		int x1 = 0, y1 = 0;
+		int x2 = 0, y2 = 0;
+
+		for (int adapter = 0; adapter < count; ++adapter)
+			if (al_get_monitor_info(adapter, &info)) {
+				x1 = (std::min)(x1, info.x1);
+				y1 = (std::min)(y1, info.y1);
+				x2 = (std::max)(x2, info.x2);
+				y2 = (std::max)(y2, info.y2);
+			}
+
+		return Screen(Rectangle(x1, y1, x2 - x1, y2 - y1));
+
+	}
+	std::vector<Environment::Screen> Environment::Screen::AllScreens() {
+
+		int count = ScreenCount();
+		std::vector<Screen> screens;
+		ALLEGRO_MONITOR_INFO info;
+
+		for (int adapter = 0; adapter < count; ++adapter)
+			if (al_get_monitor_info(adapter, &info))
+				screens.push_back(Screen(Rectangle(info.x1, info.y1, info.x2 - info.x1, info.y2 - info.y1)));
+
+		return screens;
+
+	}
+	int Environment::Screen::ScreenCount() {
+
+		return al_get_num_video_adapters();
 
 	}
 

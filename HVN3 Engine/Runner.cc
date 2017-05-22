@@ -185,7 +185,7 @@ namespace hvn3 {
 
 		// Draw the FPS.
 		std::stringstream ss;
-		ss << (int)(std::min)(fps_sum / 60.0f, Properties().FPS) << " FPS";
+		ss << (int)(std::min)((std::ceil)(fps_sum / 60.0f), Properties().FPS) << " FPS";
 		__graphics.DrawText(11, 11, ss.str().c_str(), *SystemFont(), Color::Black);
 		__graphics.DrawText(10, 10, ss.str().c_str(), *SystemFont(), Color::White);
 

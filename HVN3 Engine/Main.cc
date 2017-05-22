@@ -239,6 +239,7 @@ int main(int argc, char *argv[]) {
 	MyGame.Properties().DisplaySize = Size(960, 720);
 	MyGame.Properties().DisplayFlags |= DisplayFlags::Resizable;
 	MyGame.Properties().ScalingMode = ScalingMode::Fixed;
+	MyGame.Properties().FPS = 60;
 
 	// Load resources.
 	MyGame.ResourceManager().Tilesets().Add(TILESET_1, Resource::Create<Tileset>("data/test/tileset1.png", 32, 32));

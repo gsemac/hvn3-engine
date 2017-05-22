@@ -52,4 +52,11 @@ namespace hvn3 {
 
 	}
 
+	std::ostream& operator<< (std::ostream& stream, const Size& size) {
+
+		stream << size.Width() << 'x' << size.Height();
+		return stream;
+
+	}
+
 }

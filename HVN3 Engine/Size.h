@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 namespace hvn3 {
 
@@ -23,5 +24,6 @@ namespace hvn3 {
 	bool operator<=(const Size& a, const Size& b);
 	bool operator>=(const Size& a, const Size& b);
 	bool operator==(const Size& a, const Size& b);
+	std::ostream& operator<< (std::ostream& stream, const hvn3::Size& size);
 
 }
