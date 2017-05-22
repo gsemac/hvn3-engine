@@ -3,33 +3,38 @@
 #include <vector>
 #include "Grid.h"
 
-template <typename T>
-class DataGrid : public Grid {
+namespace hvn3 {
 
-private:
-	std::vector<std::vector<T>> __data;
+	template <typename T>
+	class DataGrid : public Grid {
 
-private:
-	T __default_value;
+	private:
+		std::vector<std::vector<T>> __data;
 
-public:
-	DataGrid() {}
-	DataGrid(int rows, int columns, T def_value)
-		: Grid(rows, columns), __data(rows, std::vector<T>(columns, T def_value)) {}
-	void InsertRow(std::vector<T>& row) {
+	private:
+		T __default_value;
 
-		// Add the row to the list of data.
-		__data.push_back(row);
+	public:
+		DataGrid() {}
+		DataGrid(int rows, int columns, T def_value)
+			: Grid(rows, columns), __data(rows, std::vector<T>(columns, T def_value)) {
+		}
+		void InsertRow(std::vector<T>& row) {
 
-		// Adjust the row/column size if necessary.
-		__rows++;
-		if (row.size() > __columns) __columns = row.size();
+			// Add the row to the list of data.
+			__data.push_back(row);
 
-	}
-	T& At(int x, int y) {
-		return __data[y][x];
-	}
+			// Adjust the row/column size if necessary.
+			__rows++;
+			if (row.size() > __columns) __columns = row.size();
 
-};
+		}
+		T& At(int x, int y) {
+			return __data[y][x];
+		}
+
+	};
+
+}
 
 #endif

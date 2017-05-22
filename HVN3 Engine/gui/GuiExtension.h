@@ -1,17 +1,21 @@
 #pragma once
 #include "IExtension.h"
 
-namespace Gui {
+namespace hvn3 {
 
-	class GUIExtension : public IExtension {
+	namespace Gui {
 
-	public:
-		void Initialize() override;
-		void Update(UpdateEventArgs& e) override;
-		void Shutdown() override;
+		class GUIExtension : public IExtension {
 
-	private:
+		public:
+			void Initialize() override;
+			void Update(UpdateEventArgs& e) override;
+			void Shutdown() override;
 
-	};
+		private:
+
+		};
+
+	}
 
 }

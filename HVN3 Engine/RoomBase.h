@@ -8,48 +8,52 @@
 #include "DisplaySizeChangedEventArgs.h"
 #include "Color.h"
 
-typedef int RoomId;
+namespace hvn3 {
 
-class ObjectManager;
+	typedef int RoomId;
 
-class RoomBase : public IUpdatable, public IDrawable, public ISizeable {
-	friend class RoomController;
+	class ObjectManager;
 
-public:
-	RoomBase(unsigned int width, unsigned int height);
-	RoomBase(unsigned int width, unsigned int height, std::unique_ptr<IObjectManager>& object_manager);
-	virtual ~RoomBase();
+	class RoomBase : public IUpdatable, public IDrawable, public ISizeable {
+		friend class RoomController;
 
-	virtual void Update(UpdateEventArgs& e) override;
-	virtual void Draw(DrawEventArgs& e) override;
-	virtual void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e);
+	public:
+		RoomBase(unsigned int width, unsigned int height);
+		RoomBase(unsigned int width, unsigned int height, std::unique_ptr<IObjectManager>& object_manager);
+		virtual ~RoomBase();
 
-	void SetBackgroundColor(const Color& color);
-	const Color& BackgroundColor() const;
-	IObjectManager* ObjectManager();
-	virtual ::RoomId Id() const;
-	bool Persistent() const;
-	void SetPersistent(bool value);
+		virtual void Update(UpdateEventArgs& e) override;
+		virtual void Draw(DrawEventArgs& e) override;
+		virtual void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e);
 
-	template<typename T, typename ... Args>
-	static std::unique_ptr<RoomBase> Create(Args &&... args) {
+		void SetBackgroundColor(const Color& color);
+		const Color& BackgroundColor() const;
+		IObjectManager* ObjectManager();
+		virtual RoomId Id() const;
+		bool Persistent() const;
+		void SetPersistent(bool value);
 
-		return std::make_unique<T>(std::forward<Args>(args)...);
+		template<typename T, typename ... Args>
+		static std::unique_ptr<RoomBase> Create(Args &&... args) {
 
-	}
+			return std::make_unique<T>(std::forward<Args>(args)...);
 
-protected:
-	virtual void OnRoomEnter(RoomEnterEventArgs& e);
-	virtual void OnRoomExit(RoomExitEventArgs& e);
-	virtual void SetUp();
-	virtual void Reset();
-	virtual void Render(DrawEventArgs& e);
+		}
 
-private:
-	std::unique_ptr<IObjectManager> _obj_manager;
+	protected:
+		virtual void OnRoomEnter(RoomEnterEventArgs& e);
+		virtual void OnRoomExit(RoomExitEventArgs& e);
+		virtual void SetUp();
+		virtual void Reset();
+		virtual void Render(DrawEventArgs& e);
 
-	Color _background_color;
-	bool _set_up;
-	bool _persistent;
+	private:
+		std::unique_ptr<IObjectManager> _obj_manager;
 
-};
+		Color _background_color;
+		bool _set_up;
+		bool _persistent;
+
+	};
+
+}

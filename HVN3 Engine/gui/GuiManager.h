@@ -6,29 +6,33 @@
 #include <list>
 #include <memory>
 
-namespace Gui {
+namespace hvn3 {
 
-	class GuiManager : public IUpdatable, public IDrawable {
+	namespace Gui {
 
-	public:
-		GuiManager();
-		GuiManager(Gui::ControlManager* control_manager, Gui::StyleManager* style_manager);
-		~GuiManager();
+		class GuiManager : public IUpdatable, public IDrawable {
 
-		void Clear();
+		public:
+			GuiManager();
+			GuiManager(Gui::ControlManager* control_manager, Gui::StyleManager* style_manager);
+			~GuiManager();
 
-		Gui::StyleManager* StyleManager();
-		Gui::ControlManager* ControlManager();
-		const Gui::ControlManager* ControlManager() const;
+			void Clear();
 
-		void Update(UpdateEventArgs& e) override;
-		void Draw(DrawEventArgs& e) override;
+			Gui::StyleManager* StyleManager();
+			Gui::ControlManager* ControlManager();
+			const Gui::ControlManager* ControlManager() const;
 
-	private:
-		bool _owns_managers;
-		Gui::StyleManager* _style_manager;
-		Gui::ControlManager* _control_manager;
+			void Update(UpdateEventArgs& e) override;
+			void Draw(DrawEventArgs& e) override;
 
-	};
+		private:
+			bool _owns_managers;
+			Gui::StyleManager* _style_manager;
+			Gui::ControlManager* _control_manager;
+
+		};
+
+	}
 
 }

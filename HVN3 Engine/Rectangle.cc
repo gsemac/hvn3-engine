@@ -3,97 +3,101 @@
 #include "Exception.h"
 #include <algorithm>
 
-Rectangle::Rectangle(float X, float Y, float width, float height) : IPositionable(X, Y), ISizeable(width, height) {}
-Rectangle::Rectangle(float width, float height) : Rectangle(0, 0, width, height) {}
-Rectangle::Rectangle(Point top_left, Point bottom_right) : Rectangle(top_left.X(), top_left.Y(), bottom_right.X() - top_left.X(), bottom_right.Y() - top_left.Y()) {}
-float Rectangle::X2() const {
+namespace hvn3 {
 
-	return X() + Width();
+	Rectangle::Rectangle(float X, float Y, float width, float height) : IPositionable(X, Y), ISizeable(width, height) {}
+	Rectangle::Rectangle(float width, float height) : Rectangle(0, 0, width, height) {}
+	Rectangle::Rectangle(Point top_left, Point bottom_right) : Rectangle(top_left.X(), top_left.Y(), bottom_right.X() - top_left.X(), bottom_right.Y() - top_left.Y()) {}
+	float Rectangle::X2() const {
 
-}
-float Rectangle::Y2() const {
+		return X() + Width();
 
-	return Y() + Height();
+	}
+	float Rectangle::Y2() const {
 
-}
-float Rectangle::Bottom() const {
-	return Y2();
-}
-float Rectangle::Top() const {
-	return Y();
-}
-float Rectangle::Left() const {
-	return X();
-}
-float Rectangle::Right() const {
-	return X2();
-}
-Point Rectangle::TopLeft() const {
+		return Y() + Height();
 
-	return Point(X(), Y());
+	}
+	float Rectangle::Bottom() const {
+		return Y2();
+	}
+	float Rectangle::Top() const {
+		return Y();
+	}
+	float Rectangle::Left() const {
+		return X();
+	}
+	float Rectangle::Right() const {
+		return X2();
+	}
+	Point Rectangle::TopLeft() const {
 
-}
-Point Rectangle::TopRight() const {
+		return Point(X(), Y());
 
-	return Point(X() + Width(), Y());
+	}
+	Point Rectangle::TopRight() const {
 
-}
-Point Rectangle::BottomLeft() const {
+		return Point(X() + Width(), Y());
 
-	return Point(X(), Y() + Height());
+	}
+	Point Rectangle::BottomLeft() const {
 
-}
-Point Rectangle::BottomRight() const {
+		return Point(X(), Y() + Height());
 
-	return Point(X() + Width(), Y() + Height());
+	}
+	Point Rectangle::BottomRight() const {
 
-}
-Point Rectangle::Midpoint() const {
+		return Point(X() + Width(), Y() + Height());
 
-	return Point(X() + Width() / 2.0f, Y() + Height() / 2.0f);
+	}
+	Point Rectangle::Midpoint() const {
 
-}
-Size Rectangle::Size() const {
+		return Point(X() + Width() / 2.0f, Y() + Height() / 2.0f);
 
-	return ::Size(Width(), Height());
+	}
+	Size Rectangle::Size() const {
 
-}
-void Rectangle::Translate(float x_offset, float y_offset) {
+		return hvn3::Size(Width(), Height());
 
-	IPositionable::Translate(x_offset, y_offset);
+	}
+	void Rectangle::Translate(float x_offset, float y_offset) {
 
-}
-void Rectangle::Scale(float x_scale, float y_scale) {
+		IPositionable::Translate(x_offset, y_offset);
 
-	throw NotImplementedException();
+	}
+	void Rectangle::Scale(float x_scale, float y_scale) {
 
-}
-void Rectangle::Move(float x, float y) {
+		throw NotImplementedException();
 
-	SetXY(x, y);
+	}
+	void Rectangle::Move(float x, float y) {
 
-}
-Rectangle Rectangle::Intersect(const Rectangle& a, const Rectangle& b) {
+		SetXY(x, y);
 
-	Point tl((std::max)(a.Left(), b.Left()), (std::max)(a.Top(), b.Top()));
-	Point br((std::min)(a.Right(), b.Right()), (std::min)(a.Bottom(), b.Bottom()));
-	
-	return Rectangle(tl, br);
+	}
+	Rectangle Rectangle::Intersect(const Rectangle& a, const Rectangle& b) {
 
-}
-float Rectangle::Area() const {
+		Point tl((std::max)(a.Left(), b.Left()), (std::max)(a.Top(), b.Top()));
+		Point br((std::min)(a.Right(), b.Right()), (std::min)(a.Bottom(), b.Bottom()));
 
-	return Width() * Height();
+		return Rectangle(tl, br);
 
-}
+	}
+	float Rectangle::Area() const {
 
-bool operator>(const Rectangle &a, const Rectangle &b) {
+		return Width() * Height();
 
-	return a.Area() > b.Area();
+	}
 
-}
-bool operator<(const Rectangle &a, const Rectangle &b) {
+	bool operator>(const Rectangle &a, const Rectangle &b) {
 
-	return a.Area() < b.Area();
+		return a.Area() > b.Area();
+
+	}
+	bool operator<(const Rectangle &a, const Rectangle &b) {
+
+		return a.Area() < b.Area();
+
+	}
 
 }

@@ -3,43 +3,47 @@
 #include "Bitmap.h"
 #include "Color.h"
 
-class Font;
+namespace hvn3 {
 
-namespace Gui {
-	
-	enum class FontResourceId : ResourceId {
-		PrimaryFont
-	};
+	class Font;
 
-	enum class BitmapResourceId : ResourceId {
-		ExitButton
-	};
+	namespace Gui {
 
-	class StyleManager {
+		enum class FontResourceId : ResourceId {
+			PrimaryFont
+		};
 
-	public:
-		StyleManager();
-		~StyleManager();
+		enum class BitmapResourceId : ResourceId {
+			ExitButton
+		};
 
-		const Color& PrimaryColor() const;
-		const Color& SecondaryColor() const;
-		ResourceHandle<Font> GetFontResource(FontResourceId id);
-		ResourceHandle<Drawing::Bitmap> GetImageResource(BitmapResourceId id);
+		class StyleManager {
 
-		float DrawingScale() const;
-		void SetDrawingScale(float scale);
+		public:
+			StyleManager();
+			~StyleManager();
 
-	protected:
-		bool LoadDefaultFontResource(FontResourceId id);
-		bool LoadDefaultBitmapResource(BitmapResourceId id);
+			const Color& PrimaryColor() const;
+			const Color& SecondaryColor() const;
+			ResourceHandle<Font> GetFontResource(FontResourceId id);
+			ResourceHandle<Drawing::Bitmap> GetImageResource(BitmapResourceId id);
 
-	private:
-		float _draw_scale;
-		Color _primary_color;
-		Color _secondary_color;
-		ResourceCollection<Font> _fonts;
-		ResourceCollection<Drawing::Bitmap> _bitmaps;
-	
-	};
+			float DrawingScale() const;
+			void SetDrawingScale(float scale);
+
+		protected:
+			bool LoadDefaultFontResource(FontResourceId id);
+			bool LoadDefaultBitmapResource(BitmapResourceId id);
+
+		private:
+			float _draw_scale;
+			Color _primary_color;
+			Color _secondary_color;
+			ResourceCollection<Font> _fonts;
+			ResourceCollection<Drawing::Bitmap> _bitmaps;
+
+		};
+
+	}
 
 }

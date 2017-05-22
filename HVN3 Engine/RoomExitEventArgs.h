@@ -1,11 +1,15 @@
 #pragma once
 #include "EventArgs.h"
 
-class RoomExitEventArgs : public EventArgs {
+namespace hvn3 {
 
-public:
-	RoomExitEventArgs();
+	class RoomExitEventArgs : public EventArgs {
 
-private:
+	public:
+		RoomExitEventArgs();
 
-};
+	private:
+
+	};
+
+}

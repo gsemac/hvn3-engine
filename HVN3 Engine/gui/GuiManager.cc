@@ -4,67 +4,71 @@
 #include "io/Keyboard.h"
 #include <utility>
 
-namespace Gui {
+namespace hvn3 {
 
-	GuiManager::GuiManager()
-		: GuiManager(new Gui::ControlManager(this), new Gui::StyleManager()) {
+	namespace Gui {
 
-		_owns_managers = true;
+		GuiManager::GuiManager()
+			: GuiManager(new Gui::ControlManager(this), new Gui::StyleManager()) {
 
-	}
-	GuiManager::GuiManager(Gui::ControlManager* control_manager, Gui::StyleManager* style_manager) {
+			_owns_managers = true;
 
-		_control_manager = control_manager;
-		_style_manager = style_manager;
-		_owns_managers = false;
+		}
+		GuiManager::GuiManager(Gui::ControlManager* control_manager, Gui::StyleManager* style_manager) {
 
-	}
-	GuiManager::~GuiManager() {
+			_control_manager = control_manager;
+			_style_manager = style_manager;
+			_owns_managers = false;
 
-		if (!_owns_managers)
-			return;
+		}
+		GuiManager::~GuiManager() {
 
-		if (_style_manager)
-			delete _style_manager;
+			if (!_owns_managers)
+				return;
 
-		if (_control_manager)
-			delete _control_manager;
+			if (_style_manager)
+				delete _style_manager;
 
-		_style_manager = nullptr;
-		_control_manager = nullptr;
+			if (_control_manager)
+				delete _control_manager;
 
-	}
+			_style_manager = nullptr;
+			_control_manager = nullptr;
 
-	void GuiManager::Clear() {
+		}
 
-		ControlManager()->Clear();
+		void GuiManager::Clear() {
 
-	}
+			ControlManager()->Clear();
 
-	StyleManager* GuiManager::StyleManager() {
+		}
 
-		return _style_manager;
+		StyleManager* GuiManager::StyleManager() {
 
-	}
-	ControlManager* GuiManager::ControlManager() {
+			return _style_manager;
 
-		return const_cast<Gui::ControlManager*>(static_cast<const GuiManager*>(this)->ControlManager());
+		}
+		ControlManager* GuiManager::ControlManager() {
 
-	}
-	const ControlManager* GuiManager::ControlManager() const {
+			return const_cast<Gui::ControlManager*>(static_cast<const GuiManager*>(this)->ControlManager());
 
-		return _control_manager;
+		}
+		const ControlManager* GuiManager::ControlManager() const {
 
-	}
+			return _control_manager;
 
-	void GuiManager::Update(UpdateEventArgs& e) {
+		}
 
-		ControlManager()->Update(e);
+		void GuiManager::Update(UpdateEventArgs& e) {
 
-	}
-	void GuiManager::Draw(DrawEventArgs& e) {
+			ControlManager()->Update(e);
 
-		ControlManager()->Draw(e);
+		}
+		void GuiManager::Draw(DrawEventArgs& e) {
+
+			ControlManager()->Draw(e);
+
+		}
 
 	}
 

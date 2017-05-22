@@ -3,19 +3,19 @@
 #include "Exception.h"
 #include <allegro5\allegro.h>
 #ifdef _WIN64
-#define ENVIRONMENT OperatingSystem::Windows64
+#define ENVIRONMENT hvn3::OperatingSystem::Windows64
 #elif _WIN32
-#define ENVIRONMENT OperatingSystem::Windows32
+#define ENVIRONMENT hvn3::OperatingSystem::Windows32
 #elif __unix || __unix__
-#define ENVIRONMENT OperatingSystem::WindowsUnix
+#define ENVIRONMENT hvn3::OperatingSystem::WindowsUnix
 #elif __APPLE__ || __MACH__
-#define ENVIRONMENT OperatingSystem::MacOSX
+#define ENVIRONMENT hvn3::OperatingSystem::MacOSX
 #elif __linux__
-#define ENVIRONMENT OperatingSystem::Linux
+#define ENVIRONMENT hvn3::OperatingSystem::Linux
 #elif __FreeBSD__
-#define ENVIRONMENT OperatingSystem::FreeBSD
+#define ENVIRONMENT hvn3::OperatingSystem::FreeBSD
 #else
-#define ENVIRONMENT OperatingSystem::Unknown
+#define ENVIRONMENT hvn3::OperatingSystem::Unknown
 #endif
 #ifdef _WIN32
 #include <direct.h>
@@ -25,69 +25,73 @@
 #endif
 #define MAX_PATH 255 // Not applicable for all platforms
 
-// Static methods and member variables
+namespace hvn3 {
 
-std::string Environment::CurrentDirectory() {
+	// Static methods and member variables
 
-	// Attempt to get the current working directory.
-	char* dir = al_get_current_directory();
+	std::string Environment::CurrentDirectory() {
 
-	if (dir) {
+		// Attempt to get the current working directory.
+		char* dir = al_get_current_directory();
 
-		// If the directory is not null, copy the contents of the buffer to a string.
-		std::string current_directory = dir;
+		if (dir) {
 
-		// Free the buffer.
-		al_free(dir);
+			// If the directory is not null, copy the contents of the buffer to a string.
+			std::string current_directory = dir;
 
-		// Return the directory.
-		return current_directory;
+			// Free the buffer.
+			al_free(dir);
+
+			// Return the directory.
+			return current_directory;
+
+		}
+		else
+			// Otherwise, throw an exception.
+			throw IO::IOException("Failed to get the current working directory.");
 
 	}
-	else
-		// Otherwise, throw an exception.
-		throw IO::IOException("Failed to get the current working directory.");
+	hvn3::OperatingSystem Environment::OperatingSystem() {
 
-}
-::OperatingSystem Environment::OperatingSystem() {
+		return ENVIRONMENT;
 
-	return ENVIRONMENT;
+	}
+	std::vector<std::string> Environment::GetCommandLineArgs() {
 
-}
-std::vector<std::string> Environment::GetCommandLineArgs() {
+		// Use a static declaration so it only needs to be built once.
+		static std::vector<std::string> args;
 
-	// Use a static declaration so it only needs to be built once.
-	static std::vector<std::string> args;
+		// Return the arguments if the collection has already been built.
+		if (args.size() > 0)
+			return args;
 
-	// Return the arguments if the collection has already been built.
-	if (args.size() > 0)
+		// Otherwise, build the collection.
+		for (int i = 0; i < argc; ++i)
+			args.push_back(std::string(argv[i]));
+
+		// Return the result.
 		return args;
 
-	// Otherwise, build the collection.
-	for (int i = 0; i < argc; ++i)
-		args.push_back(std::string(argv[i]));
+	}
 
-	// Return the result.
-	return args;
+	int Environment::argc = 0;
+	char** Environment::argv = nullptr;
 
-}
+	// Helper methods
 
-int Environment::argc = 0;
-char** Environment::argv = nullptr;
+	std::string get_current_directory() {
 
-// Helper methods
+		// Get the current working directory.
+		char buf[MAX_PATH];
+		char* cwd = getcwd(buf, MAX_PATH);
 
-std::string get_current_directory() {
+		if (cwd)
+			// If the directory is not null, copy the contents of the buffer to a string and return the result.
+			return std::string(cwd);
+		else
+			// Otherwise, throw an exception.
+			throw Exception("Unable to get the current directory (getcwd returned null).");
 
-	// Get the current working directory.
-	char buf[MAX_PATH];
-	char* cwd = getcwd(buf, MAX_PATH);
-
-	if (cwd) 
-		// If the directory is not null, copy the contents of the buffer to a string and return the result.
-		return std::string(cwd);
-	else
-		// Otherwise, throw an exception.
-		throw Exception("Unable to get the current directory (getcwd returned null).");
+	}
 
 }

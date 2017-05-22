@@ -3,25 +3,29 @@
 #include "ICollisionManager.h"
 #include "IBroadPhaseCollisionManager.h"
 
-class IBroadPhaseCollisionManager;
+namespace hvn3 {
 
-class CollisionManager : public ICollisionManager {
+	class IBroadPhaseCollisionManager;
 
-public:
-	CollisionManager(std::unique_ptr<IBroadPhaseCollisionManager>& broadphase);
+	class CollisionManager : public ICollisionManager {
 
-	void ColliderAdd(ICollidable* collider) override;
-	void ColliderRemove(ICollidable* collider) override;
-	void Clear() override;
+	public:
+		CollisionManager(std::unique_ptr<IBroadPhaseCollisionManager>& broadphase);
 
-	bool PlaceFree(ICollidable* collider, float x, float y) override;
-	void MoveContact(ICollidable* collider, float direction, int max_distance) override;
+		void ColliderAdd(ICollidable* collider) override;
+		void ColliderRemove(ICollidable* collider) override;
+		void Clear() override;
 
-	void Update(UpdateEventArgs& e) override;
-	
-private:
-	std::unique_ptr<IBroadPhaseCollisionManager> _broadphase;
+		bool PlaceFree(ICollidable* collider, float x, float y) override;
+		void MoveContact(ICollidable* collider, float direction, int max_distance) override;
 
-	void ProcessCollisions(const std::vector<std::pair<ICollidable*, ICollidable*>>& pairs) const;
+		void Update(UpdateEventArgs& e) override;
 
-};
+	private:
+		std::unique_ptr<IBroadPhaseCollisionManager> _broadphase;
+
+		void ProcessCollisions(const std::vector<std::pair<ICollidable*, ICollidable*>>& pairs) const;
+
+	};
+
+}

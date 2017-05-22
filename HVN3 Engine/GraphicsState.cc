@@ -1,10 +1,15 @@
 #include "GraphicsState.h"
 #include "Graphics.h"
 
-namespace Drawing {
+namespace hvn3 {
 
-	GraphicsState::GraphicsState(const Graphics& graphics) :
-	__transform(graphics.GetTransform()),
-	__clip(graphics.Clip()) {}
+	namespace Drawing {
+
+		GraphicsState::GraphicsState(const Graphics& graphics) :
+			__transform(graphics.GetTransform()),
+			__clip(graphics.Clip()) {
+		}
+
+	}
 
 }

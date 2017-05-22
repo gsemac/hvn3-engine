@@ -1,65 +1,69 @@
 #include "Timer.h"
 #include <allegro5/allegro.h>
 
-Timer::Timer(double seconds_per_tick) {
+namespace hvn3 {
 
-	__timer = al_create_timer(seconds_per_tick);
+	Timer::Timer(double seconds_per_tick) {
 
-}
-Timer::~Timer() {
+		__timer = al_create_timer(seconds_per_tick);
 
-	if (__timer)
-		al_destroy_timer(__timer);
-	__timer = nullptr;
+	}
+	Timer::~Timer() {
 
-}
-void Timer::Start() {
+		if (__timer)
+			al_destroy_timer(__timer);
+		__timer = nullptr;
 
-	al_start_timer(__timer);
+	}
+	void Timer::Start() {
 
-}
-void Timer::Resume() {
+		al_start_timer(__timer);
 
-	al_resume_timer(__timer);
+	}
+	void Timer::Resume() {
 
-}
-void Timer::Stop() {
+		al_resume_timer(__timer);
 
-	al_stop_timer(__timer);
+	}
+	void Timer::Stop() {
 
-}
-bool Timer::HasStarted() const {
+		al_stop_timer(__timer);
 
-	return al_get_timer_started(__timer);
+	}
+	bool Timer::HasStarted() const {
 
-}
-int64_t Timer::Count() const {
+		return al_get_timer_started(__timer);
 
-	return al_get_timer_count(__timer);
+	}
+	int64_t Timer::Count() const {
 
-}
-void Timer::SetCount(int64_t count) {
+		return al_get_timer_count(__timer);
 
-	al_set_timer_count(__timer, count);
+	}
+	void Timer::SetCount(int64_t count) {
 
-}
-void Timer::AddCount(int64_t diff) {
+		al_set_timer_count(__timer, count);
 
-	al_add_timer_count(__timer, diff);
+	}
+	void Timer::AddCount(int64_t diff) {
 
-}
-double Timer::SecondsPerTick() const {
+		al_add_timer_count(__timer, diff);
 
-	return al_get_timer_speed(__timer);
+	}
+	double Timer::SecondsPerTick() const {
 
-}
-void Timer::SetSecondsPerTick(double seconds_per_tick) {
+		return al_get_timer_speed(__timer);
 
-	return al_set_timer_speed(__timer, seconds_per_tick);
+	}
+	void Timer::SetSecondsPerTick(double seconds_per_tick) {
 
-}
-::EventSource Timer::EventSource() {
+		return al_set_timer_speed(__timer, seconds_per_tick);
 
-	return ::EventSource(al_get_timer_event_source(__timer));
+	}
+	hvn3::EventSource Timer::EventSource() {
+
+		return hvn3::EventSource(al_get_timer_event_source(__timer));
+
+	}
 
 }

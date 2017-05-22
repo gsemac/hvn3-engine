@@ -1,14 +1,18 @@
 #pragma once
 #include <string>
 
-namespace IO {
+namespace hvn3 {
 
-	class Directory {
+	namespace IO {
 
-	public:
-		static const std::string GetCurrentDirectory();
-		static void SetCurrentDirectory(const std::string path);
+		class Directory {
 
-	};
+		public:
+			static const std::string GetCurrentDirectory();
+			static void SetCurrentDirectory(const std::string path);
+
+		};
+
+	}
 
 }

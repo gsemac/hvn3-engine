@@ -2,48 +2,52 @@
 #include "gui/GuiManager.h"
 #include "gui/Control.h"
 
-namespace Gui {
+namespace hvn3 {
 
-	ITextable::ITextable(Control* control, const String& text) :
-		_text(text),
-		_font(FontResourceId::PrimaryFont),
-		_control(control) {
-	}
+	namespace Gui {
 
-	const String& ITextable::Text() const {
+		ITextable::ITextable(Control* control, const String& text) :
+			_text(text),
+			_font(FontResourceId::PrimaryFont),
+			_control(control) {
+		}
 
-		return _text;
+		const String& ITextable::Text() const {
 
-	}
-	void ITextable::SetText(const String& text) {
+			return _text;
 
-		_text = text;
+		}
+		void ITextable::SetText(const String& text) {
 
-		_control->Invalidate();
+			_text = text;
 
-	}
+			_control->Invalidate();
 
-	const ResourceHandle<::Font> ITextable::Font() {
-		
-		if (_control->Manager() && _control->Manager()->StyleManager())
-			return _control->Manager()->StyleManager()->GetFontResource(_font);
+		}
 
-		return nullptr;
+		const ResourceHandle<hvn3::Font> ITextable::Font() {
 
-	}
-	void ITextable::SetFont(Gui::FontResourceId font) {
+			if (_control->Manager() && _control->Manager()->StyleManager())
+				return _control->Manager()->StyleManager()->GetFontResource(_font);
 
-		_font = font;
+			return nullptr;
 
-		_control->Invalidate();
+		}
+		void ITextable::SetFont(Gui::FontResourceId font) {
 
-	}
+			_font = font;
 
-	// Protected methods
+			_control->Invalidate();
 
-	String& ITextable::RefText() {
+		}
 
-		return _text;
+		// Protected methods
+
+		String& ITextable::RefText() {
+
+			return _text;
+
+		}
 
 	}
 

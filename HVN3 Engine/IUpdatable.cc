@@ -1,5 +1,9 @@
 #include "IUpdatable.h"
 #include "UpdateEventArgs.h"
 
-void IUpdatable::BeginUpdate(UpdateEventArgs& e) {}
-void IUpdatable::EndUpdate(UpdateEventArgs& e) {}
+namespace hvn3 {
+
+	void IUpdatable::BeginUpdate(UpdateEventArgs& e) {}
+	void IUpdatable::EndUpdate(UpdateEventArgs& e) {}
+
+}

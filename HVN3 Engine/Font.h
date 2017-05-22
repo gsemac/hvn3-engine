@@ -3,35 +3,39 @@
 
 struct ALLEGRO_FONT;
 
-enum class FontOptions {
-	None = 0x00,
-	Scalable = 0x01,
-	Monochrome = 0x02
-};
-ENABLE_BITFLAG_OPERATORS(FontOptions)
+namespace hvn3 {
 
-class Font {
+	enum class FontOptions {
+		None = 0x00,
+		Scalable = 0x01,
+		Monochrome = 0x02
+	};
+	ENABLE_BITFLAG_OPERATORS(FontOptions)
 
-public:
-	Font(const char* filename, int size, FontOptions options = FontOptions::None);
-	Font(Font&& other);
-	~Font();
+	class Font {
 
-	void Scale(float scale_factor);
-	bool IsScalable() const;
-	int Height() const;
+	public:
+		Font(const char* filename, int size, FontOptions options = FontOptions::None);
+		Font(Font&& other);
+		~Font();
 
-	ALLEGRO_FONT* AlPtr() const;
+		void Scale(float scale_factor);
+		bool IsScalable() const;
+		int Height() const;
 
-	// Returns built-in font resource.
-	static Font BuiltIn();
+		ALLEGRO_FONT* AlPtr() const;
 
-private:
-	Font();
-	ALLEGRO_FONT* __font;
-	bool __scalable;
-	int __size, __height;
-	const char* __filename;
-	FontOptions __flags;
+		// Returns built-in font resource.
+		static Font BuiltIn();
 
-};
+	private:
+		Font();
+		ALLEGRO_FONT* __font;
+		bool __scalable;
+		int __size, __height;
+		const char* __filename;
+		FontOptions __flags;
+
+	};
+
+}

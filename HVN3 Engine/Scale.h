@@ -1,26 +1,30 @@
 #pragma once
 #include "Rectangle.h"
 
-class Scale {
+namespace hvn3 {
 
-public:
-	Scale(float scale);
-	Scale(float x_scale, float y_scale);
-	Scale(const Rectangle& a, const Rectangle& b);
-	Scale(const Size& a, const Size& b);
-	Scale(const ISizeable& a, const ISizeable& b);
+	class Scale {
 
-	float XScale() const;
-	float YScale() const;
-	Point& ScalePoint(Point& point) const;
-	void ScalePoint(float& x, float& y) const;
-	Scale Inverse() const;
+	public:
+		Scale(float scale);
+		Scale(float x_scale, float y_scale);
+		Scale(const Rectangle& a, const Rectangle& b);
+		Scale(const Size& a, const Size& b);
+		Scale(const ISizeable& a, const ISizeable& b);
 
-	friend Scale operator*(const Scale& a, const Scale& b);
-	Scale& operator*=(const Scale& other);
+		float XScale() const;
+		float YScale() const;
+		Point& ScalePoint(Point& point) const;
+		void ScalePoint(float& x, float& y) const;
+		Scale Inverse() const;
 
-private:
-	float __scale_factor_x;
-	float __scale_factor_y;
+		friend Scale operator*(const Scale& a, const Scale& b);
+		Scale& operator*=(const Scale& other);
 
-};
+	private:
+		float __scale_factor_x;
+		float __scale_factor_y;
+
+	};
+
+}

@@ -4,39 +4,43 @@
 #include "Display.h"
 #include <string>
 
-enum class ScalingMode {
-	Fixed,
-	Full,
-	MaintainAspectRatio
-};
+namespace hvn3 {
 
-struct Properties {
+	enum class ScalingMode {
+		Fixed,
+		Full,
+		MaintainAspectRatio
+	};
 
-public:
-	Properties();
+	struct Properties {
 
-	// Display Properties
+	public:
+		Properties();
 
-	std::string DisplayTitle;
-	Size DisplaySize;
-	bool Fullscreen;
-	::ScalingMode ScalingMode;
-	Color OutsideColor;
-	::DisplayFlags DisplayFlags;
+		// Display Properties
 
-	// Flow Properties
+		std::string DisplayTitle;
+		Size DisplaySize;
+		bool Fullscreen;
+		hvn3::ScalingMode ScalingMode;
+		Color OutsideColor;
+		hvn3::DisplayFlags DisplayFlags;
 
-	bool FreezeWhenLostFocus;
-	float FPS;
-	int MaxFrameSkip;
+		// Flow Properties
 
-	// Control Properties
+		bool FreezeWhenLostFocus;
+		float FPS;
+		int MaxFrameSkip;
 
-	bool DisplayCursor;
-	bool ExitWithEscapeKey;
+		// Control Properties
 
-	// Debug Properties
+		bool DisplayCursor;
+		bool ExitWithEscapeKey;
 
-	bool DebugMode;
+		// Debug Properties
 
-};
+		bool DebugMode;
+
+	};
+
+}

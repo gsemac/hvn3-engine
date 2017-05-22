@@ -4,26 +4,30 @@
 #include "Runner.h"
 #include "ResourceManager.h"
 
-class GameManager {
+namespace hvn3 {
 
-public:
-	GameManager();
-	virtual ~GameManager();
-	virtual void Initialize(int argc, char* argv[]);
-	virtual void Loop();
+	class GameManager {
 
-	Properties& Properties();
-	RoomManager& RoomManager();
-	ResourceManager& ResourceManager();
-	Runner& Runner();
+	public:
+		GameManager();
+		virtual ~GameManager();
+		virtual void Initialize(int argc, char* argv[]);
+		virtual void Loop();
 
-protected:
-	virtual void Shutdown();
+		Properties& Properties();
+		RoomManager& RoomManager();
+		ResourceManager& ResourceManager();
+		Runner& Runner();
 
-private:
-	::Properties _properties;
-	::RoomManager _room_manager;
-	::ResourceManager _resource_manager;
-	::Runner* _runner;
+	protected:
+		virtual void Shutdown();
 
-};
+	private:
+		hvn3::Properties _properties;
+		hvn3::RoomManager _room_manager;
+		hvn3::ResourceManager _resource_manager;
+		hvn3::Runner* _runner;
+
+	};
+
+}

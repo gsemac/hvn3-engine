@@ -2,51 +2,55 @@
 #include <allegro5/allegro.h>
 #include "EventSource.h"
 
-enum class EventType {
-	JoystickAxis,
-	JoystickButtonDown,
-	JoystickButtonUp,
-	JoystickConfiguration,
-	KeyDown,
-	KeyUp,
-	KeyChar,
-	MouseAxes,
-	MouseButtonDown,
-	MouseButtonUp,
-	MouseWarped,
-	MouseEnterDisplay,
-	MouseLeaveDisplay,
-	TouchBegin,
-	TouchEnd,
-	TouchMove,
-	TouchCancel,
-	Timer,
-	DisplayExpose,
-	DisplayResize,
-	DisplayClose,
-	DisplayLost,
-	DisplayFound,
-	DisplaySwitchOut,
-	DisplaySwitchIn,
-	DisplayOrientation,
-	DisplayHaltDrawing,
-	DisplayResumeDrawing,
-	DisplayConnected,
-	DisplayDisconnected
-};
+namespace hvn3 {
 
-class Event {
-	friend class EventQueue;
+	enum class EventType {
+		JoystickAxis,
+		JoystickButtonDown,
+		JoystickButtonUp,
+		JoystickConfiguration,
+		KeyDown,
+		KeyUp,
+		KeyChar,
+		MouseAxes,
+		MouseButtonDown,
+		MouseButtonUp,
+		MouseWarped,
+		MouseEnterDisplay,
+		MouseLeaveDisplay,
+		TouchBegin,
+		TouchEnd,
+		TouchMove,
+		TouchCancel,
+		Timer,
+		DisplayExpose,
+		DisplayResize,
+		DisplayClose,
+		DisplayLost,
+		DisplayFound,
+		DisplaySwitchOut,
+		DisplaySwitchIn,
+		DisplayOrientation,
+		DisplayHaltDrawing,
+		DisplayResumeDrawing,
+		DisplayConnected,
+		DisplayDisconnected
+	};
 
-public:
-	Event();
-	EventType Type();
-	const EventSource& Source();
-	double Timestamp();
-	ALLEGRO_EVENT* AlPtr();
+	class Event {
+		friend class EventQueue;
 
-	// Todo: Make this member private and derive specific event classes.
-public:
-	ALLEGRO_EVENT __ev;
+	public:
+		Event();
+		EventType Type();
+		const EventSource& Source();
+		double Timestamp();
+		ALLEGRO_EVENT* AlPtr();
 
-};
+		// Todo: Make this member private and derive specific event classes.
+	public:
+		ALLEGRO_EVENT __ev;
+
+	};
+
+}

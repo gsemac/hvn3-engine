@@ -4,36 +4,40 @@
 #include "gui/Control.h"
 #include "gui/Handle.h"
 
-namespace Gui {
+namespace hvn3 {
 
-	class ScrollableControl : public virtual Control, public IScrollable {
+	namespace Gui {
 
-		enum SCROLLBAR : bool {
-			VERTICAL,
-			HORIZONTAL
+		class ScrollableControl : public virtual Control, public IScrollable {
+
+			enum SCROLLBAR : bool {
+				VERTICAL,
+				HORIZONTAL
+			};
+
+		public:
+			ScrollableControl(float scroll_height);
+			ScrollableControl(const Size& scrollable_region);
+			~ScrollableControl();
+
+			Handle<Scrollbar> VerticalScrollbar();
+			Handle<Scrollbar> HorizontalScrollbar();
+
+			bool HasVerticalScrollbar() const;
+			bool HasHorizontalScrollbar() const;
+
+			virtual void OnResize(ResizeEventArgs& e) override;
+			virtual void OnPaint(PaintEventArgs& e) override;
+			virtual void OnMove(MoveEventArgs& e) override;
+			virtual void OnManagerChanged(ManagerChangedEventArgs& e) override;
+
+		private:
+			Scrollbar* _scrollbars[2];
+
+			void UpdateScrollbars();
+
 		};
 
-	public:
-		ScrollableControl(float scroll_height);
-		ScrollableControl(const Size& scrollable_region);
-		~ScrollableControl();
-
-		Handle<Scrollbar> VerticalScrollbar();
-		Handle<Scrollbar> HorizontalScrollbar();
-
-		bool HasVerticalScrollbar() const;
-		bool HasHorizontalScrollbar() const;
-
-		virtual void OnResize(ResizeEventArgs& e) override;
-		virtual void OnPaint(PaintEventArgs& e) override;
-		virtual void OnMove(MoveEventArgs& e) override;
-		virtual void OnManagerChanged(ManagerChangedEventArgs& e) override;
-
-	private:
-		Scrollbar* _scrollbars[2];
-
-		void UpdateScrollbars();
-
-	};
+	}
 
 }

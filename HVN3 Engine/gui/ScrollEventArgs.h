@@ -1,26 +1,30 @@
 #include "EventArgs.h"
 #include "Control.h"
 
-namespace Gui {
+namespace hvn3 {
 
-	class ScrollEventArgs : public EventArgs {
+	namespace Gui {
 
-	public:
-		ScrollEventArgs(float percent, float position, Orientation orientation) :
-			_percent(percent),
-			_position(position),
-			_orientation(orientation) {
-		}
+		class ScrollEventArgs : public EventArgs {
 
-		float Percentage() const;
-		float Position() const;
-		Orientation Orientation() const;
+		public:
+			ScrollEventArgs(float percent, float position, Orientation orientation) :
+				_percent(percent),
+				_position(position),
+				_orientation(orientation) {
+			}
 
-	private:
-		float _percent;
-		float _position;
-		Gui::Orientation _orientation;
+			float Percentage() const;
+			float Position() const;
+			Orientation Orientation() const;
 
-	};
+		private:
+			float _percent;
+			float _position;
+			Gui::Orientation _orientation;
+
+		};
+
+	}
 
 }

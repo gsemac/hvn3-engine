@@ -1,20 +1,24 @@
 #include "ScrollEventArgs.h"
 
-namespace Gui {
+namespace hvn3 {
 
-	float ScrollEventArgs::Percentage() const {
+	namespace Gui {
 
-		return _percent;
+		float ScrollEventArgs::Percentage() const {
 
-	}
-	float ScrollEventArgs::Position() const {
+			return _percent;
 
-		return _position;
+		}
+		float ScrollEventArgs::Position() const {
 
-	}
-	Orientation ScrollEventArgs::Orientation() const {
+			return _position;
 
-		return _orientation;
+		}
+		Orientation ScrollEventArgs::Orientation() const {
+
+			return _orientation;
+
+		}
 
 	}
 

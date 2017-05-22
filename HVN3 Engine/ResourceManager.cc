@@ -1,37 +1,41 @@
 #include "ResourceManager.h"
 
-ResourceManager::ResourceManager() {}
-ResourceCollection<Sprite>& ResourceManager::Sprites() {
+namespace hvn3 {
 
-	return _sprites;
+	ResourceManager::ResourceManager() {}
+	ResourceCollection<Sprite>& ResourceManager::Sprites() {
 
-}
-ResourceCollection<Font>& ResourceManager::Fonts() {
+		return _sprites;
 
-	return _fonts;
+	}
+	ResourceCollection<Font>& ResourceManager::Fonts() {
 
-}
-ResourceCollection<Sound>& ResourceManager::Sounds() {
+		return _fonts;
 
-	return _sounds;
+	}
+	ResourceCollection<Sound>& ResourceManager::Sounds() {
 
-}
-ResourceCollection<Background>& ResourceManager::Backgrounds() {
+		return _sounds;
 
-	return _backgrounds;
+	}
+	ResourceCollection<Background>& ResourceManager::Backgrounds() {
 
-}
-ResourceCollection<Tileset>& ResourceManager::Tilesets() {
+		return _backgrounds;
 
-	return _tilesets;
+	}
+	ResourceCollection<Tileset>& ResourceManager::Tilesets() {
 
-}
-void ResourceManager::Clear() {
+		return _tilesets;
 
-	_sprites.Clear();
-	_fonts.Clear();
-	_sounds.Clear();
-	_backgrounds.Clear();
-	_tilesets.Clear();
+	}
+	void ResourceManager::Clear() {
+
+		_sprites.Clear();
+		_fonts.Clear();
+		_sounds.Clear();
+		_backgrounds.Clear();
+		_tilesets.Clear();
+
+	}
 
 }

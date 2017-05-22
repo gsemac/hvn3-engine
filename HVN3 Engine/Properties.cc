@@ -1,21 +1,25 @@
 #include "Properties.h"
 
-Properties::Properties() : 
-	DisplaySize(640.0f, 480.0f) {
+namespace hvn3 {
 
-	DisplayTitle = "HVN3 Engine";
-	Fullscreen = false;
-	ScalingMode = ::ScalingMode::MaintainAspectRatio;
-	OutsideColor = Color::Black;
-	DisplayFlags = ::DisplayFlags::None;
+	Properties::Properties() :
+		DisplaySize(640.0f, 480.0f) {
 
-	FreezeWhenLostFocus = true;
-	FPS = 60.0f;
-	MaxFrameSkip = 0;
+		DisplayTitle = "HVN3 Engine";
+		Fullscreen = false;
+		ScalingMode = hvn3::ScalingMode::MaintainAspectRatio;
+		OutsideColor = Color::Black;
+		DisplayFlags = hvn3::DisplayFlags::None;
 
-	DisplayCursor = true;
-	ExitWithEscapeKey = true;
+		FreezeWhenLostFocus = true;
+		FPS = 60.0f;
+		MaxFrameSkip = 0;
 
-	DebugMode = false;
+		DisplayCursor = true;
+		ExitWithEscapeKey = true;
+
+		DebugMode = false;
+
+	}
 
 }

@@ -2,22 +2,26 @@
 #include "RoomEnterEventArgs.h"
 #include "RoomExitEventArgs.h"
 
-class RoomBase;
+namespace hvn3 {
 
-class RoomController {
+	class RoomBase;
 
-public:
-	RoomController(RoomBase& room);
+	class RoomController {
 
-	void SetUp();
-	bool IsSetUp() const;
-	void SetSetUp(bool value);
-	void Reset();
+	public:
+		RoomController(RoomBase& room);
 
-	void CallRoomEnterEvent(RoomEnterEventArgs& e);
-	void CallRoomExitEvent(RoomExitEventArgs& e);
+		void SetUp();
+		bool IsSetUp() const;
+		void SetSetUp(bool value);
+		void Reset();
 
-private:
-	RoomBase* _room;
+		void CallRoomEnterEvent(RoomEnterEventArgs& e);
+		void CallRoomExitEvent(RoomExitEventArgs& e);
 
-};
+	private:
+		RoomBase* _room;
+
+	};
+
+}

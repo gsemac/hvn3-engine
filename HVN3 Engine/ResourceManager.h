@@ -6,22 +6,26 @@
 #include "Sprite.h"
 #include "Tileset.h"
 
-class ResourceManager {
+namespace hvn3 {
 
-public:
-	ResourceManager();
-	ResourceCollection<Background>& Backgrounds();
-	ResourceCollection<Font>& Fonts();
-	ResourceCollection<Sound>& Sounds();
-	ResourceCollection<Sprite>& Sprites();
-	ResourceCollection<Tileset>& Tilesets();
-	void Clear();
+	class ResourceManager {
 
-private:
-	ResourceCollection<Background> _backgrounds;
-	ResourceCollection<Font> _fonts;
-	ResourceCollection<Sound> _sounds;
-	ResourceCollection<Sprite> _sprites;
-	ResourceCollection<Tileset> _tilesets;
+	public:
+		ResourceManager();
+		ResourceCollection<Background>& Backgrounds();
+		ResourceCollection<Font>& Fonts();
+		ResourceCollection<Sound>& Sounds();
+		ResourceCollection<Sprite>& Sprites();
+		ResourceCollection<Tileset>& Tilesets();
+		void Clear();
 
-};
+	private:
+		ResourceCollection<Background> _backgrounds;
+		ResourceCollection<Font> _fonts;
+		ResourceCollection<Sound> _sounds;
+		ResourceCollection<Sprite> _sprites;
+		ResourceCollection<Tileset> _tilesets;
+
+	};
+
+}

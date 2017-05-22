@@ -4,28 +4,32 @@
 
 struct ALLEGRO_FILE;
 
-namespace IO {
+namespace hvn3 {
 
-	enum class TextEncoding {
-		UTF8,
-		ASCII
-	};
-	enum class FileAccess {
-		Read,
-		ReadWrite,
-		Write
-	};
+	namespace IO {
 
-	class File {
+		enum class TextEncoding {
+			UTF8,
+			ASCII
+		};
+		enum class FileAccess {
+			Read,
+			ReadWrite,
+			Write
+		};
 
-	public:
-		static std::vector<std::string> ReadAllLines(const char* filename);
-		static std::string ReadAllText(const char* filename);
-		static bool Exists(const char* filename);
-		
-	private:
-		static TextEncoding GetEncoding(ALLEGRO_FILE* file);
+		class File {
 
-	};
+		public:
+			static std::vector<std::string> ReadAllLines(const char* filename);
+			static std::string ReadAllText(const char* filename);
+			static bool Exists(const char* filename);
+
+		private:
+			static TextEncoding GetEncoding(ALLEGRO_FILE* file);
+
+		};
+
+	}
 
 }

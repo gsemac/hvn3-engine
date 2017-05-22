@@ -3,30 +3,34 @@
 #include <vector>
 #include <utility>
 
-class RoomBase;
+namespace hvn3 {
 
-class BackgroundManager : public IBackgroundManager {
+	class RoomBase;
 
-	typedef std::pair<ResourceHandle<Background>, BackgroundProperties> bg_type;
+	class BackgroundManager : public IBackgroundManager {
 
-public:
-	virtual size_t BackgroundAdd(ResourceHandle<Background> background) override;
-	virtual size_t BackgroundAdd(ResourceHandle<Background> background, bool is_foreground) override;
-	virtual size_t BackgroundAdd(ResourceHandle<Background> background, BackgroundProperties properties) override;
-	virtual void BackgroundRemove(size_t index) override;
-	virtual const ResourceHandle<Background>& BackgroundAt(size_t index) const override;
-	virtual BackgroundProperties& PropertiesAt(size_t index) override;
-	virtual size_t BackgroundCount() const override;
-	virtual void Clear() override;
+		typedef std::pair<ResourceHandle<Background>, BackgroundProperties> bg_type;
 
-	virtual void Update(UpdateEventArgs& e) override;
-	virtual void DrawBackgrounds(BackgroundDrawEventArgs& e) override;
-	virtual void DrawForegrounds(BackgroundDrawEventArgs& e) override;
+	public:
+		virtual size_t BackgroundAdd(ResourceHandle<Background> background) override;
+		virtual size_t BackgroundAdd(ResourceHandle<Background> background, bool is_foreground) override;
+		virtual size_t BackgroundAdd(ResourceHandle<Background> background, BackgroundProperties properties) override;
+		virtual void BackgroundRemove(size_t index) override;
+		virtual const ResourceHandle<Background>& BackgroundAt(size_t index) const override;
+		virtual BackgroundProperties& PropertiesAt(size_t index) override;
+		virtual size_t BackgroundCount() const override;
+		virtual void Clear() override;
 
-protected:
-	virtual void DrawBackground(BackgroundDrawEventArgs& e, const BackgroundManager::bg_type& background) const;
+		virtual void Update(UpdateEventArgs& e) override;
+		virtual void DrawBackgrounds(BackgroundDrawEventArgs& e) override;
+		virtual void DrawForegrounds(BackgroundDrawEventArgs& e) override;
 
-private:
-	std::vector<bg_type> _backgrounds;
+	protected:
+		virtual void DrawBackground(BackgroundDrawEventArgs& e, const BackgroundManager::bg_type& background) const;
 
-};
+	private:
+		std::vector<bg_type> _backgrounds;
+
+	};
+
+}

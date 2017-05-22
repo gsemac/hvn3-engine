@@ -3,216 +3,220 @@
 #include "IFocusable.h"
 #include "UniqueCreateableBase.h"
 
-namespace Gui {
+namespace hvn3 {
 
-	class GuiManager;
-	class Control;
+	namespace Gui {
 
-	typedef std::unique_ptr<Control> ControlPtr;
+		class GuiManager;
+		class Control;
 
-	enum ANCHOR {
-		ANCHOR_NONE = 0x00,
-		ANCHOR_LEFT = 0x01,
-		ANCHOR_RIGHT = 0x02,
-		ANCHOR_TOP = 0x04,
-		ANCHOR_BOTTOM = 0x08
-	};
-	//ENABLE_BITFLAG_OPERATORS(ANCHOR);
+		typedef std::unique_ptr<Control> ControlPtr;
 
-	enum SIDE {
-		TOP = 0x01,
-		BOTTOM = 0x02,
-		LEFT = 0x04,
-		RIGHT = 0x08
-	};
-	//ENABLE_BITFLAG_OPERATORS(SIDE);
+		enum ANCHOR {
+			ANCHOR_NONE = 0x00,
+			ANCHOR_LEFT = 0x01,
+			ANCHOR_RIGHT = 0x02,
+			ANCHOR_TOP = 0x04,
+			ANCHOR_BOTTOM = 0x08
+		};
+		//ENABLE_BITFLAG_OPERATORS(ANCHOR);
 
-	enum class Orientation {
-		Horizontal = 1,
-		Vertical = 2
-	};
+		enum SIDE {
+			TOP = 0x01,
+			BOTTOM = 0x02,
+			LEFT = 0x04,
+			RIGHT = 0x08
+		};
+		//ENABLE_BITFLAG_OPERATORS(SIDE);
 
-	struct ResizeEventArgs : public EventArgs {
+		enum class Orientation {
+			Horizontal = 1,
+			Vertical = 2
+		};
 
-	public:
-		ResizeEventArgs(const Size& old_size, const Size& new_size) :
-			_old_size(old_size),
-			_new_size(new_size) {
-		}
-		
-		const Size& OldSize() const {
+		struct ResizeEventArgs : public EventArgs {
 
-			return _old_size;
+		public:
+			ResizeEventArgs(const Size& old_size, const Size& new_size) :
+				_old_size(old_size),
+				_new_size(new_size) {
+			}
 
-		}
-		const Size& NewSize() const {
+			const Size& OldSize() const {
 
-			return _new_size;
+				return _old_size;
 
-		}
+			}
+			const Size& NewSize() const {
 
-	private:
-		Size _old_size;
-		Size _new_size;
+				return _new_size;
 
-	};
+			}
 
-	class PaintEventArgs : public DrawEventArgs {
+		private:
+			Size _old_size;
+			Size _new_size;
 
-	public:
-		using DrawEventArgs::DrawEventArgs;
+		};
 
-	};
+		class PaintEventArgs : public DrawEventArgs {
 
-	class ManagerChangedEventArgs : public EventArgs {
+		public:
+			using DrawEventArgs::DrawEventArgs;
 
-	public:
-		ManagerChangedEventArgs(GuiManager* old_manager) {
+		};
 
-			_old_manager = old_manager;
+		class ManagerChangedEventArgs : public EventArgs {
 
-		}
-		GuiManager* PreviousManager() {
+		public:
+			ManagerChangedEventArgs(GuiManager* old_manager) {
 
-			return _old_manager;
+				_old_manager = old_manager;
 
-		}
+			}
+			GuiManager* PreviousManager() {
 
-	private:
-		GuiManager* _old_manager;
+				return _old_manager;
 
-	};
+			}
 
-	class MoveEventArgs : public EventArgs {
+		private:
+			GuiManager* _old_manager;
 
-	public:
-		MoveEventArgs(const Point& old_position) :
-			_old_position(old_position) {
-		}
+		};
 
-		const Point& OldPosition() const {
+		class MoveEventArgs : public EventArgs {
 
-			return _old_position;
+		public:
+			MoveEventArgs(const Point& old_position) :
+				_old_position(old_position) {
+			}
 
-		}
+			const Point& OldPosition() const {
 
-	private:
-		Point _old_position;
+				return _old_position;
 
-	};
+			}
 
-	class Control : public IDrawable, public IUpdatable, public IPositionable, public ISizeable, public IFocusable, public UniqueCreateableBase<Control> {
-		friend class ControlController;
+		private:
+			Point _old_position;
 
-	public:
-		int Z;
+		};
 
-		Control();
-		Control(const Point& location, const Size& size);
-		virtual ~Control() = default;
+		class Control : public IDrawable, public IUpdatable, public IPositionable, public ISizeable, public IFocusable, public UniqueCreateableBase<Control> {
+			friend class ControlController;
 
-		virtual void Update(UpdateEventArgs& e) override;
-		void Draw(DrawEventArgs& e) override;
-		void Resize(float width, float height);
+		public:
+			int Z;
 
-		virtual void Invalidate();
-		bool Invalidated();
-		void Dispose();
-		bool IsDisposed();
+			Control();
+			Control(const Point& location, const Size& size);
+			virtual ~Control() = default;
 
-		const Color& ForeColor() const;
-		const Color& BackColor() const;
-		void SetForeColor(const Color& color);
-		void SetBackColor(const Color& color);
+			virtual void Update(UpdateEventArgs& e) override;
+			void Draw(DrawEventArgs& e) override;
+			void Resize(float width, float height);
 
-		int Anchors();
-		void SetAnchors(int anchors);
+			virtual void Invalidate();
+			bool Invalidated();
+			void Dispose();
+			bool IsDisposed();
 
-		float Opacity();
-		void SetOpacity(float opacity);
+			const Color& ForeColor() const;
+			const Color& BackColor() const;
+			void SetForeColor(const Color& color);
+			void SetBackColor(const Color& color);
 
-		Size MinimumSize();
-		void SetMinimumSize(const Size& size);
-		Size MaximumSize();
-		void SetMaximumSize(const Size& size);
+			int Anchors();
+			void SetAnchors(int anchors);
 
-		String Tooltip();
-		void SetTooltip(const char* text);
+			float Opacity();
+			void SetOpacity(float opacity);
 
-		bool Visible();
-		void SetVisible(bool is_visible);
+			Size MinimumSize();
+			void SetMinimumSize(const Size& size);
+			Size MaximumSize();
+			void SetMaximumSize(const Size& size);
 
-		bool Enabled();
-		void SetEnabled(bool is_enabled);
+			String Tooltip();
+			void SetTooltip(const char* text);
 
-		Control* Parent();
-		const Control* Parent() const;
-		void SetParent(Control* parent);
+			bool Visible();
+			void SetVisible(bool is_visible);
 
-		GuiManager* Manager();
-		const GuiManager* Manager() const;
+			bool Enabled();
+			void SetEnabled(bool is_enabled);
 
-		void BringToFront();
-		void SendToBack();
+			Control* Parent();
+			const Control* Parent() const;
+			void SetParent(Control* parent);
 
-		Point FixedPosition() const;
-		Rectangle Bounds() const;
+			GuiManager* Manager();
+			const GuiManager* Manager() const;
 
-		float Scale() const;
+			void BringToFront();
+			void SendToBack();
 
-		bool IsActiveControl();
+			Point FixedPosition() const;
+			Rectangle Bounds() const;
 
-		void SetX(float x) override;
-		void SetY(float y) override;
-		void SetXY(float x, float y) override;
+			float Scale() const;
 
-		// Events
-		virtual void OnMouseLeave();
-		virtual void OnMouseEnter();
-		virtual void OnMouseHover();
-		virtual void OnMouseDown();
-		virtual void OnMouseMove();
-		virtual void OnMouseUp();
-		virtual void OnClick();
-		virtual void OnDoubleClick();
-		virtual void OnPaint(PaintEventArgs& e);
-		virtual void OnResize(ResizeEventArgs& e);
-		virtual void OnMove(MoveEventArgs& e);
-		virtual void OnGotFocus();
-		virtual void OnLostFocus();
-		virtual void OnKeyDown();
-		virtual void OnKeyPressed();
-		virtual void OnKeyReleased();
-		virtual void OnManagerChanged(ManagerChangedEventArgs& e);
+			bool IsActiveControl();
 
-	private:
-		bool __disposed;
-		bool _invalidated;
-		bool __visible;
-		bool __enabled;
+			void SetX(float x) override;
+			void SetY(float y) override;
+			void SetXY(float x, float y) override;
 
-		Control* _parent;
-		GuiManager* __manager;
-		Drawing::Bitmap _surface;
-		Color __backcolor, __forecolor;
-		int __anchor;
-		float __opacity;
-		Size __minimum_size;
-		Size __maximum_size;
+			// Events
+			virtual void OnMouseLeave();
+			virtual void OnMouseEnter();
+			virtual void OnMouseHover();
+			virtual void OnMouseDown();
+			virtual void OnMouseMove();
+			virtual void OnMouseUp();
+			virtual void OnClick();
+			virtual void OnDoubleClick();
+			virtual void OnPaint(PaintEventArgs& e);
+			virtual void OnResize(ResizeEventArgs& e);
+			virtual void OnMove(MoveEventArgs& e);
+			virtual void OnGotFocus();
+			virtual void OnLostFocus();
+			virtual void OnKeyDown();
+			virtual void OnKeyPressed();
+			virtual void OnKeyReleased();
+			virtual void OnManagerChanged(ManagerChangedEventArgs& e);
 
-		bool __mouse_is_on;
-		bool __mouse_is_down;
-		Point __mouse_last_pos;
+		private:
+			bool __disposed;
+			bool _invalidated;
+			bool __visible;
+			bool __enabled;
 
-		Point __previous_pos; // Keeps track of previous position for OnMove event
-		bool __prev_focus; // Keeps track of focus state for OnGotFocus/OnLostFocus
+			Control* _parent;
+			GuiManager* __manager;
+			Drawing::Bitmap _surface;
+			Color __backcolor, __forecolor;
+			int __anchor;
+			float __opacity;
+			Size __minimum_size;
+			Size __maximum_size;
 
-		virtual bool HasActiveChild();
+			bool __mouse_is_on;
+			bool __mouse_is_down;
+			Point __mouse_last_pos;
 
-		Point __fixed_pos;
+			Point __previous_pos; // Keeps track of previous position for OnMove event
+			bool __prev_focus; // Keeps track of focus state for OnGotFocus/OnLostFocus
 
-		Point GetFixedPosition() const;
+			virtual bool HasActiveChild();
 
-	};
+			Point __fixed_pos;
+
+			Point GetFixedPosition() const;
+
+		};
+
+	}
 
 }

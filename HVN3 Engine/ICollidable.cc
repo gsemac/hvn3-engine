@@ -2,42 +2,47 @@
 #include "RoomBase.h"
 #include "Object.h"
 
-ICollidable::ICollidable(float x, float y) : 
-	IPositionable(x, y) {}
+namespace hvn3 {
 
-Rectangle ICollidable::AABB() const {
+	ICollidable::ICollidable(float x, float y) :
+		IPositionable(x, y) {
+	}
 
-	Rectangle aabb = __mask.AABB();
-	aabb.TranslateX(X());
-	aabb.TranslateY(Y());
+	Rectangle ICollidable::AABB() const {
 
-	return aabb;
+		Rectangle aabb = __mask.AABB();
+		aabb.TranslateX(X());
+		aabb.TranslateY(Y());
+
+		return aabb;
+
+	}
+	CollisionMask& ICollidable::CollisionMask() {
+
+		return __mask;
+
+	}
+	void ICollidable::SetCollisionMask(const hvn3::CollisionMask& mask) {
+
+		__mask = mask;
+
+	}
+	CollisionFilter& ICollidable::Filter() {
+
+		return __filter;
+
+	}
+	//::Room& ICollidable::Scene() {
+	//
+	//	return *__scene;
+	//
+	//}
+
+	bool ICollidable::CollidesWith(const ICollidable* other) const {
+
+		return __filter.CheckMatch(other->__filter);
+
+	}
+	void ICollidable::Collide(ICollidable* other) {}
 
 }
-CollisionMask& ICollidable::CollisionMask() {
-
-	return __mask;
-
-}
-void ICollidable::SetCollisionMask(const ::CollisionMask& mask) {
-
-	__mask = mask;
-
-}
-CollisionFilter& ICollidable::Filter() {
-
-	return __filter;
-
-}
-//::Room& ICollidable::Scene() {
-//
-//	return *__scene;
-//
-//}
-
-bool ICollidable::CollidesWith(const ICollidable* other) const {
-
-	return __filter.CheckMatch(other->__filter);
-
-}
-void ICollidable::Collide(ICollidable* other) {}

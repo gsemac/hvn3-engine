@@ -3,29 +3,31 @@
 #include "IDisposable.h"
 #include "Packet.h"
 
-namespace Net {
-	namespace Sockets {
+namespace hvn3 {
+	namespace Net {
+		namespace Sockets {
 
-		class Connection;
+			class Connection;
 
-		class UdpClient : public IDisposable {
-			friend class UdpListener;
+			class UdpClient : public IDisposable {
+				friend class UdpListener;
 
-		private:
-			unsigned short __port;
-			Connection* __connection;
+			private:
+				unsigned short __port;
+				Connection* __connection;
 
-		public:
-			UdpClient();
-			UdpClient(unsigned short port);
-			void Connect(IPAddress address);
-			void Connect(IPAddress address, unsigned short port);
-			bool Send(Packet& packet);
-			int Recieve(Packet& packet);
-			void Dispose();
+			public:
+				UdpClient();
+				UdpClient(unsigned short port);
+				void Connect(IPAddress address);
+				void Connect(IPAddress address, unsigned short port);
+				bool Send(Packet& packet);
+				int Recieve(Packet& packet);
+				void Dispose();
 
-		};
+			};
 
+		}
 	}
 }
 

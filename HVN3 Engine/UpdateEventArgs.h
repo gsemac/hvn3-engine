@@ -1,15 +1,19 @@
 #pragma once
 #include "EventArgs.h"
 
-class UpdateEventArgs : public EventArgs {
+namespace hvn3 {
 
-public:
-	UpdateEventArgs(float dt);
+	class UpdateEventArgs : public EventArgs {
 
-	// Returns the number of seconds elapsed since the last update.
-	float Delta() const;
+	public:
+		UpdateEventArgs(float dt);
 
-private:
-	float __delta_time;
+		// Returns the number of seconds elapsed since the last update.
+		float Delta() const;
 
-};
+	private:
+		float __delta_time;
+
+	};
+
+}

@@ -1,13 +1,14 @@
-#ifndef __IDRAWABLE_H
-#define __IDRAWABLE_H
+#pragma once
 
-class DrawEventArgs;
+namespace hvn3 {
 
-class IDrawable {
-	
-public:
-	virtual void Draw(DrawEventArgs& e) = 0;
-	
-};
+	class DrawEventArgs;
 
-#endif
+	class IDrawable {
+
+	public:
+		virtual void Draw(DrawEventArgs& e) = 0;
+
+	};
+
+}

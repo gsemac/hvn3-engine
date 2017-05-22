@@ -4,57 +4,61 @@
 #include "String.h"
 #include <algorithm>
 
-const float PI = std::acos(-1.0L);
+namespace hvn3 {
 
-short Sign(float x) {
+	const float PI = std::acos(-1.0L);
 
-	return (x >= 0 ? 1 : -1);
+	short Sign(float x) {
 
-}
-short Signum(float x) {
+		return (x >= 0 ? 1 : -1);
 
-	return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
+	}
+	short Signum(float x) {
 
-}
+		return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
 
-//float Max(float a, float b) {
-//
-//	return (std::fmax)(a, b);
-//
-//}
-//float Max(int a, int b) {
-//
-//	return (std::max)(a, b);
-//
-//}
-//float Min(float a, float b) {
-//
-//	return (std::fmin)(a, b);
-//
-//}
-int Round(float n) {
+	}
 
-	return (std::roundf)(n);
+	//float Max(float a, float b) {
+	//
+	//	return (std::fmax)(a, b);
+	//
+	//}
+	//float Max(int a, int b) {
+	//
+	//	return (std::max)(a, b);
+	//
+	//}
+	//float Min(float a, float b) {
+	//
+	//	return (std::fmin)(a, b);
+	//
+	//}
+	int Round(float n) {
 
-}
-bool IsZero(float n, float epsilon) {
+		return (std::roundf)(n);
 
-	return (n < epsilon && n > -epsilon);
+	}
+	bool IsZero(float n, float epsilon) {
 
-}
+		return (n < epsilon && n > -epsilon);
 
-float DegreesToRadians(float degrees) {
+	}
 
-	return (degrees * (PI / 180.0F));
+	float DegreesToRadians(float degrees) {
 
-}
-float RadiansToDegrees(float radians) {
+		return (degrees * (PI / 180.0F));
 
-	return ((radians * 180.0f) / PI);
+	}
+	float RadiansToDegrees(float radians) {
 
-}
-float SecondsToFrames(float fps, float sec) {
+		return ((radians * 180.0f) / PI);
 
-	return fps * sec;
+	}
+	float SecondsToFrames(float fps, float sec) {
+
+		return fps * sec;
+
+	}
 
 }

@@ -3,81 +3,84 @@
 #include "String.h"
 #include <cctype>
 
-namespace IO {
+namespace hvn3 {
 
-	std::string Path::Combine(const std::string& path1, const std::string& path2) {
+	namespace IO {
 
-		// If the second path has a root, just return the second path.
-		if (IsPathRooted(path2))
-			return path2;
+		std::string Path::Combine(const std::string& path1, const std::string& path2) {
 
-		// Begin the new path with the first path.
-		std::string new_path = path1;
+			// If the second path has a root, just return the second path.
+			if (IsPathRooted(path2))
+				return path2;
 
-		// Does it already end with a directory separator? If not, add one.
-		if (new_path.length() > 0 && new_path[-1 + new_path.length()] != DirectorySeparatorChar())
-			new_path += DirectorySeparatorChar();
+			// Begin the new path with the first path.
+			std::string new_path = path1;
 
-		// Append the second path.
-		new_path += path2;
+			// Does it already end with a directory separator? If not, add one.
+			if (new_path.length() > 0 && new_path[-1 + new_path.length()] != DirectorySeparatorChar())
+				new_path += DirectorySeparatorChar();
 
-		// Return the result.
-		return new_path;
+			// Append the second path.
+			new_path += path2;
 
-	}
-	std::string Path::Combine(const std::string& path1, const std::string& path2, const std::string& path3) {
+			// Return the result.
+			return new_path;
 
-		return Combine(Combine(path1, path2), path3);
+		}
+		std::string Path::Combine(const std::string& path1, const std::string& path2, const std::string& path3) {
 
-	}
-	std::string Path::Combine(const std::string& path1, const std::string& path2, const std::string& path3, const std::string& path4) {
+			return Combine(Combine(path1, path2), path3);
 
-		return Combine(Combine(Combine(path1, path2), path3), path4);
+		}
+		std::string Path::Combine(const std::string& path1, const std::string& path2, const std::string& path3, const std::string& path4) {
 
-	}
-	bool Path::IsPathRooted(const std::string& path) {
+			return Combine(Combine(Combine(path1, path2), path3), path4);
 
-		// If the path is empty, return false.
-		if (path.length() <= 0)
+		}
+		bool Path::IsPathRooted(const std::string& path) {
+
+			// If the path is empty, return false.
+			if (path.length() <= 0)
+				return false;
+
+			// If the path begins with a directory separator, return true.
+			if (path[0] == DirectorySeparatorChar())
+				return true;
+
+			// If the path begins with a letter followed by a colon, return true.
+			if (path.length() >= 2 && isalpha(path[0]) && path[1] == ':')
+				return true;
+
+			// None of the conditions matched, so it must be relative.
 			return false;
 
-		// If the path begins with a directory separator, return true.
-		if (path[0] == DirectorySeparatorChar())
-			return true;
+		}
+		char Path::DirectorySeparatorChar() {
 
-		// If the path begins with a letter followed by a colon, return true.
-		if (path.length() >= 2 && isalpha(path[0]) && path[1] == ':')
-			return true;
+			if (HasFlag(Environment::OperatingSystem(), OperatingSystem::Windows))
+				return '\\';
+			else
+				return '/';
 
-		// None of the conditions matched, so it must be relative.
-		return false;
+		}
+		char Path::AltDirectorySeparatorChar() {
 
-	}
-	char Path::DirectorySeparatorChar() {
+			if (HasFlag(Environment::OperatingSystem(), OperatingSystem::Windows))
+				return '/';
+			else
+				return '\\';
 
-		if (HasFlag(Environment::OperatingSystem(), OperatingSystem::Windows))
-			return '\\';
-		else
-			return '/';
+		}
+		char Path::VolumeSeparatorChar() {
 
-	}
-	char Path::AltDirectorySeparatorChar() {
+			if (HasFlag(Environment::OperatingSystem(), OperatingSystem::Windows) ||
+				HasFlag(Environment::OperatingSystem(), OperatingSystem::MacOSX))
+				return ':';
+			else
+				return '/';
 
-		if (HasFlag(Environment::OperatingSystem(), OperatingSystem::Windows))
-			return '/';
-		else
-			return '\\';
-
-	}
-	char Path::VolumeSeparatorChar() {
-
-		if (HasFlag(Environment::OperatingSystem(), OperatingSystem::Windows) ||
-			HasFlag(Environment::OperatingSystem(), OperatingSystem::MacOSX))
-			return ':';
-		else
-			return '/';
+		}
 
 	}
 
 }
-

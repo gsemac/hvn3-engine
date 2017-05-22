@@ -1,23 +1,29 @@
 #include "Background.h"
 
-Background::Background(const char* filename) : 
-	__bitmap(filename) {}
-Background::Background(Background&& other) : 
-	__bitmap(std::move(other.__bitmap)) {}
+namespace hvn3 {
 
-unsigned int Background::Width() const {
+	Background::Background(const char* filename) :
+		__bitmap(filename) {
+	}
+	Background::Background(Background&& other) :
+		__bitmap(std::move(other.__bitmap)) {
+	}
 
-	return __bitmap.Width();
+	unsigned int Background::Width() const {
 
-}
-unsigned int Background::Height() const {
+		return __bitmap.Width();
 
-	return __bitmap.Height();
+	}
+	unsigned int Background::Height() const {
 
-}
+		return __bitmap.Height();
 
-const Drawing::Bitmap& Background::Bitmap() const {
+	}
 
-	return __bitmap;
+	const Drawing::Bitmap& Background::Bitmap() const {
+
+		return __bitmap;
+
+	}
 
 }

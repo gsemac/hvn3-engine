@@ -2,234 +2,236 @@
 #include <string.h>
 #include "Connection.h"
 
-namespace Net {
-	namespace Sockets {
+namespace hvn3 {
+	namespace Net {
+		namespace Sockets {
 
-		// Private
+			// Private
 
-		void Connection::ClearData() {
+			void Connection::ClearData() {
 
-			__state = DISCONNECTED;
-			__timeout_accumulator = 0.0f;
-			__remote_address = IPAddress();
+				__state = DISCONNECTED;
+				__timeout_accumulator = 0.0f;
+				__remote_address = IPAddress();
 
-		}
+			}
 
-		// Protected
+			// Protected
 
-		void Connection::OnStart() {}
-		void Connection::OnStop() {}
-		void Connection::OnConnect() {}
-		void Connection::OnDisconnect() {}
+			void Connection::OnStart() {}
+			void Connection::OnStop() {}
+			void Connection::OnConnect() {}
+			void Connection::OnDisconnect() {}
 
-		// Public
+			// Public
 
-		Connection::Connection(unsigned int protocolId, float timeout) {
+			Connection::Connection(unsigned int protocolId, float timeout) {
 
-			__protocol_id = protocolId;
-			__timeout = timeout;
-			__mode = NONE;
-			__running = false;
-			__last_sender = IPAddress();
+				__protocol_id = protocolId;
+				__timeout = timeout;
+				__mode = NONE;
+				__running = false;
+				__last_sender = IPAddress();
 
-			ClearData();
+				ClearData();
 
-		}
-		Connection::~Connection() {
+			}
+			Connection::~Connection() {
 
-			if (IsRunning())
-				Stop();
+				if (IsRunning())
+					Stop();
 
-		}
+			}
 
-		bool Connection::Start(int port) {
+			bool Connection::Start(int port) {
 
-			assert(!__running);
-			printf("start connection on port %d\n", port);
+				assert(!__running);
+				printf("start connection on port %d\n", port);
 
-			if (!__socket.Open(port))
-				return false;
-			__running = true;
-			OnStart();
+				if (!__socket.Open(port))
+					return false;
+				__running = true;
+				OnStart();
 
-			return true;
+				return true;
 
-		}
-		void Connection::Stop() {
+			}
+			void Connection::Stop() {
 
-			assert(__running);
-			printf("stop connection\n");
+				assert(__running);
+				printf("stop connection\n");
 
-			bool connected = IsConnected();
-			ClearData();
-			__socket.Close();
-			__running = false;
-			if (connected)
-				OnDisconnect();
-
-			OnStop();
-
-		}
-		void Connection::Update(float deltaTime) {
-
-			assert(__running);
-
-			__timeout_accumulator += deltaTime;
-
-			if (__timeout_accumulator > __timeout) {
-
-				if (__state == CONNECTING) {
-
-					printf("connect timed out\n");
-					ClearData();
-					__state = CONNECTION_FAILURE;
+				bool connected = IsConnected();
+				ClearData();
+				__socket.Close();
+				__running = false;
+				if (connected)
 					OnDisconnect();
 
-				}
-				else if (__state == CONNECTED) {
+				OnStop();
 
-					printf("connection timed out\n");
-					ClearData();
-					if (__state == CONNECTING)
+			}
+			void Connection::Update(float deltaTime) {
+
+				assert(__running);
+
+				__timeout_accumulator += deltaTime;
+
+				if (__timeout_accumulator > __timeout) {
+
+					if (__state == CONNECTING) {
+
+						printf("connect timed out\n");
+						ClearData();
 						__state = CONNECTION_FAILURE;
-					OnDisconnect();
+						OnDisconnect();
+
+					}
+					else if (__state == CONNECTED) {
+
+						printf("connection timed out\n");
+						ClearData();
+						if (__state == CONNECTING)
+							__state = CONNECTION_FAILURE;
+						OnDisconnect();
+
+					}
 
 				}
 
 			}
 
-		}
+			void Connection::Listen() {
 
-		void Connection::Listen() {
+				printf("server listening for connection\n");
 
-			printf("server listening for connection\n");
+				bool connected = IsConnected();
+				ClearData();
+				if (connected)
+					OnDisconnect();
+				__mode = SERVER;
+				__state = LISTENING;
 
-			bool connected = IsConnected();
-			ClearData();
-			if (connected)
-				OnDisconnect();
-			__mode = SERVER;
-			__state = LISTENING;
+			}
+			void Connection::Connect(const IPAddress& address) {
 
-		}
-		void Connection::Connect(const IPAddress& address) {
+				bool connected = IsConnected();
+				ClearData();
+				if (connected)
+					OnDisconnect();
+				__mode = CLIENT;
+				__state = CONNECTING;
+				__remote_address = address;
 
-			bool connected = IsConnected();
-			ClearData();
-			if (connected)
-				OnDisconnect();
-			__mode = CLIENT;
-			__state = CONNECTING;
-			__remote_address = address;
+			}
 
-		}
+			bool Connection::IsRunning() const {
 
-		bool Connection::IsRunning() const {
+				return __running;
 
-			return __running;
+			}
+			bool Connection::IsConnecting() const {
 
-		}
-		bool Connection::IsConnecting() const {
+				return __state == CONNECTING;
 
-			return __state == CONNECTING;
+			}
+			bool Connection::ConnectFailed() const {
 
-		}
-		bool Connection::ConnectFailed() const {
+				return __state == CONNECTION_FAILURE;
 
-			return __state == CONNECTION_FAILURE;
+			}
+			bool Connection::IsConnected() const {
 
-		}
-		bool Connection::IsConnected() const {
+				return __state == CONNECTED;
 
-			return __state == CONNECTED;
+			}
+			bool Connection::IsListening() const {
 
-		}
-		bool Connection::IsListening() const {
+				return __state == LISTENING;
 
-			return __state == LISTENING;
+			}
 
-		}
+			Connection::MODE Connection::GetMode() const {
 
-		Connection::MODE Connection::GetMode() const {
+				return __mode;
 
-			return __mode;
+			}
+			int Connection::GetHeaderSize() const {
 
-		}
-		int Connection::GetHeaderSize() const {
+				return 4;
 
-			return 4;
+			}
 
-		}
+			IPAddress& Connection::LastRecievedFrom() {
 
-		IPAddress& Connection::LastRecievedFrom() {
+				return __last_sender;
 
-			return __last_sender;
+			}
 
-		}
+			bool Connection::SendPacket(const unsigned char data[], int size) {
 
-		bool Connection::SendPacket(const unsigned char data[], int size) {
+				assert(__running);
 
-			assert(__running);
+				if (__remote_address.Address() == 0)
+					return false;
 
-			if (__remote_address.Address() == 0)
-				return false;
-
-			unsigned char* packet = new unsigned char[size + 4];
-			packet[0] = (unsigned char)(__protocol_id >> 24);
-			packet[1] = (unsigned char)((__protocol_id >> 16) & 0xFF);
-			packet[2] = (unsigned char)((__protocol_id >> 8) & 0xFF);
-			packet[3] = (unsigned char)((__protocol_id) & 0xFF);
-			memcpy(&packet[4], data, size);
-			bool res = __socket.Send(__remote_address, packet, size + 4);
-			delete[] packet;
-
-			return res;
-
-		}
-		int Connection::ReceivePacket(unsigned char data[], int size) {
-
-			assert(__running);
-
-			unsigned char* packet = new unsigned char[size + 4];
-
-			int bytes_read = __socket.Receive(__last_sender, packet, size + 4);
-			if (bytes_read == 0) {
+				unsigned char* packet = new unsigned char[size + 4];
+				packet[0] = (unsigned char)(__protocol_id >> 24);
+				packet[1] = (unsigned char)((__protocol_id >> 16) & 0xFF);
+				packet[2] = (unsigned char)((__protocol_id >> 8) & 0xFF);
+				packet[3] = (unsigned char)((__protocol_id)& 0xFF);
+				memcpy(&packet[4], data, size);
+				bool res = __socket.Send(__remote_address, packet, size + 4);
 				delete[] packet;
-				return 0;
+
+				return res;
+
 			}
-			if (bytes_read <= 4) {
-				delete[] packet;
-				return 0;
-			}
-			if (packet[0] != (unsigned char)(__protocol_id >> 24) ||
-				packet[1] != (unsigned char)((__protocol_id >> 16) & 0xFF) ||
-				packet[2] != (unsigned char)((__protocol_id >> 8) & 0xFF) ||
-				packet[3] != (unsigned char)(__protocol_id & 0xFF)) {
-				delete[] packet;
-				return 0;
-			}
-			if (__mode == SERVER && !IsConnected()) {
-				__state = CONNECTED;
-				__remote_address = __last_sender;
-				OnConnect();
-			}
-			if (__last_sender == __remote_address) {
-				if (__mode == CLIENT && __state == CONNECTING) {
-					printf("client completes connection with server\n");
+			int Connection::ReceivePacket(unsigned char data[], int size) {
+
+				assert(__running);
+
+				unsigned char* packet = new unsigned char[size + 4];
+
+				int bytes_read = __socket.Receive(__last_sender, packet, size + 4);
+				if (bytes_read == 0) {
+					delete[] packet;
+					return 0;
+				}
+				if (bytes_read <= 4) {
+					delete[] packet;
+					return 0;
+				}
+				if (packet[0] != (unsigned char)(__protocol_id >> 24) ||
+					packet[1] != (unsigned char)((__protocol_id >> 16) & 0xFF) ||
+					packet[2] != (unsigned char)((__protocol_id >> 8) & 0xFF) ||
+					packet[3] != (unsigned char)(__protocol_id & 0xFF)) {
+					delete[] packet;
+					return 0;
+				}
+				if (__mode == SERVER && !IsConnected()) {
 					__state = CONNECTED;
+					__remote_address = __last_sender;
 					OnConnect();
 				}
-				__timeout_accumulator = 0.0f;
-				memcpy(data, &packet[4], size - 4);
+				if (__last_sender == __remote_address) {
+					if (__mode == CLIENT && __state == CONNECTING) {
+						printf("client completes connection with server\n");
+						__state = CONNECTED;
+						OnConnect();
+					}
+					__timeout_accumulator = 0.0f;
+					memcpy(data, &packet[4], size - 4);
+					delete[] packet;
+					return size - 4;
+				}
+
 				delete[] packet;
-				return size - 4;
+
+				return 0;
+
 			}
 
-			delete[] packet;
-
-			return 0;
-
 		}
-
 	}
 }

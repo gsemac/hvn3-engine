@@ -5,132 +5,136 @@
 #include "io/Mouse.h"
 #include "RoomBase.h"
 
-View::View(Point view_position, Size view_size, Point port_position, Size port_size, Object* follow_obj, float horizontal_border, float vertical_border) :__view_size(view_size), __port_size(port_size) {
+namespace hvn3 {
 
-	__view_pos = view_position;
-	__port_pos = port_position;
+	View::View(Point view_position, Size view_size, Point port_position, Size port_size, Object* follow_obj, float horizontal_border, float vertical_border) :__view_size(view_size), __port_size(port_size) {
 
-	__follow_obj = follow_obj;
-	__hbor = (std::min)(horizontal_border, view_size.Width() / 2.0f);
-	__vbor = (std::min)(vertical_border, view_size.Height() / 2.0f);
-	__vspd = 0.0f;
-	__hspd = 0.0f;
-	__angle = 0.0f;
-	__enabled = false;
-	__tracks_mouse = true;
+		__view_pos = view_position;
+		__port_pos = port_position;
 
-}
-View::View(Point view_position, Size view_size, Point port_position, Size port_size) : View(view_position, view_size, port_position, port_size, nullptr, 0, 0) {}
+		__follow_obj = follow_obj;
+		__hbor = (std::min)(horizontal_border, view_size.Width() / 2.0f);
+		__vbor = (std::min)(vertical_border, view_size.Height() / 2.0f);
+		__vspd = 0.0f;
+		__hspd = 0.0f;
+		__angle = 0.0f;
+		__enabled = false;
+		__tracks_mouse = true;
 
-void View::SetFollowing(Object* obj) {
+	}
+	View::View(Point view_position, Size view_size, Point port_position, Size port_size) : View(view_position, view_size, port_position, port_size, nullptr, 0, 0) {}
 
-	__follow_obj = obj;
+	void View::SetFollowing(Object* obj) {
 
-}
-Object* View::GetFollowing() {
+		__follow_obj = obj;
 
-	return __follow_obj;
+	}
+	Object* View::GetFollowing() {
 
-}
+		return __follow_obj;
 
-Rectangle View::Region() const {
+	}
 
-	return Rectangle(__view_pos.X(), __view_pos.Y(), __view_size.Width(), __view_size.Height());
+	Rectangle View::Region() const {
 
-}
-Rectangle View::Port() const {
+		return Rectangle(__view_pos.X(), __view_pos.Y(), __view_size.Width(), __view_size.Height());
 
-	return Rectangle(__port_pos.X(), __port_pos.Y(), __port_size.Width(), __port_size.Height());
+	}
+	Rectangle View::Port() const {
 
-}
-const Point& View::Position() const {
+		return Rectangle(__port_pos.X(), __port_pos.Y(), __port_size.Width(), __port_size.Height());
 
-	return __view_pos;
+	}
+	const Point& View::Position() const {
 
-}
-void View::SetPosition(float x, float y) {
+		return __view_pos;
 
-	__view_pos.SetXY(x, y);
+	}
+	void View::SetPosition(float x, float y) {
 
-}
-void View::SetPosition(const Point& position) {
+		__view_pos.SetXY(x, y);
 
-	__view_pos = position;
+	}
+	void View::SetPosition(const Point& position) {
 
-}
-float View::ViewX() const {
+		__view_pos = position;
 
-	return __view_pos.X();
+	}
+	float View::ViewX() const {
 
-}
-float View::ViewY() const {
+		return __view_pos.X();
 
-	return __view_pos.Y();
+	}
+	float View::ViewY() const {
 
-}
-Scale View::Scale() const {
+		return __view_pos.Y();
 
-	return ::Scale(Port().Width() / Region().Width(), Port().Height() / Region().Height());
+	}
+	Scale View::Scale() const {
 
-}
+		return hvn3::Scale(Port().Width() / Region().Width(), Port().Height() / Region().Height());
 
-float View::HorizontalBorder() const {
+	}
 
-	return __hbor;
+	float View::HorizontalBorder() const {
 
-}
-float View::VerticalBorder() const {
+		return __hbor;
 
-	return __vbor;
+	}
+	float View::VerticalBorder() const {
 
-}
+		return __vbor;
 
-float View::Angle() const {
+	}
 
-	return __angle;
+	float View::Angle() const {
 
-}
-void View::SetAngle(float angle) {
+		return __angle;
 
-	__angle = std::fmod(angle, 360.0f);
+	}
+	void View::SetAngle(float angle) {
 
-}
+		__angle = std::fmod(angle, 360.0f);
 
-void View::Enable() {
+	}
 
-	__enabled = true;
+	void View::Enable() {
 
-}
-void View::Disable() {
+		__enabled = true;
 
-	__enabled = false;
+	}
+	void View::Disable() {
 
-}
-bool View::Enabled() const {
+		__enabled = false;
 
-	return __enabled;
+	}
+	bool View::Enabled() const {
 
-}
+		return __enabled;
 
-bool View::TracksMouse() const {
+	}
 
-	return __tracks_mouse;
+	bool View::TracksMouse() const {
 
-}
-void View::TracksMouse(bool tracks) {
+		return __tracks_mouse;
 
-	__tracks_mouse = tracks;
+	}
+	void View::TracksMouse(bool tracks) {
 
-}
+		__tracks_mouse = tracks;
 
-Drawing::Transform View::GetTransform() const {
+	}
 
-	Point offset(ViewX(), ViewY());
-	Drawing::Transform transform;
-	transform.Translate(-offset.X() + Port().X(), -offset.Y() + Port().Y());
-	transform.Rotate(Port().Midpoint(), Angle());
-	transform.Scale(Scale());
+	Drawing::Transform View::GetTransform() const {
 
-	return transform;
+		Point offset(ViewX(), ViewY());
+		Drawing::Transform transform;
+		transform.Translate(-offset.X() + Port().X(), -offset.Y() + Port().Y());
+		transform.Rotate(Port().Midpoint(), Angle());
+		transform.Scale(Scale());
+
+		return transform;
+
+	}
 
 }

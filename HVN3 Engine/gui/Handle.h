@@ -1,71 +1,75 @@
 #pragma once
 
-template <typename T>
-class Handle {
+namespace hvn3 {
 
-public:
-	Handle() :
-		_ptr(nullptr) {
-	}
-	Handle(T* ptr) :
-		_ptr(ptr) {
-	}
+	template <typename T>
+	class Handle {
 
-	explicit operator bool() const {
+	public:
+		Handle() :
+			_ptr(nullptr) {
+		}
+		Handle(T* ptr) :
+			_ptr(ptr) {
+		}
 
-		return !IsNull();
+		explicit operator bool() const {
 
-	}
-	operator T*() const {
+			return !IsNull();
 
-		return _ptr;
+		}
+		operator T*() const {
 
-	}
+			return _ptr;
 
-	T* operator->() const {
+		}
 
-		return _ptr;
+		T* operator->() const {
 
-	}
-	T& operator*() const {
+			return _ptr;
 
-		return *_ptr;
+		}
+		T& operator*() const {
 
-	}
+			return *_ptr;
 
-	bool operator==(const Handle<T> other) const {
+		}
 
-		return _ptr == other._ptr;
+		bool operator==(const Handle<T> other) const {
 
-	}
-	bool operator!=(const Handle<T> other) const {
+			return _ptr == other._ptr;
 
-		return !(*this == other);
+		}
+		bool operator!=(const Handle<T> other) const {
 
-	}
-	bool operator==(T* other) const {
+			return !(*this == other);
 
-		return _ptr == other;
+		}
+		bool operator==(T* other) const {
 
-	}
-	bool operator!=(T* other) const {
+			return _ptr == other;
 
-		return _ptr != other;
+		}
+		bool operator!=(T* other) const {
 
-	}
+			return _ptr != other;
 
-	bool IsNull() const {
+		}
 
-		return _ptr == nullptr;
+		bool IsNull() const {
 
-	}
-	void Invalidate() {
+			return _ptr == nullptr;
 
-		_ptr = nullptr;
+		}
+		void Invalidate() {
 
-	}
+			_ptr = nullptr;
 
-private:
-	T* _ptr;
+		}
 
-};
+	private:
+		T* _ptr;
+
+	};
+
+}

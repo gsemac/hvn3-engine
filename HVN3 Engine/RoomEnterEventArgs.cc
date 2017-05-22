@@ -1,3 +1,7 @@
 #include "RoomEnterEventArgs.h"
 
-RoomEnterEventArgs::RoomEnterEventArgs() {}
+namespace hvn3 {
+
+	RoomEnterEventArgs::RoomEnterEventArgs() {}
+
+}

@@ -3,9 +3,13 @@
 
 // todo: this
 
-class IRoomManager {
+namespace hvn3 {
 
-public:
-	
+	class IRoomManager {
 
-};
+	public:
+
+
+	};
+
+}

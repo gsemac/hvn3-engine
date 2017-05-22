@@ -4,12 +4,16 @@
 #include <allegro5/allegro.h>
 #include "Color.h"
 
-class FrameworkAdapter {
+namespace hvn3 {
 
-public:
-	static ALLEGRO_COLOR ToColor(const Color& color);
-	static Color FromColor(const ALLEGRO_COLOR& color);
+	class FrameworkAdapter {
 
-};
+	public:
+		static ALLEGRO_COLOR ToColor(const Color& color);
+		static Color FromColor(const ALLEGRO_COLOR& color);
+
+	};
+
+}
 
 #endif

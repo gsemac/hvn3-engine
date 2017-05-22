@@ -1,103 +1,107 @@
 #include <algorithm>
 #include "ISpriteable.h"
 
-ISpriteable::ISpriteable() {
+namespace hvn3 {
 
-	__sprite_index = -1;
-	__image_index = 0;
-	__image_speed = 1.0f;
-	__image_alpha = 1.0f;
-	__image_xscale = 1.0f;
-	__image_yscale = 1.0f;
-	__image_angle = 0.0f;
-	__image_blend = Color::FromArgbf(__image_alpha, __image_alpha, __image_alpha, __image_alpha);
+	ISpriteable::ISpriteable() {
 
-}
+		__sprite_index = -1;
+		__image_index = 0;
+		__image_speed = 1.0f;
+		__image_alpha = 1.0f;
+		__image_xscale = 1.0f;
+		__image_yscale = 1.0f;
+		__image_angle = 0.0f;
+		__image_blend = Color::FromArgbf(__image_alpha, __image_alpha, __image_alpha, __image_alpha);
 
-float ISpriteable::SpriteIndex() {
+	}
 
-	return __sprite_index;
+	float ISpriteable::SpriteIndex() {
 
-}
-float ISpriteable::ImageAlpha() {
+		return __sprite_index;
 
-	return __image_alpha;
+	}
+	float ISpriteable::ImageAlpha() {
 
-}
-void ISpriteable::SetImageAlpha(float value) {
+		return __image_alpha;
 
-	__image_alpha = value;
+	}
+	void ISpriteable::SetImageAlpha(float value) {
 
-}
-int ISpriteable::ImageIndex() {
+		__image_alpha = value;
 
-	return __image_index;
+	}
+	int ISpriteable::ImageIndex() {
 
-}
-void ISpriteable::SetImageIndex(float value) {
+		return __image_index;
 
-	__image_index = value;
+	}
+	void ISpriteable::SetImageIndex(float value) {
 
-}
-float ISpriteable::ImageSpeed() {
+		__image_index = value;
 
-	return __image_speed;
+	}
+	float ISpriteable::ImageSpeed() {
 
-}
-void ISpriteable::SetImageSpeed(float value) {
+		return __image_speed;
 
-	__image_speed = value;
+	}
+	void ISpriteable::SetImageSpeed(float value) {
 
-}
-float ISpriteable::ImageXScale() {
+		__image_speed = value;
 
-	return __image_xscale;
+	}
+	float ISpriteable::ImageXScale() {
 
-}
-void ISpriteable::SetImageXScale(float value) {
+		return __image_xscale;
 
-	__image_xscale = value;
+	}
+	void ISpriteable::SetImageXScale(float value) {
 
-}
-float ISpriteable::ImageYScale() {
+		__image_xscale = value;
 
-	return __image_yscale;
+	}
+	float ISpriteable::ImageYScale() {
 
-}
-void ISpriteable::SetImageYScale(float value) {
+		return __image_yscale;
 
-	__image_yscale = value;
+	}
+	void ISpriteable::SetImageYScale(float value) {
 
-}
-float ISpriteable::ImageAngle() {
+		__image_yscale = value;
 
-	return __image_angle;
+	}
+	float ISpriteable::ImageAngle() {
 
-}
-void ISpriteable::SetImageAngle(float value) {
+		return __image_angle;
 
-	__image_angle = value;
+	}
+	void ISpriteable::SetImageAngle(float value) {
 
-}
-Color ISpriteable::ImageBlend() {
+		__image_angle = value;
 
-	return __image_blend;
+	}
+	Color ISpriteable::ImageBlend() {
 
-}
-void ISpriteable::SetImageBlend(const Color& value) {
+		return __image_blend;
 
-	__image_blend = value;
+	}
+	void ISpriteable::SetImageBlend(const Color& value) {
 
-}
+		__image_blend = value;
 
-std::shared_ptr<::Sprite> ISpriteable::Sprite() {
+	}
 
-	return __sprite;
+	std::shared_ptr<hvn3::Sprite> ISpriteable::Sprite() {
 
-}
-void ISpriteable::SetSprite(std::shared_ptr<::Sprite> sprite) {
+		return __sprite;
 
-	__sprite_index = -1;
-	__sprite = sprite;
+	}
+	void ISpriteable::SetSprite(std::shared_ptr<hvn3::Sprite> sprite) {
+
+		__sprite_index = -1;
+		__sprite = sprite;
+
+	}
 
 }

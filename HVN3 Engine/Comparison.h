@@ -1,6 +1,7 @@
-#ifndef __COMPARISON_H
-#define __COMPARISON_H
+#pragma once
 
-bool IsZero(float f);
+namespace hvn3 {
 
-#endif
+	bool IsZero(float f);
+
+}

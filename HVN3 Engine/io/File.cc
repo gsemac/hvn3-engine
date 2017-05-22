@@ -4,94 +4,98 @@
 #include <physfs.h>
 #include "Exception.h"
 
-namespace IO {
+namespace hvn3 {
 
-	// Public methods
+	namespace IO {
 
-	std::vector<std::string> File::ReadAllLines(const char* filename) {
+		// Public methods
 
-		// Open the file.
-		if (!Exists(filename)) throw IO::FileNotFoundException();
-		ALLEGRO_FILE* file = al_fopen(filename, "r");
+		std::vector<std::string> File::ReadAllLines(const char* filename) {
 
-		// Determine the encoding, and seek past the BOM bytes if needed.
-		TextEncoding encoding = GetEncoding(file);
-		if (encoding == TextEncoding::UTF8) al_fseek(file, 3, ALLEGRO_SEEK_SET);
+			// Open the file.
+			if (!Exists(filename)) throw IO::FileNotFoundException();
+			ALLEGRO_FILE* file = al_fopen(filename, "r");
 
-		// Initialize lines vector.
-		std::vector<std::string> lines;
+			// Determine the encoding, and seek past the BOM bytes if needed.
+			TextEncoding encoding = GetEncoding(file);
+			if (encoding == TextEncoding::UTF8) al_fseek(file, 3, ALLEGRO_SEEK_SET);
 
-		// Read the file bytes.
-		std::string line;
-		while (!al_feof(file)) {
+			// Initialize lines vector.
+			std::vector<std::string> lines;
 
-			char next_byte = al_fgetc(file);
+			// Read the file bytes.
+			std::string line;
+			while (!al_feof(file)) {
 
-			if (line.size() > 0 && line[line.size() - 1] == 0x0D && next_byte == 0x0A) { // Newline: 0D 0A
-				line.pop_back();
-				lines.push_back(line);
-				line.clear();
-			}
-			else
-				line.push_back(next_byte);
+				char next_byte = al_fgetc(file);
 
-		};
-		// Push the last line on if it isn't empty.
-		if (!line.empty()) lines.push_back(line);
+				if (line.size() > 0 && line[line.size() - 1] == 0x0D && next_byte == 0x0A) { // Newline: 0D 0A
+					line.pop_back();
+					lines.push_back(line);
+					line.clear();
+				}
+				else
+					line.push_back(next_byte);
 
-		// Return the result.
-		return lines;
+			};
+			// Push the last line on if it isn't empty.
+			if (!line.empty()) lines.push_back(line);
 
-	}
-	std::string File::ReadAllText(const char* filename) {
+			// Return the result.
+			return lines;
 
-		// Open the file.
-		if (!Exists(filename)) throw IO::FileNotFoundException();
-		ALLEGRO_FILE* file = al_fopen(filename, "r");
+		}
+		std::string File::ReadAllText(const char* filename) {
 
-		// Determine the encoding, and seek past the BOM bytes if needed.
-		TextEncoding encoding = GetEncoding(file);
-		if (encoding == TextEncoding::UTF8) al_fseek(file, 3, ALLEGRO_SEEK_SET);
+			// Open the file.
+			if (!Exists(filename)) throw IO::FileNotFoundException();
+			ALLEGRO_FILE* file = al_fopen(filename, "r");
 
-		// Initialize the string to hold the file contents.
-		std::string file_contents;
+			// Determine the encoding, and seek past the BOM bytes if needed.
+			TextEncoding encoding = GetEncoding(file);
+			if (encoding == TextEncoding::UTF8) al_fseek(file, 3, ALLEGRO_SEEK_SET);
 
-		// Read the file bytes.
-		while (!al_feof(file)) {
-			char next_byte = al_fgetc(file);
-			file_contents.push_back(next_byte);
-		};
+			// Initialize the string to hold the file contents.
+			std::string file_contents;
 
-		// Return the result.
-		return file_contents;
+			// Read the file bytes.
+			while (!al_feof(file)) {
+				char next_byte = al_fgetc(file);
+				file_contents.push_back(next_byte);
+			};
 
-	}
-	bool File::Exists(const char* filename) {
+			// Return the result.
+			return file_contents;
 
-		return al_filename_exists(filename);
+		}
+		bool File::Exists(const char* filename) {
 
-	}
+			return al_filename_exists(filename);
 
-	// Private methods
+		}
 
-	TextEncoding File::GetEncoding(ALLEGRO_FILE* file) {
+		// Private methods
 
-		// The default encoding is ASCII.
-		TextEncoding encoding = TextEncoding::ASCII;
+		TextEncoding File::GetEncoding(ALLEGRO_FILE* file) {
 
-		// Read the first three bytes of the file to read the BOM.
-		unsigned char bom[3];
-		size_t i;
-		for (i = 0; i < 3 && !al_feof(file); i++)
-			bom[i] = al_fgetc(file);
-		if (i >= 3 && bom[0] == 0xEF && bom[1] == 0xBB && bom[2] == 0xBF)
-			encoding = TextEncoding::UTF8;
+			// The default encoding is ASCII.
+			TextEncoding encoding = TextEncoding::ASCII;
 
-		// Seek back to the beginning of the file.
-		al_fseek(file, 0, ALLEGRO_SEEK_SET);
+			// Read the first three bytes of the file to read the BOM.
+			unsigned char bom[3];
+			size_t i;
+			for (i = 0; i < 3 && !al_feof(file); i++)
+				bom[i] = al_fgetc(file);
+			if (i >= 3 && bom[0] == 0xEF && bom[1] == 0xBB && bom[2] == 0xBF)
+				encoding = TextEncoding::UTF8;
 
-		// Return the encoding.
-		return encoding;
+			// Seek back to the beginning of the file.
+			al_fseek(file, 0, ALLEGRO_SEEK_SET);
+
+			// Return the encoding.
+			return encoding;
+
+		}
 
 	}
 

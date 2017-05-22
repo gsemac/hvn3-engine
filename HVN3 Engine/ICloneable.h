@@ -1,8 +1,12 @@
 #pragma once
 
-class ICloneable {
+namespace hvn3 {
 
-public:
-	virtual ICloneable* Clone() = 0;
+	class ICloneable {
 
-};
+	public:
+		virtual ICloneable* Clone() = 0;
+
+	};
+
+}

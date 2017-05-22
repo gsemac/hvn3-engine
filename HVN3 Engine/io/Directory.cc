@@ -5,21 +5,25 @@
 #include "Exception.h"
 #include <allegro5/allegro.h>
 
-namespace IO {
+namespace hvn3 {
 
-	// Static methods and member variables
+	namespace IO {
 
-	const std::string Directory::GetCurrentDirectory() {
+		// Static methods and member variables
 
-		// Return the current working directory.
-		return Environment::CurrentDirectory();
+		const std::string Directory::GetCurrentDirectory() {
 
-	}
-	void Directory::SetCurrentDirectory(const std::string path) {
+			// Return the current working directory.
+			return Environment::CurrentDirectory();
 
-		// Set the new working directory.
-		if (!al_change_directory(StringUtils::RTrim(path, { IO::Path::DirectorySeparatorChar() }).c_str()))
-			throw IOException("Failed to set the working directory.");
+		}
+		void Directory::SetCurrentDirectory(const std::string path) {
+
+			// Set the new working directory.
+			if (!al_change_directory(StringUtils::RTrim(path, { IO::Path::DirectorySeparatorChar() }).c_str()))
+				throw IOException("Failed to set the working directory.");
+
+		}
 
 	}
 

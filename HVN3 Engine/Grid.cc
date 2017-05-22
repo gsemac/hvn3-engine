@@ -1,76 +1,80 @@
 #include "Grid.h"
 
-Grid::Grid(int rows, int columns, float cell_width, float cell_height, float cell_margin, float cell_padding) {
+namespace hvn3 {
 
-	// Apply provided values.
-	__rows = rows;
-	__columns = columns;
-	__cells.__cell_w = cell_width;
-	__cells.__cell_h = cell_height;
-	__cells.__cell_m = cell_margin;
-	__cells.__cell_p = cell_padding;
+	Grid::Grid(int rows, int columns, float cell_width, float cell_height, float cell_margin, float cell_padding) {
 
-}
-Grid::Grid(int rows, int columns) : Grid::Grid(rows, columns, 15.0f, 15.0f, 1.0f, 0) {}
-Grid::Grid() : Grid::Grid(0, 0) {}
+		// Apply provided values.
+		__rows = rows;
+		__columns = columns;
+		__cells.__cell_w = cell_width;
+		__cells.__cell_h = cell_height;
+		__cells.__cell_m = cell_margin;
+		__cells.__cell_p = cell_padding;
 
-int Grid::Rows() {
+	}
+	Grid::Grid(int rows, int columns) : Grid::Grid(rows, columns, 15.0f, 15.0f, 1.0f, 0) {}
+	Grid::Grid() : Grid::Grid(0, 0) {}
 
-	return __rows;
+	int Grid::Rows() {
 
-}
-int Grid::Columns() {
+		return __rows;
 
-	return __columns;
+	}
+	int Grid::Columns() {
 
-}
-void Grid::Resize(int rows, int columns) {
+		return __columns;
 
-	__rows = rows;
-	__columns = columns;
+	}
+	void Grid::Resize(int rows, int columns) {
 
-}
-void Grid::ResizeCells(float cell_width, float cell_height, float cell_margin, float cell_padding) {
+		__rows = rows;
+		__columns = columns;
 
-	__cells.__cell_w = cell_width;
-	__cells.__cell_h = cell_height;
-	__cells.__cell_m = cell_margin;
-	__cells.__cell_p = cell_padding;
+	}
+	void Grid::ResizeCells(float cell_width, float cell_height, float cell_margin, float cell_padding) {
 
-}
-float Grid::Width() {
+		__cells.__cell_w = cell_width;
+		__cells.__cell_h = cell_height;
+		__cells.__cell_m = cell_margin;
+		__cells.__cell_p = cell_padding;
 
-	return (__columns * __cells.Width()) + ((__columns - 1) * __cells.Margin());
+	}
+	float Grid::Width() {
 
-}
-float Grid::Height() {
+		return (__columns * __cells.Width()) + ((__columns - 1) * __cells.Margin());
 
-	return (__rows * __cells.Height()) + ((__rows - 1) * __cells.Margin());
+	}
+	float Grid::Height() {
 
-}
+		return (__rows * __cells.Height()) + ((__rows - 1) * __cells.Margin());
 
-Grid::CellProperties& Grid::Cells() {
+	}
 
-	return __cells;
+	Grid::CellProperties& Grid::Cells() {
 
-}
-float Grid::CellProperties::Width() {
+		return __cells;
 
-	return __cell_w;
+	}
+	float Grid::CellProperties::Width() {
 
-}
-float Grid::CellProperties::Height() {
+		return __cell_w;
 
-	return __cell_w;
+	}
+	float Grid::CellProperties::Height() {
 
-}
-float Grid::CellProperties::Margin() {
+		return __cell_w;
 
-	return __cell_m;
+	}
+	float Grid::CellProperties::Margin() {
 
-}
-float Grid::CellProperties::Padding() {
+		return __cell_m;
 
-	return __cell_p;
+	}
+	float Grid::CellProperties::Padding() {
+
+		return __cell_p;
+
+	}
 
 }

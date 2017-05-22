@@ -1,3 +1,7 @@
 #include "RoomExitEventArgs.h"
 
-RoomExitEventArgs::RoomExitEventArgs() {}
+namespace hvn3 {
+
+	RoomExitEventArgs::RoomExitEventArgs() {}
+
+}

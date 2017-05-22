@@ -2,14 +2,18 @@
 
 #ifdef HVN3_BACKEND_ALLEGRO5
 
-ALLEGRO_COLOR FrameworkAdapter::ToColor(const Color& color) {
+namespace hvn3 {
 
-	return al_map_rgba(color.R(), color.G(), color.B(), color.Alpha());
+	ALLEGRO_COLOR FrameworkAdapter::ToColor(const Color& color) {
 
-}
-Color FrameworkAdapter::FromColor(const ALLEGRO_COLOR& color) {
+		return al_map_rgba(color.R(), color.G(), color.B(), color.Alpha());
 
-	return Color::FromArgbf(color.r, color.g, color.b, color.a);
+	}
+	Color FrameworkAdapter::FromColor(const ALLEGRO_COLOR& color) {
+
+		return Color::FromArgbf(color.r, color.g, color.b, color.a);
+
+	}
 
 }
 

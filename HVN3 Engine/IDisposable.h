@@ -1,11 +1,12 @@
-#ifndef __IDISPOSABLE_H
-#define __IDISPOSABLE_H
+#pragma once
 
-class IDisposable {
+namespace hvn3 {
 
-public:
-	virtual void Dispose() = 0;
+	class IDisposable {
 
-};
+	public:
+		virtual void Dispose() = 0;
 
-#endif
+	};
+
+}

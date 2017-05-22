@@ -1,43 +1,47 @@
 #pragma once
 #include "gui/GuiManager.h"
 
-namespace Gui {
+namespace hvn3 {
 
-	class Control;
+	namespace Gui {
 
-	class IContainer {
+		class Control;
 
-		class ContainerControlManager : public ControlManager {
+		class IContainer {
+
+			class ContainerControlManager : public ControlManager {
+
+			public:
+				ContainerControlManager(GuiManager* gui_manager, Control* parent);
+				Handle<Control> AddControl(ControlPtr& control) override;
+
+			private:
+				Control* _control;
+
+			};
 
 		public:
-			ContainerControlManager(GuiManager* gui_manager, Control* parent);
-			Handle<Control> AddControl(ControlPtr& control) override;
+			IContainer(Control* control);
+			Gui::ControlManager* Controls();
+
+		protected:
+			Gui::GuiManager* ChildControlManager();
+			bool HasActiveChildControl() const;
+			const Rectangle& ChildRegion() const;
+			void SetChildRegion(const Rectangle& region);
+			bool MouseInChildRegion() const;
+			void UpdateAnchors(ResizeEventArgs& e);
 
 		private:
+			Gui::GuiManager _manager;
+			ContainerControlManager _control_manager;
 			Control* _control;
+			Rectangle _child_region;
+
+			void SetUpStyleManager();
 
 		};
 
-	public:
-		IContainer(Control* control);
-		Gui::ControlManager* Controls();
-
-	protected:
-		Gui::GuiManager* ChildControlManager();
-		bool HasActiveChildControl() const;
-		const Rectangle& ChildRegion() const;
-		void SetChildRegion(const Rectangle& region);
-		bool MouseInChildRegion() const;
-		void UpdateAnchors(ResizeEventArgs& e);
-
-	private:
-		Gui::GuiManager _manager;
-		ContainerControlManager _control_manager;
-		Control* _control;
-		Rectangle _child_region;
-
-		void SetUpStyleManager();
-
-	};
+	}
 
 }

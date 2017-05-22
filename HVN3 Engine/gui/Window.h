@@ -6,57 +6,61 @@
 #include "io/Mouse.h"
 #include "Graphics.h"
 
-namespace Gui {
+namespace hvn3 {
 
-	class ControlManager;
+	namespace Gui {
 
-	class Window : public Control, public ITextable, public IContainer {
+		class ControlManager;
 
-	public:
-		Window(float x, float y, float width, float height, const char* text);
-		~Window();
+		class Window : public Control, public ITextable, public IContainer {
 
-		void SetTitlebarHeight(float value);
-		float TitlebarHeight() const;
+		public:
+			Window(float x, float y, float width, float height, const char* text);
+			~Window();
 
-		void OnMouseDown() override;
-		void OnMouseUp() override;
-		void OnMouseMove() override;
-		void OnMouseLeave() override;
-		void OnClick() override;
-		void OnResize(ResizeEventArgs& e) override;
-		void OnPaint(PaintEventArgs& e) override;
-		void Update(UpdateEventArgs& e) override;
+			void SetTitlebarHeight(float value);
+			float TitlebarHeight() const;
 
-	protected:
-		const ResourceHandle<Drawing::Bitmap>& GetExitIcon();
-		Point ExitButtonPosition() const;
-		bool MouseOnExitButton() const;
-		void UpdateChildRegion();
+			void OnMouseDown() override;
+			void OnMouseUp() override;
+			void OnMouseMove() override;
+			void OnMouseLeave() override;
+			void OnClick() override;
+			void OnResize(ResizeEventArgs& e) override;
+			void OnPaint(PaintEventArgs& e) override;
+			void Update(UpdateEventArgs& e) override;
 
-	private:
-		int __titlebar_height;
+		protected:
+			const ResourceHandle<Drawing::Bitmap>& GetExitIcon();
+			Point ExitButtonPosition() const;
+			bool MouseOnExitButton() const;
+			void UpdateChildRegion();
 
-		ResourceHandle<Drawing::Bitmap> _exit_icon;
+		private:
+			int __titlebar_height;
 
-		Point __drag_offset;
-		bool __dragging, __resizing;
-		unsigned int __resizing_side;
-		Point __original_position;
-		Size __original_size;
-		Size __size_diff;
-		bool _mouse_on_exit_button;
-		bool _fade_out;
-		//Gui::Panel _panel;
+			ResourceHandle<Drawing::Bitmap> _exit_icon;
 
-		// Returns the resize regions that the mouse is currently in. Returns 0 if the mouse is not in a resize region.
-		unsigned int GetMouseResizeSides() const;
-		// Sets the cursor depending on where it is on the Window.
-		void SetResizeCursor();
-		// Adjusts the size/position of the Window when resizing.
-		void HandleResizing();
-		bool HasActiveChild() override;
+			Point __drag_offset;
+			bool __dragging, __resizing;
+			unsigned int __resizing_side;
+			Point __original_position;
+			Size __original_size;
+			Size __size_diff;
+			bool _mouse_on_exit_button;
+			bool _fade_out;
+			//Gui::Panel _panel;
 
-	};
+			// Returns the resize regions that the mouse is currently in. Returns 0 if the mouse is not in a resize region.
+			unsigned int GetMouseResizeSides() const;
+			// Sets the cursor depending on where it is on the Window.
+			void SetResizeCursor();
+			// Adjusts the size/position of the Window when resizing.
+			void HandleResizing();
+			bool HasActiveChild() override;
+
+		};
+
+	}
 
 }

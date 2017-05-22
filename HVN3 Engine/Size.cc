@@ -1,51 +1,55 @@
 #include "Size.h"
 #include "Point.h"
 
-Size::Size(float width, float height) : __width(width), __height(height) {}
+namespace hvn3 {
 
-float Size::Width() const {
-	return __width;
-}
-float Size::Height() const {
-	return __height;
-}
-void Size::SetWidth(float value) {
+	Size::Size(float width, float height) : __width(width), __height(height) {}
 
-	Resize(value, __height);
+	float Size::Width() const {
+		return __width;
+	}
+	float Size::Height() const {
+		return __height;
+	}
+	void Size::SetWidth(float value) {
 
-}
-void Size::SetHeight(float value) {
+		Resize(value, __height);
 
-	Resize(__width, value);
+	}
+	void Size::SetHeight(float value) {
 
-}
-void Size::Resize(float width, float height) {
-	__width = width;
-	__height = height;
-}
+		Resize(__width, value);
 
-bool operator<(const Size& a, const Size& b) {
+	}
+	void Size::Resize(float width, float height) {
+		__width = width;
+		__height = height;
+	}
 
-	return (a.Width() * b.Height() < b.Width() * b.Height());
+	bool operator<(const Size& a, const Size& b) {
 
-}
-bool operator>(const Size& a, const Size& b) {
+		return (a.Width() * b.Height() < b.Width() * b.Height());
 
-	return (a.Width() * b.Height() > b.Width() * b.Height());
+	}
+	bool operator>(const Size& a, const Size& b) {
 
-}
-bool operator<=(const Size& a, const Size& b) {
+		return (a.Width() * b.Height() > b.Width() * b.Height());
 
-	return (a < b || a == b);
+	}
+	bool operator<=(const Size& a, const Size& b) {
 
-}
-bool operator>=(const Size& a, const Size& b) {
+		return (a < b || a == b);
 
-	return (a > b || a == b);
+	}
+	bool operator>=(const Size& a, const Size& b) {
 
-}
-bool operator==(const Size& a, const Size& b) {
+		return (a > b || a == b);
 
-	return (a.Width() == b.Width() && a.Height() == b.Height());
+	}
+	bool operator==(const Size& a, const Size& b) {
+
+		return (a.Width() == b.Width() && a.Height() == b.Height());
+
+	}
 
 }

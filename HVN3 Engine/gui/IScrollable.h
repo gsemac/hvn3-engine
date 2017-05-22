@@ -1,38 +1,42 @@
 #pragma once
 #include "gui/ScrollEventArgs.h"
 
-namespace Gui {
+namespace hvn3 {
 
-	class Control;
+	namespace Gui {
 
-	class IScrollable {
+		class Control;
 
-	public:
-		IScrollable(Control* control);
-		IScrollable(Control* control, float scroll_height);
-		IScrollable(Control* control, const Size& scrollable_region);
+		class IScrollable {
 
-		virtual void OnScroll(ScrollEventArgs& e);
+		public:
+			IScrollable(Control* control);
+			IScrollable(Control* control, float scroll_height);
+			IScrollable(Control* control, const Size& scrollable_region);
 
-		void SetVisibleRegion(const Size& region);
-		const Size& VisibleRegion() const;
-		void SetScrollableRegion(const Size& region);
-		const Size& ScrollableRegion() const;
+			virtual void OnScroll(ScrollEventArgs& e);
 
-		bool AutoScrollEnabled() const;
-		void SetAutoScrollEnabled(bool enabled);
+			void SetVisibleRegion(const Size& region);
+			const Size& VisibleRegion() const;
+			void SetScrollableRegion(const Size& region);
+			const Size& ScrollableRegion() const;
 
-		Point ScrollPosition() const;
-		bool HasFocus();
+			bool AutoScrollEnabled() const;
+			void SetAutoScrollEnabled(bool enabled);
 
-	private:
-		Control* _control;
-		Size _visible_region;
-		Size _scrollable_region;
-		bool _auto_scroll_enabled;
-		float _vpos;
-		float _hpos;
+			Point ScrollPosition() const;
+			bool HasFocus();
 
-	};
+		private:
+			Control* _control;
+			Size _visible_region;
+			Size _scrollable_region;
+			bool _auto_scroll_enabled;
+			float _vpos;
+			float _hpos;
+
+		};
+
+	}
 
 }

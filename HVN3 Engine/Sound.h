@@ -3,19 +3,23 @@
 struct ALLEGRO_SAMPLE;
 struct ALLEGRO_SAMPLE_ID;
 
-class Sound {
+namespace hvn3 {
 
-private:
-	ALLEGRO_SAMPLE* __sample;
+	class Sound {
 
-public:
-	Sound(const char* filename);
-	Sound(Sound&& other);
-	~Sound();
+	private:
+		ALLEGRO_SAMPLE* __sample;
 
-	ALLEGRO_SAMPLE_ID* Play();
-	ALLEGRO_SAMPLE_ID* Loop();
+	public:
+		Sound(const char* filename);
+		Sound(Sound&& other);
+		~Sound();
 
-	ALLEGRO_SAMPLE* AlPtr();
+		ALLEGRO_SAMPLE_ID* Play();
+		ALLEGRO_SAMPLE_ID* Loop();
 
-};
+		ALLEGRO_SAMPLE* AlPtr();
+
+	};
+
+}

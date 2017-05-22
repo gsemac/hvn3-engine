@@ -2,148 +2,151 @@
 #include "Utility.h"
 #include <allegro5/allegro.h>
 
-namespace Drawing {
+namespace hvn3 {
 
-	Transform::Transform() {
+	namespace Drawing {
 
-		// Initialize the transform.
-		Reset();
+		Transform::Transform() {
 
-	}
-	Transform::Transform(const Transform& other) {
+			// Initialize the transform.
+			Reset();
 
-		al_copy_transform((ALLEGRO_TRANSFORM*)this, (ALLEGRO_TRANSFORM*)&other);
+		}
+		Transform::Transform(const Transform& other) {
 
-	}
-	void Transform::Reset() {
+			al_copy_transform((ALLEGRO_TRANSFORM*)this, (ALLEGRO_TRANSFORM*)&other);
 
-		al_identity_transform((ALLEGRO_TRANSFORM*)this);
+		}
+		void Transform::Reset() {
 
-	}
-	void Transform::Invert() {
+			al_identity_transform((ALLEGRO_TRANSFORM*)this);
 
-		al_invert_transform((ALLEGRO_TRANSFORM*)this);
+		}
+		void Transform::Invert() {
 
-	}
-	void Transform::Translate(float x_offset, float y_offset) {
+			al_invert_transform((ALLEGRO_TRANSFORM*)this);
 
-		al_translate_transform((ALLEGRO_TRANSFORM*)this, x_offset, y_offset);
+		}
+		void Transform::Translate(float x_offset, float y_offset) {
 
-	}
-	void Transform::Scale(float x_factor, float y_factor) {
+			al_translate_transform((ALLEGRO_TRANSFORM*)this, x_offset, y_offset);
 
-		al_scale_transform((ALLEGRO_TRANSFORM*)this, x_factor, y_factor);
+		}
+		void Transform::Scale(float x_factor, float y_factor) {
 
-	}
-	void Transform::Scale(const ::Scale& scale) {
+			al_scale_transform((ALLEGRO_TRANSFORM*)this, x_factor, y_factor);
 
-		al_scale_transform((ALLEGRO_TRANSFORM*)this, scale.XScale(), scale.YScale());
+		}
+		void Transform::Scale(const hvn3::Scale& scale) {
 
-	}
-	void Transform::Rotate(float degrees) {
+			al_scale_transform((ALLEGRO_TRANSFORM*)this, scale.XScale(), scale.YScale());
 
-		al_rotate_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
+		}
+		void Transform::Rotate(float degrees) {
 
-	}
-	void Transform::Rotate(float origin_x, float origin_y, float degrees) {
+			al_rotate_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
 
-		al_translate_transform((ALLEGRO_TRANSFORM*)this, -origin_x, -origin_y);
-		al_rotate_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
-		al_translate_transform((ALLEGRO_TRANSFORM*)this, origin_x, origin_y);
+		}
+		void Transform::Rotate(float origin_x, float origin_y, float degrees) {
 
-	}
-	void Transform::Rotate(const Point& origin, float degrees) {
+			al_translate_transform((ALLEGRO_TRANSFORM*)this, -origin_x, -origin_y);
+			al_rotate_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
+			al_translate_transform((ALLEGRO_TRANSFORM*)this, origin_x, origin_y);
 
-		Rotate(origin.X(), origin.Y(), degrees);
+		}
+		void Transform::Rotate(const Point& origin, float degrees) {
 
-	}
-	void Transform::Compose(const Transform& other) {
+			Rotate(origin.X(), origin.Y(), degrees);
 
-		al_compose_transform((ALLEGRO_TRANSFORM*)this, (ALLEGRO_TRANSFORM*)&other);
+		}
+		void Transform::Compose(const Transform& other) {
 
-	}
-	void Transform::HorizontalShear(float degrees) {
+			al_compose_transform((ALLEGRO_TRANSFORM*)this, (ALLEGRO_TRANSFORM*)&other);
 
-		al_horizontal_shear_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
+		}
+		void Transform::HorizontalShear(float degrees) {
 
-	}
-	void Transform::HorizontalShear(float origin_x, float origin_y, float degrees) {
+			al_horizontal_shear_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
 
-		al_translate_transform((ALLEGRO_TRANSFORM*)this, -origin_x, -origin_y);
-		al_horizontal_shear_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
-		al_translate_transform((ALLEGRO_TRANSFORM*)this, origin_x, origin_y);
+		}
+		void Transform::HorizontalShear(float origin_x, float origin_y, float degrees) {
 
-	}
-	void Transform::HorizontalShear(const Point& origin, float degrees) {
+			al_translate_transform((ALLEGRO_TRANSFORM*)this, -origin_x, -origin_y);
+			al_horizontal_shear_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
+			al_translate_transform((ALLEGRO_TRANSFORM*)this, origin_x, origin_y);
 
-		HorizontalShear(origin.X(), origin.Y(), degrees);
+		}
+		void Transform::HorizontalShear(const Point& origin, float degrees) {
 
-	}
-	void Transform::VerticalShear(float degrees) {
+			HorizontalShear(origin.X(), origin.Y(), degrees);
 
-		al_vertical_shear_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
+		}
+		void Transform::VerticalShear(float degrees) {
 
-	}
-	void Transform::VerticalShear(float origin_x, float origin_y, float degrees) {
+			al_vertical_shear_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
 
-		al_translate_transform((ALLEGRO_TRANSFORM*)this, -origin_x, -origin_y);
-		al_vertical_shear_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
-		al_translate_transform((ALLEGRO_TRANSFORM*)this, origin_x, origin_y);
+		}
+		void Transform::VerticalShear(float origin_x, float origin_y, float degrees) {
 
-	}
-	void Transform::VerticalShear(const Point& origin, float degrees) {
+			al_translate_transform((ALLEGRO_TRANSFORM*)this, -origin_x, -origin_y);
+			al_vertical_shear_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
+			al_translate_transform((ALLEGRO_TRANSFORM*)this, origin_x, origin_y);
 
-		VerticalShear(origin.X(), origin.Y(), degrees);
+		}
+		void Transform::VerticalShear(const Point& origin, float degrees) {
 
-	}
-	void Transform::TransformPoint(float& x, float& y) const {
+			VerticalShear(origin.X(), origin.Y(), degrees);
 
-		al_transform_coordinates((ALLEGRO_TRANSFORM*)this, &x, &y);
+		}
+		void Transform::TransformPoint(float& x, float& y) const {
 
-	}
-	void Transform::TransformPoint(Point& point) const {
+			al_transform_coordinates((ALLEGRO_TRANSFORM*)this, &x, &y);
 
-		float x = point.X();
-		float y = point.Y();
-		TransformPoint(x, y);
-		point.SetXY(x, y);
+		}
+		void Transform::TransformPoint(Point& point) const {
 
-	}
-	Transform& Transform::operator=(const Transform& other) {
+			float x = point.X();
+			float y = point.Y();
+			TransformPoint(x, y);
+			point.SetXY(x, y);
 
-		al_identity_transform((ALLEGRO_TRANSFORM*)this);
-		al_copy_transform((ALLEGRO_TRANSFORM*)this, (ALLEGRO_TRANSFORM*)&other);
+		}
+		Transform& Transform::operator=(const Transform& other) {
 
-		return *this;
+			al_identity_transform((ALLEGRO_TRANSFORM*)this);
+			al_copy_transform((ALLEGRO_TRANSFORM*)this, (ALLEGRO_TRANSFORM*)&other);
 
-	}
+			return *this;
 
-	Point Transform::GetScale() const {
-
-		float scale_x = Sign(_matrix[0][0]) * std::sqrt(std::pow(_matrix[0][0], 2.0f) + std::pow(_matrix[1][0], 2.0f));
-		float scale_y = Sign(_matrix[1][1]) * std::sqrt(std::pow(_matrix[0][1], 2.0f) + std::pow(_matrix[1][1], 2.0f));
-
-		return Point(scale_x, scale_y);
-
-	}
-	float Transform::GetAngle() const {
-
-		for (int i = 0; i < 4; ++i) {
-			for (int j = 0; j < 4; ++j)
-				std::cout << _matrix[j][i] << " ";
-			std::cout << std::endl;
 		}
 
-		return RadiansToDegrees(std::atan2(_matrix[0][1], _matrix[1][1]));
+		Point Transform::GetScale() const {
 
-		//return 0;
+			float scale_x = Sign(_matrix[0][0]) * std::sqrt(std::pow(_matrix[0][0], 2.0f) + std::pow(_matrix[1][0], 2.0f));
+			float scale_y = Sign(_matrix[1][1]) * std::sqrt(std::pow(_matrix[0][1], 2.0f) + std::pow(_matrix[1][1], 2.0f));
 
-	}
-	Point Transform::GetOffset() const {
+			return Point(scale_x, scale_y);
 
-		return Point(_matrix[3][0], _matrix[3][1]);
+		}
+		float Transform::GetAngle() const {
+
+			for (int i = 0; i < 4; ++i) {
+				for (int j = 0; j < 4; ++j)
+					std::cout << _matrix[j][i] << " ";
+				std::cout << std::endl;
+			}
+
+			return RadiansToDegrees(std::atan2(_matrix[0][1], _matrix[1][1]));
+
+			//return 0;
+
+		}
+		Point Transform::GetOffset() const {
+
+			return Point(_matrix[3][0], _matrix[3][1]);
+
+		}
 
 	}
 
 }
-

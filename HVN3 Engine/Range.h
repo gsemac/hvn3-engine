@@ -3,130 +3,134 @@
 #include <cassert>
 #include <algorithm>
 
-template <typename T>
-class Range {
+namespace hvn3 {
 
-private:
-	T __start, __end;
-	bool __inclusive;
+	template <typename T>
+	class Range {
 
-public:
-	Range(T start, T end, bool inclusive = true) {
+	private:
+		T __start, __end;
+		bool __inclusive;
 
-		Resize(start, end);
-		__inclusive = inclusive;
+	public:
+		Range(T start, T end, bool inclusive = true) {
 
-	}
+			Resize(start, end);
+			__inclusive = inclusive;
 
-	T Start() {
+		}
 
-		return __start;
+		T Start() {
 
-	}
-	T End() {
+			return __start;
 
-		return __end;
+		}
+		T End() {
 
-	}
-	bool Overlaps(const Range<T>& other) {
+			return __end;
 
-		return (other.__start >= __start && other.__start <= __end + 1) ||
-			(other.__start <= __start && other.__end + 1 >= __start);
+		}
+		bool Overlaps(const Range<T>& other) {
 
-	}
-	Range<T>& Merge(const Range<T>& other) {
+			return (other.__start >= __start && other.__start <= __end + 1) ||
+				(other.__start <= __start && other.__end + 1 >= __start);
 
-		__start = (std::min)(__start, other.__start);
-		__end = (std::max)(__end, other.__end);
+		}
+		Range<T>& Merge(const Range<T>& other) {
 
-		return *this;
+			__start = (std::min)(__start, other.__start);
+			__end = (std::max)(__end, other.__end);
 
-	}
-	void Resize(T start, T end) {
+			return *this;
 
-		// Set member variables.
-		__start = start;
-		__end = end;
+		}
+		void Resize(T start, T end) {
 
-	}
-	void AssignToMin(T value) {
+			// Set member variables.
+			__start = start;
+			__end = end;
 
-		if (__end < __start)
-			__end = value;
-		else
+		}
+		void AssignToMin(T value) {
+
+			if (__end < __start)
+				__end = value;
+			else
+				__start = value;
+
+		}
+		void AssignToMax(T value) {
+
+			if (__end > __start)
+				__end = value;
+			else
+				__end = value;
+
+		}
+		void SetStart(T value) {
+
 			__start = value;
 
-	}
-	void AssignToMax(T value) {
+		}
+		void SetEnd(T value) {
 
-		if (__end > __start)
-			__end = value;
-		else
 			__end = value;
 
-	}
-	void SetStart(T value) {
+		}
+		int Length() {
 
-		__start = value;
+			return (std::abs)(__end - __start);
 
-	}
-	void SetEnd(T value) {
+		}
+		bool IsEmpty() {
 
-		__end = value;
+			return Length() == 0;
 
-	}
-	int Length() {
+		}
+		bool IsAscending() {
 
-		return (std::abs)(__end - __start);
+			return __start < __end;
 
-	}
-	bool IsEmpty() {
+		}
+		bool IsDescending() {
 
-		return Length() == 0;
+			return __start __end;
 
-	}
-	bool IsAscending() {
+		}
+		bool IsInclusive() {
 
-		return __start < __end;
+			return __inclusive;
 
-	}
-	bool IsDescending() {
+		}
+		void Sort() {
 
-		return __start __end;
+			if (__start > __end)
+				std::swap(__start, __end);
 
-	}
-	bool IsInclusive() {
+		}
+		T Min() {
 
-		return __inclusive;
+			return (__start < __end) ? __start : __end;
 
-	}
-	void Sort() {
+		}
+		T Max() {
 
-		if (__start > __end)
-			std::swap(__start, __end);
+			return (__end > __start) ? __end : __start;
 
-	}
-	T Min() {
+		}
+		bool ContainsValue(const T& value) {
 
-		return (__start < __end) ? __start : __end;
+			return (value >= Min() + !__inclusive && value <= Max() - !__inclusive);
 
-	}
-	T Max() {
+		}
+		bool ContainsRange(const Range<T>& other) {
 
-		return (__end > __start) ? __end : __start;
+			return ContainsValue(other.Min()) && ContainsValue(other.Max());
 
-	}
-	bool ContainsValue(const T& value) {
+		}
 
-		return (value >= Min() + !__inclusive && value <= Max() - !__inclusive);
+	};
 
-	}
-	bool ContainsRange(const Range<T>& other) {
-
-		return ContainsValue(other.Min()) && ContainsValue(other.Max());
-
-	}
-
-};
+}
 
 #endif

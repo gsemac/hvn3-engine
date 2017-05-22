@@ -1,22 +1,26 @@
 #include "DisplaySizeChangedEventArgs.h"
 
-DisplaySizeChangedEventArgs::DisplaySizeChangedEventArgs(const Size& old_size, const Size& new_size, ::Display* display) :
-	_previous_size(old_size),
-	_new_size(new_size),
-	_display(display) {
-}
-const Size& DisplaySizeChangedEventArgs::OldSize() const {
+namespace hvn3 {
 
-	return _previous_size;
+	DisplaySizeChangedEventArgs::DisplaySizeChangedEventArgs(const Size& old_size, const Size& new_size, hvn3::Display* display) :
+		_previous_size(old_size),
+		_new_size(new_size),
+		_display(display) {
+	}
+	const Size& DisplaySizeChangedEventArgs::OldSize() const {
 
-}
-const Size& DisplaySizeChangedEventArgs::NewSize() const {
+		return _previous_size;
 
-	return _new_size;
+	}
+	const Size& DisplaySizeChangedEventArgs::NewSize() const {
 
-}
-const Display* DisplaySizeChangedEventArgs::Display() const {
+		return _new_size;
 
-	return _display;
+	}
+	const Display* DisplaySizeChangedEventArgs::Display() const {
+
+		return _display;
+
+	}
 
 }

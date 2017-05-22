@@ -1,40 +1,44 @@
 #include "ISizeable.h"
 
-ISizeable::ISizeable(float width, float height) {
+namespace hvn3 {
 
-	__width = width;
-	__height = height;
+	ISizeable::ISizeable(float width, float height) {
 
-}
+		__width = width;
+		__height = height;
 
-float ISizeable::Width() const {
+	}
 
-	return __width;
+	float ISizeable::Width() const {
 
-}
-float ISizeable::Height() const {
+		return __width;
 
-	return __height;
+	}
+	float ISizeable::Height() const {
 
-}
-void ISizeable::SetWidth(float value) {
+		return __height;
 
-	Resize(value, __height);
+	}
+	void ISizeable::SetWidth(float value) {
 
-}
-void ISizeable::SetHeight(float value) {
+		Resize(value, __height);
 
-	Resize(__width, value);
+	}
+	void ISizeable::SetHeight(float value) {
 
-}
-Size ISizeable::Dimensions() const {
+		Resize(__width, value);
 
-	return Size(__width, __height);
+	}
+	Size ISizeable::Dimensions() const {
 
-}
-void ISizeable::Resize(float width, float height) {
+		return Size(__width, __height);
 
-	__width = width;
-	__height = height;
+	}
+	void ISizeable::Resize(float width, float height) {
+
+		__width = width;
+		__height = height;
+
+	}
 
 }

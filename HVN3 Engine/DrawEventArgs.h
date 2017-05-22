@@ -2,13 +2,17 @@
 #include "EventArgs.h"
 #include "Graphics.h"
 
-class DrawEventArgs : public EventArgs {
+namespace hvn3 {
 
-public:
-	DrawEventArgs(Drawing::Graphics& graphics);
-	Drawing::Graphics& Graphics();
+	class DrawEventArgs : public EventArgs {
 
-private:
-	Drawing::Graphics& __graphics;
-	
-};
+	public:
+		DrawEventArgs(Drawing::Graphics& graphics);
+		Drawing::Graphics& Graphics();
+
+	private:
+		Drawing::Graphics& __graphics;
+
+	};
+
+}

@@ -1,66 +1,71 @@
 #include "Stopwatch.h"
-typedef std::chrono::high_resolution_clock Clock;
 
-Stopwatch::Stopwatch(bool start) {
+namespace hvn3 {
 
-	__initialized = false;
+	typedef std::chrono::high_resolution_clock Clock;
 
-	if (start)
-		Start();
+	Stopwatch::Stopwatch(bool start) {
 
-}
-void Stopwatch::Start() {
+		__initialized = false;
 
-	__running = true;
+		if (start)
+			Start();
 
-	if (!__initialized) {
+	}
+	void Stopwatch::Start() {
+
+		__running = true;
+
+		if (!__initialized) {
+			__start = Clock::now();
+			__initialized = true;
+		}
+
+	}
+	void Stopwatch::Stop() {
+
+		__running = false;
+		__end = Clock::now();
+
+	}
+	void Stopwatch::Reset(bool start) {
+
 		__start = Clock::now();
-		__initialized = true;
+		__end = Clock::now();
+		__running = false;
+
+		if (start)
+			Start();
+
 	}
 
-}
-void Stopwatch::Stop() {
+	long long Stopwatch::NanoSecondsElapsed() {
 
-	__running = false;
-	__end = Clock::now();
+		if (__running)
+			return std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - __start).count();
+		else
+			return std::chrono::duration_cast<std::chrono::nanoseconds>(__end - __start).count();
 
-}
-void Stopwatch::Reset(bool start) {
+	}
+	long double Stopwatch::MicroSecondsElapsed() {
 
-	__start = Clock::now();
-	__end = Clock::now();
-	__running = false;
+		return NanoSecondsElapsed() / 1000.0F;
 
-	if (start)
-		Start();
-	
-}
+	}
+	long double Stopwatch::MilliSecondsElapsed() {
 
-long long Stopwatch::NanoSecondsElapsed() {
+		return MicroSecondsElapsed() / 1000.0F;
 
-	if (__running)
-		return std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - __start).count();
-	else
-		return std::chrono::duration_cast<std::chrono::nanoseconds>(__end - __start).count();
+	}
+	long double Stopwatch::SecondsElapsed() {
 
-}
-long double Stopwatch::MicroSecondsElapsed() {
+		return MilliSecondsElapsed() / 1000.0F;
 
-	return NanoSecondsElapsed() / 1000.0F;
+	}
+	long double Stopwatch::MinutesElapsed() {
 
-}
-long double Stopwatch::MilliSecondsElapsed() {
+		return SecondsElapsed() / 60.0F;
 
-	return MicroSecondsElapsed() / 1000.0F;
-
-}
-long double Stopwatch::SecondsElapsed() {
-
-	return MilliSecondsElapsed() / 1000.0F;
-
-}
-long double Stopwatch::MinutesElapsed() {
-
-	return SecondsElapsed() / 60.0F;
+	}
 
 }

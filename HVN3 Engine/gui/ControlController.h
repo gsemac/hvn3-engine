@@ -1,26 +1,30 @@
 #pragma once
 #include "Point.h"
 
-namespace Gui {
+namespace hvn3 {
 
-	class Control;
-	class GuiManager;
+	namespace Gui {
 
-	class ControlController {
+		class Control;
+		class GuiManager;
 
-	public:
-		ControlController(Control& control);
+		class ControlController {
 
-		void SetManager(GuiManager* manager);
-		Point GetFixedPosition() const;
-		Point PreviousPosition() const;
-		void SetPreviousPosition(float x, float y);
-		bool PrevFocus() const;
-		void SetPrevFocus(bool value);
+		public:
+			ControlController(Control& control);
 
-	private:
-		Control* _control;
+			void SetManager(GuiManager* manager);
+			Point GetFixedPosition() const;
+			Point PreviousPosition() const;
+			void SetPreviousPosition(float x, float y);
+			bool PrevFocus() const;
+			void SetPrevFocus(bool value);
 
-	};
+		private:
+			Control* _control;
+
+		};
+
+	}
 
 }

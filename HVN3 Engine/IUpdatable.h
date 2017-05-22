@@ -1,15 +1,16 @@
-#ifndef __IUPDATABLE_H
-#define __IUPDATABLE_H
+#pragma once
 
-class UpdateEventArgs;
+namespace hvn3 {
 
-class IUpdatable {
+	class UpdateEventArgs;
 
-public:
-	virtual void BeginUpdate(UpdateEventArgs& e);
-	virtual void Update(UpdateEventArgs& e) = 0;
-	virtual void EndUpdate(UpdateEventArgs& e);
+	class IUpdatable {
 
-};
+	public:
+		virtual void BeginUpdate(UpdateEventArgs& e);
+		virtual void Update(UpdateEventArgs& e) = 0;
+		virtual void EndUpdate(UpdateEventArgs& e);
 
-#endif
+	};
+
+}

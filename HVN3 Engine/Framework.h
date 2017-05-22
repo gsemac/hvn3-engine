@@ -1,26 +1,30 @@
 #pragma once
 #include "Runner.h"
-#define InitializeFramework() Framework::Initialize(argc, argv); {
-#define ShutdownFramework() } Framework::Shutdown();
+#define InitializeFramework() hvn3::Framework::Initialize(argc, argv); {
+#define ShutdownFramework() } hvn3::Framework::Shutdown();
 #define HVN3_BACKEND_ALLEGRO5
 
-class Framework {
+namespace hvn3 {
 
-public:
-	Framework();
-	Framework(int argc, char *argv[]);
-	~Framework();
+	class Framework {
 
-	static void Initialize();
-	static void Initialize(int argc, char *argv[]);
-	static void Shutdown();
+	public:
+		Framework();
+		Framework(int argc, char *argv[]);
+		~Framework();
 
-	static bool Initialized();
+		static void Initialize();
+		static void Initialize(int argc, char *argv[]);
+		static void Shutdown();
 
-protected:
-	static void InitializeUnderlyingFramework();
-	static void ShutdownUnderlyingFramework();
+		static bool Initialized();
 
-	static bool __initialized;
+	protected:
+		static void InitializeUnderlyingFramework();
+		static void ShutdownUnderlyingFramework();
 
-};
+		static bool __initialized;
+
+	};
+
+}

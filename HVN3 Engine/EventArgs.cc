@@ -2,26 +2,30 @@
 #include "Exception.h"
 #include "allegro5\allegro.h"
 
-EventArgs::EventArgs() {
+namespace hvn3 {
 
-	__timestamp = al_get_time();
+	EventArgs::EventArgs() {
 
-}
-EventArgs::EventArgs(const EventSource& source) : EventArgs() {
+		__timestamp = al_get_time();
 
-	//__source = source;
-	
+	}
+	EventArgs::EventArgs(const EventSource& source) : EventArgs() {
 
-}
-const EventSource& EventArgs::Source() const {
+		//__source = source;
 
-	throw NotImplementedException();
 
-	//return __source;
+	}
+	const EventSource& EventArgs::Source() const {
 
-}
-double EventArgs::Timestamp() const {
+		throw NotImplementedException();
 
-	return __timestamp;
+		//return __source;
+
+	}
+	double EventArgs::Timestamp() const {
+
+		return __timestamp;
+
+	}
 
 }

@@ -1,22 +1,26 @@
 #include "GuiExtension.h"
 #include <iostream>
 
-namespace Gui {
+namespace hvn3 {
 
-	void GUIExtension::Initialize() {
+	namespace Gui {
 
-		std::cout << "extension initialized!\n";
+		void GUIExtension::Initialize() {
 
-	}
-	void GUIExtension::Update(UpdateEventArgs& e) {
+			std::cout << "extension initialized!\n";
 
-	
+		}
+		void GUIExtension::Update(UpdateEventArgs& e) {
 
-	}
-	void GUIExtension::Shutdown() {
 
-		std::cout << "extension updating!\n";
 
+		}
+		void GUIExtension::Shutdown() {
+
+			std::cout << "extension updating!\n";
+
+
+		}
 
 	}
 

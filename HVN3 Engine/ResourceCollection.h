@@ -3,150 +3,154 @@
 #include <utility>
 #include <memory>
 
-typedef uintptr_t ResourceId;
+namespace hvn3 {
 
-class Resource {
+	typedef uintptr_t ResourceId;
 
-public:
-	template<typename T, typename ... Args>
-	static std::unique_ptr<T> Create(Args &&... args) {
+	class Resource {
 
-		return std::make_unique<T>(std::forward<Args>(args)...);
+	public:
+		template<typename T, typename ... Args>
+		static std::unique_ptr<T> Create(Args &&... args) {
 
-	}
+			return std::make_unique<T>(std::forward<Args>(args)...);
 
-private:
+		}
 
-};
+	private:
 
-template <typename resource_type>
-class ResourceHandle {
+	};
 
-public:
-	ResourceHandle(resource_type* resource) :
-		_resource(resource) {
-	}
+	template <typename resource_type>
+	class ResourceHandle {
 
-	explicit operator bool() const {
+	public:
+		ResourceHandle(resource_type* resource) :
+			_resource(resource) {
+		}
 
-		return !IsNull();
+		explicit operator bool() const {
 
-	}
-	operator resource_type*() const {
+			return !IsNull();
 
-		return _resource;
+		}
+		operator resource_type*() const {
 
-	}
+			return _resource;
 
-	resource_type* operator->() const {
-		
-		return _resource;
+		}
 
-	}
-	resource_type& operator*() const {
-	
-		return *_resource;
+		resource_type* operator->() const {
 
-	}
+			return _resource;
 
-	bool operator==(const ResourceHandle<resource_type> other) const {
+		}
+		resource_type& operator*() const {
 
-		return _resource == other._resource;
+			return *_resource;
 
-	}
-	bool operator!=(const ResourceHandle<resource_type> other) const {
+		}
 
-		return !(*this == other);
+		bool operator==(const ResourceHandle<resource_type> other) const {
 
-	}
+			return _resource == other._resource;
 
-	bool IsNull() const {
+		}
+		bool operator!=(const ResourceHandle<resource_type> other) const {
 
-		return _resource == nullptr;
+			return !(*this == other);
 
-	}
+		}
 
-private:
-	resource_type* _resource;
+		bool IsNull() const {
 
-};
+			return _resource == nullptr;
 
-template <typename resource_type>
-class ResourceCollection {
+		}
 
-public:
-	ResourceCollection() {}
-	~ResourceCollection() {
+	private:
+		resource_type* _resource;
 
-		Clear();
+	};
 
-	}
+	template <typename resource_type>
+	class ResourceCollection {
 
-	ResourceId Add(std::unique_ptr<resource_type>& resource) {
+	public:
+		ResourceCollection() {}
+		~ResourceCollection() {
 
-		// Use the memory address of the resource as the key, since this is guaranteed to be 
-		// unique so long as the same resource isn't added multiple times.
-		uintptr_t id = reinterpret_cast<uintptr_t>(resource.get());
+			Clear();
 
-		// Add the resource to the collection.
-		return Add(id, resource);
+		}
 
-	}
-	ResourceId Add(ResourceId id, std::unique_ptr<resource_type>& resource) {
+		ResourceId Add(std::unique_ptr<resource_type>& resource) {
 
-		_map.insert(std::make_pair(id, std::move(resource)));
+			// Use the memory address of the resource as the key, since this is guaranteed to be 
+			// unique so long as the same resource isn't added multiple times.
+			uintptr_t id = reinterpret_cast<uintptr_t>(resource.get());
 
-		return id;
+			// Add the resource to the collection.
+			return Add(id, resource);
 
-	}
-	bool Remove(ResourceId id) {
+		}
+		ResourceId Add(ResourceId id, std::unique_ptr<resource_type>& resource) {
 
-		// Attempt to find the key in the map.
-		auto it = __map.find(id);
+			_map.insert(std::make_pair(id, std::move(resource)));
 
-		// If it wasn't found, do nothing.
-		if (it == __map.end())
-			return;
+			return id;
 
-		// Free the resource.
-		delete it->second;
+		}
+		bool Remove(ResourceId id) {
 
-		// Remove the resource from the map.
-		__map.erase(it);
+			// Attempt to find the key in the map.
+			auto it = __map.find(id);
 
-	}
-	ResourceHandle<resource_type> Find(ResourceId id) {
+			// If it wasn't found, do nothing.
+			if (it == __map.end())
+				return;
 
-		// Attempt to find the key in the map.
-		auto it = _map.find(id);
+			// Free the resource.
+			delete it->second;
 
-		// If it wasn't found, return nullptr.
-		if (it == _map.end())
-			return nullptr;
+			// Remove the resource from the map.
+			__map.erase(it);
 
-		// Otherwise, return the value.
-		return it->second.get();
+		}
+		ResourceHandle<resource_type> Find(ResourceId id) {
 
-	}
-	bool Contains(ResourceId id) {
+			// Attempt to find the key in the map.
+			auto it = _map.find(id);
 
-		return ResourceFind(id) == nullptr;
+			// If it wasn't found, return nullptr.
+			if (it == _map.end())
+				return nullptr;
 
-	}
+			// Otherwise, return the value.
+			return it->second.get();
 
-	void Clear() {
+		}
+		bool Contains(ResourceId id) {
 
-		_map.clear();
+			return ResourceFind(id) == nullptr;
 
-	}
+		}
 
-	ResourceHandle<resource_type> operator[] (ResourceId id) {
+		void Clear() {
 
-		return Find(id);
+			_map.clear();
 
-	}
+		}
 
-private:
-	std::unordered_map<ResourceId, std::unique_ptr<resource_type>> _map;
+		ResourceHandle<resource_type> operator[] (ResourceId id) {
 
-};
+			return Find(id);
+
+		}
+
+	private:
+		std::unordered_map<ResourceId, std::unique_ptr<resource_type>> _map;
+
+	};
+
+}

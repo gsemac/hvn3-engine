@@ -4,44 +4,48 @@
 #include "ICollidable.h"
 #include "IBroadPhaseCollisionManager.h"
 
-class CollisionGrid : public IBroadPhaseCollisionManager {
+namespace hvn3 {
 
-public:
-	CollisionGrid(float cell_width, float cell_height);
-	CollisionGrid(const Size& cell_size);
-	
-	// Inherited from IBroadphase
+	class CollisionGrid : public IBroadPhaseCollisionManager {
 
-	void Add(ICollidable* collider) override;
-	void Remove(ICollidable* collider) override;
-	void Clear() override;
-	void Update() override;
-	const std::vector<std::pair<ICollidable*, ICollidable*>>& FindPairs() override;
-	
-	void QueryRegion(const Rectangle& region, std::vector<ICollidable*>& output, int filter = 0) const override;
-	ICollidable* QueryNearest(const Point& point, int filter = 0) const override;
+	public:
+		CollisionGrid(float cell_width, float cell_height);
+		CollisionGrid(const Size& cell_size);
 
-	//void Clear();
+		// Inherited from IBroadphase
 
-	//void HandleCollisions(Object* obj);
-	//bool TestCollision(Object* obj, Object* other) const;
-	//bool TestCollision(ICollidable* obj, Point obj_position, ICollidable* other, Point other_position) const;
+		void Add(ICollidable* collider) override;
+		void Remove(ICollidable* collider) override;
+		void Clear() override;
+		void Update() override;
+		const std::vector<std::pair<ICollidable*, ICollidable*>>& FindPairs() override;
 
-	//std::vector<Object*>& ObjectsAt(float x, float y);
-	Point CellAt(const Point& point) const;
-	Point CellAt(float x, float y) const;
+		void QueryRegion(const Rectangle& region, std::vector<ICollidable*>& output, int filter = 0) const override;
+		ICollidable* QueryNearest(const Point& point, int filter = 0) const override;
 
-	//Object* RayCast(const Line& ray);
+		//void Clear();
 
-public:
-	std::list<ICollidable*> __colliders;
-	std::unordered_multimap<Point, ICollidable*> __grid;
-	std::vector<std::pair<ICollidable*, ICollidable*>> __pairs;
-	Size __cell_size;
+		//void HandleCollisions(Object* obj);
+		//bool TestCollision(Object* obj, Object* other) const;
+		//bool TestCollision(ICollidable* obj, Point obj_position, ICollidable* other, Point other_position) const;
 
-	void GetIntersectedCells(ICollidable* collider, std::vector<Point>& cells) const;
-	void GetIntersectedCells(const Rectangle& region, std::vector<Point>& cells) const;
-	void MapToCells(ICollidable* collider);
-	void Draw(int cell_dimensions) const;
+		//std::vector<Object*>& ObjectsAt(float x, float y);
+		Point CellAt(const Point& point) const;
+		Point CellAt(float x, float y) const;
 
-};
+		//Object* RayCast(const Line& ray);
+
+	public:
+		std::list<ICollidable*> __colliders;
+		std::unordered_multimap<Point, ICollidable*> __grid;
+		std::vector<std::pair<ICollidable*, ICollidable*>> __pairs;
+		Size __cell_size;
+
+		void GetIntersectedCells(ICollidable* collider, std::vector<Point>& cells) const;
+		void GetIntersectedCells(const Rectangle& region, std::vector<Point>& cells) const;
+		void MapToCells(ICollidable* collider);
+		void Draw(int cell_dimensions) const;
+
+	};
+
+}

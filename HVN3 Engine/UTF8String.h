@@ -6,73 +6,75 @@
 #include "Font.h"
 #include "AllegroForwardDeclarations.h"
 
-class String {
+namespace hvn3 {
 
-public:
-	String();
-	String(const char* str);
-	String(const std::string& str);
-	String(const char* str, size_t size);
-	String(ALLEGRO_USTR* ustr);
-	String(ALLEGRO_USTR* ustr, ALLEGRO_USTR_INFO* info);
-	String(const String& other);
-	String(String&& other);
-	~String();
+	class String {
 
-	const ALLEGRO_USTR* AlPtr() const;
+	public:
+		String();
+		String(const char* str);
+		String(const std::string& str);
+		String(const char* str, size_t size);
+		String(ALLEGRO_USTR* ustr);
+		String(ALLEGRO_USTR* ustr, ALLEGRO_USTR_INFO* info);
+		String(const String& other);
+		String(String&& other);
+		~String();
 
-	String SubString(int end_pos) const;
-	String SubString(int start_pos, int end_pos) const;
+		const ALLEGRO_USTR* AlPtr() const;
 
-	String RefSubString(int end_pos) const;
-	String RefSubString(int start_pos, int end_pos) const;
+		String SubString(int end_pos) const;
+		String SubString(int start_pos, int end_pos) const;
 
-	size_t Length() const;
-	int Width(const Font& in_font) const;
-	int Width(const Font* in_font) const;
-	int Height(const Font& int_font) const;
-	int Height(const Font* int_font) const;
+		String RefSubString(int end_pos) const;
+		String RefSubString(int start_pos, int end_pos) const;
 
-	int IndexOf(int32_t character) const;
-	int IndexOf(int32_t character, int start_pos) const;
-	int IndexOf(const char* value) const;
-	int LastIndexOf(int32_t character) const;
-	int LastIndexOf(int32_t character, int start_pos) const;
-	int IndexOfAny(const std::initializer_list<int32_t>& characters, int start_pos) const;
-	int IndexOfAny(bool(*f)(int), int start_pos) const;
-	int LastIndexOfAny(const std::initializer_list<int32_t>& characters, int start_pos) const;
-	int LastIndexOfAny(bool(*f)(int), int start_pos) const;
-	int32_t CharAt(int pos) const;
+		size_t Length() const;
+		int Width(const Font& in_font) const;
+		int Width(const Font* in_font) const;
+		int Height(const Font& int_font) const;
+		int Height(const Font* int_font) const;
 
-	bool Equals(const char* str);
-	bool Contains(const char* value) const;
+		int IndexOf(int32_t character) const;
+		int IndexOf(int32_t character, int start_pos) const;
+		int IndexOf(const char* value) const;
+		int LastIndexOf(int32_t character) const;
+		int LastIndexOf(int32_t character, int start_pos) const;
+		int IndexOfAny(const std::initializer_list<int32_t>& characters, int start_pos) const;
+		int IndexOfAny(bool(*f)(int), int start_pos) const;
+		int LastIndexOfAny(const std::initializer_list<int32_t>& characters, int start_pos) const;
+		int LastIndexOfAny(bool(*f)(int), int start_pos) const;
+		int32_t CharAt(int pos) const;
 
-	void Append(const char* str);
-	void Append(int32_t character);
-	void Insert(int pos, const char* str);
-	void Insert(int pos, int32_t character);
-	void Insert(int pos, const String& str);
-	void Insert(int pos, const std::string& str);
-	void Remove(int pos);
-	void Remove(int pos, int length);
+		bool Equals(const char* str);
+		bool Contains(const char* value) const;
 
-	void Clear();
-	void Trim();
-	void LTrim();
-	void RTrim();
-	String ToUpper() const;
-	String ToLower() const;
+		void Append(const char* str);
+		void Append(int32_t character);
+		void Insert(int pos, const char* str);
+		void Insert(int pos, int32_t character);
+		void Insert(int pos, const String& str);
+		void Insert(int pos, const std::string& str);
+		void Remove(int pos);
+		void Remove(int pos, int length);
 
-	const char* c_str() const;
+		void Clear();
+		void Trim();
+		void LTrim();
+		void RTrim();
+		String ToUpper() const;
+		String ToLower() const;
 
-	static String Empty();
-	static bool IsNullOrEmpty(const String& str);
+		const char* c_str() const;
 
-	String& operator=(const char* other);
-	String& operator=(const std::string& other);
-	String& operator=(const String& other);
-	int32_t operator[](const int index);
-	friend String operator+(const String& a, const char* b);
+		static String Empty();
+		static bool IsNullOrEmpty(const String& str);
+
+		String& operator=(const char* other);
+		String& operator=(const std::string& other);
+		String& operator=(const String& other);
+		int32_t operator[](const int index);
+		friend String operator+(const String& a, const char* b);
 
 	private:
 		ALLEGRO_USTR* ustr;
@@ -87,6 +89,8 @@ public:
 
 		void Free();
 
-};
+	};
 
-std::ostream& operator<< (std::ostream& stream, const String& str);
+	std::ostream& operator<< (std::ostream& stream, const String& str);
+
+}

@@ -1,68 +1,72 @@
 #include "Point.h"
 
-Point::Point(float x, float y) : IPositionable(x, y) {}
-bool Point::IsEmpty() const  {
+namespace hvn3 {
 
-	return (X() == 0.0f && Y() == 0.0f);
+	Point::Point(float x, float y) : IPositionable(x, y) {}
+	bool Point::IsEmpty() const {
 
-}
-void Point::Round() {
+		return (X() == 0.0f && Y() == 0.0f);
 
-	SetXY(std::roundf(X()), std::roundf(Y()));
+	}
+	void Point::Round() {
 
-}
-void Point::Ceiling() {
+		SetXY(std::roundf(X()), std::roundf(Y()));
 
-	SetXY(std::ceilf(X()), std::ceilf(Y()));
+	}
+	void Point::Ceiling() {
 
-}
-void Point::Truncate() {
+		SetXY(std::ceilf(X()), std::ceilf(Y()));
 
-	SetXY(std::truncf(X()), std::truncf(Y()));
+	}
+	void Point::Truncate() {
 
-}
+		SetXY(std::truncf(X()), std::truncf(Y()));
 
-bool operator==(const Point& a, const Point& b) {
+	}
 
-	return (a.X() == b.X()) && (a.Y() == b.Y());
+	bool operator==(const Point& a, const Point& b) {
 
-}
-bool operator!=(const Point& a, const Point& b) {
+		return (a.X() == b.X()) && (a.Y() == b.Y());
 
-	return !(a == b);
+	}
+	bool operator!=(const Point& a, const Point& b) {
 
-}
-Point operator+(const Point& a, const Point& b) {
+		return !(a == b);
 
-	return Point(a.X() + b.X(), a.Y() + b.Y());
+	}
+	Point operator+(const Point& a, const Point& b) {
 
-}
-Point operator-(const Point& a, const Point& b) {
+		return Point(a.X() + b.X(), a.Y() + b.Y());
 
-	return Point(a.X() - b.X(), a.Y() - b.Y());
+	}
+	Point operator-(const Point& a, const Point& b) {
 
-}
-Point operator-(const Point& a) {
+		return Point(a.X() - b.X(), a.Y() - b.Y());
 
-	return Point(-a.X(), -a.Y());
+	}
+	Point operator-(const Point& a) {
 
-}
-Point& Point::operator+=(const Point& other) {
+		return Point(-a.X(), -a.Y());
 
-	Translate(other.X(), other.Y());
-	return *this;
+	}
+	Point& Point::operator+=(const Point& other) {
 
-}
-Point& Point::operator-=(const Point& other) {
+		Translate(other.X(), other.Y());
+		return *this;
 
-	Translate(-other.X(), -other.Y());
-	return *this;
+	}
+	Point& Point::operator-=(const Point& other) {
 
-}
+		Translate(-other.X(), -other.Y());
+		return *this;
 
-std::ostream& operator<< (std::ostream& stream, const Point& point) {
+	}
 
-	stream << "(" << point.X() << ", " << point.Y() << ")";
-	return stream;
+	std::ostream& operator<< (std::ostream& stream, const Point& point) {
+
+		stream << "(" << point.X() << ", " << point.Y() << ")";
+		return stream;
+
+	}
 
 }

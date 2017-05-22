@@ -1,21 +1,25 @@
 #pragma once
 #include <memory>
 
-template <typename ptr_type>
-class UniqueCreateableBase {
+namespace hvn3 {
 
-public:
-	template<typename T, typename ... Args>
-	static std::unique_ptr<ptr_type> Create(Args &&... args) {
+	template <typename ptr_type>
+	class UniqueCreateableBase {
 
-		return std::make_unique<T>(std::forward<Args>(args)...);
+	public:
+		template<typename T, typename ... Args>
+		static std::unique_ptr<ptr_type> Create(Args &&... args) {
 
-	}
-	template<typename T>
-	static std::unique_ptr<ptr_type> Create(T* ptr) {
+			return std::make_unique<T>(std::forward<Args>(args)...);
 
-		return std::unique_ptr<T>(ptr);
+		}
+		template<typename T>
+		static std::unique_ptr<ptr_type> Create(T* ptr) {
 
-	}
+			return std::unique_ptr<T>(ptr);
 
-};
+		}
+
+	};
+
+}

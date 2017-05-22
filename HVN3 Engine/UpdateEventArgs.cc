@@ -1,9 +1,13 @@
 #include "UpdateEventArgs.h"
 
-UpdateEventArgs::UpdateEventArgs(float dt) : __delta_time(dt) {}
+namespace hvn3 {
 
-float UpdateEventArgs::Delta() const {
+	UpdateEventArgs::UpdateEventArgs(float dt) : __delta_time(dt) {}
 
-	return __delta_time;
+	float UpdateEventArgs::Delta() const {
+
+		return __delta_time;
+
+	}
 
 }

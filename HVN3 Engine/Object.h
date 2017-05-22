@@ -8,58 +8,62 @@
 #include "Vector2d.h"
 #define noone 0
 
-class DrawEventArgs;
+namespace hvn3 {
 
-typedef int ObjectId;
+	class DrawEventArgs;
 
-class ObjectBase : public IUpdatable, public IDrawable {
+	typedef int ObjectId;
 
-public:
-	ObjectBase();
-	virtual void Draw(DrawEventArgs& e) override;
-	virtual void Update(UpdateEventArgs& e) override;
-	void Destroy();
-	bool IsDestroyed();
-	void Deactivate();
-	bool IsActive();
+	class ObjectBase : public IUpdatable, public IDrawable {
 
-private:
-	bool __is_destroyed;
-	bool __active;
+	public:
+		ObjectBase();
+		virtual void Draw(DrawEventArgs& e) override;
+		virtual void Update(UpdateEventArgs& e) override;
+		void Destroy();
+		bool IsDestroyed();
+		void Deactivate();
+		bool IsActive();
 
-};
+	private:
+		bool __is_destroyed;
+		bool __active;
 
-class Object : public ObjectBase, public ICollidable, public ISpriteable {
-	friend class CollisionGrid;
-	friend class RoomBase;
+	};
 
-public:
-	Object();
-	Object(float x, float y);
-	virtual void Update(UpdateEventArgs& e) override;
-	virtual void Draw(DrawEventArgs& e) override;
+	class Object : public ObjectBase, public ICollidable, public ISpriteable {
+		friend class CollisionGrid;
+		friend class RoomBase;
 
-	virtual ObjectId Id() const;
-	int Depth() const;
-	void SetDepth(int depth);
-	Vector2d& Velocity();
+	public:
+		Object();
+		Object(float x, float y);
+		virtual void Update(UpdateEventArgs& e) override;
+		virtual void Draw(DrawEventArgs& e) override;
 
-	template<typename T, typename ... Args>
-	static std::shared_ptr<Object> Create(Args &&... args) {
+		virtual ObjectId Id() const;
+		int Depth() const;
+		void SetDepth(int depth);
+		Vector2d& Velocity();
 
-		return std::make_shared<T>(std::forward<Args>(args)...);
+		template<typename T, typename ... Args>
+		static std::shared_ptr<Object> Create(Args &&... args) {
 
-	}
+			return std::make_shared<T>(std::forward<Args>(args)...);
 
-	float DistanceTo(const Object* other);
+		}
 
-private:
-	float __image_index_timer;
-	Vector2d __velocity;
-	int __depth;
+		float DistanceTo(const Object* other);
 
-	void IncrementImageIndex();
+	private:
+		float __image_index_timer;
+		Vector2d __velocity;
+		int __depth;
 
-};
+		void IncrementImageIndex();
+
+	};
+
+}
 
 #endif

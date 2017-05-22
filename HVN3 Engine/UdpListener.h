@@ -3,37 +3,38 @@
 #include <queue>
 #include "UdpClient.h"
 
-namespace Net {
-	namespace Sockets {
+namespace hvn3 {
+	namespace Net {
+		namespace Sockets {
 
-		class UdpListener : public IDisposable {
+			class UdpListener : public IDisposable {
 
-		private:
-			unsigned short __port;
-			std::deque<IPAddress> __pending_connections;
-			UdpClient __client;
+			private:
+				unsigned short __port;
+				std::deque<IPAddress> __pending_connections;
+				UdpClient __client;
 
-		protected:
-			virtual void ProcessPacket(Packet& packet);
-			std::deque<IPAddress>& PendingConnections() {
+			protected:
+				virtual void ProcessPacket(Packet& packet);
+				std::deque<IPAddress>& PendingConnections() {
 
-				return __pending_connections;
+					return __pending_connections;
 
-			}
+				}
 
-		public:
-			UdpListener(unsigned short port);
+			public:
+				UdpListener(unsigned short port);
 
-			void Listen();
+				void Listen();
 
-			bool Pending();
-			
-			void Dispose();
+				bool Pending();
 
-		};
+				void Dispose();
 
+			};
+
+		}
 	}
 }
-
 
 #endif

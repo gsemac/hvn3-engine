@@ -1,20 +1,21 @@
-#ifndef __IFOCUSABLE_H
-#define __IFOCUSABLE_H
+#pragma once
 
-class IFocusable {
+namespace hvn3 {
 
-private:
-	static IFocusable* __focused_obj;
+	class IFocusable {
 
-public:
-	IFocusable();
-	// Sets the focus to the object.
-	void Focus();
-	// Returns whether or not the object currently has focus.
-	bool HasFocus();
-	// Removes focus from the calling object.
-	void BreakFocus();
+	private:
+		static IFocusable* __focused_obj;
 
-};
+	public:
+		IFocusable();
+		// Sets the focus to the object.
+		void Focus();
+		// Returns whether or not the object currently has focus.
+		bool HasFocus();
+		// Removes focus from the calling object.
+		void BreakFocus();
 
-#endif
+	};
+
+}

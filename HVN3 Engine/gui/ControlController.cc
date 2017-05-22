@@ -3,53 +3,57 @@
 #include "gui/GuiManager.h"
 #include "gui/StyleManager.h"
 
-namespace Gui {
+namespace hvn3 {
 
-	ControlController::ControlController(Control& control) :
-		_control(&control) {
-	}
+	namespace Gui {
 
-	void ControlController::SetManager(GuiManager* manager) {
-
-		// Contruct a manager changed event.
-		ManagerChangedEventArgs e(_control->Manager());
-
-		// Change the control's manager.
-		_control->__manager = manager;
-
-		// Trigger the event.
-		_control->OnManagerChanged(e);
-
-		// It's possible for the manager not to have a style manager at the moment (e.g., if it's a child manager).
-		if (manager->StyleManager()) {
-			_control->SetBackColor(manager->StyleManager()->PrimaryColor());
-			_control->SetForeColor(manager->StyleManager()->SecondaryColor());
+		ControlController::ControlController(Control& control) :
+			_control(&control) {
 		}
 
-	}
-	Point ControlController::GetFixedPosition() const {
+		void ControlController::SetManager(GuiManager* manager) {
 
-		return _control->GetFixedPosition();
+			// Contruct a manager changed event.
+			ManagerChangedEventArgs e(_control->Manager());
 
-	}
-	Point ControlController::PreviousPosition() const {
+			// Change the control's manager.
+			_control->__manager = manager;
 
-		return _control->__previous_pos;
+			// Trigger the event.
+			_control->OnManagerChanged(e);
 
-	}
-	void ControlController::SetPreviousPosition(float x, float y) {
+			// It's possible for the manager not to have a style manager at the moment (e.g., if it's a child manager).
+			if (manager->StyleManager()) {
+				_control->SetBackColor(manager->StyleManager()->PrimaryColor());
+				_control->SetForeColor(manager->StyleManager()->SecondaryColor());
+			}
 
-		_control->__previous_pos.SetXY(x, y);
+		}
+		Point ControlController::GetFixedPosition() const {
 
-	}
-	bool ControlController::PrevFocus() const {
+			return _control->GetFixedPosition();
 
-		return _control->__prev_focus;
+		}
+		Point ControlController::PreviousPosition() const {
 
-	}
-	void ControlController::SetPrevFocus(bool value) {
+			return _control->__previous_pos;
 
-		_control->__prev_focus = value;
+		}
+		void ControlController::SetPreviousPosition(float x, float y) {
+
+			_control->__previous_pos.SetXY(x, y);
+
+		}
+		bool ControlController::PrevFocus() const {
+
+			return _control->__prev_focus;
+
+		}
+		void ControlController::SetPrevFocus(bool value) {
+
+			_control->__prev_focus = value;
+
+		}
 
 	}
 

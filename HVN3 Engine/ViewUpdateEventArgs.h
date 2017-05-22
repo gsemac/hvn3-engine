@@ -2,13 +2,17 @@
 #include "UpdateEventArgs.h"
 #include "Size.h"
 
-class ViewUpdateEventArgs : public UpdateEventArgs {
+namespace hvn3 {
 
-public:
-	ViewUpdateEventArgs(float dt, Size room_size);
-	const Size RoomSize() const;
+	class ViewUpdateEventArgs : public UpdateEventArgs {
 
-private:
-	Size _room_size;
+	public:
+		ViewUpdateEventArgs(float dt, Size room_size);
+		const Size RoomSize() const;
 
-};
+	private:
+		Size _room_size;
+
+	};
+
+}

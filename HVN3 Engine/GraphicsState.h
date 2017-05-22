@@ -2,17 +2,21 @@
 #include "Transform.h"
 #include "Rectangle.h"
 
-namespace Drawing {
+namespace hvn3 {
 
-	class GraphicsState {
-		friend class Graphics;
+	namespace Drawing {
 
-	private:
-		GraphicsState(const Graphics& graphics);
+		class GraphicsState {
+			friend class Graphics;
 
-		Transform __transform;
-		Rectangle __clip;
+		private:
+			GraphicsState(const Graphics& graphics);
 
-	};
+			Transform __transform;
+			Rectangle __clip;
+
+		};
+
+	}
 
 }

@@ -1,15 +1,20 @@
 #pragma once
 
 struct ALLEGRO_EVENT_SOURCE;
-class EventQueue;
 
-class EventSource {
-	friend class EventQueue;
+namespace hvn3 {
 
-public:
-	EventSource(ALLEGRO_EVENT_SOURCE* source);
+	class EventQueue;
 
-private:
-	ALLEGRO_EVENT_SOURCE* __ev_source;
+	class EventSource {
+		friend class EventQueue;
 
-};
+	public:
+		EventSource(ALLEGRO_EVENT_SOURCE* source);
+
+	private:
+		ALLEGRO_EVENT_SOURCE* __ev_source;
+
+	};
+
+}

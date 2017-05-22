@@ -3,77 +3,81 @@
 #include <utility>
 #include <initializer_list>
 
-enum DIRECTION {
-	NONE = -1,
-	ANY = -1,
-	RIGHT = 0,
-	UP_RIGHT = 45,
-	UP = 90,
-	UP_LEFT = 135,
-	LEFT = 180,
-	DOWN_LEFT = 225,
-	DOWN = 270,
-	DOWN_RIGHT = 315
-};
+namespace hvn3 {
 
-class Direction {
+	enum DIRECTION {
+		NONE = -1,
+		ANY = -1,
+		RIGHT = 0,
+		UP_RIGHT = 45,
+		UP = 90,
+		UP_LEFT = 135,
+		LEFT = 180,
+		DOWN_LEFT = 225,
+		DOWN = 270,
+		DOWN_RIGHT = 315
+	};
 
-private:
-	DIRECTION __direction;
+	class Direction {
 
-public:
-	Direction();
-	Direction(DIRECTION direction);
+	private:
+		DIRECTION __direction;
 
-	bool FacingLeft();
-	bool FacingRight();
-	bool FacingUp();
-	bool FacingDown();
-	bool IsVertical();
-	bool IsHorizontal();
-	bool IsDiagonal();
-	DIRECTION Value();
+	public:
+		Direction();
+		Direction(DIRECTION direction);
 
-	bool operator==(const DIRECTION& other);
-	Direction& operator=(const DIRECTION& other);
-	Direction& operator+=(const DIRECTION& other);
+		bool FacingLeft();
+		bool FacingRight();
+		bool FacingUp();
+		bool FacingDown();
+		bool IsVertical();
+		bool IsHorizontal();
+		bool IsDiagonal();
+		DIRECTION Value();
 
-};
+		bool operator==(const DIRECTION& other);
+		Direction& operator=(const DIRECTION& other);
+		Direction& operator+=(const DIRECTION& other);
 
-class Vector2d {
+	};
 
-private:
-	float __v;
-	float __v_x;
-	float __v_y;
+	class Vector2d {
 
-public:
-	Vector2d();
-	Vector2d(float direction, float magnitude);
-	Vector2d(const std::pair<float, float>& components);
+	private:
+		float __v;
+		float __v_x;
+		float __v_y;
 
-	void SetX(float value);
-	void SetY(float value);
-	void SetMagnitude(float value);
-	void SetDirection(float degrees);
+	public:
+		Vector2d();
+		Vector2d(float direction, float magnitude);
+		Vector2d(const std::pair<float, float>& components);
 
-	Direction Direction() const;
-	float Angle() const;
-	int Quadrant() const;
-	float X() const;
-	float Y() const;
-	float Magnitude() const;
+		void SetX(float value);
+		void SetY(float value);
+		void SetMagnitude(float value);
+		void SetDirection(float degrees);
 
-	float DotProduct(const Vector2d& other) const;
-	Vector2d CrossProduct(const Vector2d& other) const;
+		Direction Direction() const;
+		float Angle() const;
+		int Quadrant() const;
+		float X() const;
+		float Y() const;
+		float Magnitude() const;
 
-	Vector2d operator+(const Vector2d& other);
-	Vector2d& operator+=(const Vector2d& other);
-	Vector2d operator-(const Vector2d& other);
-	Vector2d& operator-=(const Vector2d& other);
-	Vector2d operator*(const Vector2d& other);
-	Vector2d& operator*=(const Vector2d& other);
+		float DotProduct(const Vector2d& other) const;
+		Vector2d CrossProduct(const Vector2d& other) const;
 
-};
+		Vector2d operator+(const Vector2d& other);
+		Vector2d& operator+=(const Vector2d& other);
+		Vector2d operator-(const Vector2d& other);
+		Vector2d& operator-=(const Vector2d& other);
+		Vector2d operator*(const Vector2d& other);
+		Vector2d& operator*=(const Vector2d& other);
+
+	};
+
+}
 
 #endif

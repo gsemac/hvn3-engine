@@ -1,102 +1,106 @@
 #include "BackgroundProperties.h"
 
-BackgroundProperties::BackgroundProperties() :
-	_offset(0.0f, 0.0f),
-	_scale(1.0f, 1.0f),
-	_velocity(0.0f, 0.0f) {
+namespace hvn3 {
 
-	_foreground = false;
-	_tile_h = false;
-	_tile_v = false;
-	_visible = true;
-	_fixed = false;
+	BackgroundProperties::BackgroundProperties() :
+		_offset(0.0f, 0.0f),
+		_scale(1.0f, 1.0f),
+		_velocity(0.0f, 0.0f) {
 
-}
+		_foreground = false;
+		_tile_h = false;
+		_tile_v = false;
+		_visible = true;
+		_fixed = false;
 
-const Point& BackgroundProperties::Offset() const {
+	}
 
-	return _offset;
+	const Point& BackgroundProperties::Offset() const {
 
-}
-void BackgroundProperties::SetOffset(float x_offset, float y_offset) {
+		return _offset;
 
-	_offset.SetXY(x_offset, y_offset);
+	}
+	void BackgroundProperties::SetOffset(float x_offset, float y_offset) {
 
-}
+		_offset.SetXY(x_offset, y_offset);
 
-const ::Scale& BackgroundProperties::Scale() const {
+	}
 
-	return _scale;
+	const hvn3::Scale& BackgroundProperties::Scale() const {
 
-}
-void BackgroundProperties::SetScale(float x_scale, float y_scale) {
+		return _scale;
 
-	_scale = ::Scale(x_scale, y_scale);
+	}
+	void BackgroundProperties::SetScale(float x_scale, float y_scale) {
 
-}
+		_scale = hvn3::Scale(x_scale, y_scale);
 
-const Vector2d& BackgroundProperties::Velocity() const {
+	}
 
-	return _velocity;
+	const Vector2d& BackgroundProperties::Velocity() const {
 
-}
-void BackgroundProperties::SetVelocity(const Vector2d& velocity) {
+		return _velocity;
 
-	_velocity = velocity;
+	}
+	void BackgroundProperties::SetVelocity(const Vector2d& velocity) {
 
-}
+		_velocity = velocity;
 
-bool BackgroundProperties::IsForeground() const {
+	}
 
-	return _foreground;
+	bool BackgroundProperties::IsForeground() const {
 
-}
-void BackgroundProperties::SetForeground(bool is_foreground) {
+		return _foreground;
 
-	_foreground = is_foreground;
+	}
+	void BackgroundProperties::SetForeground(bool is_foreground) {
 
-}
+		_foreground = is_foreground;
 
-bool BackgroundProperties::IsTiledHorizontally() const {
+	}
 
-	return _tile_h;
+	bool BackgroundProperties::IsTiledHorizontally() const {
 
-}
-void BackgroundProperties::SetTiledHorizontally(bool tile_horizontally) {
+		return _tile_h;
 
-	_tile_h = tile_horizontally;
+	}
+	void BackgroundProperties::SetTiledHorizontally(bool tile_horizontally) {
 
-}
+		_tile_h = tile_horizontally;
 
-bool BackgroundProperties::IsTiledVertically() const {
+	}
 
-	return _tile_v;
+	bool BackgroundProperties::IsTiledVertically() const {
 
-}
-void BackgroundProperties::SetTiledVertically(bool tile_vertically) {
+		return _tile_v;
 
-	_tile_v = tile_vertically;
+	}
+	void BackgroundProperties::SetTiledVertically(bool tile_vertically) {
 
-}
+		_tile_v = tile_vertically;
 
-bool BackgroundProperties::Visible() const {
+	}
 
-	return _visible;
+	bool BackgroundProperties::Visible() const {
 
-}
-void BackgroundProperties::SetVisible(bool visible) {
+		return _visible;
 
-	_visible = visible;
+	}
+	void BackgroundProperties::SetVisible(bool visible) {
 
-}
+		_visible = visible;
 
-bool BackgroundProperties::Fixed() const {
+	}
 
-	return _fixed;
+	bool BackgroundProperties::Fixed() const {
 
-}
-void BackgroundProperties::SetFixed(bool fixed) {
+		return _fixed;
 
-	_fixed = fixed;
+	}
+	void BackgroundProperties::SetFixed(bool fixed) {
+
+		_fixed = fixed;
+
+	}
 
 }

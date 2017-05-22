@@ -3,29 +3,33 @@
 #include "UTF8String.h"
 #include "gui/StyleManager.h"
 
-namespace Gui {
+namespace hvn3 {
 
-	class Control;
+	namespace Gui {
 
-	class ITextable {
+		class Control;
 
-	public:
-		ITextable(Control* control, const String& text);
+		class ITextable {
 
-		virtual const String& Text() const;
-		virtual void SetText(const String& text);
+		public:
+			ITextable(Control* control, const String& text);
 
-		virtual const ResourceHandle<::Font> Font();
-		virtual void SetFont(Gui::FontResourceId font);
+			virtual const String& Text() const;
+			virtual void SetText(const String& text);
 
-	protected:
-		String& RefText();
+			virtual const ResourceHandle<hvn3::Font> Font();
+			virtual void SetFont(Gui::FontResourceId font);
 
-	private:
-		Control* _control;
-		String _text;
-		Gui::FontResourceId _font;
+		protected:
+			String& RefText();
 
-	};
+		private:
+			Control* _control;
+			String _text;
+			Gui::FontResourceId _font;
+
+		};
+
+	}
 
 }

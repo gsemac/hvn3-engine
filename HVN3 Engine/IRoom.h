@@ -1,6 +1,10 @@
 #pragma once
 
-class IRoom {
+namespace hvn3 {
+
+	class IRoom {
 
 
-};
+	};
+
+}

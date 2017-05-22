@@ -3,49 +3,53 @@
 #include "Scale.h"
 #include "Transform.h"
 
-class View {
+namespace hvn3 {
 
-public:
-	View(Point view_position, Size view_size, Point port_position, Size port_size);
-	View(Point view_position, Size view_size, Point port_position, Size port_size, Object* follow_obj, float horizontal_border, float vertical_border);
+	class View {
 
-	void SetFollowing(Object* obj);
-	Object* GetFollowing();
+	public:
+		View(Point view_position, Size view_size, Point port_position, Size port_size);
+		View(Point view_position, Size view_size, Point port_position, Size port_size, Object* follow_obj, float horizontal_border, float vertical_border);
 
-	Rectangle Region() const;
-	Rectangle Port() const;
-	const Point& Position() const;
-	void SetPosition(float x, float y);
-	void SetPosition(const Point& position);
-	float ViewX() const;
-	float ViewY() const;
-	Scale Scale() const;
+		void SetFollowing(Object* obj);
+		Object* GetFollowing();
 
-	float HorizontalBorder() const;
-	float VerticalBorder() const;
+		Rectangle Region() const;
+		Rectangle Port() const;
+		const Point& Position() const;
+		void SetPosition(float x, float y);
+		void SetPosition(const Point& position);
+		float ViewX() const;
+		float ViewY() const;
+		Scale Scale() const;
 
-	float Angle() const;
-	void SetAngle(float angle);
+		float HorizontalBorder() const;
+		float VerticalBorder() const;
 
-	void Enable();
-	void Disable();
-	bool Enabled() const;
+		float Angle() const;
+		void SetAngle(float angle);
 
-	bool TracksMouse() const;
-	void TracksMouse(bool tracks);
+		void Enable();
+		void Disable();
+		bool Enabled() const;
 
-	Drawing::Transform GetTransform() const;
+		bool TracksMouse() const;
+		void TracksMouse(bool tracks);
 
-private:
-	Point __view_pos;
-	Size __view_size;
-	Point __port_pos;
-	Size __port_size;
+		Drawing::Transform GetTransform() const;
 
-	Object* __follow_obj;
-	float __hbor, __vbor, __vspd, __hspd;
-	float __angle;
-	bool __enabled;
-	bool __tracks_mouse;
+	private:
+		Point __view_pos;
+		Size __view_size;
+		Point __port_pos;
+		Size __port_size;
 
-};
+		Object* __follow_obj;
+		float __hbor, __vbor, __vspd, __hspd;
+		float __angle;
+		bool __enabled;
+		bool __tracks_mouse;
+
+	};
+
+}

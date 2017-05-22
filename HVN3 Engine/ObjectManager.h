@@ -4,28 +4,32 @@
 #include <memory>
 #include <vector>
 
-class ObjectManager : public IObjectManager {
+namespace hvn3 {
 
-public:
-	ObjectManager(std::unique_ptr<ICollisionManager>& collision_manager);
+	class ObjectManager : public IObjectManager {
 
-	// Inherited via IObjectManager
-	virtual void InstanceAdd(std::shared_ptr<Object> object) override;
-	virtual void Clear() override;
-	virtual std::unique_ptr<ICollisionManager>& CollisionManager() override;
-	virtual Object* InstanceFind(ObjectId id) override;
-	virtual Object* InstanceFindNext(ObjectId id) override;
-	virtual size_t InstanceCount() const override;
-	virtual size_t InstanceCount(ObjectId id) const override;
-	virtual bool InstanceExists(ObjectId id) const override;
+	public:
+		ObjectManager(std::unique_ptr<ICollisionManager>& collision_manager);
 
-	virtual void Update(UpdateEventArgs& e) override;
-	virtual void Draw(DrawEventArgs& e) override;
+		// Inherited via IObjectManager
+		virtual void InstanceAdd(std::shared_ptr<Object> object) override;
+		virtual void Clear() override;
+		virtual std::unique_ptr<ICollisionManager>& CollisionManager() override;
+		virtual Object* InstanceFind(ObjectId id) override;
+		virtual Object* InstanceFindNext(ObjectId id) override;
+		virtual size_t InstanceCount() const override;
+		virtual size_t InstanceCount(ObjectId id) const override;
+		virtual bool InstanceExists(ObjectId id) const override;
 
-private:
-	std::vector<std::shared_ptr<Object>> _objects;
-	std::unique_ptr<ICollisionManager> _collision_manager;
-	ObjectId _last_found_id;
-	size_t _last_found_index;
+		virtual void Update(UpdateEventArgs& e) override;
+		virtual void Draw(DrawEventArgs& e) override;
 
-};
+	private:
+		std::vector<std::shared_ptr<Object>> _objects;
+		std::unique_ptr<ICollisionManager> _collision_manager;
+		ObjectId _last_found_id;
+		size_t _last_found_index;
+
+	};
+
+}

@@ -1,25 +1,26 @@
-#ifndef __IPOSITIONABLE_H
-#define __IPOSITIONABLE_H
+#pragma once
 
-class IPositionable {
+namespace hvn3 {
 
-public:
-	IPositionable();
-	IPositionable(float x, float y);
-	float X() const;
-	float Y() const;
-	virtual void SetX(float x);
-	virtual void SetY(float y);
-	virtual void SetXY(float x, float y);
-	void TranslateX(float x_offset);
-	void TranslateY(float y_offset);
-	void Translate(float x_offset, float y_offset);
+	class IPositionable {
 
-	//void Move(float x, float y);
+	public:
+		IPositionable();
+		IPositionable(float x, float y);
+		float X() const;
+		float Y() const;
+		virtual void SetX(float x);
+		virtual void SetY(float y);
+		virtual void SetXY(float x, float y);
+		void TranslateX(float x_offset);
+		void TranslateY(float y_offset);
+		void Translate(float x_offset, float y_offset);
 
-private:
-	float __x, __y;
+		//void Move(float x, float y);
 
-};
+	private:
+		float __x, __y;
 
-#endif
+	};
+
+}

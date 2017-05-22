@@ -1,74 +1,78 @@
 #include "gui/IScrollable.h"
 #include "gui/Control.h"
 
-namespace Gui {
+namespace hvn3 {
 
-	IScrollable::IScrollable(Control* control) :
-		IScrollable(control, control->Height()) {
-	}
-	IScrollable::IScrollable(Control* control, float scroll_height) :
-		IScrollable(control, Size(scroll_height, control->Width())) {
-	}
-	IScrollable::IScrollable(Control* control, const Size& scrollable_region) :
-		_visible_region(control->Width(), control->Height()),
-		_scrollable_region(scrollable_region) {
+	namespace Gui {
 
-		_control = control;
-		_auto_scroll_enabled = true;
+		IScrollable::IScrollable(Control* control) :
+			IScrollable(control, control->Height()) {
+		}
+		IScrollable::IScrollable(Control* control, float scroll_height) :
+			IScrollable(control, Size(scroll_height, control->Width())) {
+		}
+		IScrollable::IScrollable(Control* control, const Size& scrollable_region) :
+			_visible_region(control->Width(), control->Height()),
+			_scrollable_region(scrollable_region) {
 
-	}
+			_control = control;
+			_auto_scroll_enabled = true;
 
-	void IScrollable::OnScroll(ScrollEventArgs& e) {
+		}
 
-		if (e.Orientation() == Orientation::Vertical)
-			_vpos = e.Position();
-		else
-			_hpos = e.Position();
+		void IScrollable::OnScroll(ScrollEventArgs& e) {
 
-		_control->Invalidate();
+			if (e.Orientation() == Orientation::Vertical)
+				_vpos = e.Position();
+			else
+				_hpos = e.Position();
 
-	}
+			_control->Invalidate();
 
-	void IScrollable::SetVisibleRegion(const Size& region) {
+		}
 
-		_visible_region = region;
+		void IScrollable::SetVisibleRegion(const Size& region) {
 
-	}
-	const Size& IScrollable::VisibleRegion() const {
+			_visible_region = region;
 
-		return _visible_region;
+		}
+		const Size& IScrollable::VisibleRegion() const {
 
-	}
-	void IScrollable::SetScrollableRegion(const Size& region) {
+			return _visible_region;
 
-		_scrollable_region = region;
+		}
+		void IScrollable::SetScrollableRegion(const Size& region) {
 
-	}
-	const Size& IScrollable::ScrollableRegion() const {
+			_scrollable_region = region;
 
-		return _scrollable_region;
+		}
+		const Size& IScrollable::ScrollableRegion() const {
 
-	}
+			return _scrollable_region;
 
-	bool IScrollable::AutoScrollEnabled() const {
+		}
 
-		return _auto_scroll_enabled;
+		bool IScrollable::AutoScrollEnabled() const {
 
-	}
-	void IScrollable::SetAutoScrollEnabled(bool enabled) {
+			return _auto_scroll_enabled;
 
-		_auto_scroll_enabled = enabled;
+		}
+		void IScrollable::SetAutoScrollEnabled(bool enabled) {
 
-	}
+			_auto_scroll_enabled = enabled;
 
-	Point IScrollable::ScrollPosition() const {
+		}
 
-		return Point(_hpos, _vpos);
+		Point IScrollable::ScrollPosition() const {
 
-	}
-	bool IScrollable::HasFocus() {
+			return Point(_hpos, _vpos);
 
-		return _control->HasFocus();
+		}
+		bool IScrollable::HasFocus() {
+
+			return _control->HasFocus();
+
+		}
 
 	}
 

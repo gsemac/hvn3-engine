@@ -3,29 +3,33 @@
 #include "Geometry.h"
 #include "Sprite.h"
 
-class SpriteMask {
+namespace hvn3 {
 
-private:
-	float __degrees;
-	std::vector<Rectangle> __strips;
-	void GenerateMask(Sprite* sprite);
+	class SpriteMask {
 
-public:
-	SpriteMask();
-	SpriteMask(Sprite* sprite);
+	private:
+		float __degrees;
+		std::vector<Rectangle> __strips;
+		void GenerateMask(Sprite* sprite);
 
-	float Angle();
-	std::vector<Rectangle>& Strips();
+	public:
+		SpriteMask();
+		SpriteMask(Sprite* sprite);
 
-	void Rotate(Point origin, float degrees, bool relative = true);
-	void Translate(float x_offset, float y_offset);
-	void Scale(float x_scale, float y_scale);
-	void Move(float x, float y);
+		float Angle();
+		std::vector<Rectangle>& Strips();
 
-	bool Intersects(const Circle& other) const;
-	bool Intersects(const Rectangle& other) const;
-	bool Intersects(const Line& other) const;
+		void Rotate(Point origin, float degrees, bool relative = true);
+		void Translate(float x_offset, float y_offset);
+		void Scale(float x_scale, float y_scale);
+		void Move(float x, float y);
 
-	Rectangle& operator[](const size_t& strip);
+		bool Intersects(const Circle& other) const;
+		bool Intersects(const Rectangle& other) const;
+		bool Intersects(const Line& other) const;
 
-};
+		Rectangle& operator[](const size_t& strip);
+
+	};
+
+}

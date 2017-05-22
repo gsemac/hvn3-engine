@@ -2,27 +2,31 @@
 #include "CollisionMask.h"
 #include "CollisionFilter.h"
 
-class RoomBase;
+namespace hvn3 {
 
-class ICollidable : public IPositionable {
+	class RoomBase;
 
-public:
-	ICollidable(float x, float y);
+	class ICollidable : public IPositionable {
 
-	Rectangle AABB() const;
-	CollisionMask& CollisionMask();
-	void SetCollisionMask(const ::CollisionMask& mask);
-	CollisionFilter& Filter();
+	public:
+		ICollidable(float x, float y);
 
-	//// Returns a pointer to the Scene the object belongs to, or nullptr if the object does not belong to a Scene.
-	//Room& Scene();
+		Rectangle AABB() const;
+		CollisionMask& CollisionMask();
+		void SetCollisionMask(const hvn3::CollisionMask& mask);
+		CollisionFilter& Filter();
 
-	bool CollidesWith(const ICollidable* other) const;
-	virtual void Collide(ICollidable* other);
+		//// Returns a pointer to the Scene the object belongs to, or nullptr if the object does not belong to a Scene.
+		//Room& Scene();
 
-private:
-	::CollisionMask __mask;
-	CollisionFilter __filter;
-	//::Room* __scene;
+		bool CollidesWith(const ICollidable* other) const;
+		virtual void Collide(ICollidable* other);
 
-};
+	private:
+		hvn3::CollisionMask __mask;
+		CollisionFilter __filter;
+		//::Room* __scene;
+
+	};
+
+}

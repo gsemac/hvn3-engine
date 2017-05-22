@@ -2,20 +2,24 @@
 #define __BACKGROUND_H
 #include "Bitmap.h"
 
-class Background {
+namespace hvn3 {
 
-private:
-	Drawing::Bitmap __bitmap;
+	class Background {
 
-public:
-	Background(const char* filename);
-	Background(Background&& other);
-	unsigned int Width() const;
-	unsigned int Height() const;
+	private:
+		Drawing::Bitmap __bitmap;
 
-	// Returns a reference to the underlying Bitmap.
-	const Drawing::Bitmap& Bitmap() const;
+	public:
+		Background(const char* filename);
+		Background(Background&& other);
+		unsigned int Width() const;
+		unsigned int Height() const;
 
-};
+		// Returns a reference to the underlying Bitmap.
+		const Drawing::Bitmap& Bitmap() const;
+
+	};
+
+}
 
 #endif

@@ -1,60 +1,64 @@
 #include "GameManager.h"
 
-GameManager::GameManager() {
+namespace hvn3 {
 
-	Framework::Initialize();
+	GameManager::GameManager() {
 
-}
-GameManager::~GameManager() {
+		Framework::Initialize();
 
-	Shutdown();
+	}
+	GameManager::~GameManager() {
 
-}
-void GameManager::Initialize(int argc, char* argv[]) {
+		Shutdown();
 
-	Framework::Initialize(argc, argv);
+	}
+	void GameManager::Initialize(int argc, char* argv[]) {
 
-}
-void GameManager::Loop() {
+		Framework::Initialize(argc, argv);
 
-	_runner = new ::Runner(_properties, _room_manager);
+	}
+	void GameManager::Loop() {
 
-	_runner->Loop();
+		_runner = new hvn3::Runner(_properties, _room_manager);
 
-}
-void GameManager::Shutdown() {
+		_runner->Loop();
 
-	// Delete the runner.
-	delete _runner;
-	
-	// Call the destructor for the room manager to trigger the exit event for the current room.
-	_room_manager.~RoomManager();
+	}
+	void GameManager::Shutdown() {
 
-	// Clear all resources.
-	_resource_manager.Clear();
+		// Delete the runner.
+		delete _runner;
 
-	// Shutdown the underlying framework.
-	Framework::Shutdown();
+		// Call the destructor for the room manager to trigger the exit event for the current room.
+		_room_manager.~RoomManager();
 
-}
+		// Clear all resources.
+		_resource_manager.Clear();
 
-Properties& GameManager::Properties() {
+		// Shutdown the underlying framework.
+		Framework::Shutdown();
 
-	return _properties;
+	}
 
-}
-::RoomManager& GameManager::RoomManager() {
+	Properties& GameManager::Properties() {
 
-	return _room_manager;
+		return _properties;
 
-}
-ResourceManager& GameManager::ResourceManager() {
+	}
+	hvn3::RoomManager& GameManager::RoomManager() {
 
-	return _resource_manager;
+		return _room_manager;
 
-}
-Runner& GameManager::Runner() {
+	}
+	ResourceManager& GameManager::ResourceManager() {
 
-	return *_runner;
+		return _resource_manager;
+
+	}
+	Runner& GameManager::Runner() {
+
+		return *_runner;
+
+	}
 
 }

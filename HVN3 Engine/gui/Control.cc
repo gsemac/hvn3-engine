@@ -7,369 +7,373 @@
 
 // Public members
 
-Gui::Control::Control() :
-	Control(Point(0.0f, 0.0f), Size(0.0f, 0.0f)) {
-}
-Gui::Control::Control(const Point& location, const Size& size) :
-	IPositionable(location.X(), location.Y()),
-	ISizeable(size.Width(), size.Height()),
-	__fixed_pos(location.X(), location.Y()),
-	__mouse_last_pos(Mouse::X, Mouse::Y),
-	__minimum_size(0.0f, 0.0f),
-	__maximum_size(FLT_MAX, FLT_MAX),
-	__previous_pos(location.X(), location.Y()),
-	_surface(size.Width(), size.Height()) {
+namespace hvn3 {
 
-	_parent = nullptr;
-	__manager = nullptr;
+	Gui::Control::Control() :
+		Control(Point(0.0f, 0.0f), Size(0.0f, 0.0f)) {
+	}
+	Gui::Control::Control(const Point& location, const Size& size) :
+		IPositionable(location.X(), location.Y()),
+		ISizeable(size.Width(), size.Height()),
+		__fixed_pos(location.X(), location.Y()),
+		__mouse_last_pos(Mouse::X, Mouse::Y),
+		__minimum_size(0.0f, 0.0f),
+		__maximum_size(FLT_MAX, FLT_MAX),
+		__previous_pos(location.X(), location.Y()),
+		_surface(size.Width(), size.Height()) {
 
-	__disposed = false;
-	_invalidated = true;
-	__visible = true;
-	__enabled = true;
-	__backcolor = Color::FromArgb(35, 35, 35);
-	__forecolor = Color::FromArgb(186, 186, 186);
-	__anchor = (Gui::ANCHOR)(ANCHOR_LEFT | ANCHOR_TOP);
-	__opacity = 1.0f;
+		_parent = nullptr;
+		__manager = nullptr;
 
-	__mouse_is_on = false;
-	__mouse_is_down = false;
+		__disposed = false;
+		_invalidated = true;
+		__visible = true;
+		__enabled = true;
+		__backcolor = Color::FromArgb(35, 35, 35);
+		__forecolor = Color::FromArgb(186, 186, 186);
+		__anchor = (Gui::ANCHOR)(ANCHOR_LEFT | ANCHOR_TOP);
+		__opacity = 1.0f;
 
-	Z = 0;
+		__mouse_is_on = false;
+		__mouse_is_down = false;
 
-	__prev_focus = false;
+		Z = 0;
 
-}
-
-void Gui::Control::Update(UpdateEventArgs& e) {}
-void Gui::Control::Draw(DrawEventArgs& e) {
-
-	if (Invalidated()) {
-
-		// If the Control's size is now invalid, set the bitmap to null.
-		if (Width() <= 0.0f || Height() <= 0.0f)
-			_surface = Drawing::Bitmap(nullptr, false);
-		else if (!_surface || Width() != _surface.Width() || Height() != _surface.Height())
-			_surface = Drawing::Bitmap(Width(), Height());
-
-		// Call the Control's OnPaint method to redraw it.
-		// Make sure we don't try to draw a Control with dimensions <= 1, because the Graphics object will throw an error when setting the clip.
-		if (Width() >= 1.0f && Height() >= 1.0f)
-			OnPaint(PaintEventArgs(Drawing::Graphics(_surface)));
+		__prev_focus = false;
 
 	}
 
-	// The Control has now been validated.
-	_invalidated = false;
+	void Gui::Control::Update(UpdateEventArgs& e) {}
+	void Gui::Control::Draw(DrawEventArgs& e) {
 
-	// Draw the Control's surface bitmap.
-	if (_surface)
-		e.Graphics().DrawBitmap(X(), Y(), _surface, Color::FromArgbf(Opacity(), Opacity(), Opacity(), Opacity()));
+		if (Invalidated()) {
 
-}
-void Gui::Control::Resize(float width, float height) {
+			// If the Control's size is now invalid, set the bitmap to null.
+			if (Width() <= 0.0f || Height() <= 0.0f)
+				_surface = Drawing::Bitmap(nullptr, false);
+			else if (!_surface || Width() != _surface.Width() || Height() != _surface.Height())
+				_surface = Drawing::Bitmap(Width(), Height());
 
-	// Clamp values within the maximum/minimum size.
-	width = Clamp(width, __minimum_size.Width(), __maximum_size.Width());
-	height = Clamp(height, __minimum_size.Height(), __maximum_size.Height());
+			// Call the Control's OnPaint method to redraw it.
+			// Make sure we don't try to draw a Control with dimensions <= 1, because the Graphics object will throw an error when setting the clip.
+			if (Width() >= 1.0f && Height() >= 1.0f)
+				OnPaint(PaintEventArgs(Drawing::Graphics(_surface)));
 
-	// If the new size is equal to the current size, do not call any events.
-	if (width == Width() && height == Height())
-		return;
+		}
 
-	// Create a resize event args object.
-	ResizeEventArgs e(Size(Width(), Height()), Size(width, height));
+		// The Control has now been validated.
+		_invalidated = false;
 
-	// Perform the resize.
-	ISizeable::Resize(width, height);
+		// Draw the Control's surface bitmap.
+		if (_surface)
+			e.Graphics().DrawBitmap(X(), Y(), _surface, Color::FromArgbf(Opacity(), Opacity(), Opacity(), Opacity()));
 
-	// Trigger the resize event for the control.
-	OnResize(e);
+	}
+	void Gui::Control::Resize(float width, float height) {
 
-	// Invalidate the control so that it can be redrawn.
-	Invalidate();
+		// Clamp values within the maximum/minimum size.
+		width = Clamp(width, __minimum_size.Width(), __maximum_size.Width());
+		height = Clamp(height, __minimum_size.Height(), __maximum_size.Height());
 
-}
+		// If the new size is equal to the current size, do not call any events.
+		if (width == Width() && height == Height())
+			return;
 
-void Gui::Control::Invalidate() {
+		// Create a resize event args object.
+		ResizeEventArgs e(Size(Width(), Height()), Size(width, height));
 
-	_invalidated = true;
+		// Perform the resize.
+		ISizeable::Resize(width, height);
 
-	if (_parent)
-		_parent->Invalidate();
+		// Trigger the resize event for the control.
+		OnResize(e);
 
-}
-bool Gui::Control::Invalidated() {
+		// Invalidate the control so that it can be redrawn.
+		Invalidate();
 
-	return _invalidated;
-
-}
-void Gui::Control::Dispose() {
-
-	__disposed = true;
-
-}
-bool Gui::Control::IsDisposed() {
-
-	return __disposed;
-
-}
-
-const Color& Gui::Control::ForeColor() const {
-
-	return __forecolor;
-
-}
-const Color& Gui::Control::BackColor() const {
-
-	return __backcolor;
-
-}
-void Gui::Control::SetForeColor(const Color& color) {
-
-	__forecolor = color;
-
-}
-void Gui::Control::SetBackColor(const Color& color) {
-
-	__backcolor = color;
-
-}
-
-int Gui::Control::Anchors() {
-
-	return __anchor;
-
-}
-void Gui::Control::SetAnchors(int anchors) {
-
-	__anchor = anchors;
-
-}
-
-float Gui::Control::Opacity() {
-
-	return __opacity;
-
-}
-void Gui::Control::SetOpacity(float opacity) {
-
-	if (opacity < 0.0f)
-		opacity = 0.0f;
-	__opacity = opacity;
-
-	Invalidate();
-
-}
-
-Size Gui::Control::MinimumSize() {
-
-	return __minimum_size;
-
-}
-void Gui::Control::SetMinimumSize(const Size& size) {
-
-	__minimum_size = size;
-
-	// Resize the control if it is smaller than the minimum size.
-	if (Width() < size.Width() || Height() < size.Height())
-		Control::Resize(size.Width(), size.Height());
-
-}
-Size Gui::Control::MaximumSize() {
-
-	return __maximum_size;
-
-}
-void Gui::Control::SetMaximumSize(const Size& size) {
-
-	__maximum_size = size;
-
-	// Resize the control if it is larger than the maximum size.
-	if (Width() > size.Width() || Height() > size.Height())
-		Control::Resize(size.Width(), size.Height());
-
-}
-
-bool Gui::Control::Visible() {
-
-	return __visible;
-
-}
-void Gui::Control::SetVisible(bool is_visible) {
-
-	__visible = is_visible;
-
-}
-
-bool Gui::Control::Enabled() {
-
-	return __enabled;
-
-}
-void Gui::Control::SetEnabled(bool is_enabled) {
-
-	__enabled = is_enabled;
-
-	// Invalidate Control in case it has a different appearance when enabled/disabled.
-	Invalidate();
-
-}
-
-Gui::Control* Gui::Control::Parent() {
-
-	return const_cast<Control*>(static_cast<const Control*>(this)->Parent());
-
-}
-const Gui::Control* Gui::Control::Parent() const {
-
-	return _parent;
-
-}
-void Gui::Control::SetParent(Control* parent) {
-
-	_parent = parent;
-
-	// Update the control's position relative to its parent.
-	__fixed_pos = GetFixedPosition();
-
-}
-Gui::GuiManager* Gui::Control::Manager() {
-
-	return const_cast<GuiManager*>(static_cast<const Control*>(this)->Manager());
-
-}
-const Gui::GuiManager* Gui::Control::Manager() const {
-
-	if (__manager == nullptr && Parent() != nullptr)
-		return Parent()->Manager();
-
-	return __manager;
-
-}
-
-void Gui::Control::BringToFront() {
-
-	// If the Control has a Manager object, allow it to handle the repositioning.
-	if (__manager) {
-		__manager->ControlManager()->BringToFront(this);
-		return;
 	}
 
-	// Simply adjust the Z positioning to the minimum possible.
-	Z = -INT_MAX;
+	void Gui::Control::Invalidate() {
 
-}
-void Gui::Control::SendToBack() {
+		_invalidated = true;
 
-	// If the Control has a Manager object, allow it to handle the repositioning.
-	if (__manager) {
-		__manager->ControlManager()->SendToBack(this);
-		return;
+		if (_parent)
+			_parent->Invalidate();
+
+	}
+	bool Gui::Control::Invalidated() {
+
+		return _invalidated;
+
+	}
+	void Gui::Control::Dispose() {
+
+		__disposed = true;
+
+	}
+	bool Gui::Control::IsDisposed() {
+
+		return __disposed;
+
 	}
 
-	// Simply adjust the Z positioning to the maximum possible.
-	Z = INT_MAX;
+	const Color& Gui::Control::ForeColor() const {
 
-}
+		return __forecolor;
 
-Point Gui::Control::FixedPosition() const {
-	
-	return GetFixedPosition();
+	}
+	const Color& Gui::Control::BackColor() const {
 
-	return __fixed_pos;
+		return __backcolor;
 
-}
-Rectangle Gui::Control::Bounds() const {
+	}
+	void Gui::Control::SetForeColor(const Color& color) {
 
-	return Rectangle(__fixed_pos.X(), __fixed_pos.Y(), Width(), Height());
+		__forecolor = color;
 
-}
+	}
+	void Gui::Control::SetBackColor(const Color& color) {
 
-float Gui::Control::Scale() const {
+		__backcolor = color;
 
-	return __manager ? __manager->StyleManager()->DrawingScale() : 1.0f;
+	}
 
-}
+	int Gui::Control::Anchors() {
 
-bool Gui::Control::IsActiveControl() {
+		return __anchor;
 
-	if (__manager == nullptr)
+	}
+	void Gui::Control::SetAnchors(int anchors) {
+
+		__anchor = anchors;
+
+	}
+
+	float Gui::Control::Opacity() {
+
+		return __opacity;
+
+	}
+	void Gui::Control::SetOpacity(float opacity) {
+
+		if (opacity < 0.0f)
+			opacity = 0.0f;
+		__opacity = opacity;
+
+		Invalidate();
+
+	}
+
+	Size Gui::Control::MinimumSize() {
+
+		return __minimum_size;
+
+	}
+	void Gui::Control::SetMinimumSize(const Size& size) {
+
+		__minimum_size = size;
+
+		// Resize the control if it is smaller than the minimum size.
+		if (Width() < size.Width() || Height() < size.Height())
+			Control::Resize(size.Width(), size.Height());
+
+	}
+	Size Gui::Control::MaximumSize() {
+
+		return __maximum_size;
+
+	}
+	void Gui::Control::SetMaximumSize(const Size& size) {
+
+		__maximum_size = size;
+
+		// Resize the control if it is larger than the maximum size.
+		if (Width() > size.Width() || Height() > size.Height())
+			Control::Resize(size.Width(), size.Height());
+
+	}
+
+	bool Gui::Control::Visible() {
+
+		return __visible;
+
+	}
+	void Gui::Control::SetVisible(bool is_visible) {
+
+		__visible = is_visible;
+
+	}
+
+	bool Gui::Control::Enabled() {
+
+		return __enabled;
+
+	}
+	void Gui::Control::SetEnabled(bool is_enabled) {
+
+		__enabled = is_enabled;
+
+		// Invalidate Control in case it has a different appearance when enabled/disabled.
+		Invalidate();
+
+	}
+
+	Gui::Control* Gui::Control::Parent() {
+
+		return const_cast<Control*>(static_cast<const Control*>(this)->Parent());
+
+	}
+	const Gui::Control* Gui::Control::Parent() const {
+
+		return _parent;
+
+	}
+	void Gui::Control::SetParent(Control* parent) {
+
+		_parent = parent;
+
+		// Update the control's position relative to its parent.
+		__fixed_pos = GetFixedPosition();
+
+	}
+	Gui::GuiManager* Gui::Control::Manager() {
+
+		return const_cast<GuiManager*>(static_cast<const Control*>(this)->Manager());
+
+	}
+	const Gui::GuiManager* Gui::Control::Manager() const {
+
+		if (__manager == nullptr && Parent() != nullptr)
+			return Parent()->Manager();
+
+		return __manager;
+
+	}
+
+	void Gui::Control::BringToFront() {
+
+		// If the Control has a Manager object, allow it to handle the repositioning.
+		if (__manager) {
+			__manager->ControlManager()->BringToFront(this);
+			return;
+		}
+
+		// Simply adjust the Z positioning to the minimum possible.
+		Z = -INT_MAX;
+
+	}
+	void Gui::Control::SendToBack() {
+
+		// If the Control has a Manager object, allow it to handle the repositioning.
+		if (__manager) {
+			__manager->ControlManager()->SendToBack(this);
+			return;
+		}
+
+		// Simply adjust the Z positioning to the maximum possible.
+		Z = INT_MAX;
+
+	}
+
+	Point Gui::Control::FixedPosition() const {
+
+		return GetFixedPosition();
+
+		return __fixed_pos;
+
+	}
+	Rectangle Gui::Control::Bounds() const {
+
+		return Rectangle(__fixed_pos.X(), __fixed_pos.Y(), Width(), Height());
+
+	}
+
+	float Gui::Control::Scale() const {
+
+		return __manager ? __manager->StyleManager()->DrawingScale() : 1.0f;
+
+	}
+
+	bool Gui::Control::IsActiveControl() {
+
+		if (__manager == nullptr)
+			return false;
+
+		return __manager->ControlManager()->ActiveControl() == this;
+
+	}
+
+	void Gui::Control::SetX(float x) {
+
+		Point old_position(X(), Y());
+
+		IPositionable::SetX(x);
+
+		OnMove(MoveEventArgs(old_position));
+
+	}
+	void Gui::Control::SetY(float y) {
+
+		Point old_position(X(), Y());
+
+		IPositionable::SetY(y);
+
+		OnMove(MoveEventArgs(old_position));
+
+	}
+	void Gui::Control::SetXY(float x, float y) {
+
+		Point old_position(X(), Y());
+
+		IPositionable::SetXY(x, y);
+
+		OnMove(MoveEventArgs(old_position));
+
+	}
+
+	void Gui::Control::OnMouseLeave() {}
+	void Gui::Control::OnMouseEnter() {}
+	void Gui::Control::OnMouseHover() {}
+	void Gui::Control::OnMouseDown() {}
+	void Gui::Control::OnMouseUp() {}
+	void Gui::Control::OnMouseMove() {}
+	void Gui::Control::OnClick() {}
+	void Gui::Control::OnDoubleClick() {}
+	void Gui::Control::OnPaint(PaintEventArgs& e) {}
+	void Gui::Control::OnResize(ResizeEventArgs& e) {}
+	void Gui::Control::OnMove(MoveEventArgs& e) {
+
+		// Update fixed coordinates (relative to view origin).
+		__fixed_pos = GetFixedPosition();
+
+	}
+	void Gui::Control::OnGotFocus() {}
+	void Gui::Control::OnLostFocus() {}
+	void Gui::Control::OnKeyDown() {}
+	void Gui::Control::OnKeyPressed() {}
+	void Gui::Control::OnKeyReleased() {}
+	void Gui::Control::OnManagerChanged(ManagerChangedEventArgs& e) {}
+
+	// Private members
+
+	bool Gui::Control::HasActiveChild() {
+
 		return false;
 
-	return __manager->ControlManager()->ActiveControl() == this;
+	}
+	Point Gui::Control::GetFixedPosition() const {
 
-}
+		Point fp(X(), Y());
 
-void Gui::Control::SetX(float x) {
+		if (Parent())
+			fp.Translate(Parent()->FixedPosition().X(), Parent()->FixedPosition().Y());
 
-	Point old_position(X(), Y());
+		// Apply the control manager's control offset.
+		if (Manager() && Manager()->ControlManager())
+			fp.Translate(Manager()->ControlManager()->ControlOffset().X(), Manager()->ControlManager()->ControlOffset().Y());
 
-	IPositionable::SetX(x);
+		return fp;
 
-	OnMove(MoveEventArgs(old_position));
-
-}
-void Gui::Control::SetY(float y) {
-
-	Point old_position(X(), Y());
-
-	IPositionable::SetY(y);
-
-	OnMove(MoveEventArgs(old_position));
-
-}
-void Gui::Control::SetXY(float x, float y) {
-
-	Point old_position(X(), Y());
-
-	IPositionable::SetXY(x, y);
-
-	OnMove(MoveEventArgs(old_position));
-
-}
-
-void Gui::Control::OnMouseLeave() {}
-void Gui::Control::OnMouseEnter() {}
-void Gui::Control::OnMouseHover() {}
-void Gui::Control::OnMouseDown() {}
-void Gui::Control::OnMouseUp() {}
-void Gui::Control::OnMouseMove() {}
-void Gui::Control::OnClick() {}
-void Gui::Control::OnDoubleClick() {}
-void Gui::Control::OnPaint(PaintEventArgs& e) {}
-void Gui::Control::OnResize(ResizeEventArgs& e) {}
-void Gui::Control::OnMove(MoveEventArgs& e) {
-
-	// Update fixed coordinates (relative to view origin).
-	__fixed_pos = GetFixedPosition();
-
-}
-void Gui::Control::OnGotFocus() {}
-void Gui::Control::OnLostFocus() {}
-void Gui::Control::OnKeyDown() {}
-void Gui::Control::OnKeyPressed() {}
-void Gui::Control::OnKeyReleased() {}
-void Gui::Control::OnManagerChanged(ManagerChangedEventArgs& e) {}
-
-// Private members
-
-bool Gui::Control::HasActiveChild() {
-
-	return false;
-
-}
-Point Gui::Control::GetFixedPosition() const {
-
-	Point fp(X(), Y());
-
-	if (Parent())
-		fp.Translate(Parent()->FixedPosition().X(), Parent()->FixedPosition().Y());
-
-	// Apply the control manager's control offset.
-	if (Manager() && Manager()->ControlManager())
-		fp.Translate(Manager()->ControlManager()->ControlOffset().X(), Manager()->ControlManager()->ControlOffset().Y());
-
-	return fp;
+	}
 
 }

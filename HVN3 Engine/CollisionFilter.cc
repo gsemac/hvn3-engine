@@ -1,53 +1,57 @@
 #include "CollisionFilter.h"
 
-CollisionFilter::CollisionFilter() {
+namespace hvn3 {
 
-	__category_bits = 0;
-	__mask_bits = 0;
+	CollisionFilter::CollisionFilter() {
 
-}
-int CollisionFilter::CategoryBits() const {
+		__category_bits = 0;
+		__mask_bits = 0;
 
-	return __category_bits;
+	}
+	int CollisionFilter::CategoryBits() const {
 
-}
-int CollisionFilter::MaskBits() const {
+		return __category_bits;
 
-	return __mask_bits;
+	}
+	int CollisionFilter::MaskBits() const {
 
-}
-void CollisionFilter::SetCategoryBits(int bits) {
+		return __mask_bits;
 
-	__category_bits = bits;
+	}
+	void CollisionFilter::SetCategoryBits(int bits) {
 
-}
-void CollisionFilter::SetMaskBits(int bits) {
+		__category_bits = bits;
 
-	__mask_bits = bits;
+	}
+	void CollisionFilter::SetMaskBits(int bits) {
 
-}
-void CollisionFilter::AddCategory(int bits) {
+		__mask_bits = bits;
 
-	__category_bits |= bits;
+	}
+	void CollisionFilter::AddCategory(int bits) {
 
-}
-void CollisionFilter::RemoveCategory(int bits) {
+		__category_bits |= bits;
 
-	__category_bits &= ~bits;
+	}
+	void CollisionFilter::RemoveCategory(int bits) {
 
-}
-void CollisionFilter::AddMask(int bits) {
+		__category_bits &= ~bits;
 
-	__mask_bits |= bits;
+	}
+	void CollisionFilter::AddMask(int bits) {
 
-}
-void CollisionFilter::RemoveMask(int bits) {
+		__mask_bits |= bits;
 
-	__mask_bits &= ~bits;
+	}
+	void CollisionFilter::RemoveMask(int bits) {
 
-}
-bool CollisionFilter::CheckMatch(const CollisionFilter& other) const {
+		__mask_bits &= ~bits;
 
-	return  (__mask_bits & other.__category_bits) != 0;
+	}
+	bool CollisionFilter::CheckMatch(const CollisionFilter& other) const {
+
+		return  (__mask_bits & other.__category_bits) != 0;
+
+	}
 
 }

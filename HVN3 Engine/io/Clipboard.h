@@ -1,21 +1,21 @@
-#ifndef __CLIPBOARD_H
-#define __CLIPBOARD_H
-#include <allegro5\allegro.h>
+#pragma once
 #include <string>
 
-class String;
+namespace hvn3 {
 
-class Clipboard {
+	class String;
 
-private:
+	class Clipboard {
 
-public:
-	static void SetText(const char* text);
-	static void SetText(const std::string& text);
-	static void SetText(const String& text);
-	static std::string GetText();
-	static bool HasText();
+	private:
 
-};
+	public:
+		static void SetText(const char* text);
+		static void SetText(const std::string& text);
+		static void SetText(const String& text);
+		static std::string GetText();
+		static bool HasText();
 
-#endif
+	};
+
+}

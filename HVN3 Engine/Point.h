@@ -3,34 +3,38 @@
 #include "IPositionable.h"
 #include "Hash.h"
 
-struct Point : public IPositionable {
+namespace hvn3 {
 
-public:
-	Point(float x = 0, float y = 0);
+	struct Point : public IPositionable {
 
-	bool IsEmpty() const;
-	void Round();
-	void Ceiling();
-	void Truncate();
+	public:
+		Point(float x = 0, float y = 0);
 
-	friend bool operator==(const Point& a, const Point& b);
-	friend bool operator!=(const Point& a, const Point& b);
-	friend Point operator+(const Point& a, const Point& b);
-	friend Point operator-(const Point& a, const Point& b);
-	friend Point operator-(const Point& a);
-	Point& operator+=(const Point& other);
-	Point& operator-=(const Point& other);
+		bool IsEmpty() const;
+		void Round();
+		void Ceiling();
+		void Truncate();
 
-};
+		friend bool operator==(const Point& a, const Point& b);
+		friend bool operator!=(const Point& a, const Point& b);
+		friend Point operator+(const Point& a, const Point& b);
+		friend Point operator-(const Point& a, const Point& b);
+		friend Point operator-(const Point& a);
+		Point& operator+=(const Point& other);
+		Point& operator-=(const Point& other);
 
-std::ostream& operator<< (std::ostream& stream, const Point& point);
+	};
+
+}
+
+std::ostream& operator<< (std::ostream& stream, const hvn3::Point& point);
 
 namespace std {
 
 	template <>
-	struct hash<Point> {
+	struct hash<hvn3::Point> {
 
-		std::size_t operator()(const Point& point) const {
+		std::size_t operator()(const hvn3::Point& point) const {
 
 			size_t seed = 0;
 			hash_combine(seed, point.X());

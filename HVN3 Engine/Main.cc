@@ -1,5 +1,6 @@
 #include "HVN3.h"
-using namespace Gui;
+using namespace hvn3;
+using namespace hvn3::Gui;
 
 GameManager MyGame;
 

@@ -1,74 +1,78 @@
 #include "ViewManager.h"
 #include "RoomBase.h"
 
-size_t ViewManager::ViewAdd(const View & view) {
+namespace hvn3 {
 
-	_views.push_back(view);
+	size_t ViewManager::ViewAdd(const View & view) {
 
-	return ViewCount() - 1;
+		_views.push_back(view);
 
-}
-void ViewManager::ViewRemove(size_t index) {
+		return ViewCount() - 1;
 
-	_views.erase(_views.begin() + index);
+	}
+	void ViewManager::ViewRemove(size_t index) {
 
-}
-View & ViewManager::ViewAt(size_t index) {
+		_views.erase(_views.begin() + index);
 
-	return _views[index];
+	}
+	View & ViewManager::ViewAt(size_t index) {
 
-}
-size_t ViewManager::ViewCount() const {
+		return _views[index];
 
-	return _views.size();
+	}
+	size_t ViewManager::ViewCount() const {
 
-}
-void ViewManager::Clear() {
+		return _views.size();
 
-	_views.clear();
+	}
+	void ViewManager::Clear() {
 
-}
-void ViewManager::Update(ViewUpdateEventArgs & e) {
+		_views.clear();
 
-	for (int i = ViewCount() - 1; i >= 0; --i) {
+	}
+	void ViewManager::Update(ViewUpdateEventArgs & e) {
 
-		// Initialize variables.	
-		::View& view = ViewAt(i);
-		Object* obj = view.GetFollowing();
+		for (int i = ViewCount() - 1; i >= 0; --i) {
 
-		// If the View isn't following an Object, or is disabled, there's nothing to do.
-		if (!obj || !view.Enabled())
-			continue;
+			// Initialize variables.	
+			hvn3::View& view = ViewAt(i);
+			Object* obj = view.GetFollowing();
 
-		// Calculate the distance of the Object from the center of the view (to compare with borders).
-		float diff_x = (view.ViewX() + view.Region().Width() / 2.0f) - obj->X();
-		float diff_y = (view.ViewY() + view.Region().Height() / 2.0f) - obj->Y();
+			// If the View isn't following an Object, or is disabled, there's nothing to do.
+			if (!obj || !view.Enabled())
+				continue;
 
-		// Check for overlap in view horizonal view border.
-		if ((std::abs)(diff_x) > (view.Region().Width() / 2.0f - view.HorizontalBorder())) {
+			// Calculate the distance of the Object from the center of the view (to compare with borders).
+			float diff_x = (view.ViewX() + view.Region().Width() / 2.0f) - obj->X();
+			float diff_y = (view.ViewY() + view.Region().Height() / 2.0f) - obj->Y();
 
-			// Calculate the amount that the view has to shift by.
-			float diff = (view.HorizontalBorder() - ((view.Region().Width() / 2.0f) - (std::abs)(diff_x))) * Signum(diff_x);
+			// Check for overlap in view horizonal view border.
+			if ((std::abs)(diff_x) > (view.Region().Width() / 2.0f - view.HorizontalBorder())) {
 
-			// Make sure the View doesn't shift outside of the room boundaries.
-			diff = Clamp(diff, -(e.RoomSize().Width() - view.Region().Width() - view.Position().X()), view.Position().X());
+				// Calculate the amount that the view has to shift by.
+				float diff = (view.HorizontalBorder() - ((view.Region().Width() / 2.0f) - (std::abs)(diff_x))) * Signum(diff_x);
 
-			// Adjust View position.
-			view.SetPosition(view.ViewX() - diff, view.ViewY());
+				// Make sure the View doesn't shift outside of the room boundaries.
+				diff = Clamp(diff, -(e.RoomSize().Width() - view.Region().Width() - view.Position().X()), view.Position().X());
 
-		}
+				// Adjust View position.
+				view.SetPosition(view.ViewX() - diff, view.ViewY());
 
-		// Check for overlap in view horizonal view border.
-		if ((std::abs)(diff_y) > (view.Region().Height() / 2.0f - view.VerticalBorder())) {
+			}
 
-			// Calculate the amount that the view has to shift by.
-			float diff = (view.VerticalBorder() - ((view.Region().Height() / 2.0f) - (std::abs)(diff_y))) * Signum(diff_y);
+			// Check for overlap in view horizonal view border.
+			if ((std::abs)(diff_y) > (view.Region().Height() / 2.0f - view.VerticalBorder())) {
 
-			// Make sure the View doesn't shift outside of the room boundaries.
-			diff = Clamp(diff, -(e.RoomSize().Height() - view.Region().Height() - view.Position().Y()), view.Position().Y());
+				// Calculate the amount that the view has to shift by.
+				float diff = (view.VerticalBorder() - ((view.Region().Height() / 2.0f) - (std::abs)(diff_y))) * Signum(diff_y);
 
-			// Adjust View/mouse position.
-			view.SetPosition(view.ViewX(), view.ViewY() - diff);
+				// Make sure the View doesn't shift outside of the room boundaries.
+				diff = Clamp(diff, -(e.RoomSize().Height() - view.Region().Height() - view.Position().Y()), view.Position().Y());
+
+				// Adjust View/mouse position.
+				view.SetPosition(view.ViewX(), view.ViewY() - diff);
+
+			}
 
 		}
 
