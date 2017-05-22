@@ -1,5 +1,6 @@
 #include <cassert>
 #include <limits>
+#include <allegro5/allegro.h>
 #include "Display.h"
 #include "Graphics.h"
 #define UNDEFINED_WINDOW_POSITION_X INT_MAX

@@ -5,10 +5,6 @@ namespace Drawing {
 
 	class Transform {
 
-		struct Matrix {
-			float m[4][4];
-		};
-
 	public:
 		Transform();
 		Transform(const Transform& other);

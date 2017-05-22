@@ -1,7 +1,8 @@
-#include <stack>
 #include "Graphics.h"
 #include "Exception.h"
 #include "FrameworkAdapter.h"
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h>
 
 namespace Drawing {
 	

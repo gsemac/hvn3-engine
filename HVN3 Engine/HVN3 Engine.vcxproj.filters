@@ -866,6 +866,9 @@
     <ClInclude Include="FrameworkAdapter.h">
       <Filter>Header Files\System\Allegro</Filter>
     </ClInclude>
+    <ClInclude Include="AllegroForwardDeclarations.h">
+      <Filter>Header Files\System\Allegro</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\test\tileset1.png">

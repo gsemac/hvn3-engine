@@ -172,6 +172,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -179,6 +180,16 @@
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Windows</SubSystem>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <Lib />
+    <Lib>
+      <AdditionalDependencies>allegro.lib;allegro_font.lib;allegro_ttf.lib;allegro_image.lib;allegro_audio.lib;allegro_primitives.lib;allegro_acodec.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)packages\Allegro.5.2.2.0\build\native\v140\win32\lib;$(SolutionDir)packages\AllegroDeps.1.5.0.0\build\native\v140\win32\deps\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -318,6 +329,7 @@
     <ClCompile Include="ViewManager.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AllegroForwardDeclarations.h" />
     <ClInclude Include="FrameworkAdapter.h" />
     <ClInclude Include="AllegroExtensions.h" />
     <ClInclude Include="Background.h" />
