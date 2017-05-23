@@ -64,7 +64,7 @@ namespace hvn3 {
 			float height_diff = e.NewSize().Height() - e.OldSize().Height();
 
 			// Reposition all anchored Controls.
-			for (auto it = Controls()->ControlsEnd(); it-- != Controls()->ControlsBegin();) {
+			for (auto it = Controls()->ControlsBegin(); it != Controls()->ControlsEnd(); ++it) {
 
 				Control* c = it->get();
 

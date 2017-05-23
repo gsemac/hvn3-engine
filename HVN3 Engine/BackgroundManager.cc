@@ -61,7 +61,7 @@ namespace hvn3 {
 
 	}
 	void BackgroundManager::DrawBackgrounds(BackgroundDrawEventArgs& e) {
-
+		
 		// Draw all backgrounds.
 		e.Graphics().HoldBitmapDrawing(BackgroundCount() > 1);
 		for (size_t i = 0; i < _backgrounds.size(); ++i)

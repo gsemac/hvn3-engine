@@ -110,13 +110,13 @@ namespace hvn3 {
 		e.Graphics().Clear(BackgroundColor());
 
 		// Draw all backgrounds.
-		BackgroundManager()->DrawBackgrounds(BackgroundDrawEventArgs(e.Graphics(), Size(Width(), Height()), &_view_manager.ViewAt(_rendering_view)));
+		BackgroundManager()->DrawBackgrounds(BackgroundDrawEventArgs(e.Graphics(), Size(Width(), Height()), CurrentView()));
 
 		// Draw all objects.
 		ObjectManager()->Draw(e);
 
 		// Draw all foregrounds.
-		BackgroundManager()->DrawForegrounds(BackgroundDrawEventArgs(e.Graphics(), Size(Width(), Height()), &_view_manager.ViewAt(_rendering_view)));
+		BackgroundManager()->DrawForegrounds(BackgroundDrawEventArgs(e.Graphics(), Size(Width(), Height()), CurrentView()));
 
 	}
 
