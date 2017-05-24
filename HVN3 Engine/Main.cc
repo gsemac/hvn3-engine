@@ -246,8 +246,8 @@ int main(int argc, char *argv[]) {
 	MyGame.ResourceManager().Backgrounds().Add(BACKGROUND_1, Resource::Create<Background>("data/test/tileset1.png"));
 
 	// Set up the first scene.
-	MyGame.RoomManager().RoomAdd(Room::Create<TestRoom>());
-	MyGame.RoomManager().RoomAdd(Room::Create<TestRoom>());
+	MyGame.RoomManager().AddRoom(Room::Create<TestRoom>());
+	MyGame.RoomManager().AddRoom(Room::Create<TestRoom>());
 
 	// Run the main game loop.
 	MyGame.Loop();

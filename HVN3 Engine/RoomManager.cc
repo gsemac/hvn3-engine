@@ -25,7 +25,7 @@ namespace hvn3 {
 
 	}
 
-	void RoomManager::RoomAdd(std::unique_ptr<Room>& room) {
+	void RoomManager::AddRoom(std::unique_ptr<Room>& room) {
 
 		// Add the new room.
 		_rooms.push_back(std::move(room));
@@ -39,11 +39,11 @@ namespace hvn3 {
 		}
 
 	}
-	void RoomManager::RoomLoad(RoomId id) {
+	void RoomManager::LoadRoom(RoomId id) {
 
 		size_t index = FindRoomIndex(id);
 
-		RoomLoad(index);
+		LoadRoom(index);
 
 	}
 	void RoomManager::LoadNext() {
@@ -97,7 +97,7 @@ namespace hvn3 {
 		if (_room_change_pending) {
 
 			// Load the new room.
-			RoomLoad(_next_room);
+			LoadRoom(_next_room);
 
 			// Disable the room change pending flag, along with any pending restarts.
 			_room_change_pending = false;
@@ -130,7 +130,7 @@ namespace hvn3 {
 
 	}
 
-	void RoomManager::RoomLoad(size_t room_index) {
+	void RoomManager::LoadRoom(size_t room_index) {
 
 		// Create room controllers for the current room and the next room.
 		RoomController current_room_controller(CurrentRoom());

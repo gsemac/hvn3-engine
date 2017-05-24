@@ -57,8 +57,8 @@ namespace hvn3 {
 
 		private:
 			Bitmap();
-			ALLEGRO_BITMAP* __bmp;
-			bool __free;
+			ALLEGRO_BITMAP* _bmp;
+			bool _free;
 
 			void ShallowCopy(Bitmap& other);
 			void Free();

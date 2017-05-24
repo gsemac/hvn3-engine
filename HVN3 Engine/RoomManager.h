@@ -14,8 +14,8 @@ namespace hvn3 {
 		RoomManager();
 		~RoomManager();
 
-		void RoomAdd(std::unique_ptr<Room>& room);
-		void RoomLoad(RoomId id);
+		void AddRoom(std::unique_ptr<Room>& room);
+		void LoadRoom(RoomId id);
 		void LoadNext();
 		void LoadPrevious();
 
@@ -28,7 +28,7 @@ namespace hvn3 {
 		void Draw(DrawEventArgs& e);
 
 	protected:
-		void RoomLoad(size_t room_index);
+		void LoadRoom(size_t room_index);
 		size_t FindRoomIndex(RoomId id) const;
 		size_t FindRoomIndex(const std::unique_ptr<Room>& room) const;
 

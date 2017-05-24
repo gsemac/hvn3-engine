@@ -249,9 +249,6 @@
     <ClCompile Include="Background.cc">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="Bitmap.cc">
-      <Filter>Source Files\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="Font.cc">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
@@ -465,6 +462,9 @@
     <ClCompile Include="FrameworkAdapter.cc">
       <Filter>Source Files\System\Allegro</Filter>
     </ClCompile>
+    <ClCompile Include="Bitmap.cc">
+      <Filter>Source Files\Drawing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -475,9 +475,6 @@
     </ClInclude>
     <ClInclude Include="BitFlags.h">
       <Filter>Header Files\Helper</Filter>
-    </ClInclude>
-    <ClInclude Include="Bitmap.h">
-      <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="BitPacker.h">
       <Filter>Header Files\Networking</Filter>
@@ -868,6 +865,9 @@
     </ClInclude>
     <ClInclude Include="AllegroForwardDeclarations.h">
       <Filter>Header Files\System\Allegro</Filter>
+    </ClInclude>
+    <ClInclude Include="Bitmap.h">
+      <Filter>Header Files\Drawing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
