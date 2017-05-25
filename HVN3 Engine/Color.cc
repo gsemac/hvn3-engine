@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cmath>
 #include "Color.h"
+#include <iostream>
 
 namespace hvn3 {
 
@@ -16,8 +17,6 @@ namespace hvn3 {
 		__a = a;
 
 	}
-	Color::Color(const Color& color) : Color(color.R(), color.G(), color.B()) {}
-
 	Color Color::FromArgb(unsigned char r, unsigned char g, unsigned char b, float a) {
 
 		return Color(r, g, b, a);

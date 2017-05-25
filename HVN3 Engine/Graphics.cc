@@ -272,8 +272,8 @@ namespace hvn3 {
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, const Color& tint) {
 
 			PrepareDrawingSurface();
-
-			al_draw_tinted_bitmap(bitmap.AlPtr(), FrameworkAdapter::ToColor(tint), x, y, NULL);
+		
+			al_draw_tinted_bitmap(bitmap.AlPtr(), al_map_rgba_f(tint.Alphaf(), tint.Alphaf(), tint.Alphaf(), tint.Alphaf()), x, y, NULL);
 
 		}
 

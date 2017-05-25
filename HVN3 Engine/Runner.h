@@ -25,7 +25,7 @@ namespace hvn3 {
 		// Returns an object representing a collection of game properties. 
 		const Properties& Properties() const;
 
-		RoomBase& CurrentRoom();
+		RoomBase* CurrentRoom();
 
 	protected:
 		// Renders the current game state to the display surface.

@@ -107,12 +107,12 @@ public:
 		Object::Update(e);
 
 		float r = _radius;
-		Room& room = MyGame.RoomManager().CurrentRoom();
+		Room* room = MyGame.RoomManager().CurrentRoom();
 
-		if ((Y() - r < 0 && Velocity().Y() < 0) || (Y() + r > room.Height() && Velocity().Y() > 0))
+		if ((Y() - r < 0 && Velocity().Y() < 0) || (Y() + r > room->Height() && Velocity().Y() > 0))
 			Velocity().SetY(Velocity().Y() * -1);
 
-		if ((X() - r < 0 && Velocity().X() < 0) || (X() + r > room.Width() && Velocity().X() > 0))
+		if ((X() - r < 0 && Velocity().X() < 0) || (X() + r > room->Width() && Velocity().X() > 0))
 			Velocity().SetX(Velocity().X() * -1);
 
 	}
@@ -218,12 +218,12 @@ private:
 		//panel->Controls()->AddControl(Control::Create<Button>(butt));
 		//panel->Controls()->AddControl(Control::Create<Button>(100, 100, 100, 25, "Non-Anchored")); // non-anchored
 		//panel->Controls()->AddControl(Control::Create<Window>(120, 120, 100, 100, "Nested"));
-
+		
 		ScrollBox* scrollbox = new ScrollBox(Point(0, 0), Size(wind->Width(), wind->Height() - wind->TitlebarHeight()));
 		scrollbox->SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM);
 
 		wind->Controls()->AddControl(Control::Create(scrollbox));
-
+		wind->SetOpacity(0.5f);
 		return wind;
 
 	}
@@ -248,6 +248,7 @@ int main(int argc, char *argv[]) {
 	// Set up the first scene.
 	MyGame.RoomManager().AddRoom(Room::Create<TestRoom>());
 	MyGame.RoomManager().AddRoom(Room::Create<TestRoom>());
+	MyGame.RoomManager().SetRoomTransition<RoomTransitionFade>(Color::Black, true);
 
 	// Run the main game loop.
 	MyGame.Loop();

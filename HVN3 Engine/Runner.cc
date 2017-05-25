@@ -63,7 +63,7 @@ namespace hvn3 {
 	void Runner::Draw(DrawEventArgs& e) {
 
 		if (_room_manager.RoomCount() > 0)
-
+			
 			// Render the active Scene.
 			_room_manager.Draw(e);
 
@@ -84,11 +84,11 @@ namespace hvn3 {
 
 	}
 	void Runner::WaitForEvent() {
-
+		
 		// Wait for the next event.
 		Event ev;
 		__event_queue.WaitForEvent(ev);
-
+		
 		// Handle the next event depending on its type.
 		switch (ev.Type()) {
 
@@ -152,7 +152,7 @@ namespace hvn3 {
 
 	}
 	void Runner::Loop() {
-
+		
 		// Render once before starting the loop so there's something to see if the framerate is low.
 		OnRedraw();
 
@@ -330,7 +330,7 @@ namespace hvn3 {
 		__display.Resize(ev.AlPtr()->display.width, ev.AlPtr()->display.height);
 
 		if (_room_manager.RoomCount() > 0)
-			_room_manager.CurrentRoom().OnDisplaySizeChanged(DisplaySizeChangedEventArgs(
+			_room_manager.CurrentRoom()->OnDisplaySizeChanged(DisplaySizeChangedEventArgs(
 				old_size, Size(__display.Width(), __display.Height()), &__display)
 				);
 
@@ -382,7 +382,7 @@ namespace hvn3 {
 		return _properties;
 
 	}
-	RoomBase& Runner::CurrentRoom() {
+	RoomBase* Runner::CurrentRoom() {
 
 		return _room_manager.CurrentRoom();
 
@@ -394,7 +394,7 @@ namespace hvn3 {
 		if (_room_manager.RoomCount() <= 0)
 			return;
 
-		RoomBase& room = _room_manager.CurrentRoom();
+		RoomBase& room = *_room_manager.CurrentRoom();
 
 		// Set the Transform according to the scaling mode.
 		Drawing::Transform scaling_transform;
@@ -434,7 +434,7 @@ namespace hvn3 {
 		if (_room_manager.RoomCount() <= 0)
 			return;
 
-		Room& room = _room_manager.CurrentRoom();
+		Room& room = *_room_manager.CurrentRoom();
 
 		if (room.ViewManager()->ViewCount()) {
 

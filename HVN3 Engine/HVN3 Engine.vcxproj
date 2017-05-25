@@ -149,7 +149,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -273,6 +273,7 @@
     <ClCompile Include="io\Keyboard.cc" />
     <ClCompile Include="io\Mouse.cc" />
     <ClCompile Include="io\Path.cc" />
+    <ClCompile Include="IRoomTransition.cc" />
     <ClCompile Include="NarrowPhaseCollisionManager.cc" />
     <ClCompile Include="ObjectManager.cc" />
     <ClCompile Include="Properties.cc" />
@@ -281,6 +282,8 @@
     <ClCompile Include="GraphicsState.cc" />
     <ClCompile Include="Grid.cc" />
     <ClCompile Include="GridVisualizer.cc" />
+    <ClCompile Include="RoomTransitionFade.cc" />
+    <ClCompile Include="RoomTransitionNone.cc" />
     <ClCompile Include="Utility.cc" />
     <ClCompile Include="ICollidable.cc" />
     <ClCompile Include="IFocusable.cc" />
@@ -386,6 +389,9 @@
     <ClInclude Include="Framework.h" />
     <ClInclude Include="IBackgroundManager.h" />
     <ClInclude Include="ICollisionManager.h" />
+    <ClInclude Include="IRoomTransition.h" />
+    <ClInclude Include="RoomTransitionFade.h" />
+    <ClInclude Include="RoomTransitionNone.h" />
     <ClInclude Include="UniqueCreateableBase.h" />
     <ClInclude Include="IExtension.h" />
     <ClInclude Include="io\Clipboard.h" />

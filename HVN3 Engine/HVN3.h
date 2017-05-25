@@ -7,6 +7,7 @@
 #include "Framework.h"
 #include "Runner.h"
 #include "Room.h"
+#include "RoomTransitionFade.h"
 #include "io/IO.h"
 #include "Environment.h"
 #include "io/Keyboard.h"

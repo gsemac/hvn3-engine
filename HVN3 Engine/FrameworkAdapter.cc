@@ -6,7 +6,7 @@ namespace hvn3 {
 
 	ALLEGRO_COLOR FrameworkAdapter::ToColor(const Color& color) {
 
-		return al_map_rgba(color.R(), color.G(), color.B(), color.Alpha());
+		return al_map_rgba_f(color.Rf() * color.Alphaf(), color.Gf() * color.Alphaf(), color.Bf() * color.Alphaf(), color.Alphaf());
 
 	}
 	Color FrameworkAdapter::FromColor(const ALLEGRO_COLOR& color) {

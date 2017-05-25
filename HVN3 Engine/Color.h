@@ -10,7 +10,6 @@ namespace hvn3 {
 	public:
 		Color();
 		Color(unsigned char r, unsigned char g, unsigned char b, float a = 1.0f);
-		Color(const Color& color);
 
 		static Color FromArgb(unsigned char r, unsigned char g, unsigned char b, float a = 1.0f);
 		static Color FromArgbf(float r, float g, float b, float a = 1.0f);
@@ -66,7 +65,7 @@ namespace hvn3 {
 
 		static bool IsTransparent(const ALLEGRO_COLOR& color);
 
-	private:
+	public:
 		float __r, __g, __b, __a;
 
 		void RgbToHsl();

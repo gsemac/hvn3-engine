@@ -465,6 +465,15 @@
     <ClCompile Include="Bitmap.cc">
       <Filter>Source Files\Drawing</Filter>
     </ClCompile>
+    <ClCompile Include="IRoomTransition.cc">
+      <Filter>Source Files\Resources\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomTransitionFade.cc">
+      <Filter>Source Files\Resources\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomTransitionNone.cc">
+      <Filter>Source Files\Resources\Room</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -868,6 +877,15 @@
     </ClInclude>
     <ClInclude Include="Bitmap.h">
       <Filter>Header Files\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="IRoomTransition.h">
+      <Filter>Header Files\Resources\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomTransitionFade.h">
+      <Filter>Header Files\Resources\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomTransitionNone.h">
+      <Filter>Header Files\Resources\Room</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
