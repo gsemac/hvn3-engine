@@ -1,6 +1,5 @@
 #include "SmoothScrollbar.h"
 #include "IScrollable.h"
-#define SCROLLBAR_EASING_INCREMENT 1.0f
 
 namespace hvn3 {
 	namespace Gui {

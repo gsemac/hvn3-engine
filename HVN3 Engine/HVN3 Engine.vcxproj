@@ -253,6 +253,7 @@
     <ClCompile Include="GameManager.cc" />
     <ClCompile Include="gui\Button.cc" />
     <ClCompile Include="gui\Container.cc" />
+    <ClCompile Include="gui\ContainerControl.cc" />
     <ClCompile Include="gui\Control.cc" />
     <ClCompile Include="gui\ControlController.cc" />
     <ClCompile Include="gui\ControlManager.cc" />
@@ -261,6 +262,7 @@
     <ClCompile Include="gui\IContainer.cc" />
     <ClCompile Include="gui\IScrollable.cc" />
     <ClCompile Include="gui\ITextable.cc" />
+    <ClCompile Include="gui\ToolStrip.cc" />
     <ClCompile Include="gui\Panel.cc" />
     <ClCompile Include="gui\ScrollableControl.cc" />
     <ClCompile Include="gui\Scrollbar.cc" />
@@ -361,6 +363,7 @@
     <ClInclude Include="GraphicsState.h" />
     <ClInclude Include="gui\Button.h" />
     <ClInclude Include="gui\Container.h" />
+    <ClInclude Include="gui\ContainerControl.h" />
     <ClInclude Include="gui\Control.h" />
     <ClInclude Include="gui\ControlController.h" />
     <ClInclude Include="gui\ControlManager.h" />
@@ -369,6 +372,7 @@
     <ClInclude Include="gui\GuiManager.h" />
     <ClInclude Include="gui\Handle.h" />
     <ClInclude Include="gui\IScrollable.h" />
+    <ClInclude Include="gui\ToolStrip.h" />
     <ClInclude Include="gui\ScrollableControl.h" />
     <ClInclude Include="gui\ScrollEventArgs.h" />
     <ClInclude Include="gui\SmoothScrollbar.h" />

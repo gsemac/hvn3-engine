@@ -172,6 +172,11 @@ public:
 
 		GuiManager()->ControlManager()->AddControl(Control::Create<Window>(CreateGuiWindow()));
 
+		ToolStrip* toolstrip = new ToolStrip;
+		//toolstrip->Controls()->AddControl();
+
+		GuiManager()->ControlManager()->AddControl(Control::Create(toolstrip));
+
 		//ViewManager()->ViewAdd(View(Point(0, 0), Size(Width(), Height()), Point(0, 0), Size(Width(), Height())));
 		//ViewManager()->ViewAt(0).Enable();
 
@@ -203,7 +208,7 @@ private:
 
 		Size wind_size(MyGame.ResourceManager().Backgrounds()[BACKGROUND_1]->Width(), MyGame.ResourceManager().Backgrounds()[BACKGROUND_1]->Height());
 
-		Window* wind = new Window(0, 0, wind_size.Width(), wind_size.Height(), "My Window");
+		Window* wind = new Window(50, 50, wind_size.Width(), wind_size.Height(), "My Window");
 		wind->SetMaximumSize(Size(wind_size.Width(), wind_size.Height() + wind->TitlebarHeight()));
 
 		//Button* button = new Button(0, 0, wind->Width(), wind->Height() - wind->TitlebarHeight(), "Anchored Button");
