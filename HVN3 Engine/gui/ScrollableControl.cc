@@ -6,7 +6,9 @@
 
 namespace hvn3 {
 
-	namespace Gui {
+	namespace Gui {	
+
+		typedef SmoothScrollbar def_scrollbar_type;
 
 		ScrollableControl::ScrollableControl(float scroll_height) :
 			ScrollableControl(Size(Width(), scroll_height)) {
@@ -114,9 +116,9 @@ namespace hvn3 {
 
 			// If scrollbars haven't been created yet, create them.
 			if (_scrollbars[VERTICAL] == nullptr)
-				_scrollbars[VERTICAL] = new Scrollbar(this, Point(X() + Width() - SCROLLBAR_DEFAULT_WIDTH, Y() + SCROLLBAR_DEFAULT_WIDTH), Size(SCROLLBAR_DEFAULT_WIDTH, Height() - SCROLLBAR_DEFAULT_WIDTH), Orientation::Vertical);
+				_scrollbars[VERTICAL] = new def_scrollbar_type(this, Point(X() + Width() - SCROLLBAR_DEFAULT_WIDTH, Y() + SCROLLBAR_DEFAULT_WIDTH), Size(SCROLLBAR_DEFAULT_WIDTH, Height() - SCROLLBAR_DEFAULT_WIDTH), Orientation::Vertical);
 			if (_scrollbars[HORIZONTAL] == nullptr)
-				_scrollbars[HORIZONTAL] = new Scrollbar(this, Point(X(), Y() + Height() - SCROLLBAR_DEFAULT_WIDTH), Size(Width() - SCROLLBAR_DEFAULT_WIDTH, SCROLLBAR_DEFAULT_WIDTH), Orientation::Horizontal);
+				_scrollbars[HORIZONTAL] = new def_scrollbar_type(this, Point(X(), Y() + Height() - SCROLLBAR_DEFAULT_WIDTH), Size(Width() - SCROLLBAR_DEFAULT_WIDTH, SCROLLBAR_DEFAULT_WIDTH), Orientation::Horizontal);
 
 			// Move scrollbars from the previous manager to the new manager, if the previous manager was non-null.
 			if (e.PreviousManager() != nullptr) {

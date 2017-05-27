@@ -1,3 +1,4 @@
+#pragma once
 #include "EventArgs.h"
 #include "Control.h"
 
@@ -8,11 +9,7 @@ namespace hvn3 {
 		class ScrollEventArgs : public EventArgs {
 
 		public:
-			ScrollEventArgs(float percent, float position, Orientation orientation) :
-				_percent(percent),
-				_position(position),
-				_orientation(orientation) {
-			}
+			ScrollEventArgs(float percent, float position, Orientation orientation);
 
 			float Percentage() const;
 			float Position() const;

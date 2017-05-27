@@ -265,6 +265,7 @@
     <ClCompile Include="gui\ScrollableControl.cc" />
     <ClCompile Include="gui\Scrollbar.cc" />
     <ClCompile Include="gui\ScrollEventArgs.cc" />
+    <ClCompile Include="gui\SmoothScrollbar.cc" />
     <ClCompile Include="gui\StyleManager.cc" />
     <ClCompile Include="gui\Window.cc" />
     <ClCompile Include="io\Clipboard.cc" />
@@ -370,6 +371,7 @@
     <ClInclude Include="gui\IScrollable.h" />
     <ClInclude Include="gui\ScrollableControl.h" />
     <ClInclude Include="gui\ScrollEventArgs.h" />
+    <ClInclude Include="gui\SmoothScrollbar.h" />
     <ClInclude Include="ICollection.h" />
     <ClInclude Include="gui\IContainer.h" />
     <ClInclude Include="gui\ITextable.h" />

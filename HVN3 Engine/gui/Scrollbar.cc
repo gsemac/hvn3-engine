@@ -3,6 +3,7 @@
 #include "io/Mouse.h"
 #include "Utility.h"
 #include "Color.h"
+#define MINIMUM_SLIDER_SIZE 10.0f
 
 namespace hvn3 {
 
@@ -18,7 +19,7 @@ namespace hvn3 {
 			_dragging(false) {
 
 			SetTarget(control);
-			RecalculateSliderSize();
+			_RecalculateSliderSize();
 
 		}
 
@@ -35,27 +36,14 @@ namespace hvn3 {
 
 			// Adjust the position of the slider.
 			if (_orientation == Orientation::Vertical)
-				_position = (Height() - _slider_height) * percent;
+				_SetPosition((Height() - _slider_height) * percent);
 			else
-				_position = (Width() - _slider_height) * percent;
-
-			// Adjust the scroll value of the associated object.
-			if (_target != nullptr)
-				ScrollTargetToPosition();
+				_SetPosition((Width() - _slider_height) * percent);
 
 		}
 		float Scrollbar::ScrollPercentage() const {
 
-			if (_orientation == Orientation::Vertical)
-				if (Height() == _slider_height)
-					return 0.0f;
-				else
-					return _position / (Height() - _slider_height);
-			else
-				if (Width() == _slider_height)
-					return 0.0f;
-				else
-					return _position / (Width() - _slider_height);
+			return _PositionToPercentage(_Position());
 
 		}
 		void Scrollbar::ScrollToTop() {
@@ -72,7 +60,7 @@ namespace hvn3 {
 		void Scrollbar::OnResize(ResizeEventArgs& e) {
 
 			// Relculate the size of the slider to compensate for the new size.
-			RecalculateSliderSize();
+			_RecalculateSliderSize();
 
 			// Invalidate the control so slider is redrawn.
 			Invalidate();
@@ -87,7 +75,7 @@ namespace hvn3 {
 		}
 		void Scrollbar::OnMouseDown() {
 
-			if (MouseOnSlider() && Mouse::ButtonPressed(MB_LEFT)) {
+			if (_MouseOnSlider() && Mouse::ButtonPressed(MB_LEFT)) {
 
 				_mouse_clicked_pos = (_orientation == Orientation::Vertical ? Mouse::Y : Mouse::X);
 				_starting_position = _position;
@@ -121,17 +109,10 @@ namespace hvn3 {
 				else
 					new_position = Min(Width() - _slider_height, Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::X)));
 
-				if (new_position != _position) {
-
+				if (new_position != _Position()) {
+				
 					// Update the position of the slider (if it has changed).
-					_position = new_position;
-
-					// If there is a target control, scroll it.
-					if (_target)
-						ScrollTargetToPosition();
-
-					// Invalidate the scrollbar to draw the new slider position.
-					Invalidate();
+					_SetPosition(new_position);
 
 				}
 
@@ -139,10 +120,10 @@ namespace hvn3 {
 			else if (_target && (_target->HasFocus() || HasFocus())) {
 
 				if (_orientation == Orientation::Vertical && (Mouse::ScrolledDown() || Mouse::ScrolledUp()))
-					SetScrollPercentage(PixelsToPercentage(PercentageToPixels(ScrollPercentage()) + (Mouse::ScrolledDown() ? -10 : 10)));
+					SetScrollPercentage(_PixelsToPercentage(_PercentageToPixels(ScrollPercentage()) + (Mouse::ScrolledDown() ? -10 : 10)));
 
 				else if (_orientation == Orientation::Horizontal && (Mouse::ScrolledLeft() || Mouse::ScrolledRight()))
-					SetScrollPercentage(PixelsToPercentage(PercentageToPixels(ScrollPercentage()) + (Mouse::ScrolledLeft() ? -10 : 10)));
+					SetScrollPercentage(_PixelsToPercentage(_PercentageToPixels(ScrollPercentage()) + (Mouse::ScrolledLeft() ? -10 : 10)));
 
 			}
 
@@ -152,15 +133,73 @@ namespace hvn3 {
 			e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor().Lighter());
 
 			if (_orientation == Orientation::Vertical)
-				e.Graphics().DrawFilledRectangle(0, _position, Width(), _slider_height, MouseOnSlider() ? Color::LtGrey : Color::Grey);
+				e.Graphics().DrawFilledRectangle(0, _position, Width(), _slider_height, _MouseOnSlider() ? Color::LtGrey : Color::Grey);
 			else
-				e.Graphics().DrawFilledRectangle(_position, 0, _slider_height, Height(), MouseOnSlider() ? Color::LtGrey : Color::Grey);
+				e.Graphics().DrawFilledRectangle(_position, 0, _slider_height, Height(), _MouseOnSlider() ? Color::LtGrey : Color::Grey);
+
+		}
+
+		// Protected methods
+
+		void Scrollbar::_SetPosition(float position) {
+
+			// Update the position value.
+			_position = position;
+
+			// Update the position of the control.
+			if (_target)
+				_ScrollTargetToPosition();
+
+			// Invalidate the scrollbar to draw the new slider position.
+			Invalidate();
+
+		}
+		float Scrollbar::_Position() const {
+
+			return _position;
+
+		}
+		float Scrollbar::_PositionToPercentage(float position) const {
+
+			if (_orientation == Orientation::Vertical)
+				if (Height() == _slider_height)
+					return 0.0f;
+				else
+					return position / (Height() - _slider_height);
+			else
+				if (Width() == _slider_height)
+					return 0.0f;
+				else
+					return position / (Width() - _slider_height);
+
+		}
+		ScrollEventArgs Scrollbar::_GetScrollEventArgs(float scroll_percentage) const {
+
+			if (_orientation == Orientation::Vertical)
+				return ScrollEventArgs(scroll_percentage, (_target->ScrollableRegion().Height() - _target->VisibleRegion().Height()) * scroll_percentage, _orientation);
+			else
+				return ScrollEventArgs(scroll_percentage, (_target->ScrollableRegion().Width() - _target->VisibleRegion().Width()) * scroll_percentage, _orientation);
+
+		}
+		IScrollable* Scrollbar::_Target() {
+
+			return _target;
+
+		}
+		Orientation Scrollbar::_Orientation() const {
+
+			return _orientation;
+		
+		}
+		void Scrollbar::_ScrollTargetToPosition() {
+
+			_Target()->OnScroll(_GetScrollEventArgs(ScrollPercentage()));
 
 		}
 
 		// Private methods
 
-		bool Gui::Scrollbar::MouseOnSlider() {
+		bool Scrollbar::_MouseOnSlider() {
 
 			if (!IsActiveControl())
 				return false;
@@ -173,7 +212,7 @@ namespace hvn3 {
 				return Mouse::InRegion(fp.X() + _position, fp.Y(), fp.X() + _position + _slider_height, fp.Y() + Height());
 
 		}
-		void Gui::Scrollbar::RecalculateSliderSize() {
+		void Scrollbar::_RecalculateSliderSize() {
 
 			// Adjust the height of the slider.
 			if (_orientation == Orientation::Vertical)
@@ -188,27 +227,19 @@ namespace hvn3 {
 					_slider_height = Max(0.0f, (_target->VisibleRegion().Width() / _target->ScrollableRegion().Width()) * Width());
 
 			// Set a minimum size for the slider so it doesn't become unclickable.
-			_slider_height = Max(_slider_height, 15.0f);
+			_slider_height = Max(_slider_height, MINIMUM_SLIDER_SIZE);
 
 			// Adjust the scroll position to compensate for the new height of the slider.
 			// We want to maintain the same scroll position unless the visible region becomes large enough that we can no longer scroll that far.
 			SetScrollPercentage(ScrollPercentage());
 
 		}
-		void Gui::Scrollbar::ScrollTargetToPosition() {
-
-			if (_orientation == Orientation::Vertical)
-				_target->OnScroll(ScrollEventArgs(ScrollPercentage(), (_target->ScrollableRegion().Height() - _target->VisibleRegion().Height()) * ScrollPercentage(), _orientation));
-			else
-				_target->OnScroll(ScrollEventArgs(ScrollPercentage(), (_target->ScrollableRegion().Width() - _target->VisibleRegion().Width()) * ScrollPercentage(), _orientation));
-
-		}
-		int Gui::Scrollbar::PercentageToPixels(float percentage) {
+		int Scrollbar::_PercentageToPixels(float percentage) {
 
 			return (Height() - _slider_height) * percentage;
 
 		}
-		float Gui::Scrollbar::PixelsToPercentage(int pixels) {
+		float Scrollbar::_PixelsToPercentage(int pixels) {
 
 			return (float)pixels / (Height() - _slider_height);
 

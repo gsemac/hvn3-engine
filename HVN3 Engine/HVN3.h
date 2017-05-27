@@ -19,3 +19,4 @@
 #include "Tileset.h"
 #include "gui/Gui.h"
 #include "ICollection.h"
+#include "gui/ScrollableControl.h"

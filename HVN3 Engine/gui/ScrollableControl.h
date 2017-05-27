@@ -1,6 +1,6 @@
 #pragma once
 #include "gui/IScrollable.h"
-#include "gui/Scrollbar.h"
+#include "gui/SmoothScrollbar.h"
 #include "gui/Control.h"
 #include "gui/Handle.h"
 

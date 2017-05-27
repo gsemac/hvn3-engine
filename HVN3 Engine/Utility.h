@@ -77,13 +77,28 @@ namespace hvn3 {
 
 	// Forces a value to be between a minimum and maximum value.
 	template <typename T>
-	float Clamp(T value, T min, T max) {
+	T Clamp(T value, T min, T max) {
 
 		if (value > max)
 			value = max;
 		else if (value < min)
 			value = min;
 		return value;
+
+	}
+
+	template <typename T>
+	T EaseTowards(T from, T to, T amount) {
+
+		if (Diff(from, to) <= amount)
+			return to;
+
+		if (from < to)
+			from += amount;
+		else
+			from -= amount;
+
+		return from;
 
 	}
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "gui/Control.h"
+#include "gui/ScrollEventArgs.h"
 
 namespace hvn3 {
 
@@ -14,21 +15,35 @@ namespace hvn3 {
 			Scrollbar(IScrollable* control, Point position, Size size, Orientation orientation);
 
 			void SetTarget(IScrollable* target);
-			void SetScrollPercentage(float percent);
+			virtual void SetScrollPercentage(float percent);
 			float ScrollPercentage() const;
 			void ScrollToBottom();
 			void ScrollToTop();
 
-			void OnResize(ResizeEventArgs& e) override;
-			void OnMouseEnter() override;
-			void OnMouseLeave() override;
-			void OnMouseDown() override;
-			void OnMouseUp() override;
-			void OnMouseMove() override;
-			void Update(UpdateEventArgs& e) override;
-			void OnPaint(PaintEventArgs& e) override;
+			virtual void OnResize(ResizeEventArgs& e) override;
+			virtual void OnMouseEnter() override;
+			virtual void OnMouseLeave() override;
+			virtual void OnMouseDown() override;
+			virtual void OnMouseUp() override;
+			virtual void OnMouseMove() override;
+			virtual void Update(UpdateEventArgs& e) override;
+			virtual void OnPaint(PaintEventArgs& e) override;
+
+		protected:
+			void _SetPosition(float position);
+			float _Position() const;
+			float _PositionToPercentage(float position) const;
+			ScrollEventArgs _GetScrollEventArgs(float scroll_percentage) const;
+			IScrollable* _Target();
+			Orientation _Orientation() const;
+			virtual void _ScrollTargetToPosition();
 
 		private:
+			void _RecalculateSliderSize();
+			bool _MouseOnSlider();
+			int _PercentageToPixels(float percentage);
+			float _PixelsToPercentage(int pixels);
+
 			IScrollable* _target;
 			Orientation _orientation;
 			float _position;
@@ -38,12 +53,6 @@ namespace hvn3 {
 			bool _dragging;
 			float _mouse_clicked_pos;
 			float _starting_position;
-
-			void RecalculateSliderSize();
-			bool MouseOnSlider();
-			void ScrollTargetToPosition();
-			int PercentageToPixels(float percentage);
-			float PixelsToPercentage(int pixels);
 
 		};
 

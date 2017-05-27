@@ -474,6 +474,9 @@
     <ClCompile Include="RoomTransitionNone.cc">
       <Filter>Source Files\Resources\Room</Filter>
     </ClCompile>
+    <ClCompile Include="gui\SmoothScrollbar.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -886,6 +889,9 @@
     </ClInclude>
     <ClInclude Include="RoomTransitionNone.h">
       <Filter>Header Files\Resources\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\SmoothScrollbar.h">
+      <Filter>Header Files\Resources\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

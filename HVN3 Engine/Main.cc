@@ -1,3 +1,4 @@
+#define HVN3_DEBUG
 #include "HVN3.h"
 using namespace hvn3;
 using namespace hvn3::Gui;
@@ -223,7 +224,7 @@ private:
 		scrollbox->SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM);
 
 		wind->Controls()->AddControl(Control::Create(scrollbox));
-		wind->SetOpacity(0.5f);
+		wind->SetOpacity(1.0f);
 		return wind;
 
 	}
