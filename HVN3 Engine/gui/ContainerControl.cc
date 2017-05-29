@@ -5,12 +5,20 @@ namespace hvn3 {
 	namespace Gui {
 
 		ContainerControl::ContainerControl() :
-			_gui_manager(new GuiManager(&_control_manager, nullptr)),
-			_control_manager(_gui_manager.get(), this),
+			_gui_manager(&_control_manager, nullptr),
+			_control_manager(&_gui_manager, this),
 			_child_region(Width(), Height()) {
 		}
 
-		ControlManager* ContainerControl::Controls() {
+		void ContainerControl::OnPaint(PaintEventArgs& e) {
+
+			_Controls()->Draw(e);
+
+		}
+
+		// Protected methods
+
+		ControlManager* ContainerControl::_Controls() {
 
 			// Make sure that the style manager has been properly initialized before allowing access to child controls.
 			_InitializeStyleManager();
@@ -19,15 +27,12 @@ namespace hvn3 {
 			return &_control_manager;
 
 		}
-
-		// Protected methods
-
 		GuiManager* ContainerControl::_ChildControlManager() {
 
 			_InitializeStyleManager();
 
 			// Return the gui manager.
-			return _gui_manager.get();
+			return &_gui_manager;
 
 		}
 		bool ContainerControl::_HasActiveChildControl() const {
@@ -62,7 +67,7 @@ namespace hvn3 {
 			float height_diff = e.NewSize().Height() - e.OldSize().Height();
 
 			// Reposition all anchored Controls.
-			for (auto it = Controls()->ControlsBegin(); it != Controls()->ControlsEnd(); ++it) {
+			for (auto it = _Controls()->ControlsBegin(); it != _Controls()->ControlsEnd(); ++it) {
 
 				Control* c = it->get();
 
@@ -95,9 +100,8 @@ namespace hvn3 {
 		void ContainerControl::_InitializeStyleManager() {
 
 			// Updates the style manager of our gui manager so that uses the same one that's used by this control.
-			if (_gui_manager->StyleManager() == nullptr && Manager() != nullptr)
-				_gui_manager = std::unique_ptr<gui_manager_type>(new gui_manager_type(&_control_manager, Manager()->StyleManager()));
-
+			if (_gui_manager.StyleManager() == nullptr && Manager() != nullptr && Manager()->StyleManager() != nullptr)
+				_gui_manager = gui_manager_type(&_control_manager, Manager()->StyleManager());
 		}
 
 		// Child classes

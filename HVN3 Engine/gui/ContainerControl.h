@@ -28,9 +28,11 @@ namespace hvn3 {
 
 		public:
 			ContainerControl();
-			ControlManager* Controls();
+
+			virtual void OnPaint(PaintEventArgs& e) override;
 
 		protected:
+			ControlManager* _Controls();
 			Gui::GuiManager* _ChildControlManager();
 			bool _HasActiveChildControl() const;
 			const Rectangle& _ChildRegion() const;
@@ -41,7 +43,7 @@ namespace hvn3 {
 		private:
 			void _InitializeStyleManager();
 
-			std::unique_ptr<gui_manager_type> _gui_manager;
+			gui_manager_type _gui_manager;
 			ContainerControlControlManager _control_manager;
 			Rectangle _child_region;
 

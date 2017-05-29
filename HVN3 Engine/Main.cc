@@ -170,12 +170,16 @@ public:
 		for (int i = 0; i < 100; ++i)
 			ObjectManager()->InstanceAdd(Object::Create<oBall>(200, 200));
 
-		GuiManager()->ControlManager()->AddControl(Control::Create<Window>(CreateGuiWindow()));
+		//GuiManager()->ControlManager()->AddControl(Control::Create<Window>(CreateGuiWindow()));
 
 		ToolStrip* toolstrip = new ToolStrip;
+		ToolStripDropDown* dropdown = new ToolStripDropDown(Point(300, 300), 200);
+		dropdown->AddItem(new ToolStripMenuItem);
+		dropdown->AddItem(new ToolStripMenuItem);
 		//toolstrip->Controls()->AddControl();
 
 		GuiManager()->ControlManager()->AddControl(Control::Create(toolstrip));
+		GuiManager()->ControlManager()->AddControl(Control::Create(dropdown));
 
 		//ViewManager()->ViewAdd(View(Point(0, 0), Size(Width(), Height()), Point(0, 0), Size(Width(), Height())));
 		//ViewManager()->ViewAt(0).Enable();
@@ -224,7 +228,7 @@ private:
 		//panel->Controls()->AddControl(Control::Create<Button>(butt));
 		//panel->Controls()->AddControl(Control::Create<Button>(100, 100, 100, 25, "Non-Anchored")); // non-anchored
 		//panel->Controls()->AddControl(Control::Create<Window>(120, 120, 100, 100, "Nested"));
-		
+
 		ScrollBox* scrollbox = new ScrollBox(Point(0, 0), Size(wind->Width(), wind->Height() - wind->TitlebarHeight()));
 		scrollbox->SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM);
 

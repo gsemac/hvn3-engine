@@ -121,7 +121,7 @@ namespace hvn3 {
 
 			// Attempt to find the key in the map.
 			auto it = _map.find(id);
-
+			
 			// If it wasn't found, return nullptr.
 			if (it == _map.end())
 				return nullptr;

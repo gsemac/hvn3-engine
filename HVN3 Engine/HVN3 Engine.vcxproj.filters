@@ -483,6 +483,15 @@
     <ClCompile Include="gui\ContainerControl.cc">
       <Filter>Source Files\Resources\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="gui\ToolStripMenuItem.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ToolStripDropDown.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\TextableControl.cc">
+      <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -903,6 +912,15 @@
       <Filter>Header Files\Resources\GUI</Filter>
     </ClInclude>
     <ClInclude Include="gui\ContainerControl.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ToolStripMenuItem.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ToolStripDropDown.h">
+      <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\TextableControl.h">
       <Filter>Header Files\Resources\GUI</Filter>
     </ClInclude>
   </ItemGroup>
