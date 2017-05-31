@@ -95,6 +95,9 @@ namespace hvn3 {
 			case BitmapResourceId::ExitButton:
 				_bitmaps.Add(resId, Resource::Create<Drawing::Bitmap>("data/System/Icons/close.png"));
 				break;
+			case BitmapResourceId::ArrowR:
+				_bitmaps.Add(resId, Resource::Create<Drawing::Bitmap>("data/System/Icons/arrow_r.png"));
+				break;
 			default:
 				return false;
 			}

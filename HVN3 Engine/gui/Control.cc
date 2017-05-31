@@ -25,10 +25,10 @@ namespace hvn3 {
 		_parent = nullptr;
 		__manager = nullptr;
 
-		__disposed = false;
+		_disposed = false;
 		_invalidated = true;
-		__visible = true;
-		__enabled = true;
+		_visible = true;
+		_enabled = true;
 		__backcolor = Color::FromArgb(35, 35, 35);
 		__forecolor = Color::FromArgb(186, 186, 186);
 		__anchor = (Gui::ANCHOR)(ANCHOR_LEFT | ANCHOR_TOP);
@@ -66,7 +66,7 @@ namespace hvn3 {
 
 		// Draw the Control's surface bitmap.
 		if (_surface)
-			e.Graphics().DrawBitmap(X(), Y(), _surface, Color::FromArgbf(Opacity(), Opacity(), Opacity(), Opacity()));
+			e.Graphics().DrawBitmap(X(), Y(), &_surface, Color::FromArgbf(Opacity(), Opacity(), Opacity(), Opacity()));
 
 	}
 	void Gui::Control::Resize(float width, float height) {
@@ -108,12 +108,12 @@ namespace hvn3 {
 	}
 	void Gui::Control::Dispose() {
 
-		__disposed = true;
+		_disposed = true;
 
 	}
 	bool Gui::Control::IsDisposed() {
 
-		return __disposed;
+		return _disposed;
 
 	}
 
@@ -195,23 +195,25 @@ namespace hvn3 {
 
 	bool Gui::Control::Visible() {
 
-		return __visible;
+		return _visible;
 
 	}
 	void Gui::Control::SetVisible(bool is_visible) {
 
-		__visible = is_visible;
+		_visible = is_visible;
 
 	}
 
 	bool Gui::Control::Enabled() {
 
-		return __enabled;
+		return _enabled;
 
 	}
 	void Gui::Control::SetEnabled(bool is_enabled) {
 
-		__enabled = is_enabled;
+		_enabled = is_enabled;
+
+		OnEnabledChanged(EnabledChangedEventArgs(is_enabled));
 
 		// Invalidate Control in case it has a different appearance when enabled/disabled.
 		Invalidate();
@@ -353,6 +355,7 @@ namespace hvn3 {
 	void Gui::Control::OnKeyPressed() {}
 	void Gui::Control::OnKeyReleased() {}
 	void Gui::Control::OnManagerChanged(ManagerChangedEventArgs& e) {}
+	void Gui::Control::OnEnabledChanged(EnabledChangedEventArgs& e) {}
 
 	// Private members
 

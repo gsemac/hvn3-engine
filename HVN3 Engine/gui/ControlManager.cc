@@ -39,20 +39,19 @@ namespace hvn3 {
 			return _controls.back().get();
 
 		}
-		void ControlManager::RemoveControl(const Handle<Control>& control) {
+		bool ControlManager::RemoveControl(const Handle<Control>& control) {
 
 			// Find the control in the list.
 			auto iter = FindControlByAddress(control);
 
 			if (iter == _controls.end())
-				return;
+				return false;
 
 			// Add it to the pending removal list.
 			_pending_removal.push_back(iter);
 
-			//// If it was found, remove it.
-			//if (iter != _controls.end())
-			//	_controls.erase(iter);
+			// Return true to indicate that the control was successfully marked for removal.
+			return true;
 
 		}
 		void ControlManager::MoveControl(const Handle<Control>& control, ControlManager* other) {
@@ -72,6 +71,22 @@ namespace hvn3 {
 			// Add the control to the other manager.
 			other->AddControl(new_ptr);
 
+		}
+		void ControlManager::MoveControl(const Handle<Control>& control, ControlPtr& ptr) {
+
+			// Find the control in our collection.
+			auto iter = FindControlByAddress(control);
+
+			// If the control could not be found, do nothing.
+			if (iter == _controls.end())
+				return;
+
+			// Move it into the new smart pointer object, invalidating the old one.
+			ptr = std::move(*iter);
+
+			// Mark the old control for removal.
+			_pending_removal.push_back(iter);
+			
 		}
 		Handle<Control> ControlManager::ActiveControl() {
 
@@ -142,9 +157,14 @@ namespace hvn3 {
 
 			// Iterate through all of the Controls (lowest Z-depth to highest).
 			for (auto it = _controls.begin(); it != _controls.end(); ++it) {
-
+				
 				// Get a pointer to the Control.
 				Control* c = (*it).get();
+
+				// If the control is disabled, ignore it.
+				if (!c->Enabled())
+					continue;
+
 				ControlController controller(*c);
 				Point p = controller.GetFixedPosition();
 

@@ -44,18 +44,18 @@ namespace hvn3 {
 
 			void Clear(const Color& color);
 
-			void DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment = Alignment::Left);
-			void DrawText(float x, float y, const std::string& text, const Font& font, const Color& color);
-			void DrawText(float x, float y, const String& text, const Font& font, const Color& color, Alignment alignment = Alignment::Left);
+			void DrawText(float x, float y, const char* text, const Font* font, const Color& color, Alignment alignment = Alignment::Left);
+			void DrawText(float x, float y, const std::string& text, const Font* font, const Color& color);
+			void DrawText(float x, float y, const String& text, const Font* font, const Color& color, Alignment alignment = Alignment::Left);
 
 			void DrawSprite(float x, float y, const Sprite& sprite, int subimage);
 			void DrawSprite(float x, float y, const Sprite& sprite, int subimage, float xscale, float yscale, float angle, const Color& blend);
 
-			void DrawBitmap(float x, float y, const Bitmap& bitmap);
-			void DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale);
-			void DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const Point& origin, float angle);
-			void DrawBitmap(float x, float y, const Bitmap& bitmap, const Rectangle& region);
-			void DrawBitmap(float x, float y, const Bitmap& bitmap, const Color& tint);
+			void DrawBitmap(float x, float y, const Bitmap* bitmap);
+			void DrawBitmap(float x, float y, const Bitmap* bitmap, float xscale, float yscale);
+			void DrawBitmap(float x, float y, const Bitmap* bitmap, float xscale, float yscale, const Point& origin, float angle);
+			void DrawBitmap(float x, float y, const Bitmap* bitmap, const Rectangle& region);
+			void DrawBitmap(float x, float y, const Bitmap* bitmap, const Color& tint);
 
 			void SetClip(const Rectangle& rect);
 			void SetClip(int x, int y, int width, int height);

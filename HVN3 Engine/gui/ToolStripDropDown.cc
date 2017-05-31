@@ -1,5 +1,5 @@
 #include "ToolStripDropDown.h"
-#define DEFAULT_ITEM_MARGIN 1.0f
+#define DEFAULT_ITEM_MARGIN 0.0f
 
 namespace hvn3 {
 	namespace Gui {
@@ -8,6 +8,7 @@ namespace hvn3 {
 			Control(position, Size(width, 0.0f)) {
 
 			_item_margin = DEFAULT_ITEM_MARGIN;
+
 
 		}
 
@@ -25,14 +26,35 @@ namespace hvn3 {
 
 			// Add the new item to the collection.
 			_Controls()->AddControl(Control::Create(item));
-			
+
+			// Add the new item to our list of items.
+			_menu_items.push_back(item);
+
 			// Invalidate the control so that's redrawn with the new item.
 			Invalidate();
 
 		}
+		bool ToolStripDropDown::HasActiveSubMenu() const {
+
+			for (size_t i = 0; i < _menu_items.size(); ++i)
+				if (_menu_items[i]->HasActiveSubMenu())
+					return true;
+
+			return false;
+
+		}
+		bool ToolStripDropDown::HasVisibleSubMenu() const {
+
+			for (size_t i = 0; i < _menu_items.size(); ++i)
+				if (_menu_items[i]->SubMenu() && _menu_items[i]->SubMenu()->Visible())
+					return true;
+
+			return false;
+
+		}
 
 		void ToolStripDropDown::OnPaint(PaintEventArgs& e) {
-			
+
 			e.Graphics().Clear(BackColor());
 
 			ContainerControl::OnPaint(e);

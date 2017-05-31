@@ -30,6 +30,7 @@ namespace hvn3 {
 			ContainerControl();
 
 			virtual void OnPaint(PaintEventArgs& e) override;
+			virtual void Update(UpdateEventArgs& e) override;
 
 		protected:
 			ControlManager* _Controls();
@@ -44,7 +45,7 @@ namespace hvn3 {
 			void _InitializeStyleManager();
 
 			gui_manager_type _gui_manager;
-			ContainerControlControlManager _control_manager;
+			control_manager_type _control_manager;
 			Rectangle _child_region;
 
 		};

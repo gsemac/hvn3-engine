@@ -12,7 +12,17 @@ namespace hvn3 {
 
 		void ContainerControl::OnPaint(PaintEventArgs& e) {
 
+			// Draw child controls.
 			_Controls()->Draw(e);
+
+		}
+		void ContainerControl::Update(UpdateEventArgs& e) {
+
+			// Update child controls.
+			//if (IsActiveControl())
+			_Controls()->Update(e);
+			if (!IsActiveControl())
+				_Controls()->ClearActiveControl();
 
 		}
 

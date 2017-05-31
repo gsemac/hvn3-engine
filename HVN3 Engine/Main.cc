@@ -79,7 +79,7 @@ public:
 	}
 	void Draw(DrawEventArgs& e) override {
 
-		e.Graphics().DrawBitmap(0, 0, MyGame.ResourceManager().Tilesets()[TILESET_1]->TileAt(5));
+		e.Graphics().DrawBitmap(0, 0, &MyGame.ResourceManager().Tilesets()[TILESET_1]->TileAt(5));
 
 		e.Graphics().DrawCircle(Mouse::Position(), 5, Color::AliceBlue, 1);
 
@@ -140,7 +140,7 @@ public:
 
 		e.Graphics().Clear(BackColor());
 
-		e.Graphics().DrawBitmap(-ScrollPosition().X(), -ScrollPosition().Y(), MyGame.ResourceManager().Backgrounds()[BACKGROUND_1]->Bitmap());
+		e.Graphics().DrawBitmap(-ScrollPosition().X(), -ScrollPosition().Y(), &MyGame.ResourceManager().Backgrounds()[BACKGROUND_1]->Bitmap());
 
 		ScrollableControl::OnPaint(e);
 

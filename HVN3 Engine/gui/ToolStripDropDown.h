@@ -12,10 +12,13 @@ namespace hvn3 {
 			ToolStripDropDown(const Point& position, float width);
 
 			virtual void AddItem(ToolStripMenuItem* item);
-			
+			bool HasActiveSubMenu() const;
+			bool HasVisibleSubMenu() const;
+
 			virtual void OnPaint(PaintEventArgs& e) override;
 
 		private:
+			std::vector<ToolStripMenuItem*> _menu_items;
 			float _item_margin;
 			
 		};

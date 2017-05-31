@@ -584,9 +584,9 @@ namespace hvn3 {
 
 				// Draw text.
 				if (Font() && !String::IsNullOrEmpty(Text()))
-					e.Graphics().DrawText(text_pos.X(), text_pos.Y(), Text(), *Font(), Color::Black);
+					e.Graphics().DrawText(text_pos.X(), text_pos.Y(), Text(), Font(), Color::Black);
 				if (__sel.Length() > 0)
-					e.Graphics().DrawText(text_pos.X() + __sel_draw_pos.Min(), text_pos.Y(), Text().RefSubString(__sel.Min(), __sel.Max()), *Font(),
+					e.Graphics().DrawText(text_pos.X() + __sel_draw_pos.Min(), text_pos.Y(), Text().RefSubString(__sel.Min(), __sel.Max()), Font(),
 						HasFocus() ? Color::White : Color::DimGrey);
 
 				// Draw cursor (if focused).

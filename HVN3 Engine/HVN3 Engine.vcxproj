@@ -483,6 +483,7 @@
     <ClInclude Include="ViewUpdateEventArgs.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="data\System\Icons\arrow_r.png" />
     <Image Include="data\System\Icons\close.png" />
     <Image Include="data\System\Icons\gm.png" />
     <Image Include="data\test\tileset1.png" />

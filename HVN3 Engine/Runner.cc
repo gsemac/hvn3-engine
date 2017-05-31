@@ -69,7 +69,7 @@ namespace hvn3 {
 
 		else
 			// Draw placeholder graphics.
-			e.Graphics().DrawText(Round(__display.Width() / 2.0f), Round(__display.Height() / 2.0f), Properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);
+			e.Graphics().DrawText(Round(__display.Width() / 2.0f), Round(__display.Height() / 2.0f), Properties().DisplayTitle.c_str(), SystemFont(), Color::White, Alignment::Center);
 
 		// If running in debug mode, draw the FPS counter.
 		if (Properties().DebugMode)
@@ -186,8 +186,8 @@ namespace hvn3 {
 		// Draw the FPS.
 		std::stringstream ss;
 		ss << (int)(std::min)((std::ceil)(fps_sum / 60.0f), Properties().FPS) << " FPS";
-		__graphics.DrawText(11, 11, ss.str().c_str(), *SystemFont(), Color::Black);
-		__graphics.DrawText(10, 10, ss.str().c_str(), *SystemFont(), Color::White);
+		__graphics.DrawText(11, 11, ss.str().c_str(), SystemFont(), Color::Black);
+		__graphics.DrawText(10, 10, ss.str().c_str(), SystemFont(), Color::White);
 
 		// Reset the FPS timer.
 		fps_timer.Reset(true);

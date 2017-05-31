@@ -27,9 +27,10 @@ namespace hvn3 {
 			// Adds a new control to the manager.
 			virtual Handle<Control> AddControl(content_type& control);
 			// Removes a control from the manager. Does nothing if the control does not exist.
-			virtual void RemoveControl(const Handle<Control>& control);
+			virtual bool RemoveControl(const Handle<Control>& control);
 			// Moves a control from the current manager into an other manager.
 			virtual void MoveControl(const Handle<Control>& control, ControlManager* other);
+			virtual void MoveControl(const Handle<Control>& control, ControlPtr& ptr);
 			Handle<Control> ActiveControl();
 			const Handle<Control> ActiveControl() const;
 			void ClearActiveControl();

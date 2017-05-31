@@ -103,6 +103,24 @@ namespace hvn3 {
 
 		};
 
+		class EnabledChangedEventArgs : public EventArgs {
+
+		public:
+			EnabledChangedEventArgs(bool enabled) :
+				_enabled(enabled) {
+			}
+
+			bool Enabled() const {
+
+				return _enabled;
+
+			}
+
+		private:
+			bool _enabled;
+
+		};
+
 		class Control : public IDrawable, public IUpdatable, public IPositionable, public ISizeable, public IFocusable, public UniqueCreateableBase<Control> {
 			friend class ControlController;
 
@@ -186,12 +204,13 @@ namespace hvn3 {
 			virtual void OnKeyPressed();
 			virtual void OnKeyReleased();
 			virtual void OnManagerChanged(ManagerChangedEventArgs& e);
+			virtual void OnEnabledChanged(EnabledChangedEventArgs& e);
 
 		private:
-			bool __disposed;
+			bool _disposed;
 			bool _invalidated;
-			bool __visible;
-			bool __enabled;
+			bool _visible;
+			bool _enabled;
 
 			Control* _parent;
 			GuiManager* __manager;

@@ -84,7 +84,7 @@ namespace hvn3 {
 			Bitmap bmp(al_create_bitmap(region.Width(), region.Height()), true);
 
 			// Copy the given bitmap onto the new bitmap.
-			Drawing::Graphics(bmp).DrawBitmap(0, 0, *this, region);
+			Drawing::Graphics(bmp).DrawBitmap(0, 0, this, region);
 
 			// Return the result.
 			return bmp;

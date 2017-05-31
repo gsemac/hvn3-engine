@@ -122,18 +122,18 @@ namespace hvn3 {
 			// Draw background tiled horizontally and vertically.
 			for (; offset.X() < (scale_x < 0.0f ? e.RoomSize().Width() + width : e.RoomSize().Width()); offset.TranslateX(width))
 				for (float j = offset.Y(); j < ((scale_y < 0.0f) ? (e.RoomSize().Height() + height) : e.RoomSize().Height()); j += height)
-					e.Graphics().DrawBitmap(offset.X(), j, bg.Bitmap(), p.Scale().XScale(), p.Scale().YScale());
+					e.Graphics().DrawBitmap(offset.X(), j, &bg.Bitmap(), p.Scale().XScale(), p.Scale().YScale());
 		else if (p.IsTiledHorizontally())
 			// Draw background tiled horizontally only.
 			for (; offset.X() < (scale_x < 0.0f ? e.RoomSize().Width() + width : e.RoomSize().Width()); offset.TranslateX(width))
-				e.Graphics().DrawBitmap(offset.X(), offset.Y(), bg.Bitmap(), p.Scale().XScale(), p.Scale().YScale());
+				e.Graphics().DrawBitmap(offset.X(), offset.Y(), &bg.Bitmap(), p.Scale().XScale(), p.Scale().YScale());
 		else if (p.IsTiledVertically())
 			// Draw background tiled vertically only.
 			for (; offset.Y() < (scale_y < 0.0f ? e.RoomSize().Height() + height : e.RoomSize().Height()); offset.TranslateY(height))
-				e.Graphics().DrawBitmap(offset.X(), offset.Y(), bg.Bitmap(), p.Scale().XScale(), p.Scale().YScale());
+				e.Graphics().DrawBitmap(offset.X(), offset.Y(), &bg.Bitmap(), p.Scale().XScale(), p.Scale().YScale());
 		else
 			// Draw background without tiling.
-			e.Graphics().DrawBitmap(offset.X(), offset.Y(), bg.Bitmap(), p.Scale().XScale(), p.Scale().YScale());
+			e.Graphics().DrawBitmap(offset.X(), offset.Y(), &bg.Bitmap(), p.Scale().XScale(), p.Scale().YScale());
 
 	}
 

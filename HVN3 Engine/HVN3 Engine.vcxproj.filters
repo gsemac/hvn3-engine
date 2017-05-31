@@ -934,6 +934,9 @@
     <Image Include="data\System\Icons\gm.png">
       <Filter>Resource Files\data\system\icons</Filter>
     </Image>
+    <Image Include="data\System\Icons\arrow_r.png">
+      <Filter>Resource Files\data\system\icons</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="data\System\Fonts\webly.ttf">

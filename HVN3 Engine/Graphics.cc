@@ -164,26 +164,26 @@ namespace hvn3 {
 
 		}
 
-		void Graphics::DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment) {
+		void Graphics::DrawText(float x, float y, const char* text, const Font* font, const Color& color, Alignment alignment) {
 
 			PrepareDrawingSurface();
 
-			al_draw_text(font.AlPtr(), FrameworkAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text);
+			al_draw_text(font->AlPtr(), FrameworkAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text);
 
 		}
-		void Graphics::DrawText(float x, float y, const std::string& text, const Font& font, const Color& color) {
+		void Graphics::DrawText(float x, float y, const std::string& text, const Font* font, const Color& color) {
 
 			DrawText(x, y, text.c_str(), font, color);
 
 		}
-		void Graphics::DrawText(float x, float y, const String& text, const Font& font, const Color& color, Alignment alignment) {
+		void Graphics::DrawText(float x, float y, const String& text, const Font* font, const Color& color, Alignment alignment) {
 
 			PrepareDrawingSurface();
 
-			al_draw_ustr(font.AlPtr(), FrameworkAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text.AlPtr());
+			al_draw_ustr(font->AlPtr(), FrameworkAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text.AlPtr());
 
 		}
-
+		
 		void Graphics::DrawSprite(float x, float y, const Sprite& sprite, int subimage) {
 
 			PrepareDrawingSurface();
@@ -215,42 +215,42 @@ namespace hvn3 {
 
 		}
 
-		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap) {
+		void Graphics::DrawBitmap(float x, float y, const Bitmap* bitmap) {
 
 			PrepareDrawingSurface();
 
 			al_draw_bitmap(
-				bitmap.AlPtr(),
+				bitmap->AlPtr(),
 				x,
 				y,
 				NULL
 				);
 
 		}
-		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale) {
+		void Graphics::DrawBitmap(float x, float y, const Bitmap* bitmap, float xscale, float yscale) {
 
 			PrepareDrawingSurface();
 
 			al_draw_scaled_bitmap(
-				bitmap.AlPtr(),
+				bitmap->AlPtr(),
 				0.0f,
 				0.0f,
-				bitmap.Width(),
-				bitmap.Height(),
+				bitmap->Width(),
+				bitmap->Height(),
 				x,
 				y,
-				bitmap.Width() * xscale,
-				bitmap.Height() * yscale,
+				bitmap->Width() * xscale,
+				bitmap->Height() * yscale,
 				NULL
 				);
 
 		}
-		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const Point& origin, float angle) {
+		void Graphics::DrawBitmap(float x, float y, const Bitmap* bitmap, float xscale, float yscale, const Point& origin, float angle) {
 
 			PrepareDrawingSurface();
 
 			al_draw_scaled_rotated_bitmap(
-				bitmap.AlPtr(),
+				bitmap->AlPtr(),
 				origin.X(),
 				origin.Y(),
 				x,
@@ -262,18 +262,18 @@ namespace hvn3 {
 				);
 
 		}
-		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, const Rectangle& region) {
+		void Graphics::DrawBitmap(float x, float y, const Bitmap* bitmap, const Rectangle& region) {
 
 			PrepareDrawingSurface();
 
-			al_draw_bitmap_region(bitmap.AlPtr(), region.X(), region.Y(), region.Width(), region.Height(), x, y, NULL);
+			al_draw_bitmap_region(bitmap->AlPtr(), region.X(), region.Y(), region.Width(), region.Height(), x, y, NULL);
 
 		}
-		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, const Color& tint) {
+		void Graphics::DrawBitmap(float x, float y, const Bitmap* bitmap, const Color& tint) {
 
 			PrepareDrawingSurface();
 		
-			al_draw_tinted_bitmap(bitmap.AlPtr(), al_map_rgba_f(tint.Alphaf(), tint.Alphaf(), tint.Alphaf(), tint.Alphaf()), x, y, NULL);
+			al_draw_tinted_bitmap(bitmap->AlPtr(), al_map_rgba_f(tint.Alphaf(), tint.Alphaf(), tint.Alphaf(), tint.Alphaf()), x, y, NULL);
 
 		}
 

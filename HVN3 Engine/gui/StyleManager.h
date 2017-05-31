@@ -14,7 +14,8 @@ namespace hvn3 {
 		};
 
 		enum class BitmapResourceId : ResourceId {
-			ExitButton
+			ExitButton,
+			ArrowR
 		};
 
 		class StyleManager {
