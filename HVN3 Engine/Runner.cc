@@ -394,11 +394,15 @@ namespace hvn3 {
 		if (_room_manager.RoomCount() <= 0)
 			return;
 
+		// Get a reference to the current room.
 		RoomBase& room = *_room_manager.CurrentRoom();
+
+		// For scaling, we need to consider the largest view, or the size of the room if no views are enabled.
+		Rectangle room_region = room.GetVisibleRegion();
 
 		// Set the Transform according to the scaling mode.
 		Drawing::Transform scaling_transform;
-		Rectangle clipping_rectangle(0.0f, 0.0f, room.Width(), room.Height());
+		Rectangle clipping_rectangle(0.0f, 0.0f, room_region.Width(), room_region.Height());
 
 		switch (Properties().ScalingMode) {
 
@@ -406,18 +410,18 @@ namespace hvn3 {
 
 			// Stretch drawing to fill up the display.
 			scaling_transform.Scale(_display.Scale());
-			clipping_rectangle = Rectangle(0.0f, 0.0f, room.Width() * _display.Scale().XScale(), room.Height() * _display.Scale().YScale());
+			clipping_rectangle = Rectangle(0.0f, 0.0f, room_region.Width() * _display.Scale().XScale(), room_region.Height() * _display.Scale().YScale());
 
 			break;
 
 		case ScalingMode::Fixed: {
 
 			// Maintain the original scale. If the room is smaller than the display, center it.
-			float pos_x = (room.Width() < _display.Width()) ? (_display.Width() / 2.0f - room.Width() / 2.0f) : 0.0f;
-			float pos_y = (room.Height() < _display.Height()) ? (_display.Height() / 2.0f - room.Height() / 2.0f) : 0.0f;
+			float pos_x = (room_region.Width() < _display.Width()) ? (_display.Width() / 2.0f - room_region.Width() / 2.0f) : 0.0f;
+			float pos_y = (room_region.Height() < _display.Height()) ? (_display.Height() / 2.0f - room_region.Height() / 2.0f) : 0.0f;
 
 			scaling_transform.Translate(pos_x, pos_y);
-			clipping_rectangle = Rectangle(pos_x, pos_y, Min(room.Width(), _display.Width()), Min(room.Height(), _display.Height()));
+			clipping_rectangle = Rectangle(pos_x, pos_y, Min(room_region.Width(), _display.Width()), Min(room_region.Height(), _display.Height()));
 
 			break;
 
@@ -426,14 +430,14 @@ namespace hvn3 {
 
 			// Stretch drawing as much as possible while maintaining the aspect ratio.
 			float scale_factor = Min(_display.Scale().XScale(), _display.Scale().YScale());
-			float room_width = room.Width() * scale_factor;
-			float room_height = room.Height() * scale_factor;
+			float room_width = room_region.Width() * scale_factor;
+			float room_height = room_region.Height() * scale_factor;
 			float pos_x = (room_width < _display.Width()) ? (_display.Width() / 2.0f - room_width / 2.0f) : 0.0f;
 			float pos_y = (room_height < _display.Height()) ? (_display.Height() / 2.0f - room_height / 2.0f) : 0.0f;
 
 			scaling_transform.Scale(scale_factor, scale_factor);
-			scaling_transform.Translate(pos_x * scale_factor, pos_y * scale_factor);
-			clipping_rectangle = Rectangle(pos_x * scale_factor, pos_y * scale_factor, Min(room_width, _display.Width()) * scale_factor, Min(room_height, _display.Height()) * scale_factor);
+			scaling_transform.Translate(pos_x, pos_y);
+			clipping_rectangle = Rectangle(pos_x, pos_y, Min(room_width, _display.Width()), Min(room_height, _display.Height()));
 
 			break;
 		}

@@ -170,6 +170,7 @@ public:
 
 		for (int i = 0; i < 100; ++i)
 			ObjectManager()->InstanceAdd(Object::Create<oBall>(200, 200));
+		
 
 	}
 	void OnRoomEnter(RoomEnterEventArgs& e) override {
@@ -203,7 +204,7 @@ private:
 		scrollbox->SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM);
 		wind->Controls()->AddControl(Control::Create(scrollbox));
 		wind->SetOpacity(1.0f);
-	
+
 		// Create the toolstrip.
 		ToolStrip* toolstrip = new ToolStrip;
 		ToolStripDropDown* dropdown = new ToolStripDropDown(Point(300, 300), 200);
@@ -238,7 +239,7 @@ int main(int argc, char *argv[]) {
 	Size large_size(MyGame.Properties().DisplaySize.Width() * 2, MyGame.Properties().DisplaySize.Height() * 2);
 	Size medium_size(1000, 800);
 	Size small_size(640, 480);
-	MyGame.RoomManager().AddRoom(Room::Create<editor::LevelEditor>(medium_size));
+	MyGame.RoomManager().AddRoom(Room::Create<editor::LevelEditor>(large_size));
 	MyGame.RoomManager().AddRoom(Room::Create<TestRoom>());
 	MyGame.RoomManager().SetRoomTransition<RoomTransitionFade>(Color::Black, true);
 

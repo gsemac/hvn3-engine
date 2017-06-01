@@ -3,14 +3,14 @@
 
 namespace hvn3 {
 
-	size_t ViewManager::ViewAdd(const View & view) {
+	size_t ViewManager::AddView(const View & view) {
 
 		_views.push_back(view);
 
 		return ViewCount() - 1;
 
 	}
-	void ViewManager::ViewRemove(size_t index) {
+	void ViewManager::RemoveView(size_t index) {
 
 		_views.erase(_views.begin() + index);
 

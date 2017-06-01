@@ -14,6 +14,10 @@ namespace hvn3 {
 
 			_grid_visible = true;
 
+			//ViewManager()->AddView(View(Point(30, 30), Size(320, 240), Point(0, 0), Size(960, 720)));
+
+			//ViewManager()->ViewAt(0).Enable();
+
 		}
 
 		void LevelEditor::Update(UpdateEventArgs& e) {

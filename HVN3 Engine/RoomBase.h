@@ -32,6 +32,7 @@ namespace hvn3 {
 		virtual RoomId Id() const;
 		bool Persistent() const;
 		void SetPersistent(bool value);
+		virtual Rectangle GetVisibleRegion();
 
 		template<typename T, typename ... Args>
 		static std::unique_ptr<RoomBase> Create(Args &&... args) {

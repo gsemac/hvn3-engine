@@ -73,6 +73,11 @@ namespace hvn3 {
 		_persistent = value;
 
 	}
+	Rectangle RoomBase::GetVisibleRegion() {
+
+		return Rectangle(0, 0, Width(), Height());
+
+	}
 
 	// Protected methods
 	void RoomBase::OnRoomEnter(RoomEnterEventArgs& e) {}

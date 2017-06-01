@@ -89,6 +89,31 @@ namespace hvn3 {
 
 	}
 
+	Rectangle Room::GetVisibleRegion() {
+
+		// Return the rectangle representing the largest view.
+		View* largest = nullptr;
+		for (size_t i = 0; i < _view_manager.ViewCount(); ++i) {
+
+			View* view = &_view_manager.ViewAt(i);
+
+			if (!view->Enabled())
+				continue;
+
+			if (largest == nullptr || view->Port().Size() > largest->Port().Size())
+				largest = view;
+
+		}
+
+		// If we couldn't find a largest view, return the rectangle representing the full size of the room.
+		if (largest == nullptr)
+			return RoomBase::GetVisibleRegion();
+
+		// Otherwise, return the viewport.
+		return largest->Port();
+
+	}
+
 	// Protected methods
 
 	void Room::Reset() {
