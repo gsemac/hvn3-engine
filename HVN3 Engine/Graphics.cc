@@ -9,13 +9,13 @@ namespace hvn3 {
 	namespace Drawing {
 
 		Graphics::Graphics(Bitmap& surface) :
-			__surface(surface),
-			__clipping_region(0.0f, 0.0f, surface.Width(), surface.Height()) {
+			_surface(surface),
+			_clipping_region(0.0f, 0.0f, surface.Width(), surface.Height()) {
 		}
 		Graphics::~Graphics() {
 
-			if (__last_to_draw == this)
-				__last_to_draw = nullptr;
+			if (_last_to_draw == this)
+				_last_to_draw = nullptr;
 
 		}
 
@@ -284,7 +284,7 @@ namespace hvn3 {
 		}
 		void Graphics::SetClip(int x, int y, int width, int height) {
 
-			__clipping_region = Rectangle(x, y, width, height);
+			_clipping_region = Rectangle(x, y, width, height);
 
 			if (IsActiveSurface())
 				ApplyClip();
@@ -292,12 +292,12 @@ namespace hvn3 {
 		}
 		Rectangle Graphics::Clip() const {
 
-			return __clipping_region;
+			return _clipping_region;
 
 		}
 		void Graphics::ResetClip() {
 
-			SetClip(0, 0, __surface.Width(), __surface.Height());
+			SetClip(0, 0, _surface.Width(), _surface.Height());
 
 		}
 
@@ -314,8 +314,8 @@ namespace hvn3 {
 		}
 		void Graphics::Restore(const GraphicsState& state) {
 
-			__clipping_region = state.__clip;
-			__transform = state.__transform;
+			_clipping_region = state.__clip;
+			_transform = state.__transform;
 
 			if (!IsActiveSurface()) {
 				ApplyClip();
@@ -326,7 +326,7 @@ namespace hvn3 {
 
 		void Graphics::SetTransform(const Transform& transform) {
 
-			__transform = transform;
+			_transform = transform;
 
 			if (IsActiveSurface())
 				ApplyTransform();
@@ -334,12 +334,12 @@ namespace hvn3 {
 		}
 		const Transform& Graphics::GetTransform() const {
 
-			return __transform;
+			return _transform;
 
 		}
 		void Graphics::ResetTransform() {
 
-			__transform.Reset();
+			_transform.Reset();
 
 			if (IsActiveSurface())
 				ApplyTransform();
@@ -350,27 +350,27 @@ namespace hvn3 {
 
 			// If this Object's drawing surface is not set as the current drawing surface, set it.
 			if (!IsActiveSurface()) {
-				al_set_target_bitmap(__surface.AlPtr());
+				al_set_target_bitmap(_surface.AlPtr());
 				ApplyClip();
 				ApplyTransform();
-				__last_to_draw = this;
+				_last_to_draw = this;
 			}
 
 		}
 
 		void Graphics::ApplyTransform() {
 
-			al_use_transform((ALLEGRO_TRANSFORM*)&__transform);
+			al_use_transform((ALLEGRO_TRANSFORM*)&_transform);
 
 		}
 		void Graphics::ApplyClip() {
 
-			al_set_clipping_rectangle(__clipping_region.X(), __clipping_region.Y(), __clipping_region.Width(), __clipping_region.Height());
+			al_set_clipping_rectangle(_clipping_region.X(), _clipping_region.Y(), _clipping_region.Width(), _clipping_region.Height());
 
 		}
 		bool Graphics::IsActiveSurface() const {
 
-			return (__last_to_draw == this);
+			return (_last_to_draw == this);
 
 		}
 		int Graphics::GetAllegroFlags(Alignment value) const {
@@ -393,7 +393,7 @@ namespace hvn3 {
 
 		}
 
-		Graphics* Graphics::__last_to_draw = nullptr;
+		Graphics* Graphics::_last_to_draw = nullptr;
 
 	}
 

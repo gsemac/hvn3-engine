@@ -273,7 +273,7 @@ namespace hvn3 {
 				__hold_timer = 0.0f;
 
 				// Handle keyboard shortcuts.
-				if (Keyboard::KeyDown(KEY_CONTROL)) {
+				if (Keyboard::KeyDown(Key::Control)) {
 
 					// Select All (Ctrl + A)
 					if (Keyboard::KeyPressed(ALLEGRO_KEY_A))
@@ -302,7 +302,7 @@ namespace hvn3 {
 					}
 
 				}
-				else if (Keyboard::KeyDown(KEY_SHIFT)) {
+				else if (Keyboard::KeyDown(Key::Shift)) {
 
 					// Select Up To Caret (Shift + Up / Shift + Home)
 					if (Keyboard::KeyPressed(ALLEGRO_KEY_UP) || Keyboard::KeyPressed(ALLEGRO_KEY_HOME)) {
@@ -383,14 +383,14 @@ namespace hvn3 {
 				bool right = ((timer_complete && Keyboard::LastKey() == ALLEGRO_KEY_RIGHT && Keyboard::KeyDown(ALLEGRO_KEY_RIGHT)) || Keyboard::KeyPressed(ALLEGRO_KEY_RIGHT));
 				bool backspace = (timer_complete && Keyboard::LastKey() == ALLEGRO_KEY_BACKSPACE && Keyboard::KeyDown(ALLEGRO_KEY_BACKSPACE)) || Keyboard::KeyPressed(ALLEGRO_KEY_BACKSPACE);
 				bool del = (timer_complete && Keyboard::LastKey() == ALLEGRO_KEY_DELETE && Keyboard::KeyDown(ALLEGRO_KEY_DELETE)) || Keyboard::KeyPressed(ALLEGRO_KEY_DELETE);
-				bool shift = (timer_complete && (Keyboard::LastKey() == ALLEGRO_KEY_LSHIFT || Keyboard::LastKey() == ALLEGRO_KEY_RSHIFT) && Keyboard::KeyDown(KEY_SHIFT)) || Keyboard::KeyPressed(KEY_SHIFT);
-				bool paste = (((timer_complete && Keyboard::LastKey() == ALLEGRO_KEY_V) && Keyboard::KeyDown(ALLEGRO_KEY_V)) || Keyboard::KeyPressed(ALLEGRO_KEY_V)) && Keyboard::KeyDown(KEY_CONTROL);
+				bool shift = (timer_complete && (Keyboard::LastKey() == ALLEGRO_KEY_LSHIFT || Keyboard::LastKey() == ALLEGRO_KEY_RSHIFT) && Keyboard::KeyDown(Key::Shift)) || Keyboard::KeyPressed(Key::Shift);
+				bool paste = (((timer_complete && Keyboard::LastKey() == ALLEGRO_KEY_V) && Keyboard::KeyDown(ALLEGRO_KEY_V)) || Keyboard::KeyPressed(ALLEGRO_KEY_V)) && Keyboard::KeyDown(Key::Control);
 
 				// Trigger key events.
 				if (left) {
 
 					// Move Caret To Previous Word (Ctrl + Left)
-					if (Keyboard::KeyDown(KEY_CONTROL))
+					if (Keyboard::KeyDown(Key::Control))
 						__caret.SetPosition(PrevWordPosition());
 
 					// Move Caret Left (Left)
@@ -398,7 +398,7 @@ namespace hvn3 {
 						__caret.MoveLeft();
 
 					// Expand Selected Region
-					if (Keyboard::KeyDown(KEY_SHIFT)) {
+					if (Keyboard::KeyDown(Key::Shift)) {
 						__sel.AssignToMax((__caret.Position()));
 						__sel_draw_pos.AssignToMax(__caret.X);
 					}
@@ -409,7 +409,7 @@ namespace hvn3 {
 				else if (right) {
 
 					// Move Caret To Previous Word (Ctrl + Left)
-					if (Keyboard::KeyDown(KEY_CONTROL))
+					if (Keyboard::KeyDown(Key::Control))
 						__caret.SetPosition(NextWordPosition());
 
 					// Move Caret Right (Right)
@@ -417,7 +417,7 @@ namespace hvn3 {
 						__caret.MoveRight();
 
 					// Expand Selected Region 
-					if (Keyboard::KeyDown(KEY_SHIFT)) {
+					if (Keyboard::KeyDown(Key::Shift)) {
 						__sel.AssignToMax((__caret.Position()));
 						__sel_draw_pos.AssignToMax(__caret.X);
 					}
@@ -428,7 +428,7 @@ namespace hvn3 {
 				else if (backspace) {
 
 					// Remove The Previous Word (Ctrl + Backspace)
-					if (SelectionLength() == 0 && Keyboard::KeyDown(KEY_CONTROL)) {
+					if (SelectionLength() == 0 && Keyboard::KeyDown(Key::Control)) {
 						int pos = PrevWordPosition();
 						RefText().Remove(pos, __caret.Position() - pos);
 						__caret.SetPosition(pos);
@@ -449,7 +449,7 @@ namespace hvn3 {
 				else if (del) {
 
 					// Remove The Next Word (Ctrl + Del)
-					if (SelectionLength() == 0 && Keyboard::KeyDown(KEY_CONTROL)) {
+					if (SelectionLength() == 0 && Keyboard::KeyDown(Key::Control)) {
 						RefText().Remove(__caret.Position(), NextWordPosition() - __caret.Position());
 						ScrollToCaret();
 					}

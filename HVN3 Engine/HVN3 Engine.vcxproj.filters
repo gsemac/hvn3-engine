@@ -148,6 +148,12 @@
     <Filter Include="Resource Files\data\system\icons">
       <UniqueIdentifier>{1f881537-40ef-489d-a555-d29bc36266af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\System\Editor">
+      <UniqueIdentifier>{88c89638-c6f3-41ee-b154-07ff39469e3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System\Editor">
+      <UniqueIdentifier>{ca636cbb-3204-492c-b0ee-44938d93dca1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -491,6 +497,9 @@
     </ClCompile>
     <ClCompile Include="gui\TextableControl.cc">
       <Filter>Source Files\Resources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEditor.cc">
+      <Filter>Source Files\System\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -922,6 +931,9 @@
     </ClInclude>
     <ClInclude Include="gui\TextableControl.h">
       <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditor.h">
+      <Filter>Header Files\System\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

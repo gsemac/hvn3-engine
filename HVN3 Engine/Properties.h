@@ -21,7 +21,7 @@ namespace hvn3 {
 
 		std::string DisplayTitle;
 		Size DisplaySize;
-		bool Fullscreen;
+		bool StartFullscreen;
 		hvn3::ScalingMode ScalingMode;
 		Color OutsideColor;
 		hvn3::DisplayFlags DisplayFlags;

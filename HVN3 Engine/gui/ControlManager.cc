@@ -236,11 +236,11 @@ namespace hvn3 {
 
 				// Handle keyboard events.
 				if (_keyboard_events_enabled) {
-					if (Keyboard::KeyPressed(KEY_ANY))
+					if (Keyboard::KeyPressed(Key::Any))
 						c->OnKeyPressed();
-					if (Keyboard::KeyReleased(KEY_ANY))
+					if (Keyboard::KeyReleased(Key::Any))
 						c->OnKeyReleased();
-					if (Keyboard::KeyDown(KEY_ANY))
+					if (Keyboard::KeyDown(Key::Any))
 						c->OnKeyDown();
 				}
 

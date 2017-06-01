@@ -1,5 +1,6 @@
 #define HVN3_DEBUG
 #include "HVN3.h"
+#include "LevelEditor.h"
 using namespace hvn3;
 using namespace hvn3::Gui;
 
@@ -81,7 +82,7 @@ public:
 
 		e.Graphics().DrawBitmap(0, 0, &MyGame.ResourceManager().Tilesets()[TILESET_1]->TileAt(5));
 
-		e.Graphics().DrawCircle(Mouse::Position(), 5, Color::AliceBlue, 1);
+		e.Graphics().DrawCircle(Mouse::Position(), 10, Color::AliceBlue, 1);
 
 	}
 
@@ -159,7 +160,7 @@ public:
 
 	void SetUp() override {
 
-		SetBackgroundColor(Color::DarkGrey);
+		SetBackgroundColor(Color::Silver);
 
 		BackgroundManager()->BackgroundAdd(MyGame.ResourceManager().Backgrounds()[BACKGROUND_1]);
 		BackgroundManager()->PropertiesAt(0).SetTiledHorizontally(true);
@@ -169,22 +170,6 @@ public:
 
 		for (int i = 0; i < 100; ++i)
 			ObjectManager()->InstanceAdd(Object::Create<oBall>(200, 200));
-
-		//GuiManager()->ControlManager()->AddControl(Control::Create<Window>(CreateGuiWindow()));
-
-		ToolStrip* toolstrip = new ToolStrip;
-		ToolStripDropDown* dropdown = new ToolStripDropDown(Point(300, 300), 200);
-		dropdown->AddItem(new ToolStripMenuItem);
-		dropdown->AddItem(new ToolStripMenuItem);
-		//toolstrip->Controls()->AddControl();
-
-		GuiManager()->ControlManager()->AddControl(Control::Create(toolstrip));
-		GuiManager()->ControlManager()->AddControl(Control::Create(dropdown));
-
-		//ViewManager()->ViewAdd(View(Point(0, 0), Size(Width(), Height()), Point(0, 0), Size(Width(), Height())));
-		//ViewManager()->ViewAt(0).Enable();
-
-		//GuiManager()->ControlManager()->AddControl(Control::Create<Window>(CreateGuiWindow()));
 
 	}
 	void OnRoomEnter(RoomEnterEventArgs& e) override {
@@ -208,33 +193,26 @@ public:
 	}
 
 private:
-	Window* CreateGuiWindow() const {
+	void CreateGuiComponents() {
 
+		// Create the window.
 		Size wind_size(MyGame.ResourceManager().Backgrounds()[BACKGROUND_1]->Width(), MyGame.ResourceManager().Backgrounds()[BACKGROUND_1]->Height());
-
 		Window* wind = new Window(50, 50, wind_size.Width(), wind_size.Height(), "My Window");
 		wind->SetMaximumSize(Size(wind_size.Width(), wind_size.Height() + wind->TitlebarHeight()));
-
-		//Button* button = new Button(0, 0, wind->Width(), wind->Height() - wind->TitlebarHeight(), "Anchored Button");
-		//button->SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM);
-		//wind->Controls()->AddControl(Control::Create<Button>(button));
-
-		//Panel* panel = new Panel(Point(0, 0), Size(wind->Width(), wind->Height() - wind->TitlebarHeight()));
-		//panel->SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM);
-		//wind->Controls()->AddControl(Control::Create<Panel>(panel));
-
-		//Button* butt = new Button(0, 0, panel->ScrollableRegion().Width(), 25, "Window Button 1");
-		//butt->SetAnchors(ANCHOR_LEFT | ANCHOR_TOP | ANCHOR_RIGHT);
-		//panel->Controls()->AddControl(Control::Create<Button>(butt));
-		//panel->Controls()->AddControl(Control::Create<Button>(100, 100, 100, 25, "Non-Anchored")); // non-anchored
-		//panel->Controls()->AddControl(Control::Create<Window>(120, 120, 100, 100, "Nested"));
-
 		ScrollBox* scrollbox = new ScrollBox(Point(0, 0), Size(wind->Width(), wind->Height() - wind->TitlebarHeight()));
 		scrollbox->SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM);
-
 		wind->Controls()->AddControl(Control::Create(scrollbox));
 		wind->SetOpacity(1.0f);
-		return wind;
+	
+		// Create the toolstrip.
+		ToolStrip* toolstrip = new ToolStrip;
+		ToolStripDropDown* dropdown = new ToolStripDropDown(Point(300, 300), 200);
+		dropdown->AddItem(new ToolStripMenuItem);
+		dropdown->AddItem(new ToolStripMenuItem);
+
+		// Add everything to the gui manager.
+		GuiManager()->ControlManager()->AddControl(Control::Create(toolstrip));
+		GuiManager()->ControlManager()->AddControl(Control::Create(dropdown));
 
 	}
 
@@ -248,7 +226,8 @@ int main(int argc, char *argv[]) {
 	MyGame.Properties().OutsideColor = Color::Black;
 	MyGame.Properties().DisplaySize = Size(960, 720);
 	MyGame.Properties().DisplayFlags |= DisplayFlags::Resizable;
-	MyGame.Properties().ScalingMode = ScalingMode::Fixed;
+	MyGame.Properties().ScalingMode = ScalingMode::MaintainAspectRatio;
+	MyGame.Properties().StartFullscreen = false;
 	MyGame.Properties().FPS = 60;
 
 	// Load resources.
@@ -256,7 +235,10 @@ int main(int argc, char *argv[]) {
 	MyGame.ResourceManager().Backgrounds().Add(BACKGROUND_1, Resource::Create<Background>("data/test/tileset1.png"));
 
 	// Set up the first scene.
-	MyGame.RoomManager().AddRoom(Room::Create<TestRoom>());
+	Size large_size(MyGame.Properties().DisplaySize.Width() * 2, MyGame.Properties().DisplaySize.Height() * 2);
+	Size medium_size(1000, 800);
+	Size small_size(640, 480);
+	MyGame.RoomManager().AddRoom(Room::Create<editor::LevelEditor>(medium_size));
 	MyGame.RoomManager().AddRoom(Room::Create<TestRoom>());
 	MyGame.RoomManager().SetRoomTransition<RoomTransitionFade>(Color::Black, true);
 

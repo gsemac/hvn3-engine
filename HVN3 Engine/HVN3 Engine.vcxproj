@@ -280,6 +280,7 @@
     <ClCompile Include="io\Mouse.cc" />
     <ClCompile Include="io\Path.cc" />
     <ClCompile Include="IRoomTransition.cc" />
+    <ClCompile Include="LevelEditor.cc" />
     <ClCompile Include="NarrowPhaseCollisionManager.cc" />
     <ClCompile Include="ObjectManager.cc" />
     <ClCompile Include="Properties.cc" />
@@ -402,6 +403,7 @@
     <ClInclude Include="IBackgroundManager.h" />
     <ClInclude Include="ICollisionManager.h" />
     <ClInclude Include="IRoomTransition.h" />
+    <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="RoomTransitionFade.h" />
     <ClInclude Include="RoomTransitionNone.h" />
     <ClInclude Include="UniqueCreateableBase.h" />

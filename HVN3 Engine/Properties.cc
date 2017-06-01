@@ -6,7 +6,7 @@ namespace hvn3 {
 		DisplaySize(640.0f, 480.0f) {
 
 		DisplayTitle = "HVN3 Engine";
-		Fullscreen = false;
+		StartFullscreen = false;
 		ScalingMode = hvn3::ScalingMode::MaintainAspectRatio;
 		OutsideColor = Color::Black;
 		DisplayFlags = hvn3::DisplayFlags::None;

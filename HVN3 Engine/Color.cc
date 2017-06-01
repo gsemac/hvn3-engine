@@ -11,10 +11,10 @@ namespace hvn3 {
 	Color::Color() : Color(0, 0, 0) {}
 	Color::Color(unsigned char r, unsigned char g, unsigned char b, float a) {
 
-		__r = (r / 255.0f);
-		__g = (g / 255.0f);
-		__b = (b / 255.0f);
-		__a = a;
+		_r = (r / 255.0f);
+		_g = (g / 255.0f);
+		_b = (b / 255.0f);
+		_a = a;
 
 	}
 	Color Color::FromArgb(unsigned char r, unsigned char g, unsigned char b, float a) {
@@ -25,10 +25,10 @@ namespace hvn3 {
 	Color Color::FromArgbf(float r, float g, float b, float a) {
 
 		Color c;
-		c.__r = r;
-		c.__g = g;
-		c.__b = b;
-		c.__a = a;
+		c._r = r;
+		c._g = g;
+		c._b = b;
+		c._a = a;
 		return c;
 
 	}
@@ -36,7 +36,7 @@ namespace hvn3 {
 
 		Color c;
 		c.HslToRgb(h, s, l);
-		c.__a = a;
+		c._a = a;
 		return c;
 
 	}
@@ -48,53 +48,58 @@ namespace hvn3 {
 		return Color(r, g, b);
 
 	}
+	Color Color::FromRgbInt(unsigned int integer) {
+
+		return Color(integer & 255, (integer >> 8) & 255, (integer >> 16) & 255);
+
+	}
 
 	unsigned char Color::R() const {
 
-		return (std::round)(__r * 255.0f);
+		return (std::round)(_r * 255.0f);
 
 	}
 	unsigned char Color::G() const {
 
-		return (std::round)(__g * 255.0f);
+		return (std::round)(_g * 255.0f);
 
 	}
 	unsigned char Color::B() const {
 
-		return (std::round)(__b * 255.0f);
+		return (std::round)(_b * 255.0f);
 
 	}
 	float Color::Rf() const {
 
-		return __r;
+		return _r;
 
 	}
 	float Color::Gf() const {
 
-		return __g;
+		return _g;
 
 	}
 	float Color::Bf() const {
 
-		return __b;
+		return _b;
 
 	}
 
 	unsigned char Color::Alpha() const {
 
-		return (std::round)(__a * 255.0f);
+		return (std::round)(_a * 255.0f);
 
 	}
 	float Color::Alphaf() const {
 
-		return __a;
+		return _a;
 
 	}
 	float Color::Luminance() const {
 
 		// Calculate luminance.
-		float max = (std::max)({ __r, __g, __b });
-		float min = (std::min)({ __r, __g, __b });
+		float max = (std::max)({ _r, _g, _b });
+		float min = (std::min)({ _r, _g, _b });
 		float l = (max + min) / 2.0f;
 
 		// Return the result.
@@ -108,18 +113,18 @@ namespace hvn3 {
 		float s = Saturation();
 
 		// Calculate the min and max of the RGB values.
-		float max = (std::max)({ __r, __g, __b });
-		float min = (std::min)({ __r, __g, __b });
+		float max = (std::max)({ _r, _g, _b });
+		float min = (std::min)({ _r, _g, _b });
 
 		// Calculate hue.
 		float h;
 		if (s > 0.0f) {
-			if (__r > __g && __r > __b)
-				h = (__g - __b) / (max - min);
-			else if (__g > __r && __g > __b)
-				h = 2.0f + (__b - __r) / (max - min);
+			if (_r > _g && _r > _b)
+				h = (_g - _b) / (max - min);
+			else if (_g > _r && _g > _b)
+				h = 2.0f + (_b - _r) / (max - min);
 			else
-				h = 4.0f + (__r - __g) / (max - min);
+				h = 4.0f + (_r - _g) / (max - min);
 		}
 		else
 			h = 0.0f;
@@ -138,8 +143,8 @@ namespace hvn3 {
 		float l = Luminance();
 
 		// Calculate the min and max of the RGB values.
-		float max = (std::max)({ __r, __g, __b });
-		float min = (std::min)({ __r, __g, __b });
+		float max = (std::max)({ _r, _g, _b });
+		float min = (std::min)({ _r, _g, _b });
 
 		// Get the denominator to be used in the calculation.
 		float d;
@@ -185,6 +190,21 @@ namespace hvn3 {
 		return !(color.a > 0.0f);
 
 	}
+	Color Color::Merge(const Color& color_1, const Color& color_2, float amount) {
+
+		Color color;
+		
+		float from_c1 = 1.0f - amount;
+		float from_c2 = amount;
+
+		color._r = (color_1._r * from_c1 + color_2._r * from_c2);
+		color._g = (color_1._g * from_c1 + color_2._g * from_c2);
+		color._b = (color_1._b * from_c1 + color_2._b * from_c2);
+		color._a = (color_1._a * from_c1 + color_2._a * from_c2);
+
+		return color;
+
+	}
 
 	// Private member functions
 
@@ -194,8 +214,8 @@ namespace hvn3 {
 
 		float h, s, l;
 
-		float max = (std::max)({ __r, __g, __b });
-		float min = (std::min)({ __r, __g, __b });
+		float max = (std::max)({ _r, _g, _b });
+		float min = (std::min)({ _r, _g, _b });
 
 		// Calculate luminance.
 		l = (max + min) / 2.0f;
@@ -210,12 +230,12 @@ namespace hvn3 {
 
 		// Calculate hue.
 		if (s > 0.0f) {
-			if (__r > __g && __r > __b)
-				h = (__g - __b) / (max - min);
-			else if (__g > __r && __g > __b)
-				h = 2.0f + (__b - __r) / (max - min);
+			if (_r > _g && _r > _b)
+				h = (_g - _b) / (max - min);
+			else if (_g > _r && _g > _b)
+				h = 2.0f + (_b - _r) / (max - min);
 			else
-				h = 4.0f + (__r - __g) / (max - min);
+				h = 4.0f + (_r - _g) / (max - min);
 		}
 		else {
 			h = 0.0f;
@@ -234,9 +254,9 @@ namespace hvn3 {
 		// No saturation means the color is a shade of grey.
 		if (s == 0.0f) {
 
-			__r = l;
-			__g = l;
-			__b = l;
+			_r = l;
+			_g = l;
+			_b = l;
 
 		}
 		else {
@@ -276,33 +296,33 @@ namespace hvn3 {
 
 			// Calculate R.
 			if (6.0f * temporary_R < 1.0f)
-				__r = temporary_2 + (temporary_1 - temporary_2) * 6.0f * temporary_R;
+				_r = temporary_2 + (temporary_1 - temporary_2) * 6.0f * temporary_R;
 			else if (2.0f * temporary_R < 1.0f)
-				__r = temporary_1;
+				_r = temporary_1;
 			else if (3.0f * temporary_R < 2.0f)
-				__r = temporary_2 + (temporary_1 - temporary_2) * ((2.0f / 3.0f) - temporary_R) * 6.0f;
+				_r = temporary_2 + (temporary_1 - temporary_2) * ((2.0f / 3.0f) - temporary_R) * 6.0f;
 			else
-				__r = temporary_2;
+				_r = temporary_2;
 
 			// Calculate G.
 			if (6.0f * temporary_G < 1.0f)
-				__g = temporary_2 + (temporary_1 - temporary_2) * 6.0f * temporary_G;
+				_g = temporary_2 + (temporary_1 - temporary_2) * 6.0f * temporary_G;
 			else if (2.0f * temporary_G < 1.0f)
-				__g = temporary_1;
+				_g = temporary_1;
 			else if (3.0f * temporary_G < 2.0f)
-				__g = temporary_2 + (temporary_1 - temporary_2) * ((2.0f / 3.0f) - temporary_G) * 6.0f;
+				_g = temporary_2 + (temporary_1 - temporary_2) * ((2.0f / 3.0f) - temporary_G) * 6.0f;
 			else
-				__g = temporary_2;
+				_g = temporary_2;
 
 			// Calculate B.
 			if (6.0f * temporary_B < 1.0f)
-				__b = temporary_2 + (temporary_1 - temporary_2) * 6.0f * temporary_B;
+				_b = temporary_2 + (temporary_1 - temporary_2) * 6.0f * temporary_B;
 			else if (2.0f * temporary_B < 1.0f)
-				__b = temporary_1;
+				_b = temporary_1;
 			else if (3.0f * temporary_B < 2.0f)
-				__b = temporary_2 + (temporary_1 - temporary_2) * ((2.0f / 3.0f) - temporary_B) * 6.0f;
+				_b = temporary_2 + (temporary_1 - temporary_2) * ((2.0f / 3.0f) - temporary_B) * 6.0f;
 			else
-				__b = temporary_2;
+				_b = temporary_2;
 
 		}
 
@@ -334,11 +354,15 @@ namespace hvn3 {
 	const Color Color::DodgerBlue = FromArgb(30, 144, 255);
 	const Color Color::Gainsboro = FromArgb(220, 220, 220);
 	const Color Color::Grey = FromArgbf(0.5f, 0.5f, 0.5f);
-	const Color Color::LtGrey = FromArgbf(0.7f, 0.7f, 0.7f);
 	const Color Color::Red = FromArgbf(1.0f, 0.0f, 0.0f);
 	const Color Color::Silver = FromArgb(192, 192, 192);
 	const Color Color::SlateGrey = FromArgb(112, 128, 144);
 	const Color Color::Transparent = FromArgb(1, 1, 1, 0.0f);
 	const Color Color::White = FromArgbf(1.0f, 1.0f, 1.0f);
+	const Color Color::Yellow = FromArgb(255, 255, 0);
+
+	// Color constants from Game Maker
+	const Color Color::LtGrey = FromArgbf(0.7f, 0.7f, 0.7f);
+	const Color Color::DkGrey = FromRgbInt(4210752);
 
 }

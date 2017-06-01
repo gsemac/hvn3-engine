@@ -13,6 +13,19 @@ namespace hvn3 {
 
 	namespace Drawing {
 
+		enum class BlendMode {
+			Normal,
+			Add,
+			Subtract,
+			Max,
+			DestinationMinusSource,
+			SourceMinusDestination,
+			Zero,
+			One,
+			Alpha,
+			InverseAlpha
+		};
+
 		class Graphics {
 
 		public:
@@ -72,11 +85,11 @@ namespace hvn3 {
 			void Restore(const GraphicsState& state);
 
 		private:
-			Bitmap __surface;
-			Transform __transform;
-			Rectangle __clipping_region;
-			bool __state_changed;
-			static Graphics* __last_to_draw;
+			Bitmap _surface;
+			Transform _transform;
+			Rectangle _clipping_region;
+			bool _state_changed;
+			static Graphics* _last_to_draw;
 
 			// Called at the beginning of every drawing function to set the drawing target and its and tranforms/clipping region.
 			void PrepareDrawingSurface();

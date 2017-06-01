@@ -62,7 +62,7 @@ namespace hvn3 {
 		Timer __timer;
 
 		RoomManager& _room_manager;
-		Display __display;
+		Display _display;
 		Font* __default_font;
 		hvn3::Properties& _properties;
 		Drawing::Graphics __graphics;
