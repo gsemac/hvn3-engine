@@ -177,7 +177,7 @@ namespace hvn3 {
 
 			Controls()->Update(e);
 
-			if (!Mouse::ButtonDown(MB_LEFT) && (__dragging || __resizing)) {
+			if (!Mouse::ButtonDown(MouseButton::Left) && (__dragging || __resizing)) {
 
 				__dragging = false;
 				__resizing = false;

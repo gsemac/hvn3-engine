@@ -19,49 +19,49 @@ namespace hvn3 {
 	Point Mouse::__last_click_pos = Point(-1.0f, -1.0f);
 	Point Mouse::__display_mouse_position = Point(Mouse::X, Mouse::Y);
 
-	bool Mouse::ButtonDown(MOUSE_BUTTONS mouse_button) {
+	bool Mouse::ButtonDown(hvn3::MouseButton mouse_button) {
 
-		if (mouse_button & MB_LEFT && __left.held)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Left && __left.held)
 			return true;
-		if (mouse_button & MB_RIGHT && __right.held)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Right && __right.held)
 			return true;
-		if (mouse_button & MB_MIDDLE && __middle.held)
-			return true;
-
-		return false;
-
-	}
-	bool Mouse::ButtonPressed(MOUSE_BUTTONS mouse_button) {
-
-		if (mouse_button & MB_LEFT && __left.pressed)
-			return true;
-		if (mouse_button & MB_RIGHT && __right.pressed)
-			return true;
-		if (mouse_button & MB_MIDDLE && __middle.pressed)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Middle && __middle.held)
 			return true;
 
 		return false;
 
 	}
-	bool Mouse::ButtonDoubleClicked(MOUSE_BUTTONS mouse_button) {
+	bool Mouse::ButtonPressed(hvn3::MouseButton mouse_button) {
 
-		if (mouse_button & MB_LEFT && __left.dbl_clicked)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Left && __left.pressed)
 			return true;
-		if (mouse_button & MB_RIGHT && __right.dbl_clicked)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Right && __right.pressed)
 			return true;
-		if (mouse_button & MB_MIDDLE && __middle.dbl_clicked)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Middle && __middle.pressed)
 			return true;
 
 		return false;
 
 	}
-	bool Mouse::ButtonReleased(MOUSE_BUTTONS mouse_button) {
+	bool Mouse::ButtonDoubleClicked(hvn3::MouseButton mouse_button) {
 
-		if (mouse_button & MB_LEFT && __left.released)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Left && __left.dbl_clicked)
 			return true;
-		if (mouse_button & MB_RIGHT && __right.released)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Right && __right.dbl_clicked)
 			return true;
-		if (mouse_button & MB_MIDDLE && __middle.released)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Middle && __middle.dbl_clicked)
+			return true;
+
+		return false;
+
+	}
+	bool Mouse::ButtonReleased(hvn3::MouseButton mouse_button) {
+
+		if ((int)mouse_button & (int)hvn3::MouseButton::Left && __left.released)
+			return true;
+		if ((int)mouse_button & (int)hvn3::MouseButton::Right && __right.released)
+			return true;
+		if ((int)mouse_button & (int)hvn3::MouseButton::Middle && __middle.released)
 			return true;
 
 		return false;
@@ -137,12 +137,15 @@ namespace hvn3 {
 	}
 
 	Mouse::Mouse() {}
-	Mouse::MouseButton* Mouse::ToMouseButton(MOUSE_BUTTONS button) {
+	Mouse::MouseButton* Mouse::ToMouseButton(hvn3::MouseButton button) {
 
 		switch (button) {
-		case MOUSE_BUTTONS::MB_LEFT: return &__left;
-		case MOUSE_BUTTONS::MB_MIDDLE: return &__middle;
-		default: return &__right;
+		case hvn3::MouseButton::Left:
+			return &__left;
+		case hvn3::MouseButton::Right:
+			return &__middle;
+		default:
+			return &__right;
 		}
 
 	}
@@ -160,7 +163,7 @@ namespace hvn3 {
 
 	}
 
-	void Mouse::StateAccessor::SetButtonState(MOUSE_BUTTONS button, bool pressed) {
+	void Mouse::StateAccessor::SetButtonState(hvn3::MouseButton button, bool pressed) {
 
 		Mouse::MouseButton* mb = ToMouseButton(button);
 

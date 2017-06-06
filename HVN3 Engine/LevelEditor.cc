@@ -16,10 +16,6 @@ namespace hvn3 {
 
 			_grid_visible = true;
 
-			//ViewManager()->AddView(View(Point(30, 30), Size(320, 240), Point(0, 0), Size(960, 720)));
-
-			//ViewManager()->ViewAt(0).Enable();
-
 		}
 
 		Gui::GuiManager* LevelEditor::GuiManager() {
@@ -58,9 +54,13 @@ namespace hvn3 {
 
 		void LevelEditor::SetUp() {
 
+			Gui::Window* window = new Gui::Window(300, 300, 300, 300, "test");
+			GuiManager()->ControlManager()->AddControl(Gui::Control::Create(window));
+
 			// Create menu strip.
 			Gui::ToolStrip* menu_strip = new Gui::ToolStrip();
-			
+			menu_strip->AddItem(new Gui::ToolStripButton);
+
 			GuiManager()->ControlManager()->AddControl(Gui::Control::Create(menu_strip));
 
 		}

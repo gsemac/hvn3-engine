@@ -1,5 +1,6 @@
 #pragma once
 #include "gui/ContainerControl.h"
+#include "gui/ToolStripItem.h"
 
 namespace hvn3 {
 	namespace Gui {
@@ -8,6 +9,8 @@ namespace hvn3 {
 
 		public:
 			ToolStrip();
+
+			virtual void AddItem(ToolStripItem* item);
 
 			virtual void OnPaint(PaintEventArgs& e) override;
 

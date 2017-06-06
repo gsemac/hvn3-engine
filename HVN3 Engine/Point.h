@@ -25,9 +25,9 @@ namespace hvn3 {
 
 	};
 
-}
+	std::ostream& operator<< (std::ostream& stream, const hvn3::Point& point);
 
-std::ostream& operator<< (std::ostream& stream, const hvn3::Point& point);
+}
 
 namespace std {
 

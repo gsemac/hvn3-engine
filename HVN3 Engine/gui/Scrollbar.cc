@@ -75,7 +75,7 @@ namespace hvn3 {
 		}
 		void Scrollbar::OnMouseDown() {
 
-			if (_MouseOnSlider() && Mouse::ButtonPressed(MB_LEFT)) {
+			if (_MouseOnSlider() && Mouse::ButtonPressed(MouseButton::Left)) {
 
 				_mouse_clicked_pos = (_orientation == Orientation::Vertical ? Mouse::Y : Mouse::X);
 				_starting_position = _position;
@@ -97,7 +97,7 @@ namespace hvn3 {
 		void Scrollbar::Update(UpdateEventArgs& e) {
 
 			// Stop dragging when the mouse button is released.
-			if (!Mouse::ButtonDown(MB_LEFT))
+			if (!Mouse::ButtonDown(MouseButton::Left))
 				_dragging = false;
 
 			if (_dragging) {

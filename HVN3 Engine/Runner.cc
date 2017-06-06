@@ -24,7 +24,7 @@ namespace hvn3 {
 		_properties(properties),
 		__timer(1.0f / properties.FPS),
 		_display(properties.DisplaySize.Width(), properties.DisplaySize.Height(), properties.DisplayTitle.c_str(), properties.DisplayFlags),
-		__graphics(_display.BackBuffer()),
+		_graphics(_display.BackBuffer()),
 		_room_manager(room_manager) {
 
 		// Create the display, and initialize its parameters.
@@ -186,8 +186,8 @@ namespace hvn3 {
 		// Draw the FPS.
 		std::stringstream ss;
 		ss << (int)(std::min)((std::ceil)(fps_sum / 60.0f), Properties().FPS) << " FPS";
-		__graphics.DrawText(11, 11, ss.str().c_str(), SystemFont(), Color::Black);
-		__graphics.DrawText(10, 10, ss.str().c_str(), SystemFont(), Color::White);
+		_graphics.DrawText(11, 11, ss.str().c_str(), SystemFont(), Color::Black);
+		_graphics.DrawText(10, 10, ss.str().c_str(), SystemFont(), Color::White);
 
 		// Reset the FPS timer.
 		fps_timer.Reset(true);
@@ -259,15 +259,15 @@ namespace hvn3 {
 		switch (ev.AlPtr()->mouse.button) {
 
 		case 1:
-			Mouse::StateAccessor::SetButtonState(MB_LEFT, true);
+			Mouse::StateAccessor::SetButtonState(MouseButton::Left, true);
 			break;
 
 		case 2:
-			Mouse::StateAccessor::SetButtonState(MB_RIGHT, true);
+			Mouse::StateAccessor::SetButtonState(MouseButton::Right, true);
 			break;
 
 		case 3:
-			Mouse::StateAccessor::SetButtonState(MB_MIDDLE, true);
+			Mouse::StateAccessor::SetButtonState(MouseButton::Middle, true);
 			break;
 
 		}
@@ -278,15 +278,15 @@ namespace hvn3 {
 		switch (ev.AlPtr()->mouse.button) {
 
 		case 1:
-			Mouse::StateAccessor::SetButtonState(MB_LEFT, false);
+			Mouse::StateAccessor::SetButtonState(MouseButton::Left, false);
 			break;
 
 		case 2:
-			Mouse::StateAccessor::SetButtonState(MB_RIGHT, false);
+			Mouse::StateAccessor::SetButtonState(MouseButton::Right, false);
 			break;
 
 		case 3:
-			Mouse::StateAccessor::SetButtonState(MB_MIDDLE, false);
+			Mouse::StateAccessor::SetButtonState(MouseButton::Middle, false);
 			break;
 
 		}
@@ -349,13 +349,13 @@ namespace hvn3 {
 	void Runner::OnRedraw() {
 
 		// Clear the drawing surface with the outside outside color.
-		__graphics.Clear(Properties().OutsideColor);
+		_graphics.Clear(Properties().OutsideColor);
 
 		// Set the Transform according to the scaling mode.
 		ApplyScalingMode();
 
 		// Draw the game state to the application surface.
-		Draw(DrawEventArgs(__graphics));
+		Draw(DrawEventArgs(_graphics));
 
 		// Swap out the backbuffer.
 		_display.Refresh();
@@ -443,11 +443,13 @@ namespace hvn3 {
 		}
 		}
 
-		__graphics.SetTransform(scaling_transform);
-		__graphics.SetClip(clipping_rectangle);
+		_graphics.SetTransform(scaling_transform);
+		_graphics.SetClip(clipping_rectangle);
 
 	}
 	void Runner::RecalculateMousePosition() {
+
+		// #todo fix mouse position scaling
 
 		// If no scene has been loaded, do nothing.
 		if (_room_manager.RoomCount() <= 0)
@@ -471,8 +473,8 @@ namespace hvn3 {
 				Point pos = Mouse::DisplayPosition();
 				Point port_p1 = view.Port().TopLeft();
 				Point port_p2 = view.Port().BottomRight();
-				__graphics.GetTransform().TransformPoint(port_p1);
-				__graphics.GetTransform().TransformPoint(port_p2);
+				_graphics.GetTransform().TransformPoint(port_p1);
+				_graphics.GetTransform().TransformPoint(port_p2);
 				Rectangle viewport(port_p1, port_p2);
 				if (!PointIn(pos, viewport))
 					continue;
@@ -505,12 +507,12 @@ namespace hvn3 {
 			Point pos = Mouse::DisplayPosition();
 
 			// If the mouse is outside of the clipping area, don't track it.
-			if (!PointIn(pos, __graphics.Clip()))
+			if (!PointIn(pos, _graphics.Clip()))
 				return;
 
 			// Set the position relative to the clipping area.
-			pos -= __graphics.Clip().TopLeft();
-			Scale(Size(room.Width(), room.Height()), __graphics.Clip().Size()).ScalePoint(pos);
+			pos -= _graphics.Clip().TopLeft();
+			Scale(Size(room.Width(), room.Height()), room.GetVisibleRegion().Size()).ScalePoint(pos);
 
 			Mouse::StateAccessor::SetPosition(pos.X(), pos.Y());
 

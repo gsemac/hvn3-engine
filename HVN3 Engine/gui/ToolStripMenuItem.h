@@ -26,8 +26,7 @@ namespace hvn3 {
 			virtual void OnLostFocus() override;
 
 		protected:
-
-
+			
 		private:
 			bool _CreateSubMenu();
 			void _DestroySubMenu();

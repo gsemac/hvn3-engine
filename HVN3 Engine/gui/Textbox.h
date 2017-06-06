@@ -500,7 +500,7 @@ namespace hvn3 {
 			virtual void OnMouseUp() override {
 
 				// Stop allowing mouse selection.
-				if (Mouse::ButtonReleased(MB_LEFT)) {
+				if (Mouse::ButtonReleased(MouseButton::Left)) {
 					__mouse_selecting = false;
 					__full_word_selecting = false;
 				}
@@ -513,7 +513,7 @@ namespace hvn3 {
 				Focus();
 
 				// Set the cursor position according to where the mouse clicked.
-				if (Mouse::ButtonPressed(MB_LEFT)) {
+				if (Mouse::ButtonPressed(MouseButton::Left)) {
 					__mouse_last_pos = Mouse::Position();
 					__caret.SetPosition(GetCharacterIndexFromPoint(Mouse::Position()));
 					DeselectAll();
@@ -611,7 +611,7 @@ namespace hvn3 {
 				__caret.Update();
 
 				// Handle mouse dragging.
-				if (Mouse::ButtonDown(MB_LEFT) && __mouse_selecting) {
+				if (Mouse::ButtonDown(MouseButton::Left) && __mouse_selecting) {
 
 					// Get Control bounds.
 					Rectangle bounds = Bounds();

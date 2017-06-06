@@ -240,7 +240,7 @@ int main(int argc, char *argv[]) {
 	Size large_size(MyGame.Properties().DisplaySize.Width() * 2, MyGame.Properties().DisplaySize.Height() * 2);
 	Size medium_size(1000, 800);
 	Size small_size(640, 480);
-	MyGame.RoomManager().AddRoom(Room::Create<editor::LevelEditor>(large_size));
+	MyGame.RoomManager().AddRoom(Room::Create<editor::LevelEditor>(medium_size));
 	MyGame.RoomManager().AddRoom(Room::Create<TestRoom>());
 	MyGame.RoomManager().SetRoomTransition<RoomTransitionFade>(Color::Black, true);
 

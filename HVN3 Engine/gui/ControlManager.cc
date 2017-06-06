@@ -146,9 +146,9 @@ namespace hvn3 {
 		void ControlManager::Update(UpdateEventArgs& e) {
 
 			// Get mouse state.
-			bool mouse_is_held = Mouse::ButtonDown(MB_LEFT | MB_RIGHT | MB_MIDDLE);
-			bool mouse_is_pressed = Mouse::ButtonPressed(MB_LEFT | MB_RIGHT | MB_MIDDLE);
-			bool mouse_is_dbl_pressed = Mouse::ButtonDoubleClicked(MB_LEFT | MB_RIGHT | MB_MIDDLE);
+			bool mouse_is_held = Mouse::ButtonDown(MouseButton::Left | MouseButton::Right | MouseButton::Middle);
+			bool mouse_is_pressed = Mouse::ButtonPressed(MouseButton::Left | MouseButton::Right | MouseButton::Middle);
+			bool mouse_is_dbl_pressed = Mouse::ButtonDoubleClicked(MouseButton::Left | MouseButton::Right | MouseButton::Middle);
 
 			// Reset the hovered Control pointer.
 			Control* __prev_hovered_control = _hovered_control;

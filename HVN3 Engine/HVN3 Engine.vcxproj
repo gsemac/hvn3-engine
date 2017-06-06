@@ -252,9 +252,11 @@
     <ClCompile Include="FrameworkAdapter.cc" />
     <ClCompile Include="GameManager.cc" />
     <ClCompile Include="gui\Button.cc" />
+    <ClCompile Include="gui\ButtonBase.cc" />
     <ClCompile Include="gui\Container.cc" />
     <ClCompile Include="gui\ContainerControl.cc" />
     <ClCompile Include="gui\TextableControl.cc" />
+    <ClCompile Include="gui\ToolStripButton.cc" />
     <ClCompile Include="gui\ToolStripDropDown.cc" />
     <ClCompile Include="gui\Control.cc" />
     <ClCompile Include="gui\ControlController.cc" />
@@ -366,9 +368,11 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GraphicsState.h" />
     <ClInclude Include="gui\Button.h" />
+    <ClInclude Include="gui\ButtonBase.h" />
     <ClInclude Include="gui\Container.h" />
     <ClInclude Include="gui\ContainerControl.h" />
     <ClInclude Include="gui\TextableControl.h" />
+    <ClInclude Include="gui\ToolStripButton.h" />
     <ClInclude Include="gui\ToolStripDropDown.h" />
     <ClInclude Include="gui\Control.h" />
     <ClInclude Include="gui\ControlController.h" />
@@ -382,6 +386,7 @@
     <ClInclude Include="gui\ScrollableControl.h" />
     <ClInclude Include="gui\ScrollEventArgs.h" />
     <ClInclude Include="gui\SmoothScrollbar.h" />
+    <ClInclude Include="gui\ToolStripItem.h" />
     <ClInclude Include="gui\ToolStripMenuItem.h" />
     <ClInclude Include="ICollection.h" />
     <ClInclude Include="gui\IContainer.h" />

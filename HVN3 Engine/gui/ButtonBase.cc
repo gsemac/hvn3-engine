@@ -1,33 +1,23 @@
-#include "Button.h"
-#include <cmath>
-#include "ISizeable.h"
-#include "UTF8String.h"
-#include "Font.h"
-#include "Graphics.h"
+#include "gui/ButtonBase.h"
 #include "io/Mouse.h"
-#include "gui/ITextable.h"
-#include "gui/GuiManager.h"
+#include "Point.h"
 
 namespace hvn3 {
-
 	namespace Gui {
 
-		Button::Button(float x, float y, float width, float height, const String& text) :
-			Control(Point(x, y), Size(width, height)),
-			ITextable(this, text),
+		ButtonBase::ButtonBase(const String& text) :
+			TextableControl(text),
 			_text_offset(0.0f, 0.0f) {
 		}
 
-		void Button::OnMouseEnter() {
-
+		void ButtonBase::OnMouseEnter() {
+			std::cout << FixedPosition();
 			SetBackColor(BackColor().Lighter());
 			Invalidate();
 
-			std::cout << "Mouse Enter!\n";
-
 		}
-		void Button::OnMouseLeave() {
-
+		void ButtonBase::OnMouseLeave() {
+			std::cout << "mouse leave!";
 			SetBackColor(BackColor().Darker());
 
 			if (Mouse::ButtonDown(MouseButton::Left))
@@ -35,44 +25,35 @@ namespace hvn3 {
 
 			Invalidate();
 
-			std::cout << "Mouse Leave!\n";
-
 		}
-		void Button::OnMouseDown() {
+		void ButtonBase::OnMouseDown() {
 
 			bool invalidate_req = (_text_offset.Y() == 0.0f);
 			_text_offset.SetY(1.0f);
 			if (invalidate_req)
 				Invalidate();
 
-			std::cout << "Mouse Down!\n";
-
 		}
-		void Button::OnMouseUp() {
+		void ButtonBase::OnMouseUp() {
 
 			_text_offset.SetY(0.0f);
 			Invalidate();
 
-			std::cout << "Mouse Up!\n";
-
 		}
-		void Button::OnClick() {
+		void ButtonBase::OnClick() {
 
 			if (Text().Contains(" Clicked!"))
 				SetText(Text().SubString(0, Text().IndexOf(" Clicked!")));
 			else
 				SetText(Text() + " Clicked!");
 
-			std::cout << Text() << ": Button Clicked!\n";
-
 		}
-		void Button::OnPaint(PaintEventArgs& e) {
+		void ButtonBase::OnPaint(PaintEventArgs& e) {
 
 			// Draw background.
 			e.Graphics().DrawFilledRectangle(0.0f, 0.0f, Width(), Height(), BackColor());
 
 			// Draw text.
-			std::cout << Manager()->StyleManager() << std::endl;
 			if (Font()) {
 				float tx = (std::round)((Width() / 2.0f) + _text_offset.X());
 				float ty = (std::round)((Height() / 2.0f - Font()->Height() / 2.0f - 1.0f) + _text_offset.Y());
@@ -86,5 +67,4 @@ namespace hvn3 {
 		}
 
 	}
-
 }

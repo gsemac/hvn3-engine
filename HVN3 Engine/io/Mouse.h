@@ -6,12 +6,12 @@
 
 namespace hvn3 {
 
-	enum MOUSE_BUTTONS {
-		MB_LEFT = 0x01,
-		MB_MIDDLE = 0x02,
-		MB_RIGHT = 0x04
+	enum class MouseButton {
+		Left = 0x01,
+		Middle = 0x02,
+		Right = 0x04
 	};
-	ENABLE_BITFLAG_OPERATORS(MOUSE_BUTTONS);
+	ENABLE_BITFLAG_OPERATORS(MouseButton);
 
 	enum class SystemCursor {
 		None = 0,
@@ -44,7 +44,7 @@ namespace hvn3 {
 
 		public:
 			static void ResetButtonStates(bool pressed, bool released, bool held);
-			static void SetButtonState(MOUSE_BUTTONS button, bool pressed);
+			static void SetButtonState(MouseButton button, bool pressed);
 			static void SetScrollState(bool scrolled_up, bool scrolled_down);
 			static void SetPosition(float x, float y);
 			static void SetDisplayPosition(int x, int y);
@@ -53,10 +53,10 @@ namespace hvn3 {
 
 		static float X, Y;
 
-		static bool ButtonDown(MOUSE_BUTTONS);
-		static bool ButtonPressed(MOUSE_BUTTONS);
-		static bool ButtonReleased(MOUSE_BUTTONS);
-		static bool ButtonDoubleClicked(MOUSE_BUTTONS);
+		static bool ButtonDown(MouseButton button);
+		static bool ButtonPressed(MouseButton button);
+		static bool ButtonReleased(MouseButton button);
+		static bool ButtonDoubleClicked(MouseButton button);
 		static bool ScrolledUp();
 		static bool ScrolledDown();
 		static bool ScrolledLeft();
@@ -88,7 +88,7 @@ namespace hvn3 {
 		static bool __scrolled_up, __scrolled_down, _scrolled_left, _scrolled_right;
 
 		Mouse();
-		static MouseButton* ToMouseButton(MOUSE_BUTTONS);
+		static MouseButton* ToMouseButton(hvn3::MouseButton button);
 
 	};
 
