@@ -10,7 +10,8 @@ class MyRoom : public Room {
 
 public:
 	MyRoom(float width, float height) :
-		Room(width, height) {
+		Room(width, height),
+		_gui_manager(Rectangle(MyGame.Properties().DisplaySize.Width(), MyGame.Properties().DisplaySize.Height())) {
 	}
 	~MyRoom() {
 

@@ -7,7 +7,7 @@ namespace hvn3 {
 	namespace Gui {
 
 		IContainer::IContainer(Control* control) :
-			_manager(&_control_manager, nullptr),
+			_manager(Rectangle(0, 0, control->Width(), control->Height()), &_control_manager, nullptr),
 			_control_manager(&_manager, control),
 			_control(control),
 			_child_region(control->Width(), control->Height()) {
@@ -99,7 +99,7 @@ namespace hvn3 {
 			// Update the style manager of our gui manager to match the one used by the control.
 			// Do this when controls are accessed so that we can be sure it's up-to-date before controls are accessed.
 			if (_manager.StyleManager() == nullptr && _control->Manager() != nullptr)
-				_manager = Gui::GuiManager(&_control_manager, _control->Manager()->StyleManager());
+				_manager = Gui::GuiManager(ChildRegion(), &_control_manager, _control->Manager()->StyleManager());
 
 		}
 

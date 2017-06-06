@@ -34,6 +34,15 @@ namespace hvn3 {
 			Vertical = 2
 		};
 
+		enum class DockStyle {
+			None,
+			Left,
+			Right,
+			Bottom,
+			Top,
+			Fill
+		};
+
 		struct ResizeEventArgs : public EventArgs {
 
 		public:
@@ -148,6 +157,9 @@ namespace hvn3 {
 			int Anchors();
 			void SetAnchors(int anchors);
 
+			DockStyle Dock() const;
+			void SetDock(DockStyle dock);
+
 			float Opacity();
 			void SetOpacity(float opacity);
 
@@ -216,7 +228,8 @@ namespace hvn3 {
 			GuiManager* __manager;
 			Drawing::Bitmap _surface;
 			Color __backcolor, __forecolor;
-			int __anchor;
+			int _anchor;
+			DockStyle _dock;
 			float __opacity;
 			Size __minimum_size;
 			Size __maximum_size;
@@ -233,6 +246,7 @@ namespace hvn3 {
 			Point __fixed_pos;
 
 			Point GetFixedPosition() const;
+			void ApplyDockStyle();
 
 		};
 

@@ -5,7 +5,7 @@ namespace hvn3 {
 	namespace Gui {
 
 		ContainerControl::ContainerControl() :
-			_gui_manager(&_control_manager, nullptr),
+			_gui_manager(Rectangle(Width(), Height()), &_control_manager, nullptr),
 			_control_manager(&_gui_manager, this),
 			_child_region(Width(), Height()) {
 		}
@@ -111,7 +111,7 @@ namespace hvn3 {
 
 			// Updates the style manager of our gui manager so that uses the same one that's used by this control.
 			if (_gui_manager.StyleManager() == nullptr && Manager() != nullptr && Manager()->StyleManager() != nullptr)
-				_gui_manager = gui_manager_type(&_control_manager, Manager()->StyleManager());
+				_gui_manager = gui_manager_type(_ChildRegion(), &_control_manager, Manager()->StyleManager());
 		}
 
 		// Child classes

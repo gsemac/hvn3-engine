@@ -31,7 +31,8 @@ namespace hvn3 {
 		_enabled = true;
 		__backcolor = Color::FromArgb(35, 35, 35);
 		__forecolor = Color::FromArgb(186, 186, 186);
-		__anchor = (Gui::ANCHOR)(ANCHOR_LEFT | ANCHOR_TOP);
+		_dock = DockStyle::None;
+		_anchor = (Gui::ANCHOR)(ANCHOR_LEFT | ANCHOR_TOP);
 		__opacity = 1.0f;
 
 		__mouse_is_on = false;
@@ -140,12 +141,27 @@ namespace hvn3 {
 
 	int Gui::Control::Anchors() {
 
-		return __anchor;
+		return _anchor;
 
 	}
 	void Gui::Control::SetAnchors(int anchors) {
 
-		__anchor = anchors;
+		_anchor = anchors;
+
+	}
+	Gui::DockStyle Gui::Control::Dock() const {
+
+		return _dock;
+
+	}
+	void Gui::Control::SetDock(DockStyle dock) {
+
+		// Update the control's dock style.
+		_dock = dock;
+
+		// If the control is already tied to a manager, apply the dock style.
+		if (Manager() != nullptr)
+			ApplyDockStyle();
 
 	}
 
@@ -354,7 +370,13 @@ namespace hvn3 {
 	void Gui::Control::OnKeyDown() {}
 	void Gui::Control::OnKeyPressed() {}
 	void Gui::Control::OnKeyReleased() {}
-	void Gui::Control::OnManagerChanged(ManagerChangedEventArgs& e) {}
+	void Gui::Control::OnManagerChanged(ManagerChangedEventArgs& e) {
+
+		// Re-apply dockstyle for the new manager's dockable region.
+		if (Manager() != nullptr)
+			ApplyDockStyle();
+
+	}
 	void Gui::Control::OnEnabledChanged(EnabledChangedEventArgs& e) {}
 
 	// Private members
@@ -376,6 +398,19 @@ namespace hvn3 {
 			fp.Translate(Manager()->ControlManager()->ControlOffset().X(), Manager()->ControlManager()->ControlOffset().Y());
 
 		return fp;
+
+	}
+	void Gui::Control::ApplyDockStyle() {
+
+		switch (_dock) {
+
+		case DockStyle::Top:
+			SetXY(0, 0);
+			SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP);
+			SetWidth(Manager()->DockableRegion().Width());
+			break;
+
+		}
 
 	}
 

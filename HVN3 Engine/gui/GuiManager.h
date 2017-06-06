@@ -13,8 +13,8 @@ namespace hvn3 {
 		class GuiManager : public IUpdatable, public IDrawable {
 
 		public:
-			GuiManager();
-			GuiManager(Gui::ControlManager* control_manager, Gui::StyleManager* style_manager);
+			GuiManager(const Rectangle& dockable_region);
+			GuiManager(const Rectangle& dockable_region, Gui::ControlManager* control_manager, Gui::StyleManager* style_manager);
 			~GuiManager();
 
 			void Clear();
@@ -23,6 +23,8 @@ namespace hvn3 {
 			Gui::ControlManager* ControlManager();
 			const Gui::ControlManager* ControlManager() const;
 
+			const Rectangle& DockableRegion() const;
+
 			void Update(UpdateEventArgs& e) override;
 			void Draw(DrawEventArgs& e) override;
 
@@ -30,6 +32,7 @@ namespace hvn3 {
 			bool _owns_managers;
 			Gui::StyleManager* _style_manager;
 			Gui::ControlManager* _control_manager;
+			Rectangle _dockable_region;
 
 		};
 

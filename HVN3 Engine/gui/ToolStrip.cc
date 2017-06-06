@@ -5,6 +5,9 @@ namespace hvn3 {
 
 		ToolStrip::ToolStrip() :
 			Control(Point(100, 0), Size(400, 25)) {
+
+			SetDock(DockStyle::Top);
+
 		}
 
 		void ToolStrip::OnPaint(PaintEventArgs& e) {

@@ -1,5 +1,6 @@
 #include "LevelEditor.h"
 #include "io/Keyboard.h"
+#include "gui/Gui.h"
 #include <allegro5/allegro.h>
 #define DEFAULT_GRID_CELL_SIZE 32
 
@@ -10,7 +11,8 @@ namespace hvn3 {
 			LevelEditor(size.Width(), size.Height()) {}
 		LevelEditor::LevelEditor(unsigned int width, unsigned int height) :
 			Room(width, height),
-			_grid_space_size(DEFAULT_GRID_CELL_SIZE, DEFAULT_GRID_CELL_SIZE) {
+			_grid_space_size(DEFAULT_GRID_CELL_SIZE, DEFAULT_GRID_CELL_SIZE),
+			_gui_manager(Rectangle(width, height)) {
 
 			_grid_visible = true;
 
@@ -20,12 +22,27 @@ namespace hvn3 {
 
 		}
 
+		Gui::GuiManager* LevelEditor::GuiManager() {
+
+			return &_gui_manager;
+
+		}
+
 		void LevelEditor::Update(UpdateEventArgs& e) {
 
 			Room::Update(e);
 
+			_gui_manager.Update(e);
+			
 			if (Keyboard::KeyPressed(Key::G))
 				ToggleGrid(!_grid_visible);
+
+		}
+		void LevelEditor::Draw(DrawEventArgs& e) {
+
+			Room::Draw(e);
+
+
 
 		}
 
@@ -39,6 +56,21 @@ namespace hvn3 {
 
 		// Protected methods
 
+		void LevelEditor::SetUp() {
+
+			// Create menu strip.
+			Gui::ToolStrip* menu_strip = new Gui::ToolStrip();
+			
+			GuiManager()->ControlManager()->AddControl(Gui::Control::Create(menu_strip));
+
+		}
+		void LevelEditor::Reset() {
+
+			Room::Reset();
+
+			_gui_manager.Clear();
+
+		}
 		void LevelEditor::Render(DrawEventArgs& e) {
 
 			Room::Render(e);
@@ -48,6 +80,8 @@ namespace hvn3 {
 
 			if (_grid_visible)
 				_RenderGrid(e);
+
+			_gui_manager.Draw(e);
 
 		}
 		void LevelEditor::_RenderGrid(DrawEventArgs& e) {
