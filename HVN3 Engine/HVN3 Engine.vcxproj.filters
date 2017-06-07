@@ -154,6 +154,9 @@
     <Filter Include="Source Files\System\Editor">
       <UniqueIdentifier>{ca636cbb-3204-492c-b0ee-44938d93dca1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\System\Collision\Box2D">
+      <UniqueIdentifier>{ab6394f0-6f6e-43be-b84e-48aa049c39c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
