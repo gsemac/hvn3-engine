@@ -29,7 +29,7 @@ namespace hvn3 {
 			Room::Update(e);
 
 			_gui_manager.Update(e);
-			
+
 			if (Keyboard::KeyPressed(Key::G))
 				ToggleGrid(!_grid_visible);
 
@@ -59,7 +59,23 @@ namespace hvn3 {
 
 			// Create menu strip.
 			Gui::ToolStrip* menu_strip = new Gui::ToolStrip();
+
+			Gui::ToolStripButton* btn_save = new Gui::ToolStripButton;
+			btn_save->SetImage(Gui::BitmapResourceId::ExitButton);
+			btn_save->SetDisplayStyle(Gui::ToolStripItemDisplayStyle::Image);
+			menu_strip->AddItem(btn_save);
+
+			menu_strip->AddItem(new Gui::ToolStripSeparator);
 			menu_strip->AddItem(new Gui::ToolStripButton);
+			menu_strip->AddItem(new Gui::ToolStripSeparator);
+			menu_strip->AddItem(new Gui::ToolStripButton);
+			menu_strip->AddItem(new Gui::ToolStripButton);
+			menu_strip->AddItem(new Gui::ToolStripButton);
+			menu_strip->AddItem(new Gui::ToolStripButton);
+			menu_strip->AddItem(new Gui::ToolStripButton);
+			menu_strip->AddItem(new Gui::ToolStripButton);
+			menu_strip->AddItem(new Gui::ToolStripSeparator);
+			menu_strip->AddItem(new Gui::ToolStripLabel("Snap X: "));
 
 			GuiManager()->ControlManager()->AddControl(Gui::Control::Create(menu_strip));
 

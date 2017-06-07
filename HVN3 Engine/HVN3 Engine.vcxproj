@@ -255,6 +255,7 @@
     <ClCompile Include="gui\ButtonBase.cc" />
     <ClCompile Include="gui\Container.cc" />
     <ClCompile Include="gui\ContainerControl.cc" />
+    <ClCompile Include="gui\ImageableControl.cc" />
     <ClCompile Include="gui\TextableControl.cc" />
     <ClCompile Include="gui\ToolStripButton.cc" />
     <ClCompile Include="gui\ToolStripDropDown.cc" />
@@ -273,7 +274,10 @@
     <ClCompile Include="gui\ScrollEventArgs.cc" />
     <ClCompile Include="gui\SmoothScrollbar.cc" />
     <ClCompile Include="gui\StyleManager.cc" />
+    <ClCompile Include="gui\ToolStripItem.cc" />
+    <ClCompile Include="gui\ToolStripLabel.cc" />
     <ClCompile Include="gui\ToolStripMenuItem.cc" />
+    <ClCompile Include="gui\ToolStripSeparator.cc" />
     <ClCompile Include="gui\Window.cc" />
     <ClCompile Include="io\Clipboard.cc" />
     <ClCompile Include="io\Directory.cc" />
@@ -371,6 +375,7 @@
     <ClInclude Include="gui\ButtonBase.h" />
     <ClInclude Include="gui\Container.h" />
     <ClInclude Include="gui\ContainerControl.h" />
+    <ClInclude Include="gui\ImageableControl.h" />
     <ClInclude Include="gui\TextableControl.h" />
     <ClInclude Include="gui\ToolStripButton.h" />
     <ClInclude Include="gui\ToolStripDropDown.h" />
@@ -387,7 +392,9 @@
     <ClInclude Include="gui\ScrollEventArgs.h" />
     <ClInclude Include="gui\SmoothScrollbar.h" />
     <ClInclude Include="gui\ToolStripItem.h" />
+    <ClInclude Include="gui\ToolStripLabel.h" />
     <ClInclude Include="gui\ToolStripMenuItem.h" />
+    <ClInclude Include="gui\ToolStripSeparator.h" />
     <ClInclude Include="ICollection.h" />
     <ClInclude Include="gui\IContainer.h" />
     <ClInclude Include="gui\ITextable.h" />

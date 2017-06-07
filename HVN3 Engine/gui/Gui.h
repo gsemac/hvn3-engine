@@ -12,3 +12,5 @@
 #include "gui/ToolStripMenuItem.h"
 #include "gui/ToolStripItem.h"
 #include "gui/ToolStripButton.h"
+#include "gui/ToolStripSeparator.h"
+#include "gui/ToolStripLabel.h"

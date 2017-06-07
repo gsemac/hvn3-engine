@@ -224,7 +224,7 @@ int main(int argc, char *argv[]) {
 
 	// Initialize game properties.
 	MyGame.Initialize(argc, argv);
-	MyGame.Properties().DebugMode = true;
+	MyGame.Properties().DebugMode = false;
 	MyGame.Properties().OutsideColor = Color::Black;
 	MyGame.Properties().DisplaySize = Size(960, 720);
 	MyGame.Properties().DisplayFlags |= DisplayFlags::Resizable;

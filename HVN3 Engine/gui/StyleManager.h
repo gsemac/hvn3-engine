@@ -10,10 +10,12 @@ namespace hvn3 {
 	namespace Gui {
 
 		enum class FontResourceId : ResourceId {
+			Null,
 			PrimaryFont
 		};
 
 		enum class BitmapResourceId : ResourceId {
+			Null,
 			ExitButton,
 			ArrowR
 		};

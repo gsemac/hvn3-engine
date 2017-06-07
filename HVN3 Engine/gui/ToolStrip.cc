@@ -14,6 +14,13 @@ namespace hvn3 {
 
 			item->SetParent(this);
 
+			if (_Controls()->ControlCount() > 0) {
+				auto last_control = _Controls()->ControlAt(_Controls()->ControlCount() - 1);
+				item->SetXY(last_control->X() + last_control->Width(), 0);
+			}
+			else
+				item->SetXY(0, 0);
+
 			item->SetHeight(Height());
 
 			_Controls()->AddControl(Control::Create(item));
@@ -23,9 +30,10 @@ namespace hvn3 {
 		void ToolStrip::OnPaint(PaintEventArgs& e) {
 
 			e.Graphics().Clear(BackColor());
-			e.Graphics().DrawLine(0, Height(), Width(), Height(), BackColor().Darker(), 1);
-
+			
 			ContainerControl::OnPaint(e);
+
+			e.Graphics().DrawLine(0, Height(), Width(), Height(), BackColor().Darker(), 1);
 
 		}
 

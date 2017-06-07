@@ -1,4 +1,5 @@
 #include "gui/ButtonBase.h"
+#include "gui/GuiManager.h"
 #include "io/Mouse.h"
 #include "Point.h"
 
@@ -50,8 +51,23 @@ namespace hvn3 {
 		}
 		void ButtonBase::OnPaint(PaintEventArgs& e) {
 
+			_RenderBase(e);
+			_RenderText(e);
+
+		}
+
+		// Protected methods
+
+		void ButtonBase::_RenderBase(PaintEventArgs& e) {
+
 			// Draw background.
 			e.Graphics().DrawFilledRectangle(0.0f, 0.0f, Width(), Height(), BackColor());
+
+			// Draw outline.
+			e.Graphics().DrawRectangle(0.0f, 0.0f, Width(), Height(), Color::FromArgb(17, 17, 17), 1.0f);
+
+		}
+		void ButtonBase::_RenderText(PaintEventArgs& e) {
 
 			// Draw text.
 			if (Font()) {
@@ -61,8 +77,14 @@ namespace hvn3 {
 				e.Graphics().DrawText(tx, ty, Text(), Font(), Color::FromArgb(186, 186, 186), Alignment::Center);
 			}
 
-			// Draw outline.
-			e.Graphics().DrawRectangle(0.0f, 0.0f, Width(), Height(), Color::FromArgb(17, 17, 17), 1.0f);
+		}
+		void ButtonBase::_RenderImage(PaintEventArgs& e) {
+
+			// Draw image.
+			if (Image()) {
+				float iy = Round((Height() / 2.0f - Image()->Height() / 2.0f - 1.0f) + _text_offset.Y());
+				e.Graphics().DrawBitmap(3, iy, Image());
+			}
 
 		}
 

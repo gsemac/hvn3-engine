@@ -1,14 +1,14 @@
 #pragma once
-#include "gui/ButtonBase.h"
 #include "gui/ToolStripItem.h"
+#include "gui/TextableControl.h"
 
 namespace hvn3 {
 	namespace Gui {
 
-		class ToolStripButton : public ToolStripItem, public ButtonBase {
+		class ToolStripLabel : public ToolStripItem, public TextableControl {
 
 		public:
-			ToolStripButton();
+			ToolStripLabel(const String& text);
 
 			virtual void OnPaint(PaintEventArgs& e) override;
 
