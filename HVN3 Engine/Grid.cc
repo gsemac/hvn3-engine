@@ -2,78 +2,44 @@
 
 namespace hvn3 {
 
-	Grid::Grid(int rows, int columns, float cell_width, float cell_height, float cell_margin, float cell_padding) {
+	Grid::Grid(unsigned int rows, unsigned int columns, float cell_width, float cell_height) {
 
-		// Apply provided values.
-		__rows = rows;
-		__columns = columns;
-		__cells.__cell_w = cell_width;
-		__cells.__cell_h = cell_height;
-		__cells.__cell_m = cell_margin;
-		__cells.__cell_p = cell_padding;
+		_rows = rows;
+		_columns = columns;
 
-	}
-	Grid::Grid(int rows, int columns) : Grid::Grid(rows, columns, 15.0f, 15.0f, 1.0f, 0) {}
-	Grid::Grid() : Grid::Grid(0, 0) {}
-
-	int Grid::Rows() {
-
-		return __rows;
-
-	}
-	int Grid::Columns() {
-
-		return __columns;
-
-	}
-	void Grid::Resize(int rows, int columns) {
-
-		__rows = rows;
-		__columns = columns;
-
-	}
-	void Grid::ResizeCells(float cell_width, float cell_height, float cell_margin, float cell_padding) {
-
-		__cells.__cell_w = cell_width;
-		__cells.__cell_h = cell_height;
-		__cells.__cell_m = cell_margin;
-		__cells.__cell_p = cell_padding;
-
-	}
-	float Grid::Width() {
-
-		return (__columns * __cells.Width()) + ((__columns - 1) * __cells.Margin());
-
-	}
-	float Grid::Height() {
-
-		return (__rows * __cells.Height()) + ((__rows - 1) * __cells.Margin());
+		_cell_width = cell_width;
+		_cell_height = cell_height;
 
 	}
 
-	Grid::CellProperties& Grid::Cells() {
+	unsigned int Grid::Rows() const {
 
-		return __cells;
-
-	}
-	float Grid::CellProperties::Width() {
-
-		return __cell_w;
+		return _rows;
 
 	}
-	float Grid::CellProperties::Height() {
+	unsigned int Grid::Columns() const {
 
-		return __cell_w;
-
-	}
-	float Grid::CellProperties::Margin() {
-
-		return __cell_m;
+		return _columns;
 
 	}
-	float Grid::CellProperties::Padding() {
 
-		return __cell_p;
+	float Grid::Width() const {
+
+		return (_columns * _cell_width);
+	}
+	float Grid::Height() const {
+
+		return (_rows * _cell_height);
+
+	}
+	float Grid::CellWidth() const {
+
+		return _cell_width;
+
+	}
+	float Grid::CellHeight() const {
+
+		return _cell_height;
 
 	}
 

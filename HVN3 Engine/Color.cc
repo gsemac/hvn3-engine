@@ -190,6 +190,16 @@ namespace hvn3 {
 		return !(color.a > 0.0f);
 
 	}
+	bool Color::IsTransparent(const Color& color) {
+
+		return color.Alpha() == 0;
+
+	}
+	bool Color::IsTranluscent(const Color& color) {
+
+		return color.Alpha() > 0 && color.Alpha() < 255;
+
+	}
 	Color Color::Merge(const Color& color_1, const Color& color_2, float amount) {
 
 		Color color;

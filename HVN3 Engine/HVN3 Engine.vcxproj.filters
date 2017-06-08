@@ -154,6 +154,9 @@
     <Filter Include="Source Files\System\Editor">
       <UniqueIdentifier>{ca636cbb-3204-492c-b0ee-44938d93dca1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\System\Collision\Box2D">
+      <UniqueIdentifier>{ab6394f0-6f6e-43be-b84e-48aa049c39c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -235,9 +238,6 @@
       <Filter>Source Files\Structures</Filter>
     </ClCompile>
     <ClCompile Include="Grid.cc">
-      <Filter>Source Files\Structures</Filter>
-    </ClCompile>
-    <ClCompile Include="GridVisualizer.cc">
       <Filter>Source Files\Structures</Filter>
     </ClCompile>
     <ClCompile Include="Point.cc">
@@ -519,6 +519,12 @@
     <ClCompile Include="gui\ToolStripLabel.cc">
       <Filter>Source Files\Resources\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Padding.cc">
+      <Filter>Source Files\Structures</Filter>
+    </ClCompile>
+    <ClCompile Include="GridVisualizer.cc">
+      <Filter>Source Files\Drawing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -576,9 +582,6 @@
       <Filter>Header Files\Drawing</Filter>
     </ClInclude>
     <ClInclude Include="Grid.h">
-      <Filter>Header Files\Structures</Filter>
-    </ClInclude>
-    <ClInclude Include="GridVisualizer.h">
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
     <ClInclude Include="Hash.h">
@@ -970,6 +973,12 @@
     </ClInclude>
     <ClInclude Include="gui\ToolStripLabel.h">
       <Filter>Header Files\Resources\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Padding.h">
+      <Filter>Header Files\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="GridVisualizer.h">
+      <Filter>Header Files\Drawing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
