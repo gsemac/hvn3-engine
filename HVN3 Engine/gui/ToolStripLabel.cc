@@ -16,7 +16,7 @@ namespace hvn3 {
 			if (Font()) {
 				float tx = Round(Width() / 2.0f - Text().Width(Font()) / 2.0f);
 				float ty = Round(Height() / 2.0f - Text().Height(Font()) / 2.0f);
-				e.Graphics().DrawText(tx + 1.0f, ty + 1.0f, Text(), Font(), Color::FromArgb(0, 0, 0, 0.5f), Alignment::Center);
+				e.Graphics().DrawText(tx + 1.0f, ty + 1.0f, Text(), Font(), Color::FromArgb(0, 0, 0, 128), Alignment::Center);
 				e.Graphics().DrawText(tx, ty, Text(), Font(), Color::FromArgb(186, 186, 186), Alignment::Center);
 			}
 

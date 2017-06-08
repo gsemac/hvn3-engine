@@ -153,7 +153,7 @@ namespace hvn3 {
 			if (Font()) {
 				float tx = Round(Width() / 2.0f);
 				float ty = Round((TitlebarHeight() / 2.0f) - (Font()->Height() / 2.0f)) - 1;
-				e.Graphics().DrawText(tx + 1, ty + 1, Text(), Font(), Color(0, 0, 0, 0.5f), Alignment::Center);
+				e.Graphics().DrawText(tx + 1, ty + 1, Text(), Font(), Color(0, 0, 0, 128), Alignment::Center);
 				e.Graphics().DrawText(tx, ty, Text(), Font(), Color(186, 186, 186), Alignment::Center);
 			}
 
