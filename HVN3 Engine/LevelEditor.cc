@@ -1,6 +1,7 @@
 #include "LevelEditor.h"
 #include "io/Keyboard.h"
 #include "gui/Gui.h"
+#include "GridVisualizer.h"
 #include <allegro5/allegro.h>
 #define DEFAULT_GRID_CELL_SIZE 32
 
@@ -24,21 +25,19 @@ namespace hvn3 {
 
 		}
 
-		void LevelEditor::Update(UpdateEventArgs& e) {
+		void LevelEditor::OnUpdate(UpdateEventArgs& e) {
 
-			Room::Update(e);
+			Room::OnUpdate(e);
 
-			_gui_manager.Update(e);
+			_gui_manager.OnUpdate(e);
 
 			if (Keyboard::KeyPressed(Key::G))
 				ToggleGrid(!_grid_visible);
 
 		}
-		void LevelEditor::Draw(DrawEventArgs& e) {
+		void LevelEditor::OnDraw(DrawEventArgs& e) {
 
-			Room::Draw(e);
-
-
+			Room::OnDraw(e);
 
 		}
 
@@ -54,8 +53,8 @@ namespace hvn3 {
 
 		void LevelEditor::SetUp() {
 
-			Gui::Window* window = new Gui::Window(300, 300, 300, 300, "test");
-			GuiManager()->ControlManager()->AddControl(Gui::Control::Create(window));
+			/*Gui::Window* window = new Gui::Window(300, 300, 300, 300, "test");
+			GuiManager()->ControlManager()->AddControl(Gui::Control::Create(window));*/
 
 			// Create menu strip.
 			Gui::ToolStrip* menu_strip = new Gui::ToolStrip();
@@ -94,10 +93,14 @@ namespace hvn3 {
 			e.Graphics().DrawLine(Point(0, 0), Point(600, 200), Color::Red, 30);
 			e.Graphics().DrawLine(Point(0, 0), Point(Width() / 2, Height() / 2), Color::Blue, 30);
 
-			if (_grid_visible)
-				_RenderGrid(e);
+			Drawing::GridVisualizer gv(e.Graphics());
 
-			_gui_manager.Draw(e);
+			gv.DrawGrid(Point(30, 30), Grid(10, 10, 32, 32), Color::Silver, Color::White);
+
+			/*if (_grid_visible)
+				_RenderGrid(e);*/
+
+			_gui_manager.OnDraw(e);
 
 		}
 		void LevelEditor::_RenderGrid(DrawEventArgs& e) {

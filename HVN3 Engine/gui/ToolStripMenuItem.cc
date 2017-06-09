@@ -71,7 +71,7 @@ namespace hvn3 {
 			}
 
 		}
-		void ToolStripMenuItem::Update(UpdateEventArgs& e) {
+		void ToolStripMenuItem::OnUpdate(UpdateEventArgs& e) {
 
 			// #todo The menu shouldn't start fading just because we mouse off of it. It should only fade if we mouse over a different menu item.
 

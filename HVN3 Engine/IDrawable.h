@@ -7,7 +7,7 @@ namespace hvn3 {
 	class IDrawable {
 
 	public:
-		virtual void Draw(DrawEventArgs& e) = 0;
+		virtual void OnDraw(DrawEventArgs& e) = 0;
 
 	};
 

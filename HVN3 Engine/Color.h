@@ -9,9 +9,10 @@ namespace hvn3 {
 
 	public:
 		Color();
-		Color(unsigned char r, unsigned char g, unsigned char b, float a = 1.0f);
+		Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255u);
+		Color(const Color& base_color, unsigned char alpha);
 
-		static Color FromArgb(unsigned char r, unsigned char g, unsigned char b, float a = 1.0f);
+		static Color FromArgb(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255u);
 		static Color FromArgbf(float r, float g, float b, float a = 1.0f);
 		static Color FromHsl(float h, float s, float l, float a = 1.0f);
 		static Color FromHex(unsigned long hex);
@@ -34,6 +35,8 @@ namespace hvn3 {
 		Color Darker(float factor = 0.05f) const;
 
 		static bool IsTransparent(const ALLEGRO_COLOR& color);
+		static bool IsTransparent(const Color& color);
+		static bool IsTranluscent(const Color& color);
 		static Color Merge(const Color& color_1, const Color& color_2, float amount);
 
 		static const Color AliceBlue;

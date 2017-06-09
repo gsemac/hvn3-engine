@@ -24,7 +24,7 @@ namespace hvn3 {
 			virtual void OnResize(ResizeEventArgs& e) override;
 			virtual void OnPaint(PaintEventArgs& e) override;
 			virtual void OnMove(MoveEventArgs& e) override;
-			virtual void Update(UpdateEventArgs& e) override;
+			virtual void OnUpdate(UpdateEventArgs& e) override;
 			virtual void OnManagerChanged(ManagerChangedEventArgs& e) override;
 			virtual void OnClick() override;
 

@@ -1,40 +1,56 @@
 #pragma once
 #include <memory>
+#include "IUpdatable.h"
+#include "IDrawable.h"
+#include "ResourceCollection.h"
 #include "Sprite.h"
+#include "Scale.h"
 #include "Color.h"
 
 namespace hvn3 {
 
-	class ISpriteable {
+	class ISpriteable : virtual public IUpdatable, virtual public IDrawable, virtual public IPositionable {
 
 	public:
 		ISpriteable();
+		ISpriteable(ResourceHandle<Sprite> sprite);
 
-		float SpriteIndex();
-		float ImageAlpha();
+		float ImageAlpha() const;
 		void SetImageAlpha(float value);
-		int ImageIndex();
+
+		int ImageIndex() const;
 		void SetImageIndex(float value);
-		float ImageSpeed();
+
+		float ImageSpeed() const;
 		void SetImageSpeed(float value);
-		float ImageXScale();
-		void SetImageXScale(float value);
-		float ImageYScale();
-		void SetImageYScale(float value);
-		float ImageAngle();
+
+		const Scale& ImageScale() const;
+		void SetImageScale(const Scale& scale);
+
+		float ImageAngle() const;
 		void SetImageAngle(float value);
-		Color ImageBlend();
+
+		const Color& ImageBlend() const;
 		void SetImageBlend(const Color& value);
 
-		std::shared_ptr<hvn3::Sprite> Sprite();
-		void SetSprite(std::shared_ptr<hvn3::Sprite> sprite);
+		ResourceHandle<Sprite> Sprite();
+		void SetSprite(ResourceHandle<hvn3::Sprite> sprite);
+
+		void OnUpdate(UpdateEventArgs& e) override;
+		void OnDraw(DrawEventArgs& e) override;
 
 	private:
-		std::shared_ptr<hvn3::Sprite> __sprite;
-		int __sprite_index, __image_index;
-		float __image_speed, __image_xscale, __image_yscale, __image_angle;
-		float __image_alpha;
-		Color __image_blend;
+		ResourceHandle<hvn3::Sprite> _sprite;
+		int _image_index;
+		float _image_speed;
+		Scale _image_scale;
+		float _image_angle;
+		float _image_alpha;
+		Color _image_blend;
+
+		float _image_index_timer;
+
+		void IncrementImageIndex();
 
 	};
 

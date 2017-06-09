@@ -22,8 +22,8 @@ namespace hvn3 {
 		RoomBase(unsigned int width, unsigned int height, std::unique_ptr<IObjectManager>& object_manager);
 		virtual ~RoomBase();
 
-		virtual void Update(UpdateEventArgs& e) override;
-		virtual void Draw(DrawEventArgs& e) override;
+		virtual void OnUpdate(UpdateEventArgs& e) override;
+		virtual void OnDraw(DrawEventArgs& e) override;
 		virtual void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e);
 
 		void SetBackgroundColor(const Color& color);

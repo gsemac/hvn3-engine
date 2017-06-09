@@ -61,8 +61,8 @@ namespace hvn3 {
 			void DrawText(float x, float y, const std::string& text, const Font* font, const Color& color);
 			void DrawText(float x, float y, const String& text, const Font* font, const Color& color, Alignment alignment = Alignment::Left);
 
-			void DrawSprite(float x, float y, const Sprite& sprite, int subimage);
-			void DrawSprite(float x, float y, const Sprite& sprite, int subimage, float xscale, float yscale, float angle, const Color& blend);
+			void DrawSprite(float x, float y, const Sprite* sprite, int subimage);
+			void DrawSprite(float x, float y, const Sprite* sprite, int subimage, float xscale, float yscale, float angle, const Color& blend);
 
 			void DrawBitmap(float x, float y, const Bitmap* bitmap);
 			void DrawBitmap(float x, float y, const Bitmap* bitmap, float xscale, float yscale);

@@ -27,10 +27,10 @@ namespace hvn3 {
 		return &_view_manager;
 
 	}
-	void Room::Update(UpdateEventArgs& e) {
+	void Room::OnUpdate(UpdateEventArgs& e) {
 
 		// Update room.
-		RoomBase::Update(e);
+		RoomBase::OnUpdate(e);
 
 		// Update views.
 		_view_manager.Update(ViewUpdateEventArgs(e.Delta(), hvn3::Size(Width(), Height())));
@@ -39,7 +39,7 @@ namespace hvn3 {
 		_background_manager.Update(e);
 
 	}
-	void Room::Draw(DrawEventArgs& e) {
+	void Room::OnDraw(DrawEventArgs& e) {
 
 		// Save the current graphics state.
 		Drawing::Transform original_tranform(e.Graphics().GetTransform());
@@ -138,7 +138,7 @@ namespace hvn3 {
 		BackgroundManager()->DrawBackgrounds(BackgroundDrawEventArgs(e.Graphics(), Size(Width(), Height()), CurrentView()));
 
 		// Draw all objects.
-		ObjectManager()->Draw(e);
+		ObjectManager()->OnDraw(e);
 
 		// Draw all foregrounds.
 		BackgroundManager()->DrawForegrounds(BackgroundDrawEventArgs(e.Graphics(), Size(Width(), Height()), CurrentView()));

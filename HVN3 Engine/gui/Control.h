@@ -140,8 +140,8 @@ namespace hvn3 {
 			Control(const Point& location, const Size& size);
 			virtual ~Control() = default;
 
-			virtual void Update(UpdateEventArgs& e) override;
-			void Draw(DrawEventArgs& e) override;
+			virtual void OnUpdate(UpdateEventArgs& e) override;
+			void OnDraw(DrawEventArgs& e) override;
 			void Resize(float width, float height);
 
 			virtual void Invalidate();

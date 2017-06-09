@@ -21,8 +21,8 @@ namespace hvn3 {
 		virtual size_t InstanceCount(ObjectId id) const override;
 		virtual bool InstanceExists(ObjectId id) const override;
 
-		virtual void Update(UpdateEventArgs& e) override;
-		virtual void Draw(DrawEventArgs& e) override;
+		virtual void OnUpdate(UpdateEventArgs& e) override;
+		virtual void OnDraw(DrawEventArgs& e) override;
 
 	private:
 		std::vector<std::shared_ptr<Object>> _objects;

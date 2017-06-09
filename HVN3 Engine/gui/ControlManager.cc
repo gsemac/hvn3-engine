@@ -143,7 +143,7 @@ namespace hvn3 {
 
 		}
 
-		void ControlManager::Update(UpdateEventArgs& e) {
+		void ControlManager::OnUpdate(UpdateEventArgs& e) {
 
 			// Get mouse state.
 			bool mouse_is_held = Mouse::ButtonDown(MouseButton::Left | MouseButton::Right | MouseButton::Middle);
@@ -245,7 +245,7 @@ namespace hvn3 {
 				}
 
 				// Handle Update event.
-				c->Update(e);
+				c->OnUpdate(e);
 
 			}
 
@@ -261,7 +261,7 @@ namespace hvn3 {
 			}
 
 		}
-		void ControlManager::Draw(DrawEventArgs& e) {
+		void ControlManager::OnDraw(DrawEventArgs& e) {
 
 			// Save the state of the Graphics object.
 			Drawing::Transform original_transform(e.Graphics().GetTransform());
@@ -288,7 +288,7 @@ namespace hvn3 {
 				//e.Graphics().SetTransform(transform);
 
 				// Draw the Control.
-				(*it)->Draw(e);
+				(*it)->OnDraw(e);
 
 			}
 

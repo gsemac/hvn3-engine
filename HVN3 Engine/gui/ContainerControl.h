@@ -30,7 +30,7 @@ namespace hvn3 {
 			ContainerControl();
 
 			virtual void OnPaint(PaintEventArgs& e) override;
-			virtual void Update(UpdateEventArgs& e) override;
+			virtual void OnUpdate(UpdateEventArgs& e) override;
 
 		protected:
 			ControlManager* _Controls();

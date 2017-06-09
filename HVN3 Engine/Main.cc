@@ -19,23 +19,23 @@ public:
 
 	}
 
-	void Update(UpdateEventArgs& e) override {
+	void OnUpdate(UpdateEventArgs& e) override {
 
-		Room::Update(e);
+		Room::OnUpdate(e);
 
-		_gui_manager.Update(e);
+		_gui_manager.OnUpdate(e);
 
 	}
-	void Draw(DrawEventArgs& e) override {
+	void OnDraw(DrawEventArgs& e) override {
 
-		Room::Draw(e);
+		Room::OnDraw(e);
 
 	}
 	void Render(DrawEventArgs& e) override {
 
 		Room::Render(e);
 
-		_gui_manager.Draw(e);
+		_gui_manager.OnDraw(e);
 
 	}
 
@@ -69,7 +69,7 @@ class oController : public Object {
 public:
 	oController() : Object(0, 0) {}
 
-	void Update(UpdateEventArgs& e) override {
+	void OnUpdate(UpdateEventArgs& e) override {
 
 		if (Keyboard::KeyPressed(ALLEGRO_KEY_F5))
 			MyGame.RoomManager().LoadNext();
@@ -79,7 +79,7 @@ public:
 		}
 
 	}
-	void Draw(DrawEventArgs& e) override {
+	void OnDraw(DrawEventArgs& e) override {
 
 		e.Graphics().DrawBitmap(0, 0, &MyGame.ResourceManager().Tilesets()[TILESET_1]->TileAt(5));
 
@@ -95,28 +95,28 @@ public:
 	oBall(float x, float y) : Object(x, y) {
 
 		_radius = Random::Float(10, 25);
-		Velocity() = Vector2d(Random::Float(0, 360), Random::Float(0.1, 1));
+		//Velocity() = Vector2d(Random::Float(0, 360), Random::Float(0.1, 1));
 
 	}
 
-	void Draw(DrawEventArgs& e) override {
+	void OnDraw(DrawEventArgs& e) override {
 
 		e.Graphics().DrawCircle(Point(X() + 2, Y() + 2), _radius, Color(0, 0, 0, 0.2), 2);
 		e.Graphics().DrawCircle(Point(X(), Y()), _radius, Color::LtGrey, 2);
 
 	}
-	void Update(UpdateEventArgs& e) override {
+	void OnUpdate(UpdateEventArgs& e) override {
 
-		Object::Update(e);
+		Object::OnUpdate(e);
 
 		float r = _radius;
 		Room* room = MyGame.RoomManager().CurrentRoom();
 
-		if ((Y() - r < 0 && Velocity().Y() < 0) || (Y() + r > room->Height() && Velocity().Y() > 0))
-			Velocity().SetY(Velocity().Y() * -1);
+		//if ((Y() - r < 0 && Velocity().Y() < 0) || (Y() + r > room->Height() && Velocity().Y() > 0))
+		//	Velocity().SetY(Velocity().Y() * -1);
 
-		if ((X() - r < 0 && Velocity().X() < 0) || (X() + r > room->Width() && Velocity().X() > 0))
-			Velocity().SetX(Velocity().X() * -1);
+		//if ((X() - r < 0 && Velocity().X() < 0) || (X() + r > room->Width() && Velocity().X() > 0))
+		//	Velocity().SetX(Velocity().X() * -1);
 
 	}
 	void Collide(ICollidable* other) override {

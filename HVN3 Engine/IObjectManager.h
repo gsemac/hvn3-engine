@@ -19,8 +19,8 @@ namespace hvn3 {
 		virtual size_t InstanceCount(ObjectId id) const = 0;
 		virtual bool InstanceExists(ObjectId id) const = 0;
 
-		virtual void Update(UpdateEventArgs& e) = 0;
-		virtual void Draw(DrawEventArgs& e) = 0;
+		virtual void OnUpdate(UpdateEventArgs& e) = 0;
+		virtual void OnDraw(DrawEventArgs& e) = 0;
 
 	};
 

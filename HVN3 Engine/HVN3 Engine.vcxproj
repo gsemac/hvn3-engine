@@ -251,6 +251,7 @@
     <ClCompile Include="Framework.cc" />
     <ClCompile Include="FrameworkAdapter.cc" />
     <ClCompile Include="GameManager.cc" />
+    <ClCompile Include="GridVisualizer.cc" />
     <ClCompile Include="gui\Button.cc" />
     <ClCompile Include="gui\ButtonBase.cc" />
     <ClCompile Include="gui\Container.cc" />
@@ -288,13 +289,14 @@
     <ClCompile Include="IRoomTransition.cc" />
     <ClCompile Include="LevelEditor.cc" />
     <ClCompile Include="NarrowPhaseCollisionManager.cc" />
+    <ClCompile Include="ObjectBase.cc" />
     <ClCompile Include="ObjectManager.cc" />
+    <ClCompile Include="Padding.cc" />
     <ClCompile Include="Properties.cc" />
     <ClCompile Include="Geometry.cc" />
     <ClCompile Include="Graphics.cc" />
     <ClCompile Include="GraphicsState.cc" />
     <ClCompile Include="Grid.cc" />
-    <ClCompile Include="GridVisualizer.cc" />
     <ClCompile Include="RoomTransitionFade.cc" />
     <ClCompile Include="RoomTransitionNone.cc" />
     <ClCompile Include="Utility.cc" />
@@ -371,6 +373,7 @@
     <ClInclude Include="ExampleGame3.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GraphicsState.h" />
+    <ClInclude Include="GridVisualizer.h" />
     <ClInclude Include="gui\Button.h" />
     <ClInclude Include="gui\ButtonBase.h" />
     <ClInclude Include="gui\Container.h" />
@@ -416,8 +419,11 @@
     <ClInclude Include="ICollisionManager.h" />
     <ClInclude Include="IRoomTransition.h" />
     <ClInclude Include="LevelEditor.h" />
+    <ClInclude Include="ObjectBase.h" />
+    <ClInclude Include="Padding.h" />
     <ClInclude Include="RoomTransitionFade.h" />
     <ClInclude Include="RoomTransitionNone.h" />
+    <ClInclude Include="SharedCreatableBase.h" />
     <ClInclude Include="UniqueCreateableBase.h" />
     <ClInclude Include="IExtension.h" />
     <ClInclude Include="io\Clipboard.h" />
@@ -437,7 +443,6 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Grid.h" />
-    <ClInclude Include="GridVisualizer.h" />
     <ClInclude Include="Hash.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="IBroadPhaseCollisionManager.h" />

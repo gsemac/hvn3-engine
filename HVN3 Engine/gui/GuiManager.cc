@@ -66,14 +66,14 @@ namespace hvn3 {
 
 		}
 
-		void GuiManager::Update(UpdateEventArgs& e) {
+		void GuiManager::OnUpdate(UpdateEventArgs& e) {
 
-			ControlManager()->Update(e);
+			ControlManager()->OnUpdate(e);
 
 		}
-		void GuiManager::Draw(DrawEventArgs& e) {
+		void GuiManager::OnDraw(DrawEventArgs& e) {
 
-			ControlManager()->Draw(e);
+			ControlManager()->OnDraw(e);
 
 		}
 

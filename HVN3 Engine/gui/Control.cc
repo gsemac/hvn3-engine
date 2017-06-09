@@ -44,8 +44,8 @@ namespace hvn3 {
 
 	}
 
-	void Gui::Control::Update(UpdateEventArgs& e) {}
-	void Gui::Control::Draw(DrawEventArgs& e) {
+	void Gui::Control::OnUpdate(UpdateEventArgs& e) {}
+	void Gui::Control::OnDraw(DrawEventArgs& e) {
 
 		if (Invalidated()) {
 

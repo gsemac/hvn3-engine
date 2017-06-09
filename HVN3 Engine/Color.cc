@@ -9,15 +9,18 @@ namespace hvn3 {
 	// Public member functions
 
 	Color::Color() : Color(0, 0, 0) {}
-	Color::Color(unsigned char r, unsigned char g, unsigned char b, float a) {
+	Color::Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
 
 		_r = (r / 255.0f);
 		_g = (g / 255.0f);
 		_b = (b / 255.0f);
-		_a = a;
+		_a = (a / 255.0f);
 
 	}
-	Color Color::FromArgb(unsigned char r, unsigned char g, unsigned char b, float a) {
+	Color::Color(const Color& base_color, unsigned char alpha) :
+		Color(base_color.R(), base_color.G(), base_color.B(), alpha) {
+	}
+	Color Color::FromArgb(unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
 
 		return Color(r, g, b, a);
 
@@ -188,6 +191,16 @@ namespace hvn3 {
 	bool Color::IsTransparent(const ALLEGRO_COLOR& color) {
 
 		return !(color.a > 0.0f);
+
+	}
+	bool Color::IsTransparent(const Color& color) {
+
+		return color.Alpha() == 0;
+
+	}
+	bool Color::IsTranluscent(const Color& color) {
+
+		return color.Alpha() > 0 && color.Alpha() < 255;
 
 	}
 	Color Color::Merge(const Color& color_1, const Color& color_2, float amount) {

@@ -1,42 +1,26 @@
-#ifndef __GRID_H
-#define __GRID_H
-#include <vector>
-#include "IPositionable.h"
+#pragma once
+#include "Padding.h"
+#include "Size.h"
 
 namespace hvn3 {
 
 	class Grid {
 
 	public:
-		class CellProperties {
-			friend class Grid;
-		private:
-			float __cell_w, __cell_h, __cell_m, __cell_p;
-		public:
-			float Width();
-			float Height();
-			float Margin();
-			float Padding();
-		};
+		Grid(unsigned int rows, unsigned int columns, float cell_width, float cell_height);
+		unsigned int Rows() const;
+		unsigned int Columns() const;
+		float Width() const;
+		float Height() const;
+		float CellWidth() const;
+		float CellHeight() const;
 
-	protected:
-		int __rows, __columns;
-		CellProperties __cells;
-
-	public:
-		Grid();
-		Grid(int rows, int columns);
-		Grid(int rows, int columns, float cell_width, float cell_height, float cell_margin, float cell_padding);
-		int Rows();
-		int Columns();
-		float Width();
-		float Height();
-		virtual void Resize(int rows, int columns);
-		void ResizeCells(float cell_width, float cell_height, float cell_margin, float cell_padding);
-		CellProperties& Cells();
+	private:
+		unsigned int _rows;
+		unsigned int _columns;
+		float _cell_width;
+		float _cell_height;
 
 	};
 
 }
-
-#endif

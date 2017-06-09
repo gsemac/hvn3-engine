@@ -94,7 +94,7 @@ namespace hvn3 {
 			Invalidate();
 
 		}
-		void Scrollbar::Update(UpdateEventArgs& e) {
+		void Scrollbar::OnUpdate(UpdateEventArgs& e) {
 
 			// Stop dragging when the mouse button is released.
 			if (!Mouse::ButtonDown(MouseButton::Left))

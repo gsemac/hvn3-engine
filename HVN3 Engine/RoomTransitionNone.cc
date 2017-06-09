@@ -21,6 +21,6 @@ namespace hvn3 {
 		return true;
 
 	}
-	void RoomTransitionNone::Draw(DrawEventArgs& e) {}
+	void RoomTransitionNone::OnDraw(DrawEventArgs& e) {}
 
 }

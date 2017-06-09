@@ -56,7 +56,7 @@ namespace hvn3 {
 	class Emitter : public IPositionable, public IUpdatable, public IDrawable {
 
 	private:
-		class Particle : public IPositionable, public IUpdatable, public IDrawable, public ISpriteable {
+		class Particle : public ISpriteable {
 
 		private:
 			int __sprite_index;
@@ -86,8 +86,8 @@ namespace hvn3 {
 			void Reset(float x, float y, const ParticleType& type);
 			bool IsDead();
 
-			void Update(UpdateEventArgs& e) override;
-			void Draw(DrawEventArgs& e) override;
+			void OnUpdate(UpdateEventArgs& e) override;
+			void OnDraw(DrawEventArgs& e) override;
 
 		};
 
@@ -115,8 +115,8 @@ namespace hvn3 {
 
 		int Count();
 
-		void Update(UpdateEventArgs& e) override;
-		void Draw(DrawEventArgs& e) override;
+		void OnUpdate(UpdateEventArgs& e) override;
+		void OnDraw(DrawEventArgs& e) override;
 
 		friend bool operator<(const Particle& a, const Particle& b);
 		friend bool operator==(const Particle& a, const Particle& b);

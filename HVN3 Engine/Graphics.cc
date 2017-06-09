@@ -184,27 +184,27 @@ namespace hvn3 {
 
 		}
 		
-		void Graphics::DrawSprite(float x, float y, const Sprite& sprite, int subimage) {
+		void Graphics::DrawSprite(float x, float y, const Sprite* sprite, int subimage) {
 
 			PrepareDrawingSurface();
 
 			al_draw_bitmap(
-				sprite[subimage].AlPtr(),
-				x + sprite.Origin().X(),
-				y + sprite.Origin().Y(),
+				(*sprite)[subimage].AlPtr(),
+				x + sprite->Origin().X(),
+				y + sprite->Origin().Y(),
 				NULL
 				);
 
 		}
-		void Graphics::DrawSprite(float x, float y, const Sprite& sprite, int subimage, float xscale, float yscale, float angle, const Color& blend) {
+		void Graphics::DrawSprite(float x, float y, const Sprite* sprite, int subimage, float xscale, float yscale, float angle, const Color& blend) {
 
 			PrepareDrawingSurface();
 
 			al_draw_tinted_scaled_rotated_bitmap(
-				sprite[subimage].AlPtr(),
+				(*sprite)[subimage].AlPtr(),
 				al_map_rgba_f(blend.Rf() * blend.Alphaf(), blend.Gf() * blend.Alphaf(), blend.Bf() * blend.Alphaf(), blend.Alphaf()),
-				sprite.Origin().X(),
-				sprite.Origin().Y(),
+				sprite->Origin().X(),
+				sprite->Origin().Y(),
 				x,
 				y,
 				xscale,
