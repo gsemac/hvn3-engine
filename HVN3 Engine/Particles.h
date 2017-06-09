@@ -56,7 +56,7 @@ namespace hvn3 {
 	class Emitter : public IPositionable, public IUpdatable, public IDrawable {
 
 	private:
-		class Particle : public IPositionable, public IUpdatable, public IDrawable, public ISpriteable {
+		class Particle : public ISpriteable {
 
 		private:
 			int __sprite_index;

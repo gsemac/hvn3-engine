@@ -95,7 +95,7 @@ public:
 	oBall(float x, float y) : Object(x, y) {
 
 		_radius = Random::Float(10, 25);
-		Velocity() = Vector2d(Random::Float(0, 360), Random::Float(0.1, 1));
+		//Velocity() = Vector2d(Random::Float(0, 360), Random::Float(0.1, 1));
 
 	}
 
@@ -112,11 +112,11 @@ public:
 		float r = _radius;
 		Room* room = MyGame.RoomManager().CurrentRoom();
 
-		if ((Y() - r < 0 && Velocity().Y() < 0) || (Y() + r > room->Height() && Velocity().Y() > 0))
-			Velocity().SetY(Velocity().Y() * -1);
+		//if ((Y() - r < 0 && Velocity().Y() < 0) || (Y() + r > room->Height() && Velocity().Y() > 0))
+		//	Velocity().SetY(Velocity().Y() * -1);
 
-		if ((X() - r < 0 && Velocity().X() < 0) || (X() + r > room->Width() && Velocity().X() > 0))
-			Velocity().SetX(Velocity().X() * -1);
+		//if ((X() - r < 0 && Velocity().X() < 0) || (X() + r > room->Width() && Velocity().X() > 0))
+		//	Velocity().SetX(Velocity().X() * -1);
 
 	}
 	void Collide(ICollidable* other) override {

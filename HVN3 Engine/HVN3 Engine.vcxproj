@@ -289,6 +289,7 @@
     <ClCompile Include="IRoomTransition.cc" />
     <ClCompile Include="LevelEditor.cc" />
     <ClCompile Include="NarrowPhaseCollisionManager.cc" />
+    <ClCompile Include="ObjectBase.cc" />
     <ClCompile Include="ObjectManager.cc" />
     <ClCompile Include="Padding.cc" />
     <ClCompile Include="Properties.cc" />
@@ -418,9 +419,11 @@
     <ClInclude Include="ICollisionManager.h" />
     <ClInclude Include="IRoomTransition.h" />
     <ClInclude Include="LevelEditor.h" />
+    <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="Padding.h" />
     <ClInclude Include="RoomTransitionFade.h" />
     <ClInclude Include="RoomTransitionNone.h" />
+    <ClInclude Include="SharedCreatableBase.h" />
     <ClInclude Include="UniqueCreateableBase.h" />
     <ClInclude Include="IExtension.h" />
     <ClInclude Include="io\Clipboard.h" />

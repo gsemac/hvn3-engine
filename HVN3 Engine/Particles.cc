@@ -237,20 +237,8 @@ namespace hvn3 {
 	}
 	void Emitter::Particle::OnDraw(DrawEventArgs& e) {
 
-		if (Sprite()) {
-
-			e.Graphics().DrawSprite(
-				X(),
-				Y(),
-				*Sprite(),
-				ImageIndex(),
-				ImageXScale(),
-				ImageYScale(),
-				ImageAngle(),
-				Color::FromArgbf(ImageAlpha(), ImageAlpha(), ImageAlpha(), ImageAlpha())
-				);
-
-		}
+		if (Sprite())
+			ISpriteable::OnDraw(e);
 		else
 			e.Graphics().DrawRectangle(X(), Y(), 10.0f, 10.0f, Color::Black, 5.0f);
 
