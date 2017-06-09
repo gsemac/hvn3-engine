@@ -19,7 +19,7 @@ namespace hvn3 {
 			virtual void AddItem(ToolStripMenuItem* item);
 
 			virtual void OnPaint(PaintEventArgs& e) override;
-			virtual void Update(UpdateEventArgs& e) override;
+			virtual void OnUpdate(UpdateEventArgs& e) override;
 			virtual void OnMouseEnter() override;
 			virtual void OnMouseLeave() override;
 			virtual void OnMouseHover() override;

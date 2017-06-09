@@ -596,7 +596,7 @@ namespace hvn3 {
 					//Graphics::DrawClear(Color::Red());
 					//Graphics::ResetClippingRegion();
 					//Graphics::DrawLine(Line(__caret_x, Y + 4, __caret_x, Y + Height() - 4), Color::Black(), 1);
-					__caret.Draw(e);
+					__caret.OnDraw(e);
 				}
 
 				// Draw outline.
@@ -604,7 +604,7 @@ namespace hvn3 {
 				/*if (!__sel.IsEmpty())
 					e.Graphics().Clear(Color::Blue);*/
 			}
-			virtual void Update(UpdateEventArgs& e) override {
+			virtual void OnUpdate(UpdateEventArgs& e) override {
 				if (!HasFocus()) return;
 
 				// Update caret (blink animation).
@@ -687,7 +687,7 @@ namespace hvn3 {
 						++__blink_timer;
 
 				}
-				void Draw(DrawEventArgs& e) override {
+				void OnDraw(DrawEventArgs& e) override {
 
 					float caret_x = X + XOffset + __tb->__padding + __tb->__scroll_h_offset;
 					float caret_y = __tb->__padding;

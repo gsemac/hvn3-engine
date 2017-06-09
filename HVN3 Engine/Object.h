@@ -18,8 +18,8 @@ namespace hvn3 {
 
 	public:
 		ObjectBase();
-		virtual void Draw(DrawEventArgs& e) override;
-		virtual void Update(UpdateEventArgs& e) override;
+		virtual void OnDraw(DrawEventArgs& e) override;
+		virtual void OnUpdate(UpdateEventArgs& e) override;
 		void Destroy();
 		bool IsDestroyed();
 		void Deactivate();
@@ -38,8 +38,8 @@ namespace hvn3 {
 	public:
 		Object();
 		Object(float x, float y);
-		virtual void Update(UpdateEventArgs& e) override;
-		virtual void Draw(DrawEventArgs& e) override;
+		virtual void OnUpdate(UpdateEventArgs& e) override;
+		virtual void OnDraw(DrawEventArgs& e) override;
 
 		virtual ObjectId Id() const;
 		int Depth() const;

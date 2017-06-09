@@ -7,9 +7,9 @@ namespace hvn3 {
 	class IUpdatable {
 
 	public:
-		virtual void BeginUpdate(UpdateEventArgs& e);
-		virtual void Update(UpdateEventArgs& e) = 0;
-		virtual void EndUpdate(UpdateEventArgs& e);
+		virtual void OnBeginUpdate(UpdateEventArgs& e);
+		virtual void OnUpdate(UpdateEventArgs& e) = 0;
+		virtual void OnEndUpdate(UpdateEventArgs& e);
 
 	};
 

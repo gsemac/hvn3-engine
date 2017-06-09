@@ -25,21 +25,19 @@ namespace hvn3 {
 
 		}
 
-		void LevelEditor::Update(UpdateEventArgs& e) {
+		void LevelEditor::OnUpdate(UpdateEventArgs& e) {
 
-			Room::Update(e);
+			Room::OnUpdate(e);
 
-			_gui_manager.Update(e);
+			_gui_manager.OnUpdate(e);
 
 			if (Keyboard::KeyPressed(Key::G))
 				ToggleGrid(!_grid_visible);
 
 		}
-		void LevelEditor::Draw(DrawEventArgs& e) {
+		void LevelEditor::OnDraw(DrawEventArgs& e) {
 
-			Room::Draw(e);
-
-
+			Room::OnDraw(e);
 
 		}
 
@@ -102,7 +100,7 @@ namespace hvn3 {
 			/*if (_grid_visible)
 				_RenderGrid(e);*/
 
-			_gui_manager.Draw(e);
+			_gui_manager.OnDraw(e);
 
 		}
 		void LevelEditor::_RenderGrid(DrawEventArgs& e) {

@@ -28,7 +28,7 @@ namespace hvn3 {
 			void OnClick() override;
 			void OnResize(ResizeEventArgs& e) override;
 			void OnPaint(PaintEventArgs& e) override;
-			void Update(UpdateEventArgs& e) override;
+			void OnUpdate(UpdateEventArgs& e) override;
 
 		protected:
 			const ResourceHandle<Drawing::Bitmap>& GetExitIcon();

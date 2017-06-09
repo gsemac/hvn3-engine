@@ -21,7 +21,7 @@ namespace hvn3 {
 
 	}
 
-	void Object::Update(UpdateEventArgs& e) {
+	void Object::OnUpdate(UpdateEventArgs& e) {
 
 		IncrementImageIndex();
 
@@ -29,7 +29,7 @@ namespace hvn3 {
 			Translate(Velocity().X(), Velocity().Y());
 
 	}
-	void Object::Draw(DrawEventArgs& e) {
+	void Object::OnDraw(DrawEventArgs& e) {
 
 		// Draw sprite (if it exists).
 		if (Sprite()) {
@@ -81,8 +81,8 @@ namespace hvn3 {
 		__active = false;
 
 	}
-	void ObjectBase::Draw(DrawEventArgs& e) {}
-	void ObjectBase::Update(UpdateEventArgs& e) {}
+	void ObjectBase::OnDraw(DrawEventArgs& e) {}
+	void ObjectBase::OnUpdate(UpdateEventArgs& e) {}
 	void ObjectBase::Destroy() {
 
 		__is_destroyed = true;

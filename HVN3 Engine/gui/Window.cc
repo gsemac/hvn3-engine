@@ -140,7 +140,7 @@ namespace hvn3 {
 
 			// Draw Panel containing the child Controls.
 			Controls()->InvalidateAll();
-			Controls()->Draw(e);
+			Controls()->OnDraw(e);
 
 			// Draw main window border.
 			e.Graphics().DrawRectangle(0, TitlebarHeight() - 1.0f, Width(), Height() - TitlebarHeight() + 1.0f, Color(17, 17, 17), 1);
@@ -165,7 +165,7 @@ namespace hvn3 {
 			}
 
 		}
-		void Window::Update(UpdateEventArgs& e) {
+		void Window::OnUpdate(UpdateEventArgs& e) {
 
 			if (IsActiveControl() && MouseInChildRegion()) {
 				Controls()->SetMouseEventsEnabled(true);
@@ -175,7 +175,7 @@ namespace hvn3 {
 				Controls()->ClearActiveControl();
 			}
 
-			Controls()->Update(e);
+			Controls()->OnUpdate(e);
 
 			if (!Mouse::ButtonDown(MouseButton::Left) && (__dragging || __resizing)) {
 

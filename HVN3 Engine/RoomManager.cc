@@ -127,7 +127,7 @@ namespace hvn3 {
 
 		// Update the state of the room if permitted.
 		if (!RoomTransitionInProgress() || !_transition || _transition->AllowRoomUpdate())
-			CurrentRoom()->Update(e);
+			CurrentRoom()->OnUpdate(e);
 
 		switch (_room_transition_state) {
 
@@ -188,11 +188,11 @@ namespace hvn3 {
 	void RoomManager::Draw(DrawEventArgs& e) {
 
 		// Draw the state of the room.
-		CurrentRoom()->Draw(e);
+		CurrentRoom()->OnDraw(e);
 
 		// Draw the state of the room transition.
 		if (RoomTransitionInProgress() && _transition)
-			_transition->Draw(e);
+			_transition->OnDraw(e);
 
 	}
 

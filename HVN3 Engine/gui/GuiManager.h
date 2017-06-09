@@ -25,8 +25,8 @@ namespace hvn3 {
 
 			const Rectangle& DockableRegion() const;
 
-			void Update(UpdateEventArgs& e) override;
-			void Draw(DrawEventArgs& e) override;
+			void OnUpdate(UpdateEventArgs& e) override;
+			void OnDraw(DrawEventArgs& e) override;
 
 		private:
 			bool _owns_managers;

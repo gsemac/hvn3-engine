@@ -180,7 +180,7 @@ namespace hvn3 {
 		return __life <= 0;
 
 	}
-	void Emitter::Particle::Update(UpdateEventArgs& e) {
+	void Emitter::Particle::OnUpdate(UpdateEventArgs& e) {
 
 		// Update image index.
 		__image_index_timer += (std::fabs)(ImageSpeed());
@@ -235,7 +235,7 @@ namespace hvn3 {
 		--__life;
 
 	}
-	void Emitter::Particle::Draw(DrawEventArgs& e) {
+	void Emitter::Particle::OnDraw(DrawEventArgs& e) {
 
 		if (Sprite()) {
 
@@ -306,7 +306,7 @@ namespace hvn3 {
 		return __particle_count;
 
 	}
-	void Emitter::Update(UpdateEventArgs& e) {
+	void Emitter::OnUpdate(UpdateEventArgs& e) {
 
 		// Update the state of all particles.
 		int i = 0;
@@ -315,7 +315,7 @@ namespace hvn3 {
 			Particle& p = __particles[i];
 
 			// Update the particle.
-			p.Update(e);
+			p.OnUpdate(e);
 
 			// Check if the vector is dead.
 			if (p.IsDead()) {
@@ -332,11 +332,11 @@ namespace hvn3 {
 		//std::cout << "Count(): " << Count() << std::endl;
 
 	}
-	void Emitter::Draw(DrawEventArgs& e) {
+	void Emitter::OnDraw(DrawEventArgs& e) {
 
 		// Draw all particles.
 		for (int i = 0; i < __particle_count; ++i)
-			__particles[i].Draw(e);
+			__particles[i].OnDraw(e);
 
 	}
 

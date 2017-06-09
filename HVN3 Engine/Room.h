@@ -16,8 +16,8 @@ namespace hvn3 {
 		IBackgroundManager* BackgroundManager();
 		IViewManager* ViewManager();
 
-		virtual void Update(UpdateEventArgs& e) override;
-		virtual void Draw(DrawEventArgs& e) override;
+		virtual void OnUpdate(UpdateEventArgs& e) override;
+		virtual void OnDraw(DrawEventArgs& e) override;
 
 		virtual Rectangle GetVisibleRegion() override;
 

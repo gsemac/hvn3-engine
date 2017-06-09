@@ -82,7 +82,7 @@ namespace hvn3 {
 			e.Graphics().Clear(BackColor());
 
 			// Draw child controls.
-			Controls()->Draw(e);
+			Controls()->OnDraw(e);
 
 			// If both scrollbars are visible, fill in the space between the two scrollbars.
 			if (VerticalScrollbar() && VerticalScrollbar()->Visible() && HorizontalScrollbar() && HorizontalScrollbar()->Visible())
@@ -97,11 +97,11 @@ namespace hvn3 {
 			Control::OnMove(e);
 
 		}
-		void Panel::Update(UpdateEventArgs& e) {
+		void Panel::OnUpdate(UpdateEventArgs& e) {
 
 			// Update child Controls.
 			if (IsActiveControl())
-				Controls()->Update(e);
+				Controls()->OnUpdate(e);
 			else
 				Controls()->ClearActiveControl();
 

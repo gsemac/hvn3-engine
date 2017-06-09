@@ -116,29 +116,29 @@ namespace hvn3 {
 		return false;
 
 	}
-	void ObjectManager::Update(UpdateEventArgs& e) {
+	void ObjectManager::OnUpdate(UpdateEventArgs& e) {
 
 		// Run the pre-update procedure for all objects.
 		for (auto it = _objects.begin(); it != _objects.end(); ++it)
-			(*it)->BeginUpdate(e);
+			(*it)->OnBeginUpdate(e);
 
 		// Run the primary update procedure for all objects.
 		for (auto it = _objects.begin(); it != _objects.end(); ++it)
-			(*it)->Update(e);
+			(*it)->OnUpdate(e);
 
 		// Update the Collision Manager.
 		_collision_manager->Update(e);
 
 		// Run the post update procedure for all objects.
 		for (auto it = _objects.begin(); it != _objects.end(); ++it)
-			(*it)->EndUpdate(e);
+			(*it)->OnEndUpdate(e);
 
 	}
-	void ObjectManager::Draw(DrawEventArgs& e) {
+	void ObjectManager::OnDraw(DrawEventArgs& e) {
 
 		// Draw all objects.
 		for (auto it = _objects.begin(); it != _objects.end(); ++it)
-			(*it)->Draw(e);
+			(*it)->OnDraw(e);
 
 	}
 

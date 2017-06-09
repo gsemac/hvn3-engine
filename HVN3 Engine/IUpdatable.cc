@@ -3,7 +3,7 @@
 
 namespace hvn3 {
 
-	void IUpdatable::BeginUpdate(UpdateEventArgs& e) {}
-	void IUpdatable::EndUpdate(UpdateEventArgs& e) {}
+	void IUpdatable::OnBeginUpdate(UpdateEventArgs& e) {}
+	void IUpdatable::OnEndUpdate(UpdateEventArgs& e) {}
 
 }

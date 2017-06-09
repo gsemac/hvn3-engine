@@ -18,7 +18,7 @@ namespace hvn3 {
 		virtual bool EnterStep(UpdateEventArgs& e) = 0;
 		virtual void EnterEnd();
 
-		virtual void Draw(DrawEventArgs& e) override = 0;
+		virtual void OnDraw(DrawEventArgs& e) override = 0;
 
 		virtual bool AllowRoomUpdate() const;
 

@@ -23,9 +23,9 @@ namespace hvn3 {
 			_ScrollTargetToPosition();
 
 		}
-		void SmoothScrollbar::Update(UpdateEventArgs& e) {
+		void SmoothScrollbar::OnUpdate(UpdateEventArgs& e) {
 
-			Scrollbar::Update(e);
+			Scrollbar::OnUpdate(e);
 
 			// Ease towards the target position.
 			float diff = Diff(_ease_position, Scrollbar::_Position());

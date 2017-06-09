@@ -22,13 +22,13 @@ namespace hvn3 {
 
 	}
 	RoomBase::~RoomBase() {}
-	void RoomBase::Update(UpdateEventArgs& e) {
+	void RoomBase::OnUpdate(UpdateEventArgs& e) {
 
 		// Update objects.
-		_obj_manager->Update(e);
+		_obj_manager->OnUpdate(e);
 
 	}
-	void RoomBase::Draw(DrawEventArgs& e) {
+	void RoomBase::OnDraw(DrawEventArgs& e) {
 
 		// Save the current graphics state.
 		Drawing::Transform original_tranform(e.Graphics().GetTransform());
@@ -99,7 +99,7 @@ namespace hvn3 {
 		e.Graphics().Clear(_background_color);
 
 		// Draw all objects.
-		_obj_manager->Draw(e);
+		_obj_manager->OnDraw(e);
 
 	}
 

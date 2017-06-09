@@ -11,7 +11,7 @@ namespace hvn3 {
 			SmoothScrollbar(IScrollable* control, Point position, Size size, Orientation orientation);
 
 			virtual void OnResize(ResizeEventArgs& e) override;
-			virtual void Update(UpdateEventArgs& e) override;
+			virtual void OnUpdate(UpdateEventArgs& e) override;
 
 		protected:
 			void _ScrollTargetToPosition() override;
