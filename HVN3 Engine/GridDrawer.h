@@ -6,10 +6,10 @@
 namespace hvn3 {
 	namespace Drawing {
 
-		class GridVisualizer {
+		class GridDrawer {
 
 		public:
-			GridVisualizer(Graphics& graphics);
+			GridDrawer(Graphics& graphics);
 
 			// Draws a simple transparent grid with black lines.
 			void DrawGrid(const Point& position, const Grid& grid);

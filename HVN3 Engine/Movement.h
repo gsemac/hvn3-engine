@@ -1,5 +1,5 @@
 #pragma once
-#include "Object.h"
+#include "ISpriteable.h"
 
 namespace hvn3 {
 

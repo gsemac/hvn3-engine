@@ -295,7 +295,7 @@ namespace hvn3 {
 	void Runner::OnMouseAxes(Event& ev) {
 
 		if (!Properties().FreezeWhenLostFocus || _display.HasFocus()) {
-
+	
 			// Set the Mouse' position relative to the display.
 			Mouse::StateAccessor::SetDisplayPosition(ev.AlPtr()->mouse.x, ev.AlPtr()->mouse.y);
 

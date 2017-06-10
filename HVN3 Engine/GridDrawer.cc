@@ -1,20 +1,20 @@
-#include "GridVisualizer.h"
+#include "GridDrawer.h"
 
 namespace hvn3 {
 	namespace Drawing {
 
 		// Public methods
 
-		GridVisualizer::GridVisualizer(Graphics& graphics) :
+		GridDrawer::GridDrawer(Graphics& graphics) :
 			_graphics(graphics) {
 		}
 
-		void GridVisualizer::DrawGrid(const Point& position, const Grid& grid) {
+		void GridDrawer::DrawGrid(const Point& position, const Grid& grid) {
 
 			DrawGrid(position, grid, Color::Black);
 
 		}
-		void GridVisualizer::DrawGrid(const Point& position, const Grid& grid, const Color& grid_color) {
+		void GridDrawer::DrawGrid(const Point& position, const Grid& grid, const Color& grid_color) {
 
 			for (unsigned int i = 1; i < grid.Columns(); ++i)
 				_graphics.DrawLine(position.X() + grid.CellWidth() * i, position.Y(), position.X() + grid.CellWidth() * i, position.Y() + grid.Height(), grid_color, 1.0f);
@@ -23,7 +23,7 @@ namespace hvn3 {
 				_graphics.DrawLine(position.X(), position.Y() + grid.CellHeight() * i, position.X() + grid.Width(), position.Y() + grid.CellHeight() * i, grid_color, 1.0f);
 
 		}
-		void GridVisualizer::DrawGrid(const Point& position, const Grid& grid, const Color& grid_color, const Color& cell_color) {
+		void GridDrawer::DrawGrid(const Point& position, const Grid& grid, const Color& grid_color, const Color& cell_color) {
 
 			_graphics.DrawFilledRectangle(position.X(), position.Y(), grid.Width(), grid.Height(), cell_color);
 

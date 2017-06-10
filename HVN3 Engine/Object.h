@@ -1,9 +1,7 @@
 #pragma once
-#include "SharedCreatableBase.h"
 #include "ObjectBase.h"
-
+#include "SharedCreatableBase.h"
 #include "ICollidable.h"
-#include "ISpriteable.h"
 
 namespace hvn3 {
 
@@ -11,7 +9,7 @@ namespace hvn3 {
 
 	public:
 		Object(ObjectId id);
-		Object(const Point& position, ObjectId id);
+		Object(ObjectId id, const Point& position);
 
 		ObjectId Id() const;
 

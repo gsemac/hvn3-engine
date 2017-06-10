@@ -522,11 +522,11 @@
     <ClCompile Include="Padding.cc">
       <Filter>Source Files\Structures</Filter>
     </ClCompile>
-    <ClCompile Include="GridVisualizer.cc">
-      <Filter>Source Files\Drawing</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectBase.cc">
       <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="GridDrawer.cc">
+      <Filter>Source Files\Drawing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -980,14 +980,14 @@
     <ClInclude Include="Padding.h">
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
-    <ClInclude Include="GridVisualizer.h">
-      <Filter>Header Files\Drawing</Filter>
-    </ClInclude>
     <ClInclude Include="SharedCreatableBase.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="ObjectBase.h">
       <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="GridDrawer.h">
+      <Filter>Header Files\Drawing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
