@@ -236,7 +236,7 @@ namespace hvn3 {
 		}
 		int Scrollbar::_PercentageToPixels(float percentage) {
 
-			return (Height() - _slider_height) * percentage;
+			return static_cast<int>((Height() - _slider_height) * percentage);
 
 		}
 		float Scrollbar::_PixelsToPercentage(int pixels) {

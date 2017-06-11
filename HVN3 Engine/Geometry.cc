@@ -96,8 +96,8 @@ namespace hvn3 {
 	}
 	float PointDistanceSquared(const Point& point, const Rectangle& rect) {
 
-		int dx = (std::max)((std::abs)(point.X() - rect.X() + rect.Width() / 2.0f) - rect.Width() / 2.0f, 0.0f);
-		int dy = (std::max)((std::abs)(point.Y() - rect.Y() + rect.Height() / 2.0f) - rect.Height() / 2.0f, 0.0f);
+		float dx = (std::max)((std::abs)(point.X() - rect.X() + rect.Width() / 2.0f) - rect.Width() / 2.0f, 0.0f);
+		float dy = (std::max)((std::abs)(point.Y() - rect.Y() + rect.Height() / 2.0f) - rect.Height() / 2.0f, 0.0f);
 
 		return dx * dx + dy * dy;
 
