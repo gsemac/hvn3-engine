@@ -1,7 +1,7 @@
 #pragma once
 #include "UpdateEventArgs.h"
 #include "IDrawable.h"
-#include "UniqueCreateableBase.h"
+#include "UniquePolymorphicCreateableBase.h"
 
 namespace hvn3 {
 

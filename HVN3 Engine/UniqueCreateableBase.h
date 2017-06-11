@@ -7,16 +7,15 @@ namespace hvn3 {
 	class UniqueCreateableBase {
 
 	public:
-		template<typename T, typename ... Args>
+		template<typename ... Args>
 		static std::unique_ptr<ptr_type> Create(Args &&... args) {
 
-			return std::make_unique<T>(std::forward<Args>(args)...);
+			return std::make_unique<ptr_type>(std::forward<Args>(args)...);
 
 		}
-		template<typename T>
-		static std::unique_ptr<ptr_type> Create(T* ptr) {
+		static std::unique_ptr<ptr_type> Create(ptr_type* ptr) {
 
-			return std::unique_ptr<T>(ptr);
+			return std::unique_ptr<ptr_type>(ptr);
 
 		}
 

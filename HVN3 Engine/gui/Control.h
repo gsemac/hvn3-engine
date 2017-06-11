@@ -1,7 +1,7 @@
 #pragma once
 #include "DrawEventArgs.h"
 #include "IFocusable.h"
-#include "UniqueCreateableBase.h"
+#include "UniquePolymorphicCreateableBase.h"
 
 namespace hvn3 {
 
@@ -130,7 +130,7 @@ namespace hvn3 {
 
 		};
 
-		class Control : public IDrawable, public IUpdatable, public IPositionable, public ISizeable, public IFocusable, public UniqueCreateableBase<Control> {
+		class Control : public IDrawable, public IUpdatable, public IPositionable, public ISizeable, public IFocusable, public UniquePolymorphicCreateableBase<Control> {
 			friend class ControlController;
 
 		public:

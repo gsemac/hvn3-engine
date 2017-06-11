@@ -911,9 +911,6 @@
     <ClInclude Include="gui\ScrollEventArgs.h">
       <Filter>Header Files\Resources\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="UniqueCreateableBase.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="gui\ScrollableControl.h">
       <Filter>Header Files\Resources\GUI</Filter>
     </ClInclude>
@@ -988,6 +985,12 @@
     </ClInclude>
     <ClInclude Include="GridDrawer.h">
       <Filter>Header Files\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="UniquePolymorphicCreateableBase.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="UniqueCreateableBase.h">
+      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

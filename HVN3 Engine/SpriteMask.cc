@@ -18,7 +18,7 @@ namespace hvn3 {
 		// This method generates a collection of Rectangles to represent the Sprite, allowing for faster (rotated) collision checking.
 
 		// Get the Bitmap from the Sprite.
-		ALLEGRO_BITMAP* bmp = sprite->AlPtr();
+		ALLEGRO_BITMAP* bmp = sprite->SubImage(0).AlPtr();
 		int width = sprite->Width();
 		int height = sprite->Height();
 

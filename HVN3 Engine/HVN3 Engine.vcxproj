@@ -425,6 +425,7 @@
     <ClInclude Include="RoomTransitionNone.h" />
     <ClInclude Include="SharedCreatableBase.h" />
     <ClInclude Include="UniqueCreateableBase.h" />
+    <ClInclude Include="UniquePolymorphicCreateableBase.h" />
     <ClInclude Include="IExtension.h" />
     <ClInclude Include="io\Clipboard.h" />
     <ClInclude Include="io\Directory.h" />

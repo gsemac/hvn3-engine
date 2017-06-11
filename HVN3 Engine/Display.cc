@@ -78,12 +78,12 @@ namespace hvn3 {
 	}
 	void Display::SetIcon(const Sprite& icon) {
 
-		SetIcon(icon.AlPtr());
+		SetIcon(icon.SubImage(0).AlPtr());
 
 	}
 	void Display::SetIcon(const Sprite* icon) {
 
-		SetIcon(icon->AlPtr());
+		SetIcon(icon->SubImage(0).AlPtr());
 
 	}
 	void Display::SetIcon(ALLEGRO_BITMAP* icon) {

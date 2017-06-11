@@ -54,8 +54,8 @@ namespace hvn3 {
 	bool NarrowPhaseCollisionManager::TestIntersection(Sprite* s1, Sprite* s2, const Point& p1, const Point& p2) {
 
 		// Get the Bitmaps corresponding to the Sprites.
-		ALLEGRO_BITMAP* ba = s1->AlPtr();
-		ALLEGRO_BITMAP* bb = s2->AlPtr();
+		ALLEGRO_BITMAP* ba = s1->SubImage(0).AlPtr();
+		ALLEGRO_BITMAP* bb = s2->SubImage(0).AlPtr();
 
 		// Create bounding Rectangles from the Sprites.
 		Rectangle a(p1.X() - s1->Origin().X(), p1.Y() - s1->Origin().Y(), s1->Width(), s1->Height());
