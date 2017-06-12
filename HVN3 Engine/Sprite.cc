@@ -100,9 +100,9 @@ namespace hvn3 {
 		return _strip_length > 0 ? _strip_length : (int)_frames.size();
 
 	}
-	unsigned int Sprite::Length() const {
+	size_t Sprite::Length() const {
 
-		return (unsigned int)_frames.size();
+		return _frames.size() - _using_sprite_sheet;
 
 	}
 
@@ -134,7 +134,7 @@ namespace hvn3 {
 
 	const Drawing::Bitmap& Sprite::SubImage(int subimage) const {
 
-		int index = (std::abs)(subimage) % _frames.size();
+		int index = (std::abs)(subimage) % (_frames.size() - _using_sprite_sheet);
 		index += _using_sprite_sheet;
 
 		return _frames[index];
@@ -181,7 +181,7 @@ namespace hvn3 {
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < columns; j++)
 				sprite->AddSubImage(Drawing::Bitmap(sprite->_frames[0], RectangleI(frame_width * j, frame_height * i, frame_width, frame_height)));
-
+		
 		// Return the new sprite.
 		return sprite;
 

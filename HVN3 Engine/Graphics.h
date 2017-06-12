@@ -70,6 +70,8 @@ namespace hvn3 {
 			void DrawBitmap(float x, float y, const Bitmap* bitmap, const Rectangle<float>& region);
 			void DrawBitmap(float x, float y, const Bitmap* bitmap, const Color& tint);
 
+			void DrawBitmap(float x, float y, const Bitmap& bitmap);
+
 			void SetClip(const Rectangle<float>& rect);
 			void SetClip(int x, int y, int width, int height);
 			Rectangle<float> Clip() const;

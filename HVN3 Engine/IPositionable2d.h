@@ -19,7 +19,7 @@ namespace hvn3 {
 		}
 		T Y() const {
 
-			return _position.X();
+			return _position.Y();
 
 		}
 		virtual void SetX(T x) {

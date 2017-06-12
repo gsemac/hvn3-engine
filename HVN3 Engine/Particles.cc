@@ -133,7 +133,7 @@ namespace hvn3 {
 	}
 	void Emitter::Particle::Reset(float x, float y, const ParticleType& type) {
 
-		SetXY(x, y);
+		SetPosition(x, y);
 		__velocity = Vector2d(Random::Float(type.__dir_min, type.__dir_max), Random::Float(type.__speed_min, type.__speed_max));
 		__gravity = Vector2d(type.__grav_amount, type.__grav_direction);
 
@@ -229,7 +229,7 @@ namespace hvn3 {
 		__velocity = Vector2d(new_direction, (std::max)(0.0f, new_speed));
 
 		// Update position.
-		Translate(__velocity.X() + __gravity.X(), __velocity.Y() + __gravity.Y());
+		SetPosition(X() + __velocity.X() + __gravity.X(), Y() + __velocity.Y() + __gravity.Y());
 
 		// Update the life of the particle.
 		--__life;
@@ -255,7 +255,7 @@ namespace hvn3 {
 	}
 
 	Emitter::Emitter() : Emitter(0.0f, 0.0f) {}
-	Emitter::Emitter(float x, float y) : IPositionable(x, y) {
+	Emitter::Emitter(float x, float y) : IPositionable2d(x, y) {
 
 		__particle_count = 0;
 

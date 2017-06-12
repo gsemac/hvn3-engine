@@ -14,8 +14,8 @@
 namespace hvn3 {
 
 	Object::Object(ObjectId id) :
-		Object(id, Point2d<float>(0.0f, 0.0f)) {}
-	Object::Object(ObjectId id, const Point2d<float>& position) : ICollidable(position.X(), position.Y()) {
+		Object(id, Point2F(0.0f, 0.0f)) {}
+	Object::Object(ObjectId id, const Point2F& position) : ICollidable(position.X(), position.Y()) {
 
 		SetDepth(0);
 

@@ -3,7 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <queue>
-#include "IPositionable.h"
+#include "IPositionable2d.h"
 #include "IUpdatable.h"
 #include "IDrawable.h"
 #include "ISpriteable.h"
@@ -53,7 +53,7 @@ namespace hvn3 {
 
 	};
 
-	class Emitter : public IPositionable, public IUpdatable, public IDrawable {
+	class Emitter : public IPositionable2d<float>, public IUpdatable, public IDrawable {
 
 	private:
 		class Particle : public ISpriteable {

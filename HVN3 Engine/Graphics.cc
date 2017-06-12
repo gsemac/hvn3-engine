@@ -277,6 +277,12 @@ namespace hvn3 {
 
 		}
 
+		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap) {
+
+			DrawBitmap(x, y, &bitmap);
+
+		}
+
 		void Graphics::SetClip(const Rectangle<float>& rect) {
 
 			SetClip(rect.X(), rect.Y(), rect.Width(), rect.Height());

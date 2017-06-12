@@ -35,7 +35,7 @@ namespace hvn3 {
 		// If loaded from a sprite sheet, returns the length of each strip. Otherwise, returns the number of subimages.
 		unsigned int StripLength() const;
 		// Returns the number of subimages.
-		unsigned int Length() const;
+		size_t Length() const;
 
 		// Returns a point corresponding to the origin (offset) of the sprite.
 		Point2d<int> Origin() const;
