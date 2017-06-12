@@ -17,7 +17,7 @@ namespace hvn3 {
 
 		public:
 			ScrollableControl(float scroll_height);
-			ScrollableControl(const Size& scrollable_region);
+			ScrollableControl(const SizeF& scrollable_region);
 			~ScrollableControl();
 
 			Handle<Scrollbar> VerticalScrollbar();

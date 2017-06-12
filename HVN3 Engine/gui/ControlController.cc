@@ -29,19 +29,19 @@ namespace hvn3 {
 			}
 
 		}
-		Point ControlController::GetFixedPosition() const {
+		Point2F ControlController::GetFixedPosition() const {
 
 			return _control->GetFixedPosition();
 
 		}
-		Point ControlController::PreviousPosition() const {
+		Point2F ControlController::PreviousPosition() const {
 
 			return _control->__previous_pos;
 
 		}
 		void ControlController::SetPreviousPosition(float x, float y) {
 
-			_control->__previous_pos.SetXY(x, y);
+			_control->__previous_pos = Point2F(x, y);
 
 		}
 		bool ControlController::PrevFocus() const {

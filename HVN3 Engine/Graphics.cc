@@ -19,7 +19,7 @@ namespace hvn3 {
 
 		}
 
-		void Graphics::DrawRectangle(const Rectangle& rect, const Color& color, float thickness) {
+		void Graphics::DrawRectangle(const Rectangle<float>& rect, const Color& color, float thickness) {
 
 			DrawRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color, thickness);
 
@@ -38,7 +38,7 @@ namespace hvn3 {
 				);
 
 		}
-		void Graphics::DrawFilledRectangle(const Rectangle& rect, const Color& color) {
+		void Graphics::DrawFilledRectangle(const Rectangle<float>& rect, const Color& color) {
 
 			DrawFilledRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color);
 
@@ -57,7 +57,7 @@ namespace hvn3 {
 
 		}
 
-		void Graphics::DrawRoundRectangle(const Rectangle& rect, const Color& color, float radius, float thickness) {
+		void Graphics::DrawRoundRectangle(const Rectangle<float>& rect, const Color& color, float radius, float thickness) {
 
 			DrawRoundRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color, radius, thickness);
 
@@ -70,7 +70,7 @@ namespace hvn3 {
 			al_draw_rounded_rectangle(x + 0.5f, y + 0.5f, x + width + 0.5f, y + height + 0.5f, radius, radius, FrameworkAdapter::ToColor(color), thickness);
 
 		}
-		void Graphics::DrawFilledRoundRectangle(const Rectangle& rect, const Color& color, float radius) {
+		void Graphics::DrawFilledRoundRectangle(const Rectangle<float>& rect, const Color& color, float radius) {
 
 			DrawFilledRoundRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color, radius);
 
@@ -84,17 +84,17 @@ namespace hvn3 {
 
 		}
 
-		void Graphics::DrawLine(const Line& line) {
+		void Graphics::DrawLine(const Line<float>& line) {
 
 			DrawLine(line, Color::Black, 1.0f);
 
 		}
-		void Graphics::DrawLine(const Line& line, const Color& color, float thickness) {
+		void Graphics::DrawLine(const Line<float>& line, const Color& color, float thickness) {
 
 			DrawLine(line.First(), line.Second(), color, thickness);
 
 		}
-		void Graphics::DrawLine(const Point& p1, const Point& p2, const Color& color, float thickness) {
+		void Graphics::DrawLine(const Point2d<float>& p1, const Point2d<float>& p2, const Color& color, float thickness) {
 
 			DrawLine(p1.X(), p1.Y(), p2.X(), p2.Y(), color, thickness);
 
@@ -107,7 +107,7 @@ namespace hvn3 {
 
 		}
 
-		void Graphics::DrawPoint(const Point& point, const Color& color) {
+		void Graphics::DrawPoint(const Point2d<float>& point, const Color& color) {
 
 			DrawPoint(point.X(), point.Y(), color);
 
@@ -120,7 +120,7 @@ namespace hvn3 {
 
 		}
 
-		void Graphics::DrawCircle(const Point& point, float radius, const Color& color, float thickness) {
+		void Graphics::DrawCircle(const Point2d<float>& point, float radius, const Color& color, float thickness) {
 
 			DrawCircle(point.X(), point.Y(), radius, color, thickness);
 
@@ -138,7 +138,7 @@ namespace hvn3 {
 				);
 
 		}
-		void Graphics::DrawFilledCircle(const Point& point, float radius, const Color& color) {
+		void Graphics::DrawFilledCircle(const Point2d<float>& point, float radius, const Color& color) {
 
 			DrawFilledCircle(point.X(), point.Y(), radius, color);
 
@@ -245,7 +245,7 @@ namespace hvn3 {
 				);
 
 		}
-		void Graphics::DrawBitmap(float x, float y, const Bitmap* bitmap, float xscale, float yscale, const Point& origin, float angle) {
+		void Graphics::DrawBitmap(float x, float y, const Bitmap* bitmap, float xscale, float yscale, const Point2d<float>& origin, float angle) {
 
 			PrepareDrawingSurface();
 
@@ -262,7 +262,7 @@ namespace hvn3 {
 				);
 
 		}
-		void Graphics::DrawBitmap(float x, float y, const Bitmap* bitmap, const Rectangle& region) {
+		void Graphics::DrawBitmap(float x, float y, const Bitmap* bitmap, const Rectangle<float>& region) {
 
 			PrepareDrawingSurface();
 
@@ -277,20 +277,20 @@ namespace hvn3 {
 
 		}
 
-		void Graphics::SetClip(const Rectangle& rect) {
+		void Graphics::SetClip(const Rectangle<float>& rect) {
 
 			SetClip(rect.X(), rect.Y(), rect.Width(), rect.Height());
 
 		}
 		void Graphics::SetClip(int x, int y, int width, int height) {
 
-			_clipping_region = Rectangle(x, y, width, height);
+			_clipping_region = Rectangle<float>(x, y, width, height);
 
 			if (IsActiveSurface())
 				ApplyClip();
 
 		}
-		Rectangle Graphics::Clip() const {
+		Rectangle<float> Graphics::Clip() const {
 
 			return _clipping_region;
 

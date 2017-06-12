@@ -2,11 +2,11 @@
 
 namespace hvn3 {
 
-	ViewUpdateEventArgs::ViewUpdateEventArgs(float dt, Size room_size) :
+	ViewUpdateEventArgs::ViewUpdateEventArgs(float dt, Size<int> room_size) :
 		UpdateEventArgs(dt),
 		_room_size(room_size) {
 	}
-	const Size ViewUpdateEventArgs::RoomSize() const {
+	const Size<int> ViewUpdateEventArgs::RoomSize() const {
 
 		return _room_size;
 

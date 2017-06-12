@@ -225,28 +225,10 @@
     <ClCompile Include="IFocusable.cc">
       <Filter>Source Files\Interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="IPositionable.cc">
-      <Filter>Source Files\Interfaces</Filter>
-    </ClCompile>
-    <ClCompile Include="ISizeable.cc">
-      <Filter>Source Files\Interfaces</Filter>
-    </ClCompile>
     <ClCompile Include="ISpriteable.cc">
       <Filter>Source Files\Interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="Geometry.cc">
-      <Filter>Source Files\Structures</Filter>
-    </ClCompile>
     <ClCompile Include="Grid.cc">
-      <Filter>Source Files\Structures</Filter>
-    </ClCompile>
-    <ClCompile Include="Point.cc">
-      <Filter>Source Files\Structures</Filter>
-    </ClCompile>
-    <ClCompile Include="Rectangle.cc">
-      <Filter>Source Files\Structures</Filter>
-    </ClCompile>
-    <ClCompile Include="Size.cc">
       <Filter>Source Files\Structures</Filter>
     </ClCompile>
     <ClCompile Include="Vector2d.cc">
@@ -608,9 +590,6 @@
     <ClInclude Include="IStringable.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="IPositionable.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="ISizeable.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
@@ -646,9 +625,6 @@
     </ClInclude>
     <ClInclude Include="Particles.h">
       <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Point.h">
-      <Filter>Header Files\Structures</Filter>
     </ClInclude>
     <ClInclude Include="Quadtree.h">
       <Filter>Header Files\Structures</Filter>
@@ -991,6 +967,21 @@
     </ClInclude>
     <ClInclude Include="UniqueCreateableBase.h">
       <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Point2d.h">
+      <Filter>Header Files\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="IPositionable2d.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>Header Files\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>Header Files\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="PointGeometry.h">
+      <Filter>Header Files\Structures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

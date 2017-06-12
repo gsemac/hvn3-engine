@@ -20,7 +20,7 @@ namespace hvn3 {
 		// Display Properties
 
 		std::string DisplayTitle;
-		Size DisplaySize;
+		Size<int> DisplaySize;
 		bool StartFullscreen;
 		hvn3::ScalingMode ScalingMode;
 		Color OutsideColor;

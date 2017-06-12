@@ -5,7 +5,7 @@ namespace hvn3 {
 	namespace Gui {
 
 		ContainerControl::ContainerControl() :
-			_gui_manager(Rectangle(Width(), Height()), &_control_manager, nullptr),
+			_gui_manager(RectangleF(Width(), Height()), &_control_manager, nullptr),
 			_control_manager(&_gui_manager, this),
 			_child_region(Width(), Height()) {
 		}
@@ -50,12 +50,12 @@ namespace hvn3 {
 			return _control_manager.ActiveControl() != nullptr;
 
 		}
-		const Rectangle& ContainerControl::_ChildRegion() const {
+		const RectangleF& ContainerControl::_ChildRegion() const {
 
 			return _child_region;
 
 		}
-		void ContainerControl::_SetChildRegion(const Rectangle& region) {
+		void ContainerControl::_SetChildRegion(const RectangleF& region) {
 
 			_child_region = region;
 
@@ -63,7 +63,7 @@ namespace hvn3 {
 		bool ContainerControl::_MouseInChildRegion() const {
 
 			// Get the child region and offset it to match the control's position.
-			Rectangle region = _child_region;
+			RectangleF region = _child_region;
 			region.Translate(FixedPosition().X(), FixedPosition().Y());
 
 			// Check if the mouse is in this region.
@@ -85,21 +85,21 @@ namespace hvn3 {
 					if (c->Anchors() & ANCHOR_LEFT)
 						c->Resize(c->Width() + width_diff, c->Height());
 					else
-						c->TranslateX(width_diff);
+						c->SetPosition(c->X() + width_diff, c->Y());
 				}
 
 				if (c->Anchors() & ANCHOR_BOTTOM) {
 					if (c->Anchors() & ANCHOR_TOP)
 						c->Resize(c->Width(), c->Height() + height_diff);
 					else
-						c->TranslateY(height_diff);
+						c->SetPosition(c->X(), c->Y() + height_diff);
 				}
 
 				if (c->Anchors() == ANCHOR_NONE || (!(c->Anchors() & ANCHOR_RIGHT) && !(c->Anchors() & ANCHOR_LEFT)))
-					c->TranslateX(width_diff / 2.0f);
+					c->SetPosition(c->X() + width_diff / 2.0f, c->Y());
 
 				if (c->Anchors() == ANCHOR_NONE || (!(c->Anchors() & ANCHOR_TOP) && !(c->Anchors() & ANCHOR_BOTTOM)))
-					c->TranslateY(height_diff / 2.0f);
+					c->SetPosition(c->X(), c->Y() + height_diff / 2.0f);
 
 			}
 

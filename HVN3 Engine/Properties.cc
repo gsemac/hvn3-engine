@@ -3,7 +3,7 @@
 namespace hvn3 {
 
 	Properties::Properties() :
-		DisplaySize(640.0f, 480.0f) {
+		DisplaySize(640, 480) {
 
 		DisplayTitle = "HVN3 Engine";
 		StartFullscreen = false;

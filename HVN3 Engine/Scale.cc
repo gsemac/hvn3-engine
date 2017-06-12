@@ -7,42 +7,26 @@ namespace hvn3 {
 	}
 	Scale::Scale(float x_scale, float y_scale) {
 
-		__scale_factor_x = x_scale;
-		__scale_factor_y = y_scale;
+		_scale_factor_x = x_scale;
+		_scale_factor_y = y_scale;
 
-	}
-	Scale::Scale(const Rectangle& a, const Rectangle& b) :
-		Scale(a.Width() / b.Width(), a.Height() / b.Height()) {
-	}
-	Scale::Scale(const Size& a, const Size& b) :
-		Scale(a.Width() / b.Width(), a.Height() / b.Height()) {
-	}
-	Scale::Scale(const ISizeable& a, const ISizeable& b) :
-		Scale(a.Width() / b.Width(), a.Height() / b.Height()) {
 	}
 
 	float Scale::XScale() const {
 
-		return __scale_factor_x;
+		return _scale_factor_x;
 
 	}
 	float Scale::YScale() const {
 
-		return __scale_factor_y;
+		return _scale_factor_y;
 
 	}
-	Point& Scale::ScalePoint(Point& point) const {
 
-		point.SetX(point.X() * __scale_factor_x);
-		point.SetY(point.Y() * __scale_factor_y);
-
-		return point;
-
-	}
 	void Scale::ScalePoint(float& x, float& y) const {
 
-		x *= __scale_factor_x;
-		y *= __scale_factor_y;
+		x *= _scale_factor_x;
+		y *= _scale_factor_y;
 
 	}
 	Scale Scale::Inverse() const {
@@ -58,8 +42,8 @@ namespace hvn3 {
 	}
 	Scale& Scale::operator*=(const Scale& other) {
 
-		__scale_factor_x *= other.__scale_factor_x;
-		__scale_factor_y *= other.__scale_factor_y;
+		_scale_factor_x *= other._scale_factor_x;
+		_scale_factor_y *= other._scale_factor_y;
 
 		return *this;
 

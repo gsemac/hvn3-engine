@@ -9,7 +9,7 @@
 
 namespace hvn3 {
 
-	class ISpriteable : virtual public IUpdatable, virtual public IDrawable, virtual public IPositionable {
+	class ISpriteable : virtual public IUpdatable, virtual public IDrawable, virtual public IPositionable2d<float> {
 
 	public:
 		ISpriteable();

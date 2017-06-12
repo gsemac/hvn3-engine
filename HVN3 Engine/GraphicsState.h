@@ -13,7 +13,7 @@ namespace hvn3 {
 			GraphicsState(const Graphics& graphics);
 
 			Transform __transform;
-			Rectangle __clip;
+			RectangleF __clip;
 
 		};
 

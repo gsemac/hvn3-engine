@@ -15,8 +15,8 @@ namespace hvn3 {
 		virtual void Loop();
 
 		Properties& Properties();
-		RoomManager& RoomManager();
-		ResourceManager& ResourceManager();
+		RoomManager& Rooms();
+		ResourceManager& Resources();
 		Runner& Runner();
 
 	protected:

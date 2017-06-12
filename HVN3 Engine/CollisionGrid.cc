@@ -9,11 +9,11 @@ namespace hvn3 {
 
 	// Public members
 
-	CollisionGrid::CollisionGrid(const Size& cell_size) :
+	CollisionGrid::CollisionGrid(const Size<float>& cell_size) :
 		__cell_size(cell_size) {
 	}
 	CollisionGrid::CollisionGrid(float cell_width, float cell_height) :
-		CollisionGrid(Size(cell_width, cell_height)) {
+		CollisionGrid(Size<float>(cell_width, cell_height)) {
 	}
 
 	// Inherited from IBroadphase
@@ -77,10 +77,10 @@ namespace hvn3 {
 		return __pairs;
 
 	}
-	void CollisionGrid::QueryRegion(const Rectangle& region, std::vector<ICollidable*>& output, int filter) const {
+	void CollisionGrid::QueryRegion(const Rectangle<float>& region, std::vector<ICollidable*>& output, int filter) const {
 
 		// get the cells that are occupied by the region.
-		static std::vector<Point> cells;
+		static std::vector<Point2d<float>> cells;
 		cells.clear();
 		GetIntersectedCells(region, cells);
 
@@ -100,7 +100,7 @@ namespace hvn3 {
 		std::copy(colliders.begin(), colliders.end(), std::back_inserter(output));
 
 	}
-	ICollidable* CollisionGrid::QueryNearest(const Point& point, int filter) const {
+	ICollidable* CollisionGrid::QueryNearest(const Point2d<float>& point, int filter) const {
 
 		// The algorithm will check a region surrounding the the given Point, and if no relevant colliders are found, the region will be expanded according by the cell size.
 		// To potentially improve efficiency, the difference of the cells of the two regions could be checked instead.
@@ -131,21 +131,21 @@ namespace hvn3 {
 
 	// Private members
 
-	void CollisionGrid::GetIntersectedCells(ICollidable* collider, std::vector<Point>& cells) const {
+	void CollisionGrid::GetIntersectedCells(ICollidable* collider, std::vector<Point2d<float>>& cells) const {
 
 		// Get the collider's AABB. If the mask type is undefined, do not assign it to any cells.
 		if (collider->CollisionMask().Type() == MaskType::Undefined) return;
-		Rectangle aabb = collider->AABB();
+		Rectangle<float> aabb = collider->AABB();
 
 		// Get cells intersected by the AABB.
 		GetIntersectedCells(aabb, cells);
 
 	}
-	void CollisionGrid::GetIntersectedCells(const Rectangle& region, std::vector<Point>& cells) const {
+	void CollisionGrid::GetIntersectedCells(const Rectangle<float>& region, std::vector<Point2d<float>>& cells) const {
 
 		// Determine the cells intersected by each corner.
-		Point tl = CellAt(region.X(), region.Y());
-		Point br = CellAt(region.X2() - 1.0f, region.Y2() - 1.0f);
+		Point2d<float> tl = CellAt(region.X(), region.Y());
+		Point2d<float> br = CellAt(region.X2() - 1.0f, region.Y2() - 1.0f);
 
 		// Add all cells in-between to the collection.
 		int cw = __cell_size.Width();
@@ -158,7 +158,7 @@ namespace hvn3 {
 	void CollisionGrid::MapToCells(ICollidable* collider) {
 
 		// Initialize vector for holding assigned cells (re-used for every call).
-		static std::vector<Point> cells;
+		static std::vector<Point2d<float>> cells;
 		cells.clear();
 
 		// Get cells for the current collider.
@@ -166,7 +166,7 @@ namespace hvn3 {
 
 		// Add all cells to the map.
 		for (size_t i = 0; i < cells.size(); ++i)
-			__grid.insert(std::pair<Point, ICollidable*>(cells[i], collider));
+			__grid.insert(std::pair<Point2d<float>, ICollidable*>(cells[i], collider));
 
 	}
 
@@ -197,14 +197,14 @@ namespace hvn3 {
 
 	// Private members
 
-	Point CollisionGrid::CellAt(const Point& point) const {
+	Point2d<float> CollisionGrid::CellAt(const Point2d<float>& point) const {
 
 		return CellAt(point.X(), point.Y());
 
 	}
-	Point CollisionGrid::CellAt(float x, float y) const {
+	Point2d<float> CollisionGrid::CellAt(float x, float y) const {
 
-		return Point((std::floor)(x / __cell_size.Width()), (std::floor)(y / __cell_size.Height()));
+		return Point2d<float>((std::floor)(x / __cell_size.Width()), (std::floor)(y / __cell_size.Height()));
 
 	}
 	void CollisionGrid::Draw(int cell_dimensions) const {

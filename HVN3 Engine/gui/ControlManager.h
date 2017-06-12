@@ -4,7 +4,7 @@
 #include <memory>
 #include "IUpdatable.h"
 #include "IDrawable.h"
-#include "Point.h"
+#include "Point2d.h"
 #include "Handle.h"
 #include "gui/Control.h"
 
@@ -49,7 +49,7 @@ namespace hvn3 {
 			void SendToBack(const Handle<Control>& control);
 
 			void SetControlOffset(float x_offset, float y_offset);
-			const Point& ControlOffset() const;
+			const Point2F& ControlOffset() const;
 			void SetkeyboardEventsEnabled(bool value);
 			void SetMouseEventsEnabled(bool value);
 			void InvalidateAll();
@@ -66,8 +66,8 @@ namespace hvn3 {
 			GuiManager* _gui_manager;
 			Control* _held_control;
 			Control* _hovered_control;
-			Point _last_mouse_position;
-			Point _control_offset;
+			Point2F _last_mouse_position;
+			Point2F _control_offset;
 			collection_type _controls;
 			std::vector<collection_type::iterator> _pending_removal;
 			bool _resort_needed;

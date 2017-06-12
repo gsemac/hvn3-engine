@@ -33,7 +33,7 @@ namespace hvn3 {
 		RoomBase::OnUpdate(e);
 
 		// Update views.
-		_view_manager.Update(ViewUpdateEventArgs(e.Delta(), hvn3::Size(Width(), Height())));
+		_view_manager.Update(ViewUpdateEventArgs(e.Delta(), hvn3::SizeI(Width(), Height())));
 
 		// Update backgrounds.
 		_background_manager.Update(e);
@@ -43,7 +43,7 @@ namespace hvn3 {
 
 		// Save the current graphics state.
 		Drawing::Transform original_tranform(e.Graphics().GetTransform());
-		Rectangle original_clip(e.Graphics().Clip());
+		RectangleF original_clip(e.Graphics().Clip());
 
 		// Each View needs to be drawn separately.
 		if (_view_manager.ViewCount() > 0) {
@@ -58,11 +58,11 @@ namespace hvn3 {
 					continue;
 
 				// Set the clipping region according to the view port.
-				Point p1 = CurrentView()->Port().TopLeft();
-				Point p2 = CurrentView()->Port().BottomRight();
+				Point2F p1 = CurrentView()->Port().TopLeft();
+				Point2F p2 = CurrentView()->Port().BottomRight();
 				original_tranform.TransformPoint(p1);
 				original_tranform.TransformPoint(p2);
-				Rectangle clip(p1, p2);
+				RectangleF clip(p1, p2);
 				e.Graphics().SetClip(clip);
 
 				// Set transform according to view state.		
@@ -89,7 +89,7 @@ namespace hvn3 {
 
 	}
 
-	Rectangle Room::GetVisibleRegion() {
+	RectangleF Room::GetVisibleRegion() {
 
 		// Return the rectangle representing the largest view.
 		View* largest = nullptr;
@@ -135,13 +135,13 @@ namespace hvn3 {
 		e.Graphics().Clear(BackgroundColor());
 
 		// Draw all backgrounds.
-		BackgroundManager()->DrawBackgrounds(BackgroundDrawEventArgs(e.Graphics(), Size(Width(), Height()), CurrentView()));
+		BackgroundManager()->DrawBackgrounds(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView()));
 
 		// Draw all objects.
 		ObjectManager()->OnDraw(e);
 
 		// Draw all foregrounds.
-		BackgroundManager()->DrawForegrounds(BackgroundDrawEventArgs(e.Graphics(), Size(Width(), Height()), CurrentView()));
+		BackgroundManager()->DrawForegrounds(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView()));
 
 	}
 

@@ -7,7 +7,9 @@
 
 namespace hvn3 {
 
-	View::View(Point view_position, Size view_size, Point port_position, Size port_size, Object* follow_obj, float horizontal_border, float vertical_border) :__view_size(view_size), __port_size(port_size) {
+	View::View(const Point2d<float>& view_position, const Size<float>& view_size, const Point2d<float>& port_position, const Size<float>& port_size, Object* follow_obj, float horizontal_border, float vertical_border) :
+		__view_size(view_size), 
+		__port_size(port_size) {
 
 		__view_pos = view_position;
 		__port_pos = port_position;
@@ -22,7 +24,8 @@ namespace hvn3 {
 		__tracks_mouse = true;
 
 	}
-	View::View(Point view_position, Size view_size, Point port_position, Size port_size) : View(view_position, view_size, port_position, port_size, nullptr, 0, 0) {}
+	View::View(const Point2d<float>& view_position, const Size<float>& view_size, const Point2d<float>& port_position, const Size<float>& port_size) :
+		View(view_position, view_size, port_position, port_size, nullptr, 0, 0) {}
 
 	void View::SetFollowing(Object* obj) {
 
@@ -35,27 +38,28 @@ namespace hvn3 {
 
 	}
 
-	Rectangle View::Region() const {
+	Rectangle<float> View::Region() const {
 
-		return Rectangle(__view_pos.X(), __view_pos.Y(), __view_size.Width(), __view_size.Height());
-
-	}
-	Rectangle View::Port() const {
-
-		return Rectangle(__port_pos.X(), __port_pos.Y(), __port_size.Width(), __port_size.Height());
+		return Rectangle<float>(__view_pos.X(), __view_pos.Y(), __view_size.Width(), __view_size.Height());
 
 	}
-	const Point& View::Position() const {
+	Rectangle<float> View::Port() const {
+
+		return Rectangle<float>(__port_pos.X(), __port_pos.Y(), __port_size.Width(), __port_size.Height());
+
+	}
+	const Point2d<float>& View::Position() const {
 
 		return __view_pos;
 
 	}
 	void View::SetPosition(float x, float y) {
 
-		__view_pos.SetXY(x, y);
+		__view_pos.SetX(x);
+		__view_pos.SetY(y);
 
 	}
-	void View::SetPosition(const Point& position) {
+	void View::SetPosition(const Point2d<float>& position) {
 
 		__view_pos = position;
 
@@ -127,7 +131,7 @@ namespace hvn3 {
 
 	Drawing::Transform View::GetTransform() const {
 
-		Point offset(ViewX(), ViewY());
+		Point2d<float> offset(ViewX(), ViewY());
 		Drawing::Transform transform;
 		transform.Translate(-offset.X() + Port().X(), -offset.Y() + Port().Y());
 		transform.Rotate(Port().Midpoint(), Angle());

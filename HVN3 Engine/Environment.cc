@@ -96,15 +96,15 @@ namespace hvn3 {
 	}
 
 	// Screen class
-	Environment::Screen::Screen(const Rectangle& bounds) :
+	Environment::Screen::Screen(const Rectangle<int>& bounds) :
 		_bounds(bounds) {
 	}
-	const Rectangle& Environment::Screen::Bounds() const {
+	const Rectangle<int>& Environment::Screen::Bounds() const {
 
 		return _bounds;
 
 	}
-	const Size& Environment::Screen::Resolution() const {
+	const Size<int>& Environment::Screen::Resolution() const {
 
 		return _bounds.Size();
 
@@ -120,7 +120,7 @@ namespace hvn3 {
 		for (int adapter = 0; adapter < count; ++adapter)
 			if (al_get_monitor_info(adapter, &info))
 				if (info.x1 == 0 && info.y1 == 0)
-					return Screen(Rectangle(info.x1, info.y1, info.x2 - info.x1, info.y2 - info.y1));
+					return Screen(Rectangle<int>(info.x1, info.y1, info.x2 - info.x1, info.y2 - info.y1));
 
 		throw Exception("Could not find primary display.");
 
@@ -140,7 +140,7 @@ namespace hvn3 {
 				y2 = (std::max)(y2, info.y2);
 			}
 
-		return Screen(Rectangle(x1, y1, x2 - x1, y2 - y1));
+		return Screen(Rectangle<int>(x1, y1, x2 - x1, y2 - y1));
 
 	}
 	std::vector<Environment::Screen> Environment::Screen::AllScreens() {
@@ -151,7 +151,7 @@ namespace hvn3 {
 
 		for (int adapter = 0; adapter < count; ++adapter)
 			if (al_get_monitor_info(adapter, &info))
-				screens.push_back(Screen(Rectangle(info.x1, info.y1, info.x2 - info.x1, info.y2 - info.y1)));
+				screens.push_back(Screen(Rectangle<int>(info.x1, info.y1, info.x2 - info.x1, info.y2 - info.y1)));
 
 		return screens;
 

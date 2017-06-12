@@ -8,12 +8,12 @@
 namespace hvn3 {
 	namespace editor {
 
-		LevelEditor::LevelEditor(const Size& size) :
+		LevelEditor::LevelEditor(const SizeF& size) :
 			LevelEditor(size.Width(), size.Height()) {}
 		LevelEditor::LevelEditor(unsigned int width, unsigned int height) :
 			Room(width, height),
 			_grid_space_size(DEFAULT_GRID_CELL_SIZE, DEFAULT_GRID_CELL_SIZE),
-			_gui_manager(Rectangle(width, height)) {
+			_gui_manager(RectangleF(width, height)) {
 
 			_grid_visible = true;
 
@@ -90,12 +90,12 @@ namespace hvn3 {
 
 			Room::Render(e);
 
-			e.Graphics().DrawLine(Point(0, 0), Point(600, 200), Color::Red, 30);
-			e.Graphics().DrawLine(Point(0, 0), Point(Width() / 2, Height() / 2), Color::Blue, 30);
+			e.Graphics().DrawLine(Point2F(0, 0), Point2F(600, 200), Color::Red, 30);
+			e.Graphics().DrawLine(Point2F(0, 0), Point2F(Width() / 2, Height() / 2), Color::Blue, 30);
 
 			Drawing::GridDrawer gv(e.Graphics());
 
-			gv.DrawGrid(Point(30, 30), Grid(10, 10, 32, 32), Color::Silver, Color::White);
+			gv.DrawGrid(Point2F(30, 30), Grid(10, 10, 32, 32), Color::Silver, Color::White);
 
 			/*if (_grid_visible)
 				_RenderGrid(e);*/

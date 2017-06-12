@@ -54,7 +54,7 @@ namespace hvn3 {
 			al_translate_transform((ALLEGRO_TRANSFORM*)this, origin_x, origin_y);
 
 		}
-		void Transform::Rotate(const Point& origin, float degrees) {
+		void Transform::Rotate(const Point2d<float>& origin, float degrees) {
 
 			Rotate(origin.X(), origin.Y(), degrees);
 
@@ -76,7 +76,7 @@ namespace hvn3 {
 			al_translate_transform((ALLEGRO_TRANSFORM*)this, origin_x, origin_y);
 
 		}
-		void Transform::HorizontalShear(const Point& origin, float degrees) {
+		void Transform::HorizontalShear(const Point2d<float>& origin, float degrees) {
 
 			HorizontalShear(origin.X(), origin.Y(), degrees);
 
@@ -93,7 +93,7 @@ namespace hvn3 {
 			al_translate_transform((ALLEGRO_TRANSFORM*)this, origin_x, origin_y);
 
 		}
-		void Transform::VerticalShear(const Point& origin, float degrees) {
+		void Transform::VerticalShear(const Point2d<float>& origin, float degrees) {
 
 			VerticalShear(origin.X(), origin.Y(), degrees);
 
@@ -103,12 +103,14 @@ namespace hvn3 {
 			al_transform_coordinates((ALLEGRO_TRANSFORM*)this, &x, &y);
 
 		}
-		void Transform::TransformPoint(Point& point) const {
+		void Transform::TransformPoint(Point2d<float>& point) const {
 
 			float x = point.X();
 			float y = point.Y();
 			TransformPoint(x, y);
-			point.SetXY(x, y);
+
+			point.SetX(x);
+			point.SetY(y);
 
 		}
 		Transform& Transform::operator=(const Transform& other) {
@@ -120,12 +122,12 @@ namespace hvn3 {
 
 		}
 
-		Point Transform::GetScale() const {
+		hvn3::Scale Transform::GetScale() const {
 
 			float scale_x = Sign(_matrix[0][0]) * std::sqrt(std::pow(_matrix[0][0], 2.0f) + std::pow(_matrix[1][0], 2.0f));
 			float scale_y = Sign(_matrix[1][1]) * std::sqrt(std::pow(_matrix[0][1], 2.0f) + std::pow(_matrix[1][1], 2.0f));
 
-			return Point(scale_x, scale_y);
+			return hvn3::Scale(scale_x, scale_y);
 
 		}
 		float Transform::GetAngle() const {
@@ -141,9 +143,9 @@ namespace hvn3 {
 			//return 0;
 
 		}
-		Point Transform::GetOffset() const {
+		Point2d<float> Transform::GetOffset() const {
 
-			return Point(_matrix[3][0], _matrix[3][1]);
+			return Point2d<float>(_matrix[3][0], _matrix[3][1]);
 
 		}
 

@@ -6,12 +6,12 @@ namespace hvn3 {
 
 	class RoomBase;
 
-	class ICollidable : public IPositionable {
+	class ICollidable : public IPositionable2d<float> {
 
 	public:
 		ICollidable(float x, float y);
 
-		Rectangle AABB() const;
+		Rectangle<float> AABB() const;
 		CollisionMask& CollisionMask();
 		void SetCollisionMask(const hvn3::CollisionMask& mask);
 		CollisionFilter& Filter();

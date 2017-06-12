@@ -9,9 +9,9 @@ namespace hvn3 {
 			IScrollable(control, control->Height()) {
 		}
 		IScrollable::IScrollable(Control* control, float scroll_height) :
-			IScrollable(control, Size(scroll_height, control->Width())) {
+			IScrollable(control, Size<float>(scroll_height, control->Width())) {
 		}
-		IScrollable::IScrollable(Control* control, const Size& scrollable_region) :
+		IScrollable::IScrollable(Control* control, const Size<float>& scrollable_region) :
 			_visible_region(control->Width(), control->Height()),
 			_scrollable_region(scrollable_region) {
 
@@ -31,22 +31,22 @@ namespace hvn3 {
 
 		}
 
-		void IScrollable::SetVisibleRegion(const Size& region) {
+		void IScrollable::SetVisibleRegion(const Size<float>& region) {
 
 			_visible_region = region;
 
 		}
-		const Size& IScrollable::VisibleRegion() const {
+		const Size<float>& IScrollable::VisibleRegion() const {
 
 			return _visible_region;
 
 		}
-		void IScrollable::SetScrollableRegion(const Size& region) {
+		void IScrollable::SetScrollableRegion(const Size<float>& region) {
 
 			_scrollable_region = region;
 
 		}
-		const Size& IScrollable::ScrollableRegion() const {
+		const Size<float>& IScrollable::ScrollableRegion() const {
 
 			return _scrollable_region;
 
@@ -63,9 +63,9 @@ namespace hvn3 {
 
 		}
 
-		Point IScrollable::ScrollPosition() const {
+		Point2d<float> IScrollable::ScrollPosition() const {
 
-			return Point(_hpos, _vpos);
+			return Point2d<float>(_hpos, _vpos);
 
 		}
 		bool IScrollable::HasFocus() {

@@ -8,7 +8,7 @@ namespace hvn3 {
 		class LevelEditor : public Room {
 
 		public:
-			LevelEditor(const Size& size);
+			LevelEditor(const SizeF& size);
 			LevelEditor(unsigned int width, unsigned int height);
 			virtual ~LevelEditor() = default;
 
@@ -27,7 +27,7 @@ namespace hvn3 {
 
 		private:
 			bool _grid_visible;
-			Size _grid_space_size;
+			SizeF _grid_space_size;
 
 			Gui::GuiManager _gui_manager;
 

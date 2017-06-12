@@ -24,13 +24,13 @@ namespace hvn3 {
 			Bitmap(int width, int height);
 			Bitmap(const char* filename);
 			Bitmap(ALLEGRO_BITMAP* bitmap, bool free = true);
-			Bitmap(const Bitmap& other, const Rectangle& region);
+			Bitmap(const Bitmap& other, const RectangleI& region);
 			Bitmap(const Bitmap& other);
 			Bitmap(Bitmap&& other);
 			~Bitmap();
 
 			Bitmap Clone() const;
-			Bitmap Clone(const Rectangle& region) const;
+			Bitmap Clone(const RectangleF& region) const;
 
 			//static Bitmap RefBitmap(const Bitmap& other, const Rectangle& region);
 			//static Bitmap RefBitmap(ALLEGRO_BITMAP* other, const Rectangle& region);
@@ -40,7 +40,7 @@ namespace hvn3 {
 			unsigned int Height() const;
 
 			BitmapData Lock(IO::FileAccess access = IO::FileAccess::ReadWrite);
-			BitmapData LockRegion(const Rectangle& region, IO::FileAccess access = IO::FileAccess::ReadWrite);
+			BitmapData LockRegion(const RectangleI& region, IO::FileAccess access = IO::FileAccess::ReadWrite);
 			void Unlock();
 			bool IsLocked() const;
 

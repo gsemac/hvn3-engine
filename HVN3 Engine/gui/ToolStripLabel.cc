@@ -6,7 +6,7 @@ namespace hvn3 {
 
 		ToolStripLabel::ToolStripLabel(const String& text) :
 			TextableControl(text),
-			Control(Point(0, 0), Size(text.Length() * DEFAULT_CHAR_WIDTH, 25)) {
+			Control(Point2F(0, 0), SizeF(text.Length() * DEFAULT_CHAR_WIDTH, 25)) {
 		}
 
 		void ToolStripLabel::OnPaint(PaintEventArgs& e) {

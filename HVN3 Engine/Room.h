@@ -19,7 +19,7 @@ namespace hvn3 {
 		virtual void OnUpdate(UpdateEventArgs& e) override;
 		virtual void OnDraw(DrawEventArgs& e) override;
 
-		virtual Rectangle GetVisibleRegion() override;
+		virtual RectangleF GetVisibleRegion() override;
 
 		template<typename T, typename ... Args>
 		static std::unique_ptr<Room> Create(Args &&... args) {

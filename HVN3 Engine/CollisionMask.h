@@ -20,35 +20,35 @@ namespace hvn3 {
 
 	public:
 		virtual void SetOffset(float x_offset, float y_offset) = 0;
-		virtual const Point& GetOffset() const = 0;
+		virtual const Point2d<float>& GetOffset() const = 0;
 
-		virtual Rectangle AABB() const = 0;
+		virtual Rectangle<float> AABB() const = 0;
 		virtual MaskType Type() const = 0;
 
-		virtual bool Intersects(const Rectangle& rectangle) const = 0;
-		virtual bool Intersects(const Circle& circle) const = 0;
-		virtual bool Intersects(const Line& line) const = 0;
+		virtual bool Intersects(const Rectangle<float>& rectangle) const = 0;
+		virtual bool Intersects(const Circle<float>& circle) const = 0;
+		virtual bool Intersects(const Line<float>& line) const = 0;
 
 	};
 
 	class RectangleMask : public ICollisionMask {
 
 	public:
-		RectangleMask(const Rectangle& rect);
+		RectangleMask(const Rectangle<float>& rect);
 
 		void SetOffset(float x_offset, float y_offset) override;
-		const Point& GetOffset() const override;
+		const Point2d<float>& GetOffset() const override;
 
-		Rectangle AABB() const override;
+		Rectangle<float> AABB() const override;
 		MaskType Type() const override;
 
-		bool Intersects(const Rectangle& rectangle) const override;
-		bool Intersects(const Circle& circle) const override;
-		bool Intersects(const Line& line) const override;
+		bool Intersects(const Rectangle<float>& rectangle) const override;
+		bool Intersects(const Circle<float>& circle) const override;
+		bool Intersects(const Line<float>& line) const override;
 
 	private:
-		Point __offset;
-		Rectangle __mask;
+		Point2d<float> __offset;
+		Rectangle<float> __mask;
 
 	};
 
@@ -56,20 +56,20 @@ namespace hvn3 {
 
 	public:
 		CollisionMask();
-		CollisionMask(const Rectangle& rect);
+		CollisionMask(const Rectangle<float>& rect);
 
 		void SetOffset(float x_offset, float y_offset) override;
-		const Point& GetOffset() const override;
+		const Point2d<float>& GetOffset() const override;
 
-		Rectangle AABB() const override;
+		Rectangle<float> AABB() const override;
 		MaskType Type() const override;
 
-		bool Intersects(const Rectangle& rectangle) const override;
-		bool Intersects(const Circle& circle) const override;
-		bool Intersects(const Line& line) const override;
+		bool Intersects(const Rectangle<float>& rectangle) const override;
+		bool Intersects(const Circle<float>& circle) const override;
+		bool Intersects(const Line<float>& line) const override;
 
 	private:
-		static const Point __null_offset;
+		static const Point2d<float> __null_offset;
 		std::shared_ptr<ICollisionMask> __mask;
 
 	};

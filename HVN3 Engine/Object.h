@@ -9,7 +9,7 @@ namespace hvn3 {
 
 	public:
 		Object(ObjectId id);
-		Object(ObjectId id, const Point& position);
+		Object(ObjectId id, const Point2d<float>& position);
 
 		ObjectId Id() const;
 

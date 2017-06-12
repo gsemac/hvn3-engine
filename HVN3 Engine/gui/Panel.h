@@ -16,8 +16,8 @@ namespace hvn3 {
 			};
 
 		public:
-			Panel(const Point& position, const Size& dimensions);
-			Panel(const Point& position, const Size& dimensions, const Size& scrollable_region);
+			Panel(const Point2F& position, const SizeF& dimensions);
+			Panel(const Point2F& position, const SizeF& dimensions, const SizeF& scrollable_region);
 			virtual ~Panel();
 
 			virtual void OnScroll(ScrollEventArgs& e) override;
@@ -36,8 +36,8 @@ namespace hvn3 {
 			void UpdateScrollbarPositionsAndSizes();
 			Scrollbar* HorizontalScrollbar();
 			Scrollbar* VerticalScrollbar();
-			Size RecalculateVisibleRegion();
-			Rectangle GetControlBounds();
+			SizeF RecalculateVisibleRegion();
+			RectangleF GetControlBounds();
 
 		};
 

@@ -2,21 +2,21 @@
 
 namespace hvn3 {
 
-	RectangleMask::RectangleMask(const Rectangle& rect) : __mask(rect.Width(), rect.Height()), __offset(rect.X(), rect.Y()) {}
+	RectangleMask::RectangleMask(const Rectangle<float>& rect) : __mask(rect.Width(), rect.Height()), __offset(rect.X(), rect.Y()) {}
 	void RectangleMask::SetOffset(float x_offset, float y_offset) {
 
 		__offset.SetX(__offset.X() + x_offset);
 		__offset.SetY(__offset.Y() + y_offset);
 
 	}
-	const Point& RectangleMask::GetOffset() const {
+	const Point2d<float>& RectangleMask::GetOffset() const {
 
 		return __offset;
 
 	}
-	Rectangle RectangleMask::AABB() const {
+	Rectangle<float> RectangleMask::AABB() const {
 
-		Rectangle aabb = __mask;
+		Rectangle<float> aabb = __mask;
 		aabb.SetX(aabb.X() + __offset.X());
 		aabb.SetY(aabb.Y() + __offset.Y());
 		return aabb;
@@ -27,25 +27,25 @@ namespace hvn3 {
 		return MaskType::Rectangle;
 
 	}
-	bool RectangleMask::Intersects(const Rectangle& rectangle) const {
+	bool RectangleMask::Intersects(const Rectangle<float>& rectangle) const {
 
 		return false;
 
 	}
-	bool RectangleMask::Intersects(const Circle& circle) const {
+	bool RectangleMask::Intersects(const Circle<float>& circle) const {
 
 		return false;
 
 	}
-	bool RectangleMask::Intersects(const Line& line) const {
+	bool RectangleMask::Intersects(const Line<float>& line) const {
 
 		return false;
 
 	}
 
-	const Point CollisionMask::__null_offset = Point(0.0f, 0.0f);
+	const Point2F CollisionMask::__null_offset = Point2F(0.0f, 0.0f);
 	CollisionMask::CollisionMask() {}
-	CollisionMask::CollisionMask(const Rectangle& rect) {
+	CollisionMask::CollisionMask(const Rectangle<float>& rect) {
 
 		__mask = std::make_shared<RectangleMask>(rect);
 
@@ -56,14 +56,14 @@ namespace hvn3 {
 		__mask->SetOffset(x_offset, y_offset);
 
 	}
-	const Point& CollisionMask::GetOffset() const {
+	const Point2d<float>& CollisionMask::GetOffset() const {
 		if (!__mask) return __null_offset;
 
 		return __mask->GetOffset();
 
 	}
-	Rectangle CollisionMask::AABB() const {
-		if (!__mask) return Rectangle(0.0f, 0.0f);
+	Rectangle<float> CollisionMask::AABB() const {
+		if (!__mask) return Rectangle<float>(0.0f, 0.0f);
 
 		return __mask->AABB();
 
@@ -74,19 +74,19 @@ namespace hvn3 {
 		return __mask->Type();
 
 	}
-	bool CollisionMask::Intersects(const Rectangle& rectangle) const {
+	bool CollisionMask::Intersects(const Rectangle<float>& rectangle) const {
 		if (!__mask) return false;
 
 		return __mask->Intersects(rectangle);
 
 	}
-	bool CollisionMask::Intersects(const Circle& circle) const {
+	bool CollisionMask::Intersects(const Circle<float>& circle) const {
 		if (!__mask) return false;
 
 		return __mask->Intersects(circle);
 
 	}
-	bool CollisionMask::Intersects(const Line& line) const {
+	bool CollisionMask::Intersects(const Line<float>& line) const {
 		if (!__mask) return false;
 
 		return __mask->Intersects(line);

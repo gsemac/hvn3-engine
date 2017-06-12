@@ -10,7 +10,7 @@ namespace hvn3 {
 	namespace Gui {
 
 		Window::Window(float x, float y, float width, float height, const char* text) :
-			Control(Point(x, y), Size(width, height + DEF_TITLEBAR_HEIGHT)),
+			Control(Point2F(x, y), SizeF(width, height + DEF_TITLEBAR_HEIGHT)),
 			ITextable(this, text),
 			IContainer(this),
 			//_panel(DEF_OUTLINE_WIDTH, DEF_TITLEBAR_HEIGHT, width - DEF_OUTLINE_WIDTH, height - DEF_OUTLINE_WIDTH),
@@ -21,7 +21,7 @@ namespace hvn3 {
 			_exit_icon(nullptr) {
 
 			// Make sure the Window cannot be made smaller than its titlebar.
-			SetMinimumSize(Size(DEF_TITLEBAR_HEIGHT, DEF_TITLEBAR_HEIGHT));
+			SetMinimumSize(SizeF(DEF_TITLEBAR_HEIGHT, DEF_TITLEBAR_HEIGHT));
 
 			// Set up Panel.
 			//_panel.SetParent(this);
@@ -71,17 +71,17 @@ namespace hvn3 {
 				// Initialize resizing variables.
 				__resizing = true;
 				__resizing_side = GetMouseResizeSides();
-				__drag_offset.SetXY(Mouse::X, Mouse::Y);
-				__original_size = Size(Width(), Height());
-				__original_position = Point(X(), Y());
-				__size_diff = Size(0, 0);
+				__drag_offset = Point2F(Mouse::X, Mouse::Y);
+				__original_size = SizeF(Width(), Height());
+				__original_position = Point2F(X(), Y());
+				__size_diff = SizeF(0, 0);
 
 			}
 			else if (!__resizing && !__dragging) {
 
 				// Initialize dragging variables.
 				__dragging = true;
-				__drag_offset.SetXY(X() - Mouse::X, Y() - Mouse::Y);
+				__drag_offset = Point2F(X() - Mouse::X, Y() - Mouse::Y);
 
 			}
 
@@ -159,7 +159,7 @@ namespace hvn3 {
 
 			// Draw exit button.
 			if (GetExitIcon()) {
-				Point pos = ExitButtonPosition();
+				Point2F pos = ExitButtonPosition();
 				Color tint = _mouse_on_exit_button ? Color::FromArgbf(0.5f, 0.5f, 0.5f, 1.0f) : Color::FromArgbf(1.0f, 1.0f, 1.0f, 1.0f);
 				e.Graphics().DrawBitmap(pos.X(), pos.Y(), _exit_icon, tint);
 			}
@@ -188,7 +188,7 @@ namespace hvn3 {
 			if (__resizing)
 				HandleResizing();
 			else if (__dragging) {
-				SetXY(__drag_offset.X() + Mouse::X, __drag_offset.Y() + Mouse::Y);
+				SetPosition(__drag_offset.X() + Mouse::X, __drag_offset.Y() + Mouse::Y);
 				if (Parent())
 					Parent()->Invalidate();
 			}
@@ -213,18 +213,18 @@ namespace hvn3 {
 			return _exit_icon;
 
 		}
-		Point Window::ExitButtonPosition() const {
+		Point2F Window::ExitButtonPosition() const {
 
 			float ex = Width() - _exit_icon->Width() - (_exit_icon->Width() / 2.0f);
 			float ey = (_exit_icon->Height() / 2.0f) + 1.0f;
 
-			return Point(ex, ey);
+			return Point2F(ex, ey);
 
 		}
 		bool Window::MouseOnExitButton() const {
 
-			Point pos = ExitButtonPosition();
-			Point my_pos = FixedPosition();
+			Point2F pos = ExitButtonPosition();
+			Point2F my_pos = FixedPosition();
 
 			return Mouse::InRegion(
 				my_pos.X() + pos.X(),
@@ -236,7 +236,7 @@ namespace hvn3 {
 		}
 		void Window::UpdateChildRegion() {
 
-			SetChildRegion(Rectangle(RESIZE_REGION_WIDTH, __titlebar_height, Width() - RESIZE_REGION_WIDTH * 2, Height() - __titlebar_height - RESIZE_REGION_WIDTH));
+			SetChildRegion(RectangleF(RESIZE_REGION_WIDTH, __titlebar_height, Width() - RESIZE_REGION_WIDTH * 2, Height() - __titlebar_height - RESIZE_REGION_WIDTH));
 
 		}
 
@@ -249,7 +249,7 @@ namespace hvn3 {
 			// The control's scale factor.
 			float scale = Scale();
 			// The global position of the control.
-			Point gp = FixedPosition();
+			Point2F gp = FixedPosition();
 
 			float rrw = RESIZE_REGION_WIDTH;
 

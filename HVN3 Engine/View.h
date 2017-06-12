@@ -8,17 +8,17 @@ namespace hvn3 {
 	class View {
 
 	public:
-		View(Point view_position, Size view_size, Point port_position, Size port_size);
-		View(Point view_position, Size view_size, Point port_position, Size port_size, Object* follow_obj, float horizontal_border, float vertical_border);
+		View(const Point2d<float>& view_position, const Size<float>& view_size, const Point2d<float>& port_position, const Size<float>& port_size);
+		View(const Point2d<float>& view_position, const Size<float>& view_size, const Point2d<float>& port_position, const Size<float>& port_size, Object* follow_obj, float horizontal_border, float vertical_border);
 
 		void SetFollowing(Object* obj);
 		Object* GetFollowing();
 
-		Rectangle Region() const;
-		Rectangle Port() const;
-		const Point& Position() const;
+		Rectangle<float> Region() const;
+		Rectangle<float> Port() const;
+		const Point2d<float>& Position() const;
 		void SetPosition(float x, float y);
-		void SetPosition(const Point& position);
+		void SetPosition(const Point2d<float>& position);
 		float ViewX() const;
 		float ViewY() const;
 		Scale Scale() const;
@@ -39,10 +39,10 @@ namespace hvn3 {
 		Drawing::Transform GetTransform() const;
 
 	private:
-		Point __view_pos;
-		Size __view_size;
-		Point __port_pos;
-		Size __port_size;
+		Point2d<float> __view_pos;
+		Size<float> __view_size;
+		Point2d<float> __port_pos;
+		Size<float> __port_size;
 
 		Object* __follow_obj;
 		float __hbor, __vbor, __vspd, __hspd;

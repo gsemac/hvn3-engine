@@ -92,7 +92,7 @@ namespace hvn3 {
 		al_set_display_icon(__display, icon);
 
 	}
-	void Display::Resize(float width, float height) {
+	void Display::Resize(int width, int height) {
 		if (!__display) return;
 
 		ISizeable::Resize(width, height);
@@ -112,14 +112,14 @@ namespace hvn3 {
 		return hvn3::Scale(Width() / __original_size.Width(), Height() / __original_size.Height());
 
 	}
-	Point Display::Position() const {
+	Point2d<int> Display::Position() const {
 
 		if (!__display)
-			return Point();
+			return Point2d<int>();
 
 		int x, y;
 		al_get_window_position(__display, &x, &y);
-		return Point(x, y);
+		return Point2d<int>(x, y);
 
 	}
 	void Display::SetPosition(int x, int y) {
@@ -128,9 +128,9 @@ namespace hvn3 {
 			al_set_window_position(__display, x, y);
 
 	}
-	void Display::SetPosition(const Point& position) {
+	void Display::SetPosition(const Point2d<int>& position) {
 
-		SetPosition((int)position.X(), (int)position.Y());
+		SetPosition(position.X(), position.Y());
 
 	}
 	bool Display::IsFullscreen() const {
@@ -217,28 +217,28 @@ namespace hvn3 {
 		__active_display = this;
 
 	}
-	Size Display::ResolutionToSize(DisplayResolution resolution) {
+	hvn3::Size<int> Display::ResolutionToSize(DisplayResolution resolution) {
 
 		switch (resolution) {
 
 		case DisplayResolution::XGA:
-			return Size(1024, 768);
+			return hvn3::Size<int>(1024, 768);
 
 		case DisplayResolution::WXGA:
-			return Size(1280, 800);
+			return hvn3::Size<int>(1280, 800);
 
 		case DisplayResolution::WXGAPlus:
-			return Size(1440, 900);
+			return hvn3::Size<int>(1440, 900);
 
 		case DisplayResolution::FHD:
-			return Size(1920, 1080);
+			return hvn3::Size<int>(1920, 1080);
 
 		case DisplayResolution::HD:
-			return Size(1280, 720);
+			return hvn3::Size<int>(1280, 720);
 
 		case DisplayResolution::VGA:
 		default:
-			return Size(640, 480);
+			return hvn3::Size<int>(640, 480);
 
 		}
 

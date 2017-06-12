@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "Point.h"
+#include "Point2d.h"
 #include "Color.h"
 #include "Bitmap.h"
 #include "UniqueCreateableBase.h"
@@ -38,7 +38,7 @@ namespace hvn3 {
 		unsigned int Length() const;
 
 		// Returns a point corresponding to the origin (offset) of the sprite.
-		Point Origin() const;
+		Point2d<int> Origin() const;
 		// Sets the origin (offset) of the sprite to specified values.
 		void SetOrigin(int origin_x, int origin_y);
 

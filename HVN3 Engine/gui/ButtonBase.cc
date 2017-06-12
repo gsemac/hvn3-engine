@@ -1,7 +1,7 @@
 #include "gui/ButtonBase.h"
 #include "gui/GuiManager.h"
 #include "io/Mouse.h"
-#include "Point.h"
+#include "Point2d.h"
 
 namespace hvn3 {
 	namespace Gui {

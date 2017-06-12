@@ -293,7 +293,6 @@
     <ClCompile Include="ObjectManager.cc" />
     <ClCompile Include="Padding.cc" />
     <ClCompile Include="Properties.cc" />
-    <ClCompile Include="Geometry.cc" />
     <ClCompile Include="Graphics.cc" />
     <ClCompile Include="GraphicsState.cc" />
     <ClCompile Include="Grid.cc" />
@@ -303,8 +302,6 @@
     <ClCompile Include="ICollidable.cc" />
     <ClCompile Include="IFocusable.cc" />
     <ClCompile Include="IPAddress.cc" />
-    <ClCompile Include="IPositionable.cc" />
-    <ClCompile Include="ISizeable.cc" />
     <ClCompile Include="ISpriteable.cc" />
     <ClCompile Include="IUpdatable.cc" />
     <ClCompile Include="Main.cc" />
@@ -314,9 +311,7 @@
     <ClCompile Include="Object.cc" />
     <ClCompile Include="Packet.cc" />
     <ClCompile Include="Particles.cc" />
-    <ClCompile Include="Point.cc" />
     <ClCompile Include="Random.cc" />
-    <ClCompile Include="Rectangle.cc" />
     <ClCompile Include="ResourceManager.cc" />
     <ClCompile Include="Room.cc" />
     <ClCompile Include="RoomController.cc" />
@@ -326,7 +321,6 @@
     <ClCompile Include="Runner.cc" />
     <ClCompile Include="RoomBase.cc" />
     <ClCompile Include="Scale.cc" />
-    <ClCompile Include="Size.cc" />
     <ClCompile Include="Socket.cc" />
     <ClCompile Include="Sound.cc" />
     <ClCompile Include="Sprite.cc" />
@@ -348,6 +342,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroForwardDeclarations.h" />
+    <ClInclude Include="Circle.h" />
     <ClInclude Include="FrameworkAdapter.h" />
     <ClInclude Include="AllegroExtensions.h" />
     <ClInclude Include="Background.h" />
@@ -419,8 +414,10 @@
     <ClInclude Include="ICollisionManager.h" />
     <ClInclude Include="IRoomTransition.h" />
     <ClInclude Include="LevelEditor.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="Padding.h" />
+    <ClInclude Include="PointGeometry.h" />
     <ClInclude Include="RoomTransitionFade.h" />
     <ClInclude Include="RoomTransitionNone.h" />
     <ClInclude Include="SharedCreatableBase.h" />
@@ -453,7 +450,7 @@
     <ClInclude Include="IDrawable.h" />
     <ClInclude Include="IFocusable.h" />
     <ClInclude Include="IPAddress.h" />
-    <ClInclude Include="IPositionable.h" />
+    <ClInclude Include="IPositionable2d.h" />
     <ClInclude Include="ISizeable.h" />
     <ClInclude Include="ISpriteable.h" />
     <ClInclude Include="IStringable.h" />
@@ -466,7 +463,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="Particles.h" />
-    <ClInclude Include="Point.h" />
+    <ClInclude Include="Point2d.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Range.h" />

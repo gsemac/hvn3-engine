@@ -106,9 +106,9 @@ namespace hvn3 {
 
 	}
 
-	Point Sprite::Origin() const {
+	Point2d<int> Sprite::Origin() const {
 
-		return Point(_origin_x, _origin_y);
+		return Point2d<int>(_origin_x, _origin_y);
 
 	}
 	void Sprite::SetOrigin(int origin_x, int origin_y) {
@@ -180,7 +180,7 @@ namespace hvn3 {
 		// Create sub-sprites from the sheet.
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < columns; j++)
-				sprite->AddSubImage(Drawing::Bitmap(sprite->_frames[0], Rectangle(frame_width * j, frame_height * i, frame_width, frame_height)));
+				sprite->AddSubImage(Drawing::Bitmap(sprite->_frames[0], RectangleI(frame_width * j, frame_height * i, frame_width, frame_height)));
 
 		// Return the new sprite.
 		return sprite;

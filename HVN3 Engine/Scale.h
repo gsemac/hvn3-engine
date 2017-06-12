@@ -8,22 +8,42 @@ namespace hvn3 {
 	public:
 		Scale(float scale);
 		Scale(float x_scale, float y_scale);
-		Scale(const Rectangle& a, const Rectangle& b);
-		Scale(const Size& a, const Size& b);
-		Scale(const ISizeable& a, const ISizeable& b);
+
+		template <typename T>
+		Scale(const Rectangle<T>& a, const Rectangle<T>& b) :
+			Scale(a.Width() / b.Width(), a.Height() / b.Height()) {
+		}
+		template <typename T>
+		Scale(const Size<T>& a, const Size<T>& b) :
+			Scale(a.Width() / b.Width(), a.Height() / b.Height()) {
+		}
+		template <typename T>
+		Scale(const ISizeable<T>& a, const ISizeable<T>& b) :
+			Scale(a.Width() / b.Width(), a.Height() / b.Height()) {
+		}
 
 		float XScale() const;
 		float YScale() const;
-		Point& ScalePoint(Point& point) const;
+
+		template <typename T>
+		Point2d<T>& ScalePoint(Point2d<T>& point) const {
+
+			point.SetX(point.X() * _scale_factor_x);
+			point.SetY(point.Y() * _scale_factor_y);
+
+			return point;
+
+		}
 		void ScalePoint(float& x, float& y) const;
+
 		Scale Inverse() const;
 
 		friend Scale operator*(const Scale& a, const Scale& b);
 		Scale& operator*=(const Scale& other);
 
 	private:
-		float __scale_factor_x;
-		float __scale_factor_y;
+		float _scale_factor_x;
+		float _scale_factor_y;
 
 	};
 

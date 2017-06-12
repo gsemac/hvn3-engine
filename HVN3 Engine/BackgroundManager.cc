@@ -100,7 +100,7 @@ namespace hvn3 {
 			return;
 
 		// Calculate the offset of the background. If the background is tiled, this is the starting offset.
-		Point offset = background.second.Offset();
+		Point2F offset = background.second.Offset();
 
 		// If the background is fixed, counteract this by the view offset.
 		if (p.Fixed() && e.CurrentView())
@@ -108,28 +108,28 @@ namespace hvn3 {
 
 		if (p.IsTiledHorizontally())
 			// Subtract the width of the background from the offset until it is "0" or negative.
-			while (offset.X() > 0.1f) offset.TranslateX(-width);
+			while (offset.X() > 0.1f) offset.Offset(-width, offset.Y());
 
 		if (p.IsTiledVertically())
 			// Subtract the height of the background from the offset until it is "0" or negative.
-			while (offset.Y() > 0.1f) offset.TranslateY(-height);
+			while (offset.Y() > 0.1f) offset.Offset(offset.X(), -height);
 
 		// If the scale is negative, adjust the offset so that the tiles are drawn in the proper location (it will be flipped over axis).
-		if (scale_x < 0.0f) offset.TranslateX(width);
-		if (scale_y < 0.0f) offset.TranslateY(height);
+		if (scale_x < 0.0f) offset.Offset(width, offset.Y());
+		if (scale_y < 0.0f) offset.Offset(offset.X(), height);
 
 		if (p.IsTiledHorizontally() && p.IsTiledVertically())
 			// Draw background tiled horizontally and vertically.
-			for (; offset.X() < (scale_x < 0.0f ? e.RoomSize().Width() + width : e.RoomSize().Width()); offset.TranslateX(width))
+			for (; offset.X() < (scale_x < 0.0f ? e.RoomSize().Width() + width : e.RoomSize().Width()); offset.Offset(width, offset.Y()))
 				for (float j = offset.Y(); j < ((scale_y < 0.0f) ? (e.RoomSize().Height() + height) : e.RoomSize().Height()); j += height)
 					e.Graphics().DrawBitmap(offset.X(), j, &bg.Bitmap(), p.Scale().XScale(), p.Scale().YScale());
 		else if (p.IsTiledHorizontally())
 			// Draw background tiled horizontally only.
-			for (; offset.X() < (scale_x < 0.0f ? e.RoomSize().Width() + width : e.RoomSize().Width()); offset.TranslateX(width))
+			for (; offset.X() < (scale_x < 0.0f ? e.RoomSize().Width() + width : e.RoomSize().Width()); offset.Offset(width, offset.Y()))
 				e.Graphics().DrawBitmap(offset.X(), offset.Y(), &bg.Bitmap(), p.Scale().XScale(), p.Scale().YScale());
 		else if (p.IsTiledVertically())
 			// Draw background tiled vertically only.
-			for (; offset.Y() < (scale_y < 0.0f ? e.RoomSize().Height() + height : e.RoomSize().Height()); offset.TranslateY(height))
+			for (; offset.Y() < (scale_y < 0.0f ? e.RoomSize().Height() + height : e.RoomSize().Height()); offset.Offset(offset.X(), height))
 				e.Graphics().DrawBitmap(offset.X(), offset.Y(), &bg.Bitmap(), p.Scale().XScale(), p.Scale().YScale());
 		else
 			// Draw background without tiling.

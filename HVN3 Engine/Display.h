@@ -33,7 +33,7 @@ namespace hvn3 {
 	};
 	ENABLE_BITFLAG_OPERATORS(DisplayFlags);
 
-	class Display : public ISizeable {
+	class Display : public ISizeable<int> {
 		friend class StateAccessor;
 
 	public:
@@ -62,12 +62,12 @@ namespace hvn3 {
 		void SetIcon(const Sprite* icon);
 		void SetIcon(ALLEGRO_BITMAP* icon);
 
-		void Resize(float width, float height) override;
+		void Resize(int width, int height) override;
 		// Returns the current scale factor relative to the size at which the display was initialized.
 		Scale Scale() const;
-		Point Position() const;
+		Point2d<int> Position() const;
 		void SetPosition(int x, int y);
-		void SetPosition(const Point& position);
+		void SetPosition(const Point2d<int>& position);
 
 		bool IsFullscreen() const;
 		void SetFullscreen(bool value);
@@ -86,12 +86,12 @@ namespace hvn3 {
 		bool __fullscreen;
 		bool __has_focus;
 		static Display* __active_display;
-		Size __original_size;
-		Size __size_before_fullscreen;
-		Point __position_before_fullscreen;
+		hvn3::Size<int> __original_size;
+		hvn3::Size<int> __size_before_fullscreen;
+		Point2d<int> __position_before_fullscreen;
 
 		void SetFocus(bool has_focus);
-		Size ResolutionToSize(DisplayResolution resolution);
+		hvn3::Size<int> ResolutionToSize(DisplayResolution resolution);
 
 	};
 

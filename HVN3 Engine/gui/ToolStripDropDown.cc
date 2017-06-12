@@ -4,8 +4,8 @@
 namespace hvn3 {
 	namespace Gui {
 
-		ToolStripDropDown::ToolStripDropDown(const Point& position, float width) :
-			Control(position, Size(width, 0.0f)) {
+		ToolStripDropDown::ToolStripDropDown(const Point2F& position, float width) :
+			Control(position, SizeF(width, 0.0f)) {
 
 			_item_margin = DEFAULT_ITEM_MARGIN;
 
@@ -19,7 +19,7 @@ namespace hvn3 {
 			item->SetWidth(Width());
 
 			// Move the item into position.
-			item->SetXY(0, Height());
+			item->SetPosition(0, Height());
 
 			// Resize the control to compensate for the new item.
 			Resize(Width(), Height() + item->Height() + _item_margin);

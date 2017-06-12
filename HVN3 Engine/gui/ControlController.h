@@ -1,5 +1,5 @@
 #pragma once
-#include "Point.h"
+#include "Point2d.h"
 
 namespace hvn3 {
 
@@ -14,8 +14,8 @@ namespace hvn3 {
 			ControlController(Control& control);
 
 			void SetManager(GuiManager* manager);
-			Point GetFixedPosition() const;
-			Point PreviousPosition() const;
+			Point2F GetFixedPosition() const;
+			Point2F PreviousPosition() const;
 			void SetPreviousPosition(float x, float y);
 			bool PrevFocus() const;
 			void SetPrevFocus(bool value);

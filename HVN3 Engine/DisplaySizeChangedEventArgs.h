@@ -9,14 +9,14 @@ namespace hvn3 {
 	class DisplaySizeChangedEventArgs : public EventArgs {
 
 	public:
-		DisplaySizeChangedEventArgs(const Size& old_size, const Size& new_size, Display* display);
-		const Size& OldSize() const;
-		const Size& NewSize() const;
+		DisplaySizeChangedEventArgs(const Size<int>& old_size, const Size<int>& new_size, Display* display);
+		const Size<int>& OldSize() const;
+		const Size<int>& NewSize() const;
 		const Display* Display() const;
 
 	private:
-		Size _previous_size;
-		Size _new_size;
+		Size<int> _previous_size;
+		Size<int> _new_size;
 		hvn3::Display* _display;
 
 	};

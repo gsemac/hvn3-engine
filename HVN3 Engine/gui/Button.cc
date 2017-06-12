@@ -13,7 +13,7 @@ namespace hvn3 {
 	namespace Gui {
 
 		Button::Button(float x, float y, float width, float height, const String& text) :
-			Control(Point(x, y), Size(width, height)),
+			Control(Point2F(x, y), SizeF(width, height)),
 			ITextable(this, text),
 			_text_offset(0.0f, 0.0f) {
 		}

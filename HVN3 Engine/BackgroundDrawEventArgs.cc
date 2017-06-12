@@ -3,7 +3,7 @@
 
 namespace hvn3 {
 
-	BackgroundDrawEventArgs::BackgroundDrawEventArgs(Drawing::Graphics& graphics, Size room_size, const View* current_view) :
+	BackgroundDrawEventArgs::BackgroundDrawEventArgs(Drawing::Graphics& graphics, const Size<int>& room_size, const View* current_view) :
 		DrawEventArgs(graphics),
 		_room_size(room_size),
 		_current_view(current_view) {
@@ -13,7 +13,7 @@ namespace hvn3 {
 		return _current_view;
 
 	}
-	const Size& BackgroundDrawEventArgs::RoomSize() const {
+	const Size<int>& BackgroundDrawEventArgs::RoomSize() const {
 
 		return _room_size;
 

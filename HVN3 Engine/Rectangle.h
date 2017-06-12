@@ -1,40 +1,120 @@
 #pragma once
-#include "Point.h"
+#include "IPositionable2d.h"
 #include "ISizeable.h"
 
 namespace hvn3 {
 
-	struct Rectangle : public IPositionable, public ISizeable {
+	template <typename T>
+	struct Rectangle : public IPositionable2d<T>, public ISizeable<T> {
 
 	public:
-		Rectangle(float width, float height);
-		Rectangle(float x, float y, float width, float height);
-		Rectangle(Point top_left, Point bottom_right);
-		float X2() const;
-		float Y2() const;
+		Rectangle(T width, T height) :
+			Rectangle(0, 0, width, height) {}
+		Rectangle(T x, T y, T width, T height) :
+			IPositionable2d<T>(x, y),
+			ISizeable<T>(width, height) {}
+		Rectangle(const Point2d<T>& top_left, const Point2d<T>& bottom_right) :
+			Rectangle(top_left.X(), top_left.Y(), bottom_right.X() - top_left.X(), bottom_right.Y() - top_left.Y()) {}
 
-		float Bottom() const;
-		float Top() const;
-		float Left() const;
-		float Right() const;
-		Point TopLeft() const;
-		Point TopRight() const;
-		Point BottomLeft() const;
-		Point BottomRight() const;
-		Point Midpoint() const;
-		Size Size() const;
+		T X2() const {
 
-		void Translate(float x_offset, float y_offset);
-		void Scale(float x_scale, float y_scale);
-		void Move(float x, float y);
+			return X() + Width();
 
-		static Rectangle Intersect(const Rectangle& a, const Rectangle& b);
+		}
+		T Y2() const {
 
-		float Area() const;
+			return Y() + Height();
+
+		}
+
+		T Bottom() const {
+
+			return Y2();
+
+		}
+		T Top() const {
+
+			return Y();
+
+		}
+		T Left() const {
+
+			return X();
+
+		}
+		T Right() const {
+
+			return X2();
+
+		}
+		Point2d<T> TopLeft() const {
+
+			return Point2d<T>(X(), Y());
+
+		}
+		Point2d<T> TopRight() const {
+
+			return Point2d<T>(X() + Width(), Y());
+
+		}
+		Point2d<T> BottomLeft() const {
+
+			return Point2d<T>(X(), Y() + Height());
+
+		}
+		Point2d<T> BottomRight() const {
+
+			return Point2d<T>(X() + Width(), Y() + Height());
+
+		}
+		Point2d<T> Midpoint() const {
+
+			return Point2d<T>(X() + Width() / 2.0f, Y() + Height() / 2.0f);
+
+		}
+
+		void Translate(T x_offset, T y_offset) {
+
+			SetPosition(X() + x_offset, Y() + y_offset);
+
+		}
+		void Scale(T x_scale, T y_scale) {
+
+			throw NotImplementedException();
+
+		}
+
+		static Rectangle Intersection(const Rectangle<T>& a, const Rectangle<T>& b) {
+
+			Point2d<T> tl((std::max)(a.Left(), b.Left()), (std::max)(a.Top(), b.Top()));
+			Point2d<T> br((std::min)(a.Right(), b.Right()), (std::min)(a.Bottom(), b.Bottom()));
+
+			return Rectangle<T>(tl, br);
+
+		}
+
+		T Area() const {
+
+			return Width() * Height();
+
+		}
 
 	};
+	
+	template <typename T>
+	bool operator>(const Rectangle<T>& a, const Rectangle<T>& b) {
 
-	bool operator>(const Rectangle &a, const Rectangle &b);
-	bool operator<(const Rectangle &a, const Rectangle &b);
+		return a.Area() > b.Area();
+
+	}
+	template <typename T>
+	bool operator<(const Rectangle<T>& a, const Rectangle<T>& b) {
+
+		return a.Area() < b.Area();
+
+	}
+	
+	typedef Rectangle<float> RectangleF;
+	typedef Rectangle<int> RectangleI;
 
 }

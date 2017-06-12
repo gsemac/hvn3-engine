@@ -61,11 +61,11 @@ namespace hvn3 {
 		static bool ScrolledDown();
 		static bool ScrolledLeft();
 		static bool ScrolledRight();
-		static bool InRegion(Rectangle rect);
+		static bool InRegion(Rectangle<float> rect);
 		static bool InRegion(float x1, float y1, float x2, float y2);
-		static Point Position();
-		static Point GlobalPosition();
-		static const Point& DisplayPosition();
+		static Point2F Position();
+		static Point2F GlobalPosition();
+		static const Point2F& DisplayPosition();
 		static void ShowCursor();
 		static void HideCursor();
 		static void SetCursor(SystemCursor cursor);
@@ -81,8 +81,8 @@ namespace hvn3 {
 			MouseButton();
 
 		};
-		static Point __last_click_pos; // for double-click detection (mouse can't move)
-		static Point __display_mouse_position; // Mouse position relative to the display
+		static Point2d<float> __last_click_pos; // for double-click detection (mouse can't move)
+		static Point2d<float> __display_mouse_position; // Mouse position relative to the display
 
 		static MouseButton __left, __middle, __right;
 		static bool __scrolled_up, __scrolled_down, _scrolled_left, _scrolled_right;

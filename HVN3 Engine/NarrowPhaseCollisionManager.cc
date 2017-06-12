@@ -19,8 +19,8 @@ namespace hvn3 {
 		const ICollisionMask& maskb = b->CollisionMask();
 
 		// Get AABBs for both Objects.
-		Rectangle aabb_a = maska.AABB();
-		Rectangle aabb_b = maskb.AABB();
+		Rectangle<float> aabb_a = maska.AABB();
+		Rectangle<float> aabb_b = maskb.AABB();
 		aabb_a.Translate(ax, ay);
 		aabb_b.Translate(bx, by);
 
@@ -51,24 +51,24 @@ namespace hvn3 {
 
 	}
 
-	bool NarrowPhaseCollisionManager::TestIntersection(Sprite* s1, Sprite* s2, const Point& p1, const Point& p2) {
+	bool NarrowPhaseCollisionManager::TestIntersection(Sprite* s1, Sprite* s2, const Point2d<float>& p1, const Point2d<float>& p2) {
 
 		// Get the Bitmaps corresponding to the Sprites.
 		ALLEGRO_BITMAP* ba = s1->SubImage(0).AlPtr();
 		ALLEGRO_BITMAP* bb = s2->SubImage(0).AlPtr();
 
 		// Create bounding Rectangles from the Sprites.
-		Rectangle a(p1.X() - s1->Origin().X(), p1.Y() - s1->Origin().Y(), s1->Width(), s1->Height());
-		Rectangle b(p2.X() - s2->Origin().X(), p2.Y() - s2->Origin().Y(), s2->Width(), s2->Height());
+		Rectangle<float> a(p1.X() - s1->Origin().X(), p1.Y() - s1->Origin().Y(), s1->Width(), s1->Height());
+		Rectangle<float> b(p2.X() - s2->Origin().X(), p2.Y() - s2->Origin().Y(), s2->Width(), s2->Height());
 		if (!Intersects(a, b)) return false;
 
 		// Create Rectangle to represent the overlap area.
-		Rectangle overlap(Point((std::max)(a.Left(), b.Left()), (std::max)(a.Top(), b.Top())),
-			Point((std::min)(a.Right(), b.Right()), (std::min)(a.Bottom(), b.Bottom())));
+		Rectangle<float> overlap(Point2d<float>((std::max)(a.Left(), b.Left()), (std::max)(a.Top(), b.Top())),
+			Point2d<float>((std::min)(a.Right(), b.Right()), (std::min)(a.Bottom(), b.Bottom())));
 
 		// Calculate overlap Rectangles for both bounding Rectangles.
-		Rectangle overlap_a((std::max)(b.Left() - a.Left(), 0.0f), (std::max)(b.Top() - a.Top(), 0.0f), overlap.Width(), overlap.Height());
-		Rectangle overlap_b((std::max)(a.Left() - b.Left(), 0.0f), (std::max)(a.Top() - b.Top(), 0.0f), overlap.Width(), overlap.Height());
+		Rectangle<float> overlap_a((std::max)(b.Left() - a.Left(), 0.0f), (std::max)(b.Top() - a.Top(), 0.0f), overlap.Width(), overlap.Height());
+		Rectangle<float> overlap_b((std::max)(a.Left() - b.Left(), 0.0f), (std::max)(a.Top() - b.Top(), 0.0f), overlap.Width(), overlap.Height());
 
 		// Lock Bitmaps in system memory.
 		al_lock_bitmap(ba, al_get_bitmap_format(ba), ALLEGRO_LOCK_READONLY);
@@ -97,7 +97,7 @@ namespace hvn3 {
 		return collided;
 
 	}
-	bool NarrowPhaseCollisionManager::TestIntersection(Sprite* sprite, const Circle& circle, const Point& pos) {
+	bool NarrowPhaseCollisionManager::TestIntersection(Sprite* sprite, const Circle<float>& circle, const Point2d<float>& pos) {
 
 		/*
 		Algorithm:
@@ -107,8 +107,8 @@ namespace hvn3 {
 		*/
 
 		// Generate a bounding Rectangle for the Sprite.
-		Rectangle bounds(pos.X() - sprite->Origin().X(), pos.Y() - sprite->Origin().Y(), sprite->Width(), sprite->Height());
-		Point center = Point(bounds.X() + bounds.Width() / 2.0f, bounds.Y() + bounds.Height() / 2.0f);
+		Rectangle<float> bounds(pos.X() - sprite->Origin().X(), pos.Y() - sprite->Origin().Y(), sprite->Width(), sprite->Height());
+		Point2d<float> center = Point2d<float>(bounds.X() + bounds.Width() / 2.0f, bounds.Y() + bounds.Height() / 2.0f);
 
 		// Find the closest edge.
 		float dist_x, dist_y;
@@ -123,11 +123,11 @@ namespace hvn3 {
 		return false;
 
 	}
-	bool NarrowPhaseCollisionManager::TestIntersection(const SpriteMask& mask, const Circle& circle, const Point& pos) {
+	bool NarrowPhaseCollisionManager::TestIntersection(const SpriteMask& mask, const Circle<float>& circle, const Point2d<float>& pos) {
 
 		// Adjust Point of Circle to be relative to the (0, 0)-based SpriteMask.
-		Point adj = Point(circle.X() - pos.X(), circle.Y() - pos.Y());
-		Circle c = Circle(adj, circle.Radius());
+		Point2d<float> adj = Point2d<float>(circle.X() - pos.X(), circle.Y() - pos.Y());
+		Circle<float> c = Circle<float>(adj, circle.Radius());
 
 		// Check for intersection.
 		return mask.Intersects(c);

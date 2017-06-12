@@ -14,7 +14,7 @@ namespace hvn3 {
 
 	class ObjectManager;
 
-	class RoomBase : public IUpdatable, public IDrawable, public ISizeable {
+	class RoomBase : public IUpdatable, public IDrawable, public ISizeable<int> {
 		friend class RoomController;
 
 	public:
@@ -32,7 +32,7 @@ namespace hvn3 {
 		virtual RoomId Id() const;
 		bool Persistent() const;
 		void SetPersistent(bool value);
-		virtual Rectangle GetVisibleRegion();
+		virtual RectangleF GetVisibleRegion();
 
 		template<typename T, typename ... Args>
 		static std::unique_ptr<RoomBase> Create(Args &&... args) {

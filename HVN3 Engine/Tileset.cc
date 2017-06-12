@@ -16,7 +16,7 @@ namespace hvn3 {
 
 			// Insert the next row of tiles.
 			for (unsigned int x = offset_x; x < _bitmap.Width(); x += tile_width + separation_x)
-				_tiles.push_back(Drawing::Bitmap(_bitmap, Rectangle(x, y, Min(tile_width, _bitmap.Width() - x), Min(tile_height, _bitmap.Height() - y))));
+				_tiles.push_back(Drawing::Bitmap(_bitmap, RectangleI(x, y, Min(tile_width, _bitmap.Width() - x), Min(tile_height, _bitmap.Height() - y))));
 
 			// Increment the number of rows.
 			++_rows;

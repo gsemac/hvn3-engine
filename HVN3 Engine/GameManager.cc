@@ -45,12 +45,12 @@ namespace hvn3 {
 		return _properties;
 
 	}
-	hvn3::RoomManager& GameManager::RoomManager() {
+	hvn3::RoomManager& GameManager::Rooms() {
 
 		return _room_manager;
 
 	}
-	ResourceManager& GameManager::ResourceManager() {
+	ResourceManager& GameManager::Resources() {
 
 		return _resource_manager;
 

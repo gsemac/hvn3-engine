@@ -9,7 +9,7 @@ namespace hvn3 {
 		class ToolStripDropDown : public ContainerControl {
 
 		public:
-			ToolStripDropDown(const Point& position, float width);
+			ToolStripDropDown(const Point2F& position, float width);
 
 			virtual void AddItem(ToolStripMenuItem* item);
 			bool HasActiveSubMenu() const;

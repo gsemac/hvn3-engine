@@ -9,7 +9,7 @@ namespace hvn3 {
 
 	struct RayCastResult {
 		ICollidable* Hit;
-		Point HitPosition;
+		Point2d<float> HitPosition;
 	};
 
 	class IBroadPhaseCollisionManager {
@@ -34,10 +34,10 @@ namespace hvn3 {
 		//virtual ICollidable* Pick(const Point& point) const = 0;
 
 		// Generates a vector of colliders that collide with the given region.
-		virtual void QueryRegion(const Rectangle& region, std::vector<ICollidable*>& output, int filter = 0) const = 0;
+		virtual void QueryRegion(const Rectangle<float>& region, std::vector<ICollidable*>& output, int filter = 0) const = 0;
 
 		// Returns the nearest collider to the given point, or nullptr if no colliders found.
-		virtual ICollidable* QueryNearest(const Point& point, int filter = 0) const = 0;
+		virtual ICollidable* QueryNearest(const Point2d<float>& point, int filter = 0) const = 0;
 
 		// Returns the first collider that the ray hits, or null if none.
 		//virtual RayCastResult RayCast(const Line& ray) const = 0;

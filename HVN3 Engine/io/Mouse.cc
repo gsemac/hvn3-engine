@@ -16,8 +16,8 @@ namespace hvn3 {
 	bool Mouse::__scrolled_up = false;
 	bool Mouse::_scrolled_left = false;
 	bool Mouse::_scrolled_right = false;
-	Point Mouse::__last_click_pos = Point(-1.0f, -1.0f);
-	Point Mouse::__display_mouse_position = Point(Mouse::X, Mouse::Y);
+	Point2F Mouse::__last_click_pos = Point2F(-1.0f, -1.0f);
+	Point2F Mouse::__display_mouse_position = Point2F(Mouse::X, Mouse::Y);
 
 	bool Mouse::ButtonDown(hvn3::MouseButton mouse_button) {
 
@@ -87,7 +87,7 @@ namespace hvn3 {
 		return _scrolled_right;
 
 	}
-	bool Mouse::InRegion(Rectangle rect) {
+	bool Mouse::InRegion(Rectangle<float> rect) {
 
 		return InRegion(rect.X(), rect.Y(), rect.X() + rect.Width(), rect.Y() + rect.Height());
 
@@ -97,20 +97,20 @@ namespace hvn3 {
 		return Mouse::X >= x1 && Mouse::X < x2 && Mouse::Y >= y1 && Mouse::Y < y2;
 
 	}
-	Point Mouse::Position() {
+	Point2F Mouse::Position() {
 
-		return Point(X, Y);
+		return Point2F(X, Y);
 
 	}
-	Point Mouse::GlobalPosition() {
+	Point2F Mouse::GlobalPosition() {
 
 		int x, y;
 		al_get_mouse_cursor_position(&x, &y);
 
-		return Point(x, y);
+		return Point2F(x, y);
 
 	}
-	const Point& Mouse::DisplayPosition() {
+	const Point2d<float>& Mouse::DisplayPosition() {
 
 		return __display_mouse_position;
 
@@ -239,7 +239,8 @@ namespace hvn3 {
 	}
 	void Mouse::StateAccessor::SetDisplayPosition(int x, int y) {
 
-		__display_mouse_position.SetXY(x, y);
+		__display_mouse_position.SetX(x);
+		__display_mouse_position.SetY(y);
 
 	}
 	void Mouse::StateAccessor::SetScrollState(bool scrolled_up, bool scrolled_down) {

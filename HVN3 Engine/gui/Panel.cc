@@ -7,10 +7,10 @@ namespace hvn3 {
 
 	namespace Gui {
 
-		Panel::Panel(const Point& position, const Size& dimensions) :
+		Panel::Panel(const Point2F& position, const SizeF& dimensions) :
 			Panel(position, dimensions, dimensions) {
 		}
-		Panel::Panel(const Point& position, const Size& dimensions, const Size& scrollable_region) :
+		Panel::Panel(const Point2F& position, const SizeF& dimensions, const SizeF& scrollable_region) :
 			Control(position, dimensions),
 			IContainer(this),
 			IScrollable(this, scrollable_region) {
@@ -51,8 +51,8 @@ namespace hvn3 {
 		void Panel::OnResize(ResizeEventArgs& e) {
 
 			// Calculate the region in which all controls exist.
-			Rectangle control_region = GetControlBounds();
-			Size old_scrollable_region = ScrollableRegion();
+			RectangleF control_region = GetControlBounds();
+			SizeF old_scrollable_region = ScrollableRegion();
 
 			// Normally, the visible region would be the width/height of the panel.
 			float vwidth = Width();
@@ -65,10 +65,10 @@ namespace hvn3 {
 				vheight -= HorizontalScrollbar()->Height();
 
 			// Now we can set the visible region.
-			SetVisibleRegion(Size(vwidth, vheight));
+			SetVisibleRegion(SizeF(vwidth, vheight));
 
 			// We can also set the scrollable region, which will be the control region.
-			SetScrollableRegion(Size(Max(VisibleRegion().Width(), control_region.Width()), Max(VisibleRegion().Height(), control_region.Height())));
+			SetScrollableRegion(SizeF(Max(VisibleRegion().Width(), control_region.Width()), Max(VisibleRegion().Height(), control_region.Height())));
 
 			// Update the positions/sizes of the scrollbars.
 			UpdateScrollbarPositionsAndSizes();
@@ -118,9 +118,9 @@ namespace hvn3 {
 
 			// If scrollbars haven't been created yet, create them.
 			if (_scrollbars[VERTICAL] == nullptr)
-				_scrollbars[VERTICAL] = new Scrollbar(this, Point(X() + Width() - SCROLLBAR_DEFAULT_WIDTH, Y() + SCROLLBAR_DEFAULT_WIDTH), Size(SCROLLBAR_DEFAULT_WIDTH, Height() - SCROLLBAR_DEFAULT_WIDTH), Orientation::Vertical);
+				_scrollbars[VERTICAL] = new Scrollbar(this, Point2F(X() + Width() - SCROLLBAR_DEFAULT_WIDTH, Y() + SCROLLBAR_DEFAULT_WIDTH), SizeF(SCROLLBAR_DEFAULT_WIDTH, Height() - SCROLLBAR_DEFAULT_WIDTH), Orientation::Vertical);
 			if (_scrollbars[HORIZONTAL] == nullptr)
-				_scrollbars[HORIZONTAL] = new Scrollbar(this, Point(X(), Y() + Height() - SCROLLBAR_DEFAULT_WIDTH), Size(Width() - SCROLLBAR_DEFAULT_WIDTH, SCROLLBAR_DEFAULT_WIDTH), Orientation::Horizontal);
+				_scrollbars[HORIZONTAL] = new Scrollbar(this, Point2F(X(), Y() + Height() - SCROLLBAR_DEFAULT_WIDTH), SizeF(Width() - SCROLLBAR_DEFAULT_WIDTH, SCROLLBAR_DEFAULT_WIDTH), Orientation::Horizontal);
 
 			// Move scrollbars from the previous manager to the new manager, if the previous manager was non-null.
 			if (e.PreviousManager() != nullptr) {
@@ -153,7 +153,7 @@ namespace hvn3 {
 
 		void Panel::UpdateScrollbarPositionsAndSizes() {
 
-			Point fp = Point(X(), Y());//FixedPosition(); ? 
+			Point2F fp = Point2F(X(), Y());//FixedPosition(); ? 
 
 			bool vscroll_visible = _scrollbars[VERTICAL] != nullptr && VisibleRegion().Height() < ScrollableRegion().Height();
 			bool hscroll_visible = _scrollbars[HORIZONTAL] != nullptr && VisibleRegion().Width() < ScrollableRegion().Width();
@@ -163,7 +163,7 @@ namespace hvn3 {
 					_scrollbars[VERTICAL]->Width(),
 					Height() - (hscroll_visible ? _scrollbars[HORIZONTAL]->Height() : 0.0f)
 					);
-				_scrollbars[VERTICAL]->SetXY(fp.X() + Width() - _scrollbars[VERTICAL]->Width(), fp.Y());
+				_scrollbars[VERTICAL]->SetPosition(fp.X() + Width() - _scrollbars[VERTICAL]->Width(), fp.Y());
 				_scrollbars[VERTICAL]->SetVisible(vscroll_visible);
 			}
 
@@ -172,7 +172,7 @@ namespace hvn3 {
 					Width() - (vscroll_visible ? _scrollbars[VERTICAL]->Width() : 0.0f),
 					_scrollbars[HORIZONTAL]->Height()
 					);
-				_scrollbars[HORIZONTAL]->SetXY(fp.X(), fp.Y() + Height() - _scrollbars[HORIZONTAL]->Height());
+				_scrollbars[HORIZONTAL]->SetPosition(fp.X(), fp.Y() + Height() - _scrollbars[HORIZONTAL]->Height());
 				_scrollbars[HORIZONTAL]->SetVisible(hscroll_visible);
 			}
 
@@ -187,7 +187,7 @@ namespace hvn3 {
 			return _scrollbars[VERTICAL];
 
 		}
-		Size Panel::RecalculateVisibleRegion() {
+		SizeF Panel::RecalculateVisibleRegion() {
 
 			float width = Width();
 			float height = Height();
@@ -198,10 +198,10 @@ namespace hvn3 {
 			if (HorizontalScrollbar() && HorizontalScrollbar()->Visible())
 				height -= HorizontalScrollbar()->Height();
 
-			return Size(width, height);
+			return SizeF(width, height);
 
 		}
-		Rectangle Panel::GetControlBounds() {
+		RectangleF Panel::GetControlBounds() {
 
 			float x1 = 0.0f;
 			float y1 = 0.0f;
@@ -231,7 +231,7 @@ namespace hvn3 {
 			}
 
 			// Return the rectangle representing the new area.
-			return Rectangle(x1, y1, x2, y2);
+			return RectangleF(x1, y1, x2, y2);
 
 		}
 

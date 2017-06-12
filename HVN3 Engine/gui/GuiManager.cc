@@ -8,13 +8,13 @@ namespace hvn3 {
 
 	namespace Gui {
 
-		GuiManager::GuiManager(const Rectangle& dockable_region)
+		GuiManager::GuiManager(const RectangleF& dockable_region)
 			: GuiManager(dockable_region, new Gui::ControlManager(this), new Gui::StyleManager()) {
 
 			_owns_managers = true;
 
 		}
-		GuiManager::GuiManager(const Rectangle& dockable_region, Gui::ControlManager* control_manager, Gui::StyleManager* style_manager) :
+		GuiManager::GuiManager(const RectangleF& dockable_region, Gui::ControlManager* control_manager, Gui::StyleManager* style_manager) :
 			_dockable_region(dockable_region) {
 
 			_control_manager = control_manager;
@@ -60,7 +60,7 @@ namespace hvn3 {
 
 		}
 
-		const Rectangle& GuiManager::DockableRegion() const {
+		const RectangleF& GuiManager::DockableRegion() const {
 
 			return _dockable_region;
 

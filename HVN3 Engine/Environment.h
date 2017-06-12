@@ -31,8 +31,8 @@ namespace hvn3 {
 		class Screen {
 
 		public:			
-			const Rectangle& Bounds() const;
-			const Size& Resolution() const;
+			const Rectangle<int>& Bounds() const;
+			const Size<int>& Resolution() const;
 
 			static Screen PrimaryScreen();
 			static Screen VirtualScreen();
@@ -40,9 +40,9 @@ namespace hvn3 {
 			static int ScreenCount();
 
 		private:
-			Screen(const Rectangle& bounds);
+			Screen(const Rectangle<int>& bounds);
 
-			Rectangle _bounds;
+			Rectangle<int> _bounds;
 
 		};
 		

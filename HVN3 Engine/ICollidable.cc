@@ -5,14 +5,13 @@
 namespace hvn3 {
 
 	ICollidable::ICollidable(float x, float y) :
-		IPositionable(x, y) {
+		IPositionable2d<float>(x, y) {
 	}
 
-	Rectangle ICollidable::AABB() const {
+	Rectangle<float> ICollidable::AABB() const {
 
-		Rectangle aabb = __mask.AABB();
-		aabb.TranslateX(X());
-		aabb.TranslateY(Y());
+		Rectangle<float> aabb = __mask.AABB();
+		aabb.Translate(X(), Y());
 
 		return aabb;
 

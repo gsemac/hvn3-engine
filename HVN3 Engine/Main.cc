@@ -11,7 +11,7 @@ class MyRoom : public Room {
 public:
 	MyRoom(float width, float height) :
 		Room(width, height),
-		_gui_manager(Rectangle(MyGame.Properties().DisplaySize.Width(), MyGame.Properties().DisplaySize.Height())) {
+		_gui_manager(RectangleF(MyGame.Properties().DisplaySize.Width(), MyGame.Properties().DisplaySize.Height())) {
 	}
 	~MyRoom() {
 
@@ -67,21 +67,21 @@ enum MyResources : ResourceId {
 class oController : public Object {
 
 public:
-	oController() : Object(0, 0) {}
+	oController() : Object(noone, Point2F(0, 0)) {}
 
 	void OnUpdate(UpdateEventArgs& e) override {
 
 		if (Keyboard::KeyPressed(ALLEGRO_KEY_F5))
-			MyGame.RoomManager().LoadNext();
+			MyGame.Rooms().LoadNext();
 
 		if (Keyboard::KeyPressed(ALLEGRO_KEY_O)) {
-			std::cout << MyGame.ResourceManager().Tilesets()[TILESET_1]->TileCount();
+			std::cout << MyGame.Resources().Tilesets()[TILESET_1]->TileCount();
 		}
 
 	}
 	void OnDraw(DrawEventArgs& e) override {
 
-		e.Graphics().DrawBitmap(0, 0, &MyGame.ResourceManager().Tilesets()[TILESET_1]->TileAt(5));
+		e.Graphics().DrawBitmap(0, 0, &MyGame.Resources().Tilesets()[TILESET_1]->TileAt(5));
 
 		e.Graphics().DrawCircle(Mouse::Position(), 10, Color::AliceBlue, 1);
 
@@ -92,7 +92,7 @@ public:
 class oBall : public Object {
 
 public:
-	oBall(float x, float y) : Object(x, y) {
+	oBall(float x, float y) : Object(noone, Point2F(0, 0)) {
 
 		_radius = Random::Float(10, 25);
 		//Velocity() = Vector2d(Random::Float(0, 360), Random::Float(0.1, 1));
@@ -101,8 +101,8 @@ public:
 
 	void OnDraw(DrawEventArgs& e) override {
 
-		e.Graphics().DrawCircle(Point(X() + 2, Y() + 2), _radius, Color(0, 0, 0, 0.2), 2);
-		e.Graphics().DrawCircle(Point(X(), Y()), _radius, Color::LtGrey, 2);
+		e.Graphics().DrawCircle(Point2F(X() + 2, Y() + 2), _radius, Color(0, 0, 0, 0.2), 2);
+		e.Graphics().DrawCircle(Point2F(X(), Y()), _radius, Color::LtGrey, 2);
 
 	}
 	void OnUpdate(UpdateEventArgs& e) override {
@@ -110,7 +110,7 @@ public:
 		Object::OnUpdate(e);
 
 		float r = _radius;
-		Room* room = MyGame.RoomManager().CurrentRoom();
+		Room* room = MyGame.Rooms().CurrentRoom();
 
 		//if ((Y() - r < 0 && Velocity().Y() < 0) || (Y() + r > room->Height() && Velocity().Y() > 0))
 		//	Velocity().SetY(Velocity().Y() * -1);
@@ -133,8 +133,8 @@ private:
 class ScrollBox : public ScrollableControl {
 
 public:
-	ScrollBox(const Point& p, const Size& s) :
-		ScrollableControl(Size(MyGame.ResourceManager().Backgrounds()[BACKGROUND_1]->Width(), MyGame.ResourceManager().Backgrounds()[BACKGROUND_1]->Height())),
+	ScrollBox(const Point2F& p, const SizeF& s) :
+		ScrollableControl(SizeF(MyGame.Resources().Backgrounds()[BACKGROUND_1]->Width(), MyGame.Resources().Backgrounds()[BACKGROUND_1]->Height())),
 		Control(p, s) {
 	}
 
@@ -142,7 +142,7 @@ public:
 
 		e.Graphics().Clear(BackColor());
 
-		e.Graphics().DrawBitmap(-ScrollPosition().X(), -ScrollPosition().Y(), &MyGame.ResourceManager().Backgrounds()[BACKGROUND_1]->Bitmap());
+		e.Graphics().DrawBitmap(-ScrollPosition().X(), -ScrollPosition().Y(), &MyGame.Resources().Backgrounds()[BACKGROUND_1]->Bitmap());
 
 		ScrollableControl::OnPaint(e);
 
@@ -163,7 +163,7 @@ public:
 
 		SetBackgroundColor(Color::Silver);
 
-		BackgroundManager()->BackgroundAdd(MyGame.ResourceManager().Backgrounds()[BACKGROUND_1]);
+		BackgroundManager()->BackgroundAdd(MyGame.Resources().Backgrounds()[BACKGROUND_1]);
 		BackgroundManager()->PropertiesAt(0).SetTiledHorizontally(true);
 		BackgroundManager()->PropertiesAt(0).SetVelocity(Vector2d(0, 1));
 
@@ -171,7 +171,7 @@ public:
 
 		for (int i = 0; i < 100; ++i)
 			ObjectManager()->InstanceAdd(Object::Create<oBall>(200, 200));
-		
+
 
 	}
 	void OnRoomEnter(RoomEnterEventArgs& e) override {
@@ -198,17 +198,17 @@ private:
 	void CreateGuiComponents() {
 
 		// Create the window.
-		Size wind_size(MyGame.ResourceManager().Backgrounds()[BACKGROUND_1]->Width(), MyGame.ResourceManager().Backgrounds()[BACKGROUND_1]->Height());
+		SizeF wind_size(MyGame.Resources().Backgrounds()[BACKGROUND_1]->Width(), MyGame.Resources().Backgrounds()[BACKGROUND_1]->Height());
 		Window* wind = new Window(50, 50, wind_size.Width(), wind_size.Height(), "My Window");
-		wind->SetMaximumSize(Size(wind_size.Width(), wind_size.Height() + wind->TitlebarHeight()));
-		ScrollBox* scrollbox = new ScrollBox(Point(0, 0), Size(wind->Width(), wind->Height() - wind->TitlebarHeight()));
+		wind->SetMaximumSize(SizeF(wind_size.Width(), wind_size.Height() + wind->TitlebarHeight()));
+		ScrollBox* scrollbox = new ScrollBox(Point2F(0, 0), SizeF(wind->Width(), wind->Height() - wind->TitlebarHeight()));
 		scrollbox->SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM);
 		wind->Controls()->AddControl(Control::Create(scrollbox));
 		wind->SetOpacity(1.0f);
 
 		// Create the toolstrip.
 		ToolStrip* toolstrip = new ToolStrip;
-		ToolStripDropDown* dropdown = new ToolStripDropDown(Point(300, 300), 200);
+		ToolStripDropDown* dropdown = new ToolStripDropDown(Point2F(300, 300), 200);
 		dropdown->AddItem(new ToolStripMenuItem);
 		dropdown->AddItem(new ToolStripMenuItem);
 
@@ -226,23 +226,23 @@ int main(int argc, char *argv[]) {
 	MyGame.Initialize(argc, argv);
 	MyGame.Properties().DebugMode = false;
 	MyGame.Properties().OutsideColor = Color::Black;
-	MyGame.Properties().DisplaySize = Size(960, 720);
+	MyGame.Properties().DisplaySize = SizeI(960, 720);
 	MyGame.Properties().DisplayFlags |= DisplayFlags::Resizable;
 	MyGame.Properties().ScalingMode = ScalingMode::MaintainAspectRatio;
 	MyGame.Properties().StartFullscreen = false;
 	MyGame.Properties().FPS = 60;
 
 	// Load resources.
-	MyGame.ResourceManager().Tilesets().Add(TILESET_1, Resource::Create<Tileset>("data/test/tileset1.png", 32, 32));
-	MyGame.ResourceManager().Backgrounds().Add(BACKGROUND_1, Resource::Create<Background>("data/test/tileset1.png"));
+	MyGame.Resources().Tilesets().Add(TILESET_1, Resource::Create<Tileset>("data/test/tileset1.png", 32, 32));
+	MyGame.Resources().Backgrounds().Add(BACKGROUND_1, Resource::Create<Background>("data/test/tileset1.png"));
 
 	// Set up the first scene.
-	Size large_size(MyGame.Properties().DisplaySize.Width() * 2, MyGame.Properties().DisplaySize.Height() * 2);
-	Size medium_size(1000, 800);
-	Size small_size(640, 480);
-	MyGame.RoomManager().AddRoom(Room::Create<editor::LevelEditor>(medium_size));
-	MyGame.RoomManager().AddRoom(Room::Create<TestRoom>());
-	MyGame.RoomManager().SetRoomTransition<RoomTransitionFade>(Color::Black, true);
+	SizeF large_size(MyGame.Properties().DisplaySize.Width() * 2, MyGame.Properties().DisplaySize.Height() * 2);
+	SizeF medium_size(1000, 800);
+	SizeF small_size(640, 480);
+	MyGame.Rooms().AddRoom(Room::Create<editor::LevelEditor>(medium_size));
+	MyGame.Rooms().AddRoom(Room::Create<TestRoom>());
+	MyGame.Rooms().SetRoomTransition<RoomTransitionFade>(Color::Black, true);
 
 	// Run the main game loop.
 	MyGame.Loop();

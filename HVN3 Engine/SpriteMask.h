@@ -9,7 +9,7 @@ namespace hvn3 {
 
 	private:
 		float __degrees;
-		std::vector<Rectangle> __strips;
+		std::vector<Rectangle<float>> __strips;
 		void GenerateMask(Sprite* sprite);
 
 	public:
@@ -17,18 +17,18 @@ namespace hvn3 {
 		SpriteMask(Sprite* sprite);
 
 		float Angle();
-		std::vector<Rectangle>& Strips();
+		std::vector<Rectangle<float>>& Strips();
 
-		void Rotate(Point origin, float degrees, bool relative = true);
+		void Rotate(const Point2d<float>& origin, float degrees, bool relative = true);
 		void Translate(float x_offset, float y_offset);
 		void Scale(float x_scale, float y_scale);
 		void Move(float x, float y);
 
-		bool Intersects(const Circle& other) const;
-		bool Intersects(const Rectangle& other) const;
-		bool Intersects(const Line& other) const;
+		bool Intersects(const Circle<float>& other) const;
+		bool Intersects(const Rectangle<float>& other) const;
+		bool Intersects(const Line<float>& other) const;
 
-		Rectangle& operator[](const size_t& strip);
+		Rectangle<float>& operator[](const size_t& strip);
 
 	};
 

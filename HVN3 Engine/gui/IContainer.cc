@@ -7,7 +7,7 @@ namespace hvn3 {
 	namespace Gui {
 
 		IContainer::IContainer(Control* control) :
-			_manager(Rectangle(0, 0, control->Width(), control->Height()), &_control_manager, nullptr),
+			_manager(RectangleF(0, 0, control->Width(), control->Height()), &_control_manager, nullptr),
 			_control_manager(&_manager, control),
 			_control(control),
 			_child_region(control->Width(), control->Height()) {
@@ -37,12 +37,12 @@ namespace hvn3 {
 			return _control_manager.ActiveControl() != nullptr;
 
 		}
-		const Rectangle& IContainer::ChildRegion() const {
+		const RectangleF& IContainer::ChildRegion() const {
 
 			return _child_region;
 
 		}
-		void IContainer::SetChildRegion(const Rectangle& region) {
+		void IContainer::SetChildRegion(const RectangleF& region) {
 
 			_child_region = region;
 
@@ -50,7 +50,7 @@ namespace hvn3 {
 		bool IContainer::MouseInChildRegion() const {
 
 			// Get the child region and offset it to match the control's position.
-			Rectangle region = _child_region;
+			RectangleF region = _child_region;
 			region.Translate(_control->FixedPosition().X(), _control->FixedPosition().Y());
 
 			// Check if the mouse is in this region.
@@ -72,21 +72,21 @@ namespace hvn3 {
 					if (c->Anchors() & ANCHOR_LEFT)
 						c->Resize(c->Width() + width_diff, c->Height());
 					else
-						c->TranslateX(width_diff);
+						c->SetPosition(c->X() + width_diff, c->Y());
 				}
 
 				if (c->Anchors() & ANCHOR_BOTTOM) {
 					if (c->Anchors() & ANCHOR_TOP)
 						c->Resize(c->Width(), c->Height() + height_diff);
 					else
-						c->TranslateY(height_diff);
+						c->SetPosition(c->X(), c->Y() + height_diff);
 				}
 
 				if (c->Anchors() == ANCHOR_NONE || (!(c->Anchors() & ANCHOR_RIGHT) && !(c->Anchors() & ANCHOR_LEFT)))
-					c->TranslateX(width_diff / 2.0f);
+					c->SetPosition(c->X() + width_diff / 2.0f, c->Y());
 
 				if (c->Anchors() == ANCHOR_NONE || (!(c->Anchors() & ANCHOR_TOP) && !(c->Anchors() & ANCHOR_BOTTOM)))
-					c->TranslateY(height_diff / 2.0f);
+					c->SetPosition(c->X(), c->Y() + height_diff / 2.0f);
 
 			}
 

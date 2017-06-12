@@ -11,9 +11,9 @@ namespace hvn3 {
 		typedef SmoothScrollbar def_scrollbar_type;
 
 		ScrollableControl::ScrollableControl(float scroll_height) :
-			ScrollableControl(Size(Width(), scroll_height)) {
+			ScrollableControl(SizeF(Width(), scroll_height)) {
 		}
-		ScrollableControl::ScrollableControl(const Size& scrollable_region) :
+		ScrollableControl::ScrollableControl(const SizeF& scrollable_region) :
 			IScrollable(this, scrollable_region) {
 
 			_scrollbars[VERTICAL] = nullptr;
@@ -80,7 +80,7 @@ namespace hvn3 {
 			}
 
 			// Update the visible region of the control.
-			SetVisibleRegion(Size(vwidth, vheight));
+			SetVisibleRegion(SizeF(vwidth, vheight));
 
 			// Update the state of the scrollbars themselves.
 			UpdateScrollbars();
@@ -116,9 +116,9 @@ namespace hvn3 {
 
 			// If scrollbars haven't been created yet, create them.
 			if (_scrollbars[VERTICAL] == nullptr)
-				_scrollbars[VERTICAL] = new def_scrollbar_type(this, Point(X() + Width() - SCROLLBAR_DEFAULT_WIDTH, Y() + SCROLLBAR_DEFAULT_WIDTH), Size(SCROLLBAR_DEFAULT_WIDTH, Height() - SCROLLBAR_DEFAULT_WIDTH), Orientation::Vertical);
+				_scrollbars[VERTICAL] = new def_scrollbar_type(this, Point2F(X() + Width() - SCROLLBAR_DEFAULT_WIDTH, Y() + SCROLLBAR_DEFAULT_WIDTH), SizeF(SCROLLBAR_DEFAULT_WIDTH, Height() - SCROLLBAR_DEFAULT_WIDTH), Orientation::Vertical);
 			if (_scrollbars[HORIZONTAL] == nullptr)
-				_scrollbars[HORIZONTAL] = new def_scrollbar_type(this, Point(X(), Y() + Height() - SCROLLBAR_DEFAULT_WIDTH), Size(Width() - SCROLLBAR_DEFAULT_WIDTH, SCROLLBAR_DEFAULT_WIDTH), Orientation::Horizontal);
+				_scrollbars[HORIZONTAL] = new def_scrollbar_type(this, Point2F(X(), Y() + Height() - SCROLLBAR_DEFAULT_WIDTH), SizeF(Width() - SCROLLBAR_DEFAULT_WIDTH, SCROLLBAR_DEFAULT_WIDTH), Orientation::Horizontal);
 
 			// Move scrollbars from the previous manager to the new manager, if the previous manager was non-null.
 			if (e.PreviousManager() != nullptr) {
@@ -143,7 +143,7 @@ namespace hvn3 {
 
 		void ScrollableControl::UpdateScrollbars() {
 
-			Point fp = Point(X(), Y()); //FixedPosition(); ? 
+			Point2F fp = Point2F(X(), Y()); //FixedPosition(); ? 
 
 			bool vscroll_visible = _scrollbars[VERTICAL] != nullptr && VisibleRegion().Height() < ScrollableRegion().Height();
 			bool hscroll_visible = _scrollbars[HORIZONTAL] != nullptr && VisibleRegion().Width() < ScrollableRegion().Width();
@@ -153,7 +153,7 @@ namespace hvn3 {
 					_scrollbars[VERTICAL]->Width(),
 					Height() - (hscroll_visible ? _scrollbars[HORIZONTAL]->Height() : 0.0f)
 					);
-				_scrollbars[VERTICAL]->SetXY(fp.X() + Width() - _scrollbars[VERTICAL]->Width(), fp.Y());
+				_scrollbars[VERTICAL]->SetPosition(fp.X() + Width() - _scrollbars[VERTICAL]->Width(), fp.Y());
 				_scrollbars[VERTICAL]->SetVisible(vscroll_visible);
 			}
 
@@ -162,7 +162,7 @@ namespace hvn3 {
 					Width() - (vscroll_visible ? _scrollbars[VERTICAL]->Width() : 0.0f),
 					_scrollbars[HORIZONTAL]->Height()
 					);
-				_scrollbars[HORIZONTAL]->SetXY(fp.X(), fp.Y() + Height() - _scrollbars[HORIZONTAL]->Height());
+				_scrollbars[HORIZONTAL]->SetPosition(fp.X(), fp.Y() + Height() - _scrollbars[HORIZONTAL]->Height());
 				_scrollbars[HORIZONTAL]->SetVisible(hscroll_visible);
 			}
 

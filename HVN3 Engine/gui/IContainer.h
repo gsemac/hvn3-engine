@@ -27,8 +27,8 @@ namespace hvn3 {
 		protected:
 			Gui::GuiManager* ChildControlManager();
 			bool HasActiveChildControl() const;
-			const Rectangle& ChildRegion() const;
-			void SetChildRegion(const Rectangle& region);
+			const RectangleF& ChildRegion() const;
+			void SetChildRegion(const RectangleF& region);
 			bool MouseInChildRegion() const;
 			void UpdateAnchors(ResizeEventArgs& e);
 
@@ -36,7 +36,7 @@ namespace hvn3 {
 			Gui::GuiManager _manager;
 			ContainerControlManager _control_manager;
 			Control* _control;
-			Rectangle _child_region;
+			RectangleF _child_region;
 
 			void SetUpStyleManager();
 

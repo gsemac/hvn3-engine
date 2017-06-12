@@ -35,7 +35,7 @@ namespace hvn3 {
 			int strips_this_row = 0;
 			int strip_width = 0;
 			bool in_strip = false;
-			Point strip_start;
+			Point2d<float> strip_start;
 
 			for (int x = 0; x <= width; ++x) {
 
@@ -43,7 +43,7 @@ namespace hvn3 {
 
 					// If a non-transparent pixel is met, either start a new strip, or add it to the current strip.
 					if (strip_width == 0)
-						strip_start = Point(x, y);
+						strip_start = Point2d<float>(x, y);
 					++strip_width;
 
 				}
@@ -63,7 +63,7 @@ namespace hvn3 {
 
 					// If the strip wasn't matched to an existing strip, just add it to the list.
 					if (!matched_strip)
-						__strips.push_back(Rectangle(strip_start.X(), strip_start.Y(), strip_width, 1));
+						__strips.push_back(Rectangle<float>(strip_start.X(), strip_start.Y(), strip_width, 1));
 
 					// Reset ths strip (so we can look for new ones), and increase the number of strips.
 					strip_width = 0;
@@ -82,17 +82,17 @@ namespace hvn3 {
 		al_unlock_bitmap(bmp);
 
 	}
-	std::vector<Rectangle>& SpriteMask::Strips() {
+	std::vector<Rectangle<float>>& SpriteMask::Strips() {
 
 		return __strips;
 
 	}
-	Rectangle& SpriteMask::operator[](const size_t& strip) {
+	Rectangle<float>& SpriteMask::operator[](const size_t& strip) {
 
 		return __strips[strip];
 
 	}
-	bool SpriteMask::Intersects(const Circle& other) const {
+	bool SpriteMask::Intersects(const Circle<float>& other) const {
 
 		// Check if any strips intersect with the Circle.
 		for (size_t i = 0; i < __strips.size(); ++i) {
@@ -104,7 +104,7 @@ namespace hvn3 {
 		return false;
 
 	}
-	bool SpriteMask::Intersects(const Rectangle& other) const { throw NotImplementedException(); }
-	bool SpriteMask::Intersects(const Line& other) const { throw NotImplementedException(); }
+	bool SpriteMask::Intersects(const Rectangle<float>& other) const { throw NotImplementedException(); }
+	bool SpriteMask::Intersects(const Line<float>& other) const { throw NotImplementedException(); }
 
 }

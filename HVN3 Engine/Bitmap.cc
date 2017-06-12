@@ -39,7 +39,7 @@ namespace hvn3 {
 
 		}
 		// Creates a sub-bitmap from the given region of the parent bitmap that shares data with the parent bitmap.
-		Bitmap::Bitmap(const Bitmap& other, const Rectangle& region) {
+		Bitmap::Bitmap(const Bitmap& other, const RectangleI& region) {
 
 			// Create a sub-bitmap of the given bitmap. The new bitmap will share memory with the existing one.
 			_bmp = al_create_sub_bitmap(other.AlPtr(), region.X(), region.Y(), region.Width(), region.Height());
@@ -78,7 +78,7 @@ namespace hvn3 {
 			return Bitmap(al_clone_bitmap(_bmp), true);
 
 		}
-		Bitmap Bitmap::Clone(const Rectangle& region) const {
+		Bitmap Bitmap::Clone(const RectangleF& region) const {
 
 			// Create a new bitmap.
 			Bitmap bmp(al_create_bitmap(region.Width(), region.Height()), true);
@@ -128,7 +128,7 @@ namespace hvn3 {
 			return bmpdata;
 
 		}
-		BitmapData Bitmap::LockRegion(const Rectangle& region, IO::FileAccess access) {
+		BitmapData Bitmap::LockRegion(const RectangleI& region, IO::FileAccess access) {
 
 			int flags;
 			switch (access) {

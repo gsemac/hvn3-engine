@@ -32,7 +32,7 @@ namespace hvn3 {
 
 		// Save the current graphics state.
 		Drawing::Transform original_tranform(e.Graphics().GetTransform());
-		Rectangle original_clip(e.Graphics().Clip());
+		RectangleF original_clip(e.Graphics().Clip());
 
 		// Render the room state.
 		Render(e);
@@ -73,9 +73,9 @@ namespace hvn3 {
 		_persistent = value;
 
 	}
-	Rectangle RoomBase::GetVisibleRegion() {
+	RectangleF RoomBase::GetVisibleRegion() {
 
-		return Rectangle(0, 0, Width(), Height());
+		return RectangleF(0, 0, Width(), Height());
 
 	}
 

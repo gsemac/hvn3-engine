@@ -324,14 +324,14 @@ namespace hvn3 {
 	}
 	void Runner::OnDisplayResize(Event& ev) {
 
-		Size old_size(_display.Width(), _display.Height());
+		SizeI old_size(_display.Width(), _display.Height());
 
 		al_acknowledge_resize(_display.AlPtr());
 		_display.Resize(ev.AlPtr()->display.width, ev.AlPtr()->display.height);
 
 		if (_room_manager.RoomCount() > 0)
 			_room_manager.CurrentRoom()->OnDisplaySizeChanged(DisplaySizeChangedEventArgs(
-				old_size, Size(_display.Width(), _display.Height()), &_display)
+				old_size, SizeI(_display.Width(), _display.Height()), &_display)
 			);
 
 	}
@@ -398,11 +398,11 @@ namespace hvn3 {
 		RoomBase& room = *_room_manager.CurrentRoom();
 
 		// For scaling, we need to consider the largest view, or the size of the room if no views are enabled.
-		Rectangle room_region = room.GetVisibleRegion();
+		RectangleF room_region = room.GetVisibleRegion();
 
 		// Set the Transform according to the scaling mode.
 		Drawing::Transform scaling_transform;
-		Rectangle clipping_rectangle(0.0f, 0.0f, room_region.Width(), room_region.Height());
+		RectangleF clipping_rectangle(0.0f, 0.0f, room_region.Width(), room_region.Height());
 
 		switch (Properties().ScalingMode) {
 
@@ -410,7 +410,7 @@ namespace hvn3 {
 
 			// Stretch drawing to fill up the display.
 			scaling_transform.Scale(_display.Scale());
-			clipping_rectangle = Rectangle(0.0f, 0.0f, room_region.Width() * _display.Scale().XScale(), room_region.Height() * _display.Scale().YScale());
+			clipping_rectangle = RectangleF(0.0f, 0.0f, room_region.Width() * _display.Scale().XScale(), room_region.Height() * _display.Scale().YScale());
 
 			break;
 
@@ -421,7 +421,7 @@ namespace hvn3 {
 			float pos_y = (room_region.Height() < _display.Height()) ? (_display.Height() / 2.0f - room_region.Height() / 2.0f) : 0.0f;
 
 			scaling_transform.Translate(pos_x, pos_y);
-			clipping_rectangle = Rectangle(pos_x, pos_y, Min(room_region.Width(), _display.Width()), Min(room_region.Height(), _display.Height()));
+			clipping_rectangle = RectangleF(pos_x, pos_y, Min(room_region.Width(), (float)_display.Width()), Min(room_region.Height(), (float)_display.Height()));
 
 			break;
 
@@ -437,7 +437,7 @@ namespace hvn3 {
 
 			scaling_transform.Scale(scale_factor, scale_factor);
 			scaling_transform.Translate(pos_x, pos_y);
-			clipping_rectangle = Rectangle(pos_x, pos_y, Min(room_width, _display.Width()), Min(room_height, _display.Height()));
+			clipping_rectangle = RectangleF(pos_x, pos_y, Min(room_width, (float)_display.Width()), Min(room_height, (float)_display.Height()));
 
 			break;
 		}
@@ -470,12 +470,12 @@ namespace hvn3 {
 					continue;
 
 				// If the mouse is not inside of the View's viewport, do nothing.
-				Point pos = Mouse::DisplayPosition();
-				Point port_p1 = view.Port().TopLeft();
-				Point port_p2 = view.Port().BottomRight();
+				Point2F pos = Mouse::DisplayPosition();
+				Point2F port_p1 = view.Port().TopLeft();
+				Point2F port_p2 = view.Port().BottomRight();
 				_graphics.GetTransform().TransformPoint(port_p1);
 				_graphics.GetTransform().TransformPoint(port_p2);
-				Rectangle viewport(port_p1, port_p2);
+				RectangleF viewport(port_p1, port_p2);
 				if (!PointIn(pos, viewport))
 					continue;
 
@@ -504,7 +504,7 @@ namespace hvn3 {
 		else {
 
 			// If Views are not used, set the mouse position to its position relative to the display.
-			Point pos = Mouse::DisplayPosition();
+			Point2F pos = Mouse::DisplayPosition();
 
 			// If the mouse is outside of the clipping area, don't track it.
 			if (!PointIn(pos, _graphics.Clip()))
@@ -512,7 +512,7 @@ namespace hvn3 {
 
 			// Set the position relative to the clipping area.
 			pos -= _graphics.Clip().TopLeft();
-			Scale(Size(room.Width(), room.Height()), room.GetVisibleRegion().Size()).ScalePoint(pos);
+			Scale(SizeF(room.Width(), room.Height()), room.GetVisibleRegion().Size()).ScalePoint(pos);
 
 			Mouse::StateAccessor::SetPosition(pos.X(), pos.Y());
 
