@@ -32,7 +32,7 @@ namespace hvn3 {
 
 		protected:
 			const ResourceHandle<Drawing::Bitmap>& GetExitIcon();
-			Point2F ExitButtonPosition() const;
+			PointF ExitButtonPosition() const;
 			bool MouseOnExitButton() const;
 			void UpdateChildRegion();
 
@@ -41,10 +41,10 @@ namespace hvn3 {
 
 			ResourceHandle<Drawing::Bitmap> _exit_icon;
 
-			Point2F __drag_offset;
+			PointF __drag_offset;
 			bool __dragging, __resizing;
 			unsigned int __resizing_side;
-			Point2F __original_position;
+			PointF __original_position;
 			SizeF __original_size;
 			SizeF __size_diff;
 			bool _mouse_on_exit_button;

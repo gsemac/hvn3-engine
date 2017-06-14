@@ -67,7 +67,7 @@ enum MyResources : ResourceId {
 class oController : public Object {
 
 public:
-	oController() : Object(noone, Point2F(0, 0)) {}
+	oController() : Object(noone, PointF(0, 0)) {}
 
 	void OnUpdate(UpdateEventArgs& e) override {
 
@@ -92,7 +92,7 @@ public:
 class oBall : public Object {
 
 public:
-	oBall(float x, float y) : Object(noone, Point2F(0, 0)) {
+	oBall(float x, float y) : Object(noone, PointF(0, 0)) {
 
 		_radius = Random::Float(10, 25);
 		//Velocity() = Vector2d(Random::Float(0, 360), Random::Float(0.1, 1));
@@ -101,8 +101,8 @@ public:
 
 	void OnDraw(DrawEventArgs& e) override {
 
-		e.Graphics().DrawCircle(Point2F(X() + 2, Y() + 2), _radius, Color(0, 0, 0, 0.2), 2);
-		e.Graphics().DrawCircle(Point2F(X(), Y()), _radius, Color::LtGrey, 2);
+		e.Graphics().DrawCircle(PointF(X() + 2, Y() + 2), _radius, Color(0, 0, 0, 0.2), 2);
+		e.Graphics().DrawCircle(PointF(X(), Y()), _radius, Color::LtGrey, 2);
 
 	}
 	void OnUpdate(UpdateEventArgs& e) override {
@@ -133,7 +133,7 @@ private:
 class ScrollBox : public ScrollableControl {
 
 public:
-	ScrollBox(const Point2F& p, const SizeF& s) :
+	ScrollBox(const PointF& p, const SizeF& s) :
 		ScrollableControl(SizeF(MyGame.Resources().Backgrounds()[BACKGROUND_1]->Width(), MyGame.Resources().Backgrounds()[BACKGROUND_1]->Height())),
 		Control(p, s) {
 	}
@@ -201,14 +201,14 @@ private:
 		SizeF wind_size(MyGame.Resources().Backgrounds()[BACKGROUND_1]->Width(), MyGame.Resources().Backgrounds()[BACKGROUND_1]->Height());
 		Window* wind = new Window(50, 50, wind_size.Width(), wind_size.Height(), "My Window");
 		wind->SetMaximumSize(SizeF(wind_size.Width(), wind_size.Height() + wind->TitlebarHeight()));
-		ScrollBox* scrollbox = new ScrollBox(Point2F(0, 0), SizeF(wind->Width(), wind->Height() - wind->TitlebarHeight()));
+		ScrollBox* scrollbox = new ScrollBox(PointF(0, 0), SizeF(wind->Width(), wind->Height() - wind->TitlebarHeight()));
 		scrollbox->SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM);
 		wind->Controls()->AddControl(Control::Create(scrollbox));
 		wind->SetOpacity(1.0f);
 
 		// Create the toolstrip.
 		ToolStrip* toolstrip = new ToolStrip;
-		ToolStripDropDown* dropdown = new ToolStripDropDown(Point2F(300, 300), 200);
+		ToolStripDropDown* dropdown = new ToolStripDropDown(PointF(300, 300), 200);
 		dropdown->AddItem(new ToolStripMenuItem);
 		dropdown->AddItem(new ToolStripMenuItem);
 

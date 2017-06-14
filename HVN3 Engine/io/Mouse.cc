@@ -16,8 +16,8 @@ namespace hvn3 {
 	bool Mouse::__scrolled_up = false;
 	bool Mouse::_scrolled_left = false;
 	bool Mouse::_scrolled_right = false;
-	Point2F Mouse::__last_click_pos = Point2F(-1.0f, -1.0f);
-	Point2F Mouse::__display_mouse_position = Point2F(Mouse::X, Mouse::Y);
+	PointF Mouse::__last_click_pos = PointF(-1.0f, -1.0f);
+	PointF Mouse::__display_mouse_position = PointF(Mouse::X, Mouse::Y);
 
 	bool Mouse::ButtonDown(hvn3::MouseButton mouse_button) {
 
@@ -97,17 +97,17 @@ namespace hvn3 {
 		return Mouse::X >= x1 && Mouse::X < x2 && Mouse::Y >= y1 && Mouse::Y < y2;
 
 	}
-	Point2F Mouse::Position() {
+	PointF Mouse::Position() {
 
-		return Point2F(X, Y);
+		return PointF(X, Y);
 
 	}
-	Point2F Mouse::GlobalPosition() {
+	PointF Mouse::GlobalPosition() {
 
 		int x, y;
 		al_get_mouse_cursor_position(&x, &y);
 
-		return Point2F(x, y);
+		return PointF(x, y);
 
 	}
 	const Point2d<float>& Mouse::DisplayPosition() {

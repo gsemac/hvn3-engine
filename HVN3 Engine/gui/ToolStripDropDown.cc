@@ -4,7 +4,7 @@
 namespace hvn3 {
 	namespace Gui {
 
-		ToolStripDropDown::ToolStripDropDown(const Point2F& position, float width) :
+		ToolStripDropDown::ToolStripDropDown(const PointF& position, float width) :
 			Control(position, SizeF(width, 0.0f)) {
 
 			_item_margin = DEFAULT_ITEM_MARGIN;

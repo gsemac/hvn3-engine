@@ -10,7 +10,7 @@ namespace hvn3 {
 	namespace Gui {
 
 		Window::Window(float x, float y, float width, float height, const char* text) :
-			Control(Point2F(x, y), SizeF(width, height + DEF_TITLEBAR_HEIGHT)),
+			Control(PointF(x, y), SizeF(width, height + DEF_TITLEBAR_HEIGHT)),
 			ITextable(this, text),
 			IContainer(this),
 			//_panel(DEF_OUTLINE_WIDTH, DEF_TITLEBAR_HEIGHT, width - DEF_OUTLINE_WIDTH, height - DEF_OUTLINE_WIDTH),
@@ -71,9 +71,9 @@ namespace hvn3 {
 				// Initialize resizing variables.
 				__resizing = true;
 				__resizing_side = GetMouseResizeSides();
-				__drag_offset = Point2F(Mouse::X, Mouse::Y);
+				__drag_offset = PointF(Mouse::X, Mouse::Y);
 				__original_size = SizeF(Width(), Height());
-				__original_position = Point2F(X(), Y());
+				__original_position = PointF(X(), Y());
 				__size_diff = SizeF(0, 0);
 
 			}
@@ -81,7 +81,7 @@ namespace hvn3 {
 
 				// Initialize dragging variables.
 				__dragging = true;
-				__drag_offset = Point2F(X() - Mouse::X, Y() - Mouse::Y);
+				__drag_offset = PointF(X() - Mouse::X, Y() - Mouse::Y);
 
 			}
 
@@ -159,7 +159,7 @@ namespace hvn3 {
 
 			// Draw exit button.
 			if (GetExitIcon()) {
-				Point2F pos = ExitButtonPosition();
+				PointF pos = ExitButtonPosition();
 				Color tint = _mouse_on_exit_button ? Color::FromArgbf(0.5f, 0.5f, 0.5f, 1.0f) : Color::FromArgbf(1.0f, 1.0f, 1.0f, 1.0f);
 				e.Graphics().DrawBitmap(pos.X(), pos.Y(), _exit_icon, tint);
 			}
@@ -213,18 +213,18 @@ namespace hvn3 {
 			return _exit_icon;
 
 		}
-		Point2F Window::ExitButtonPosition() const {
+		PointF Window::ExitButtonPosition() const {
 
 			float ex = Width() - _exit_icon->Width() - (_exit_icon->Width() / 2.0f);
 			float ey = (_exit_icon->Height() / 2.0f) + 1.0f;
 
-			return Point2F(ex, ey);
+			return PointF(ex, ey);
 
 		}
 		bool Window::MouseOnExitButton() const {
 
-			Point2F pos = ExitButtonPosition();
-			Point2F my_pos = FixedPosition();
+			PointF pos = ExitButtonPosition();
+			PointF my_pos = FixedPosition();
 
 			return Mouse::InRegion(
 				my_pos.X() + pos.X(),
@@ -249,7 +249,7 @@ namespace hvn3 {
 			// The control's scale factor.
 			float scale = Scale();
 			// The global position of the control.
-			Point2F gp = FixedPosition();
+			PointF gp = FixedPosition();
 
 			float rrw = RESIZE_REGION_WIDTH;
 

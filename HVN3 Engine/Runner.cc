@@ -470,9 +470,9 @@ namespace hvn3 {
 					continue;
 
 				// If the mouse is not inside of the View's viewport, do nothing.
-				Point2F pos = Mouse::DisplayPosition();
-				Point2F port_p1 = view.Port().TopLeft();
-				Point2F port_p2 = view.Port().BottomRight();
+				PointF pos = Mouse::DisplayPosition();
+				PointF port_p1 = view.Port().TopLeft();
+				PointF port_p2 = view.Port().BottomRight();
 				_graphics.GetTransform().TransformPoint(port_p1);
 				_graphics.GetTransform().TransformPoint(port_p2);
 				RectangleF viewport(port_p1, port_p2);
@@ -504,7 +504,7 @@ namespace hvn3 {
 		else {
 
 			// If Views are not used, set the mouse position to its position relative to the display.
-			Point2F pos = Mouse::DisplayPosition();
+			PointF pos = Mouse::DisplayPosition();
 
 			// If the mouse is outside of the clipping area, don't track it.
 			if (!PointIn(pos, _graphics.Clip()))

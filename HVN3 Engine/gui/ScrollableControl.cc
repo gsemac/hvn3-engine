@@ -116,9 +116,9 @@ namespace hvn3 {
 
 			// If scrollbars haven't been created yet, create them.
 			if (_scrollbars[VERTICAL] == nullptr)
-				_scrollbars[VERTICAL] = new def_scrollbar_type(this, Point2F(X() + Width() - SCROLLBAR_DEFAULT_WIDTH, Y() + SCROLLBAR_DEFAULT_WIDTH), SizeF(SCROLLBAR_DEFAULT_WIDTH, Height() - SCROLLBAR_DEFAULT_WIDTH), Orientation::Vertical);
+				_scrollbars[VERTICAL] = new def_scrollbar_type(this, PointF(X() + Width() - SCROLLBAR_DEFAULT_WIDTH, Y() + SCROLLBAR_DEFAULT_WIDTH), SizeF(SCROLLBAR_DEFAULT_WIDTH, Height() - SCROLLBAR_DEFAULT_WIDTH), Orientation::Vertical);
 			if (_scrollbars[HORIZONTAL] == nullptr)
-				_scrollbars[HORIZONTAL] = new def_scrollbar_type(this, Point2F(X(), Y() + Height() - SCROLLBAR_DEFAULT_WIDTH), SizeF(Width() - SCROLLBAR_DEFAULT_WIDTH, SCROLLBAR_DEFAULT_WIDTH), Orientation::Horizontal);
+				_scrollbars[HORIZONTAL] = new def_scrollbar_type(this, PointF(X(), Y() + Height() - SCROLLBAR_DEFAULT_WIDTH), SizeF(Width() - SCROLLBAR_DEFAULT_WIDTH, SCROLLBAR_DEFAULT_WIDTH), Orientation::Horizontal);
 
 			// Move scrollbars from the previous manager to the new manager, if the previous manager was non-null.
 			if (e.PreviousManager() != nullptr) {
@@ -143,7 +143,7 @@ namespace hvn3 {
 
 		void ScrollableControl::UpdateScrollbars() {
 
-			Point2F fp = Point2F(X(), Y()); //FixedPosition(); ? 
+			PointF fp = PointF(X(), Y()); //FixedPosition(); ? 
 
 			bool vscroll_visible = _scrollbars[VERTICAL] != nullptr && VisibleRegion().Height() < ScrollableRegion().Height();
 			bool hscroll_visible = _scrollbars[HORIZONTAL] != nullptr && VisibleRegion().Width() < ScrollableRegion().Width();

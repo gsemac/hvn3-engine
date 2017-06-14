@@ -7,10 +7,10 @@ namespace hvn3 {
 
 	namespace Gui {
 
-		Panel::Panel(const Point2F& position, const SizeF& dimensions) :
+		Panel::Panel(const PointF& position, const SizeF& dimensions) :
 			Panel(position, dimensions, dimensions) {
 		}
-		Panel::Panel(const Point2F& position, const SizeF& dimensions, const SizeF& scrollable_region) :
+		Panel::Panel(const PointF& position, const SizeF& dimensions, const SizeF& scrollable_region) :
 			Control(position, dimensions),
 			IContainer(this),
 			IScrollable(this, scrollable_region) {
@@ -118,9 +118,9 @@ namespace hvn3 {
 
 			// If scrollbars haven't been created yet, create them.
 			if (_scrollbars[VERTICAL] == nullptr)
-				_scrollbars[VERTICAL] = new Scrollbar(this, Point2F(X() + Width() - SCROLLBAR_DEFAULT_WIDTH, Y() + SCROLLBAR_DEFAULT_WIDTH), SizeF(SCROLLBAR_DEFAULT_WIDTH, Height() - SCROLLBAR_DEFAULT_WIDTH), Orientation::Vertical);
+				_scrollbars[VERTICAL] = new Scrollbar(this, PointF(X() + Width() - SCROLLBAR_DEFAULT_WIDTH, Y() + SCROLLBAR_DEFAULT_WIDTH), SizeF(SCROLLBAR_DEFAULT_WIDTH, Height() - SCROLLBAR_DEFAULT_WIDTH), Orientation::Vertical);
 			if (_scrollbars[HORIZONTAL] == nullptr)
-				_scrollbars[HORIZONTAL] = new Scrollbar(this, Point2F(X(), Y() + Height() - SCROLLBAR_DEFAULT_WIDTH), SizeF(Width() - SCROLLBAR_DEFAULT_WIDTH, SCROLLBAR_DEFAULT_WIDTH), Orientation::Horizontal);
+				_scrollbars[HORIZONTAL] = new Scrollbar(this, PointF(X(), Y() + Height() - SCROLLBAR_DEFAULT_WIDTH), SizeF(Width() - SCROLLBAR_DEFAULT_WIDTH, SCROLLBAR_DEFAULT_WIDTH), Orientation::Horizontal);
 
 			// Move scrollbars from the previous manager to the new manager, if the previous manager was non-null.
 			if (e.PreviousManager() != nullptr) {
@@ -153,7 +153,7 @@ namespace hvn3 {
 
 		void Panel::UpdateScrollbarPositionsAndSizes() {
 
-			Point2F fp = Point2F(X(), Y());//FixedPosition(); ? 
+			PointF fp = PointF(X(), Y());//FixedPosition(); ? 
 
 			bool vscroll_visible = _scrollbars[VERTICAL] != nullptr && VisibleRegion().Height() < ScrollableRegion().Height();
 			bool hscroll_visible = _scrollbars[HORIZONTAL] != nullptr && VisibleRegion().Width() < ScrollableRegion().Width();

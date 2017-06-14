@@ -82,7 +82,7 @@ namespace hvn3 {
 
 		for (int i = 0; i < max_distance; ++i) {
 
-			Point2F new_position = PointInDirection(Point2F(collider->X(), collider->Y()), direction, 1);
+			PointF new_position = PointInDirection(PointF(collider->X(), collider->Y()), direction, 1);
 
 			if (!PlaceFree(collider, new_position.X(), new_position.Y()))
 				break;

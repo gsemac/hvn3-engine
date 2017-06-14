@@ -166,7 +166,7 @@ namespace hvn3 {
 					continue;
 
 				ControlController controller(*c);
-				Point2F p = controller.GetFixedPosition();
+				PointF p = controller.GetFixedPosition();
 
 				bool mouse_on = Mouse::InRegion(p.X(), p.Y(), p.X() + c->Width(), p.Y() + c->Height());
 
@@ -199,7 +199,7 @@ namespace hvn3 {
 
 					// Handle OnMouseMove event.
 					if (Mouse::X != _last_mouse_position.X() || Mouse::Y != _last_mouse_position.Y()) {
-						_last_mouse_position = Point2F(Mouse::X, Mouse::Y);
+						_last_mouse_position = PointF(Mouse::X, Mouse::Y);
 						c->OnMouseMove();
 					}
 
@@ -336,10 +336,10 @@ namespace hvn3 {
 		}
 		void ControlManager::SetControlOffset(float x_offset, float y_offset) {
 
-			_control_offset = Point2F(x_offset, y_offset);
+			_control_offset = PointF(x_offset, y_offset);
 
 		}
-		const Point2F& ControlManager::ControlOffset() const {
+		const PointF& ControlManager::ControlOffset() const {
 
 			return _control_offset;
 

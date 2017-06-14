@@ -9,10 +9,10 @@ namespace hvn3 {
 
 	namespace Gui {
 
-		Scrollbar::Scrollbar(IScrollable* control, Point2F position, SizeF size) :
+		Scrollbar::Scrollbar(IScrollable* control, PointF position, SizeF size) :
 			Scrollbar(control, position, size, Orientation::Vertical) {
 		}
-		Scrollbar::Scrollbar(IScrollable* control, Point2F position, SizeF size, Orientation orientation) :
+		Scrollbar::Scrollbar(IScrollable* control, PointF position, SizeF size, Orientation orientation) :
 			Control(position, size),
 			_orientation(orientation),
 			_position(0),
@@ -204,7 +204,7 @@ namespace hvn3 {
 			if (!IsActiveControl())
 				return false;
 
-			Point2F fp = FixedPosition();
+			PointF fp = FixedPosition();
 
 			if (_orientation == Orientation::Vertical)
 				return Mouse::InRegion(fp.X(), fp.Y() + _position, fp.X() + Width(), fp.Y() + _position + _slider_height);

@@ -4,7 +4,7 @@ namespace hvn3 {
 	namespace Gui {
 
 		ToolStrip::ToolStrip() :
-			Control(Point2F(0, 0), SizeF(400, 25)) {
+			Control(PointF(0, 0), SizeF(400, 25)) {
 
 			SetDock(DockStyle::Top);
 

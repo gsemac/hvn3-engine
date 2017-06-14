@@ -10,7 +10,7 @@ namespace hvn3 {
 	public:
 		BackgroundProperties();
 
-		const Point2F& Offset() const;
+		const PointF& Offset() const;
 		void SetOffset(float x_offset, float y_offset);
 
 		const Scale& Scale() const;
@@ -35,7 +35,7 @@ namespace hvn3 {
 		void SetFixed(bool fixed);
 
 	private:
-		Point2F _offset;
+		PointF _offset;
 		hvn3::Scale _scale;
 		Vector2d _velocity;
 		bool _foreground;

@@ -49,7 +49,7 @@ namespace hvn3 {
 			void SendToBack(const Handle<Control>& control);
 
 			void SetControlOffset(float x_offset, float y_offset);
-			const Point2F& ControlOffset() const;
+			const PointF& ControlOffset() const;
 			void SetkeyboardEventsEnabled(bool value);
 			void SetMouseEventsEnabled(bool value);
 			void InvalidateAll();
@@ -66,8 +66,8 @@ namespace hvn3 {
 			GuiManager* _gui_manager;
 			Control* _held_control;
 			Control* _hovered_control;
-			Point2F _last_mouse_position;
-			Point2F _control_offset;
+			PointF _last_mouse_position;
+			PointF _control_offset;
 			collection_type _controls;
 			std::vector<collection_type::iterator> _pending_removal;
 			bool _resort_needed;

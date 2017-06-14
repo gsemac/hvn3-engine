@@ -7,8 +7,8 @@ namespace hvn3 {
 		class SmoothScrollbar : public Scrollbar {
 
 		public:
-			SmoothScrollbar(IScrollable* control, Point2F position, SizeF size);
-			SmoothScrollbar(IScrollable* control, Point2F position, SizeF size, Orientation orientation);
+			SmoothScrollbar(IScrollable* control, PointF position, SizeF size);
+			SmoothScrollbar(IScrollable* control, PointF position, SizeF size, Orientation orientation);
 
 			virtual void OnResize(ResizeEventArgs& e) override;
 			virtual void OnUpdate(UpdateEventArgs& e) override;

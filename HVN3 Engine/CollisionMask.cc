@@ -43,7 +43,7 @@ namespace hvn3 {
 
 	}
 
-	const Point2F CollisionMask::__null_offset = Point2F(0.0f, 0.0f);
+	const PointF CollisionMask::__null_offset = PointF(0.0f, 0.0f);
 	CollisionMask::CollisionMask() {}
 	CollisionMask::CollisionMask(const Rectangle<float>& rect) {
 

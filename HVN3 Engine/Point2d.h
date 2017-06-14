@@ -125,8 +125,8 @@ namespace hvn3 {
 
 	};
 
-	typedef Point2d<float> Point2F;
-	typedef Point2d<int> Point2I;
+	typedef Point2d<float> PointF;
+	typedef Point2d<int> PointI;
 
 	template <typename T>
 	std::ostream& operator<< (std::ostream& stream, const hvn3::Point2d<T>& point) {

@@ -14,8 +14,8 @@ namespace hvn3 {
 			ControlController(Control& control);
 
 			void SetManager(GuiManager* manager);
-			Point2F GetFixedPosition() const;
-			Point2F PreviousPosition() const;
+			PointF GetFixedPosition() const;
+			PointF PreviousPosition() const;
 			void SetPreviousPosition(float x, float y);
 			bool PrevFocus() const;
 			void SetPrevFocus(bool value);

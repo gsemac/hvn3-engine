@@ -11,7 +11,7 @@ namespace hvn3 {
 
 		ToolStripMenuItem::ToolStripMenuItem() :
 			TextableControl("ToolStripMenuItem"),
-			Control(Point2F(0, 0), SizeF(100, 20)) {
+			Control(PointF(0, 0), SizeF(100, 20)) {
 
 			_sub_menu_ptr = nullptr;
 			_sub_menu_is_managed = false;
@@ -131,7 +131,7 @@ namespace hvn3 {
 				return false;
 
 			// Create the sub menu.
-			_sub_menu_ptr = new ToolStripDropDown(Point2F(), Width());
+			_sub_menu_ptr = new ToolStripDropDown(PointF(), Width());
 			for (int i = 0; i < Random::Integer(2, 6); ++i)
 				_sub_menu_ptr->AddItem(new ToolStripMenuItem);
 
@@ -158,7 +158,7 @@ namespace hvn3 {
 				return;
 
 			// Set the position of the sub menu.
-			Point2F fp = FixedPosition();
+			PointF fp = FixedPosition();
 			_sub_menu_ptr->SetPosition(fp.X() + Width(), fp.Y());
 
 			// Make the menu visible and enable it.

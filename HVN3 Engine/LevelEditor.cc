@@ -90,12 +90,12 @@ namespace hvn3 {
 
 			Room::Render(e);
 
-			e.Graphics().DrawLine(Point2F(0, 0), Point2F(600, 200), Color::Red, 30);
-			e.Graphics().DrawLine(Point2F(0, 0), Point2F(Width() / 2, Height() / 2), Color::Blue, 30);
+			e.Graphics().DrawLine(PointF(0, 0), PointF(600, 200), Color::Red, 30);
+			e.Graphics().DrawLine(PointF(0, 0), PointF(Width() / 2, Height() / 2), Color::Blue, 30);
 
 			Drawing::GridDrawer gv(e.Graphics());
 
-			gv.DrawGrid(Point2F(30, 30), Grid(10, 10, 32, 32), Color::Silver, Color::White);
+			gv.DrawGrid(PointF(30, 30), Grid(10, 10, 32, 32), Color::Silver, Color::White);
 
 			/*if (_grid_visible)
 				_RenderGrid(e);*/

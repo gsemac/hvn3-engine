@@ -4,7 +4,7 @@ namespace hvn3 {
 	namespace Gui {
 
 		ToolStripSeparator::ToolStripSeparator() :
-			Control(Point2F(0, 0), SizeF(6, 25)) {
+			Control(PointF(0, 0), SizeF(6, 25)) {
 
 			_thickness = 2.0f;
 

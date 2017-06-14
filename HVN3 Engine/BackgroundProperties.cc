@@ -15,14 +15,14 @@ namespace hvn3 {
 
 	}
 
-	const Point2F& BackgroundProperties::Offset() const {
+	const PointF& BackgroundProperties::Offset() const {
 
 		return _offset;
 
 	}
 	void BackgroundProperties::SetOffset(float x_offset, float y_offset) {
 
-		_offset = Point2F(x_offset, y_offset);
+		_offset = PointF(x_offset, y_offset);
 
 	}
 

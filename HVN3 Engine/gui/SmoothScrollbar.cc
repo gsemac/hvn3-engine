@@ -4,10 +4,10 @@
 namespace hvn3 {
 	namespace Gui {
 
-		SmoothScrollbar::SmoothScrollbar(IScrollable* control, Point2F position, SizeF size) :
+		SmoothScrollbar::SmoothScrollbar(IScrollable* control, PointF position, SizeF size) :
 			SmoothScrollbar(control, position, size, Orientation::Vertical) {
 		}
-		SmoothScrollbar::SmoothScrollbar(IScrollable* control, Point2F position, SizeF size, Orientation orientation) :
+		SmoothScrollbar::SmoothScrollbar(IScrollable* control, PointF position, SizeF size, Orientation orientation) :
 			Scrollbar(control, position, size, orientation) {
 
 			_ease_position = ScrollPercentage();

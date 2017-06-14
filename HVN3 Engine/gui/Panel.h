@@ -16,8 +16,8 @@ namespace hvn3 {
 			};
 
 		public:
-			Panel(const Point2F& position, const SizeF& dimensions);
-			Panel(const Point2F& position, const SizeF& dimensions, const SizeF& scrollable_region);
+			Panel(const PointF& position, const SizeF& dimensions);
+			Panel(const PointF& position, const SizeF& dimensions, const SizeF& scrollable_region);
 			virtual ~Panel();
 
 			virtual void OnScroll(ScrollEventArgs& e) override;

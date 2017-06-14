@@ -21,7 +21,7 @@ namespace hvn3 {
 			virtual void OnPaint(PaintEventArgs& e) override;
 
 		private:
-			Point2F _text_offset;
+			PointF _text_offset;
 
 		};
 

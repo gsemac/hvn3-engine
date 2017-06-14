@@ -5,7 +5,7 @@ namespace hvn3 {
 
 		ToolStripButton::ToolStripButton() :
 			ButtonBase("ToolStripButton"),
-			Control(Point2F(0, 0), SizeF(25, 25)) {
+			Control(PointF(0, 0), SizeF(25, 25)) {
 
 		}
 

@@ -11,8 +11,8 @@ namespace hvn3 {
 		class Scrollbar : public Control {
 
 		public:
-			Scrollbar(IScrollable* control, Point2F position, SizeF size);
-			Scrollbar(IScrollable* control, Point2F position, SizeF size, Orientation orientation);
+			Scrollbar(IScrollable* control, PointF position, SizeF size);
+			Scrollbar(IScrollable* control, PointF position, SizeF size, Orientation orientation);
 
 			void SetTarget(IScrollable* target);
 			virtual void SetScrollPercentage(float percent);

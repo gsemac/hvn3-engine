@@ -63,9 +63,9 @@ namespace hvn3 {
 		static bool ScrolledRight();
 		static bool InRegion(Rectangle<float> rect);
 		static bool InRegion(float x1, float y1, float x2, float y2);
-		static Point2F Position();
-		static Point2F GlobalPosition();
-		static const Point2F& DisplayPosition();
+		static PointF Position();
+		static PointF GlobalPosition();
+		static const PointF& DisplayPosition();
 		static void ShowCursor();
 		static void HideCursor();
 		static void SetCursor(SystemCursor cursor);

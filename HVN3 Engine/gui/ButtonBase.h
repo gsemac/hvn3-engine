@@ -23,7 +23,7 @@ namespace hvn3 {
 			virtual void _RenderImage(PaintEventArgs& e);
 
 		private:
-			Point2F _text_offset;
+			PointF _text_offset;
 
 
 		};

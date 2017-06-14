@@ -22,7 +22,7 @@ namespace hvn3 {
 			friend class Caret;
 
 		public:
-			Textbox(float x, float y, float width, float height) : Control(Point2F(x, y), SizeF(width, height)),
+			Textbox(float x, float y, float width, float height) : Control(PointF(x, y), SizeF(width, height)),
 				__caret(this),
 				__sel(0, 0),
 				__sel_draw_pos(0.0f, 0.0f),
@@ -142,11 +142,11 @@ namespace hvn3 {
 
 			}
 
-			int GetCharacterIndexFromPoint(Point2F point) {
+			int GetCharacterIndexFromPoint(PointF point) {
 
 				// Initialize variables that we'll need.
 				static const int ERROR_THRESHOLD = 3;
-				Point2F real = FixedPosition();
+				PointF real = FixedPosition();
 				int width = Text().Width(*Font());
 				int text_x1 = real.X() + __scroll_h_offset + __padding;
 				int text_x2 = text_x1 + width;
@@ -575,7 +575,7 @@ namespace hvn3 {
 				e.Graphics().DrawFilledRoundRectangle(0, 0, Width() - 1.0f, Height() - 1.0f, Color::White, DEF_BORDER_RADIUS);
 
 				// Calculate text coordinates.
-				Point2F text_pos(__scroll_h_offset + __padding, __padding);
+				PointF text_pos(__scroll_h_offset + __padding, __padding);
 
 				// Draw selection box.
 				if (!__sel.IsEmpty())
@@ -617,7 +617,7 @@ namespace hvn3 {
 					RectangleF bounds = Bounds();
 
 					// Set the caret and adjust the selection range.
-					Point2F p = Mouse::Position();
+					PointF p = Mouse::Position();
 					if (__mouse_last_pos != Mouse::Position() && Range<float>(bounds.X(), bounds.X2()).ContainsValue(Mouse::X)) {
 						p.SetX(Clamp(p.X(), bounds.X() + 1, bounds.X2() - 1));
 						p.SetY(bounds.Y());
@@ -760,7 +760,7 @@ namespace hvn3 {
 
 			float __hold_timer;
 			bool __mouse_selecting, __full_word_selecting;
-			Point2F __mouse_last_pos;
+			PointF __mouse_last_pos;
 			int __last_key;
 
 			bool __accepts_tab;

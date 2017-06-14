@@ -100,7 +100,7 @@ namespace hvn3 {
 			return;
 
 		// Calculate the offset of the background. If the background is tiled, this is the starting offset.
-		Point2F offset = background.second.Offset();
+		PointF offset = background.second.Offset();
 
 		// If the background is fixed, counteract this by the view offset.
 		if (p.Fixed() && e.CurrentView())
