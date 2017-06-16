@@ -65,7 +65,7 @@ namespace hvn3 {
 	}
 	
 	template <typename T>
-	Positionable2dBase<T>& Translate(Positionable2dBase<T>& obj, T x_offset, T y_offset) {
+	Positionable2dBase<T>& TranslatePoint(Positionable2dBase<T>& obj, T x_offset, T y_offset) {
 
 		obj.SetX(obj.X() + x_offset);
 		obj.SetY(obj.Y() + y_offset);
