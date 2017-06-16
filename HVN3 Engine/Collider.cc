@@ -6,6 +6,9 @@ namespace hvn3 {
 
 	Collider::Collider(Positionable2dBase<float>* tracking_object) :
 		_tracking_object(tracking_object) {
+
+		_mask = nullptr;
+
 	}
 
 	RectangleF Collider::AABB() const {
@@ -19,7 +22,7 @@ namespace hvn3 {
 	}
 
 	IHitMask* Collider::HitMask() {
-
+		
 		return _mask;
 
 	}

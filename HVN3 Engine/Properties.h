@@ -11,7 +11,7 @@ namespace hvn3 {
 		Full,
 		MaintainAspectRatio
 	};
-
+	
 	struct Properties {
 
 	public:
@@ -20,7 +20,7 @@ namespace hvn3 {
 		// Display Properties
 
 		std::string DisplayTitle;
-		Size<int> DisplaySize;
+		SizeI DisplaySize;
 		bool StartFullscreen;
 		hvn3::ScalingMode ScalingMode;
 		Color OutsideColor;

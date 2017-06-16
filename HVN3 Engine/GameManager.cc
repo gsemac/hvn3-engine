@@ -1,10 +1,14 @@
 #include "GameManager.h"
+#include "Bitmap.h"
 
 namespace hvn3 {
 
 	GameManager::GameManager() {
 
 		Framework::Initialize();
+
+		// Set new bitmap flags.
+		//Drawing::SetNewBitmapFlags(hvn3::Drawing::BitmapFlags::Default | hvn3::Drawing::BitmapFlags::MagLinear | hvn3::Drawing::BitmapFlags::MinLinear);
 
 	}
 	GameManager::~GameManager() {

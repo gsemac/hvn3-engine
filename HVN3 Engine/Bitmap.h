@@ -10,6 +10,13 @@ namespace hvn3 {
 
 	namespace Drawing {
 
+		enum class BitmapFlags {
+			Default = 1,
+			MinLinear = 2,
+			MagLinear = 4
+		};
+		ENABLE_BITFLAG_OPERATORS(BitmapFlags);
+
 		struct BitmapData {
 			BitmapData();
 			unsigned char* Scan0;
@@ -64,6 +71,9 @@ namespace hvn3 {
 			void Free();
 
 		};
+
+		BitmapFlags NewBitmapFlags();
+		void SetNewBitmapFlags(BitmapFlags flags);
 
 	}
 
