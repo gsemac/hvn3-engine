@@ -15,6 +15,12 @@ namespace hvn3 {
 			_height = height;
 
 		}
+		ISizeable(const Size<T>& size) {
+
+			_width = size.Width();
+			_height = size.Height();
+
+		}
 
 		// Returns the width of the object.
 		virtual T Width() const {

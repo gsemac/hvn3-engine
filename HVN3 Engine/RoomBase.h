@@ -18,8 +18,8 @@ namespace hvn3 {
 		friend class RoomController;
 
 	public:
-		RoomBase(unsigned int width, unsigned int height);
-		RoomBase(unsigned int width, unsigned int height, std::unique_ptr<IObjectManager>& object_manager);
+		RoomBase(RoomId id, const SizeI& size);
+		RoomBase(RoomId id, const SizeI& size, std::unique_ptr<IObjectManager>& object_manager);
 		virtual ~RoomBase();
 
 		virtual void OnUpdate(UpdateEventArgs& e) override;
@@ -28,7 +28,7 @@ namespace hvn3 {
 
 		void SetBackgroundColor(const Color& color);
 		const Color& BackgroundColor() const;
-		IObjectManager* ObjectManager();
+		IObjectManager& Objects();
 		virtual RoomId Id() const;
 		bool Persistent() const;
 		void SetPersistent(bool value);
@@ -51,6 +51,7 @@ namespace hvn3 {
 	private:
 		std::unique_ptr<IObjectManager> _obj_manager;
 
+		RoomId _id;
 		Color _background_color;
 		bool _set_up;
 		bool _persistent;

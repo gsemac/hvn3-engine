@@ -2,10 +2,9 @@
 
 namespace hvn3 {
 
-	Room::Room(unsigned int width, unsigned int height) :
-		RoomBase(width, height),
+	Room::Room(RoomId id, const SizeI& size) :
+		RoomBase(id, size),
 		_rendering_view(0) {
-
 	}
 	Room::~Room() {}
 
@@ -17,14 +16,14 @@ namespace hvn3 {
 		return &_view_manager.ViewAt(_rendering_view);
 
 	}
-	IBackgroundManager* Room::BackgroundManager() {
+	IBackgroundManager& Room::Backgrounds() {
 
-		return &_background_manager;
+		return _background_manager;
 
 	}
-	IViewManager* Room::ViewManager() {
+	IViewManager& Room::Views() {
 
-		return &_view_manager;
+		return _view_manager;
 
 	}
 	void Room::OnUpdate(UpdateEventArgs& e) {
@@ -135,13 +134,13 @@ namespace hvn3 {
 		e.Graphics().Clear(BackgroundColor());
 
 		// Draw all backgrounds.
-		BackgroundManager()->DrawBackgrounds(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView()));
+		Backgrounds().DrawBackgrounds(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView()));
 
 		// Draw all objects.
-		ObjectManager()->OnDraw(e);
+		Objects().OnDraw(e);
 
 		// Draw all foregrounds.
-		BackgroundManager()->DrawForegrounds(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView()));
+		Backgrounds().DrawForegrounds(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView()));
 
 	}
 

@@ -7,6 +7,8 @@
 
 namespace hvn3 {
 
+	typedef std::shared_ptr<Object> ObjectPtr;
+
 	class Object : public ICollidable, public ObjectBase, public Positionable2dBase<float>, public SharedCreateableBase<Object> {
 
 	public:

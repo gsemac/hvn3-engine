@@ -457,13 +457,13 @@ namespace hvn3 {
 
 		Room& room = *_room_manager.CurrentRoom();
 
-		if (room.ViewManager()->ViewCount()) {
+		if (room.Views().ViewCount()) {
 
 			// If the mouse is inside of a View, position it relative to the View (where 0, 0 is the top left of the View).
-			for (int i = room.ViewManager()->ViewCount() - 1; i >= 0; --i) {
+			for (int i = room.Views().ViewCount() - 1; i >= 0; --i) {
 
 				// Get a reference to the view so it's easy to access.
-				View& view = room.ViewManager()->ViewAt(i);
+				View& view = room.Views().ViewAt(i);
 
 				// If the View is disabled or doesn't track the mouse position, do nothing.
 				if (!view.TracksMouse() || !view.Enabled())

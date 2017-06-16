@@ -34,10 +34,9 @@ namespace hvn3 {
 		size_t CurrentRoomIndex() const;
 		size_t RoomCount() const;
 
-		template<typename T, typename ... Args>
-		void SetRoomTransition(Args &&... args) {
+		void SetRoomTransition(RoomTransitionPtr& transition) {
 
-			_transition = std::make_unique<T>(std::forward<Args>(args)...);
+			_transition = std::move(transition);
 
 		}
 

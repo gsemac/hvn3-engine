@@ -13,7 +13,7 @@ namespace hvn3 {
 		_last_found_index = 0;
 
 	}
-	void ObjectManager::InstanceAdd(std::shared_ptr<Object> object) {
+	void ObjectManager::AddInstance(std::shared_ptr<Object> object) {
 
 		// If the object's id is non-null, add it to the collision manager.
 		if (object->Id() != noone)
@@ -65,7 +65,7 @@ namespace hvn3 {
 		return _collision_manager;
 
 	}
-	Object* ObjectManager::InstanceFind(ObjectId id) {
+	Object* ObjectManager::FindInstance(ObjectId id) {
 
 		for (size_t i = 0; i < _objects.size(); ++i)
 			if (_objects[i]->Id() == id)
@@ -74,7 +74,7 @@ namespace hvn3 {
 		return nullptr;
 
 	}
-	Object* ObjectManager::InstanceFindNext(ObjectId id) {
+	Object* ObjectManager::FindNextInstance(ObjectId id) {
 
 		// If the object id we're looking for differs from the last one, reset the found index.
 		if (_last_found_id != id)

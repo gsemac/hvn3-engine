@@ -6,12 +6,14 @@
 
 namespace hvn3 {
 
-	RoomBase::RoomBase(unsigned int width, unsigned int height) :
-		RoomBase(width, height, std::unique_ptr<IObjectManager>(new hvn3::ObjectManager(std::unique_ptr<hvn3::ICollisionManager>(new hvn3::CollisionManager(std::unique_ptr<IBroadPhaseCollisionManager>(new CollisionGrid(32, 32))))))) {
+	RoomBase::RoomBase(RoomId id, const SizeI& size) :
+		RoomBase(id, size, std::unique_ptr<IObjectManager>(new hvn3::ObjectManager(std::unique_ptr<hvn3::ICollisionManager>(new hvn3::CollisionManager(std::unique_ptr<IBroadPhaseCollisionManager>(new CollisionGrid(32, 32))))))) {
 	}
-	RoomBase::RoomBase(unsigned int width, unsigned int height, std::unique_ptr<IObjectManager>& object_manager) :
-		ISizeable(width, height),
+	RoomBase::RoomBase(RoomId id, const SizeI& size, std::unique_ptr<IObjectManager>& object_manager) :
+		ISizeable(size),
 		_obj_manager(std::move(object_manager)) {
+
+		_id = id;
 
 		// Set the default background color.
 		_background_color = Color::Silver;
@@ -53,9 +55,9 @@ namespace hvn3 {
 		return _background_color;
 
 	}
-	IObjectManager* RoomBase::ObjectManager() {
+	IObjectManager& RoomBase::Objects() {
 
-		return _obj_manager.get();
+		return *_obj_manager.get();
 
 	}
 	RoomId RoomBase::Id() const {

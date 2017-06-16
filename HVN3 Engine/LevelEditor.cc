@@ -11,7 +11,7 @@ namespace hvn3 {
 		LevelEditor::LevelEditor(const SizeF& size) :
 			LevelEditor(size.Width(), size.Height()) {}
 		LevelEditor::LevelEditor(unsigned int width, unsigned int height) :
-			Room(width, height),
+			Room(0, SizeI(width, height)),
 			_grid_space_size(DEFAULT_GRID_CELL_SIZE, DEFAULT_GRID_CELL_SIZE),
 			_gui_manager(RectangleF(width, height)) {
 

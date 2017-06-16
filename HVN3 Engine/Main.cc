@@ -10,7 +10,7 @@ class MyRoom : public Room {
 
 public:
 	MyRoom(float width, float height) :
-		Room(width, height),
+		Room(0, SizeI(width, height)),
 		_gui_manager(RectangleF(MyGame.Properties().DisplaySize.Width(), MyGame.Properties().DisplaySize.Height())) {
 	}
 	~MyRoom() {
@@ -72,7 +72,7 @@ public:
 	void OnUpdate(UpdateEventArgs& e) override {
 
 		if (Keyboard::KeyPressed(ALLEGRO_KEY_F5))
-			MyGame.Rooms().RestartRoom();
+			MyGame.Rooms().GotoRoom(MyGame.Rooms().CurrentRoom()->Id());
 
 		if (Keyboard::KeyPressed(ALLEGRO_KEY_O)) {
 			std::cout << MyGame.Resources().Tilesets()[TILESET_1]->TileCount();
@@ -131,7 +131,7 @@ public:
 	}
 	void OnCollision(CollisionEventArgs& e) override {
 
-		MyGame.Rooms().CurrentRoom()->ObjectManager()->CollisionManager()->MoveOutsideObject(this, e.Other(), 
+		MyGame.Rooms().CurrentRoom()->Objects().CollisionManager()->MoveOutsideObject(this, e.Other(), 
 			PointDirection(e.Other()->Position(), Position()),
 			1.0f
 		);
@@ -203,7 +203,7 @@ public:
 
 			// Move the ball outside of the cursor.
 			if (tot_vec.Magnitude() > 0)
-				MyGame.Rooms().CurrentRoom()->ObjectManager()->CollisionManager()->MoveOutsideObject(e.Other(), this, PointDirection(e.Other()->Position(), Position()), 1);
+				MyGame.Rooms().CurrentRoom()->Objects().CollisionManager()->MoveOutsideObject(e.Other(), this, PointDirection(e.Other()->Position(), Position()), 1);
 
 			break;
 
@@ -264,26 +264,26 @@ public:
 
 		SetBackgroundColor(Color::Silver);
 
-		BackgroundManager()->BackgroundAdd(MyGame.Resources().Backgrounds()[BACKGROUND_1]);
-		BackgroundManager()->PropertiesAt(0).SetTiledHorizontally(true);
-		BackgroundManager()->PropertiesAt(0).SetVelocity(Vector2d(0, 1));
+		Backgrounds().BackgroundAdd(MyGame.Resources().Backgrounds(BACKGROUND_1));
+		Backgrounds().PropertiesAt(0).SetTiledHorizontally(true);
+		Backgrounds().PropertiesAt(0).SetVelocity(Vector2d(0, 1));
 
-		ObjectManager()->InstanceAdd(Object::Create<oController>());
-		ObjectManager()->InstanceAdd(Object::Create<oMouseBox>());
+		Objects().AddInstance(Object::Create<oController>());
+		Objects().AddInstance(Object::Create<oMouseBox>());
 
 		for (int i = 0; i < 100; ++i)
-			ObjectManager()->InstanceAdd(Object::Create<oBall>(Random::Float(Width()), Random::Float(Height())));
+			Objects().AddInstance(Object::Create<oBall>(Random::Float(Width()), Random::Float(Height())));
 
 
 	}
 	void OnRoomEnter(RoomEnterEventArgs& e) override {
 
-		std::cout << "Entering room " << this << " with " << ObjectManager()->InstanceCount() << " instances\n";
+		std::cout << "Entering room " << this << " with " << Objects().InstanceCount() << " instances\n";
 
 	}
 	void OnRoomExit(RoomExitEventArgs& e) override {
 
-		std::cout << "Exiting room " << this << " with " << ObjectManager()->InstanceCount() << " instances\n";
+		std::cout << "Exiting room " << this << " with " << Objects().InstanceCount() << " instances\n";
 
 	}
 	void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e) override {
@@ -345,7 +345,7 @@ int main(int argc, char *argv[]) {
 	SizeF small_size(640, 480);
 	MyGame.Rooms().AddRoom(Room::Create<TestRoom>());
 	MyGame.Rooms().AddRoom(Room::Create<editor::LevelEditor>(medium_size));
-	MyGame.Rooms().SetRoomTransition<RoomTransitionFade>(Color::Black, true);
+	MyGame.Rooms().SetRoomTransition(RoomTransitionFade::Create(Color::Black, true));
 
 	// Run the main game loop.
 	MyGame.Loop();

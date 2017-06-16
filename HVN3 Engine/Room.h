@@ -9,12 +9,12 @@ namespace hvn3 {
 	class Room : public RoomBase {
 
 	public:
-		Room(unsigned int width, unsigned int height);
+		Room(RoomId id, const SizeI& size);
 		virtual ~Room();
 
 		const View* CurrentView();
-		IBackgroundManager* BackgroundManager();
-		IViewManager* ViewManager();
+		IBackgroundManager& Backgrounds();
+		IViewManager& Views();
 
 		virtual void OnUpdate(UpdateEventArgs& e) override;
 		virtual void OnDraw(DrawEventArgs& e) override;

@@ -5,6 +5,10 @@
 
 namespace hvn3 {
 
+	class IRoomTransition;
+
+	typedef std::unique_ptr<IRoomTransition> RoomTransitionPtr;
+
 	class IRoomTransition : public IDrawable {
 
 	public:

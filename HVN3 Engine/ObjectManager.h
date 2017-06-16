@@ -12,11 +12,11 @@ namespace hvn3 {
 		ObjectManager(std::unique_ptr<ICollisionManager>& collision_manager);
 
 		// Inherited via IObjectManager
-		virtual void InstanceAdd(std::shared_ptr<Object> object) override;
+		virtual void AddInstance(std::shared_ptr<Object> object) override;
 		virtual void Clear() override;
 		virtual std::unique_ptr<ICollisionManager>& CollisionManager() override;
-		virtual Object* InstanceFind(ObjectId id) override;
-		virtual Object* InstanceFindNext(ObjectId id) override;
+		virtual Object* FindInstance(ObjectId id) override;
+		virtual Object* FindNextInstance(ObjectId id) override;
 		virtual size_t InstanceCount() const override;
 		virtual size_t InstanceCount(ObjectId id) const override;
 		virtual bool InstanceExists(ObjectId id) const override;
