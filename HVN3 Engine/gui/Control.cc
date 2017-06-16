@@ -13,7 +13,7 @@ namespace hvn3 {
 		Control(Point2d<float>(0.0f, 0.0f), hvn3::Size<float>(0.0f, 0.0f)) {
 	}
 	Gui::Control::Control(const Point2d<float>& location, const hvn3::Size<float>& size) :
-		IPositionable2d<float>(location.X(), location.Y()),
+		Positionable2dBase<float>(location.X(), location.Y()),
 		ISizeable(size.Width(), size.Height()),
 		__fixed_pos(location.X(), location.Y()),
 		__mouse_last_pos(Mouse::X, Mouse::Y),
@@ -325,7 +325,7 @@ namespace hvn3 {
 
 		Point2d<float> old_position(X(), Y());
 
-		IPositionable2d::SetX(x);
+		Positionable2dBase::SetX(x);
 
 		OnMove(MoveEventArgs(old_position));
 
@@ -334,7 +334,7 @@ namespace hvn3 {
 
 		Point2d<float> old_position(X(), Y());
 
-		IPositionable2d::SetY(y);
+		Positionable2dBase::SetY(y);
 
 		OnMove(MoveEventArgs(old_position));
 
@@ -343,7 +343,7 @@ namespace hvn3 {
 
 		Point2d<float> old_position(X(), Y());
 
-		IPositionable2d::SetPosition(x, y);
+		Positionable2dBase::SetPosition(x, y);
 
 		OnMove(MoveEventArgs(old_position));
 

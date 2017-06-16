@@ -96,7 +96,7 @@ namespace hvn3 {
 
 		// Check if any strips intersect with the Circle.
 		for (size_t i = 0; i < __strips.size(); ++i) {
-			if (hvn3::Intersects(__strips[i], other))
+			if (hvn3::TestIntersection(__strips[i], other))
 				return true;
 		}
 

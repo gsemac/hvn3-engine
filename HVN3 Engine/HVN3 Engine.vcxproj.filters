@@ -157,6 +157,12 @@
     <Filter Include="Header Files\System\Collision\Box2D">
       <UniqueIdentifier>{ab6394f0-6f6e-43be-b84e-48aa049c39c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Bases">
+      <UniqueIdentifier>{b1eb46c6-8dc7-42fe-ba04-d64100617fff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Bases">
+      <UniqueIdentifier>{5017f5ba-1a62-4be8-805a-91a6b41f28ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -219,13 +225,7 @@
     <ClCompile Include="UdpServer.cc">
       <Filter>Source Files\Networking</Filter>
     </ClCompile>
-    <ClCompile Include="ICollidable.cc">
-      <Filter>Source Files\Interfaces</Filter>
-    </ClCompile>
     <ClCompile Include="IFocusable.cc">
-      <Filter>Source Files\Interfaces</Filter>
-    </ClCompile>
-    <ClCompile Include="ISpriteable.cc">
       <Filter>Source Files\Interfaces</Filter>
     </ClCompile>
     <ClCompile Include="Grid.cc">
@@ -256,9 +256,6 @@
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
     <ClCompile Include="CollisionGrid.cc">
-      <Filter>Source Files\System\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionManager.cc">
       <Filter>Source Files\System\Collision</Filter>
     </ClCompile>
     <ClCompile Include="CollisionMask.cc">
@@ -504,11 +501,29 @@
     <ClCompile Include="Padding.cc">
       <Filter>Source Files\Structures</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectBase.cc">
-      <Filter>Source Files\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="GridDrawer.cc">
       <Filter>Source Files\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteableBase.cc">
+      <Filter>Source Files\Bases</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectBase.cc">
+      <Filter>Source Files\Bases</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cc">
+      <Filter>Source Files\System\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionEventArgs.cc">
+      <Filter>Source Files\System\Events\EventArgs</Filter>
+    </ClCompile>
+    <ClCompile Include="RectangleHitMask.cc">
+      <Filter>Source Files\System\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cc">
+      <Filter>Source Files\System\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleHitMask.cc">
+      <Filter>Source Files\System\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -525,9 +540,6 @@
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
     <ClInclude Include="CollisionGrid.h">
-      <Filter>Header Files\System\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionManager.h">
       <Filter>Header Files\System\Collision</Filter>
     </ClInclude>
     <ClInclude Include="CollisionMask.h">
@@ -575,9 +587,6 @@
     <ClInclude Include="ICloneable.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="ICollidable.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="IDisposable.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
@@ -591,9 +600,6 @@
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="ISizeable.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="ISpriteable.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="ITransformable.h">
@@ -956,9 +962,6 @@
     <ClInclude Include="SharedCreatableBase.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectBase.h">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="GridDrawer.h">
       <Filter>Header Files\Drawing</Filter>
     </ClInclude>
@@ -971,9 +974,6 @@
     <ClInclude Include="Point2d.h">
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
-    <ClInclude Include="IPositionable2d.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="Circle.h">
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
@@ -982,6 +982,36 @@
     </ClInclude>
     <ClInclude Include="PointGeometry.h">
       <Filter>Header Files\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteableBase.h">
+      <Filter>Header Files\Bases</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBase.h">
+      <Filter>Header Files\Bases</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Header Files\System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionEventArgs.h">
+      <Filter>Header Files\System\Events\EventArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="Positionable2dBase.h">
+      <Filter>Header Files\Bases</Filter>
+    </ClInclude>
+    <ClInclude Include="ICollidable.h">
+      <Filter>Header Files\System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="IHitMask.h">
+      <Filter>Header Files\System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="RectangleHitMask.h">
+      <Filter>Header Files\System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Header Files\System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleHitMask.h">
+      <Filter>Header Files\System\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

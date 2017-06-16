@@ -9,11 +9,11 @@
 
 namespace hvn3 {
 
-	class ISpriteable : virtual public IUpdatable, virtual public IDrawable, virtual public IPositionable2d<float> {
+	class SpriteableBase {
 
 	public:
-		ISpriteable();
-		ISpriteable(ResourceHandle<Sprite> sprite);
+		SpriteableBase();
+		SpriteableBase(ResourceHandle<Sprite> sprite);
 
 		float ImageAlpha() const;
 		void SetImageAlpha(float value);
@@ -36,8 +36,9 @@ namespace hvn3 {
 		ResourceHandle<Sprite> Sprite();
 		void SetSprite(ResourceHandle<hvn3::Sprite> sprite);
 
-		void OnUpdate(UpdateEventArgs& e) override;
-		void OnDraw(DrawEventArgs& e) override;
+	protected:
+		void UpdateAnimation(UpdateEventArgs& e);
+		void DrawSprite(DrawEventArgs& e, const PointF& position);
 
 	private:
 		ResourceHandle<hvn3::Sprite> _sprite;

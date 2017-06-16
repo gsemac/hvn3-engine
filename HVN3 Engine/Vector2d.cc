@@ -299,4 +299,29 @@ namespace hvn3 {
 
 	}
 
+	PointF operator+(const PointF& lhs, const Vector2d& rhs) {
+
+		return PointF(lhs.X() + rhs.X(), lhs.Y() + rhs.Y());
+
+	}
+	PointF& operator+=(PointF& lhs, const Vector2d& rhs) {
+
+		lhs.Offset(rhs.X(), rhs.Y());
+
+		return lhs;
+
+	}
+	PointF operator-(const PointF& lhs, const Vector2d& rhs) {
+
+		return PointF(lhs.X() - rhs.X(), lhs.Y() - rhs.Y());
+
+	}
+	PointF& operator-=(PointF& lhs, const Vector2d& rhs) {
+
+		lhs.Offset(-rhs.X(), -rhs.Y());
+
+		return lhs;
+
+	}
+
 }

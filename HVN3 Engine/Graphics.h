@@ -1,15 +1,12 @@
 #pragma once
-#include <string>
-#include "Color.h"
-#include "Geometry.h"
-#include "Font.h"
-#include "UTF8String.h"
-#include "View.h"
-#include "Transform.h"
-#include "Bitmap.h"
 #include "GraphicsState.h"
+#include "Bitmap.h"
+#include "Rectangle.h"
+#include "Font.h"
 
 namespace hvn3 {
+
+	class Sprite;
 
 	namespace Drawing {
 
@@ -89,7 +86,7 @@ namespace hvn3 {
 		private:
 			Bitmap _surface;
 			Transform _transform;
-			Rectangle<float> _clipping_region;
+			RectangleF _clipping_region;
 			bool _state_changed;
 			static Graphics* _last_to_draw;
 

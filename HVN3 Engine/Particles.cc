@@ -238,7 +238,7 @@ namespace hvn3 {
 	void Emitter::Particle::OnDraw(DrawEventArgs& e) {
 
 		if (Sprite())
-			ISpriteable::OnDraw(e);
+			SpriteableBase::DrawSprite(e, Position());
 		else
 			e.Graphics().DrawRectangle(X(), Y(), 10.0f, 10.0f, Color::Black, 5.0f);
 
@@ -255,7 +255,7 @@ namespace hvn3 {
 	}
 
 	Emitter::Emitter() : Emitter(0.0f, 0.0f) {}
-	Emitter::Emitter(float x, float y) : IPositionable2d(x, y) {
+	Emitter::Emitter(float x, float y) : Positionable2dBase(x, y) {
 
 		__particle_count = 0;
 

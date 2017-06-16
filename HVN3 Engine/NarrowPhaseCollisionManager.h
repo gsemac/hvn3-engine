@@ -3,22 +3,22 @@
 
 namespace hvn3 {
 
-	class ICollidable;
+	class Collider;
 	class Sprite;
 	class SpriteMask;
 
 	class NarrowPhaseCollisionManager {
 
 	public:
-		static bool TestCollision(ICollidable* a, ICollidable* b);
-		static bool TestCollision(ICollidable* a, float ax, float ay, ICollidable* b, float bx, float by);
+		bool TestCollision(Collider* a, Collider* b) const;
+		bool TestCollision(Collider* a, const PointF& position_a, Collider* b, const PointF& position_b) const;
 
 		// Returns true if two axis-aligned Sprites intersect at the specified positions.
-		static bool TestIntersection(Sprite* s1, Sprite* s2, const Point2d<float>& p1, const Point2d<float>& p2);
+		bool TestIntersection(Sprite* s1, Sprite* s2, const PointF& p1, const PointF& p2) const;
 		// Returns true if the axis-aligned Sprite intersects with the Circle at the specific position.
-		static bool TestIntersection(Sprite* sprite, const Circle<float>& circle, const Point2d<float>& pos);
+		bool TestIntersection(Sprite* sprite, const CircleF& circle, const PointF& pos) const;
 		// Returns true if the SpriteMask intersects with the Circle at the specified position.
-		static bool TestIntersection(const SpriteMask& mask, const Circle<float>& circle, const Point2d<float>& pos);
+		bool TestIntersection(const SpriteMask& mask, const CircleF& circle, const PointF& pos) const;
 
 	};
 

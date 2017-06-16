@@ -1,7 +1,5 @@
-#ifndef __VECTOR_H
-#define __VECTOR_H
-#include <utility>
-#include <initializer_list>
+#pragma once
+#include "Point2d.h"
 
 namespace hvn3 {
 
@@ -78,6 +76,9 @@ namespace hvn3 {
 
 	};
 
-}
+	PointF operator+(const PointF& lhs, const Vector2d& rhs);
+	PointF& operator+=(PointF& lhs, const Vector2d& rhs);
+	PointF operator-(const PointF& lhs, const Vector2d& rhs);
+	PointF& operator-=(PointF& lhs, const Vector2d& rhs);
 
-#endif
+}

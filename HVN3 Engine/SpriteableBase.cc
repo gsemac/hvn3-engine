@@ -1,14 +1,14 @@
-#include "ISpriteable.h"
+#include "SpriteableBase.h"
 #include "DrawEventArgs.h"
 
 namespace hvn3 {
 
 	// Public methods
 
-	ISpriteable::ISpriteable() :
-		ISpriteable(nullptr) {
+	SpriteableBase::SpriteableBase() :
+		SpriteableBase(nullptr) {
 	}
-	ISpriteable::ISpriteable(ResourceHandle<hvn3::Sprite> sprite) :
+	SpriteableBase::SpriteableBase(ResourceHandle<hvn3::Sprite> sprite) :
 		_image_scale(1.0f),
 		_sprite(sprite) {
 
@@ -22,96 +22,98 @@ namespace hvn3 {
 
 	}
 
-	float ISpriteable::ImageAlpha() const {
+	float SpriteableBase::ImageAlpha() const {
 
 		return _image_alpha;
 
 	}
-	void ISpriteable::SetImageAlpha(float value) {
+	void SpriteableBase::SetImageAlpha(float value) {
 
 		_image_alpha = value;
 
 	}
 
-	int ISpriteable::ImageIndex() const {
+	int SpriteableBase::ImageIndex() const {
 
 		return _image_index;
 
 	}
-	void ISpriteable::SetImageIndex(float value) {
+	void SpriteableBase::SetImageIndex(float value) {
 
 		_image_index = value;
 
 	}
 
-	float ISpriteable::ImageSpeed() const {
+	float SpriteableBase::ImageSpeed() const {
 
 		return _image_speed;
 
 	}
-	void ISpriteable::SetImageSpeed(float value) {
+	void SpriteableBase::SetImageSpeed(float value) {
 
 		_image_speed = value;
 
 	}
 
-	const Scale& ISpriteable::ImageScale() const {
+	const Scale& SpriteableBase::ImageScale() const {
 
 		return _image_scale;
 
 	}
-	void ISpriteable::SetImageScale(const Scale& value) {
+	void SpriteableBase::SetImageScale(const Scale& value) {
 
 		_image_scale = value;
 
 	}
 
-	float ISpriteable::ImageAngle() const {
+	float SpriteableBase::ImageAngle() const {
 
 		return _image_angle;
 
 	}
-	void ISpriteable::SetImageAngle(float value) {
+	void SpriteableBase::SetImageAngle(float value) {
 
 		_image_angle = value;
 
 	}
 
-	const Color& ISpriteable::ImageBlend() const {
+	const Color& SpriteableBase::ImageBlend() const {
 
 		return _image_blend;
 
 	}
-	void ISpriteable::SetImageBlend(const Color& value) {
+	void SpriteableBase::SetImageBlend(const Color& value) {
 
 		_image_blend = value;
 
 	}
 
-	ResourceHandle<hvn3::Sprite> ISpriteable::Sprite() {
+	ResourceHandle<hvn3::Sprite> SpriteableBase::Sprite() {
 
 		return _sprite;
 
 	}
-	void ISpriteable::SetSprite(ResourceHandle<hvn3::Sprite> sprite) {
+	void SpriteableBase::SetSprite(ResourceHandle<hvn3::Sprite> sprite) {
 
 		_sprite = sprite;
 
 	}
 
-	void ISpriteable::OnUpdate(UpdateEventArgs& e) {
+	// Protected methods
+
+	void SpriteableBase::UpdateAnimation(UpdateEventArgs& e) {
 
 		IncrementImageIndex();
 
 	}
-	void ISpriteable::OnDraw(DrawEventArgs& e) {
+	void SpriteableBase::DrawSprite(DrawEventArgs& e, const PointF& position) {
 
 		// Draw sprite (if it exists).
 		if (Sprite()) {
 
 			e.Graphics().DrawSprite(
-				X(),
-				Y(),
+				position.X(),
+				position.Y(),
 				Sprite(),
 				ImageIndex(),
 				ImageScale().XScale(),
@@ -126,7 +128,7 @@ namespace hvn3 {
 
 	// Private methods
 
-	void ISpriteable::IncrementImageIndex() {
+	void SpriteableBase::IncrementImageIndex() {
 
 		_image_index_timer += (std::fabs)(ImageSpeed());
 		if (_image_index_timer >= 1.0f) {

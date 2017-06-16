@@ -1,16 +1,16 @@
 #pragma once
-#include "IPositionable2d.h"
+#include "Positionable2dBase.h"
 
 namespace hvn3 {
 
 	template <typename T>
-	struct Circle : public IPositionable2d<T> {
+	struct Circle : public Positionable2dBase<T> {
 
 	public:
 		Circle(T radius) :
 			Circle(0, 0, radius) {}
 		Circle(T x, T y, T radius) :
-			IPositionable2d(x, y) {
+			Positionable2dBase(x, y) {
 
 			_radius = radius;
 
@@ -27,5 +27,8 @@ namespace hvn3 {
 		T _radius;
 
 	};
+
+	typedef Circle<float> CircleF;
+	typedef Circle<int> CircleI;
 
 }

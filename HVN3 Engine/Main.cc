@@ -83,8 +83,6 @@ public:
 
 		e.Graphics().DrawBitmap(0, 0, &MyGame.Resources().Tilesets()[TILESET_1]->TileAt(5));
 
-		e.Graphics().DrawCircle(Mouse::Position(), 10, Color::AliceBlue, 1);
-
 	}
 
 };
@@ -92,16 +90,23 @@ public:
 class oBall : public Object {
 
 public:
-	oBall(float x, float y) : Object(noone, PointF(0, 0)) {
+	oBall(float x, float y) :
+		Object(1, PointF(0, 0)),
+		_hit_mask(CircleF(10.0f)) {
 
 		_radius = Random::Float(10, 25);
-		//Velocity() = Vector2d(Random::Float(0, 360), Random::Float(0.1, 1));
+		_hit_mask = CircleHitMask(_radius);
+		_velocity = Vector2d(Random::Float(0, 360), Random::Float(0.1, 1));
+
+		Collider().SetHitMask(&_hit_mask);
+		Collider().Filter().SetCategoryBits(0b010);
+		Collider().Filter().SetMaskBits(0b000);
 
 	}
 
 	void OnDraw(DrawEventArgs& e) override {
 
-		e.Graphics().DrawCircle(PointF(X() + 2, Y() + 2), _radius, Color(0, 0, 0, 0.2), 2);
+		e.Graphics().DrawCircle(PointF(X() + 2, Y() + 2), _radius, Color::FromArgbf(0, 0, 0, 0.2), 2);
 		e.Graphics().DrawCircle(PointF(X(), Y()), _radius, Color::LtGrey, 2);
 
 	}
@@ -112,21 +117,85 @@ public:
 		float r = _radius;
 		Room* room = MyGame.Rooms().CurrentRoom();
 
-		//if ((Y() - r < 0 && Velocity().Y() < 0) || (Y() + r > room->Height() && Velocity().Y() > 0))
-		//	Velocity().SetY(Velocity().Y() * -1);
+		if ((Y() - r < 0 && _velocity.Y() < 0) || (Y() + r > room->Height() && _velocity.Y() > 0))
+			BounceV();
 
-		//if ((X() - r < 0 && Velocity().X() < 0) || (X() + r > room->Width() && Velocity().X() > 0))
-		//	Velocity().SetX(Velocity().X() * -1);
+		if ((X() - r < 0 && _velocity.X() < 0) || (X() + r > room->Width() && _velocity.X() > 0))
+			BounceH();
+
+		SetPosition(Position() + _velocity);
 
 	}
-	void Collide(ICollidable* other) override {
+	void OnCollision(CollisionEventArgs& e) override {
 
+		//std::cout << "hit!";
 
+	}
 
+	void BounceV() {
+		_velocity.SetY(_velocity.Y() * -1);
+	}
+	void BounceH() {
+		_velocity.SetX(_velocity.X() * -1);
 	}
 
 private:
 	float _radius;
+	Vector2d _velocity;
+	CircleHitMask _hit_mask;
+
+};
+
+class oMouseBox : public Object {
+
+public:
+	oMouseBox() :
+		Object(0, Mouse::Position()),
+		_hit_mask(CircleF(10.0f)) {
+
+		Collider().SetHitMask(&_hit_mask);
+		Collider().Filter().SetCategoryBits(0b001);
+		Collider().Filter().SetMaskBits(0b010);
+
+	}
+
+	void OnDraw(DrawEventArgs& e) override {
+
+		e.Graphics().DrawCircle(Position(), 10, Color::AliceBlue, 1);
+
+	}
+	void OnUpdate(UpdateEventArgs& e) override {
+
+		SetPosition(Mouse::Position());
+
+	}
+	void OnCollision(CollisionEventArgs& e) override {
+
+		switch (e.Other().Id()) {
+
+		case 1:
+			((oBall*)&e.Other())->BounceV();
+			break;
+
+		}
+
+	}
+
+private:
+	CircleHitMask _hit_mask;
+
+};
+
+class oSpriteableObject : public Object, public SpriteableBase {
+
+public:
+	oSpriteableObject() :
+		Object(noone, PointF()),
+		SpriteableBase(MyGame.Resources().Sprites(BACKGROUND_1)) {
+
+		SetX(5);
+
+	}
 
 };
 
@@ -168,6 +237,7 @@ public:
 		BackgroundManager()->PropertiesAt(0).SetVelocity(Vector2d(0, 1));
 
 		ObjectManager()->InstanceAdd(Object::Create<oController>());
+		ObjectManager()->InstanceAdd(Object::Create<oMouseBox>());
 
 		for (int i = 0; i < 100; ++i)
 			ObjectManager()->InstanceAdd(Object::Create<oBall>(200, 200));
@@ -224,7 +294,7 @@ int main(int argc, char *argv[]) {
 
 	// Initialize game properties.
 	MyGame.Initialize(argc, argv);
-	MyGame.Properties().DebugMode = false;
+	MyGame.Properties().DebugMode = true;
 	MyGame.Properties().OutsideColor = Color::Black;
 	MyGame.Properties().DisplaySize = SizeI(960, 720);
 	MyGame.Properties().DisplayFlags |= DisplayFlags::Resizable;
@@ -235,13 +305,14 @@ int main(int argc, char *argv[]) {
 	// Load resources.
 	MyGame.Resources().Tilesets().Add(TILESET_1, Resource::Create<Tileset>("data/test/tileset1.png", 32, 32));
 	MyGame.Resources().Backgrounds().Add(BACKGROUND_1, Resource::Create<Background>("data/test/tileset1.png"));
+	MyGame.Resources().Sprites().Add(BACKGROUND_1, Sprite::Create("data/test/tileset1.png"));
 
 	// Set up the first scene.
 	SizeF large_size(MyGame.Properties().DisplaySize.Width() * 2, MyGame.Properties().DisplaySize.Height() * 2);
 	SizeF medium_size(1000, 800);
 	SizeF small_size(640, 480);
-	MyGame.Rooms().AddRoom(Room::Create<editor::LevelEditor>(medium_size));
 	MyGame.Rooms().AddRoom(Room::Create<TestRoom>());
+	MyGame.Rooms().AddRoom(Room::Create<editor::LevelEditor>(medium_size));
 	MyGame.Rooms().SetRoomTransition<RoomTransitionFade>(Color::Black, true);
 
 	// Run the main game loop.

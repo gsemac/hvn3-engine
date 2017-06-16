@@ -12,7 +12,7 @@ namespace hvn3 {
 
 	typedef std::unique_ptr<Sprite> SpritePtr;
 
-	class Sprite : public UniqueCreateableBase<Sprite> {
+	class Sprite : public UniqueCreateableBase<Sprite, Sprite> {
 
 	public:
 		Sprite(const char* path);

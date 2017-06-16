@@ -1,17 +1,17 @@
 #pragma once
-#include "IPositionable2d.h"
+#include "Positionable2dBase.h"
 #include "ISizeable.h"
 
 namespace hvn3 {
 
 	template <typename T>
-	struct Rectangle : public IPositionable2d<T>, public ISizeable<T> {
+	struct Rectangle : public Positionable2dBase<T>, public ISizeable<T> {
 
 	public:
 		Rectangle(T width, T height) :
 			Rectangle(0, 0, width, height) {}
 		Rectangle(T x, T y, T width, T height) :
-			IPositionable2d<T>(x, y),
+			Positionable2dBase<T>(x, y),
 			ISizeable<T>(width, height) {}
 		Rectangle(const Point2d<T>& top_left, const Point2d<T>& bottom_right) :
 			Rectangle(top_left.X(), top_left.Y(), bottom_right.X() - top_left.X(), bottom_right.Y() - top_left.Y()) {}

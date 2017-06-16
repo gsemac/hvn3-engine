@@ -1,4 +1,5 @@
 #include "BackgroundManager.h"
+#include "View.h"
 
 namespace hvn3 {
 

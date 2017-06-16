@@ -21,4 +21,6 @@
 #include "ICollection.h"
 #include "gui/ScrollableControl.h"
 #include "gui/ToolStrip.h"
-#include "ISpriteable.h"
+#include "SpriteableBase.h"
+#include "RectangleHitMask.h"
+#include "CircleHitMask.h"

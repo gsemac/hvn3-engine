@@ -1,74 +1,65 @@
 #include "NarrowPhaseCollisionManager.h"
-#include "ICollidable.h"
+#include "Collider.h"
 #include "Sprite.h"
 #include "Vector2d.h"
+#include "SpriteMask.h"
 #include <allegro5/allegro.h>
 #include <algorithm>
 
 namespace hvn3 {
 
-	bool NarrowPhaseCollisionManager::TestCollision(ICollidable* a, ICollidable* b) {
+	bool NarrowPhaseCollisionManager::TestCollision(Collider* a, Collider* b) const {
 
-		return TestCollision(a, a->X(), a->Y(), b, b->X(), b->Y());
+		return TestCollision(a, a->TrackingObject()->Position(), b, b->TrackingObject()->Position());
 
 	}
-	bool NarrowPhaseCollisionManager::TestCollision(ICollidable* a, float ax, float ay, ICollidable* b, float bx, float by) {
+	bool NarrowPhaseCollisionManager::TestCollision(Collider* a, const PointF& position_a, Collider* b, const PointF& position_b) const {
 
-		// Get the masks for both Objects.
-		const ICollisionMask& maska = a->CollisionMask();
-		const ICollisionMask& maskb = b->CollisionMask();
+		// Get the masks for both colliders.
+		IHitMask* a_mask = a->HitMask();
+		IHitMask* b_mask = b->HitMask();
 
-		// Get AABBs for both Objects.
-		Rectangle<float> aabb_a = maska.AABB();
-		Rectangle<float> aabb_b = maskb.AABB();
-		aabb_a.Translate(ax, ay);
-		aabb_b.Translate(bx, by);
+		// Offset both colliders by the given offsets.
+		a_mask->SetOffset(PointF(a_mask->Offset().X() + position_a.X(), a_mask->Offset().Y() + position_a.Y()));
+		b_mask->SetOffset(PointF(b_mask->Offset().X() + position_b.X(), b_mask->Offset().Y() + position_b.Y()));
+
+		bool hit = false;
 
 		// If the bounding boxes do not intersect, return false.
-		if (!Intersects(aabb_a, aabb_b))
-			return false;
+		if (!hvn3::TestIntersection(a_mask->AABB(), b_mask->AABB()))
+			hit = false;
 
-		// If both masks are rectangles, then they are the same as the bounding box, so the Objects collided.
-		if (maska.Type() == MaskType::Rectangle && maskb.Type() == MaskType::Rectangle)
-			return true;
+		// Test to see if the two masks intersect one another.
+		else
+			hit = a_mask->TestIntersection(b_mask);
 
+		// Reset the offsets.
+		a_mask->SetOffset(PointF(a_mask->Offset().X() - position_a.X(), a_mask->Offset().Y() - position_a.Y()));
+		b_mask->SetOffset(PointF(b_mask->Offset().X() - position_b.X(), b_mask->Offset().Y() - position_b.Y()));
 
-
-		// Perform more precise collision checking.
-		//if (maska.IsCircle()) {
-		//	if (maskb.IsRectangle())
-		//		return Intersects(maskb.ToRectangle(bx, by), maska.ToCircle(ax, ay));
-		//	if (maskb.IsSprite())
-		//		return Intersects(maskb.ToSpriteMask(), maska.ToCircle(ax, ay), Point(bx, by));
-		//}
-		//else if (maska.IsRectangle()) {
-		//	if (maskb.IsCircle())
-		//		return Intersects(maska.ToRectangle(ax, ay), maskb.ToCircle(bx, by));
-		//}
-
-		// No valid mask comparison.
-		return false;
+		// Return the result.
+		return hit;
 
 	}
 
-	bool NarrowPhaseCollisionManager::TestIntersection(Sprite* s1, Sprite* s2, const Point2d<float>& p1, const Point2d<float>& p2) {
+	bool NarrowPhaseCollisionManager::TestIntersection(Sprite* s1, Sprite* s2, const PointF& p1, const PointF& p2) const {
 
 		// Get the Bitmaps corresponding to the Sprites.
 		ALLEGRO_BITMAP* ba = s1->SubImage(0).AlPtr();
 		ALLEGRO_BITMAP* bb = s2->SubImage(0).AlPtr();
 
 		// Create bounding Rectangles from the Sprites.
-		Rectangle<float> a(p1.X() - s1->Origin().X(), p1.Y() - s1->Origin().Y(), s1->Width(), s1->Height());
-		Rectangle<float> b(p2.X() - s2->Origin().X(), p2.Y() - s2->Origin().Y(), s2->Width(), s2->Height());
-		if (!Intersects(a, b)) return false;
+		RectangleF a(p1.X() - s1->Origin().X(), p1.Y() - s1->Origin().Y(), s1->Width(), s1->Height());
+		RectangleF b(p2.X() - s2->Origin().X(), p2.Y() - s2->Origin().Y(), s2->Width(), s2->Height());
+		if (!hvn3::TestIntersection(a, b)) return false;
 
 		// Create Rectangle to represent the overlap area.
-		Rectangle<float> overlap(Point2d<float>((std::max)(a.Left(), b.Left()), (std::max)(a.Top(), b.Top())),
-			Point2d<float>((std::min)(a.Right(), b.Right()), (std::min)(a.Bottom(), b.Bottom())));
+		RectangleF overlap(PointF((std::max)(a.Left(), b.Left()), (std::max)(a.Top(), b.Top())),
+			PointF((std::min)(a.Right(), b.Right()), (std::min)(a.Bottom(), b.Bottom())));
 
 		// Calculate overlap Rectangles for both bounding Rectangles.
-		Rectangle<float> overlap_a((std::max)(b.Left() - a.Left(), 0.0f), (std::max)(b.Top() - a.Top(), 0.0f), overlap.Width(), overlap.Height());
-		Rectangle<float> overlap_b((std::max)(a.Left() - b.Left(), 0.0f), (std::max)(a.Top() - b.Top(), 0.0f), overlap.Width(), overlap.Height());
+		RectangleF overlap_a((std::max)(b.Left() - a.Left(), 0.0f), (std::max)(b.Top() - a.Top(), 0.0f), overlap.Width(), overlap.Height());
+		RectangleF overlap_b((std::max)(a.Left() - b.Left(), 0.0f), (std::max)(a.Top() - b.Top(), 0.0f), overlap.Width(), overlap.Height());
 
 		// Lock Bitmaps in system memory.
 		al_lock_bitmap(ba, al_get_bitmap_format(ba), ALLEGRO_LOCK_READONLY);
@@ -97,7 +88,7 @@ namespace hvn3 {
 		return collided;
 
 	}
-	bool NarrowPhaseCollisionManager::TestIntersection(Sprite* sprite, const Circle<float>& circle, const Point2d<float>& pos) {
+	bool NarrowPhaseCollisionManager::TestIntersection(Sprite* sprite, const CircleF& circle, const PointF& pos) const {
 
 		/*
 		Algorithm:
@@ -107,8 +98,8 @@ namespace hvn3 {
 		*/
 
 		// Generate a bounding Rectangle for the Sprite.
-		Rectangle<float> bounds(pos.X() - sprite->Origin().X(), pos.Y() - sprite->Origin().Y(), sprite->Width(), sprite->Height());
-		Point2d<float> center = Point2d<float>(bounds.X() + bounds.Width() / 2.0f, bounds.Y() + bounds.Height() / 2.0f);
+		RectangleF bounds(pos.X() - sprite->Origin().X(), pos.Y() - sprite->Origin().Y(), sprite->Width(), sprite->Height());
+		PointF center = PointF(bounds.X() + bounds.Width() / 2.0f, bounds.Y() + bounds.Height() / 2.0f);
 
 		// Find the closest edge.
 		float dist_x, dist_y;
@@ -123,11 +114,11 @@ namespace hvn3 {
 		return false;
 
 	}
-	bool NarrowPhaseCollisionManager::TestIntersection(const SpriteMask& mask, const Circle<float>& circle, const Point2d<float>& pos) {
+	bool NarrowPhaseCollisionManager::TestIntersection(const SpriteMask& mask, const CircleF& circle, const PointF& pos) const {
 
 		// Adjust Point of Circle to be relative to the (0, 0)-based SpriteMask.
-		Point2d<float> adj = Point2d<float>(circle.X() - pos.X(), circle.Y() - pos.Y());
-		Circle<float> c = Circle<float>(adj, circle.Radius());
+		PointF adj = PointF(circle.X() - pos.X(), circle.Y() - pos.Y());
+		CircleF c = CircleF(adj, circle.Radius());
 
 		// Check for intersection.
 		return mask.Intersects(c);

@@ -65,7 +65,7 @@ namespace hvn3 {
 	}
 	
 	template <typename T>
-	IPositionable2d<T>& Translate(IPositionable2d<T>& obj, T x_offset, T y_offset) {
+	Positionable2dBase<T>& Translate(Positionable2dBase<T>& obj, T x_offset, T y_offset) {
 
 		obj.SetX(obj.X() + x_offset);
 		obj.SetY(obj.Y() + y_offset);
@@ -106,13 +106,13 @@ namespace hvn3 {
 	}
 
 	template <typename T>
-	bool Intersects(const Rectangle<T>& a, const Rectangle<T>& b) {
+	bool TestIntersection(const Rectangle<T>& a, const Rectangle<T>& b) {
 
 		return (a.X() < b.X2() && a.X2() > b.X() && a.Y() < b.Y2() && a.Y2() > b.Y());
 
 	}
 	template <typename T>
-	bool Intersects(const Circle<T>& a, const Line<T>& b) {
+	bool TestIntersection(const Circle<T>& a, const Line<T>& b) {
 
 		// Note: This procedure uses the same logic as PointDistance, but avoids using the costly sqrt function.
 
@@ -151,31 +151,31 @@ namespace hvn3 {
 
 	}
 	template <typename T>
-	bool Intersects(const Line<T>& a, const Line<T>& b) {
+	bool TestIntersection(const Line<T>& a, const Line<T>& b) {
 
-		return false;
+		throw NotImplementedException();
 
 	}
 	template <typename T>
-	bool Intersects(const Rectangle<T>& a, const Circle<T>& b) {
+	bool TestIntersection(const Rectangle<T>& a, const Circle<T>& b) {
 
 		return PointIn(Point2d<T>(b.X(), b.Y()), a) ||
-			Intersects(b, Line<T>(a.X(), a.Y(), a.X2(), a.Y())) || // top
-			Intersects(b, Line<T>(a.X(), a.Y2(), a.X2(), a.Y2())) || // bottom 
-			Intersects(b, Line<T>(a.X(), a.Y(), a.X(), a.Y2())) || // left
-			Intersects(b, Line<T>(a.X2(), a.Y(), a.X2(), a.Y2())); // right
+			TestIntersection(b, Line<T>(a.X(), a.Y(), a.X2(), a.Y())) || // top
+			TestIntersection(b, Line<T>(a.X(), a.Y2(), a.X2(), a.Y2())) || // bottom 
+			TestIntersection(b, Line<T>(a.X(), a.Y(), a.X(), a.Y2())) || // left
+			TestIntersection(b, Line<T>(a.X2(), a.Y(), a.X2(), a.Y2())); // right
 
 	}
 	template <typename T>
-	bool Intersects(const Rectangle<T>& a, const Line<T>& b) {
+	bool TestIntersection(const Rectangle<T>& a, const Line<T>& b) {
 
-		return false;
+		throw NotImplementedException();
 
 	}
 	template <typename T>
-	bool Intersects(const Circle<T>& a, const Circle<T>& b) {
+	bool TestIntersection(const Circle<T>& a, const Circle<T>& b) {
 
-		return PointDistance(Point(a.X(), a.Y()), Point(b.X(), b.Y())) < (a.Radius() + b.Radius());
+		return PointDistance(Point2d<T>(a.X(), a.Y()), Point2d<T>(b.X(), b.Y())) < (a.Radius() + b.Radius());
 
 	}
 

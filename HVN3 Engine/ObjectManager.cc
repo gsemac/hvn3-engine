@@ -17,7 +17,7 @@ namespace hvn3 {
 
 		// If the object's id is non-null, add it to the collision manager.
 		if (object->Id() != noone)
-			CollisionManager()->ColliderAdd(object.get());
+			CollisionManager()->AddObject(object.get());
 
 		_objects.push_back(object);
 
@@ -54,7 +54,7 @@ namespace hvn3 {
 	void ObjectManager::Clear() {
 
 		// Clear all colliders from the collision manager.
-		_collision_manager->Clear();
+		_collision_manager->ClearObjects();
 
 		// Clear all objects from the object manager.
 		_objects.clear();

@@ -1,6 +1,7 @@
 #include "Graphics.h"
 #include "Exception.h"
 #include "FrameworkAdapter.h"
+#include "UTF8String.h"
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 

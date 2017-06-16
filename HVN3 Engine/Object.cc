@@ -15,8 +15,11 @@ namespace hvn3 {
 
 	Object::Object(ObjectId id) :
 		Object(id, PointF(0.0f, 0.0f)) {}
-	Object::Object(ObjectId id, const PointF& position) : ICollidable(position.X(), position.Y()) {
+	Object::Object(ObjectId id, const PointF& position) : 
+		_collider(this) {
 
+		_id = id;
+		
 		SetDepth(0);
 
 	}
@@ -27,6 +30,11 @@ namespace hvn3 {
 		
 	}
 	void Object::OnDraw(DrawEventArgs& e) {
+
+
+
+	}
+	void Object::OnCollision(CollisionEventArgs& e) {
 
 
 
@@ -48,11 +56,16 @@ namespace hvn3 {
 		_depth = depth;
 
 	}
-
-	//float Object::DistanceTo(const Object* other) {
-
-	//	return Distance(AABB(), other->AABB());
-
-	//}
 	
+	hvn3::Collider& Object::Collider() {
+
+		return _collider;
+
+	}
+	const hvn3::Collider& Object::Collider() const {
+
+		return _collider;
+
+	}
+
 }

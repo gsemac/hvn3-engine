@@ -4,7 +4,7 @@
 
 namespace hvn3 {
 
-	bool RotateToAngle(ISpriteable& obj, float angle, float speed) {
+	bool RotateToAngle(SpriteableBase& obj, float angle, float speed) {
 
 		float diff = angle - obj.ImageAngle();
 

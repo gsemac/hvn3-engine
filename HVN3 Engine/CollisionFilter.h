@@ -27,11 +27,11 @@ namespace hvn3 {
 		void RemoveMask(int bits);
 
 		// Returns true if the other filter's category bits are contained in this filter's mask bits. Otherwise, returns false.
-		bool CheckMatch(const CollisionFilter& other) const;
+		bool CheckHit(const CollisionFilter& other) const;
 
 	private:
-		int __category_bits;
-		int __mask_bits;
+		int _category_bits;
+		int _mask_bits;
 
 	};
 

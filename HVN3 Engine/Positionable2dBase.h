@@ -4,13 +4,15 @@
 namespace hvn3 {
 
 	template <typename T>
-	class IPositionable2d {
+	class Positionable2dBase {
 
 	public:
-		IPositionable2d() :
-			IPositionable2d(0, 0) {}
-		IPositionable2d(T x, T y) :
+		Positionable2dBase() :
+			Positionable2dBase(0, 0) {}
+		Positionable2dBase(T x, T y) :
 			_position(x, y) {}
+		Positionable2dBase(const Point2d<T>& position) :
+			_position(position) {}
 
 		T X() const {
 

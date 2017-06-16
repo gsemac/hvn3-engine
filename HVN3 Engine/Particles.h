@@ -3,10 +3,10 @@
 #include <vector>
 #include <iostream>
 #include <queue>
-#include "IPositionable2d.h"
+#include "Positionable2dBase.h"
 #include "IUpdatable.h"
 #include "IDrawable.h"
-#include "ISpriteable.h"
+#include "SpriteableBase.h"
 #include "Vector2d.h"
 #include "UpdateEventArgs.h"
 #include "DrawEventArgs.h"
@@ -53,10 +53,10 @@ namespace hvn3 {
 
 	};
 
-	class Emitter : public IPositionable2d<float>, public IUpdatable, public IDrawable {
+	class Emitter : public Positionable2dBase<float>, public IUpdatable, public IDrawable {
 
 	private:
-		class Particle : public ISpriteable {
+		class Particle : public Positionable2dBase<float>, public SpriteableBase, public IUpdatable, public IDrawable {
 
 		private:
 			int __sprite_index;
