@@ -72,7 +72,7 @@ public:
 	void OnUpdate(UpdateEventArgs& e) override {
 
 		if (Keyboard::KeyPressed(ALLEGRO_KEY_F5))
-			MyGame.Rooms().LoadNext();
+			MyGame.Rooms().RestartRoom();
 
 		if (Keyboard::KeyPressed(ALLEGRO_KEY_O)) {
 			std::cout << MyGame.Resources().Tilesets()[TILESET_1]->TileCount();
@@ -91,7 +91,7 @@ class oBall : public Object {
 
 public:
 	oBall(float x, float y) :
-		Object(1, PointF(0, 0)),
+		Object(1, PointF(x, y)),
 		_hit_mask(CircleF(10.0f)) {
 
 		_radius = Random::Float(10, 25);
@@ -100,7 +100,7 @@ public:
 
 		Collider().SetHitMask(&_hit_mask);
 		Collider().Filter().SetCategoryBits(0b010);
-		Collider().Filter().SetMaskBits(0b000);
+		Collider().Filter().SetMaskBits(0b010);
 
 	}
 
@@ -118,25 +118,37 @@ public:
 		Room* room = MyGame.Rooms().CurrentRoom();
 
 		if ((Y() - r < 0 && _velocity.Y() < 0) || (Y() + r > room->Height() && _velocity.Y() > 0))
-			BounceV();
+			_velocity.SetY(-_velocity.Y());
 
 		if ((X() - r < 0 && _velocity.X() < 0) || (X() + r > room->Width() && _velocity.X() > 0))
-			BounceH();
+			_velocity.SetX(-_velocity.X());
 
 		SetPosition(Position() + _velocity);
+
+		// Slowdown.
+		_velocity *= 0.99f;
 
 	}
 	void OnCollision(CollisionEventArgs& e) override {
 
-		//std::cout << "hit!";
+		MyGame.Rooms().CurrentRoom()->ObjectManager()->CollisionManager()->MoveOutsideObject(this, e.Other(), 
+			PointDirection(e.Other()->Position(), Position()),
+			1.0f
+		);
+
+		_velocity = -_velocity;
 
 	}
 
-	void BounceV() {
-		_velocity.SetY(_velocity.Y() * -1);
+	void SetVelocity(const Vector2d& vec) {
+
+		_velocity = vec;
+
 	}
-	void BounceH() {
-		_velocity.SetX(_velocity.X() * -1);
+	const Vector2d& Velocity() const {
+
+		return _velocity;
+
 	}
 
 private:
@@ -157,6 +169,8 @@ public:
 		Collider().Filter().SetCategoryBits(0b001);
 		Collider().Filter().SetMaskBits(0b010);
 
+		_last_position = Position();
+
 	}
 
 	void OnDraw(DrawEventArgs& e) override {
@@ -166,23 +180,41 @@ public:
 	}
 	void OnUpdate(UpdateEventArgs& e) override {
 
+		_last_position = Position();
+
 		SetPosition(Mouse::Position());
 
 	}
 	void OnCollision(CollisionEventArgs& e) override {
 
-		switch (e.Other().Id()) {
+		switch (e.Other()->Id()) {
 
-		case 1:
-			((oBall*)&e.Other())->BounceV();
+		case 1: {
+
+			oBall* ptr = (oBall*)e.Other();
+
+			Vector2d move_vec(_last_position, Position());
+			Vector2d dir_vec = Vector2d(Position(), ptr->Position()) + move_vec;
+
+			Vector2d tot_vec(move_vec.Angle(), dir_vec.Magnitude());
+
+			// Set the ball's new velocity.	
+			ptr->SetVelocity(tot_vec);
+
+			// Move the ball outside of the cursor.
+			if (tot_vec.Magnitude() > 0)
+				MyGame.Rooms().CurrentRoom()->ObjectManager()->CollisionManager()->MoveOutsideObject(e.Other(), this, PointDirection(e.Other()->Position(), Position()), 1);
+
 			break;
 
+		}
 		}
 
 	}
 
 private:
 	CircleHitMask _hit_mask;
+	PointF _last_position;
 
 };
 
@@ -240,7 +272,7 @@ public:
 		ObjectManager()->InstanceAdd(Object::Create<oMouseBox>());
 
 		for (int i = 0; i < 100; ++i)
-			ObjectManager()->InstanceAdd(Object::Create<oBall>(200, 200));
+			ObjectManager()->InstanceAdd(Object::Create<oBall>(Random::Float(Width()), Random::Float(Height())));
 
 
 	}

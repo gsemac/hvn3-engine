@@ -16,7 +16,9 @@ namespace hvn3 {
 		void ClearObjects() override;
 
 		bool PlaceFree(Object* object, const PointF& position) override;
-		void MoveContact(Object* object, float direction, int max_distance) override;
+		void MoveContact(Object* object, float direction, int distance_per_step) override;
+		void MoveOutside(Object* object, float direction, int distance_per_step);
+		void MoveOutsideObject(Object* object, Object* other, float direction, int distance_per_step);
 
 		void Update(UpdateEventArgs& e) override;
 

@@ -34,6 +34,8 @@ namespace hvn3 {
 
 		_grid.clear();
 
+		_colliders.clear();
+
 	}
 	void CollisionGrid::Update() {
 

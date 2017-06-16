@@ -43,12 +43,13 @@ namespace hvn3 {
 	class Vector2d {
 
 	private:
-		float __v;
-		float __v_x;
-		float __v_y;
+		float _m;
+		float _x;
+		float _y;
 
 	public:
 		Vector2d();
+		Vector2d(const PointF& start, const PointF& end);
 		Vector2d(float direction, float magnitude);
 		Vector2d(const std::pair<float, float>& components);
 
@@ -73,6 +74,11 @@ namespace hvn3 {
 		Vector2d& operator-=(const Vector2d& other);
 		Vector2d operator*(const Vector2d& other);
 		Vector2d& operator*=(const Vector2d& other);
+
+		Vector2d operator*(const float other);
+		Vector2d& operator*=(const float other);
+
+		Vector2d operator-() const;
 
 	};
 

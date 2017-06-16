@@ -70,18 +70,33 @@ namespace hvn3 {
 		return true;
 
 	}
-	void CollisionManager::MoveContact(Object* object, float direction, int max_distance) {
+	void CollisionManager::MoveContact(Object* object, float direction, int distance_per_step) {
 
-		for (int i = 0; i < max_distance; ++i) {
+		PointF pos = object->Position();
 
-			PointF new_position = PointInDirection(PointF(object->X(), object->Y()), direction, 1);
+		while (PlaceFree(object, pos)) {
 
-			if (!PlaceFree(object, new_position))
-				break;
+			object->SetPosition(pos);
 
-			object->SetPosition(new_position);
+			pos = PointInDirection(pos, direction, distance_per_step);
 
 		}
+
+	}
+	void CollisionManager::MoveOutside(Object* object, float direction, int distance_per_step) {
+
+		PointF pos = object->Position();
+
+		while (!PlaceFree(object, pos))
+			pos = PointInDirection(pos, direction, distance_per_step);
+
+		object->SetPosition(pos);
+
+	}
+	void CollisionManager::MoveOutsideObject(Object* object, Object* other, float direction, int distance_per_step) {
+
+		while (_narrowphase_method.TestCollision(&object->Collider(), &other->Collider()))
+			object->SetPosition(PointInDirection(object->Position(), direction, distance_per_step));
 
 	}
 

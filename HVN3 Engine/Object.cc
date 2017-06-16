@@ -16,6 +16,7 @@ namespace hvn3 {
 	Object::Object(ObjectId id) :
 		Object(id, PointF(0.0f, 0.0f)) {}
 	Object::Object(ObjectId id, const PointF& position) : 
+		Positionable2dBase(position),
 		_collider(this) {
 
 		_id = id;

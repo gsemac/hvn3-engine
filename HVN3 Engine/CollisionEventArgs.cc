@@ -6,9 +6,14 @@ namespace hvn3 {
 	CollisionEventArgs::CollisionEventArgs(Object* other) :
 		_other(other) {}
 
-	Object& CollisionEventArgs::Other() {
+	Object* CollisionEventArgs::Other() {
 
-		return *_other;
+		return _other;
+
+	}
+	const Object* CollisionEventArgs::Other() const {
+
+		return _other;
 
 	}
 

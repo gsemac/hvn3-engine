@@ -10,7 +10,8 @@ namespace hvn3 {
 	public:
 		CollisionEventArgs(Object* other);
 
-		Object& Other();
+		Object* Other();
+		const Object* Other() const;
 
 	private:
 		Object* _other;

@@ -3,6 +3,7 @@
 #include "Vector2d.h"
 #include "Geometry.h"
 #include "Utility.h"
+#include "Exception.h"
 
 namespace hvn3 {
 
@@ -123,88 +124,98 @@ namespace hvn3 {
 
 	}
 
-	Vector2d::Vector2d() : Vector2d(0.0f, 0.0f) {}
+	Vector2d::Vector2d() :
+		Vector2d(0.0f, 0.0f) {
+	}
+	Vector2d::Vector2d(const PointF& start, const PointF& end) {
+
+		_x = end.X() - start.X();
+		_y = end.Y() - start.Y();
+		_m = std::hypotf(_x, _y);
+		
+	}
 	Vector2d::Vector2d(float degrees, float magnitude) {
 
-		__v = magnitude;
 		float rad = DegreesToRadians(degrees);
-		__v_x = std::cos(rad) * __v;
-		__v_y = std::sin(rad) * -__v;
+
+		_m = magnitude;
+		_x = std::cos(rad) * _m;
+		_y = std::sin(rad) * -_m;
 
 
 	}
 	Vector2d::Vector2d(const std::pair<float, float>& components) {
 
-		__v_x = components.first;
-		__v_y = components.second;
-		__v = std::hypotf(__v_x, __v_y);
+		_x = components.first;
+		_y = components.second;
+		_m = std::hypotf(_x, _y);
 
 	}
 
 	float Vector2d::X() const {
 
-		return __v_x;
+		return _x;
 
 	}
 	float Vector2d::Y() const {
 
-		return __v_y;
+		return _y;
 
 	}
 	float Vector2d::Magnitude() const {
 
-		return __v;
+		return _m;
 
 	}
 	void Vector2d::SetX(float value) {
 
-		__v_x = value;
-		__v = std::hypotf(__v_x, __v_y);
+		_x = value;
+		_m = std::hypotf(_x, _y);
 
 	}
 	void Vector2d::SetY(float value) {
 
-		__v_y = value;
-		__v = std::hypotf(__v_x, __v_y);
+		_y = value;
+		_m = std::hypotf(_x, _y);
 
 	}
 	void Vector2d::SetMagnitude(float value) {
 
 		float rad = DegreesToRadians(Angle());
 
-		__v = value;
-		__v_x = std::cos(rad) * __v;
-		__v_y = std::sin(rad) * -__v;
+		_m = value;
+		_x = std::cos(rad) * _m;
+		_y = std::sin(rad) * -_m;
 
 	}
 	void Vector2d::SetDirection(float degrees) {
 
-
+		throw NotImplementedException();
 
 	}
 
 	Direction Vector2d::Direction() const {
 
-		if (__v_y < 0.0f) {
-			if (__v_x < 0.0f)
+		if (_y < 0.0f) {
+			if (_x < 0.0f)
 				return hvn3::Direction(UP_LEFT);
-			else if (__v_x > 0.0f)
+			else if (_x > 0.0f)
 				return hvn3::Direction(UP_RIGHT);
 			else
 				return hvn3::Direction(UP);
 		}
-		else if (__v_y > 0.0f) {
-			if (__v_x < 0.0f)
+		else if (_y > 0.0f) {
+			if (_x < 0.0f)
 				return hvn3::Direction(DOWN_LEFT);
-			else if (__v_x > 0.0f)
+			else if (_x > 0.0f)
 				return hvn3::Direction(DOWN_RIGHT);
 			else
 				return hvn3::Direction(DOWN);
 		}
 		else {
-			if (__v_x < 0.0f)
+			if (_x < 0.0f)
 				return hvn3::Direction(LEFT);
-			else if (__v_x > 0.0f)
+			else if (_x > 0.0f)
 				return hvn3::Direction(RIGHT);
 			else
 				return hvn3::Direction(NONE);
@@ -217,13 +228,13 @@ namespace hvn3 {
 		float degrees = 0.0f;
 
 		// Determine the angle using an appropriate means.
-		if ((std::abs)(__v_x) > 0.0f)
-			degrees = RadiansToDegrees((std::acos)(__v_x / __v));
-		else if ((std::abs)(-__v_y) > 0.0f) {
-			if (__v_y > 0.0f)
+		if ((std::abs)(_x) > 0.0f)
+			degrees = RadiansToDegrees((std::acos)(_x / _m));
+		else if ((std::abs)(-_y) > 0.0f) {
+			if (_y > 0.0f)
 				degrees = 270.0f;
 			else
-				degrees = RadiansToDegrees((std::asin)((std::abs)(-__v_y) / __v));
+				degrees = RadiansToDegrees((std::asin)((std::abs)(-_y) / _m));
 		}
 
 		// Adjust the angle according to its quadrant.
@@ -238,13 +249,13 @@ namespace hvn3 {
 	}
 	int Vector2d::Quadrant() const {
 
-		if (__v_x > 0.0f && -__v_y > 0.0f)
+		if (_x > 0.0f && -_y > 0.0f)
 			return 1;
-		else if (__v_x < 0.0f && -__v_y > 0.0f)
+		else if (_x < 0.0f && -_y > 0.0f)
 			return 2;
-		else if (__v_x < 0.0f && -__v_y < 0.0f)
+		else if (_x < 0.0f && -_y < 0.0f)
 			return 3;
-		else if (__v_x > 0.0f && -__v_y < 0.0f)
+		else if (_x > 0.0f && -_y < 0.0f)
 			return 4;
 
 		return -1;
@@ -253,7 +264,7 @@ namespace hvn3 {
 
 	float Vector2d::DotProduct(const Vector2d& other) const {
 
-		return (__v_x * __v_y) + (other.__v_x * other.__v_y);
+		return (_x * _y) + (other._x * other._y);
 
 	}
 	Vector2d Vector2d::CrossProduct(const Vector2d& other) const {
@@ -296,6 +307,24 @@ namespace hvn3 {
 		SetX(X() * other.X());
 		SetY(Y() * other.Y());
 		return *this;
+
+	}
+	Vector2d Vector2d::operator*(const float other) {
+
+		return Vector2d(X() * other, Y() * other);
+
+	}
+	Vector2d& Vector2d::operator*=(const float other) {
+
+		SetX(X() * other);
+		SetY(Y() * other);
+
+		return *this;
+
+	}
+	Vector2d Vector2d::operator-() const {
+
+		return Vector2d(-X(), -Y());
 
 	}
 
