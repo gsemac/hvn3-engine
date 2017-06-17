@@ -109,7 +109,7 @@ namespace hvn3 {
 	}
 	Scale Display::Scale() const {
 
-		return hvn3::Scale(Width() / __original_size.Width(), Height() / __original_size.Height());
+		return hvn3::Scale(static_cast<float>(Width()) / __original_size.Width(), static_cast<float>(Height()) / __original_size.Height());
 
 	}
 	Point2d<int> Display::Position() const {

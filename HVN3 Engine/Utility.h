@@ -47,6 +47,18 @@ namespace hvn3 {
 		return a < b ? a : b;
 
 	}
+	template <typename T>
+	inline T Floor(T n) {
+
+		return std::floor(n);
+
+	}
+	template <typename T>
+	inline T Ceiling(T n) {
+
+		return std::ceil(n);
+
+	}
 	// Returns the minimum of two values.
 	//float Min(float a, float b);
 	// Returns the given float rounded to the nearest integer.

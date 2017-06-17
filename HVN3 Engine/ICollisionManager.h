@@ -5,6 +5,7 @@ namespace hvn3 {
 
 	class Object;
 	class UpdateEventArgs;
+	class IBroadPhaseCollisionManager;
 
 	class ICollisionManager {
 
@@ -24,6 +25,8 @@ namespace hvn3 {
 		virtual void MoveOutside(Object* object, float direction, int distance_per_step) = 0;
 		// Moves the object in a given direction (in degrees) until it is no longer colliding with the given object.
 		virtual void MoveOutsideObject(Object* object, Object* other, float direction, int distance_per_step) = 0;
+
+		virtual IBroadPhaseCollisionManager& BroadPhase() = 0;
 
 		// Updates the state of the collision engine and triggers any new collisions.
 		virtual void Update(UpdateEventArgs& e) = 0;

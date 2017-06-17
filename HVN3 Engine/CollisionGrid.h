@@ -3,14 +3,15 @@
 #include <list>
 #include "Collider.h"
 #include "IBroadPhaseCollisionManager.h"
+#include "DrawEventArgs.h"
 
 namespace hvn3 {
 
 	class CollisionGrid : public IBroadPhaseCollisionManager {
 
 	public:
-		CollisionGrid(float cell_width, float cell_height);
-		CollisionGrid(const Size<float>& cell_size);
+		CollisionGrid(int cell_width, int cell_height);
+		CollisionGrid(const SizeI& cell_size);
 
 		// Inherited from IBroadphase
 
@@ -26,26 +27,28 @@ namespace hvn3 {
 		Collider* QueryNearest(const PointF& point, int filter = 0) const override;
 		RayCastResult RayCast(const LineF& ray) const;
 
-		//void HandleCollisions(Object* obj);
-		//bool TestCollision(Object* obj, Object* other) const;
-		//bool TestCollision(ICollidable* obj, Point obj_position, ICollidable* other, Point other_position) const;
+#ifdef HVN3_DEBUG
+		void DrawCells(DrawEventArgs& e) const;
+#endif
 
-		//std::vector<Object*>& ObjectsAt(float x, float y);
-		PointF CellAt(const PointF& point) const;
-		PointF CellAt(float x, float y) const;
+	private:
+		void GetIntersectedCells(ColliderType collider, std::vector<PointI>& cells) const;
+		void GetIntersectedCells(const RectangleF& region, std::vector<PointI>& cells) const;
+		void MapToCells(ColliderType collider);
 
-		//Object* RayCast(const Line& ray);
+		// Given a position, returns the position of the cell that contains it, aligned to the grid.
+		PointI CellAt(const PointF& point) const;
+		// Given a position, returns the position of the cell that contains it, aligned to the grid.
+		PointI CellAt(float x, float y) const;
 
-	public:
-		std::list<Collider*> _colliders;
-		std::unordered_multimap<PointF, Collider*> _grid;
-		std::vector<std::pair<Collider*, Collider*>> _pairs;
-		Size<float> _cell_size;
+		std::list<ColliderType> _colliders;
+		std::unordered_multimap<PointI, ColliderType> _grid;
+		ColliderPairCollection _pairs;
+		SizeI _cell_size;
+		// Used for temporarily holding the resulting cells from the "MapToCells" function. Avoids having to create a new vector each time.
+		std::vector<PointI> _cell_mapping_buffer;
 
-		void GetIntersectedCells(Collider* collider, std::vector<PointF>& cells) const;
-		void GetIntersectedCells(const RectangleF& region, std::vector<PointF>& cells) const;
-		void MapToCells(Collider* collider);
-		void Draw(int cell_dimensions) const;
+
 
 	};
 

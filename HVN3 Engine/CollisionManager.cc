@@ -29,6 +29,12 @@ namespace hvn3 {
 
 	}
 
+	IBroadPhaseCollisionManager& CollisionManager::BroadPhase() {
+
+		return *_broadphase_method.get();
+
+	}
+
 	void CollisionManager::Update(UpdateEventArgs& e) {
 
 		// Update the state of the collision detection method.

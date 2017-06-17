@@ -8,7 +8,7 @@ namespace hvn3 {
 		Framework::Initialize();
 
 		// Set new bitmap flags.
-		//Drawing::SetNewBitmapFlags(hvn3::Drawing::BitmapFlags::Default | hvn3::Drawing::BitmapFlags::MagLinear | hvn3::Drawing::BitmapFlags::MinLinear);
+		Drawing::SetNewBitmapFlags(hvn3::Drawing::BitmapFlags::Default | hvn3::Drawing::BitmapFlags::MagLinear | hvn3::Drawing::BitmapFlags::MinLinear);
 
 	}
 	GameManager::~GameManager() {

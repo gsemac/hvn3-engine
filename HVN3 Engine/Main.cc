@@ -1,6 +1,8 @@
 #define HVN3_DEBUG
 #include "HVN3.h"
 #include "LevelEditor.h"
+#include "CollisionManager.h"
+#include "CollisionGrid.h"
 using namespace hvn3;
 using namespace hvn3::Gui;
 
@@ -82,6 +84,11 @@ public:
 	void OnDraw(DrawEventArgs& e) override {
 
 		e.Graphics().DrawBitmap(0, 0, &MyGame.Resources().Tilesets()[TILESET_1]->TileAt(5));
+
+		CollisionManager* cm = (CollisionManager*)MyGame.Rooms().CurrentRoom()->Objects().CollisionManager().get();
+		CollisionGrid& cg = (CollisionGrid&)cm->BroadPhase();
+
+		cg.DrawCells(e);
 
 	}
 
@@ -288,8 +295,8 @@ public:
 	}
 	void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e) override {
 
-		Resize(e.NewSize().Width(), e.NewSize().Height());
-		std::cout << "size changed\n";
+		//Resize(e.NewSize().Width(), e.NewSize().Height());
+		//std::cout << "size changed\n";
 		//ViewManager()->ViewRemove(0);
 
 		//ViewManager()->ViewAt(0) = View(Point(0, 0), Size(e.NewSize().Width(), e.NewSize().Height()), Point(0, 0), Size(e.NewSize().Width(), e.NewSize().Height()));
@@ -330,7 +337,7 @@ int main(int argc, char *argv[]) {
 	MyGame.Properties().OutsideColor = Color::Black;
 	MyGame.Properties().DisplaySize = SizeI(960, 720);
 	MyGame.Properties().DisplayFlags |= DisplayFlags::Resizable;
-	MyGame.Properties().ScalingMode = ScalingMode::MaintainAspectRatio;
+	MyGame.Properties().ScalingMode = ScalingMode::Full;
 	MyGame.Properties().StartFullscreen = false;
 	MyGame.Properties().FPS = 60;
 

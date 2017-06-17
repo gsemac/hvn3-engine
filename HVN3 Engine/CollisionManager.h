@@ -20,6 +20,8 @@ namespace hvn3 {
 		void MoveOutside(Object* object, float direction, int distance_per_step);
 		void MoveOutsideObject(Object* object, Object* other, float direction, int distance_per_step);
 
+		IBroadPhaseCollisionManager& BroadPhase();
+
 		void Update(UpdateEventArgs& e) override;
 
 	private:

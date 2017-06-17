@@ -365,6 +365,7 @@ namespace hvn3 {
 	const Color Color::DarkGrey = FromArgb(169, 169, 169);
 	const Color Color::DimGrey = FromArgb(105, 105, 105);
 	const Color Color::DodgerBlue = FromArgb(30, 144, 255);
+	const Color Color::Fuchsia = FromArgb(255, 0, 255);
 	const Color Color::Gainsboro = FromArgb(220, 220, 220);
 	const Color Color::Grey = FromArgbf(0.5f, 0.5f, 0.5f);
 	const Color Color::Red = FromArgbf(1.0f, 0.0f, 0.0f);
