@@ -306,6 +306,7 @@
     <ClCompile Include="RectangleHitMask.cc" />
     <ClCompile Include="RoomTransitionFade.cc" />
     <ClCompile Include="RoomTransitionNone.cc" />
+    <ClCompile Include="TilesetPanel.cc" />
     <ClCompile Include="Utility.cc" />
     <ClCompile Include="Collider.cc" />
     <ClCompile Include="IFocusable.cc" />
@@ -434,6 +435,7 @@
     <ClInclude Include="RoomTransitionFade.h" />
     <ClInclude Include="RoomTransitionNone.h" />
     <ClInclude Include="SharedCreatableBase.h" />
+    <ClInclude Include="TilesetPanel.h" />
     <ClInclude Include="UniqueCreateableBase.h" />
     <ClInclude Include="UniquePolymorphicCreateableBase.h" />
     <ClInclude Include="IExtension.h" />

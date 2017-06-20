@@ -2,21 +2,26 @@
 
 namespace hvn3 {
 
-	Tileset::Tileset(const char* filepath, unsigned int tile_width, unsigned int tile_height) :
-		Tileset(filepath, tile_width, tile_height, 0, 0, 0, 0) {
+	Tileset::Tileset(const char* filepath, const SizeI& tile_size) :
+		Tileset(filepath, tile_size, PointI(0, 0), PointI(0, 0)) {
 	}
-	Tileset::Tileset(const char* filepath, unsigned int tile_width, unsigned int tile_height, unsigned int offset_x, unsigned int offset_y, unsigned int separation_x, unsigned int separation_y) :
-		_bitmap(filepath) {
+	Tileset::Tileset(const char* filepath, const SizeI& tile_size, const PointI& offset, const PointI& separation) :
+		_bitmap(filepath),
+		_tile_size(tile_size) {
 
 		// Initialize row count.
 		_rows = 0;
 
+		// Get width/height as unsigned integers.
+		unsigned int w = static_cast<unsigned int>(tile_size.Width());
+		unsigned int h = static_cast<unsigned int>(tile_size.Height());
+
 		// Generate a vector of sub-bitmaps to represent each tile.
-		for (unsigned int y = offset_y; y < _bitmap.Height(); y += tile_height + separation_y) {
+		for (unsigned int y = offset.Y(); y < _bitmap.Height(); y += h + separation.Y()) {
 
 			// Insert the next row of tiles.
-			for (unsigned int x = offset_x; x < _bitmap.Width(); x += tile_width + separation_x)
-				_tiles.push_back(Drawing::Bitmap(_bitmap, RectangleI(x, y, Min(tile_width, _bitmap.Width() - x), Min(tile_height, _bitmap.Height() - y))));
+			for (unsigned int x = offset.X(); x < _bitmap.Width(); x += w + separation.X())
+				_tiles.push_back(Drawing::Bitmap(_bitmap, RectangleI(x, y, Min(w, _bitmap.Width() - x), Min(h, _bitmap.Height() - y))));
 
 			// Increment the number of rows.
 			++_rows;
@@ -48,6 +53,17 @@ namespace hvn3 {
 	size_t Tileset::Columns() const {
 
 		return _tiles.size() / _rows;
+
+	}
+
+	const Drawing::Bitmap& Tileset::Bitmap() const {
+
+		return _bitmap;
+
+	}
+	const SizeI& Tileset::TileSize() const {
+
+		return _tile_size;
 
 	}
 

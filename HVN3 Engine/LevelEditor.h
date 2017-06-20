@@ -1,6 +1,7 @@
 #pragma once
 #include "Room.h"
 #include "gui/GuiManager.h"
+#include "Tileset.h"
 
 namespace hvn3 {
 	namespace editor {
@@ -12,7 +13,7 @@ namespace hvn3 {
 			LevelEditor(unsigned int width, unsigned int height);
 			virtual ~LevelEditor() = default;
 
-			Gui::GuiManager* GuiManager();
+			Gui::GuiManager& GuiManager();
 
 			virtual void OnUpdate(UpdateEventArgs& e) override;
 			virtual void OnDraw(DrawEventArgs& e) override;
@@ -28,6 +29,8 @@ namespace hvn3 {
 		private:
 			bool _grid_visible;
 			SizeF _grid_space_size;
+			RectangleF _visible_region;
+			Tileset _tileset;
 
 			Gui::GuiManager _gui_manager;
 

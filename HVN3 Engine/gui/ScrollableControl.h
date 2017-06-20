@@ -5,7 +5,6 @@
 #include "gui/Handle.h"
 
 namespace hvn3 {
-
 	namespace Gui {
 
 		class ScrollableControl : public virtual Control, public IScrollable {
@@ -39,5 +38,4 @@ namespace hvn3 {
 		};
 
 	}
-
 }

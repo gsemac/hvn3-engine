@@ -163,6 +163,12 @@
     <Filter Include="Header Files\Bases">
       <UniqueIdentifier>{5017f5ba-1a62-4be8-805a-91a6b41f28ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\System\Editor\Controls">
+      <UniqueIdentifier>{226e5da5-226d-4dfc-a5af-0238c8b8e332}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System\Editor\Controls">
+      <UniqueIdentifier>{6916c53d-250f-4ea8-9d66-22b29adb710f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -524,6 +530,9 @@
     </ClCompile>
     <ClCompile Include="CircleHitMask.cc">
       <Filter>Source Files\System\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="TilesetPanel.cc">
+      <Filter>Source Files\System\Editor\Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1012,6 +1021,9 @@
     </ClInclude>
     <ClInclude Include="CircleHitMask.h">
       <Filter>Header Files\System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="TilesetPanel.h">
+      <Filter>Header Files\System\Editor\Controls</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

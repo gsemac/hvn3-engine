@@ -342,7 +342,7 @@ int main(int argc, char *argv[]) {
 	MyGame.Properties().FPS = 60;
 
 	// Load resources.
-	MyGame.Resources().Tilesets().Add(TILESET_1, Resource::Create<Tileset>("data/test/tileset1.png", 32, 32));
+	MyGame.Resources().Tilesets().Add(TILESET_1, Resource::Create<Tileset>("data/test/tileset1.png", SizeI(32, 32)));
 	MyGame.Resources().Backgrounds().Add(BACKGROUND_1, Resource::Create<Background>("data/test/tileset1.png"));
 	MyGame.Resources().Sprites().Add(BACKGROUND_1, Sprite::Create("data/test/tileset1.png"));
 
@@ -350,8 +350,8 @@ int main(int argc, char *argv[]) {
 	SizeF large_size(MyGame.Properties().DisplaySize.Width() * 2, MyGame.Properties().DisplaySize.Height() * 2);
 	SizeF medium_size(1000, 800);
 	SizeF small_size(640, 480);
-	MyGame.Rooms().AddRoom(Room::Create<TestRoom>());
-	MyGame.Rooms().AddRoom(Room::Create<editor::LevelEditor>(medium_size));
+	MyGame.Rooms().AddRoom(Room::Create<editor::LevelEditor>(large_size));
+	//MyGame.Rooms().AddRoom(Room::Create<TestRoom>());
 	MyGame.Rooms().SetRoomTransition(RoomTransitionFade::Create(Color::Black, true));
 
 	// Run the main game loop.
