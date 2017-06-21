@@ -9,18 +9,16 @@
 namespace hvn3 {
 	namespace editor {
 
-		LevelEditor::LevelEditor(const SizeF& size) :
-			LevelEditor(size.Width(), size.Height()) {}
-		LevelEditor::LevelEditor(unsigned int width, unsigned int height) :
-			Room(0, SizeI(width, height)),
+		LevelEditor::LevelEditor(const SizeI& size, const SizeI& display_size) :
+			Room(0, size),
 			_grid_space_size(DEFAULT_GRID_CELL_SIZE, DEFAULT_GRID_CELL_SIZE),
-			_gui_manager(RectangleF(width, height)),
-			_visible_region(RectangleF(width, height)),
+			_gui_manager(RectangleF(display_size.Width(), display_size.Height())),
+			_visible_region(RectangleF(display_size.Width(), display_size.Height())),
 			_tileset("data/test/tileset1.png", SizeI(32, 32)) {
+		
 
 			_grid_visible = true;
-
-
+		
 		}
 
 		Gui::GuiManager& LevelEditor::GuiManager() {

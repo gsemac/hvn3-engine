@@ -4,6 +4,13 @@
 
 namespace hvn3 {
 
+	enum CropSide {
+		Top,
+		Left,
+		Right,
+		Bottom
+	};
+
 	template <typename T>
 	struct Rectangle : public Positionable2dBase<T>, public ISizeable<T> {
 
@@ -90,6 +97,29 @@ namespace hvn3 {
 			Point2d<T> br((std::min)(a.Right(), b.Right()), (std::min)(a.Bottom(), b.Bottom()));
 
 			return Rectangle<T>(tl, br);
+
+		}
+		static Rectangle Crop(const Rectangle<T>& rect, CropSide side, T amount) {
+			
+			switch (side) {
+			
+			case CropSide::Top:
+				return Rectangle<T>(rect.X(), rect.Y() + amount, rect.Width(), rect.Height() - amount);
+				break;
+
+			case CropSide::Left:
+				return Rectangle<T>(rect.X() + amount, rect.Y(), rect.Width() - amount, rect.Height());
+				break;
+
+			case CropSide::Right:
+				return Rectangle<T>(rect.X(), rect.Y(), rect.Width() - amount, rect.Height());
+				break;
+
+			case CropSide::Bottom:
+				return Rectangle<T>(rect.X(), rect.Y(), rect.Width(), rect.Height() - amount);
+				break;
+
+			}
 
 		}
 

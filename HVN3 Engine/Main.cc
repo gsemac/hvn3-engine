@@ -347,10 +347,10 @@ int main(int argc, char *argv[]) {
 	MyGame.Resources().Sprites().Add(BACKGROUND_1, Sprite::Create("data/test/tileset1.png"));
 
 	// Set up the first scene.
-	SizeF large_size(MyGame.Properties().DisplaySize.Width() * 2, MyGame.Properties().DisplaySize.Height() * 2);
-	SizeF medium_size(1000, 800);
-	SizeF small_size(640, 480);
-	MyGame.Rooms().AddRoom(Room::Create<editor::LevelEditor>(large_size));
+	SizeI large_size(MyGame.Properties().DisplaySize.Width() * 2, MyGame.Properties().DisplaySize.Height() * 2);
+	SizeI medium_size(1000, 800);
+	SizeI small_size(640, 480);
+	MyGame.Rooms().AddRoom(Room::Create<editor::LevelEditor>(large_size, MyGame.Properties().DisplaySize));
 	//MyGame.Rooms().AddRoom(Room::Create<TestRoom>());
 	MyGame.Rooms().SetRoomTransition(RoomTransitionFade::Create(Color::Black, true));
 

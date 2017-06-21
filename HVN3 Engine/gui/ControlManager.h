@@ -63,6 +63,8 @@ namespace hvn3 {
 			void Sort();
 
 		private:
+			void ApplyAnchors(Control* c) const;
+
 			GuiManager* _gui_manager;
 			Control* _held_control;
 			Control* _hovered_control;

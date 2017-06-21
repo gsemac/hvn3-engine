@@ -9,14 +9,14 @@ namespace hvn3 {
 		class LevelEditor : public Room {
 
 		public:
-			LevelEditor(const SizeF& size);
-			LevelEditor(unsigned int width, unsigned int height);
+			LevelEditor(const SizeI& size, const SizeI& display_size);
 			virtual ~LevelEditor() = default;
 
 			Gui::GuiManager& GuiManager();
 
 			virtual void OnUpdate(UpdateEventArgs& e) override;
 			virtual void OnDraw(DrawEventArgs& e) override;
+			//virtual void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e) override;
 
 			void ToggleGrid(bool grid_visible);
 

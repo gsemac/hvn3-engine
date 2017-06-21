@@ -22,8 +22,15 @@ namespace hvn3 {
 			Gui::StyleManager* StyleManager();
 			Gui::ControlManager* ControlManager();
 			const Gui::ControlManager* ControlManager() const;
-
+			
+			// Returns the region use for docking child controls.
 			const RectangleF& DockableRegion() const;
+			// Sets the region used for docking child controls.
+			void SetDockableRegion(const RectangleF& region);
+			// Temporarily sets a new dockable region.
+			void ResizeDockableRegion(const RectangleF& region);
+			// Restores the dockable region, undoing any changes made by ResizeDockableRegion.
+			void ResetDockableRegion();
 
 			void OnUpdate(UpdateEventArgs& e) override;
 			void OnDraw(DrawEventArgs& e) override;
@@ -33,6 +40,7 @@ namespace hvn3 {
 			Gui::StyleManager* _style_manager;
 			Gui::ControlManager* _control_manager;
 			RectangleF _dockable_region;
+			RectangleF _temp_dockable_region;
 
 		};
 

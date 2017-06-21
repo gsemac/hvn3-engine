@@ -86,7 +86,7 @@ namespace hvn3 {
 
 			// Mark the old control for removal.
 			_pending_removal.push_back(iter);
-			
+
 		}
 		Handle<Control> ControlManager::ActiveControl() {
 
@@ -157,7 +157,7 @@ namespace hvn3 {
 
 			// Iterate through all of the Controls (lowest Z-depth to highest).
 			for (auto it = _controls.begin(); it != _controls.end(); ++it) {
-				
+
 				// Get a pointer to the Control.
 				Control* c = (*it).get();
 
@@ -248,6 +248,9 @@ namespace hvn3 {
 				c->OnUpdate(e);
 
 			}
+
+			for (auto it = _controls.begin(); it != _controls.end(); ++it)
+				ApplyAnchors((*it).get());
 
 			// Process all pending removals.
 			for (size_t i = 0; i < _pending_removal.size(); ++i)
@@ -370,6 +373,57 @@ namespace hvn3 {
 
 		// Private members
 
+		void ControlManager::ApplyAnchors(Control* c) const {
+
+			// If the control doesn't have a manager, do nothing.
+			if (c->Manager() == nullptr)
+				return;
+
+			switch (c->Dock()) {
+
+			case DockStyle::Top:
+
+				c->SetPosition(c->Manager()->DockableRegion().X(), c->Manager()->DockableRegion().Y());
+				c->SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP);
+				c->SetWidth(c->Manager()->DockableRegion().Width());
+
+				c->Manager()->ResizeDockableRegion(RectangleF::Crop(c->Manager()->DockableRegion(), CropSide::Top, c->Height()));
+
+				break;
+
+			case DockStyle::Left:
+
+				c->SetPosition(c->Manager()->DockableRegion().X(), c->Manager()->DockableRegion().Y());
+				c->SetAnchors(ANCHOR_LEFT | ANCHOR_TOP | ANCHOR_BOTTOM);
+				c->SetHeight(c->Manager()->DockableRegion().Height());
+
+				c->Manager()->ResizeDockableRegion(RectangleF::Crop(c->Manager()->DockableRegion(), CropSide::Left, c->Width()));
+				
+				break;
+
+			case DockStyle::Right:
+
+				c->SetPosition((c->Manager()->DockableRegion().X() + c->Manager()->DockableRegion().Width()) - c->Width(), c->Manager()->DockableRegion().Y());
+				c->SetAnchors(ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM);
+				c->SetHeight(c->Manager()->DockableRegion().Height());
+
+				c->Manager()->ResizeDockableRegion(RectangleF::Crop(c->Manager()->DockableRegion(), CropSide::Right, c->Width()));
+
+				break;
+
+			case DockStyle::Bottom:
+
+				c->SetPosition(c->Manager()->DockableRegion().X(), (c->Manager()->DockableRegion().Y() + c->Manager()->DockableRegion().Height()) - c->Height());
+				c->SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_BOTTOM);
+				c->SetWidth(c->Manager()->DockableRegion().Width());
+
+				c->Manager()->ResizeDockableRegion(RectangleF::Crop(c->Manager()->DockableRegion(), CropSide::Bottom, c->Height()));
+
+				break;
+
+			}
+
+		}
 		void ControlManager::Sort() {
 
 			//_controls.sort([](Control* a, Control* b) {return a->Z < b->Z; });
