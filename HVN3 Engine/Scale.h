@@ -24,6 +24,7 @@ namespace hvn3 {
 
 		float XScale() const;
 		float YScale() const;
+		float Factor() const;
 
 		template <typename T>
 		Point2d<T>& ScalePoint(Point2d<T>& point) const {

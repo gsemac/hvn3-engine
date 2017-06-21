@@ -163,7 +163,7 @@ namespace hvn3 {
 
 	}
 
-	void Mouse::StateAccessor::SetButtonState(hvn3::MouseButton button, bool pressed) {
+	void Mouse::MouseController::SetButtonState(hvn3::MouseButton button, bool pressed) {
 
 		Mouse::MouseButton* mb = ToMouseButton(button);
 
@@ -196,7 +196,7 @@ namespace hvn3 {
 		}
 
 	}
-	void Mouse::StateAccessor::ResetButtonStates(bool pressed, bool released, bool held) {
+	void Mouse::MouseController::ResetButtonStates(bool pressed, bool released, bool held) {
 
 		if (pressed) {
 			__left.pressed = false;
@@ -231,19 +231,19 @@ namespace hvn3 {
 			__middle.dbl_waiting = false;
 
 	}
-	void Mouse::StateAccessor::SetPosition(float x, float y) {
+	void Mouse::MouseController::SetPosition(float x, float y) {
 
 		X = x;
 		Y = y;
 
 	}
-	void Mouse::StateAccessor::SetDisplayPosition(int x, int y) {
+	void Mouse::MouseController::SetDisplayPosition(int x, int y) {
 
 		__display_mouse_position.SetX(x);
 		__display_mouse_position.SetY(y);
 
 	}
-	void Mouse::StateAccessor::SetScrollState(bool scrolled_up, bool scrolled_down) {
+	void Mouse::MouseController::SetScrollState(bool scrolled_up, bool scrolled_down) {
 
 		__scrolled_down = scrolled_down;
 		__scrolled_up = scrolled_up;

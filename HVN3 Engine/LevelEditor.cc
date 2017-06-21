@@ -126,6 +126,8 @@ namespace hvn3 {
 
 			_gui_manager.OnDraw(e);
 
+			e.Graphics().DrawCircle(Mouse::Position(), 10, Color::Red, 2.0f);
+
 		}
 
 		// Protected methods
@@ -134,11 +136,11 @@ namespace hvn3 {
 
 			// Draw vertical grid lines.
 			for (float i = 0; i < Width(); i += _grid_space_size.Width())
-				e.Graphics().DrawLine(i, 0, i, Height(), Color(0, 0, 0, 128), 1);
+				e.Graphics().DrawLine(i, 0, i, Height(), Color(0, 0, 0, 50), 1);
 
 			// Draw horizontal grid lines.
 			for (float i = 0; i < Height(); i += _grid_space_size.Height())
-				e.Graphics().DrawLine(0, i, Width(), i, Color(0, 0, 0, 128), 1);
+				e.Graphics().DrawLine(0, i, Width(), i, Color(0, 0, 0, 50), 1);
 
 		}
 

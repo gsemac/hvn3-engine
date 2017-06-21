@@ -40,7 +40,7 @@ namespace hvn3 {
 		friend class StateAccessor;
 
 	public:
-		class StateAccessor {
+		class MouseController {
 
 		public:
 			static void ResetButtonStates(bool pressed, bool released, bool held);

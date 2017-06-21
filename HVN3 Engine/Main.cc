@@ -337,7 +337,7 @@ int main(int argc, char *argv[]) {
 	MyGame.Properties().OutsideColor = Color::Black;
 	MyGame.Properties().DisplaySize = SizeI(960, 720);
 	MyGame.Properties().DisplayFlags |= DisplayFlags::Resizable;
-	MyGame.Properties().ScalingMode = ScalingMode::Full;
+	MyGame.Properties().ScalingMode = ScalingMode::Fixed;
 	MyGame.Properties().StartFullscreen = false;
 	MyGame.Properties().FPS = 60;
 

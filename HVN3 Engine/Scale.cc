@@ -22,6 +22,11 @@ namespace hvn3 {
 		return _scale_factor_y;
 
 	}
+	float Scale::Factor() const {
+
+		return (_scale_factor_x + _scale_factor_y) / 2.0f;
+
+	}
 
 	void Scale::ScalePoint(float& x, float& y) const {
 

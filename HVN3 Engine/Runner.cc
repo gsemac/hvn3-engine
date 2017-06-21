@@ -209,7 +209,7 @@ namespace hvn3 {
 		Keyboard::StateAccessor::ResetKeyStates(true, true, false);
 
 		// Unset all pressed/released mouse buttons so the values will be false until next triggered.
-		Mouse::StateAccessor::ResetButtonStates(true, true, false);
+		Mouse::MouseController::ResetButtonStates(true, true, false);
 
 		// Reset the delta timer.
 		delta_timer.Reset(true);
@@ -259,15 +259,15 @@ namespace hvn3 {
 		switch (ev.AlPtr()->mouse.button) {
 
 		case 1:
-			Mouse::StateAccessor::SetButtonState(MouseButton::Left, true);
+			Mouse::MouseController::SetButtonState(MouseButton::Left, true);
 			break;
 
 		case 2:
-			Mouse::StateAccessor::SetButtonState(MouseButton::Right, true);
+			Mouse::MouseController::SetButtonState(MouseButton::Right, true);
 			break;
 
 		case 3:
-			Mouse::StateAccessor::SetButtonState(MouseButton::Middle, true);
+			Mouse::MouseController::SetButtonState(MouseButton::Middle, true);
 			break;
 
 		}
@@ -278,15 +278,15 @@ namespace hvn3 {
 		switch (ev.AlPtr()->mouse.button) {
 
 		case 1:
-			Mouse::StateAccessor::SetButtonState(MouseButton::Left, false);
+			Mouse::MouseController::SetButtonState(MouseButton::Left, false);
 			break;
 
 		case 2:
-			Mouse::StateAccessor::SetButtonState(MouseButton::Right, false);
+			Mouse::MouseController::SetButtonState(MouseButton::Right, false);
 			break;
 
 		case 3:
-			Mouse::StateAccessor::SetButtonState(MouseButton::Middle, false);
+			Mouse::MouseController::SetButtonState(MouseButton::Middle, false);
 			break;
 
 		}
@@ -297,14 +297,14 @@ namespace hvn3 {
 		if (!Properties().FreezeWhenLostFocus || _display.HasFocus()) {
 	
 			// Set the Mouse' position relative to the display.
-			Mouse::StateAccessor::SetDisplayPosition(ev.AlPtr()->mouse.x, ev.AlPtr()->mouse.y);
+			Mouse::MouseController::SetDisplayPosition(ev.AlPtr()->mouse.x, ev.AlPtr()->mouse.y);
 
 			// Calculate the mouse position relative to the view that it's in.
 			RecalculateMousePosition();
 
 			// If the scroll wheel was moved, set the scroll state.
 			static int scroll_position = 0;
-			Mouse::StateAccessor::SetScrollState(ev.AlPtr()->mouse.z < scroll_position, ev.AlPtr()->mouse.z > scroll_position);
+			Mouse::MouseController::SetScrollState(ev.AlPtr()->mouse.z < scroll_position, ev.AlPtr()->mouse.z > scroll_position);
 			scroll_position = ev.AlPtr()->mouse.z;
 
 		}
@@ -495,7 +495,7 @@ namespace hvn3 {
 				// Translate it according to the view's offset.
 				pos += view.Position();
 
-				Mouse::StateAccessor::SetPosition(pos.X(), pos.Y());
+				Mouse::MouseController::SetPosition(pos.X(), pos.Y());
 				break;
 
 			}
@@ -505,16 +505,34 @@ namespace hvn3 {
 
 			// If Views are not used, set the mouse position to its position relative to the display.
 			PointF pos = Mouse::DisplayPosition();
+			
+			// 
+			switch (Properties().ScalingMode) {
 
-			// If the mouse is outside of the clipping area, don't track it.
-			if (!PointIn(pos, _graphics.Clip()))
-				return;
+			case ScalingMode::Fixed: {
+				
+				// If we're using a fixed scaling mode, the mouse position does not need to be changed at all.
+				break;
 
-			// Set the position relative to the clipping area.
-			pos -= _graphics.Clip().TopLeft();
-			Scale(SizeF(room.Width(), room.Height()), room.GetVisibleRegion().Size()).ScalePoint(pos);
+			}
 
-			Mouse::StateAccessor::SetPosition(pos.X(), pos.Y());
+			default: {
+
+				// If the mouse is outside of the clipping area, don't track it.
+				if (!PointIn(pos, _graphics.Clip()))
+					return;
+
+				// Set the position relative to the clipping area.
+				pos -= _graphics.Clip().TopLeft();
+				std::cout << Scale(SizeF(room.Width(), room.Height()), _graphics.Clip().Size()).Factor() << std::endl;
+				Scale(SizeF(room.Width(), room.Height()), _graphics.Clip().Size()).ScalePoint(pos);
+
+			}
+
+			}
+
+			// Set the new mouse position.
+			Mouse::MouseController::SetPosition(pos.X(), pos.Y());
 
 		}
 
