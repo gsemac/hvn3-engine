@@ -71,6 +71,7 @@ namespace hvn3 {
 			PointF _last_mouse_position;
 			PointF _control_offset;
 			collection_type _controls;
+			std::vector<Control*> _docked_controls;
 			std::vector<collection_type::iterator> _pending_removal;
 			bool _resort_needed;
 			bool _keyboard_events_enabled;

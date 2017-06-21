@@ -2,7 +2,7 @@
 #include "gui/Control.h"
 #include "gui/GuiManager.h"
 #include "gui/Scrollbar.h"
-#define SCROLLBAR_DEFAULT_WIDTH 12
+#define SCROLLBAR_DEFAULT_WIDTH 15
 
 namespace hvn3 {
 

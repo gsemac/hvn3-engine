@@ -86,6 +86,10 @@ namespace hvn3 {
 			tileset_window->Controls()->AddControl(Gui::Control::Create(tileset_panel));
 			GuiManager().ControlManager()->AddControl(Gui::Control::Create(tileset_window));
 
+			Gui::Scrollbar* hscroll = new Gui::Scrollbar(nullptr, PointF(0,0), SizeF(50, 15), Gui::Orientation::Horizontal);
+			hscroll->SetDock(Gui::DockStyle::Bottom);
+			GuiManager().ControlManager()->AddControl(Gui::Control::Create(hscroll));
+
 			_visible_region.Translate(0, menu_strip->Height());
 
 			// Define a view to control the visible region of the room.
@@ -104,7 +108,7 @@ namespace hvn3 {
 			// Move drawing downward so that the room is visible despite the menu strip.
 			Drawing::GraphicsState state = e.Graphics().Save();
 			Drawing::Transform t;
-			t.Translate(_visible_region.X(), _visible_region.Y());
+			t.Translate(_gui_manager.DockableRegion().X(), _gui_manager.DockableRegion().Y());
 			t.Compose(e.Graphics().GetTransform());
 			e.Graphics().SetTransform(t);
 

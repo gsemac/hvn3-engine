@@ -28,6 +28,10 @@ namespace hvn3 {
 			// Set the control's parent manager to this object.
 			ControlController(*control).SetManager(_gui_manager);
 
+			// If the control is docked, add it to the docked controls list.
+			//if (control->Dock() != DockStyle::None)
+			//	_docked_controls.push_back(control.get());
+
 			// Add the control to our list.
 			_controls.push_back(std::move(control));
 
@@ -46,6 +50,10 @@ namespace hvn3 {
 
 			if (iter == _controls.end())
 				return false;
+
+			// Remove it from the docked controls list if present.
+			//if ((*iter)->Dock() != DockStyle::None)
+			//	_controls.erase();
 
 			// Add it to the pending removal list.
 			_pending_removal.push_back(iter);

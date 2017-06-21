@@ -277,7 +277,7 @@ namespace hvn3 {
 		}
 
 		// Simply adjust the Z positioning to the minimum possible.
-		Z = -INT_MAX;
+		Z = -INT_MIN;
 
 	}
 	void Gui::Control::SendToBack() {
