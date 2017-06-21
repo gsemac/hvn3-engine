@@ -34,6 +34,7 @@ namespace hvn3 {
 			Scrollbar* _scrollbars[2];
 
 			void UpdateScrollbars();
+			void UpdateVisibleRegion();
 
 		};
 

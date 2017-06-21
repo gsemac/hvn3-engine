@@ -8,7 +8,7 @@ namespace hvn3 {
 
 	namespace Gui {	
 
-		typedef SmoothScrollbar def_scrollbar_type;
+		typedef SmoothScrollbar scrollbar_type;
 
 		ScrollableControl::ScrollableControl(float scroll_height) :
 			ScrollableControl(SizeF(Width(), scroll_height)) {
@@ -61,26 +61,8 @@ namespace hvn3 {
 
 		void ScrollableControl::OnResize(ResizeEventArgs& e) {
 
-			// Store the new width and height of the control.
-			float vwidth = Width();
-			float vheight = Height();
-
-			// If either scrollbar is visible (or going to be), adjust the visible region accordingly.
-			bool vscroll_accounted_for = false;
-			if (ScrollableRegion().Height() > vheight && _scrollbars[VERTICAL]) {
-				vwidth -= VerticalScrollbar()->Width();
-				vscroll_accounted_for = true;
-			}
-			if (ScrollableRegion().Width() > vwidth && _scrollbars[HORIZONTAL]) {
-				vheight -= HorizontalScrollbar()->Height();
-				// What if by decreasing the height, we now need to show the vertical scrollbar?
-				// If the vertical scrollbar is going to be visible and we haven't already assumed it is, decrease width of visible region.
-				if (!vscroll_accounted_for && ScrollableRegion().Height() > vheight && _scrollbars[VERTICAL])
-					vwidth -= VerticalScrollbar()->Width();
-			}
-
 			// Update the visible region of the control.
-			SetVisibleRegion(SizeF(vwidth, vheight));
+			UpdateVisibleRegion();
 
 			// Update the state of the scrollbars themselves.
 			UpdateScrollbars();
@@ -116,9 +98,9 @@ namespace hvn3 {
 
 			// If scrollbars haven't been created yet, create them.
 			if (_scrollbars[VERTICAL] == nullptr)
-				_scrollbars[VERTICAL] = new def_scrollbar_type(this, PointF(X() + Width() - SCROLLBAR_DEFAULT_WIDTH, Y() + SCROLLBAR_DEFAULT_WIDTH), SizeF(SCROLLBAR_DEFAULT_WIDTH, Height() - SCROLLBAR_DEFAULT_WIDTH), Orientation::Vertical);
+				_scrollbars[VERTICAL] = new scrollbar_type(this, PointF(X() + Width() - SCROLLBAR_DEFAULT_WIDTH, Y() + SCROLLBAR_DEFAULT_WIDTH), SizeF(SCROLLBAR_DEFAULT_WIDTH, Height() - SCROLLBAR_DEFAULT_WIDTH), Orientation::Vertical);
 			if (_scrollbars[HORIZONTAL] == nullptr)
-				_scrollbars[HORIZONTAL] = new def_scrollbar_type(this, PointF(X(), Y() + Height() - SCROLLBAR_DEFAULT_WIDTH), SizeF(Width() - SCROLLBAR_DEFAULT_WIDTH, SCROLLBAR_DEFAULT_WIDTH), Orientation::Horizontal);
+				_scrollbars[HORIZONTAL] = new scrollbar_type(this, PointF(X(), Y() + Height() - SCROLLBAR_DEFAULT_WIDTH), SizeF(Width() - SCROLLBAR_DEFAULT_WIDTH, SCROLLBAR_DEFAULT_WIDTH), Orientation::Horizontal);
 
 			// Move scrollbars from the previous manager to the new manager, if the previous manager was non-null.
 			if (e.PreviousManager() != nullptr) {
@@ -132,6 +114,9 @@ namespace hvn3 {
 				Manager()->ControlManager()->AddControl(Control::Create(_scrollbars[HORIZONTAL]));
 			}
 
+			// Update the visible region of the control (showing scrollbars decreases the visible region).
+			UpdateVisibleRegion();
+
 			// Initialize the state of the scrollbars.
 			UpdateScrollbars();
 
@@ -141,9 +126,33 @@ namespace hvn3 {
 
 		// Private methods
 
+		void ScrollableControl::UpdateVisibleRegion() {
+
+			// Store the new width and height of the control.
+			float vwidth = Width();
+			float vheight = Height();
+
+			// If either scrollbar is visible (or going to be), adjust the visible region accordingly.
+			bool vscroll_accounted_for = false;
+			if (ScrollableRegion().Height() > vheight && _scrollbars[VERTICAL]) {
+				vwidth -= VerticalScrollbar()->Width();
+				vscroll_accounted_for = true;
+			}
+			if (ScrollableRegion().Width() > vwidth && _scrollbars[HORIZONTAL]) {
+				vheight -= HorizontalScrollbar()->Height();
+				// What if by decreasing the height, we now need to show the vertical scrollbar?
+				// If the vertical scrollbar is going to be visible and we haven't already assumed it is, decrease width of visible region.
+				if (!vscroll_accounted_for && ScrollableRegion().Height() > vheight && _scrollbars[VERTICAL])
+					vwidth -= VerticalScrollbar()->Width();
+			}
+
+			// Update the visible region of the control.
+			SetVisibleRegion(SizeF(vwidth, vheight));
+
+		}
 		void ScrollableControl::UpdateScrollbars() {
 
-			PointF fp = PointF(X(), Y()); //FixedPosition(); ? 
+			PointF fp = Position(); //FixedPosition(); ? 
 
 			bool vscroll_visible = _scrollbars[VERTICAL] != nullptr && VisibleRegion().Height() < ScrollableRegion().Height();
 			bool hscroll_visible = _scrollbars[HORIZONTAL] != nullptr && VisibleRegion().Width() < ScrollableRegion().Width();

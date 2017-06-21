@@ -82,6 +82,7 @@ namespace hvn3 {
 
 
 			Gui::Window* tileset_window = new Gui::Window(20, 20, 100, 100, "Tiles");
+			tileset_window->SetDock(Gui::DockStyle::Left);
 			Gui::TilesetPanel* tileset_panel = new Gui::TilesetPanel(PointF(0, 0), SizeF(tileset_window->Width(), tileset_window->Height() - tileset_window->TitlebarHeight()), _tileset);
 			tileset_panel->SetAnchors(Gui::ANCHOR_ALL);
 			tileset_window->Controls()->AddControl(Gui::Control::Create(tileset_panel));

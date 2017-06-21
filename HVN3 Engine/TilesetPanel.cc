@@ -22,6 +22,9 @@ namespace hvn3 {
 			// Draw tiles.
 			e.Graphics().DrawBitmap(-ScrollPosition().X(), -ScrollPosition().Y(), _tileset->Bitmap());
 
+			// Call the paint event for the underlying control.
+			ScrollableControl::OnPaint(e);
+
 			/*
 			Tiles used to be drawn separately and split into rows accoriding to the size of the panel.
 			The problem with this is that it messed up the alignment with tilesets that care about that.

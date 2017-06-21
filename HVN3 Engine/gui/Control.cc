@@ -405,9 +405,15 @@ namespace hvn3 {
 		switch (_dock) {
 
 		case DockStyle::Top:
-			SetPosition(0, 0);
+			SetPosition(Manager()->DockableRegion().X(), Manager()->DockableRegion().Y());
 			SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP);
 			SetWidth(Manager()->DockableRegion().Width());
+			break;
+
+		case DockStyle::Left:
+			SetPosition(Manager()->DockableRegion().X(), Manager()->DockableRegion().Y());
+			SetAnchors(ANCHOR_LEFT | ANCHOR_TOP | ANCHOR_BOTTOM);
+			SetHeight(Manager()->DockableRegion().Height());
 			break;
 
 		}
