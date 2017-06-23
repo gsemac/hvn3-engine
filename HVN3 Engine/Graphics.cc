@@ -9,6 +9,54 @@ namespace hvn3 {
 
 	namespace Drawing {
 
+		// Helper functions
+		int ConvertBlendOperation(BlendOperation operation) {
+
+			switch (operation) {
+			case BlendOperation::Normal:
+			case BlendOperation::Invert:
+			case BlendOperation::Add:
+				return ALLEGRO_ADD;
+				break;
+			case BlendOperation::Subtract:
+			case BlendOperation::SourceMinusDestination:
+				return ALLEGRO_SRC_MINUS_DEST;
+				break;
+			case BlendOperation::DestinationMinusSource:
+				return ALLEGRO_DEST_MINUS_SRC;
+				break;
+			}
+
+		}
+		int ConvertBlendMode(BlendMode mode) {
+
+			switch (mode) {
+			case BlendMode::Zero:
+				return ALLEGRO_ZERO;
+			case BlendMode::One:
+				return ALLEGRO_ONE;
+			case BlendMode::Alpha:
+				return ALLEGRO_ALPHA;
+			case BlendMode::InverseAlpha:
+				return ALLEGRO_INVERSE_ALPHA;
+			case BlendMode::SourceColor:
+				return ALLEGRO_SRC_COLOR;
+			case BlendMode::DestinationColor:
+				return ALLEGRO_DEST_COLOR;
+			case BlendMode::InverseSourceColor:
+				return ALLEGRO_INVERSE_SRC_COLOR;
+			case BlendMode::InverseDestinationColor:
+				return ALLEGRO_INVERSE_DEST_COLOR;
+			case BlendMode::ConstColor:
+				return ALLEGRO_CONST_COLOR;
+			case BlendMode::InverseConstColor:
+				return ALLEGRO_INVERSE_CONST_COLOR;
+			}
+
+			return 0;
+
+		}
+
 		Graphics::Graphics(Bitmap& surface) :
 			_surface(surface),
 			_clipping_region(0.0f, 0.0f, surface.Width(), surface.Height()) {
@@ -184,7 +232,7 @@ namespace hvn3 {
 			al_draw_ustr(font->AlPtr(), FrameworkAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text.AlPtr());
 
 		}
-		
+
 		void Graphics::DrawSprite(float x, float y, const Sprite* sprite, int subimage) {
 
 			PrepareDrawingSurface();
@@ -273,7 +321,7 @@ namespace hvn3 {
 		void Graphics::DrawBitmap(float x, float y, const Bitmap* bitmap, const Color& tint) {
 
 			PrepareDrawingSurface();
-		
+
 			al_draw_tinted_bitmap(bitmap->AlPtr(), al_map_rgba_f(tint.Alphaf(), tint.Alphaf(), tint.Alphaf(), tint.Alphaf()), x, y, NULL);
 
 		}
@@ -353,6 +401,53 @@ namespace hvn3 {
 
 		}
 
+		void Graphics::SetBlendMode(BlendOperation operation) {
+
+			switch (operation) {
+
+			case BlendOperation::Normal:
+				SetBlendMode(BlendOperation::Add, BlendMode::One, BlendMode::InverseAlpha);
+				break;
+
+			case BlendOperation::Add:
+				SetBlendMode(BlendOperation::Add, BlendMode::SourceColor, BlendMode::One);
+				break;
+
+			case BlendOperation::Subtract:
+				SetBlendMode(BlendOperation::Subtract, BlendMode::Zero, BlendMode::InverseSourceColor);
+				break;
+
+			case BlendOperation::Max:
+				SetBlendMode(BlendOperation::Max, BlendMode::SourceColor, BlendMode::InverseSourceColor);
+				break;
+
+			case BlendOperation::Invert:
+				SetBlendMode(BlendOperation::Add, BlendMode::InverseDestinationColor, BlendMode::InverseSourceColor);
+				break;
+
+			}
+
+		}
+		void Graphics::SetBlendMode(BlendOperation operation, BlendMode source, BlendMode destination) {
+
+			int op = ConvertBlendOperation(operation);
+			int src = ConvertBlendMode(source);
+			int dest = ConvertBlendMode(destination);
+			
+			al_set_blender(op, src, dest);
+
+		}
+		void Graphics::SetBlendMode(BlendOperation operation, const Color& source, const Color& destination) {
+
+
+
+		}
+		void Graphics::ResetBlendMode() {
+
+			SetBlendMode(BlendOperation::Normal);
+
+		}
+		 
 		void Graphics::PrepareDrawingSurface() {
 
 			// If this Object's drawing surface is not set as the current drawing surface, set it.

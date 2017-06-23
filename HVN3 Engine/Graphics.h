@@ -10,17 +10,27 @@ namespace hvn3 {
 
 	namespace Drawing {
 
-		enum class BlendMode {
+		enum class BlendOperation {
 			Normal,
 			Add,
 			Subtract,
 			Max,
-			DestinationMinusSource,
+			Invert,
 			SourceMinusDestination,
+			DestinationMinusSource
+		};
+
+		enum class BlendMode {
 			Zero,
 			One,
 			Alpha,
-			InverseAlpha
+			InverseAlpha,
+			SourceColor,
+			DestinationColor,
+			InverseSourceColor,
+			InverseDestinationColor,
+			ConstColor,
+			InverseConstColor
 		};
 
 		class Graphics {
@@ -77,6 +87,11 @@ namespace hvn3 {
 			void SetTransform(const Transform& transform);
 			const Transform& GetTransform() const;
 			void ResetTransform();
+
+			void SetBlendMode(BlendOperation operation);
+			void SetBlendMode(BlendOperation operation, BlendMode source, BlendMode destination);
+			void SetBlendMode(BlendOperation operation, const Color& source, const Color& destination);
+			void ResetBlendMode();
 
 			void HoldBitmapDrawing(bool hold);
 

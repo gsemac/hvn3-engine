@@ -37,7 +37,6 @@ namespace hvn3 {
 	};
 
 	class Mouse {
-		friend class StateAccessor;
 
 	public:
 		class MouseController {
@@ -61,7 +60,7 @@ namespace hvn3 {
 		static bool ScrolledDown();
 		static bool ScrolledLeft();
 		static bool ScrolledRight();
-		static bool InRegion(Rectangle<float> rect);
+		static bool InRegion(const RectangleF& region);
 		static bool InRegion(float x1, float y1, float x2, float y2);
 		static PointF Position();
 		static PointF GlobalPosition();
@@ -81,14 +80,14 @@ namespace hvn3 {
 			MouseButton();
 
 		};
-		static Point2d<float> __last_click_pos; // for double-click detection (mouse can't move)
-		static Point2d<float> __display_mouse_position; // Mouse position relative to the display
 
-		static MouseButton __left, __middle, __right;
-		static bool __scrolled_up, __scrolled_down, _scrolled_left, _scrolled_right;
-
-		Mouse();
+		Mouse(); // A mouse object cannot be instantiated
 		static MouseButton* ToMouseButton(hvn3::MouseButton button);
+
+		static PointF _last_click_position; // For double-click detection (mouse can't move)
+		static PointF _display_position; // Mouse position relative to the display
+		static MouseButton _left, _middle, _right;
+		static bool _scrolled_up, _scrolled_down, _scrolled_left, _scrolled_right;
 
 	};
 

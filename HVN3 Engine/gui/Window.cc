@@ -57,7 +57,7 @@ namespace hvn3 {
 
 		}
 
-		void Window::OnMouseDown() {
+		void Window::OnMouseDown(MouseEventArgs& e) {
 
 			// Place the Window in front of all other Controls under the same manager.
 			if (!MouseOnExitButton())
@@ -97,7 +97,7 @@ namespace hvn3 {
 			Mouse::SetCursor(SystemCursor::Default);
 
 		}
-		void Window::OnMouseMove() {
+		void Window::OnMouseMove(MouseMoveEventArgs& e) {
 
 			if (HasActiveChild())
 				return;

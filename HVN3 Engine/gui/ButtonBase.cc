@@ -27,7 +27,7 @@ namespace hvn3 {
 			Invalidate();
 
 		}
-		void ButtonBase::OnMouseDown() {
+		void ButtonBase::OnMouseDown(MouseEventArgs& e) {
 
 			bool invalidate_req = (_text_offset.Y() == 0.0f);
 			_text_offset.SetY(1.0f);

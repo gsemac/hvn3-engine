@@ -73,7 +73,7 @@ namespace hvn3 {
 			Invalidate();
 
 		}
-		void Scrollbar::OnMouseDown() {
+		void Scrollbar::OnMouseDown(MouseEventArgs& e) {
 
 			if (_MouseOnSlider() && Mouse::ButtonPressed(MouseButton::Left)) {
 
@@ -88,7 +88,7 @@ namespace hvn3 {
 
 
 		}
-		void Scrollbar::OnMouseMove() {
+		void Scrollbar::OnMouseMove(MouseMoveEventArgs& e) {
 
 			// Invalidate the control to update the highlight color.
 			Invalidate();

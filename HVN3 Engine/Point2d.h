@@ -91,12 +91,12 @@ namespace hvn3 {
 		}
 		friend Point2d<T> operator+(const Point2d<T>& a, const Point2d<T>& b) {
 
-			return Point(a.X() + b.X(), a.Y() + b.Y());
+			return Point2d<T>(a.X() + b.X(), a.Y() + b.Y());
 
 		}
 		friend Point2d<T> operator-(const Point2d<T>& a, const Point2d<T>& b) {
 
-			return Point(a.X() - b.X(), a.Y() - b.Y());
+			return Point2d<T>(a.X() - b.X(), a.Y() - b.Y());
 
 		}
 		friend Point2d<T> operator-(const Point2d<T>& a) {
@@ -116,6 +116,13 @@ namespace hvn3 {
 			Offset(-other);
 
 			return *this;
+
+		}
+
+		template<typename U>
+		operator Point2d<U>() {
+			
+			return Point2d<U>(static_cast<U>(_x), static_cast<U>(_y));
 
 		}
 

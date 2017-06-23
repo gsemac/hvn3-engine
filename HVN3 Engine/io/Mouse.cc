@@ -9,23 +9,23 @@ namespace hvn3 {
 
 	float Mouse::X = -std::numeric_limits<float>::max();
 	float Mouse::Y = -std::numeric_limits<float>::max();
-	Mouse::MouseButton Mouse::__left = Mouse::MouseButton();
-	Mouse::MouseButton Mouse::__middle = Mouse::MouseButton();
-	Mouse::MouseButton Mouse::__right = Mouse::MouseButton();
-	bool Mouse::__scrolled_down = false;
-	bool Mouse::__scrolled_up = false;
+	Mouse::MouseButton Mouse::_left = Mouse::MouseButton();
+	Mouse::MouseButton Mouse::_middle = Mouse::MouseButton();
+	Mouse::MouseButton Mouse::_right = Mouse::MouseButton();
+	bool Mouse::_scrolled_down = false;
+	bool Mouse::_scrolled_up = false;
 	bool Mouse::_scrolled_left = false;
 	bool Mouse::_scrolled_right = false;
-	PointF Mouse::__last_click_pos = PointF(-1.0f, -1.0f);
-	PointF Mouse::__display_mouse_position = PointF(Mouse::X, Mouse::Y);
+	PointF Mouse::_last_click_position = PointF(-1.0f, -1.0f);
+	PointF Mouse::_display_position = PointF(Mouse::X, Mouse::Y);
 
 	bool Mouse::ButtonDown(hvn3::MouseButton mouse_button) {
 
-		if ((int)mouse_button & (int)hvn3::MouseButton::Left && __left.held)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Left && _left.held)
 			return true;
-		if ((int)mouse_button & (int)hvn3::MouseButton::Right && __right.held)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Right && _right.held)
 			return true;
-		if ((int)mouse_button & (int)hvn3::MouseButton::Middle && __middle.held)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Middle && _middle.held)
 			return true;
 
 		return false;
@@ -33,11 +33,11 @@ namespace hvn3 {
 	}
 	bool Mouse::ButtonPressed(hvn3::MouseButton mouse_button) {
 
-		if ((int)mouse_button & (int)hvn3::MouseButton::Left && __left.pressed)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Left && _left.pressed)
 			return true;
-		if ((int)mouse_button & (int)hvn3::MouseButton::Right && __right.pressed)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Right && _right.pressed)
 			return true;
-		if ((int)mouse_button & (int)hvn3::MouseButton::Middle && __middle.pressed)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Middle && _middle.pressed)
 			return true;
 
 		return false;
@@ -45,11 +45,11 @@ namespace hvn3 {
 	}
 	bool Mouse::ButtonDoubleClicked(hvn3::MouseButton mouse_button) {
 
-		if ((int)mouse_button & (int)hvn3::MouseButton::Left && __left.dbl_clicked)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Left && _left.dbl_clicked)
 			return true;
-		if ((int)mouse_button & (int)hvn3::MouseButton::Right && __right.dbl_clicked)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Right && _right.dbl_clicked)
 			return true;
-		if ((int)mouse_button & (int)hvn3::MouseButton::Middle && __middle.dbl_clicked)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Middle && _middle.dbl_clicked)
 			return true;
 
 		return false;
@@ -57,11 +57,11 @@ namespace hvn3 {
 	}
 	bool Mouse::ButtonReleased(hvn3::MouseButton mouse_button) {
 
-		if ((int)mouse_button & (int)hvn3::MouseButton::Left && __left.released)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Left && _left.released)
 			return true;
-		if ((int)mouse_button & (int)hvn3::MouseButton::Right && __right.released)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Right && _right.released)
 			return true;
-		if ((int)mouse_button & (int)hvn3::MouseButton::Middle && __middle.released)
+		if ((int)mouse_button & (int)hvn3::MouseButton::Middle && _middle.released)
 			return true;
 
 		return false;
@@ -69,12 +69,12 @@ namespace hvn3 {
 	}
 	bool Mouse::ScrolledDown() {
 
-		return __scrolled_down;
+		return _scrolled_down;
 
 	}
 	bool Mouse::ScrolledUp() {
 
-		return __scrolled_up;
+		return _scrolled_up;
 
 	}
 	bool Mouse::ScrolledLeft() {
@@ -87,9 +87,9 @@ namespace hvn3 {
 		return _scrolled_right;
 
 	}
-	bool Mouse::InRegion(Rectangle<float> rect) {
+	bool Mouse::InRegion(const RectangleF& region) {
 
-		return InRegion(rect.X(), rect.Y(), rect.X() + rect.Width(), rect.Y() + rect.Height());
+		return InRegion(region.X(), region.Y(), region.X() + region.Width(), region.Y() + region.Height());
 
 	}
 	bool Mouse::InRegion(float x1, float y1, float x2, float y2) {
@@ -112,7 +112,7 @@ namespace hvn3 {
 	}
 	const Point2d<float>& Mouse::DisplayPosition() {
 
-		return __display_mouse_position;
+		return _display_position;
 
 	}
 	void Mouse::ShowCursor() {
@@ -141,11 +141,11 @@ namespace hvn3 {
 
 		switch (button) {
 		case hvn3::MouseButton::Left:
-			return &__left;
+			return &_left;
 		case hvn3::MouseButton::Right:
-			return &__middle;
+			return &_middle;
 		default:
-			return &__right;
+			return &_right;
 		}
 
 	}
@@ -179,7 +179,7 @@ namespace hvn3 {
 			if (mb->dbl_waiting_allowed) {
 				// Wait for the next press.
 				mb->dbl_waiting = true;
-				__last_click_pos = Position();
+				_last_click_position = Position();
 			}
 			else
 				mb->dbl_waiting_allowed = true;
@@ -187,7 +187,7 @@ namespace hvn3 {
 		}
 		else if (mb->pressed && mb->dbl_waiting) {
 			// Detect double-click.
-			if (mb->last_release.SecondsElapsed() < DBL_CLICK_SEC && __last_click_pos == Position())
+			if (mb->last_release.SecondsElapsed() < DBL_CLICK_SEC && _last_click_position == Position())
 				mb->dbl_clicked = true;
 			mb->dbl_waiting = false;
 			// Prevent the next release from triggering wait.
@@ -199,36 +199,36 @@ namespace hvn3 {
 	void Mouse::MouseController::ResetButtonStates(bool pressed, bool released, bool held) {
 
 		if (pressed) {
-			__left.pressed = false;
-			__right.pressed = false;
-			__middle.pressed = false;
+			_left.pressed = false;
+			_right.pressed = false;
+			_middle.pressed = false;
 		}
 
 		if (released) {
-			__left.released = false;
-			__right.released = false;
-			__middle.released = false;
+			_left.released = false;
+			_right.released = false;
+			_middle.released = false;
 		}
 
 		if (held) {
-			__left.held = false;
-			__right.held = false;
-			__middle.held = false;
+			_left.held = false;
+			_right.held = false;
+			_middle.held = false;
 		}
 
-		__scrolled_up = false;
-		__scrolled_down = false;
+		_scrolled_up = false;
+		_scrolled_down = false;
 
-		__left.dbl_clicked = false;
-		__right.dbl_clicked = false;
-		__middle.dbl_clicked = false;
+		_left.dbl_clicked = false;
+		_right.dbl_clicked = false;
+		_middle.dbl_clicked = false;
 
-		if (__left.last_release.SecondsElapsed() > DBL_CLICK_SEC)
-			__left.dbl_waiting = false;
-		if (__right.last_release.SecondsElapsed() > DBL_CLICK_SEC)
-			__right.dbl_waiting = false;
-		if (__middle.last_release.SecondsElapsed() > DBL_CLICK_SEC)
-			__middle.dbl_waiting = false;
+		if (_left.last_release.SecondsElapsed() > DBL_CLICK_SEC)
+			_left.dbl_waiting = false;
+		if (_right.last_release.SecondsElapsed() > DBL_CLICK_SEC)
+			_right.dbl_waiting = false;
+		if (_middle.last_release.SecondsElapsed() > DBL_CLICK_SEC)
+			_middle.dbl_waiting = false;
 
 	}
 	void Mouse::MouseController::SetPosition(float x, float y) {
@@ -239,14 +239,14 @@ namespace hvn3 {
 	}
 	void Mouse::MouseController::SetDisplayPosition(int x, int y) {
 
-		__display_mouse_position.SetX(x);
-		__display_mouse_position.SetY(y);
+		_display_position.SetX(x);
+		_display_position.SetY(y);
 
 	}
 	void Mouse::MouseController::SetScrollState(bool scrolled_up, bool scrolled_down) {
 
-		__scrolled_down = scrolled_down;
-		__scrolled_up = scrolled_up;
+		_scrolled_down = scrolled_down;
+		_scrolled_up = scrolled_up;
 
 	}
 

@@ -352,9 +352,9 @@ namespace hvn3 {
 	void Gui::Control::OnMouseLeave() {}
 	void Gui::Control::OnMouseEnter() {}
 	void Gui::Control::OnMouseHover() {}
-	void Gui::Control::OnMouseDown() {}
+	void Gui::Control::OnMouseDown(MouseEventArgs& e) {}
 	void Gui::Control::OnMouseUp() {}
-	void Gui::Control::OnMouseMove() {}
+	void Gui::Control::OnMouseMove(MouseMoveEventArgs& e) {}
 	void Gui::Control::OnClick() {}
 	void Gui::Control::OnDoubleClick() {}
 	void Gui::Control::OnPaint(PaintEventArgs& e) {}

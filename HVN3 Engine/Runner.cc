@@ -303,6 +303,7 @@ namespace hvn3 {
 			RecalculateMousePosition();
 
 			// If the scroll wheel was moved, set the scroll state.
+			// #todo don't use static variable and add horizontal scrolling
 			static int scroll_position = 0;
 			Mouse::MouseController::SetScrollState(ev.AlPtr()->mouse.z < scroll_position, ev.AlPtr()->mouse.z > scroll_position);
 			scroll_position = ev.AlPtr()->mouse.z;

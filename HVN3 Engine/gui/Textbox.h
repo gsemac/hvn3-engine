@@ -507,7 +507,7 @@ namespace hvn3 {
 
 
 			}
-			virtual void OnMouseDown() override {
+			virtual void OnMouseDown(MouseEventArgs& e) override {
 
 				// Focus the Control.
 				Focus();

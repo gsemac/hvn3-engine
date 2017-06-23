@@ -133,6 +133,33 @@ namespace hvn3 {
 
 		};
 
+		class MouseEventArgs : public EventArgs {
+
+		public:
+			MouseEventArgs(const PointF& mouse_position) :
+				_mouse_position(mouse_position) {
+			}
+
+			const PointF& Position() const {
+
+				return _mouse_position;
+
+			}
+
+		private:
+			PointF _mouse_position;
+
+		};
+
+		class MouseMoveEventArgs : public MouseEventArgs {
+
+		public:
+			MouseMoveEventArgs(const PointF& mouse_position) :
+				MouseEventArgs(mouse_position) {
+			}
+
+		};
+
 		class Control : public IDrawable, public IUpdatable, public Positionable2dBase<float>, public ISizeable<float>, public IFocusable, public UniquePolymorphicCreateableBase<Control> {
 			friend class ControlController;
 
@@ -205,8 +232,8 @@ namespace hvn3 {
 			virtual void OnMouseLeave();
 			virtual void OnMouseEnter();
 			virtual void OnMouseHover();
-			virtual void OnMouseDown();
-			virtual void OnMouseMove();
+			virtual void OnMouseDown(MouseEventArgs& e);
+			virtual void OnMouseMove(MouseMoveEventArgs& e);
 			virtual void OnMouseUp();
 			virtual void OnClick();
 			virtual void OnDoubleClick();

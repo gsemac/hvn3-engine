@@ -21,9 +21,9 @@ namespace hvn3 {
 			void SetTitlebarHeight(float value);
 			float TitlebarHeight() const;
 
-			void OnMouseDown() override;
+			void OnMouseDown(MouseEventArgs& e) override;
 			void OnMouseUp() override;
-			void OnMouseMove() override;
+			void OnMouseMove(MouseMoveEventArgs& e) override;
 			void OnMouseLeave() override;
 			void OnClick() override;
 			void OnResize(ResizeEventArgs& e) override;

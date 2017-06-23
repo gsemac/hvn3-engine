@@ -164,6 +164,7 @@ namespace hvn3 {
 					);
 				_scrollbars[VERTICAL]->SetPosition(fp.X() + Width() - _scrollbars[VERTICAL]->Width(), fp.Y());
 				_scrollbars[VERTICAL]->SetVisible(vscroll_visible);
+				_scrollbars[VERTICAL]->SetEnabled(vscroll_visible);
 			}
 
 			if (_scrollbars[HORIZONTAL] != nullptr) {
@@ -173,6 +174,7 @@ namespace hvn3 {
 					);
 				_scrollbars[HORIZONTAL]->SetPosition(fp.X(), fp.Y() + Height() - _scrollbars[HORIZONTAL]->Height());
 				_scrollbars[HORIZONTAL]->SetVisible(hscroll_visible);
+				_scrollbars[HORIZONTAL]->SetEnabled(hscroll_visible);
 			}
 
 		}

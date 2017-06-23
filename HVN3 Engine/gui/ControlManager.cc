@@ -195,7 +195,7 @@ namespace hvn3 {
 					// Handle OnMouseDown/OnMouseUp event.
 					if (mouse_is_pressed) {
 						if (_held_control != c)
-							c->OnMouseDown();
+							c->OnMouseDown(MouseEventArgs(GetMousePositionRelativeToControl(c)));
 						if (mouse_is_dbl_pressed)
 							c->OnDoubleClick();
 						_held_control = c;
@@ -208,7 +208,7 @@ namespace hvn3 {
 					// Handle OnMouseMove event.
 					if (Mouse::X != _last_mouse_position.X() || Mouse::Y != _last_mouse_position.Y()) {
 						_last_mouse_position = PointF(Mouse::X, Mouse::Y);
-						c->OnMouseMove();
+						c->OnMouseMove(MouseMoveEventArgs(GetMousePositionRelativeToControl(c)));
 					}
 
 				}
@@ -430,6 +430,11 @@ namespace hvn3 {
 				break;
 
 			}
+
+		}
+		PointF ControlManager::GetMousePositionRelativeToControl(Control* c) const {
+
+			return Mouse::Position() - c->FixedPosition();
 
 		}
 		void ControlManager::Sort() {

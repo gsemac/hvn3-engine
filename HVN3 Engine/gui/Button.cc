@@ -38,7 +38,7 @@ namespace hvn3 {
 			std::cout << "Mouse Leave!\n";
 
 		}
-		void Button::OnMouseDown() {
+		void Button::OnMouseDown(MouseEventArgs& e) {
 
 			bool invalidate_req = (_text_offset.Y() == 0.0f);
 			_text_offset.SetY(1.0f);

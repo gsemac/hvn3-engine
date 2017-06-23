@@ -64,6 +64,7 @@ namespace hvn3 {
 
 		private:
 			void ApplyAnchors(Control* c) const;
+			PointF GetMousePositionRelativeToControl(Control* c) const;
 
 			GuiManager* _gui_manager;
 			Control* _held_control;
