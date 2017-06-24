@@ -1,4 +1,3 @@
-#define HVN3_DEBUG
 #include "HVN3.h"
 #include "LevelEditor.h"
 #include "CollisionManager.h"

@@ -9,14 +9,12 @@ namespace hvn3 {
 	namespace Gui {
 
 		GuiManager::GuiManager(const RectangleF& dockable_region)
-			: GuiManager(dockable_region, new Gui::ControlManager(this), new Gui::StyleManager()) {
+			: GuiManager(new Gui::ControlManager(this, dockable_region), new Gui::StyleManager()) {
 
 			_owns_managers = true;
 
 		}
-		GuiManager::GuiManager(const RectangleF& dockable_region, Gui::ControlManager* control_manager, Gui::StyleManager* style_manager) :
-			_dockable_region(dockable_region),
-			_temp_dockable_region(dockable_region) {
+		GuiManager::GuiManager(Gui::ControlManager* control_manager, Gui::StyleManager* style_manager) {
 
 			_control_manager = control_manager;
 			_style_manager = style_manager;
@@ -61,31 +59,7 @@ namespace hvn3 {
 
 		}
 
-		const RectangleF& GuiManager::DockableRegion() const {
-
-			return _temp_dockable_region;
-
-		}
-		void GuiManager::SetDockableRegion(const RectangleF& region) {
-
-			_dockable_region = region;
-
-		}
-		void GuiManager::ResizeDockableRegion(const RectangleF& region) {
-
-			_temp_dockable_region = region;
-
-		}
-		void GuiManager::ResetDockableRegion() {
-
-			_temp_dockable_region = _dockable_region;
-
-		}
-
 		void GuiManager::OnUpdate(UpdateEventArgs& e) {
-
-			// Reset the dockable region, since docked controls will be updated.
-			ResetDockableRegion();
 
 			ControlManager()->OnUpdate(e);
 

@@ -35,7 +35,7 @@ namespace hvn3 {
 				Invalidate();
 
 		}
-		void ButtonBase::OnMouseUp() {
+		void ButtonBase::OnMouseUp(MouseEventArgs& e) {
 
 			_text_offset.SetY(0.0f);
 			Invalidate();

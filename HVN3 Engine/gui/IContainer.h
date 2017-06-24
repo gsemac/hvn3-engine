@@ -12,7 +12,7 @@ namespace hvn3 {
 			class ContainerControlManager : public ControlManager {
 
 			public:
-				ContainerControlManager(GuiManager* gui_manager, Control* parent);
+				ContainerControlManager(GuiManager* gui_manager, Control* parent, const RectangleF& dockable_region);
 				Handle<Control> AddControl(ControlPtr& control) override;
 
 			private:

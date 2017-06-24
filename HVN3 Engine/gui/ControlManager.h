@@ -21,7 +21,7 @@ namespace hvn3 {
 			typedef std::list<content_type> collection_type;
 
 		public:
-			ControlManager(GuiManager* gui_manager);
+			ControlManager(GuiManager* gui_manager, const RectangleF& dockable_region);
 			virtual ~ControlManager();
 
 			// Adds a new control to the manager.
@@ -54,6 +54,15 @@ namespace hvn3 {
 			void SetMouseEventsEnabled(bool value);
 			void InvalidateAll();
 
+			// Returns the region use for docking child controls.
+			const RectangleF& DockableRegion() const;
+			// Sets the region used for docking child controls.
+			void SetDockableRegion(const RectangleF& region);
+			// Temporarily sets a new dockable region.
+			void ResizeDockableRegion(const RectangleF& region);
+			// Restores the dockable region, undoing any changes made by ResizeDockableRegion.
+			void ResetDockableRegion();
+
 			virtual void OnUpdate(UpdateEventArgs& e) override;
 			virtual void OnDraw(DrawEventArgs& e) override;
 
@@ -63,7 +72,7 @@ namespace hvn3 {
 			void Sort();
 
 		private:
-			void ApplyAnchors(Control* c) const;
+			void ApplyAnchors(Control* c);
 			PointF GetMousePositionRelativeToControl(Control* c) const;
 
 			GuiManager* _gui_manager;
@@ -77,6 +86,8 @@ namespace hvn3 {
 			bool _resort_needed;
 			bool _keyboard_events_enabled;
 			bool _mouse_events_enabled;
+			RectangleF _dockable_region;
+			RectangleF _temp_dockable_region;
 
 		};
 

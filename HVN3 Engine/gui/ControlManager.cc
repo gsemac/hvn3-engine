@@ -9,9 +9,11 @@ namespace hvn3 {
 
 	namespace Gui {
 
-		ControlManager::ControlManager(Gui::GuiManager* gui_manager) :
+		ControlManager::ControlManager(Gui::GuiManager* gui_manager, const RectangleF& dockable_region) :
 			_last_mouse_position(Mouse::X, Mouse::Y),
-			_gui_manager(gui_manager) {
+			_gui_manager(gui_manager),
+			_dockable_region(dockable_region),
+			_temp_dockable_region(dockable_region) {
 
 			_held_control = nullptr;
 			_hovered_control = nullptr;
@@ -163,6 +165,9 @@ namespace hvn3 {
 			_hovered_control = nullptr;
 			bool __nothing_held = (!mouse_is_pressed && mouse_is_held && !_held_control);
 
+			// Reset the dockable region, since docked controls will be updated.
+			ResetDockableRegion();
+
 			// Iterate through all of the Controls (lowest Z-depth to highest).
 			for (auto it = _controls.begin(); it != _controls.end(); ++it) {
 
@@ -221,7 +226,7 @@ namespace hvn3 {
 				if (!mouse_is_held && _held_control == c) {
 					if (_hovered_control == c) {
 						c->OnClick();
-						c->OnMouseUp();
+						c->OnMouseUp(MouseEventArgs(GetMousePositionRelativeToControl(c)));
 					}
 					_held_control = nullptr;
 				}
@@ -372,6 +377,27 @@ namespace hvn3 {
 
 		}
 
+		const RectangleF& ControlManager::DockableRegion() const {
+
+			return _temp_dockable_region;
+
+		}
+		void ControlManager::SetDockableRegion(const RectangleF& region) {
+
+			_dockable_region = region;
+
+		}
+		void ControlManager::ResizeDockableRegion(const RectangleF& region) {
+
+			_temp_dockable_region = region;
+
+		}
+		void ControlManager::ResetDockableRegion() {
+
+			_temp_dockable_region = _dockable_region;
+
+		}
+
 		// Protected members
 		ControlManager::collection_type::iterator ControlManager::FindControlByAddress(Control* ptr) {
 
@@ -381,7 +407,7 @@ namespace hvn3 {
 
 		// Private members
 
-		void ControlManager::ApplyAnchors(Control* c) const {
+		void ControlManager::ApplyAnchors(Control* c) {
 
 			// If the control doesn't have a manager, do nothing.
 			if (c->Manager() == nullptr)
@@ -391,43 +417,53 @@ namespace hvn3 {
 
 			case DockStyle::Top:
 
-				c->SetPosition(c->Manager()->DockableRegion().X(), c->Manager()->DockableRegion().Y());
+				c->SetPosition(DockableRegion().X(), DockableRegion().Y());
 				c->SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP);
-				c->SetWidth(c->Manager()->DockableRegion().Width());
+				c->SetWidth(DockableRegion().Width());
 
-				c->Manager()->ResizeDockableRegion(RectangleF::Crop(c->Manager()->DockableRegion(), CropSide::Top, c->Height()));
+				ResizeDockableRegion(RectangleF::Crop(DockableRegion(), CropSide::Top, c->Height()));
 
 				break;
 
 			case DockStyle::Left:
 
-				c->SetPosition(c->Manager()->DockableRegion().X(), c->Manager()->DockableRegion().Y());
+				c->SetPosition(DockableRegion().X(), DockableRegion().Y());
 				c->SetAnchors(ANCHOR_LEFT | ANCHOR_TOP | ANCHOR_BOTTOM);
-				c->SetHeight(c->Manager()->DockableRegion().Height());
+				c->SetHeight(DockableRegion().Height());
 
-				c->Manager()->ResizeDockableRegion(RectangleF::Crop(c->Manager()->DockableRegion(), CropSide::Left, c->Width()));
+				ResizeDockableRegion(RectangleF::Crop(DockableRegion(), CropSide::Left, c->Width()));
 				
 				break;
 
 			case DockStyle::Right:
 
-				c->SetPosition((c->Manager()->DockableRegion().X() + c->Manager()->DockableRegion().Width()) - c->Width(), c->Manager()->DockableRegion().Y());
+				c->SetPosition((DockableRegion().X() + DockableRegion().Width()) - c->Width(), DockableRegion().Y());
 				c->SetAnchors(ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM);
-				c->SetHeight(c->Manager()->DockableRegion().Height());
+				c->SetHeight(DockableRegion().Height());
 
-				c->Manager()->ResizeDockableRegion(RectangleF::Crop(c->Manager()->DockableRegion(), CropSide::Right, c->Width()));
+				ResizeDockableRegion(RectangleF::Crop(DockableRegion(), CropSide::Right, c->Width()));
 
 				break;
 
 			case DockStyle::Bottom:
 
-				c->SetPosition(c->Manager()->DockableRegion().X(), (c->Manager()->DockableRegion().Y() + c->Manager()->DockableRegion().Height()) - c->Height());
+				c->SetPosition(DockableRegion().X(), (DockableRegion().Y() + DockableRegion().Height()) - c->Height());
 				c->SetAnchors(ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_BOTTOM);
-				c->SetWidth(c->Manager()->DockableRegion().Width());
+				c->SetWidth(DockableRegion().Width());
 
-				c->Manager()->ResizeDockableRegion(RectangleF::Crop(c->Manager()->DockableRegion(), CropSide::Bottom, c->Height()));
+				ResizeDockableRegion(RectangleF::Crop(DockableRegion(), CropSide::Bottom, c->Height()));
 
 				break;
+
+			case DockStyle::Fill:
+
+				c->SetPosition(DockableRegion().X(), DockableRegion().Y());
+				c->SetAnchors(ANCHOR_ALL);
+				c->SetWidth(DockableRegion().Width());
+				c->SetHeight(DockableRegion().Height());
+
+				break;
+
 
 			}
 

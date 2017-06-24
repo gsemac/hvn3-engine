@@ -15,20 +15,20 @@ namespace hvn3 {
 		typedef std::unique_ptr<Control> ControlPtr;
 
 		enum ANCHOR {
-			ANCHOR_NONE = 0x00,
-			ANCHOR_LEFT = 0x01,
-			ANCHOR_RIGHT = 0x02,
-			ANCHOR_TOP = 0x04,
-			ANCHOR_BOTTOM = 0x08,
+			ANCHOR_NONE = 0,
+			ANCHOR_LEFT = 1,
+			ANCHOR_RIGHT = 2,
+			ANCHOR_TOP = 4,
+			ANCHOR_BOTTOM = 8,
 			ANCHOR_ALL = ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM
 		};
 		//ENABLE_BITFLAG_OPERATORS(ANCHOR);
 
 		enum SIDE {
-			TOP = 0x01,
-			BOTTOM = 0x02,
-			LEFT = 0x04,
-			RIGHT = 0x08
+			TOP = 1,
+			BOTTOM = 2,
+			LEFT = 4,
+			RIGHT = 8
 		};
 		//ENABLE_BITFLAG_OPERATORS(SIDE);
 
@@ -234,7 +234,7 @@ namespace hvn3 {
 			virtual void OnMouseHover();
 			virtual void OnMouseDown(MouseEventArgs& e);
 			virtual void OnMouseMove(MouseMoveEventArgs& e);
-			virtual void OnMouseUp();
+			virtual void OnMouseUp(MouseEventArgs& e);
 			virtual void OnClick();
 			virtual void OnDoubleClick();
 			virtual void OnPaint(PaintEventArgs& e);

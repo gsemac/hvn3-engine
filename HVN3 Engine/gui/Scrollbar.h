@@ -24,7 +24,7 @@ namespace hvn3 {
 			virtual void OnMouseEnter() override;
 			virtual void OnMouseLeave() override;
 			virtual void OnMouseDown(MouseEventArgs& e) override;
-			virtual void OnMouseUp() override;
+			virtual void OnMouseUp(MouseEventArgs& e) override;
 			virtual void OnMouseMove(MouseMoveEventArgs& e) override;
 			virtual void OnUpdate(UpdateEventArgs& e) override;
 			virtual void OnPaint(PaintEventArgs& e) override;

@@ -497,7 +497,7 @@ namespace hvn3 {
 				Invalidate();
 
 			}
-			virtual void OnMouseUp() override {
+			virtual void OnMouseUp(MouseEventArgs& e) override {
 
 				// Stop allowing mouse selection.
 				if (Mouse::ButtonReleased(MouseButton::Left)) {

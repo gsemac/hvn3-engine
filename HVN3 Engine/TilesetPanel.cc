@@ -11,9 +11,11 @@ namespace hvn3 {
 			Control(position, size),
 			_tileset(&tileset),
 			_hovered_tile_position(-1, -1),
-			_selected_tile_region(0, 0) {
+			_selected_region(0, 0, 0, 0) {
 
 			UpdateScrollableRegion();
+			
+			_mouse_held = false;
 
 		}
 
@@ -25,19 +27,13 @@ namespace hvn3 {
 			// Draw tiles.
 			e.Graphics().DrawBitmap(-ScrollPosition().X(), -ScrollPosition().Y(), _tileset->Bitmap());
 
-			// Draw a box around the tile that the mouse is currently hovering over.
-			e.Graphics().DrawFilledRectangle(_hovered_tile_position.X() * 32, _hovered_tile_position.Y() * 32, 32, 32, Color::FromArgbf(1, 1, 1, 0.2));
-			// #todo draw a grid over the tiles
-
-			e.Graphics().SetBlendMode(Drawing::BlendOperation::Invert);
-			e.Graphics().DrawFilledRectangle(0, 0, 64, 64, Color::White);
-			e.Graphics().ResetBlendMode();
-			
-			if (_selected_tile_region.X() >= 0 && _selected_tile_region.Y() >= 0) {
-				float x = _selected_tile_region.X() * _tileset->TileSize().Width();
-				float y = _selected_tile_region.Y() * _tileset->TileSize().Height();
-				e.Graphics().DrawRoundRectangle(x - 1, y - 1, _tileset->TileSize().Width() + 2, _tileset->TileSize().Height() + 2, Color::Black, 3, 1);
-				e.Graphics().DrawRoundRectangle(x, y, _tileset->TileSize().Width(), _tileset->TileSize().Height(), Color::White, 3, 1);
+			if (_selected_region.X() >= 0 && _selected_region.Y() >= 0) {
+				float x = _selected_region.X();
+				float y = _selected_region.Y();
+				float ow = 2.0f;
+				e.Graphics().SetBlendMode(Drawing::BlendOperation::Invert);
+				e.Graphics().DrawRectangle(x - ScrollPosition().X(), y - ScrollPosition().Y(), _selected_region.Width(), _selected_region.Height(), Color::White, ow);
+				e.Graphics().ResetBlendMode();
 			}
 			
 			// Call the paint event for the underlying control.
@@ -64,21 +60,75 @@ namespace hvn3 {
 		}
 		void TilesetPanel::OnMouseMove(MouseMoveEventArgs& e) {
 
-			_hovered_tile_position = SnapToTilesetGrid(e.Position());
+			// If the mouse button isn't being held down, do nothing.
+			if (!_mouse_held)
+				return;
 
-			std::cout << e.Position() << std::endl;
+			// If the mouse is not on the bitmap, do nothing.
+			if (!PositionIsOnBitmap(e.Position()))
+				return;
+
+			// Offset the mouse position by the scroll position.
+			PointF mouse_pos = e.Position();
+			mouse_pos += ScrollPosition();
+
+			// Convert the mouse position to a grid position.
+			PointF tile_pos = SnapToTilesetGrid(mouse_pos);
+
+			// Set the selected region.
+			int w = _tileset->TileSize().Width();
+			int h = _tileset->TileSize().Height();
+			_selected_region = RectangleI::Union(
+				RectangleI(_selected_tile.X() * w, _selected_tile.Y() * h, w, h),
+				RectangleI(tile_pos.X() * w, tile_pos.Y() * h, w, h)
+				);
+		
 			Invalidate();
 
 			ScrollableControl::OnMouseMove(e);
 
 		}
 		void TilesetPanel::OnMouseDown(MouseEventArgs& e) {
+	
+			// If the click was not on the bitmap, do nothing.
+			if (!PositionIsOnBitmap(e.Position()))
+				return;
+			
+			// Offset the mouse position by the scroll position.
+			PointF mouse_pos = e.Position();
+			mouse_pos += ScrollPosition();
 
-			_selected_tile_region.SetPosition(SnapToTilesetGrid(e.Position()));
+			// Set the clicked tile as the new selected tile.
+			_selected_tile = SnapToTilesetGrid(mouse_pos);
+			int w = _tileset->TileSize().Width();
+			int h = _tileset->TileSize().Height();
+			_selected_region = RectangleI(_selected_tile.X() * w, _selected_tile.Y() * h, w, h);
+
+			// The mouse is now being held down on the control.
+			_mouse_held = true;
 
 			Invalidate();
 
 			ScrollableControl::OnMouseDown(e);
+
+		}
+		void TilesetPanel::OnMouseUp(MouseEventArgs& e) {
+
+
+
+		}
+		void TilesetPanel::OnUpdate(UpdateEventArgs& e) {
+
+			// If the mouse button is no longer being pressed, acknowledge.
+			if (!Mouse::ButtonDown(MouseButton::Left))
+				_mouse_held = false;
+
+
+		}
+
+		PointI TilesetPanel::SelectedTilePosition() const {
+
+			return _selected_tile;
 
 		}
 
@@ -99,9 +149,15 @@ namespace hvn3 {
 			//_rows_and_columns = SizeI(rows, cols);
 
 		}
-		PointF TilesetPanel::SnapToTilesetGrid(const PointF& position) {
+		PointI TilesetPanel::SnapToTilesetGrid(const PointF& position) {
 
-			return  PointF(Floor(position.X() / 32), Floor(position.Y() / 32));
+			return  PointI(Floor(position.X() / 32), Floor(position.Y() / 32));
+
+		}
+		bool TilesetPanel::PositionIsOnBitmap(const PointF& position) {
+
+			return PointIn(position, RectangleF(-ScrollPosition().X(), -ScrollPosition().Y(), _tileset->Bitmap().Width(), _tileset->Bitmap().Height()));
+			
 
 		}
 

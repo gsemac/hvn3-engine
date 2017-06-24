@@ -22,7 +22,7 @@ namespace hvn3 {
 			float TitlebarHeight() const;
 
 			void OnMouseDown(MouseEventArgs& e) override;
-			void OnMouseUp() override;
+			void OnMouseUp(MouseEventArgs& e) override;
 			void OnMouseMove(MouseMoveEventArgs& e) override;
 			void OnMouseLeave() override;
 			void OnClick() override;
@@ -35,18 +35,19 @@ namespace hvn3 {
 			PointF ExitButtonPosition() const;
 			bool MouseOnExitButton() const;
 			void UpdateChildRegion();
+			void UpdateDockableRegion();
 
 		private:
-			int __titlebar_height;
+			int _titlebar_height;
 
 			ResourceHandle<Drawing::Bitmap> _exit_icon;
 
-			PointF __drag_offset;
-			bool __dragging, __resizing;
-			unsigned int __resizing_side;
-			PointF __original_position;
-			SizeF __original_size;
-			SizeF __size_diff;
+			PointF _drag_offset;
+			bool _dragging, _resizing;
+			unsigned int _resizing_side;
+			PointF _original_position;
+			SizeF _original_size;
+			SizeF _size_diff;
 			bool _mouse_on_exit_button;
 			bool _fade_out;
 			//Gui::Panel _panel;

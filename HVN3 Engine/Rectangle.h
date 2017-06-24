@@ -16,12 +16,14 @@ namespace hvn3 {
 
 	public:
 		Rectangle(T width, T height) :
-			Rectangle(0, 0, width, height) {}
+			Rectangle(0, 0, width, height) {
+		}
 		Rectangle(T x, T y, T width, T height) :
 			Positionable2dBase<T>(x, y),
 			ISizeable<T>(width, height) {}
 		Rectangle(const Point2d<T>& top_left, const Point2d<T>& bottom_right) :
-			Rectangle(top_left.X(), top_left.Y(), bottom_right.X() - top_left.X(), bottom_right.Y() - top_left.Y()) {}
+			Rectangle(top_left.X(), top_left.Y(), bottom_right.X() - top_left.X(), bottom_right.Y() - top_left.Y()) {
+		}
 
 		T X2() const {
 
@@ -91,7 +93,7 @@ namespace hvn3 {
 
 		}
 
-		static Rectangle Intersection(const Rectangle<T>& a, const Rectangle<T>& b) {
+		static Rectangle<T> Intersection(const Rectangle<T>& a, const Rectangle<T>& b) {
 
 			Point2d<T> tl((std::max)(a.Left(), b.Left()), (std::max)(a.Top(), b.Top()));
 			Point2d<T> br((std::min)(a.Right(), b.Right()), (std::min)(a.Bottom(), b.Bottom()));
@@ -99,10 +101,10 @@ namespace hvn3 {
 			return Rectangle<T>(tl, br);
 
 		}
-		static Rectangle Crop(const Rectangle<T>& rect, CropSide side, T amount) {
-			
+		static Rectangle<T> Crop(const Rectangle<T>& rect, CropSide side, T amount) {
+
 			switch (side) {
-			
+
 			case CropSide::Top:
 				return Rectangle<T>(rect.X(), rect.Y() + amount, rect.Width(), rect.Height() - amount);
 				break;
@@ -122,6 +124,14 @@ namespace hvn3 {
 			}
 
 		}
+		static Rectangle<T> Union(const Rectangle<T>& rect_a, const Rectangle<T>& rect_b) {
+
+			Point2d<T> point_a(Min(rect_a.Left(), rect_b.Left()), Min(rect_a.Top(), rect_b.Top()));
+			Point2d<T> point_b(Max(rect_a.Right(), rect_b.Right()), Max(rect_a.Bottom(), rect_b.Bottom()));
+
+			return Rectangle<T>(point_a, point_b);
+
+		}
 
 		T Area() const {
 
@@ -129,8 +139,15 @@ namespace hvn3 {
 
 		}
 
+		template<typename U>
+		operator Rectangle<U>() {
+
+			return Rectangle<U>(static_cast<U>(X()), static_cast<U>(Y()), static_cast<U>(Width()), static_cast<U>(Height()));
+
+		}
+
 	};
-	
+
 	template <typename T>
 	bool operator>(const Rectangle<T>& a, const Rectangle<T>& b) {
 
@@ -143,7 +160,7 @@ namespace hvn3 {
 		return a.Area() < b.Area();
 
 	}
-	
+
 	typedef Rectangle<float> RectangleF;
 	typedef Rectangle<int> RectangleI;
 

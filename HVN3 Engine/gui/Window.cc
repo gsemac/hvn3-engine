@@ -10,34 +10,33 @@ namespace hvn3 {
 	namespace Gui {
 
 		Window::Window(float x, float y, float width, float height, const char* text) :
-			Control(PointF(x, y), SizeF(width, height + DEF_TITLEBAR_HEIGHT)),
+			Control(PointF(x, y), SizeF(width + DEF_OUTLINE_WIDTH * 2, height + DEF_TITLEBAR_HEIGHT)),
 			ITextable(this, text),
 			IContainer(this),
 			//_panel(DEF_OUTLINE_WIDTH, DEF_TITLEBAR_HEIGHT, width - DEF_OUTLINE_WIDTH, height - DEF_OUTLINE_WIDTH),
-			__drag_offset(0.0f, 0.0f),
-			__original_position(x, y),
-			__original_size(width, height + DEF_TITLEBAR_HEIGHT),
-			__size_diff(0, 0),
+			_drag_offset(0.0f, 0.0f),
+			_original_position(x, y),
+			_original_size(width + DEF_OUTLINE_WIDTH * 2, height + DEF_TITLEBAR_HEIGHT),
+			_size_diff(0, 0),
 			_exit_icon(nullptr) {
 
 			// Make sure the Window cannot be made smaller than its titlebar.
 			SetMinimumSize(SizeF(DEF_TITLEBAR_HEIGHT, DEF_TITLEBAR_HEIGHT));
 
-			// Set up Panel.
-			//_panel.SetParent(this);
-
 			// Set up state/state tracking variables.
-			__dragging = false;
-			__resizing = false;
-			__resizing_side = 0;
-			__titlebar_height = DEF_TITLEBAR_HEIGHT;
+			_dragging = false;
+			_resizing = false;
+			_resizing_side = 0;
+			_titlebar_height = DEF_TITLEBAR_HEIGHT;
 			_mouse_on_exit_button = false;
 			_fade_out = false;
 
 			UpdateChildRegion();
 
+			UpdateDockableRegion();
+
 			// Set the control offset for the control manager to account for the header bar.
-			Controls()->SetControlOffset(Controls()->ControlOffset().X(), __titlebar_height);
+			Controls()->SetControlOffset(Controls()->ControlOffset().X() + DEF_OUTLINE_WIDTH, _titlebar_height);
 
 		}
 		Window::~Window() {
@@ -46,14 +45,14 @@ namespace hvn3 {
 
 		void Window::SetTitlebarHeight(float value) {
 
-			__titlebar_height = value;
+			_titlebar_height = value;
 
 			Invalidate();
 
 		}
 		float Window::TitlebarHeight() const {
 
-			return __titlebar_height;
+			return _titlebar_height;
 
 		}
 
@@ -66,32 +65,32 @@ namespace hvn3 {
 			if (HasActiveChild())
 				return;
 
-			if (!__dragging && !__resizing && GetMouseResizeSides()) {
+			if (!_dragging && !_resizing && GetMouseResizeSides()) {
 
 				// Initialize resizing variables.
-				__resizing = true;
-				__resizing_side = GetMouseResizeSides();
-				__drag_offset = PointF(Mouse::X, Mouse::Y);
-				__original_size = SizeF(Width(), Height());
-				__original_position = PointF(X(), Y());
-				__size_diff = SizeF(0, 0);
+				_resizing = true;
+				_resizing_side = GetMouseResizeSides();
+				_drag_offset = PointF(Mouse::X, Mouse::Y);
+				_original_size = SizeF(Width(), Height());
+				_original_position = PointF(X(), Y());
+				_size_diff = SizeF(0, 0);
 
 			}
-			else if (!__resizing && !__dragging) {
+			else if (!_resizing && !_dragging) {
 
 				// Initialize dragging variables.
-				__dragging = true;
-				__drag_offset = PointF(X() - Mouse::X, Y() - Mouse::Y);
+				_dragging = true;
+				_drag_offset = PointF(X() - Mouse::X, Y() - Mouse::Y);
 
 			}
 
 		}
-		void Window::OnMouseUp() {
+		void Window::OnMouseUp(MouseEventArgs& e) {
 			if (HasActiveChild()) return;
 
 			// Stop dragging/resizing.
-			__dragging = false;
-			__resizing = false;
+			_dragging = false;
+			_resizing = false;
 
 			// Reset the cursor to the default.
 			Mouse::SetCursor(SystemCursor::Default);
@@ -103,7 +102,7 @@ namespace hvn3 {
 				return;
 
 			// Set the cursor to a resize cursor if it passes over any edges.
-			if (!__resizing && !__dragging)
+			if (!_resizing && !_dragging)
 				SetResizeCursor();
 
 			// Invalid the window when the mouse hovers over any dynamic elements.
@@ -116,7 +115,7 @@ namespace hvn3 {
 		void Window::OnMouseLeave() {
 
 			// If the mouse leaves the Control and it's not resizing, reset the cursor.
-			if (!__resizing) Mouse::SetCursor(SystemCursor::Default);
+			if (!_resizing) Mouse::SetCursor(SystemCursor::Default);
 
 		}
 		void Window::OnClick() {
@@ -131,6 +130,8 @@ namespace hvn3 {
 			UpdateChildRegion();
 
 			UpdateAnchors(e);
+
+			UpdateDockableRegion();
 
 		}
 		void Window::OnPaint(PaintEventArgs& e) {
@@ -177,18 +178,18 @@ namespace hvn3 {
 
 			Controls()->OnUpdate(e);
 
-			if (!Mouse::ButtonDown(MouseButton::Left) && (__dragging || __resizing)) {
+			if (!Mouse::ButtonDown(MouseButton::Left) && (_dragging || _resizing)) {
 
-				__dragging = false;
-				__resizing = false;
+				_dragging = false;
+				_resizing = false;
 				Mouse::SetCursor(SystemCursor::Default);
 
 			}
 
-			if (__resizing)
+			if (_resizing)
 				HandleResizing();
-			else if (__dragging) {
-				SetPosition(__drag_offset.X() + Mouse::X, __drag_offset.Y() + Mouse::Y);
+			else if (_dragging) {
+				SetPosition(_drag_offset.X() + Mouse::X, _drag_offset.Y() + Mouse::Y);
 				if (Parent())
 					Parent()->Invalidate();
 			}
@@ -236,7 +237,12 @@ namespace hvn3 {
 		}
 		void Window::UpdateChildRegion() {
 
-			SetChildRegion(RectangleF(RESIZE_REGION_WIDTH, __titlebar_height, Width() - RESIZE_REGION_WIDTH * 2, Height() - __titlebar_height - RESIZE_REGION_WIDTH));
+			SetChildRegion(RectangleF(RESIZE_REGION_WIDTH, _titlebar_height, Width() - RESIZE_REGION_WIDTH * 2, Height() - _titlebar_height - RESIZE_REGION_WIDTH));
+
+		}
+		void Window::UpdateDockableRegion() {
+
+			Controls()->SetDockableRegion(RectangleF(0.0f, 0.0f, Width() - DEF_OUTLINE_WIDTH * 2, Height() - DEF_OUTLINE_WIDTH - _titlebar_height));
 
 		}
 
@@ -303,47 +309,47 @@ namespace hvn3 {
 			float new_height = Height();
 			float scale = Scale();
 
-			if (__resizing_side & BOTTOM) {
+			if (_resizing_side & BOTTOM) {
 
 				// Calculate the differnce in height between the mouse's current position and it's new position.
-				__size_diff.SetHeight(Mouse::Y - __drag_offset.Y());
+				_size_diff.SetHeight(Mouse::Y - _drag_offset.Y());
 
 				// If there is a difference, resize the Control.
-				if (std::abs((__original_size.Height() + __size_diff.Height()) - Height()) > 0.0f)
-					new_height = __original_size.Height() + (__size_diff.Height() / scale);
+				if (std::abs((_original_size.Height() + _size_diff.Height()) - Height()) > 0.0f)
+					new_height = _original_size.Height() + (_size_diff.Height() / scale);
 
 			}
-			else if (__resizing_side & TOP) {
+			else if (_resizing_side & TOP) {
 
 				// Calculate the differnce in height between the mouse's current position and it's new position.
-				__size_diff.SetHeight(Mouse::Y - __drag_offset.Y());
+				_size_diff.SetHeight(Mouse::Y - _drag_offset.Y());
 
 				// If there is a difference, resize the Control.
-				if (std::abs((__original_size.Height() - __size_diff.Height()) - Height()) > 0.0f) {
-					new_height = Clamp(__original_size.Height() - (__size_diff.Height() / scale), MinimumSize().Height(), MaximumSize().Height());
-					SetY(__original_position.Y() + (__original_size.Height() - new_height) * scale);
+				if (std::abs((_original_size.Height() - _size_diff.Height()) - Height()) > 0.0f) {
+					new_height = Clamp(_original_size.Height() - (_size_diff.Height() / scale), MinimumSize().Height(), MaximumSize().Height());
+					SetY(_original_position.Y() + (_original_size.Height() - new_height) * scale);
 				}
 
 			}
-			if (__resizing_side & RIGHT) {
+			if (_resizing_side & RIGHT) {
 
 				// Calculate the difference in width between the mouse's current position and it's new position.
-				__size_diff.SetWidth(Mouse::X - __drag_offset.X());
+				_size_diff.SetWidth(Mouse::X - _drag_offset.X());
 
 				// If there is a difference, resize the Control.
-				if (std::abs((__original_size.Width() + __size_diff.Width()) - Width()) > 0.0f)
-					new_width = __original_size.Width() + (__size_diff.Width() / scale);
+				if (std::abs((_original_size.Width() + _size_diff.Width()) - Width()) > 0.0f)
+					new_width = _original_size.Width() + (_size_diff.Width() / scale);
 
 			}
-			else if (__resizing_side & LEFT) {
+			else if (_resizing_side & LEFT) {
 
 				// Calculate the difference in width between the mouse's current position and it's new position.
-				__size_diff.SetWidth(Mouse::X - __drag_offset.X());
+				_size_diff.SetWidth(Mouse::X - _drag_offset.X());
 
 				// If there is a difference, resize the Control.
-				if (std::abs((__original_size.Width() - __size_diff.Width()) - Width()) > 0.0f) {
-					new_width = Clamp(__original_size.Width() - (__size_diff.Width() / scale), MinimumSize().Width(), MaximumSize().Width());
-					SetX(__original_position.X() + (__original_size.Width() - new_width) * scale);
+				if (std::abs((_original_size.Width() - _size_diff.Width()) - Width()) > 0.0f) {
+					new_width = Clamp(_original_size.Width() - (_size_diff.Width() / scale), MinimumSize().Width(), MaximumSize().Width());
+					SetX(_original_position.X() + (_original_size.Width() - new_width) * scale);
 				}
 
 			}

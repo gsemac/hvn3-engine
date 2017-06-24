@@ -48,7 +48,7 @@ namespace hvn3 {
 			std::cout << "Mouse Down!\n";
 
 		}
-		void Button::OnMouseUp() {
+		void Button::OnMouseUp(MouseEventArgs& e) {
 
 			_text_offset.SetY(0.0f);
 			Invalidate();

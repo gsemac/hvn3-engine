@@ -81,7 +81,7 @@ namespace hvn3 {
 			Gui::Window* tileset_window = new Gui::Window(20, 20, 150, 100, "Tiles");
 			tileset_window->SetDock(Gui::DockStyle::Left);
 			Gui::TilesetPanel* tileset_panel = new Gui::TilesetPanel(PointF(0, 0), SizeF(tileset_window->Width(), tileset_window->Height() - tileset_window->TitlebarHeight()), _tileset);
-			tileset_panel->SetAnchors(Gui::ANCHOR_ALL);
+			tileset_panel->SetDock(Gui::DockStyle::Fill);
 			tileset_window->Controls()->AddControl(Gui::Control::Create(tileset_panel));
 			GuiManager().ControlManager()->AddControl(Gui::Control::Create(tileset_window));
 
@@ -107,7 +107,7 @@ namespace hvn3 {
 			// Move drawing downward so that the room is visible despite the menu strip.
 			Drawing::GraphicsState state = e.Graphics().Save();
 			Drawing::Transform t;
-			t.Translate(_gui_manager.DockableRegion().X(), _gui_manager.DockableRegion().Y());
+			t.Translate(_gui_manager.ControlManager()->DockableRegion().X(), _gui_manager.ControlManager()->DockableRegion().Y());
 			t.Compose(e.Graphics().GetTransform());
 			e.Graphics().SetTransform(t);
 

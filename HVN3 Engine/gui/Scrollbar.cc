@@ -84,7 +84,7 @@ namespace hvn3 {
 			}
 
 		}
-		void Scrollbar::OnMouseUp() {
+		void Scrollbar::OnMouseUp(MouseEventArgs& e) {
 
 
 		}
