@@ -510,9 +510,6 @@
     <ClCompile Include="Padding.cc">
       <Filter>Source Files\Structures</Filter>
     </ClCompile>
-    <ClCompile Include="GridDrawer.cc">
-      <Filter>Source Files\Drawing</Filter>
-    </ClCompile>
     <ClCompile Include="SpriteableBase.cc">
       <Filter>Source Files\Bases</Filter>
     </ClCompile>
@@ -539,6 +536,9 @@
     </ClCompile>
     <ClCompile Include="DisplayController.cc">
       <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="GridRenderer.cc">
+      <Filter>Source Files\Drawing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -977,9 +977,6 @@
     <ClInclude Include="SharedCreatableBase.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="GridDrawer.h">
-      <Filter>Header Files\Drawing</Filter>
-    </ClInclude>
     <ClInclude Include="UniquePolymorphicCreateableBase.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
@@ -1033,6 +1030,9 @@
     </ClInclude>
     <ClInclude Include="DisplayController.h">
       <Filter>Header Files\System\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="GridRenderer.h">
+      <Filter>Header Files\Drawing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

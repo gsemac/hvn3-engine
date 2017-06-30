@@ -259,7 +259,7 @@
     <ClCompile Include="Framework.cc" />
     <ClCompile Include="FrameworkAdapter.cc" />
     <ClCompile Include="GameManager.cc" />
-    <ClCompile Include="GridDrawer.cc" />
+    <ClCompile Include="GridRenderer.cc" />
     <ClCompile Include="gui\Button.cc" />
     <ClCompile Include="gui\ButtonBase.cc" />
     <ClCompile Include="gui\Container.cc" />
@@ -381,7 +381,7 @@
     <ClInclude Include="ExampleGame3.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GraphicsState.h" />
-    <ClInclude Include="GridDrawer.h" />
+    <ClInclude Include="GridRenderer.h" />
     <ClInclude Include="gui\Button.h" />
     <ClInclude Include="gui\ButtonBase.h" />
     <ClInclude Include="gui\Container.h" />

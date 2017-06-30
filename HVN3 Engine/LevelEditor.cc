@@ -1,7 +1,7 @@
 #include "LevelEditor.h"
 #include "io/Keyboard.h"
 #include "gui/Gui.h"
-#include "GridDrawer.h"
+#include "GridRenderer.h"
 #include "TilesetPanel.h"
 #include <allegro5/allegro.h>
 #define DEFAULT_GRID_CELL_SIZE 32

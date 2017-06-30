@@ -36,7 +36,7 @@ namespace hvn3 {
 			e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor());
 
 			// Draw shine.
-			e.Graphics().DrawRectangle(1, 1, Width(), Height(), BackColor().Lighter(), 1);
+			e.Graphics().DrawRectangle(1, 1, Width(), Height(), Manager()->StyleManager()->SecondaryColor().Lighter(), 1);
 
 			// Draw child controls.			
 			ContainerControl::OnPaint(e);
