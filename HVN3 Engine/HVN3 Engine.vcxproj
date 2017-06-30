@@ -246,6 +246,7 @@
     <ClCompile Include="Comparison.cc" />
     <ClCompile Include="Connection.cc" />
     <ClCompile Include="Display.cc" />
+    <ClCompile Include="DisplayController.cc" />
     <ClCompile Include="DisplaySizeChangedEventArgs.cc" />
     <ClCompile Include="DrawEventArgs.cc" />
     <ClCompile Include="Environment.cc" />
@@ -354,6 +355,7 @@
     <ClInclude Include="Circle.h" />
     <ClInclude Include="CircleHitMask.h" />
     <ClInclude Include="CollisionEventArgs.h" />
+    <ClInclude Include="DisplayController.h" />
     <ClInclude Include="FrameworkAdapter.h" />
     <ClInclude Include="AllegroExtensions.h" />
     <ClInclude Include="Background.h" />

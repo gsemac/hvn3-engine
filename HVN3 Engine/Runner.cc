@@ -17,6 +17,7 @@
 #include "UpdateEventArgs.h"
 #include "RoomController.h"
 #include "Event.h"
+#include "DisplayController.h"
 
 namespace hvn3 {
 
@@ -30,6 +31,7 @@ namespace hvn3 {
 		// Create the display, and initialize its parameters.
 		if (properties.StartFullscreen)
 			_display.SetFullscreen(true);
+		_display_was_fullscreen = _display.IsFullscreen();
 
 		// Initialize the event queue.
 		__event_queue.AddEventSource(_display.EventSource());
@@ -78,9 +80,19 @@ namespace hvn3 {
 	}
 	void Runner::Update(UpdateEventArgs& e) {
 
-		// Update the active scene.
-		if (_room_manager.RoomCount() > 0 && (!Properties().FreezeWhenLostFocus || _display.HasFocus()) && __frames_skipped++ <= Properties().MaxFrameSkip)
+		if (_room_manager.RoomCount() > 0 && (!Properties().FreezeWhenLostFocus || _display.HasFocus()) && __frames_skipped++ <= Properties().MaxFrameSkip) {
+
+			// Update the active room.
 			_room_manager.Update(e);
+
+			// If the fullscreen state of the display has changed, emit a DisplaySizeChanged event.
+			if (_display_was_fullscreen != _display.IsFullscreen()) {
+				_room_manager.CurrentRoom()->OnDisplaySizeChanged(DisplaySizeChangedEventArgs(Properties().DisplaySize, _display.Size(), &_display));
+				_display_was_fullscreen = _display.IsFullscreen();
+			}
+
+		}
+			
 
 	}
 	void Runner::WaitForEvent() {
@@ -295,7 +307,7 @@ namespace hvn3 {
 	void Runner::OnMouseAxes(Event& ev) {
 
 		if (!Properties().FreezeWhenLostFocus || _display.HasFocus()) {
-	
+
 			// Set the Mouse' position relative to the display.
 			Mouse::MouseController::SetDisplayPosition(ev.AlPtr()->mouse.x, ev.AlPtr()->mouse.y);
 
@@ -325,26 +337,31 @@ namespace hvn3 {
 	}
 	void Runner::OnDisplayResize(Event& ev) {
 
+		// Store the old size so that we can include it in the event args.
 		SizeI old_size(_display.Width(), _display.Height());
 
+		// Acknowledge the resize.
 		al_acknowledge_resize(_display.AlPtr());
+
+		// Resize the display.
 		_display.Resize(ev.AlPtr()->display.width, ev.AlPtr()->display.height);
 
+		// Trigger the "OnDisplaySizeChanged" event for the current room.
 		if (_room_manager.RoomCount() > 0)
-			_room_manager.CurrentRoom()->OnDisplaySizeChanged(DisplaySizeChangedEventArgs(
-				old_size, SizeI(_display.Width(), _display.Height()), &_display)
-			);
+			_room_manager.CurrentRoom()->OnDisplaySizeChanged(
+				DisplaySizeChangedEventArgs(old_size, SizeI(_display.Width(), _display.Height()), &_display)
+				);
 
 	}
 	void Runner::OnDisplaySwitchOut(Event& ev) {
 
-		Display::StateAccessor(&_display).SetFocus(false);
+		System::DisplayController(&_display).SetFocus(false);
 		Keyboard::StateAccessor::ResetKeyStates();
 
 	}
 	void Runner::OnDisplaySwitchIn(Event& ev) {
 
-		Display::StateAccessor(&_display).SetFocus(true);
+		System::DisplayController(&_display).SetFocus(true);
 
 	}
 	void Runner::OnRedraw() {
@@ -506,12 +523,12 @@ namespace hvn3 {
 
 			// If Views are not used, set the mouse position to its position relative to the display.
 			PointF pos = Mouse::DisplayPosition();
-			
+
 			// 
 			switch (Properties().ScalingMode) {
 
 			case ScalingMode::Fixed: {
-				
+
 				// If we're using a fixed scaling mode, the mouse position does not need to be changed at all.
 				break;
 

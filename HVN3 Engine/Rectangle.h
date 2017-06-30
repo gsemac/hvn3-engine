@@ -16,13 +16,13 @@ namespace hvn3 {
 
 	public:
 		Rectangle(T width, T height) :
-			Rectangle(0, 0, width, height) {
+			Rectangle<T>(0, 0, width, height) {
 		}
 		Rectangle(T x, T y, T width, T height) :
 			Positionable2dBase<T>(x, y),
 			ISizeable<T>(width, height) {}
 		Rectangle(const Point2d<T>& top_left, const Point2d<T>& bottom_right) :
-			Rectangle(top_left.X(), top_left.Y(), bottom_right.X() - top_left.X(), bottom_right.Y() - top_left.Y()) {
+			Rectangle<T>(top_left.X(), top_left.Y(), bottom_right.X() - top_left.X(), bottom_right.Y() - top_left.Y()) {
 		}
 
 		T X2() const {

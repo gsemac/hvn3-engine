@@ -60,6 +60,8 @@ namespace hvn3 {
 		int __frames_skipped;
 		EventQueue __event_queue;
 		Timer __timer;
+		// Flag used to detect when the fullscreen state of the display changes.
+		bool _display_was_fullscreen;
 
 		RoomManager& _room_manager;
 		Display _display;

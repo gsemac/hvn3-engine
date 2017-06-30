@@ -400,7 +400,6 @@ namespace hvn3 {
 		}
 
 		// Private members
-
 		void ControlManager::_AddDockedControl(Control* control) {
 
 			_docked_controls.push_back(control);
@@ -447,7 +446,7 @@ namespace hvn3 {
 			_pending_removal.clear();
 
 		}
-		
+
 		void ControlManager::_ApplyDockStyleToControl(Control* c) {
 
 			switch (c->Dock()) {

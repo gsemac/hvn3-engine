@@ -8,7 +8,7 @@
 
 namespace hvn3 {
 
-	Display* Display::__active_display = nullptr;
+	Display* Display::_active_display = nullptr;
 
 	// Public member functions
 
@@ -29,8 +29,8 @@ namespace hvn3 {
 	}
 	Display::Display(int x, int y, int width, int height, const char* title, DisplayFlags flags) :
 		ISizeable(width, height),
-		__original_size(width, height),
-		__size_before_fullscreen(0.0f, 0.0f) {
+		_original_size(width, height),
+		_size_before_fullscreen(0.0f, 0.0f) {
 
 		// Save the original new display flags so they can be restored.
 		int new_display_flags = al_get_new_display_flags();
@@ -42,33 +42,36 @@ namespace hvn3 {
 		al_set_new_window_title(title);
 
 		// Create the display.
-		__display = al_create_display(width, height);
-		__fullscreen = false;
-		SetFocus(true);
+		_display = al_create_display(width, height);
+		_fullscreen = false;
+		_has_focus = true;
+
+		// Set this display as the active display.
+		_active_display = this;
 
 		// Restore display flags.
 		al_set_new_display_flags(new_display_flags);
 
 		// Assert that the display could be created.
-		assert(__display);
+		assert(_display);
 
 	}
 	Display::~Display() {
-		if (!__display) return;
+		if (!_display) return;
 
-		al_destroy_display(__display);
-		__display = nullptr;
+		al_destroy_display(_display);
+		_display = nullptr;
 
 	}
 
 	void Display::SetTitle(const char* value) {
 
 		// If the display is null, do nothing.
-		if (!__display)
+		if (!_display)
 			return;
 
 		// Set the title of the window.
-		al_set_window_title(__display, value);
+		al_set_window_title(_display, value);
 
 	}
 	void Display::SetIcon(const Drawing::Bitmap& icon) {
@@ -87,45 +90,52 @@ namespace hvn3 {
 
 	}
 	void Display::SetIcon(ALLEGRO_BITMAP* icon) {
-		if (!__display) return;
+		if (!_display) return;
 
-		al_set_display_icon(__display, icon);
+		al_set_display_icon(_display, icon);
 
 	}
 	void Display::Resize(int width, int height) {
-		if (!__display) return;
-
-		ISizeable::Resize(width, height);
-
-		// If the Display's actual size is the same as the sizes provided, just update width/height values.
-		// This can occur when the Display is resized manually.
-		if (al_get_display_width(__display) == width && al_get_display_height(__display) == height)
+		
+		// If there is not an underlying framework object, do nothing.
+		if (_display == nullptr)
 			return;
 
-		al_resize_display(__display, width, height);
+		// Update the size values of the underlying sizeable class.
+		ISizeable::Resize(width, height);
+
+		// If the Display's actual size is the same as the sizes provided, just update width/height values. 
+		// This can occur when the Display is resized manually.
+		if (al_get_display_width(_display) == width && al_get_display_height(_display) == height)
+			return;
+
+		// Update the size of the underlying framework object.
+		al_resize_display(_display, width, height);
+
+		// Clear the new regions to black.
 		al_clear_to_color(al_map_rgb(0, 0, 0));
 		al_flip_display();
 
 	}
 	Scale Display::Scale() const {
 
-		return hvn3::Scale(static_cast<float>(Width()) / __original_size.Width(), static_cast<float>(Height()) / __original_size.Height());
+		return hvn3::Scale(static_cast<float>(Width()) / _original_size.Width(), static_cast<float>(Height()) / _original_size.Height());
 
 	}
-	Point2d<int> Display::Position() const {
+	PointI Display::Position() const {
 
-		if (!__display)
-			return Point2d<int>();
+		if (!_display)
+			return PointI::Empty();
 
 		int x, y;
-		al_get_window_position(__display, &x, &y);
+		al_get_window_position(_display, &x, &y);
 		return Point2d<int>(x, y);
 
 	}
 	void Display::SetPosition(int x, int y) {
 
-		if (__display)
-			al_set_window_position(__display, x, y);
+		if (_display)
+			al_set_window_position(_display, x, y);
 
 	}
 	void Display::SetPosition(const Point2d<int>& position) {
@@ -135,34 +145,34 @@ namespace hvn3 {
 	}
 	bool Display::IsFullscreen() const {
 
-		return __fullscreen;
+		return _fullscreen;
 
 	}
 	void Display::SetFullscreen(bool value) {
-		if (!__display) return;
+		if (!_display) return;
 
 		// If the given value is different than the current state, change display state.
-		if (value != __fullscreen) {
+		if (value != _fullscreen) {
 
 			// Set the fullscreen flag.
-			__fullscreen = value;
+			_fullscreen = value;
 
 			// If we're going fullscreen, save the size and position of the Display.
-			if (__fullscreen) {
-				__size_before_fullscreen.Resize(Width(), Height());
-				__position_before_fullscreen = Position();
+			if (_fullscreen) {
+				_size_before_fullscreen.Resize(Width(), Height());
+				_position_before_fullscreen = Position();
 			}
 
 			// Toggle the actual Display flag.
-			al_toggle_display_flag(__display, ALLEGRO_FULLSCREEN_WINDOW, __fullscreen);
+			al_toggle_display_flag(_display, ALLEGRO_FULLSCREEN_WINDOW, _fullscreen);
 
-			if (__fullscreen)
+			if (_fullscreen)
 				// If we've gone fullscreen, update the size values to match the new window size.
-				ISizeable::Resize(al_get_display_width(__display), al_get_display_height(__display));
+				ISizeable::Resize(al_get_display_width(_display), al_get_display_height(_display));
 			else {
 				// If we've left fullscreen, restore the original size and position.
-				Resize(__size_before_fullscreen.Width(), __size_before_fullscreen.Height());
-				SetPosition(__position_before_fullscreen);
+				Resize(_size_before_fullscreen.Width(), _size_before_fullscreen.Height());
+				SetPosition(_position_before_fullscreen);
 			}
 
 		}
@@ -170,17 +180,17 @@ namespace hvn3 {
 	}
 	bool Display::HasFocus() const {
 
-		return __has_focus;
+		return _has_focus;
 
 	}
 	hvn3::EventSource Display::EventSource() const {
 
-		return hvn3::EventSource(al_get_display_event_source(__display));
+		return hvn3::EventSource(al_get_display_event_source(_display));
 
 	}
 	Drawing::Bitmap Display::BackBuffer() const {
 
-		return Drawing::Bitmap(al_get_backbuffer(__display), false);
+		return Drawing::Bitmap(al_get_backbuffer(_display), false);
 
 	}
 	void Display::Refresh() {
@@ -190,68 +200,72 @@ namespace hvn3 {
 	}
 	ALLEGRO_DISPLAY* Display::AlPtr() const {
 
-		return __display;
+		return _display;
 
 	}
 	Display* Display::ActiveDisplay() {
 
-		return __active_display;
+		return _active_display;
 
 	}
 
-	Display& Display::operator= (Display&& other) {
+	Display& Display::operator=(Display&& other) {
 
-		__display = other.__display;
-		__fullscreen = other.__fullscreen;
+		_display = other._display;
+		_fullscreen = other._fullscreen;
 		ISizeable::Resize(other.Width(), other.Height());
 
-		other.__display = nullptr;
+		other._display = nullptr;
 
 		return *this;
 
 	}
 
-	void Display::SetFocus(bool has_focus) {
+	// Private methods
+	void Display::_SetFocus(bool value) {
 
-		__has_focus = has_focus;
-		__active_display = this;
+		_has_focus = value;
 
-	}
-	hvn3::Size<int> Display::ResolutionToSize(DisplayResolution resolution) {
+		if (value) {
 
-		switch (resolution) {
+			// If the display is now focused, make it the active display.
+			Display::_active_display = this;
+			
+		}
+		else if (Display::_active_display == this) {
 
-		case DisplayResolution::XGA:
-			return hvn3::Size<int>(1024, 768);
-
-		case DisplayResolution::WXGA:
-			return hvn3::Size<int>(1280, 800);
-
-		case DisplayResolution::WXGAPlus:
-			return hvn3::Size<int>(1440, 900);
-
-		case DisplayResolution::FHD:
-			return hvn3::Size<int>(1920, 1080);
-
-		case DisplayResolution::HD:
-			return hvn3::Size<int>(1280, 720);
-
-		case DisplayResolution::VGA:
-		default:
-			return hvn3::Size<int>(640, 480);
+			// If the display has lost focus and was previously the active display, set the active display to null.
+			Display::_active_display = nullptr;
 
 		}
 
 	}
 
-	Display::StateAccessor::StateAccessor(Display* display) {
+	// Non-class methods
+	SizeI ResolutionToSize(DisplayResolution resolution) {
 
-		__display = display;
+		switch (resolution) {
 
-	}
-	void Display::StateAccessor::SetFocus(bool has_focus) {
+		case DisplayResolution::XGA:
+			return SizeI(1024, 768);
 
-		__display->SetFocus(has_focus);
+		case DisplayResolution::WXGA:
+			return SizeI(1280, 800);
+
+		case DisplayResolution::WXGAPlus:
+			return SizeI(1440, 900);
+
+		case DisplayResolution::FHD:
+			return SizeI(1920, 1080);
+
+		case DisplayResolution::HD:
+			return SizeI(1280, 720);
+
+		case DisplayResolution::VGA:
+		default:
+			return SizeI(640, 480);
+
+		}
 
 	}
 

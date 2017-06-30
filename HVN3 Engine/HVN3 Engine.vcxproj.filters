@@ -169,6 +169,9 @@
     <Filter Include="Source Files\System\Editor\Controls">
       <UniqueIdentifier>{6916c53d-250f-4ea8-9d66-22b29adb710f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Controllers">
+      <UniqueIdentifier>{002d1003-6563-48c9-b426-82569deb353a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -533,6 +536,9 @@
     </ClCompile>
     <ClCompile Include="TilesetPanel.cc">
       <Filter>Source Files\System\Editor\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayController.cc">
+      <Filter>Source Files\Controllers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1024,6 +1030,9 @@
     </ClInclude>
     <ClInclude Include="TilesetPanel.h">
       <Filter>Header Files\System\Editor\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayController.h">
+      <Filter>Header Files\System\Controllers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

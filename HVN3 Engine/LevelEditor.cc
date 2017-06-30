@@ -42,6 +42,12 @@ namespace hvn3 {
 			Room::OnDraw(e);
 
 		}
+		void LevelEditor::OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e) {
+
+			// Resize the dockable region.
+			_gui_manager.ControlManager()->SetDockableRegion(RectangleF(e.NewSize().Width(), e.NewSize().Height()));
+
+		}
 
 		void LevelEditor::ToggleGrid(bool grid_visible) {
 

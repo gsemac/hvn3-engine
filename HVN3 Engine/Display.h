@@ -33,21 +33,14 @@ namespace hvn3 {
 	};
 	ENABLE_BITFLAG_OPERATORS(DisplayFlags);
 
+	namespace System {
+		class DisplayController;
+	}
+
 	class Display : public ISizeable<int> {
-		friend class StateAccessor;
+		friend class System::DisplayController;
 
 	public:
-		class StateAccessor {
-
-		public:
-			StateAccessor(Display* display);
-			void SetFocus(bool has_focus);
-
-		private:
-			Display* __display;
-
-		};
-
 		Display(int width, int height);
 		Display(int width, int height, const char* title);
 		Display(int width, int height, const char* title, DisplayFlags flags);
@@ -65,7 +58,7 @@ namespace hvn3 {
 		void Resize(int width, int height) override;
 		// Returns the current scale factor relative to the size at which the display was initialized.
 		Scale Scale() const;
-		Point2d<int> Position() const;
+		PointI Position() const;
 		void SetPosition(int x, int y);
 		void SetPosition(const Point2d<int>& position);
 
@@ -79,20 +72,31 @@ namespace hvn3 {
 
 		static Display* ActiveDisplay();
 
-		Display& Display::operator= (Display&& other);
+		Display& Display::operator=(Display&& other);
 
 	private:
-		ALLEGRO_DISPLAY* __display;
-		bool __fullscreen;
-		bool __has_focus;
-		static Display* __active_display;
-		hvn3::Size<int> __original_size;
-		hvn3::Size<int> __size_before_fullscreen;
-		Point2d<int> __position_before_fullscreen;
+		// Pointer to the underlying framework object.
+		ALLEGRO_DISPLAY* _display;
+		// Whether or not the display is the active window.
+		bool _has_focus;
+		// Whether or not the display is currently full-screen.
+		bool _fullscreen;
+		// The size that the display was created with. Used to calculate scale factor when the display is resized.
+		SizeI _original_size;
+		// The size of the window prior to being full-screen. Used to restore original size.
+		SizeI _size_before_fullscreen;
+		// The position of the window prior to being full-screen. Used to restore original position.
+		PointI _position_before_fullscreen;
 
-		void SetFocus(bool has_focus);
-		hvn3::Size<int> ResolutionToSize(DisplayResolution resolution);
+		// Pointer to the currently-active display.
+		static Display* _active_display;
+
+		// Sets a flag indicating whether or not the display currently has focus.
+		void _SetFocus(bool value);
 
 	};
+
+	// Returns a set of dimensions according to the given resolution.
+	SizeI ResolutionToSize(DisplayResolution resolution);
 
 }

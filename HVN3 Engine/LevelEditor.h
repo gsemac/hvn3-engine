@@ -16,7 +16,7 @@ namespace hvn3 {
 
 			virtual void OnUpdate(UpdateEventArgs& e) override;
 			virtual void OnDraw(DrawEventArgs& e) override;
-			//virtual void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e) override;
+			virtual void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e) override;
 
 			void ToggleGrid(bool grid_visible);
 
