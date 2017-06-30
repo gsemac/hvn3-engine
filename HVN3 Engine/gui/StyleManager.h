@@ -28,6 +28,8 @@ namespace hvn3 {
 
 			const Color& PrimaryColor() const;
 			const Color& SecondaryColor() const;
+			const Color& TertiaryColor() const;
+			const Color& TextColor() const;
 			ResourceHandle<Font> GetFontResource(FontResourceId id);
 			ResourceHandle<Drawing::Bitmap> GetImageResource(BitmapResourceId id);
 
@@ -40,8 +42,12 @@ namespace hvn3 {
 
 		private:
 			float _draw_scale;
+
 			Color _primary_color;
 			Color _secondary_color;
+			Color _tertiary_color;
+			Color _text_color;
+
 			ResourceCollection<Font> _fonts;
 			ResourceCollection<Drawing::Bitmap> _bitmaps;
 

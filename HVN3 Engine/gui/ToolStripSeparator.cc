@@ -1,4 +1,5 @@
-#include "ToolStripSeparator.h"
+#include "gui/ToolStripSeparator.h"
+#include "gui/GuiManager.h"
 
 namespace hvn3 {
 	namespace Gui {
@@ -6,14 +7,16 @@ namespace hvn3 {
 		ToolStripSeparator::ToolStripSeparator() :
 			Control(PointF(0, 0), SizeF(6, 25)) {
 
-			_thickness = 2.0f;
+			_thickness = 1.0f;
 
 		}
 
 		void ToolStripSeparator::OnPaint(PaintEventArgs& e) {
 
-			e.Graphics().Clear(BackColor());
-			e.Graphics().DrawLine(Width() / 2.0f, 0.0f, Width() / 2.0f, Height(), BackColor().Lighter().Lighter(), _thickness);
+			// Draw background.
+			//e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor());
+
+			e.Graphics().DrawLine(Width() / 2.0f, 2.0f, Width() / 2.0f, Height() - 2.0f, Manager()->StyleManager()->SecondaryColor(), 1);
 
 		}
 

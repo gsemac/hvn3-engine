@@ -23,7 +23,7 @@ namespace hvn3 {
 
 			// Draw background color.
 			e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor());
-
+			
 			// Draw tiles.
 			e.Graphics().DrawBitmap(-ScrollPosition().X(), -ScrollPosition().Y(), _tileset->Bitmap());
 
@@ -38,6 +38,7 @@ namespace hvn3 {
 			
 			// Call the paint event for the underlying control.
 			ScrollableControl::OnPaint(e);
+
 
 			/*
 			Tiles used to be drawn separately and split into rows accoriding to the size of the panel.

@@ -6,8 +6,10 @@ namespace hvn3 {
 	namespace Gui {
 
 		StyleManager::StyleManager() :
-			_primary_color(Color::FromArgb(35, 35, 35)),
-			_secondary_color(Color::FromArgb(186, 186, 186)),
+			_primary_color(Color::FromArgb(35, 35, 35)), // 240, 240, 240
+			_secondary_color(Color::FromArgb(186, 186, 186)), // 160, 160, 160
+			_tertiary_color(Color::FromArgb(96, 96, 96)),
+			_text_color(Color::Black),
 			_draw_scale(1.0f) {
 		}
 		StyleManager::~StyleManager() {
@@ -24,6 +26,16 @@ namespace hvn3 {
 		const Color& StyleManager::SecondaryColor() const {
 
 			return _secondary_color;
+
+		}
+		const Color& StyleManager::TertiaryColor() const {
+
+			return _tertiary_color;
+
+		}
+		const Color& StyleManager::TextColor() const {
+
+			return _text_color;
 
 		}
 		ResourceHandle<Font> StyleManager::GetFontResource(FontResourceId id) {

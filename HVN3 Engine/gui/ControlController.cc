@@ -27,7 +27,7 @@ namespace hvn3 {
 				// It's possible for the manager not to have a style manager at the moment (e.g., if it's a child manager).
 				if (manager->StyleManager()) {
 					_control->SetBackColor(manager->StyleManager()->PrimaryColor());
-					_control->SetForeColor(manager->StyleManager()->SecondaryColor());
+					_control->SetForeColor(manager->StyleManager()->TextColor());
 				}
 
 			}

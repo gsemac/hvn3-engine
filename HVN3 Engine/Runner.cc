@@ -93,7 +93,6 @@ namespace hvn3 {
 
 		}
 			
-
 	}
 	void Runner::WaitForEvent() {
 

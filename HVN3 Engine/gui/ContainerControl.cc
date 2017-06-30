@@ -1,4 +1,5 @@
 #include "gui/ContainerControl.h"
+#include "gui/ControlController.h"
 #include "io/Mouse.h"
 
 namespace hvn3 {
@@ -110,8 +111,16 @@ namespace hvn3 {
 		void ContainerControl::_InitializeStyleManager() {
 
 			// Updates the style manager of our gui manager so that uses the same one that's used by this control.
-			if (_gui_manager.StyleManager() == nullptr && Manager() != nullptr && Manager()->StyleManager() != nullptr)
+			if (_gui_manager.StyleManager() == nullptr && Manager() != nullptr && Manager()->StyleManager() != nullptr) {
+			
 				_gui_manager = gui_manager_type(&_control_manager, Manager()->StyleManager());
+
+				// Call the manager changed event for all child controls.
+				for (auto it = _Controls()->ControlsBegin(); it != _Controls()->ControlsEnd(); ++it)
+					System::ControlController(*(*it).get()).SetManager(&_gui_manager);
+
+			}
+				
 		}
 
 		// Child classes

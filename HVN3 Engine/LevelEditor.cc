@@ -131,7 +131,9 @@ namespace hvn3 {
 
 			_gui_manager.OnDraw(e);
 
-			e.Graphics().DrawCircle(Mouse::Position(), 10, Color::Red, 2.0f);
+			e.Graphics().SetBlendMode(Drawing::BlendOperation::Invert);
+			e.Graphics().DrawCircle(Mouse::Position(), 10, Color::White, 2.0f);
+			e.Graphics().ResetBlendMode();
 
 		}
 
