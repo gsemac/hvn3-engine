@@ -173,9 +173,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>HVN3_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -188,7 +189,7 @@
     </ProjectReference>
     <Lib />
     <Lib>
-      <AdditionalDependencies>allegro.lib;allegro_font.lib;allegro_ttf.lib;allegro_image.lib;allegro_audio.lib;allegro_primitives.lib;allegro_acodec.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>allegro.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)packages\Allegro.5.2.2.0\build\native\v140\win32\lib;$(SolutionDir)packages\AllegroDeps.1.5.0.0\build\native\v140\win32\deps\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -217,6 +218,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>HVN3_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
