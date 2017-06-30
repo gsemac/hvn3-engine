@@ -4,6 +4,7 @@
 #include "gui/Control.h"
 #include "io/Mouse.h"
 #include "io/Keyboard.h"
+#include "Exception.h"
 
 namespace hvn3 {
 
@@ -28,17 +29,16 @@ namespace hvn3 {
 		Handle<Control> ControlManager::AddControl(content_type& control) {
 
 			// Set the control's parent manager to this object.
-			ControlController(*control).SetManager(_gui_manager);
+			System::ControlController(*control).SetManager(_gui_manager);
 
 			// If the control is docked, add it to the docked controls list.
-			//if (control->Dock() != DockStyle::None)
-			//	_docked_controls.push_back(control.get());
+			if (control->Dock() != DockStyle::None)
+				_AddDockedControl(control.get());
 
-			// Add the control to our list.
+			// Add the control to our collection.
 			_controls.push_back(std::move(control));
 
-			// Sort the list of controls by their Z depth.
-			// Controls with smaller values of Z are drawn on top of those with larger values.
+			// Re-sort the collection of controls.
 			Sort();
 
 			// Return a handle to the control that was just added.
@@ -58,7 +58,7 @@ namespace hvn3 {
 			//	_controls.erase();
 
 			// Add it to the pending removal list.
-			_pending_removal.push_back(iter);
+			_PendControlForRemoval(iter);
 
 			// Return true to indicate that the control was successfully marked for removal.
 			return true;
@@ -76,7 +76,7 @@ namespace hvn3 {
 			ControlPtr new_ptr = std::move(*iter);
 
 			// Mark the old control for removal.
-			_pending_removal.push_back(iter);
+			_PendControlForRemoval(iter);
 
 			// Add the control to the other manager.
 			other->AddControl(new_ptr);
@@ -95,7 +95,7 @@ namespace hvn3 {
 			ptr = std::move(*iter);
 
 			// Mark the old control for removal.
-			_pending_removal.push_back(iter);
+			_PendControlForRemoval(iter);
 
 		}
 		Handle<Control> ControlManager::ActiveControl() {
@@ -165,9 +165,6 @@ namespace hvn3 {
 			_hovered_control = nullptr;
 			bool __nothing_held = (!mouse_is_pressed && mouse_is_held && !_held_control);
 
-			// Reset the dockable region, since docked controls will be updated.
-			ResetDockableRegion();
-
 			// Iterate through all of the Controls (lowest Z-depth to highest).
 			for (auto it = _controls.begin(); it != _controls.end(); ++it) {
 
@@ -178,7 +175,7 @@ namespace hvn3 {
 				if (!c->Enabled())
 					continue;
 
-				ControlController controller(*c);
+				System::ControlController controller(*c);
 				PointF p = controller.GetFixedPosition();
 
 				bool mouse_on = Mouse::InRegion(p.X(), p.Y(), p.X() + c->Width(), p.Y() + c->Height());
@@ -200,7 +197,7 @@ namespace hvn3 {
 					// Handle OnMouseDown/OnMouseUp event.
 					if (mouse_is_pressed) {
 						if (_held_control != c)
-							c->OnMouseDown(MouseEventArgs(GetMousePositionRelativeToControl(c)));
+							c->OnMouseDown(MouseEventArgs(_GetMousePositionRelativeToControl(c)));
 						if (mouse_is_dbl_pressed)
 							c->OnDoubleClick();
 						_held_control = c;
@@ -213,7 +210,7 @@ namespace hvn3 {
 					// Handle OnMouseMove event.
 					if (Mouse::X != _last_mouse_position.X() || Mouse::Y != _last_mouse_position.Y()) {
 						_last_mouse_position = PointF(Mouse::X, Mouse::Y);
-						c->OnMouseMove(MouseMoveEventArgs(GetMousePositionRelativeToControl(c)));
+						c->OnMouseMove(MouseMoveEventArgs(_GetMousePositionRelativeToControl(c)));
 					}
 
 				}
@@ -226,7 +223,7 @@ namespace hvn3 {
 				if (!mouse_is_held && _held_control == c) {
 					if (_hovered_control == c) {
 						c->OnClick();
-						c->OnMouseUp(MouseEventArgs(GetMousePositionRelativeToControl(c)));
+						c->OnMouseUp(MouseEventArgs(_GetMousePositionRelativeToControl(c)));
 					}
 					_held_control = nullptr;
 				}
@@ -262,13 +259,10 @@ namespace hvn3 {
 
 			}
 
-			for (auto it = _controls.begin(); it != _controls.end(); ++it)
-				ApplyAnchors((*it).get());
+			_ApplyDockStyleForAllControls();
 
-			// Process all pending removals.
-			for (size_t i = 0; i < _pending_removal.size(); ++i)
-				_controls.erase(_pending_removal[i]);
-			_pending_removal.clear();
+			// Remove all controls that are currently pending removal.
+			_EraseAllControlsPendingRemoval();
 
 			// Sort if a resort is pending.
 			if (_resort_needed) {
@@ -407,11 +401,54 @@ namespace hvn3 {
 
 		// Private members
 
-		void ControlManager::ApplyAnchors(Control* c) {
+		void ControlManager::_AddDockedControl(Control* control) {
 
-			// If the control doesn't have a manager, do nothing.
-			if (c->Manager() == nullptr)
+			_docked_controls.push_back(control);
+
+		}
+		void ControlManager::_RemoveDockedControl(Control* control) {
+
+			// Find the control in the collection.
+			auto it = std::find(_docked_controls.begin(), _docked_controls.end(), control);
+
+			// If the control does not exist in the collection, do nothing.
+			if (it == _docked_controls.end())
 				return;
+
+			// Remove the control from the collection.
+			_docked_controls.erase(it);
+
+		}
+		void ControlManager::_ApplyDockStyleForAllControls() {
+
+			// Reset the dockable region; it will updated as docking is applied to each control.
+			ResetDockableRegion();
+
+			for (auto it = _docked_controls.begin(); it != _docked_controls.end(); ++it)
+				_ApplyDockStyleToControl(*it);
+
+		}
+		void ControlManager::_PendControlForRemoval(collection_type::iterator control_it) {
+
+			// Add the control to the list of pending removals.
+			_pending_removal.push_back(control_it);
+
+			// If the control is in the docked control collection, remove it from there immediately.
+			_RemoveDockedControl((*control_it).get());
+
+		}
+		void ControlManager::_EraseAllControlsPendingRemoval() {
+
+			// Remove all controls in the list of pending removals.
+			for (size_t i = 0; i < _pending_removal.size(); ++i)
+				_controls.erase(_pending_removal[i]);
+
+			// Clear the list of pending removals.
+			_pending_removal.clear();
+
+		}
+		
+		void ControlManager::_ApplyDockStyleToControl(Control* c) {
 
 			switch (c->Dock()) {
 
@@ -432,7 +469,7 @@ namespace hvn3 {
 				c->SetHeight(DockableRegion().Height());
 
 				ResizeDockableRegion(RectangleF::Crop(DockableRegion(), CropSide::Left, c->Width()));
-				
+
 				break;
 
 			case DockStyle::Right:
@@ -468,12 +505,15 @@ namespace hvn3 {
 			}
 
 		}
-		PointF ControlManager::GetMousePositionRelativeToControl(Control* c) const {
+		PointF ControlManager::_GetMousePositionRelativeToControl(Control* c) const {
 
 			return Mouse::Position() - c->FixedPosition();
 
 		}
+
 		void ControlManager::Sort() {
+
+			// Controls with smaller values of Z are drawn on top of those with larger values.
 
 			//_controls.sort([](Control* a, Control* b) {return a->Z < b->Z; });
 

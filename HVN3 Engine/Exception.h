@@ -40,6 +40,12 @@ namespace hvn3 {
 		FrameworkException();
 	};
 
+	class KeyNotFoundException : public Exception {
+	public:
+		using Exception::Exception;
+		KeyNotFoundException();
+	};
+
 	namespace IO {
 
 		class IOException : public Exception {
