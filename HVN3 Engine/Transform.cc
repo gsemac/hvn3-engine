@@ -54,7 +54,7 @@ namespace hvn3 {
 			al_translate_transform((ALLEGRO_TRANSFORM*)this, origin_x, origin_y);
 
 		}
-		void Transform::Rotate(const Point2d<float>& origin, float degrees) {
+		void Transform::Rotate(const PointF& origin, float degrees) {
 
 			Rotate(origin.X(), origin.Y(), degrees);
 
@@ -76,7 +76,7 @@ namespace hvn3 {
 			al_translate_transform((ALLEGRO_TRANSFORM*)this, origin_x, origin_y);
 
 		}
-		void Transform::HorizontalShear(const Point2d<float>& origin, float degrees) {
+		void Transform::HorizontalShear(const PointF& origin, float degrees) {
 
 			HorizontalShear(origin.X(), origin.Y(), degrees);
 
@@ -93,7 +93,7 @@ namespace hvn3 {
 			al_translate_transform((ALLEGRO_TRANSFORM*)this, origin_x, origin_y);
 
 		}
-		void Transform::VerticalShear(const Point2d<float>& origin, float degrees) {
+		void Transform::VerticalShear(const PointF& origin, float degrees) {
 
 			VerticalShear(origin.X(), origin.Y(), degrees);
 
@@ -103,7 +103,7 @@ namespace hvn3 {
 			al_transform_coordinates((ALLEGRO_TRANSFORM*)this, &x, &y);
 
 		}
-		void Transform::TransformPoint(Point2d<float>& point) const {
+		void Transform::TransformPoint(PointF& point) const {
 
 			float x = point.X();
 			float y = point.Y();
@@ -132,18 +132,10 @@ namespace hvn3 {
 		}
 		float Transform::GetAngle() const {
 
-			for (int i = 0; i < 4; ++i) {
-				for (int j = 0; j < 4; ++j)
-					std::cout << _matrix[j][i] << " ";
-				std::cout << std::endl;
-			}
-
 			return RadiansToDegrees(std::atan2(_matrix[0][1], _matrix[1][1]));
 
-			//return 0;
-
 		}
-		Point2d<float> Transform::GetOffset() const {
+		PointF Transform::GetOffset() const {
 
 			return Point2d<float>(_matrix[3][0], _matrix[3][1]);
 

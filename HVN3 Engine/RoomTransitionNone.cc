@@ -4,11 +4,7 @@
 namespace hvn3 {
 
 	RoomTransitionNone::RoomTransitionNone() {}
-	RoomTransitionNone::~RoomTransitionNone() {
-
-		std::cout << "DESTRUCTED\n";
-
-	}
+	RoomTransitionNone::~RoomTransitionNone() {}
 
 	void RoomTransitionNone::ExitBegin() {}
 	bool RoomTransitionNone::ExitStep(UpdateEventArgs& e) {

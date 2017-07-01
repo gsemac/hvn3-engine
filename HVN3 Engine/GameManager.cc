@@ -35,7 +35,7 @@ namespace hvn3 {
 
 		// Call the destructor for the room manager to trigger the exit event for the current room.
 		_room_manager.~RoomManager(); // #todo do something other than this to avoid destructing it twice
-	
+
 		// Clear all resources.
 		_resource_manager.Clear();
 

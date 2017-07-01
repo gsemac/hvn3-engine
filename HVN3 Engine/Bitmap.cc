@@ -247,7 +247,7 @@ namespace hvn3 {
 
 			if (HasFlag(flags, BitmapFlags::MinLinear))
 				al_flags |= ALLEGRO_MIN_LINEAR;
-
+	
 			if (HasFlag(flags, BitmapFlags::MagLinear))
 				al_flags |= ALLEGRO_MAG_LINEAR;
 

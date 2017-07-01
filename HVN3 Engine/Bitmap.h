@@ -12,8 +12,8 @@ namespace hvn3 {
 
 		enum class BitmapFlags {
 			Default = 1,
-			MinLinear = 2,
-			MagLinear = 4
+			MinLinear = 64,
+			MagLinear = 128
 		};
 		ENABLE_BITFLAG_OPERATORS(BitmapFlags);
 

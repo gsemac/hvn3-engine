@@ -541,7 +541,6 @@ namespace hvn3 {
 
 				// Set the position relative to the clipping area.
 				pos -= _graphics.Clip().TopLeft();
-				std::cout << Scale(SizeF(room.Width(), room.Height()), _graphics.Clip().Size()).Factor() << std::endl;
 				Scale(SizeF(room.Width(), room.Height()), _graphics.Clip().Size()).ScalePoint(pos);
 
 			}
