@@ -75,7 +75,7 @@ typename std::enable_if<EnableBitFlagOperators<Enum>::enable, Enum>::type operat
 
 template<typename Enum>
 typename std::enable_if<EnableBitFlagOperators<Enum>::enable, Enum&>::type operator^=(Enum& a, Enum b) {
-
+	
 	using underlying_type = typename std::underlying_type<Enum>::type;
 	a = static_cast<Enum>(static_cast<underlying_type>(a) ^ static_cast<underlying_type>(b));
 	return a;
@@ -87,6 +87,7 @@ template<typename Enum>
 typename std::enable_if<EnableBitFlagOperators<Enum>::enable, bool>::type HasFlag(Enum a, Enum b) {
 
 	using underlying_type = typename std::underlying_type<Enum>::type;
-	return (bool)(static_cast<underlying_type>(a) & static_cast<underlying_type>(b));
 
-};
+	return (static_cast<underlying_type>(a) & static_cast<underlying_type>(b)) != 0;
+
+}

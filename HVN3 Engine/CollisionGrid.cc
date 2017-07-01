@@ -233,7 +233,10 @@ namespace hvn3 {
 		y = Floor(y);
 
 		// Calculate the position of the cell, keeping in mind the potential for negative cell positions.
-		PointI cell(x / 32 - (x < 0), y / 32 - (y < 0));
+		PointI cell(
+			static_cast<int>(x / 32 - (x < 0)), 
+			static_cast<int>(y / 32 - (y < 0))
+			);
 
 		// Return the result.
 		return cell;
