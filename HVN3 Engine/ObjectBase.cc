@@ -8,6 +8,7 @@ namespace hvn3 {
 		_active = false;
 
 	}
+	void ObjectBase::OnCreate(CreateEventArgs& e) {}
 	void ObjectBase::OnDraw(DrawEventArgs& e) {}
 	void ObjectBase::OnUpdate(UpdateEventArgs& e) {}
 	void ObjectBase::Destroy() {

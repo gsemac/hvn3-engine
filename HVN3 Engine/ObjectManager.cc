@@ -21,6 +21,9 @@ namespace hvn3 {
 
 		_objects.push_back(object);
 
+		// Call the object's create event.
+		object->OnCreate(CreateEventArgs());
+
 		//// If there are no objects in the list, just insert the new object.
 		//if (_objects.size() == 0) {
 		//	_objects.push_back(object);

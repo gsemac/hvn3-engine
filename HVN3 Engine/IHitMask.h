@@ -18,7 +18,7 @@ namespace hvn3 {
 
 		virtual RectangleF AABB() const = 0;
 
-		virtual bool TestIntersection(const IHitMask* other) const = 0;
+		virtual bool TestIntersection(const HitMaskPtr& other) const = 0;
 		virtual bool TestIntersection(const RectangleF& other) const = 0;
 		virtual bool TestIntersection(const CircleF& other) const = 0;
 		virtual bool TestIntersection(const LineF& other) const = 0;

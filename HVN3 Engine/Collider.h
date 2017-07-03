@@ -11,9 +11,9 @@ namespace hvn3 {
 
 		RectangleF AABB() const;
 
-		IHitMask* HitMask();
-		const IHitMask* HitMask() const;
-		void SetHitMask(IHitMask* mask);
+		HitMaskPtr& HitMask();
+		const HitMaskPtr& HitMask() const;
+		void SetHitMask(HitMaskPtr& mask);
 		//void SetHitMask(const RectangleF& mask);
 		//void SetHitMask(const CircleF& mask);
 		//void SetHitMask(const LineF& mask);
@@ -26,7 +26,7 @@ namespace hvn3 {
 		
 	private:
 		Positionable2dBase<float>* _tracking_object;
-		IHitMask* _mask;
+		HitMaskPtr _mask;
 		CollisionFilter _filter;
 
 	};

@@ -47,9 +47,13 @@ namespace hvn3 {
 
 	bool CollisionManager::PlaceFree(Object* object, const PointF& position) {
 
+		// If the object does not have a collision mask, return true immediately (no collisions are possible).
+		if (object->Collider().HitMask() == nullptr)
+			return true;
+
 		// Create a vector to store the results.
 		IBroadPhaseCollisionManager::ColliderCollection hits;
-
+		
 		// Get a list of all colliders that could potentially collide with the collider.
 		_broadphase_method->QueryRegion(object->Collider().AABB(), hits, object->Collider().Filter().MaskBits());
 

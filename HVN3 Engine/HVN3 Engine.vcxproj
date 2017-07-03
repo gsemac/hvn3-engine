@@ -237,6 +237,8 @@
     <ClCompile Include="BackgroundDrawEventArgs.cc" />
     <ClCompile Include="BackgroundManager.cc" />
     <ClCompile Include="BackgroundProperties.cc" />
+    <ClCompile Include="BasicPhysicsBody.cc" />
+    <ClCompile Include="BasicPhysicsManager.cc" />
     <ClCompile Include="Bitmap.cc" />
     <ClCompile Include="BitPacker.cc" />
     <ClCompile Include="CircleHitMask.cc" />
@@ -355,9 +357,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroForwardDeclarations.h" />
+    <ClInclude Include="BasicPhysicsBody.h" />
+    <ClInclude Include="BasicPhysicsManager.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="CircleHitMask.h" />
     <ClInclude Include="CollisionEventArgs.h" />
+    <ClInclude Include="CreateEventArgs.h" />
     <ClInclude Include="DisplayController.h" />
     <ClInclude Include="FrameworkAdapter.h" />
     <ClInclude Include="AllegroExtensions.h" />
@@ -430,6 +435,8 @@
     <ClInclude Include="ICollidable.h" />
     <ClInclude Include="ICollisionManager.h" />
     <ClInclude Include="IHitMask.h" />
+    <ClInclude Include="IPhysicsBody.h" />
+    <ClInclude Include="IPhysicsManager.h" />
     <ClInclude Include="IRoomTransition.h" />
     <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="Line.h" />

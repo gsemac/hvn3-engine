@@ -22,7 +22,7 @@ namespace hvn3 {
 
 	}
 
-	bool RectangleHitMask::TestIntersection(const IHitMask* other) const {
+	bool RectangleHitMask::TestIntersection(const HitMaskPtr& other) const {
 
 		return other->TestIntersection(_mask);
 

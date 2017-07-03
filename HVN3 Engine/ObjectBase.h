@@ -1,6 +1,7 @@
 #pragma once
 #include "IUpdatable.h"
 #include "IDrawable.h"
+#include "CreateEventArgs.h"
 
 namespace hvn3 {
 
@@ -17,6 +18,7 @@ namespace hvn3 {
 
 	public:
 		ObjectBase();
+		virtual void OnCreate(CreateEventArgs& e);
 		virtual void OnDraw(DrawEventArgs& e) override;
 		virtual void OnUpdate(UpdateEventArgs& e) override;
 		void Destroy();

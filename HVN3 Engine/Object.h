@@ -23,6 +23,7 @@ namespace hvn3 {
 		hvn3::Collider& Collider();
 		const hvn3::Collider& Collider() const override;
 
+		virtual void OnCreate(CreateEventArgs& e) override;
 		virtual void OnUpdate(UpdateEventArgs& e) override;
 		virtual void OnDraw(DrawEventArgs& e) override;
 		virtual void OnCollision(CollisionEventArgs& e) override;

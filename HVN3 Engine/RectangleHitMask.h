@@ -14,7 +14,7 @@ namespace hvn3 {
 
 		RectangleF AABB() const override;
 
-		bool TestIntersection(const IHitMask* other) const override;
+		bool TestIntersection(const HitMaskPtr& other) const override;
 		bool TestIntersection(const RectangleF& other) const override;
 		bool TestIntersection(const CircleF& other) const override;
 		bool TestIntersection(const LineF& other) const override;

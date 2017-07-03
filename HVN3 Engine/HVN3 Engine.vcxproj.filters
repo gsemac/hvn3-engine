@@ -172,6 +172,12 @@
     <Filter Include="Source Files\Controllers">
       <UniqueIdentifier>{002d1003-6563-48c9-b426-82569deb353a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\System\Physics">
+      <UniqueIdentifier>{d1dd6077-b536-441b-a1e1-0e2b351ce33e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System\Physics">
+      <UniqueIdentifier>{be631832-c40b-4558-8f3e-be24d76c90b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -539,6 +545,12 @@
     </ClCompile>
     <ClCompile Include="GridRenderer.cc">
       <Filter>Source Files\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicPhysicsBody.cc">
+      <Filter>Source Files\System\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicPhysicsManager.cc">
+      <Filter>Source Files\System\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1033,6 +1045,21 @@
     </ClInclude>
     <ClInclude Include="GridRenderer.h">
       <Filter>Header Files\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateEventArgs.h">
+      <Filter>Header Files\System\Events\EventArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="IPhysicsManager.h">
+      <Filter>Header Files\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="IPhysicsBody.h">
+      <Filter>Header Files\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicPhysicsBody.h">
+      <Filter>Header Files\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicPhysicsManager.h">
+      <Filter>Header Files\System\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -97,14 +97,12 @@ class oBall : public Object {
 
 public:
 	oBall(float x, float y) :
-		Object(1, PointF(x, y)),
-		_hit_mask(CircleF(10.0f)) {
+		Object(1, PointF(x, y)) {
 
 		_radius = Random::Float(10, 25);
-		_hit_mask = CircleHitMask(_radius);
 		_velocity = Vector2d(Random::Float(0, 360), Random::Float(0.1, 1));
 
-		Collider().SetHitMask(&_hit_mask);
+		Collider().SetHitMask(CircleHitMask::Create(_radius));
 		Collider().Filter().SetCategoryBits(0b010);
 		Collider().Filter().SetMaskBits(0b010);
 
@@ -137,10 +135,10 @@ public:
 	}
 	void OnCollision(CollisionEventArgs& e) override {
 
-		MyGame.Rooms().CurrentRoom()->Objects().CollisionManager()->MoveOutsideObject(this, e.Other(), 
+		MyGame.Rooms().CurrentRoom()->Objects().CollisionManager()->MoveOutsideObject(this, e.Other(),
 			PointDirection(e.Other()->Position(), Position()),
 			1.0f
-		);
+			);
 
 		_velocity = -_velocity;
 
@@ -160,7 +158,6 @@ public:
 private:
 	float _radius;
 	Vector2d _velocity;
-	CircleHitMask _hit_mask;
 
 };
 
@@ -168,10 +165,9 @@ class oMouseBox : public Object {
 
 public:
 	oMouseBox() :
-		Object(0, Mouse::Position()),
-		_hit_mask(CircleF(10.0f)) {
+		Object(0, Mouse::Position()) {
 
-		Collider().SetHitMask(&_hit_mask);
+		Collider().SetHitMask(CircleHitMask::Create(10));
 		Collider().Filter().SetCategoryBits(0b001);
 		Collider().Filter().SetMaskBits(0b010);
 
@@ -219,7 +215,6 @@ public:
 	}
 
 private:
-	CircleHitMask _hit_mask;
 	PointF _last_position;
 
 };

@@ -25,6 +25,7 @@ namespace hvn3 {
 
 	}
 
+	void Object::OnCreate(CreateEventArgs& e) {}
 	void Object::OnUpdate(UpdateEventArgs& e) {
 
 		

@@ -59,6 +59,16 @@ namespace hvn3 {
 		return _resource_manager;
 
 	}
+	ICollisionManager& GameManager::Collisions() {
+
+		return *Objects().CollisionManager().get();
+
+	}
+	IObjectManager& GameManager::Objects() {
+
+		return _room_manager.CurrentRoom()->Objects();
+
+	}
 	Runner& GameManager::Runner() {
 
 		return *_runner;

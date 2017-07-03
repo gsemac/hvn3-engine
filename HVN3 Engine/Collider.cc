@@ -13,29 +13,34 @@ namespace hvn3 {
 
 	RectangleF Collider::AABB() const {
 
+		float x = _tracking_object->X();
+		float y = _tracking_object->Y();
+
+		// Return an empty rectangle if the collider doesn't have a mask.
+		if (_mask == nullptr)
+			return RectangleF(x, y, 0, 0);
+
 		RectangleF aabb = _mask->AABB();
 
-		aabb.Translate(_tracking_object->X(), _tracking_object->Y());
+		aabb.Translate(x, y);
 
 		return aabb;
 
 	}
 
-	IHitMask* Collider::HitMask() {
+	HitMaskPtr& Collider::HitMask() {
 		
 		return _mask;
 
 	}
-	const IHitMask* Collider::HitMask() const {
+	const HitMaskPtr& Collider::HitMask() const {
 
 		return _mask;
 
 	}
-	void Collider::SetHitMask(IHitMask* mask) {
+	void Collider::SetHitMask(HitMaskPtr& mask) {
 
-		_mask = mask;
-
-		//_mask = std::move(mask);
+		_mask = std::move(mask);
 
 	}
 

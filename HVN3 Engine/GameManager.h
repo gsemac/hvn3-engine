@@ -3,6 +3,8 @@
 #include "RoomManager.h"
 #include "Runner.h"
 #include "ResourceManager.h"
+#include "ICollisionManager.h"
+#include "IObjectManager.h"
 
 namespace hvn3 {
 
@@ -17,6 +19,8 @@ namespace hvn3 {
 		Properties& Properties();
 		RoomManager& Rooms();
 		ResourceManager& Resources();
+		ICollisionManager& Collisions();
+		IObjectManager& Objects();
 		Runner& Runner();
 
 	protected:

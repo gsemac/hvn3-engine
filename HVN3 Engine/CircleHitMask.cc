@@ -25,7 +25,7 @@ namespace hvn3 {
 
 	}
 
-	bool CircleHitMask::TestIntersection(const IHitMask* other) const {
+	bool CircleHitMask::TestIntersection(const HitMaskPtr& other) const {
 
 		return other->TestIntersection(_mask);
 
