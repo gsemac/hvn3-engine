@@ -47,13 +47,18 @@ namespace hvn3 {
 
 	bool CollisionManager::PlaceFree(Object* object, const PointF& position) {
 
+		return PlaceFreeIf(object, position, [](Object*) { return true; });
+
+	}
+	bool CollisionManager::PlaceFreeIf(Object* object, const PointF& position, const std::function<bool(Object*)>& condition) {
+
 		// If the object does not have a collision mask, return true immediately (no collisions are possible).
 		if (object->Collider().HitMask() == nullptr)
 			return true;
 
 		// Create a vector to store the results.
 		IBroadPhaseCollisionManager::ColliderCollection hits;
-		
+
 		// Get a list of all colliders that could potentially collide with the collider.
 		_broadphase_method->QueryRegion(object->Collider().AABB(), hits, object->Collider().Filter().MaskBits());
 
@@ -63,8 +68,8 @@ namespace hvn3 {
 
 		for (size_t i = 0; i < hits.size(); ++i) {
 
-			// Ignore self.
-			if (hits[i] == &object->Collider())
+			// Ignore self and objects that don't meet the given condition.
+			if (hits[i] == &object->Collider() || !condition(object))
 				continue;
 
 			// Get object pointer to the hit.
@@ -80,38 +85,62 @@ namespace hvn3 {
 		return true;
 
 	}
-	void CollisionManager::MoveContact(Object* object, float direction, int distance_per_step) {
+	void CollisionManager::MoveContact(Object* object, float direction, float max_distance) {
+
+		return MoveContactIf(object, direction, max_distance, [](Object*) { return true; });
+
+	}
+	void CollisionManager::MoveContactIf(Object* object, float direction, float max_distance, const std::function<bool(Object*)>& condition) {
 
 		PointF pos = object->Position();
+		float dist = 0.0f;
+		float distance_per_step = 1.0f;
 
-		while (PlaceFree(object, pos)) {
+		while (PlaceFreeIf(object, pos, condition) && dist < max_distance) {
 
 			object->SetPosition(pos);
 
 			pos = PointInDirection(pos, direction, distance_per_step);
 
+			dist += distance_per_step;
+
 		}
 
 	}
-	void CollisionManager::MoveOutside(Object* object, float direction, int distance_per_step) {
+	void CollisionManager::MoveOutside(Object* object, float direction, float max_distance) {
 
 		PointF pos = object->Position();
+		float dist = 0.0f;
+		float distance_per_step = 1.0f;
 
-		while (!PlaceFree(object, pos))
+		while (!PlaceFree(object, pos) && dist < max_distance) {
+
 			pos = PointInDirection(pos, direction, distance_per_step);
+
+			dist += distance_per_step;
+
+		}
 
 		object->SetPosition(pos);
 
 	}
-	void CollisionManager::MoveOutsideObject(Object* object, Object* other, float direction, int distance_per_step) {
+	void CollisionManager::MoveOutsideObject(Object* object, Object* other, float direction, float max_distance) {
 
-		while (_narrowphase_method.TestCollision(&object->Collider(), &other->Collider()))
+		float dist = 0.0f;
+		float distance_per_step = 1.0f;
+
+		while (_narrowphase_method.TestCollision(&object->Collider(), &other->Collider()) && dist < max_distance) {
+
 			object->SetPosition(PointInDirection(object->Position(), direction, distance_per_step));
+
+			dist += distance_per_step;
+
+		}
 
 	}
 
 	void CollisionManager::CheckPairs(const IBroadPhaseCollisionManager::ColliderPairCollection& pairs) const {
-	
+
 		// Test for a collision with each pair and call the appropriate "on collision" function(s).
 		for (auto i = pairs.begin(); i != pairs.end(); ++i) {
 

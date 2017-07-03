@@ -68,7 +68,7 @@ enum MyResources : ResourceId {
 class oController : public Object {
 
 public:
-	oController() : Object(noone, PointF(0, 0)) {}
+	oController() : Object(NoOne, PointF(0, 0)) {}
 
 	void OnUpdate(UpdateEventArgs& e) override {
 
@@ -223,7 +223,7 @@ class oSpriteableObject : public Object, public SpriteableBase {
 
 public:
 	oSpriteableObject() :
-		Object(noone, PointF()),
+		Object(NoOne, PointF()),
 		SpriteableBase(MyGame.Resources().Sprites(BACKGROUND_1)) {
 
 		SetX(5);

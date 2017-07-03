@@ -50,21 +50,21 @@ namespace hvn3 {
 		void BasicPhysicsManager::OnUpdate(UpdateEventArgs& e) {
 
 			for (collection_type::iterator i = _bodies.begin(); i != _bodies.end(); ++i) {
-
+				
 				Object* obj = i->first;
 				BasicPhysicsBody* body = &i->second;
+				
+				if (body->Type() != BodyType::Dynamic)
+					continue;
+
 				float x = obj->X();
 				float y = obj->Y();
 
-				x += _gravity.X();
-				y += _gravity.Y();
-
-				_collision_manager->MoveContact(obj, PointDirection(obj->Position(), PointF(x, y)),)
-
-				obj->SetPosition(x, y);
+				_collision_manager->MoveContactIf(obj, _gravity.Angle(), _gravity.Magnitude(), 
+					[](Object* obj) { return HasFlag(obj->Flags(), ObjectFlags::Solid); }
+				);
 
 			}
-
 
 		}
 

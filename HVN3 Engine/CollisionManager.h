@@ -16,9 +16,11 @@ namespace hvn3 {
 		void ClearObjects() override;
 
 		bool PlaceFree(Object* object, const PointF& position) override;
-		void MoveContact(Object* object, float direction, int distance_per_step) override;
-		void MoveOutside(Object* object, float direction, int distance_per_step);
-		void MoveOutsideObject(Object* object, Object* other, float direction, int distance_per_step);
+		bool PlaceFreeIf(Object* object, const PointF& position, const std::function<bool(Object*)>& condition) override;
+		void MoveContact(Object* object, float direction, float max_distance) override;
+		void MoveContactIf(Object* object, float direction, float max_distance, const std::function<bool(Object*)>& condition) override;
+		void MoveOutside(Object* object, float direction, float max_distance) override;
+		void MoveOutsideObject(Object* object, Object* other, float direction, float max_distance) override;
 
 		IBroadPhaseCollisionManager& BroadPhase();
 

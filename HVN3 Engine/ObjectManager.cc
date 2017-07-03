@@ -9,14 +9,14 @@ namespace hvn3 {
 	ObjectManager::ObjectManager(std::unique_ptr<ICollisionManager>& collision_manager) :
 		_collision_manager(std::move(collision_manager)) {
 
-		_last_found_id = noone;
+		_last_found_id = NoOne;
 		_last_found_index = 0;
 
 	}
 	void ObjectManager::AddInstance(std::shared_ptr<Object> object) {
 
 		// If the object's id is non-null, add it to the collision manager.
-		if (object->Id() != noone)
+		if (object->Id() != NoOne)
 			CollisionManager()->AddObject(object.get());
 
 		_objects.push_back(object);
