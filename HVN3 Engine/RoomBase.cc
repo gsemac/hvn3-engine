@@ -7,7 +7,7 @@
 namespace hvn3 {
 
 	RoomBase::RoomBase(RoomId id, const SizeI& size) :
-		RoomBase(id, size, std::unique_ptr<IObjectManager>(new hvn3::ObjectManager(std::unique_ptr<hvn3::ICollisionManager>(new hvn3::CollisionManager(std::unique_ptr<IBroadPhaseCollisionManager>(new CollisionGrid(32, 32))))))) {
+		RoomBase(id, size, std::unique_ptr<IObjectManager>(new hvn3::ObjectManager())) {
 	}
 	RoomBase::RoomBase(RoomId id, const SizeI& size, std::unique_ptr<IObjectManager>& object_manager) :
 		ISizeable(size),

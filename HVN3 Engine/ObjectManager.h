@@ -9,12 +9,11 @@ namespace hvn3 {
 	class ObjectManager : public IObjectManager {
 
 	public:
-		ObjectManager(std::unique_ptr<ICollisionManager>& collision_manager);
+		ObjectManager();
 
-		// Inherited via IObjectManager
-		virtual void AddInstance(std::shared_ptr<Object> object) override;
+		virtual void AddInstance(ObjectPtr& object) override;
 		virtual void Clear() override;
-		virtual std::unique_ptr<ICollisionManager>& CollisionManager() override;
+
 		virtual Object* FindInstance(ObjectId id) override;
 		virtual Object* FindNextInstance(ObjectId id) override;
 		virtual size_t InstanceCount() const override;
@@ -24,9 +23,12 @@ namespace hvn3 {
 		virtual void OnUpdate(UpdateEventArgs& e) override;
 		virtual void OnDraw(DrawEventArgs& e) override;
 
+		virtual void AddListener(IObjectManagerListener* listener) override;
+		virtual void RemoveListener(IObjectManagerListener* listener) override;
+
 	private:
-		std::vector<std::shared_ptr<Object>> _objects;
-		std::unique_ptr<ICollisionManager> _collision_manager;
+		std::vector<ObjectPtr> _objects;
+		std::vector<IObjectManagerListener*> _listeners;
 		ObjectId _last_found_id;
 		size_t _last_found_index;
 

@@ -2,23 +2,26 @@
 #include "ICollisionManager.h"
 #include "DrawEventArgs.h"
 #include "UpdateEventArgs.h"
+#include "IObjectManagerListener.h"
 #include <utility>
+#include <algorithm>
 
 namespace hvn3 {
 
-	ObjectManager::ObjectManager(std::unique_ptr<ICollisionManager>& collision_manager) :
-		_collision_manager(std::move(collision_manager)) {
+	ObjectManager::ObjectManager() {
 
 		_last_found_id = NoOne;
 		_last_found_index = 0;
 
 	}
-	void ObjectManager::AddInstance(std::shared_ptr<Object> object) {
 
-		// If the object's id is non-null, add it to the collision manager.
-		if (object->Id() != NoOne)
-			CollisionManager()->AddObject(object.get());
+	void ObjectManager::AddInstance(ObjectPtr& object) {
 
+		// Trigger all listeners.
+		for (size_t i = 0; i < _listeners.size(); ++i)
+			_listeners[i]->OnInstanceAdded(InstanceAddedEventArgs(object.get()));
+
+		// Add the object to our object collection.
 		_objects.push_back(object);
 
 		// Call the object's create event.
@@ -56,16 +59,15 @@ namespace hvn3 {
 	}
 	void ObjectManager::Clear() {
 
-		// Clear all colliders from the collision manager.
-		_collision_manager->ClearObjects();
+		//// Clear all colliders from the collision manager.
+		//_collision_manager->ClearObjects();
+
+		// Trigger all listeners.
+		for (size_t i = 0; i < _listeners.size(); ++i)
+			_listeners[i]->OnInstancesCleared(InstancesClearedEventArgs());
 
 		// Clear all objects from the object manager.
 		_objects.clear();
-
-	}
-	std::unique_ptr<ICollisionManager>& ObjectManager::CollisionManager() {
-
-		return _collision_manager;
 
 	}
 	Object* ObjectManager::FindInstance(ObjectId id) {
@@ -119,6 +121,7 @@ namespace hvn3 {
 		return false;
 
 	}
+
 	void ObjectManager::OnUpdate(UpdateEventArgs& e) {
 
 		// Run the pre-update procedure for all objects.
@@ -129,8 +132,12 @@ namespace hvn3 {
 		for (auto it = _objects.begin(); it != _objects.end(); ++it)
 			(*it)->OnUpdate(e);
 
-		// Update the Collision Manager.
-		_collision_manager->Update(e);
+		//// Update the Collision Manager.
+		//_collision_manager->Update(e);
+
+		// Trigger all listeners.
+		for (size_t i = 0; i < _listeners.size(); ++i)
+			_listeners[i]->OnObjectManagerUpdate(e);
 
 		// Run the post update procedure for all objects.
 		for (auto it = _objects.begin(); it != _objects.end(); ++it)
@@ -142,6 +149,20 @@ namespace hvn3 {
 		// Draw all objects.
 		for (auto it = _objects.begin(); it != _objects.end(); ++it)
 			(*it)->OnDraw(e);
+
+	}
+
+	void ObjectManager::AddListener(IObjectManagerListener* listener) {
+
+		_listeners.push_back(listener);
+
+	}
+	void ObjectManager::RemoveListener(IObjectManagerListener* listener) {
+
+		auto position = std::find(_listeners.begin(), _listeners.end(), listener);
+		
+		if (position != _listeners.end())
+			_listeners.erase(position);
 
 	}
 

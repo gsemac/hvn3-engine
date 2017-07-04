@@ -84,7 +84,7 @@ public:
 
 		e.Graphics().DrawBitmap(0, 0, &MyGame.Resources().Tilesets()[TILESET_1]->TileAt(5));
 
-		CollisionManager* cm = (CollisionManager*)MyGame.Rooms().CurrentRoom()->Objects().CollisionManager().get();
+		CollisionManager* cm = (CollisionManager*)&MyGame.Collisions();
 		CollisionGrid& cg = (CollisionGrid&)cm->BroadPhase();
 
 		cg.DrawCells(e);
@@ -135,7 +135,7 @@ public:
 	}
 	void OnCollision(CollisionEventArgs& e) override {
 
-		MyGame.Rooms().CurrentRoom()->Objects().CollisionManager()->MoveOutsideObject(this, e.Other(),
+		MyGame.Collisions().MoveOutsideObject(this, e.Other(),
 			PointDirection(e.Other()->Position(), Position()),
 			1.0f
 			);
@@ -205,7 +205,7 @@ public:
 
 			// Move the ball outside of the cursor.
 			if (tot_vec.Magnitude() > 0)
-				MyGame.Rooms().CurrentRoom()->Objects().CollisionManager()->MoveOutsideObject(e.Other(), this, PointDirection(e.Other()->Position(), Position()), 1);
+				MyGame.Collisions().MoveOutsideObject(e.Other(), this, PointDirection(e.Other()->Position(), Position()), 1);
 
 			break;
 

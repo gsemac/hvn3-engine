@@ -1,10 +1,15 @@
 #include "Room.h"
+#include "CollisionGrid.h"
 
 namespace hvn3 {
 
 	Room::Room(RoomId id, const SizeI& size) :
 		RoomBase(id, size),
-		_rendering_view(0) {
+		_rendering_view(0),
+		_collision_manager(std::unique_ptr<IBroadPhaseCollisionManager>(new CollisionGrid(32, 32))) {
+
+		Objects().AddListener(&_collision_manager);
+
 	}
 	Room::~Room() {}
 
@@ -24,6 +29,11 @@ namespace hvn3 {
 	IViewManager& Room::Views() {
 
 		return _view_manager;
+
+	}
+	ICollisionManager& Room::Collisions() {
+
+		return _collision_manager;
 
 	}
 	void Room::OnUpdate(UpdateEventArgs& e) {

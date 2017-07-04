@@ -3,10 +3,11 @@
 #include "ICollisionManager.h"
 #include "IBroadPhaseCollisionManager.h"
 #include "NarrowPhaseCollisionManager.h"
+#include "IObjectManagerListener.h"
 
 namespace hvn3 {
 
-	class CollisionManager : public ICollisionManager {
+	class CollisionManager : public ICollisionManager, public IObjectManagerListener {
 
 	public:
 		CollisionManager(std::unique_ptr<IBroadPhaseCollisionManager>& broadphase_method);
@@ -25,6 +26,11 @@ namespace hvn3 {
 		IBroadPhaseCollisionManager& BroadPhase();
 
 		void Update(UpdateEventArgs& e) override;
+
+		void OnInstanceAdded(InstanceAddedEventArgs& e) override;
+		void OnInstanceRemoved(InstanceRemovedEventArgs& e) override;
+		void OnInstancesCleared(InstancesClearedEventArgs& e) override;
+		void OnObjectManagerUpdate(UpdateEventArgs& e) override;
 
 	private:
 		std::unique_ptr<IBroadPhaseCollisionManager> _broadphase_method;

@@ -45,6 +45,29 @@ namespace hvn3 {
 
 	}
 
+	void CollisionManager::OnInstanceAdded(InstanceAddedEventArgs& e) {
+
+		// If the object's id is non-null, add it to the collision manager.
+		if (e.Instance()->Id() != NoOne && !HasFlag(e.Instance()->Flags(), ObjectFlags::NoCollision))
+			AddObject(e.Instance());
+
+	}
+	void CollisionManager::OnInstanceRemoved(InstanceRemovedEventArgs& e) {
+
+		RemoveObject(e.Instance());
+
+	}
+	void CollisionManager::OnInstancesCleared(InstancesClearedEventArgs& e) {
+
+		ClearObjects();
+
+	}
+	void CollisionManager::OnObjectManagerUpdate(UpdateEventArgs& e) {
+
+		Update(e);
+
+	}
+	
 	bool CollisionManager::PlaceFree(Object* object, const PointF& position) {
 
 		return PlaceFreeIf(object, position, [](Object*) { return true; });

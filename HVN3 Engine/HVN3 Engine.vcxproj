@@ -293,6 +293,7 @@
     <ClCompile Include="gui\ToolStripMenuItem.cc" />
     <ClCompile Include="gui\ToolStripSeparator.cc" />
     <ClCompile Include="gui\Window.cc" />
+    <ClCompile Include="IObjectManagerListener.cc" />
     <ClCompile Include="io\Clipboard.cc" />
     <ClCompile Include="io\Directory.cc" />
     <ClCompile Include="io\File.cc" />
@@ -435,6 +436,7 @@
     <ClInclude Include="ICollidable.h" />
     <ClInclude Include="ICollisionManager.h" />
     <ClInclude Include="IHitMask.h" />
+    <ClInclude Include="IObjectManagerListener.h" />
     <ClInclude Include="IPhysicsBody.h" />
     <ClInclude Include="IPhysicsManager.h" />
     <ClInclude Include="IRoomTransition.h" />

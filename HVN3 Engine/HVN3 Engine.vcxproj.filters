@@ -178,6 +178,12 @@
     <Filter Include="Source Files\System\Physics">
       <UniqueIdentifier>{be631832-c40b-4558-8f3e-be24d76c90b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\System\Managers\Listeners">
+      <UniqueIdentifier>{c2884761-15a9-4238-b2d4-5090d7fcac3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System\Managers\Listeners">
+      <UniqueIdentifier>{9a7eef78-0700-4adf-bfde-dd566e4a23ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -551,6 +557,9 @@
     </ClCompile>
     <ClCompile Include="BasicPhysicsManager.cc">
       <Filter>Source Files\System\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="IObjectManagerListener.cc">
+      <Filter>Source Files\System\Managers\Listeners</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1060,6 +1069,9 @@
     </ClInclude>
     <ClInclude Include="BasicPhysicsManager.h">
       <Filter>Header Files\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="IObjectManagerListener.h">
+      <Filter>Header Files\System\Managers\Listeners</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

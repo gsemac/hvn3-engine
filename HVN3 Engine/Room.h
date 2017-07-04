@@ -2,6 +2,7 @@
 #include "RoomBase.h"
 #include "BackgroundManager.h"
 #include "ViewManager.h"
+#include "CollisionManager.h"
 
 namespace hvn3 {
 
@@ -15,6 +16,7 @@ namespace hvn3 {
 		const View* CurrentView();
 		IBackgroundManager& Backgrounds();
 		IViewManager& Views();
+		ICollisionManager& Collisions();
 
 		virtual void OnUpdate(UpdateEventArgs& e) override;
 		virtual void OnDraw(DrawEventArgs& e) override;
@@ -33,6 +35,7 @@ namespace hvn3 {
 		virtual void Render(DrawEventArgs& e) override;
 
 	private:
+		hvn3::CollisionManager _collision_manager;
 		hvn3::BackgroundManager _background_manager;
 		hvn3::ViewManager _view_manager;
 
