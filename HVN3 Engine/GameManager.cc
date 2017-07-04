@@ -1,5 +1,6 @@
 #include "GameManager.h"
 #include "Bitmap.h"
+#include "Exception.h"
 
 namespace hvn3 {
 
@@ -61,12 +62,32 @@ namespace hvn3 {
 	}
 	ICollisionManager& GameManager::Collisions() {
 
-		return *_room_manager.CurrentRoom()->Collisions();
+		auto room_ptr = _room_manager.CurrentRoom();
+
+		if(room_ptr == nullptr)
+			throw NotSupportedException("Attempted to access the collision manager for the current room, but there is no active room.");
+
+		auto ptr = room_ptr->Collisions();
+
+		if (ptr == nullptr)
+			throw NotSupportedException("The current room does not provide a collision manager.");
+
+		return *ptr;
 
 	}
 	IObjectManager& GameManager::Objects() {
 		
-		return *_room_manager.CurrentRoom()->Objects();
+		auto room_ptr = _room_manager.CurrentRoom();
+
+		if (room_ptr == nullptr)
+			throw NotSupportedException("Attempted to access the object manager for the current room, but there is no active room.");
+		
+		auto ptr = room_ptr->Objects();
+
+		if (ptr == nullptr)
+			throw NotSupportedException("The current room does not provide an object manager.");
+
+		return *ptr;
 
 	}
 	Runner& GameManager::Runner() {

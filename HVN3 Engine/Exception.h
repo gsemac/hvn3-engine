@@ -46,6 +46,12 @@ namespace hvn3 {
 		KeyNotFoundException();
 	};
 
+	class NullPointerException : public Exception {
+	public:
+		using Exception::Exception;
+		NullPointerException();
+	};
+
 	namespace IO {
 
 		class IOException : public Exception {

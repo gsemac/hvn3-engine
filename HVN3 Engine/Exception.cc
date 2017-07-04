@@ -22,6 +22,7 @@ namespace hvn3 {
 	NotImplementedException::NotImplementedException() : Exception("Function not yet implemented.") {}
 	FrameworkException::FrameworkException() : Exception("An error was thrown by the engine framework.") {}
 	KeyNotFoundException::KeyNotFoundException() : Exception("The given key could not be found in the collection.") {}
+	NullPointerException::NullPointerException() : Exception("An attempt was made to read a null pointer.") {}
 
 	IO::IOException::IOException() : Exception("I/O error occurred.") {}
 	IO::FileNotFoundException::FileNotFoundException() : IOException("Unable to find the specified file.") {}
