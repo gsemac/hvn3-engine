@@ -65,12 +65,12 @@ namespace hvn3 {
 		auto room_ptr = _room_manager.CurrentRoom();
 
 		if(room_ptr == nullptr)
-			throw NotSupportedException("Attempted to access the collision manager for the current room, but there is no active room.");
+			throw System::NotSupportedException("Attempted to access the collision manager for the current room, but there is no active room.");
 
 		auto ptr = room_ptr->Collisions();
 
 		if (ptr == nullptr)
-			throw NotSupportedException("The current room does not provide a collision manager.");
+			throw System::NotSupportedException("The current room does not provide a collision manager.");
 
 		return *ptr;
 
@@ -80,12 +80,12 @@ namespace hvn3 {
 		auto room_ptr = _room_manager.CurrentRoom();
 
 		if (room_ptr == nullptr)
-			throw NotSupportedException("Attempted to access the object manager for the current room, but there is no active room.");
+			throw System::NotSupportedException("Attempted to access the object manager for the current room, but there is no active room.");
 		
 		auto ptr = room_ptr->Objects();
 
 		if (ptr == nullptr)
-			throw NotSupportedException("The current room does not provide an object manager.");
+			throw System::NotSupportedException("The current room does not provide an object manager.");
 
 		return *ptr;
 

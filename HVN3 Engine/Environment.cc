@@ -49,7 +49,7 @@ namespace hvn3 {
 		}
 		else
 			// Otherwise, throw an exception.
-			throw IO::IOException("Failed to get the current working directory.");
+			throw System::IO::IOException("Failed to get the current working directory.");
 
 	}
 	hvn3::OperatingSystem Environment::OperatingSystem() {
@@ -91,7 +91,7 @@ namespace hvn3 {
 			return std::string(cwd);
 		else
 			// Otherwise, throw an exception.
-			throw Exception("Unable to get the current directory (getcwd returned null).");
+			throw System::Exception("Unable to get the current directory (getcwd returned null).");
 
 	}
 
@@ -122,7 +122,7 @@ namespace hvn3 {
 				if (info.x1 == 0 && info.y1 == 0)
 					return Screen(Rectangle<int>(info.x1, info.y1, info.x2 - info.x1, info.y2 - info.y1));
 
-		throw Exception("Could not find primary display.");
+		throw System::Exception("Could not find primary display.");
 
 	}
 	Environment::Screen Environment::Screen::VirtualScreen() {

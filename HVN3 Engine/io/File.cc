@@ -13,7 +13,7 @@ namespace hvn3 {
 		std::vector<std::string> File::ReadAllLines(const char* filename) {
 
 			// Open the file.
-			if (!Exists(filename)) throw IO::FileNotFoundException();
+			if (!Exists(filename)) throw System::IO::FileNotFoundException();
 			ALLEGRO_FILE* file = al_fopen(filename, "r");
 
 			// Determine the encoding, and seek past the BOM bytes if needed.
@@ -48,7 +48,7 @@ namespace hvn3 {
 		std::string File::ReadAllText(const char* filename) {
 
 			// Open the file.
-			if (!Exists(filename)) throw IO::FileNotFoundException();
+			if (!Exists(filename)) throw System::IO::FileNotFoundException();
 			ALLEGRO_FILE* file = al_fopen(filename, "r");
 
 			// Determine the encoding, and seek past the BOM bytes if needed.

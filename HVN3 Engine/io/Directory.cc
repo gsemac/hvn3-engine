@@ -21,7 +21,7 @@ namespace hvn3 {
 
 			// Set the new working directory.
 			if (!al_change_directory(StringUtils::RTrim(path, { IO::Path::DirectorySeparatorChar() }).c_str()))
-				throw IOException("Failed to set the working directory.");
+				throw System::IO::IOException("Failed to set the working directory.");
 
 		}
 

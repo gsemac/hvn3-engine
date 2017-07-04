@@ -17,7 +17,7 @@ namespace hvn3 {
 	}
 	const EventSource& EventArgs::Source() const {
 
-		throw NotImplementedException();
+		throw System::NotImplementedException();
 
 		//return __source;
 

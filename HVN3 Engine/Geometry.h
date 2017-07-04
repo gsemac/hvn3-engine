@@ -169,7 +169,7 @@ namespace hvn3 {
 	template <typename T>
 	bool TestIntersection(const Rectangle<T>& a, const Line<T>& b) {
 
-		throw NotImplementedException();
+		throw System::NotImplementedException();
 
 	}
 	template <typename T>

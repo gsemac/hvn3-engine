@@ -104,7 +104,7 @@ namespace hvn3 {
 		return false;
 
 	}
-	bool SpriteMask::Intersects(const Rectangle<float>& other) const { throw NotImplementedException(); }
-	bool SpriteMask::Intersects(const Line<float>& other) const { throw NotImplementedException(); }
+	bool SpriteMask::Intersects(const Rectangle<float>& other) const { throw System::NotImplementedException(); }
+	bool SpriteMask::Intersects(const Line<float>& other) const { throw System::NotImplementedException(); }
 
 }

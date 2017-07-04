@@ -190,7 +190,7 @@ namespace hvn3 {
 	}
 	void Vector2d::SetDirection(float degrees) {
 
-		throw NotImplementedException();
+		throw System::NotImplementedException();
 
 	}
 

@@ -18,7 +18,7 @@ namespace hvn3 {
 
 		// If we failed to access the file, throw an error.
 		if (!bmp)
-			throw IO::IOException("Failed to access file '" + std::string(path) + "'.");
+			throw System::IO::IOException("Failed to access file '" + std::string(path) + "'.");
 
 		// We are not using a sprite sheet, so set these values accordingly.
 		_using_sprite_sheet = false;
@@ -158,7 +158,7 @@ namespace hvn3 {
 
 		// If we failed to access the file, throw an error.
 		if (!sheet)
-			throw IO::IOException("Failed to access file '" + std::string(path) + "'.");
+			throw System::IO::IOException("Failed to access file '" + std::string(path) + "'.");
 
 		// Get the dimensions of the sheet, and determine the number of rows/columns.
 		int sheet_width = sheet.Width();
@@ -196,12 +196,12 @@ namespace hvn3 {
 	}
 	SpritePtr Sprite::CreateFromSpriteSheet(const char* path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y) {
 
-		throw NotImplementedException();
+		throw System::NotImplementedException();
 
 	}
 	SpritePtr Sprite::CreateFromSpriteSheet(const char* path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y, const Color& alpha_color) {
 
-		throw NotImplementedException();
+		throw System::NotImplementedException();
 
 	}
 

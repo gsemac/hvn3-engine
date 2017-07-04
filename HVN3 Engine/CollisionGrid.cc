@@ -84,7 +84,7 @@ namespace hvn3 {
 	}
 	CollisionGrid::ColliderType CollisionGrid::Pick(const PointF& point) const {
 
-		throw NotImplementedException();
+		throw System::NotImplementedException();
 
 	}
 	void CollisionGrid::QueryRegion(const RectangleF& region, ColliderCollection& output, int filter) const {
@@ -140,7 +140,7 @@ namespace hvn3 {
 	}
 	RayCastResult CollisionGrid::RayCast(const LineF& ray) const {
 
-		throw NotImplementedException();
+		throw System::NotImplementedException();
 
 	}
 
