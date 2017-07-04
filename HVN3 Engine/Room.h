@@ -3,6 +3,7 @@
 #include "BackgroundManager.h"
 #include "ViewManager.h"
 #include "CollisionManager.h"
+#include "IPhysicsManager.h"
 
 namespace hvn3 {
 
@@ -11,28 +12,27 @@ namespace hvn3 {
 
 	public:
 		Room(RoomId id, const SizeI& size);
-		virtual ~Room();
-
-		const View* CurrentView();
-		IBackgroundManager& Backgrounds();
-		IViewManager& Views();
-		ICollisionManager& Collisions();
+		virtual ~Room() = default;
 
 		virtual void OnUpdate(UpdateEventArgs& e) override;
 		virtual void OnDraw(DrawEventArgs& e) override;
 
+		const View* CurrentView() const override;
+
+		const IBackgroundManager* Backgrounds() const override;
+		IBackgroundManager* Backgrounds() override;
+		const IViewManager* Views() const override;
+		IViewManager* Views() override;
+		const ICollisionManager* Collisions() const override;
+		ICollisionManager* Collisions() override;
+		virtual const Physics::IPhysicsManager<Object*>* Physics() const override;
+		virtual Physics::IPhysicsManager<Object*>* Physics() override;
+	
 		virtual RectangleF GetVisibleRegion() override;
 
-		template<typename T, typename ... Args>
-		static std::unique_ptr<Room> Create(Args &&... args) {
-
-			return std::make_unique<T>(std::forward<Args>(args)...);
-
-		}
-
 	protected:
-		virtual void Reset() override;
-		virtual void Render(DrawEventArgs& e) override;
+		virtual void OnReset() override;
+		virtual void OnRender(DrawEventArgs& e) override;
 
 	private:
 		hvn3::CollisionManager _collision_manager;

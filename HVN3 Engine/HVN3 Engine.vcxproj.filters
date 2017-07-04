@@ -561,6 +561,9 @@
     <ClCompile Include="IObjectManagerListener.cc">
       <Filter>Source Files\System\Managers\Listeners</Filter>
     </ClCompile>
+    <ClCompile Include="IRoom.cc">
+      <Filter>Source Files\Interfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -633,9 +636,6 @@
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="IStringable.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="ISizeable.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="ITransformable.h">
@@ -1072,6 +1072,9 @@
     </ClInclude>
     <ClInclude Include="IObjectManagerListener.h">
       <Filter>Header Files\System\Managers\Listeners</Filter>
+    </ClInclude>
+    <ClInclude Include="SizeableBase.h">
+      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
 #pragma once
-#include "ISizeable.h"
+#include "SizeableBase.h"
 #include "Geometry.h"
 #include "Color.h"
 #include "io/File.h"

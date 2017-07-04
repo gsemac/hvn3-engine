@@ -14,7 +14,7 @@ namespace hvn3 {
 	}
 	Gui::Control::Control(const Point2d<float>& location, const hvn3::Size<float>& size) :
 		Positionable2dBase<float>(location.X(), location.Y()),
-		ISizeable(size.Width(), size.Height()),
+		SizeableBase(size.Width(), size.Height()),
 		__fixed_pos(location.X(), location.Y()),
 		__mouse_last_pos(Mouse::X, Mouse::Y),
 		__minimum_size(0.0f, 0.0f),
@@ -84,7 +84,7 @@ namespace hvn3 {
 		ResizeEventArgs e(hvn3::Size<float>(Width(), Height()), hvn3::Size<float>(width, height));
 
 		// Perform the resize.
-		ISizeable::Resize(width, height);
+		SizeableBase::Resize(width, height);
 
 		// Trigger the resize event for the control.
 		OnResize(e);

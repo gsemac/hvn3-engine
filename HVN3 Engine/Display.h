@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "ISizeable.h"
+#include "SizeableBase.h"
 #include "Size.h"
 #include "Bitmap.h"
 #include "Sprite.h"
@@ -37,7 +37,7 @@ namespace hvn3 {
 		class DisplayController;
 	}
 
-	class Display : public ISizeable<int> {
+	class Display : public SizeableBase<int> {
 		friend class System::DisplayController;
 
 	public:

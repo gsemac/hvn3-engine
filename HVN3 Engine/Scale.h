@@ -18,7 +18,7 @@ namespace hvn3 {
 			Scale(a.Width() / b.Width(), a.Height() / b.Height()) {
 		}
 		template <typename T>
-		Scale(const ISizeable<T>& a, const ISizeable<T>& b) :
+		Scale(const SizeableBase<T>& a, const SizeableBase<T>& b) :
 			Scale(a.Width() / b.Width(), a.Height() / b.Height()) {
 		}
 

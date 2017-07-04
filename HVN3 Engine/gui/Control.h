@@ -164,7 +164,7 @@ namespace hvn3 {
 			class ControlController;
 		}
 
-		class Control : public IDrawable, public IUpdatable, public Positionable2dBase<float>, public ISizeable<float>, public IFocusable, public UniquePolymorphicCreateableBase<Control> {
+		class Control : public IDrawable, public IUpdatable, public Positionable2dBase<float>, public SizeableBase<float>, public IFocusable, public UniquePolymorphicCreateableBase<Control> {
 			friend class System::ControlController;
 
 		public:

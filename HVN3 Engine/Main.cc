@@ -32,9 +32,9 @@ public:
 		Room::OnDraw(e);
 
 	}
-	void Render(DrawEventArgs& e) override {
+	void OnRender(DrawEventArgs& e) override {
 
-		Room::Render(e);
+		Room::OnRender(e);
 
 		_gui_manager.OnDraw(e);
 
@@ -47,9 +47,9 @@ public:
 	}
 
 protected:
-	void Reset() override {
+	void OnReset() override {
 
-		Room::Reset();
+		Room::OnReset();
 
 		_gui_manager.Clear();
 
@@ -119,7 +119,7 @@ public:
 		Object::OnUpdate(e);
 
 		float r = _radius;
-		Room* room = MyGame.Rooms().CurrentRoom();
+		RoomBase* room = MyGame.Rooms().CurrentRoom();
 
 		if ((Y() - r < 0 && _velocity.Y() < 0) || (Y() + r > room->Height() && _velocity.Y() > 0))
 			_velocity.SetY(-_velocity.Y());
@@ -261,30 +261,30 @@ public:
 
 	}
 
-	void SetUp() override {
+	void OnSetUp() override {
 
 		SetBackgroundColor(Color::Silver);
 
-		Backgrounds().BackgroundAdd(MyGame.Resources().Backgrounds(BACKGROUND_1));
-		Backgrounds().PropertiesAt(0).SetTiledHorizontally(true);
-		Backgrounds().PropertiesAt(0).SetVelocity(Vector2d(0, 1));
+		Backgrounds()->BackgroundAdd(MyGame.Resources().Backgrounds(BACKGROUND_1));
+		Backgrounds()->PropertiesAt(0).SetTiledHorizontally(true);
+		Backgrounds()->PropertiesAt(0).SetVelocity(Vector2d(0, 1));
 
-		Objects().AddInstance(Object::Create<oController>());
-		Objects().AddInstance(Object::Create<oMouseBox>());
+		Objects()->AddInstance(Object::Create<oController>());
+		Objects()->AddInstance(Object::Create<oMouseBox>());
 
 		for (int i = 0; i < 100; ++i)
-			Objects().AddInstance(Object::Create<oBall>(Random::Float(Width()), Random::Float(Height())));
+			Objects()->AddInstance(Object::Create<oBall>(Random::Float(Width()), Random::Float(Height())));
 
 
 	}
 	void OnRoomEnter(RoomEnterEventArgs& e) override {
 
-		std::cout << "Entering room " << this << " with " << Objects().InstanceCount() << " instances\n";
+		std::cout << "Entering room " << this << " with " << Objects()->InstanceCount() << " instances\n";
 
 	}
 	void OnRoomExit(RoomExitEventArgs& e) override {
 
-		std::cout << "Exiting room " << this << " with " << Objects().InstanceCount() << " instances\n";
+		std::cout << "Exiting room " << this << " with " << Objects()->InstanceCount() << " instances\n";
 
 	}
 	void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e) override {

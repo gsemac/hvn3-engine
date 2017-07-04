@@ -4,18 +4,18 @@
 namespace hvn3 {
 
 	template <typename T>
-	class ISizeable {
+	class SizeableBase {
 
 	public:
-		ISizeable() :
-			ISizeable(0, 0) {}
-		ISizeable(T width, T height) {
+		SizeableBase() :
+			SizeableBase(0, 0) {}
+		SizeableBase(T width, T height) {
 
 			_width = width;
 			_height = height;
 
 		}
-		ISizeable(const Size<T>& size) {
+		SizeableBase(const Size<T>& size) {
 
 			_width = size.Width();
 			_height = size.Height();

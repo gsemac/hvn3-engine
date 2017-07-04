@@ -29,7 +29,7 @@ namespace hvn3 {
 
 	}
 
-	void RoomManager::AddRoom(std::unique_ptr<Room>& room) {
+	void RoomManager::AddRoom(std::unique_ptr<RoomBase>& room) {
 
 		// Add the new room.
 		_rooms.push_back(std::move(room));
@@ -104,7 +104,7 @@ namespace hvn3 {
 
 	}
 
-	Room* RoomManager::CurrentRoom() {
+	RoomBase* RoomManager::CurrentRoom() {
 
 		if (_current_room >= 0 && _current_room < _rooms.size())
 			return _rooms[_current_room].get();
@@ -120,6 +120,12 @@ namespace hvn3 {
 	size_t RoomManager::RoomCount() const {
 
 		return _rooms.size();
+
+	}
+
+	void RoomManager::SetRoomTransition(RoomTransitionPtr& transition) {
+
+		_transition = std::move(transition);
 
 	}
 
@@ -233,7 +239,7 @@ namespace hvn3 {
 		return _rooms.size();
 
 	}
-	size_t RoomManager::FindRoomIndex(const std::unique_ptr<Room>& room) const {
+	size_t RoomManager::FindRoomIndex(const std::unique_ptr<RoomBase>& room) const {
 
 		// Look through the list for a room with the same pointer.
 		for (size_t i = 0; i < _rooms.size(); ++i)

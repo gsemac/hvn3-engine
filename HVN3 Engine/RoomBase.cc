@@ -7,11 +7,7 @@
 namespace hvn3 {
 
 	RoomBase::RoomBase(RoomId id, const SizeI& size) :
-		RoomBase(id, size, std::unique_ptr<IObjectManager>(new hvn3::ObjectManager())) {
-	}
-	RoomBase::RoomBase(RoomId id, const SizeI& size, std::unique_ptr<IObjectManager>& object_manager) :
-		ISizeable(size),
-		_obj_manager(std::move(object_manager)) {
+		IRoom(size) {
 
 		_id = id;
 
@@ -23,11 +19,11 @@ namespace hvn3 {
 		_set_up = false;
 
 	}
-	RoomBase::~RoomBase() {}
+
 	void RoomBase::OnUpdate(UpdateEventArgs& e) {
 
 		// Update objects.
-		_obj_manager->OnUpdate(e);
+		_obj_manager.OnUpdate(e);
 
 	}
 	void RoomBase::OnDraw(DrawEventArgs& e) {
@@ -37,7 +33,7 @@ namespace hvn3 {
 		RectangleF original_clip(e.Graphics().Clip());
 
 		// Render the room state.
-		Render(e);
+		OnRender(e);
 
 		// Restore the previous graphics state.
 		e.Graphics().SetTransform(original_tranform);
@@ -45,6 +41,75 @@ namespace hvn3 {
 
 	}
 	void RoomBase::OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e) {}
+
+	const View* RoomBase::CurrentView() const {
+
+		return nullptr;
+
+	}
+
+	const IObjectManager* RoomBase::Objects() const {
+
+		return &_obj_manager;
+
+	}
+	IObjectManager* RoomBase::Objects() {
+
+		return const_cast<RoomBase*>(this)->Objects();
+
+	}
+	const IBackgroundManager* RoomBase::Backgrounds() const {
+
+		return nullptr;
+
+	}
+	IBackgroundManager* RoomBase::Backgrounds() {
+
+		return nullptr;
+
+	}
+	const IViewManager* RoomBase::Views() const {
+
+		return nullptr;
+
+	}
+	IViewManager* RoomBase::Views() {
+
+		return nullptr;
+
+	}
+	const ICollisionManager* RoomBase::Collisions() const {
+
+		return nullptr;
+
+	}
+	ICollisionManager* RoomBase::Collisions() {
+
+		return nullptr;
+
+	}
+	const Physics::IPhysicsManager<Object*>* RoomBase::Physics() const {
+
+		return nullptr;
+
+	}
+	Physics::IPhysicsManager<Object*>* RoomBase::Physics() {
+
+		return nullptr;
+
+	}
+
+	RoomId RoomBase::Id() const {
+
+		return _id;
+
+	}
+	RectangleF RoomBase::GetVisibleRegion() {
+
+		return RectangleF(0, 0, Width(), Height());
+
+	}
+
 	void RoomBase::SetBackgroundColor(const Color& color) {
 
 		_background_color = color;
@@ -55,16 +120,7 @@ namespace hvn3 {
 		return _background_color;
 
 	}
-	IObjectManager& RoomBase::Objects() {
 
-		return *_obj_manager.get();
-
-	}
-	RoomId RoomBase::Id() const {
-
-		return 0;
-
-	}
 	bool RoomBase::Persistent() const {
 
 		return _persistent;
@@ -75,33 +131,28 @@ namespace hvn3 {
 		_persistent = value;
 
 	}
-	RectangleF RoomBase::GetVisibleRegion() {
-
-		return RectangleF(0, 0, Width(), Height());
-
-	}
-
+	
 	// Protected methods
 	void RoomBase::OnRoomEnter(RoomEnterEventArgs& e) {}
 	void RoomBase::OnRoomExit(RoomExitEventArgs& e) {}
-	void RoomBase::SetUp() {}
-	void RoomBase::Reset() {
+	void RoomBase::OnSetUp() {}
+	void RoomBase::OnReset() {
 
 		// Reset the object manager.
-		_obj_manager->Clear();
+		_obj_manager.Clear();
 
 		// Reset members to default values.
 		_background_color = Color::Black;
 		_set_up = false;
 
 	}
-	void RoomBase::Render(DrawEventArgs& e) {
+	void RoomBase::OnRender(DrawEventArgs& e) {
 
 		// Clear to background color.
 		e.Graphics().Clear(_background_color);
 
 		// Draw all objects.
-		_obj_manager->OnDraw(e);
+		_obj_manager.OnDraw(e);
 
 	}
 

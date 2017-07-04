@@ -15,7 +15,12 @@ namespace hvn3 {
 		_views.erase(_views.begin() + index);
 
 	}
-	View & ViewManager::ViewAt(size_t index) {
+	View& ViewManager::ViewAt(size_t index) {
+
+		return _views[index];
+
+	}
+	const View& ViewManager::ViewAt(size_t index) const {
 
 		return _views[index];
 

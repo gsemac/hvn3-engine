@@ -1,6 +1,6 @@
 #include "Button.h"
 #include <cmath>
-#include "ISizeable.h"
+#include "SizeableBase.h"
 #include "UTF8String.h"
 #include "Font.h"
 #include "Graphics.h"

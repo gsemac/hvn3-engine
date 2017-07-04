@@ -1,55 +1,54 @@
 #pragma once
-#include "ISizeable.h"
-#include "IUpdatable.h"
-#include "IDrawable.h"
+#include "IRoom.h"
+#include "UniquePolymorphicCreateableBase.h"
 #include "ObjectManager.h"
-#include "RoomEnterEventArgs.h"
-#include "RoomExitEventArgs.h"
-#include "DisplaySizeChangedEventArgs.h"
-#include "Color.h"
 
 namespace hvn3 {
 
 	typedef int RoomId;
 
-	class ObjectManager;
-
-	class RoomBase : public IUpdatable, public IDrawable, public ISizeable<int> {
+	class RoomBase : public IRoom, public UniquePolymorphicCreateableBase<RoomBase> {
 		friend class RoomController;
 
 	public:
 		RoomBase(RoomId id, const SizeI& size);
-		RoomBase(RoomId id, const SizeI& size, std::unique_ptr<IObjectManager>& object_manager);
-		virtual ~RoomBase();
+		virtual ~RoomBase() = default;
 
 		virtual void OnUpdate(UpdateEventArgs& e) override;
 		virtual void OnDraw(DrawEventArgs& e) override;
-		virtual void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e);
+		virtual void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e) override;
 
-		void SetBackgroundColor(const Color& color);
-		const Color& BackgroundColor() const;
-		IObjectManager& Objects();
-		virtual RoomId Id() const;
-		bool Persistent() const;
-		void SetPersistent(bool value);
-		virtual RectangleF GetVisibleRegion();
+		virtual const View* CurrentView() const override;
 
-		template<typename T, typename ... Args>
-		static std::unique_ptr<RoomBase> Create(Args &&... args) {
+		const IObjectManager* Objects() const override;
+		virtual IObjectManager* Objects() override;
+		virtual const IBackgroundManager* Backgrounds() const override;
+		virtual IBackgroundManager* Backgrounds() override;
+		virtual const IViewManager* Views() const override;
+		virtual IViewManager* Views() override;
+		virtual const ICollisionManager* Collisions() const override;
+		virtual ICollisionManager* Collisions() override;
+		virtual const Physics::IPhysicsManager<Object*>* Physics() const override;
+		virtual Physics::IPhysicsManager<Object*>* Physics() override;
 
-			return std::make_unique<T>(std::forward<Args>(args)...);
+		RoomId Id() const override;
+		virtual RectangleF GetVisibleRegion() override;
 
-		}
+		void SetBackgroundColor(const Color& color) override;
+		const Color& BackgroundColor() const override;
+
+		bool Persistent() const override;
+		void SetPersistent(bool value) override;
 
 	protected:
-		virtual void OnRoomEnter(RoomEnterEventArgs& e);
-		virtual void OnRoomExit(RoomExitEventArgs& e);
-		virtual void SetUp();
-		virtual void Reset();
-		virtual void Render(DrawEventArgs& e);
+		virtual void OnRoomEnter(RoomEnterEventArgs& e) override;
+		virtual void OnRoomExit(RoomExitEventArgs& e) override;
+		virtual void OnSetUp() override;
+		virtual void OnReset() override;
+		virtual void OnRender(DrawEventArgs& e) override;
 
 	private:
-		std::unique_ptr<IObjectManager> _obj_manager;
+		ObjectManager _obj_manager;
 
 		RoomId _id;
 		Color _background_color;

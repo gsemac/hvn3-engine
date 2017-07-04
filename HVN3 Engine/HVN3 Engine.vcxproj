@@ -300,6 +300,7 @@
     <ClCompile Include="io\Keyboard.cc" />
     <ClCompile Include="io\Mouse.cc" />
     <ClCompile Include="io\Path.cc" />
+    <ClCompile Include="IRoom.cc" />
     <ClCompile Include="IRoomTransition.cc" />
     <ClCompile Include="LevelEditor.cc" />
     <ClCompile Include="NarrowPhaseCollisionManager.cc" />
@@ -480,7 +481,7 @@
     <ClInclude Include="IFocusable.h" />
     <ClInclude Include="IPAddress.h" />
     <ClInclude Include="Positionable2dBase.h" />
-    <ClInclude Include="ISizeable.h" />
+    <ClInclude Include="SizeableBase.h" />
     <ClInclude Include="SpriteableBase.h" />
     <ClInclude Include="IStringable.h" />
     <ClInclude Include="ITransformable.h" />

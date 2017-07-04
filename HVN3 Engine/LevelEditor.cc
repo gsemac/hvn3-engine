@@ -57,7 +57,7 @@ namespace hvn3 {
 
 		// Inherited protected methods
 
-		void LevelEditor::SetUp() {
+		void LevelEditor::OnSetUp() {
 
 			/*Gui::Window* window = new Gui::Window(300, 300, 300, 300, "test");
 			GuiManager()->ControlManager()->AddControl(Gui::Control::Create(window));*/
@@ -101,14 +101,14 @@ namespace hvn3 {
 
 
 		}
-		void LevelEditor::Reset() {
+		void LevelEditor::OnReset() {
 
-			Room::Reset();
+			Room::OnReset();
 
 			_gui_manager.Clear();
 
 		}
-		void LevelEditor::Render(DrawEventArgs& e) {
+		void LevelEditor::OnRender(DrawEventArgs& e) {
 
 			// Move drawing downward so that the room is visible despite the menu strip.
 			Drawing::GraphicsState state = e.Graphics().Save();
@@ -118,7 +118,7 @@ namespace hvn3 {
 			e.Graphics().SetTransform(t);
 
 			// Render the room.
-			Room::Render(e);
+			Room::OnRender(e);
 
 			// Restore the previous graphics state.
 			e.Graphics().Restore(state);

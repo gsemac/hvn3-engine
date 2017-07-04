@@ -10,6 +10,7 @@ namespace hvn3 {
 		virtual size_t AddView(const View& view) = 0;
 		virtual void RemoveView(size_t index) = 0;
 		virtual View& ViewAt(size_t index) = 0;
+		virtual const View& ViewAt(size_t index) const = 0;
 		virtual size_t ViewCount() const = 0;
 		virtual void Clear() = 0;
 

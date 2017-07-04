@@ -104,7 +104,7 @@ namespace hvn3 {
 		return _bounds;
 
 	}
-	const Size<int>& Environment::Screen::Resolution() const {
+	SizeI Environment::Screen::Resolution() const {
 
 		return _bounds.Size();
 

@@ -32,7 +32,7 @@ namespace hvn3 {
 
 		public:			
 			const Rectangle<int>& Bounds() const;
-			const Size<int>& Resolution() const;
+			SizeI Resolution() const;
 
 			static Screen PrimaryScreen();
 			static Screen VirtualScreen();

@@ -7,7 +7,7 @@ namespace hvn3 {
 
 	void RoomController::SetUp() {
 
-		_room->SetUp();
+		_room->OnSetUp();
 		SetSetUp(true);
 
 	}
@@ -23,7 +23,7 @@ namespace hvn3 {
 	}
 	void RoomController::Reset() {
 
-		_room->Reset();
+		_room->OnReset();
 		SetSetUp(false);
 
 	}

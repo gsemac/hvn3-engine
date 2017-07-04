@@ -61,12 +61,12 @@ namespace hvn3 {
 	}
 	ICollisionManager& GameManager::Collisions() {
 
-		return _room_manager.CurrentRoom()->Collisions();
+		return *_room_manager.CurrentRoom()->Collisions();
 
 	}
 	IObjectManager& GameManager::Objects() {
 		
-		return _room_manager.CurrentRoom()->Objects();
+		return *_room_manager.CurrentRoom()->Objects();
 
 	}
 	Runner& GameManager::Runner() {

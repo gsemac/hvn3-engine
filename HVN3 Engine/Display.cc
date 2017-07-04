@@ -28,7 +28,7 @@ namespace hvn3 {
 		Display(x, y, width, height, title, DisplayFlags::None) {
 	}
 	Display::Display(int x, int y, int width, int height, const char* title, DisplayFlags flags) :
-		ISizeable(width, height),
+		SizeableBase(width, height),
 		_original_size(width, height),
 		_size_before_fullscreen(0.0f, 0.0f) {
 
@@ -102,7 +102,7 @@ namespace hvn3 {
 			return;
 
 		// Update the size values of the underlying sizeable class.
-		ISizeable::Resize(width, height);
+		SizeableBase::Resize(width, height);
 
 		// If the Display's actual size is the same as the sizes provided, just update width/height values. 
 		// This can occur when the Display is resized manually.
@@ -168,7 +168,7 @@ namespace hvn3 {
 
 			if (_fullscreen)
 				// If we've gone fullscreen, update the size values to match the new window size.
-				ISizeable::Resize(al_get_display_width(_display), al_get_display_height(_display));
+				SizeableBase::Resize(al_get_display_width(_display), al_get_display_height(_display));
 			else {
 				// If we've left fullscreen, restore the original size and position.
 				Resize(_size_before_fullscreen.Width(), _size_before_fullscreen.Height());
@@ -213,7 +213,7 @@ namespace hvn3 {
 
 		_display = other._display;
 		_fullscreen = other._fullscreen;
-		ISizeable::Resize(other.Width(), other.Height());
+		SizeableBase::Resize(other.Width(), other.Height());
 
 		other._display = nullptr;
 

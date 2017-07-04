@@ -1,6 +1,6 @@
 #pragma once
 #include "Positionable2dBase.h"
-#include "ISizeable.h"
+#include "SizeableBase.h"
 
 namespace hvn3 {
 
@@ -12,7 +12,7 @@ namespace hvn3 {
 	};
 
 	template <typename T>
-	struct Rectangle : public Positionable2dBase<T>, public ISizeable<T> {
+	struct Rectangle : public Positionable2dBase<T>, public SizeableBase<T> {
 
 	public:
 		Rectangle(T width, T height) :
@@ -20,7 +20,7 @@ namespace hvn3 {
 		}
 		Rectangle(T x, T y, T width, T height) :
 			Positionable2dBase<T>(x, y),
-			ISizeable<T>(width, height) {}
+			SizeableBase<T>(width, height) {}
 		Rectangle(const Point2d<T>& top_left, const Point2d<T>& bottom_right) :
 			Rectangle<T>(top_left.X(), top_left.Y(), bottom_right.X() - top_left.X(), bottom_right.Y() - top_left.Y()) {
 		}

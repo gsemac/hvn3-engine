@@ -21,9 +21,9 @@ namespace hvn3 {
 			void ToggleGrid(bool grid_visible);
 
 		protected:
-			virtual void SetUp() override;
-			virtual void Reset() override;
-			virtual void Render(DrawEventArgs& e) override;
+			virtual void OnSetUp() override;
+			virtual void OnReset() override;
+			virtual void OnRender(DrawEventArgs& e) override;
 			virtual void _RenderGrid(DrawEventArgs& e);
 
 		private:

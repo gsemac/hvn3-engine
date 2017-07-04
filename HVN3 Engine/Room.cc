@@ -8,34 +8,10 @@ namespace hvn3 {
 		_rendering_view(0),
 		_collision_manager(std::unique_ptr<IBroadPhaseCollisionManager>(new CollisionGrid(32, 32))) {
 
-		Objects().AddListener(&_collision_manager);
+		Objects()->AddListener(&_collision_manager);
 
 	}
-	Room::~Room() {}
 
-	const View* Room::CurrentView() {
-
-		if (_view_manager.ViewCount() == 0)
-			return nullptr;
-
-		return &_view_manager.ViewAt(_rendering_view);
-
-	}
-	IBackgroundManager& Room::Backgrounds() {
-
-		return _background_manager;
-
-	}
-	IViewManager& Room::Views() {
-
-		return _view_manager;
-
-	}
-	ICollisionManager& Room::Collisions() {
-
-		return _collision_manager;
-
-	}
 	void Room::OnUpdate(UpdateEventArgs& e) {
 
 		// Update room.
@@ -80,7 +56,7 @@ namespace hvn3 {
 				e.Graphics().SetTransform(transform);
 
 				// Render room contents.
-				Render(e);
+				OnRender(e);
 
 			}
 
@@ -90,7 +66,7 @@ namespace hvn3 {
 		}
 		else
 			// Simply render the room without any consideration for views.
-			Render(e);
+			OnRender(e);
 
 		// Restore the previous graphics state.
 		e.Graphics().SetTransform(original_tranform);
@@ -98,6 +74,56 @@ namespace hvn3 {
 
 	}
 
+	const View* Room::CurrentView() const {
+
+		if (_view_manager.ViewCount() == 0)
+			return nullptr;
+
+		return &_view_manager.ViewAt(_rendering_view);
+
+	}
+
+	const IBackgroundManager* Room::Backgrounds() const {
+
+		return &_background_manager;
+
+	}
+	IBackgroundManager* Room::Backgrounds() {
+
+		return &_background_manager;
+
+	}
+	const IViewManager* Room::Views() const {
+
+		return &_view_manager;
+		
+	}
+	IViewManager* Room::Views() {
+
+		return &_view_manager;
+
+	}
+	const ICollisionManager* Room::Collisions() const {
+
+		return &_collision_manager;
+
+	}
+	ICollisionManager* Room::Collisions() {
+
+		return &_collision_manager;
+
+	}
+	const Physics::IPhysicsManager<Object*>* Room::Physics() const {
+
+		return nullptr;
+
+	}
+	Physics::IPhysicsManager<Object*>* Room::Physics() {
+
+		return nullptr;
+
+	}
+	
 	RectangleF Room::GetVisibleRegion() {
 
 		// Return the rectangle representing the largest view.
@@ -125,10 +151,10 @@ namespace hvn3 {
 
 	// Protected methods
 
-	void Room::Reset() {
+	void Room::OnReset() {
 
 		// Reset room.
-		RoomBase::Reset();
+		RoomBase::OnReset();
 
 		// Reset the view manager.
 		_view_manager.Clear();
@@ -138,19 +164,19 @@ namespace hvn3 {
 		_background_manager.Clear();
 
 	}
-	void Room::Render(DrawEventArgs& e) {
+	void Room::OnRender(DrawEventArgs& e) {
 
 		// Clear to background color.
 		e.Graphics().Clear(BackgroundColor());
 
 		// Draw all backgrounds.
-		Backgrounds().DrawBackgrounds(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView()));
+		Backgrounds()->DrawBackgrounds(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView()));
 
 		// Draw all objects.
-		Objects().OnDraw(e);
+		Objects()->OnDraw(e);
 
 		// Draw all foregrounds.
-		Backgrounds().DrawForegrounds(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView()));
+		Backgrounds()->DrawForegrounds(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView()));
 
 	}
 
