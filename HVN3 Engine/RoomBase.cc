@@ -50,12 +50,12 @@ namespace hvn3 {
 
 	const IObjectManager* RoomBase::Objects() const {
 
-		return &_obj_manager;
+		return const_cast<RoomBase*>(this)->Objects();
 
 	}
 	IObjectManager* RoomBase::Objects() {
 
-		return const_cast<RoomBase*>(this)->Objects();
+		return &_obj_manager;
 
 	}
 	const IBackgroundManager* RoomBase::Backgrounds() const {

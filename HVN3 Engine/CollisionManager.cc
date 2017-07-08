@@ -108,18 +108,19 @@ namespace hvn3 {
 		return true;
 
 	}
-	void CollisionManager::MoveContact(Object* object, float direction, float max_distance) {
+	bool CollisionManager::MoveContact(Object* object, float direction, float max_distance) {
 
 		return MoveContactIf(object, direction, max_distance, [](Object*) { return true; });
 
 	}
-	void CollisionManager::MoveContactIf(Object* object, float direction, float max_distance, const std::function<bool(Object*)>& condition) {
+	bool CollisionManager::MoveContactIf(Object* object, float direction, float max_distance, const std::function<bool(Object*)>& condition) {
 
 		PointF pos = object->Position();
 		float dist = 0.0f;
 		float distance_per_step = 1.0f;
+		bool place_free;
 
-		while (PlaceFreeIf(object, pos, condition) && dist < max_distance) {
+		while ((place_free = PlaceFreeIf(object, pos, condition), place_free) && dist < max_distance) {
 
 			object->SetPosition(pos);
 
@@ -129,14 +130,17 @@ namespace hvn3 {
 
 		}
 
+		return !place_free;
+
 	}
-	void CollisionManager::MoveOutside(Object* object, float direction, float max_distance) {
+	bool CollisionManager::MoveOutside(Object* object, float direction, float max_distance) {
 
 		PointF pos = object->Position();
 		float dist = 0.0f;
 		float distance_per_step = 1.0f;
+		bool place_free;
 
-		while (!PlaceFree(object, pos) && dist < max_distance) {
+		while ((place_free = PlaceFree(object, pos), !place_free) && dist < max_distance) {
 
 			pos = PointInDirection(pos, direction, distance_per_step);
 
@@ -146,19 +150,24 @@ namespace hvn3 {
 
 		object->SetPosition(pos);
 
+		return place_free;
+
 	}
-	void CollisionManager::MoveOutsideObject(Object* object, Object* other, float direction, float max_distance) {
+	bool CollisionManager::MoveOutsideObject(Object* object, Object* other, float direction, float max_distance) {
 
 		float dist = 0.0f;
 		float distance_per_step = 1.0f;
+		bool place_free;
 
-		while (_narrowphase_method.TestCollision(&object->Collider(), &other->Collider()) && dist < max_distance) {
+		while ((place_free = _narrowphase_method.TestCollision(&object->Collider(), &other->Collider()), place_free) && dist < max_distance) {
 
 			object->SetPosition(PointInDirection(object->Position(), direction, distance_per_step));
 
 			dist += distance_per_step;
 
 		}
+
+		return place_free;
 
 	}
 

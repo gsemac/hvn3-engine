@@ -24,13 +24,13 @@ namespace hvn3 {
 		// Returns true if the object collides with any other object at the given position for which the given condition is true.
 		virtual bool PlaceFreeIf(Object* object, const PointF& position, const std::function<bool(Object*)>& condition) = 0;
 		// Moves the object a set distance in a given direction (in degrees) until it collides with another object.
-		virtual void MoveContact(Object* object, float direction, float max_distance) = 0;
+		virtual bool MoveContact(Object* object, float direction, float max_distance) = 0;
 		// Moves the object a set distance in a given direction (in degrees) until it collides with another object for which the given condition is true.
-		virtual void MoveContactIf(Object* object, float direction, float max_distance, const std::function<bool(Object*)>& condition) = 0;
+		virtual bool MoveContactIf(Object* object, float direction, float max_distance, const std::function<bool(Object*)>& condition) = 0;
 		// Moves the object in a given direction (in degrees) until it is no longer colliding with any other objects.
-		virtual void MoveOutside(Object* object, float direction, float max_distance) = 0;
+		virtual bool MoveOutside(Object* object, float direction, float max_distance) = 0;
 		// Moves the object in a given direction (in degrees) until it is no longer colliding with the given object.
-		virtual void MoveOutsideObject(Object* object, Object* other, float direction, float max_distance) = 0;
+		virtual bool MoveOutsideObject(Object* object, Object* other, float direction, float max_distance) = 0;
 
 		virtual IBroadPhaseCollisionManager& BroadPhase() = 0;
 
