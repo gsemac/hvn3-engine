@@ -3,17 +3,18 @@
 #include "Sprite.h"
 #include "Vector2d.h"
 #include "SpriteMask.h"
+#include "ICollisionBody.h"
 #include <allegro5/allegro.h>
 #include <algorithm>
 
 namespace hvn3 {
 
-	bool NarrowPhaseCollisionManager::TestCollision(Collider* a, Collider* b) const {
+	bool NarrowPhaseCollisionManager::TestCollision(ICollisionBody* a, ICollisionBody* b) const {
 
-		return TestCollision(a, a->TrackingObject()->Position(), b, b->TrackingObject()->Position());
+		return TestCollision(a, a->Position(), b, b->Position());
 
 	}
-	bool NarrowPhaseCollisionManager::TestCollision(Collider* a, const PointF& position_a, Collider* b, const PointF& position_b) const {
+	bool NarrowPhaseCollisionManager::TestCollision(ICollisionBody* a, const PointF& position_a, ICollisionBody* b, const PointF& position_b) const {
 
 		// Get the masks for both colliders.
 		HitMaskPtr& a_mask = a->HitMask();

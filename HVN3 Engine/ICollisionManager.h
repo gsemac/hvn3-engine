@@ -1,41 +1,41 @@
 #pragma once
 #include "Point2d.h"
-#include <climits>
+#include <IBroadPhaseCollisionManager.h>
 #include <functional>
 
 namespace hvn3 {
-
-	class Object;
-	class UpdateEventArgs;
-	class IBroadPhaseCollisionManager;
-
-	class ICollisionManager {
+	
+	class ICollisionBody;
+		
+	template <typename _key_type>
+	class ICollisionManager : public IUpdatable {
 
 	public:
-		// Adds a new object to the collision manager.
-		virtual void AddObject(Object* object) = 0;
-		// Removes an object from the collision manager. If the object does not exist, nothing happens.
-		virtual void RemoveObject(Object* object) = 0;
-		// Clears all objects from the collision manager.
-		virtual void ClearObjects() = 0;
+		typedef _key_type key_type;
 
-		// Returns true if the object collides with any other object at the given position.
-		virtual bool PlaceFree(Object* object, const PointF& position) = 0;
-		// Returns true if the object collides with any other object at the given position for which the given condition is true.
-		virtual bool PlaceFreeIf(Object* object, const PointF& position, const std::function<bool(Object*)>& condition) = 0;
-		// Moves the object a set distance in a given direction (in degrees) until it collides with another object.
-		virtual bool MoveContact(Object* object, float direction, float max_distance) = 0;
-		// Moves the object a set distance in a given direction (in degrees) until it collides with another object for which the given condition is true.
-		virtual bool MoveContactIf(Object* object, float direction, float max_distance, const std::function<bool(Object*)>& condition) = 0;
-		// Moves the object in a given direction (in degrees) until it is no longer colliding with any other objects.
-		virtual bool MoveOutside(Object* object, float direction, float max_distance) = 0;
-		// Moves the object in a given direction (in degrees) until it is no longer colliding with the given object.
-		virtual bool MoveOutsideObject(Object* object, Object* other, float direction, float max_distance) = 0;
+		// Adds a new body to the collision manager.
+		virtual ICollisionBody* GetBody(key_type key) = 0;
+		virtual const ICollisionBody* GetBody(key_type key) const = 0;
+		virtual ICollisionBody* CreateBody(key_type key) = 0;
+		// Removes the body from the manager with the given key. Returns true if a body was removed.
+		virtual bool RemoveBody(key_type key) = 0;
+		// Clears all bodies from the manager.
+		virtual void ClearBodies() = 0;
 
-		virtual IBroadPhaseCollisionManager& BroadPhase() = 0;
+		// Returns true if the body collides with any other body at the given position.
+		virtual bool PlaceFree(ICollisionBody* body, const PointF& position) = 0;
+		// Returns true if the body collides with any other body at the given position for which the given condition is true.
+		virtual bool PlaceFreeIf(ICollisionBody* body, const PointF& position, const std::function<bool(ICollisionBody*)>& condition) = 0;
+		// Moves the body a set distance in a given direction (in degrees) until it collides with another body.
+		virtual bool MoveContact(ICollisionBody* body, float direction, float max_distance) = 0;
+		// Moves the body a set distance in a given direction (in degrees) until it collides with another body for which the given condition is true.
+		virtual bool MoveContactIf(ICollisionBody* body, float direction, float max_distance, const std::function<bool(ICollisionBody*)>& condition) = 0;
+		// Moves the body in a given direction (in degrees) until it is no longer colliding with any other bodies.
+		virtual bool MoveOutside(ICollisionBody* body, float direction, float max_distance) = 0;
+		// Moves the body in a given direction (in degrees) until it is no longer colliding with the given body.
+		virtual bool MoveOutsideBody(ICollisionBody* key, ICollisionBody* other, float direction, float max_distance) = 0;
 
-		// Updates the state of the collision engine and triggers any new collisions.
-		virtual void Update(UpdateEventArgs& e) = 0;
+		virtual IBroadPhaseCollisionManager* BroadPhase() = 0;
 
 	};
 

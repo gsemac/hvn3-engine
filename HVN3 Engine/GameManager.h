@@ -19,7 +19,7 @@ namespace hvn3 {
 		Properties& Properties();
 		RoomManager& Rooms();
 		ResourceManager& Resources();
-		ICollisionManager& Collisions();
+		ICollisionManager<Object*>& Collisions();
 		IObjectManager& Objects();
 		Runner& Runner();
 

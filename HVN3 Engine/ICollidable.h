@@ -10,8 +10,6 @@ namespace hvn3 {
 	public:
 		virtual void OnCollision(CollisionEventArgs& e) = 0;
 
-		virtual const Collider& Collider() const = 0;
-
 	};
 
 }

@@ -7,6 +7,7 @@
 #include "Rectangle.h"
 #include "RoomEnterEventArgs.h"
 #include "RoomExitEventArgs.h"
+#include "ICollisionManager.h"
 
 namespace hvn3 {
 
@@ -16,7 +17,6 @@ namespace hvn3 {
 	class IObjectManager;
 	class IBackgroundManager;
 	class IViewManager;
-	class ICollisionManager;
 	class Object;
 	
 	class IRoom : public IUpdatable, public IDrawable, public SizeableBase<int> {
@@ -38,8 +38,8 @@ namespace hvn3 {
 		virtual IBackgroundManager* Backgrounds() = 0;
 		virtual const IViewManager* Views() const = 0;
 		virtual IViewManager* Views() = 0;
-		virtual const ICollisionManager* Collisions() const = 0;
-		virtual ICollisionManager* Collisions() = 0;
+		virtual const ICollisionManager<Object*>* Collisions() const = 0;
+		virtual ICollisionManager<Object*>* Collisions() = 0;
 		virtual const Physics::IPhysicsManager<Object*>* Physics() const = 0;
 		virtual Physics::IPhysicsManager<Object*>* Physics() = 0;
 

@@ -20,9 +20,6 @@ namespace hvn3 {
 		int Depth() const;
 		void SetDepth(int depth);
 		
-		hvn3::Collider& Collider();
-		const hvn3::Collider& Collider() const override;
-
 		virtual void OnCreate(CreateEventArgs& e) override;
 		virtual void OnUpdate(UpdateEventArgs& e) override;
 		virtual void OnDraw(DrawEventArgs& e) override;
@@ -31,7 +28,6 @@ namespace hvn3 {
 	private:
 		ObjectId _id;
 		int _depth;
-		hvn3::Collider _collider;
 
 	};
 

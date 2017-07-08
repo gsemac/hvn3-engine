@@ -16,8 +16,7 @@ namespace hvn3 {
 	Object::Object(ObjectId id) :
 		Object(id, PointF(0.0f, 0.0f)) {}
 	Object::Object(ObjectId id, const PointF& position) : 
-		Positionable2dBase(position),
-		_collider(this) {
+		Positionable2dBase(position) {
 
 		_id = id;
 		
@@ -56,17 +55,6 @@ namespace hvn3 {
 	void Object::SetDepth(int depth) {
 
 		_depth = depth;
-
-	}
-	
-	hvn3::Collider& Object::Collider() {
-
-		return _collider;
-
-	}
-	const hvn3::Collider& Object::Collider() const {
-
-		return _collider;
 
 	}
 

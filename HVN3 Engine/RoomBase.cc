@@ -50,11 +50,11 @@ namespace hvn3 {
 
 	const IObjectManager* RoomBase::Objects() const {
 
-		return const_cast<RoomBase*>(this)->Objects();
+		return &_obj_manager;
 
 	}
 	IObjectManager* RoomBase::Objects() {
-
+		
 		return &_obj_manager;
 
 	}
@@ -78,12 +78,12 @@ namespace hvn3 {
 		return nullptr;
 
 	}
-	const ICollisionManager* RoomBase::Collisions() const {
+	const ICollisionManager<Object*>* RoomBase::Collisions() const {
 
 		return nullptr;
 
 	}
-	ICollisionManager* RoomBase::Collisions() {
+	ICollisionManager<Object*>* RoomBase::Collisions() {
 
 		return nullptr;
 

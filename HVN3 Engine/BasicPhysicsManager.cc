@@ -1,11 +1,12 @@
 #include "BasicPhysicsManager.h"
+#include "ICollisionBody.h"
 #include "Object.h"
 #include <utility>
 
 namespace hvn3 {
 	namespace Physics {
 
-		BasicPhysicsManager::BasicPhysicsManager(ICollisionManager* collision_manager) :
+		BasicPhysicsManager::BasicPhysicsManager(ICollisionManager<key_type>* collision_manager) :
 			_gravity(270.0f, 9.81f) {
 
 			_collision_manager = collision_manager;
@@ -51,17 +52,14 @@ namespace hvn3 {
 
 			for (collection_type::iterator i = _bodies.begin(); i != _bodies.end(); ++i) {
 				
-				Object* obj = i->first;
+				ICollisionBody* obj = i->first;
 				BasicPhysicsBody* body = &i->second;
 				
-				if (body->Type() != BodyType::Dynamic)
+				if (body->Type() != PhysicsBodyType::Dynamic)
 					continue;
 
-				float x = obj->X();
-				float y = obj->Y();
-
 				_collision_manager->MoveContactIf(obj, _gravity.Angle(), _gravity.Magnitude(), 
-					[](Object* obj) { return HasFlag(obj->Flags(), ObjectFlags::Solid); }
+					[](ICollisionBody* body) { return body->IsSolid(); }
 				);
 
 			}

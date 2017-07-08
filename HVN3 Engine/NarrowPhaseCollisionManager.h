@@ -3,15 +3,15 @@
 
 namespace hvn3 {
 
-	class Collider;
+	class ICollisionBody;
 	class Sprite;
 	class SpriteMask;
 
 	class NarrowPhaseCollisionManager {
 
 	public:
-		bool TestCollision(Collider* a, Collider* b) const;
-		bool TestCollision(Collider* a, const PointF& position_a, Collider* b, const PointF& position_b) const;
+		bool TestCollision(ICollisionBody* a, ICollisionBody* b) const;
+		bool TestCollision(ICollisionBody* a, const PointF& position_a, ICollisionBody* b, const PointF& position_b) const;
 
 		// Returns true if two axis-aligned Sprites intersect at the specified positions.
 		bool TestIntersection(Sprite* s1, Sprite* s2, const PointF& p1, const PointF& p2) const;

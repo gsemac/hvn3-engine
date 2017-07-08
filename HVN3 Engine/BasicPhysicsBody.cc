@@ -6,7 +6,7 @@ namespace hvn3 {
 		BasicPhysicsBody::BasicPhysicsBody() {
 
 			_mass = 1.0f;
-			_type = BodyType::Dynamic;
+			_type = PhysicsBodyType::Dynamic;
 
 		}
 
@@ -32,13 +32,13 @@ namespace hvn3 {
 
 		}
 
-		BodyType BasicPhysicsBody::Type() const {
+		PhysicsBodyType BasicPhysicsBody::Type() const {
 
 			return _type;
 
 
 		}
-		void BasicPhysicsBody::SetType(BodyType type) {
+		void BasicPhysicsBody::SetType(PhysicsBodyType type) {
 
 			_type = type;
 

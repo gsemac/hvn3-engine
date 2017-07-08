@@ -305,6 +305,7 @@
     <ClCompile Include="LevelEditor.cc" />
     <ClCompile Include="NarrowPhaseCollisionManager.cc" />
     <ClCompile Include="ObjectBase.cc" />
+    <ClCompile Include="ObjectCollisionBody.cc" />
     <ClCompile Include="ObjectManager.cc" />
     <ClCompile Include="Padding.cc" />
     <ClCompile Include="Properties.cc" />
@@ -435,15 +436,18 @@
     <ClInclude Include="Framework.h" />
     <ClInclude Include="IBackgroundManager.h" />
     <ClInclude Include="ICollidable.h" />
+    <ClInclude Include="ICollisionBody.h" />
     <ClInclude Include="ICollisionManager.h" />
     <ClInclude Include="IHitMask.h" />
     <ClInclude Include="IObjectManagerListener.h" />
     <ClInclude Include="IPhysicsBody.h" />
     <ClInclude Include="IPhysicsManager.h" />
+    <ClInclude Include="IPositionable2d.h" />
     <ClInclude Include="IRoomTransition.h" />
     <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="ObjectBase.h" />
+    <ClInclude Include="ObjectCollisionBody.h" />
     <ClInclude Include="Padding.h" />
     <ClInclude Include="PointGeometry.h" />
     <ClInclude Include="RectangleHitMask.h" />

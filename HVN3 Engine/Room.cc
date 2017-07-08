@@ -8,8 +8,6 @@ namespace hvn3 {
 		_rendering_view(0),
 		_collision_manager(std::unique_ptr<IBroadPhaseCollisionManager>(new CollisionGrid(32, 32))) {
 
-		Objects()->AddListener(&_collision_manager);
-
 	}
 
 	void Room::OnUpdate(UpdateEventArgs& e) {
@@ -103,12 +101,12 @@ namespace hvn3 {
 		return &_view_manager;
 
 	}
-	const ICollisionManager* Room::Collisions() const {
+	const ICollisionManager<Object*>* Room::Collisions() const {
 
 		return &_collision_manager;
 
 	}
-	ICollisionManager* Room::Collisions() {
+	ICollisionManager<Object*>* Room::Collisions() {
 
 		return &_collision_manager;
 

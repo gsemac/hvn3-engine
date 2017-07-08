@@ -123,6 +123,9 @@ namespace hvn3 {
 
 			}
 
+			// If no valid crop side was provided, return the unmodified rectangle.
+			return rect;
+
 		}
 		static Rectangle<T> Union(const Rectangle<T>& rect_a, const Rectangle<T>& rect_b) {
 

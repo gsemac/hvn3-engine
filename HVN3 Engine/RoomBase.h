@@ -26,8 +26,8 @@ namespace hvn3 {
 		virtual IBackgroundManager* Backgrounds() override;
 		virtual const IViewManager* Views() const override;
 		virtual IViewManager* Views() override;
-		virtual const ICollisionManager* Collisions() const override;
-		virtual ICollisionManager* Collisions() override;
+		virtual const ICollisionManager<Object*>* Collisions() const override;
+		virtual ICollisionManager<Object*>* Collisions() override;
 		virtual const Physics::IPhysicsManager<Object*>* Physics() const override;
 		virtual Physics::IPhysicsManager<Object*>* Physics() override;
 

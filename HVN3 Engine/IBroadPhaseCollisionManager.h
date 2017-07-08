@@ -2,41 +2,36 @@
 #include <vector>
 #include "Rectangle.h"
 #include "Line.h"
+#include "IUpdatable.h"
 
 namespace hvn3 {
 
-	class Collider;
+	class ICollisionBody;
 
 	struct RayCastResult {
-		Collider* Hit;
+		ICollisionBody* Hit;
 		PointF HitPosition;
 	};
 
-	class IBroadPhaseCollisionManager {
+	class IBroadPhaseCollisionManager : public IUpdatable {
 		
 	public:
-		typedef Collider* ColliderType;
-		typedef std::vector<std::pair<ColliderType, ColliderType>> ColliderPairCollection;
-		typedef std::vector<ColliderType> ColliderCollection;
+		typedef ICollisionBody collider_type;
+		typedef std::vector<std::pair<collider_type*, collider_type*>> collider_pair_collection_type;
+		typedef std::vector<collider_type*> collider_collection_type;
 
-		// Adds a new collider to the broadphase.
-		virtual void AddCollider(ColliderType collider) = 0;
-		// Removes a collider from the broadphase.
-		virtual void RemoveCollider(ColliderType collider) = 0;
-		// Clears all colliders from the broadphase.
-		virtual void ClearColliders() = 0;
-
-		// Updates broadphase to react to collider state changes.
-		virtual void Update() = 0;
+		virtual void AddBody(ICollisionBody* body) = 0;
+		virtual bool RemoveBody(ICollisionBody* body) = 0;
+		virtual void ClearBodies() = 0;
 
 		// Returns a vector of potentially-colliding pairs.
-		virtual const ColliderPairCollection& FindPairs() = 0;
+		virtual const collider_pair_collection_type& FindPairs() = 0;
 		// Returns the first collider that collides with the given point, or null if none.
-		virtual ColliderType Pick(const PointF& point) const = 0;
+		virtual ICollisionBody* Pick(const PointF& point) const = 0;
 		// Generates a vector of colliders that collide with the given region.
-		virtual void QueryRegion(const RectangleF& region, ColliderCollection& output, int filter = 0) const = 0;
+		virtual void QueryRegion(const RectangleF& region, collider_collection_type& output, int filter = 0) const = 0;
 		// Returns the nearest collider to the given point, or nullptr if no colliders found.
-		virtual ColliderType QueryNearest(const PointF& point, int filter = 0) const = 0;
+		virtual ICollisionBody* QueryNearest(const PointF& point, int filter = 0) const = 0;
 		// Returns the first collider that the ray hits, or null if none.
 		virtual RayCastResult RayCast(const LineF& ray) const = 0;
 

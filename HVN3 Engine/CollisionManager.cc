@@ -12,78 +12,85 @@ namespace hvn3 {
 		_broadphase_method(std::move(broadphase_method)) {
 	}
 
-	void CollisionManager::AddObject(Object* object) {
+	ICollisionBody* CollisionManager::GetBody(key_type key) {
 
-		_broadphase_method->AddCollider(&object->Collider());
-
-
-	}
-	void CollisionManager::RemoveObject(Object* object) {
-
-		_broadphase_method->RemoveCollider(&object->Collider());
+		return const_cast<ICollisionBody*>(static_cast<const CollisionManager*>(this)->GetBody(key));
 
 	}
-	void CollisionManager::ClearObjects() {
+	const ICollisionBody* CollisionManager::GetBody(key_type key) const {
 
-		_broadphase_method->ClearColliders();
+		auto it = std::find_if(_bodies.begin(), _bodies.end(), [&](const value_type& pair) { return pair.first == key; });
+
+		if (it == _bodies.end())
+			return nullptr;
+
+		return &it->second;
+
+	}
+	ICollisionBody* CollisionManager::CreateBody(key_type key) {
+
+		_bodies.emplace_back(value_type(key, ObjectCollisionBody(key)));
+
+		ICollisionBody* body = &(--_bodies.end())->second;
+
+		_broadphase_method->AddBody(body);
+
+		return body;
+
+	}
+	bool CollisionManager::RemoveBody(key_type key) {
+
+		auto it = std::find_if(_bodies.begin(), _bodies.end(), [&](const value_type& pair) { return pair.first == key; });
+
+		if (it == _bodies.end())
+			return false;
+
+		_bodies.erase(it);
+		_broadphase_method->RemoveBody(&it->second);
+
+		return true;
+
+	}
+	void CollisionManager::ClearBodies() {
+
+		_broadphase_method->ClearBodies();
+
+		_bodies.clear();
 
 	}
 
-	IBroadPhaseCollisionManager& CollisionManager::BroadPhase() {
+	IBroadPhaseCollisionManager* CollisionManager::BroadPhase() {
 
-		return *_broadphase_method.get();
+		return _broadphase_method.get();
 
 	}
 
-	void CollisionManager::Update(UpdateEventArgs& e) {
+	void CollisionManager::OnUpdate(UpdateEventArgs& e) {
 
 		// Update the state of the collision detection method.
-		_broadphase_method->Update();
+		_broadphase_method->OnUpdate(e);
 
 		// Get a vector containing all potentially-colliding pairs from the broadphase method, and check all collisions.
 		CheckPairs(_broadphase_method->FindPairs());
 
 	}
 
-	void CollisionManager::OnInstanceAdded(InstanceAddedEventArgs& e) {
+	bool CollisionManager::PlaceFree(ICollisionBody* body, const PointF& position) {
 
-		// If the object's id is non-null, add it to the collision manager.
-		if (e.Instance()->Id() != NoOne && !HasFlag(e.Instance()->Flags(), ObjectFlags::NoCollision))
-			AddObject(e.Instance());
+		return PlaceFreeIf(body, position, [](ICollisionBody*) { return true; });
 
 	}
-	void CollisionManager::OnInstanceRemoved(InstanceRemovedEventArgs& e) {
-
-		RemoveObject(e.Instance());
-
-	}
-	void CollisionManager::OnInstancesCleared(InstancesClearedEventArgs& e) {
-
-		ClearObjects();
-
-	}
-	void CollisionManager::OnObjectManagerUpdate(UpdateEventArgs& e) {
-
-		Update(e);
-
-	}
-	
-	bool CollisionManager::PlaceFree(Object* object, const PointF& position) {
-
-		return PlaceFreeIf(object, position, [](Object*) { return true; });
-
-	}
-	bool CollisionManager::PlaceFreeIf(Object* object, const PointF& position, const std::function<bool(Object*)>& condition) {
+	bool CollisionManager::PlaceFreeIf(ICollisionBody* body, const PointF& position, const std::function<bool(ICollisionBody*)>& condition) {
 
 		// If the object does not have a collision mask, return true immediately (no collisions are possible).
-		if (object->Collider().HitMask() == nullptr)
+		if (body->HitMask() == nullptr)
 			return true;
 
 		// Create a vector to store the results.
-		IBroadPhaseCollisionManager::ColliderCollection hits;
+		IBroadPhaseCollisionManager::collider_collection_type hits;
 
 		// Get a list of all colliders that could potentially collide with the collider.
-		_broadphase_method->QueryRegion(object->Collider().AABB(), hits, object->Collider().Filter().MaskBits());
+		_broadphase_method->QueryRegion(body->AABB(), hits, body->Filter().MaskBits());
 
 		// If the list is empty, the place is free.
 		if (hits.size() == 0)
@@ -92,14 +99,11 @@ namespace hvn3 {
 		for (size_t i = 0; i < hits.size(); ++i) {
 
 			// Ignore self and objects that don't meet the given condition.
-			if (hits[i] == &object->Collider() || !condition(object))
+			if (hits[i] == body || !condition(body))
 				continue;
 
-			// Get object pointer to the hit.
-			Object* hit_obj = (Object*)hits[i]->TrackingObject();
-
 			// Check for a collision.
-			if (_narrowphase_method.TestCollision(&object->Collider(), object->Position(), hits[i], hit_obj->Position()))
+			if (_narrowphase_method.TestCollision(body, body->Position(), hits[i], hits[i]->Position()))
 				return false;
 
 		}
@@ -108,21 +112,21 @@ namespace hvn3 {
 		return true;
 
 	}
-	bool CollisionManager::MoveContact(Object* object, float direction, float max_distance) {
+	bool CollisionManager::MoveContact(ICollisionBody* body, float direction, float max_distance) {
 
-		return MoveContactIf(object, direction, max_distance, [](Object*) { return true; });
+		return MoveContactIf(body, direction, max_distance, [](ICollisionBody*) { return true; });
 
 	}
-	bool CollisionManager::MoveContactIf(Object* object, float direction, float max_distance, const std::function<bool(Object*)>& condition) {
+	bool CollisionManager::MoveContactIf(ICollisionBody* body, float direction, float max_distance, const std::function<bool(ICollisionBody*)>& condition) {
 
-		PointF pos = object->Position();
+		PointF pos = body->Position();
 		float dist = 0.0f;
 		float distance_per_step = 1.0f;
 		bool place_free;
 
-		while ((place_free = PlaceFreeIf(object, pos, condition), place_free) && dist < max_distance) {
+		while ((place_free = PlaceFreeIf(body, pos, condition), place_free) && dist < max_distance) {
 
-			object->SetPosition(pos);
+			body->SetPosition(pos);
 
 			pos = PointInDirection(pos, direction, distance_per_step);
 
@@ -133,14 +137,14 @@ namespace hvn3 {
 		return !place_free;
 
 	}
-	bool CollisionManager::MoveOutside(Object* object, float direction, float max_distance) {
+	bool CollisionManager::MoveOutside(ICollisionBody* body, float direction, float max_distance) {
 
-		PointF pos = object->Position();
+		PointF pos = body->Position();
 		float dist = 0.0f;
 		float distance_per_step = 1.0f;
 		bool place_free;
 
-		while ((place_free = PlaceFree(object, pos), !place_free) && dist < max_distance) {
+		while ((place_free = PlaceFree(body, pos), !place_free) && dist < max_distance) {
 
 			pos = PointInDirection(pos, direction, distance_per_step);
 
@@ -148,20 +152,20 @@ namespace hvn3 {
 
 		}
 
-		object->SetPosition(pos);
+		body->SetPosition(pos);
 
 		return place_free;
 
 	}
-	bool CollisionManager::MoveOutsideObject(Object* object, Object* other, float direction, float max_distance) {
+	bool CollisionManager::MoveOutsideBody(ICollisionBody* body, ICollisionBody* other, float direction, float max_distance) {
 
 		float dist = 0.0f;
 		float distance_per_step = 1.0f;
 		bool place_free;
 
-		while ((place_free = _narrowphase_method.TestCollision(&object->Collider(), &other->Collider()), place_free) && dist < max_distance) {
+		while ((place_free = _narrowphase_method.TestCollision(body, other), place_free) && dist < max_distance) {
 
-			object->SetPosition(PointInDirection(object->Position(), direction, distance_per_step));
+			body->SetPosition(PointInDirection(body->Position(), direction, distance_per_step));
 
 			dist += distance_per_step;
 
@@ -171,25 +175,22 @@ namespace hvn3 {
 
 	}
 
-	void CollisionManager::CheckPairs(const IBroadPhaseCollisionManager::ColliderPairCollection& pairs) const {
+	void CollisionManager::CheckPairs(const IBroadPhaseCollisionManager::collider_pair_collection_type& pairs) const {
 
 		// Test for a collision with each pair and call the appropriate "on collision" function(s).
 		for (auto i = pairs.begin(); i != pairs.end(); ++i) {
 
-			Collider* a = i->first;
-			Collider* b = i->second;
+			ObjectCollisionBody* body_1 = static_cast<ObjectCollisionBody*>(i->first);
+			ObjectCollisionBody* body_2 = static_cast<ObjectCollisionBody*>(i->second);
 
-			Object* a_obj = (Object*)a->TrackingObject();
-			Object* b_obj = (Object*)b->TrackingObject();
-
-			if (!_narrowphase_method.TestCollision(a, b))
+			if (!_narrowphase_method.TestCollision(body_1, body_2))
 				continue;
 
-			if (a->Filter().MaskBits() & b->Filter().CategoryBits())
-				a_obj->OnCollision(CollisionEventArgs(b_obj));
+			if (body_1->Filter().MaskBits() & body_2->Filter().CategoryBits())
+				body_1->GetObject()->OnCollision(CollisionEventArgs(body_2->GetObject(), body_2));
 
-			if (b->Filter().MaskBits() & a->Filter().CategoryBits())
-				b_obj->OnCollision(CollisionEventArgs(a_obj));
+			if (body_2->Filter().MaskBits() & body_1->Filter().CategoryBits())
+				body_2->GetObject()->OnCollision(CollisionEventArgs(body_1->GetObject(), body_2));
 
 		}
 

@@ -85,9 +85,9 @@ public:
 		e.Graphics().DrawBitmap(0, 0, &MyGame.Resources().Tilesets()[TILESET_1]->TileAt(5));
 
 		CollisionManager* cm = (CollisionManager*)&MyGame.Collisions();
-		CollisionGrid& cg = (CollisionGrid&)cm->BroadPhase();
+		CollisionGrid* cg = (CollisionGrid*)cm->BroadPhase();
 
-		cg.DrawCells(e);
+		cg->DrawCells(e);
 
 	}
 
@@ -102,12 +102,17 @@ public:
 		_radius = Random::Float(10, 25);
 		_velocity = Vector2d(Random::Float(0, 360), Random::Float(0.1, 1));
 
-		Collider().SetHitMask(CircleHitMask::Create(_radius));
-		Collider().Filter().SetCategoryBits(0b010);
-		Collider().Filter().SetMaskBits(0b010);
-
 	}
 
+	void OnCreate(CreateEventArgs& e) override {
+
+		ICollisionBody* body = MyGame.Collisions().CreateBody(this);
+
+		body->SetHitMask(CircleHitMask::Create(_radius));
+		body->Filter().SetCategoryBits(0b010);
+		body->Filter().SetMaskBits(0b010);
+
+	}
 	void OnDraw(DrawEventArgs& e) override {
 
 		e.Graphics().DrawCircle(PointF(X() + 2, Y() + 2), _radius, Color::FromArgbf(0, 0, 0, 0.2), 2);
@@ -135,8 +140,8 @@ public:
 	}
 	void OnCollision(CollisionEventArgs& e) override {
 
-		MyGame.Collisions().MoveOutsideObject(this, e.Other(),
-			PointDirection(e.Other()->Position(), Position()),
+		MyGame.Collisions().MoveOutsideBody(_body, e.Body(),
+			PointDirection(e.Object()->Position(), Position()),
 			1.0f
 			);
 
@@ -158,6 +163,7 @@ public:
 private:
 	float _radius;
 	Vector2d _velocity;
+	ICollisionBody* _body;
 
 };
 
@@ -167,14 +173,19 @@ public:
 	oMouseBox() :
 		Object(0, Mouse::Position()) {
 
-		Collider().SetHitMask(CircleHitMask::Create(10));
-		Collider().Filter().SetCategoryBits(0b001);
-		Collider().Filter().SetMaskBits(0b010);
-
 		_last_position = Position();
 
 	}
 
+	void OnCreate(CreateEventArgs& e) override {
+
+		ICollisionBody* body = MyGame.Collisions().CreateBody(this);
+
+		body->SetHitMask(CircleHitMask::Create(10));
+		body->Filter().SetCategoryBits(0b001);
+		body->Filter().SetMaskBits(0b010);
+
+	}
 	void OnDraw(DrawEventArgs& e) override {
 
 		e.Graphics().DrawCircle(Position(), 10, Color::AliceBlue, 1);
@@ -189,11 +200,11 @@ public:
 	}
 	void OnCollision(CollisionEventArgs& e) override {
 
-		switch (e.Other()->Id()) {
+		switch (e.Object()->Id()) {
 
 		case 1: {
 
-			oBall* ptr = (oBall*)e.Other();
+			oBall* ptr = (oBall*)e.Object();
 
 			Vector2d move_vec(_last_position, Position());
 			Vector2d dir_vec = Vector2d(Position(), ptr->Position()) + move_vec;
@@ -205,7 +216,7 @@ public:
 
 			// Move the ball outside of the cursor.
 			if (tot_vec.Magnitude() > 0)
-				MyGame.Collisions().MoveOutsideObject(e.Other(), this, PointDirection(e.Other()->Position(), Position()), 1);
+				MyGame.Collisions().MoveOutsideBody(e.Body(), _body, PointDirection(e.Object()->Position(), Position()), 1);
 
 			break;
 
@@ -216,6 +227,7 @@ public:
 
 private:
 	PointF _last_position;
+	ICollisionBody* _body;
 
 };
 
@@ -324,7 +336,7 @@ private:
 };
 
 int main(int argc, char *argv[]) {
-
+	
 	// Initialize game properties.
 	MyGame.Initialize(argc, argv);
 	MyGame.Properties().DebugMode = false;

@@ -15,13 +15,13 @@ namespace hvn3 {
 			float Mass() const override;
 			void SetMass(float value) override;
 
-			virtual BodyType Type() const override;
-			virtual void SetType(BodyType type) override;
+			virtual PhysicsBodyType Type() const override;
+			virtual void SetType(PhysicsBodyType type) override;
 
 		private:
 			float _mass;
 			Vector2d _linear_velocity;
-			BodyType _type;
+			PhysicsBodyType _type;
 
 		};
 

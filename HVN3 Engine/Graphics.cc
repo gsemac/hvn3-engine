@@ -13,17 +13,18 @@ namespace hvn3 {
 		int ConvertBlendOperation(BlendOperation operation) {
 
 			switch (operation) {
-			case BlendOperation::Normal:
-			case BlendOperation::Invert:
-			case BlendOperation::Add:
-				return ALLEGRO_ADD;
-				break;
 			case BlendOperation::Subtract:
 			case BlendOperation::SourceMinusDestination:
 				return ALLEGRO_SRC_MINUS_DEST;
 				break;
 			case BlendOperation::DestinationMinusSource:
 				return ALLEGRO_DEST_MINUS_SRC;
+				break;
+			case BlendOperation::Normal:
+			case BlendOperation::Invert:
+			case BlendOperation::Add:
+			default:
+				return ALLEGRO_ADD;
 				break;
 			}
 

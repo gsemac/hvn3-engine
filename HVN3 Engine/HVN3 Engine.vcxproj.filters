@@ -564,6 +564,9 @@
     <ClCompile Include="IRoom.cc">
       <Filter>Source Files\Interfaces</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectCollisionBody.cc">
+      <Filter>Source Files\System\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -1075,6 +1078,15 @@
     </ClInclude>
     <ClInclude Include="SizeableBase.h">
       <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ICollisionBody.h">
+      <Filter>Header Files\System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="IPositionable2d.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectCollisionBody.h">
+      <Filter>Header Files\System\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

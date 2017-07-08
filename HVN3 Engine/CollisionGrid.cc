@@ -7,6 +7,7 @@
 #include "RoomBase.h"
 #include "Exception.h"
 #include "DrawEventArgs.h"
+#include "ICollisionBody.h"
 
 namespace hvn3 {
 
@@ -19,26 +20,30 @@ namespace hvn3 {
 		CollisionGrid(SizeI(cell_width, cell_height)) {
 	}
 
-	// Inherited from IBroadphase
+	void CollisionGrid::AddBody(ICollisionBody* body) {
 
-	void CollisionGrid::AddCollider(ColliderType collider) {
-
-		_colliders.push_back(collider);
+		_colliders.push_back(body);
 
 	}
-	void CollisionGrid::RemoveCollider(ColliderType collider) {
+	bool CollisionGrid::RemoveBody(ICollisionBody* body) {
 
-		_colliders.remove(collider);
+		auto it = std::find(_colliders.begin(), _colliders.end(), body);
+
+		if (it == _colliders.end())
+			return false;
+
+		_colliders.erase(it);
+
+		return true;
 
 	}
-	void CollisionGrid::ClearColliders() {
+	void CollisionGrid::ClearBodies() {
 
 		_grid.clear();
-
 		_colliders.clear();
 
 	}
-	void CollisionGrid::Update() {
+	void CollisionGrid::OnUpdate(UpdateEventArgs& e) {
 
 		// Clear existing map contents.
 		_grid.clear();
@@ -48,11 +53,10 @@ namespace hvn3 {
 			MapToCells(*it);
 
 	}
-
-	const CollisionGrid::ColliderPairCollection& CollisionGrid::FindPairs() {
+	const CollisionGrid::collider_pair_collection_type& CollisionGrid::FindPairs() {
 
 		// Create a set for storing pairs (to prevent duplicates).
-		static std::unordered_set<std::pair<Collider*, Collider*>, PairHasher> pairs;
+		static std::unordered_set<std::pair<collider_type*, collider_type*>, PairHasher> pairs;
 		pairs.clear();
 
 		// Interate over all cells, and for all other colliders in the same cell, generate a pair.
@@ -67,7 +71,7 @@ namespace hvn3 {
 			// Generate colliding pairs for each combination of colliders with this key.
 			for (auto j = starting_it; j != ending_it; ++j)
 				for (auto k = std::next(j, 1); k != ending_it; ++k)
-					pairs.insert(std::pair<Collider*, Collider*>(j->second, k->second));
+					pairs.insert(std::pair<collider_type*, collider_type*>(j->second, k->second));
 
 			// Continue the loop for the next key.
 			i = ending_it;
@@ -82,12 +86,12 @@ namespace hvn3 {
 		return _pairs;
 
 	}
-	CollisionGrid::ColliderType CollisionGrid::Pick(const PointF& point) const {
+	CollisionGrid::collider_type* CollisionGrid::Pick(const PointF& point) const {
 
 		throw System::NotImplementedException();
 
 	}
-	void CollisionGrid::QueryRegion(const RectangleF& region, ColliderCollection& output, int filter) const {
+	void CollisionGrid::QueryRegion(const RectangleF& region, collider_collection_type& output, int filter) const {
 
 		// get the cells that are occupied by the region.
 		static std::vector<PointI> cells;
@@ -95,7 +99,7 @@ namespace hvn3 {
 		GetIntersectedCells(region, cells);
 
 		// Use a set to store the collider list (to prevent duplicates).
-		static std::unordered_set<ColliderType> colliders;
+		static std::unordered_set<collider_type*> colliders;
 		colliders.clear();
 
 		// Add all colliders in those cells to the output list.
@@ -110,7 +114,7 @@ namespace hvn3 {
 		std::copy(colliders.begin(), colliders.end(), std::back_inserter(output));
 
 	}
-	Collider* CollisionGrid::QueryNearest(const PointF& point, int filter) const {
+	CollisionGrid::collider_type* CollisionGrid::QueryNearest(const PointF& point, int filter) const {
 
 		// The algorithm will check a region surrounding the the given Point, and if no relevant colliders are found, the region will be expanded according by the cell size.
 		// To potentially improve efficiency, the difference of the cells of the two regions could be checked instead.
@@ -146,14 +150,14 @@ namespace hvn3 {
 
 	// Private members
 
-	void CollisionGrid::GetIntersectedCells(ColliderType collider, std::vector<PointI>& cells) const {
+	void CollisionGrid::GetIntersectedCells(collider_type* body, std::vector<PointI>& cells) const {
 
 		// If the mask type undefined, do not assign the collider to any cells.
-		if (!collider->HitMask())
+		if (!body->HitMask())
 			return;
 
 		// Get the collider's AABB. 
-		RectangleF aabb = collider->AABB();
+		RectangleF aabb = body->AABB();
 
 		// Get cells intersected by the AABB.
 		GetIntersectedCells(aabb, cells);
@@ -180,17 +184,17 @@ namespace hvn3 {
 		//		cells.push_back(CellAt(i, j));
 
 	}
-	void CollisionGrid::MapToCells(ColliderType collider) {
+	void CollisionGrid::MapToCells(collider_type* body) {
 
 		// Clear the cell mapping buffer.
 		_cell_mapping_buffer.clear();
 
 		// Get all cells intersected by the given collider.
-		GetIntersectedCells(collider, _cell_mapping_buffer);
+		GetIntersectedCells(body, _cell_mapping_buffer);
 
 		// Add all cells to the map.
 		for (size_t i = 0; i < _cell_mapping_buffer.size(); ++i)
-			_grid.insert(std::pair<PointI, Collider*>(_cell_mapping_buffer[i], collider));
+			_grid.insert(std::pair<PointI, collider_type*>(_cell_mapping_buffer[i], body));
 
 	}
 
@@ -234,7 +238,7 @@ namespace hvn3 {
 
 		// Calculate the position of the cell, keeping in mind the potential for negative cell positions.
 		PointI cell(
-			static_cast<int>(x / 32 - (x < 0)), 
+			static_cast<int>(x / 32 - (x < 0)),
 			static_cast<int>(y / 32 - (y < 0))
 			);
 
@@ -253,10 +257,10 @@ namespace hvn3 {
 			PointI cell = (*i).first;
 
 			e.Graphics().DrawRectangle(
-				cell.X() * _cell_size.Width(), 
-				cell.Y() * _cell_size.Width(), 
-				_cell_size.Width(), 
-				_cell_size.Height(), 
+				cell.X() * _cell_size.Width(),
+				cell.Y() * _cell_size.Width(),
+				_cell_size.Width(),
+				_cell_size.Height(),
 				Color::Fuchsia, 1);
 
 		}
