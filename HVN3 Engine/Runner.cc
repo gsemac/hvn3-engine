@@ -18,6 +18,9 @@
 #include "RoomController.h"
 #include "Event.h"
 #include "DisplayController.h"
+#ifdef HVN3_DEBUG 
+#include "Console.h"
+#endif
 
 namespace hvn3 {
 
@@ -75,7 +78,7 @@ namespace hvn3 {
 
 		// If running in debug mode, draw the FPS counter.
 		if (Properties().DebugMode)
-			DrawFPS();
+			DrawFps();
 
 	}
 	void Runner::Update(UpdateEventArgs& e) {
@@ -91,8 +94,28 @@ namespace hvn3 {
 				_display_was_fullscreen = _display.IsFullscreen();
 			}
 
+#ifdef HVN3_DEBUG
+			// Draw stats in the console window in debug mode. Limiting rate helps with flickering.
+			if (Properties().DebugMode) {
+				Console::Clear();
+				Console::WriteLine("------------------------------");
+				Console::WriteLine(" Room");
+				Console::WriteLine("------------------------------");
+				Console::Write("Instances: ");
+				Console::WriteLine(_room_manager.CurrentRoom()->Objects()->InstanceCount());
+				if (_room_manager.CurrentRoom()->Collisions()) {
+					Console::Write("Collision Bodies: ");
+				}
+				Console::WriteLine("------------------------------");
+				Console::WriteLine(" Global");
+				Console::WriteLine("------------------------------");
+				Console::Write("Mouse: ");
+				Console::WriteLine(Mouse::Position());
+			}
+#endif
+
 		}
-			
+
 	}
 	void Runner::WaitForEvent() {
 
@@ -178,7 +201,7 @@ namespace hvn3 {
 		Runner::~Runner();
 
 	}
-	void Runner::DrawFPS() {
+	void Runner::DrawFps() {
 
 		// Initialize variables.
 		static float fps_buf[60];

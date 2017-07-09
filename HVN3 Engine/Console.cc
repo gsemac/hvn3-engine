@@ -128,6 +128,11 @@ namespace hvn3 {
 
 #endif
 
+	void Console::WriteLine() {
+
+		Write('\n');
+
+	}
 	void Console::Clear() {
 
 #ifdef OS_WINDOWS

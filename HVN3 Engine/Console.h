@@ -39,6 +39,8 @@ namespace hvn3 {
 			std::cout << value << '\n';
 
 		}
+		// Writes the current line terminator to the standard output stream.
+		static void WriteLine();
 		// Clears the console buffer and corresponding console window of display information.
 		static void Clear();
 		// Sets the background color of the console.

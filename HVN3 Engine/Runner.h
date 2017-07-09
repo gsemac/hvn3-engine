@@ -37,7 +37,7 @@ namespace hvn3 {
 
 		// Returns a pointer to the default system font.
 		const Font* SystemFont();
-		void DrawFPS();
+		void DrawFps();
 
 		virtual void OnTimerTick(Event& ev);
 		virtual void OnDisplayClose(Event& ev);

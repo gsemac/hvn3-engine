@@ -339,18 +339,6 @@ private:
 
 int main(int argc, char *argv[]) {
 
-	long long x = 0;
-	do {
-		Console::Write(x);
-		Threading::Thread::Sleep(200);
-		Console::SetCursorPosition(0, 0);
-		++x;
-	} while (1);
-
-	//Console::Clear();
-
-	getchar();
-
 	// Initialize game properties.
 	MyGame.Initialize(argc, argv);
 	MyGame.Properties().DebugMode = false;
