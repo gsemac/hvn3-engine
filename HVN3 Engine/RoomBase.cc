@@ -22,8 +22,9 @@ namespace hvn3 {
 
 	void RoomBase::OnUpdate(UpdateEventArgs& e) {
 
-		// Update objects.
+		_obj_manager.OnBeginUpdate(e);
 		_obj_manager.OnUpdate(e);
+		_obj_manager.OnEndUpdate(e);
 
 	}
 	void RoomBase::OnDraw(DrawEventArgs& e) {

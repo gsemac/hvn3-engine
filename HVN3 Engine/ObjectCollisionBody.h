@@ -1,9 +1,8 @@
 #pragma once
 #include "ICollisionBody.h"
+#include "Object.h"
 
 namespace hvn3 {
-
-	class Object;
 
 	class ObjectCollisionBody final : public ICollisionBody {
 

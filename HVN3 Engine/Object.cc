@@ -25,7 +25,7 @@ namespace hvn3 {
 	}
 
 	void Object::OnCreate(CreateEventArgs& e) {}
-	void OnDestroy(DestroyEventArgs& e) {}
+	void Object::OnDestroy(DestroyEventArgs& e) {}
 	void Object::OnUpdate(UpdateEventArgs& e) {
 
 		

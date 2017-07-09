@@ -1,11 +1,10 @@
 #include "ObjectCollisionBody.h"
-#include "Object.h"
 
 namespace hvn3 {
 
 	ObjectCollisionBody::ObjectCollisionBody(ObjectPtr& object) {
 
-		_key = _object.lock().get();
+		_key = object.get();
 		_object = object;
 		_solid = false;
 
@@ -109,7 +108,7 @@ namespace hvn3 {
 	}
 	bool ObjectCollisionBody::ObjectExpired() const {
 
-		return !_object.expired();
+		return _object.expired();
 
 	}
 

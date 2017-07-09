@@ -54,7 +54,7 @@ namespace hvn3 {
 
 	}
 	const CollisionGrid::collider_pair_collection_type& CollisionGrid::FindPairs() {
-
+	
 		// Create a set for storing pairs (to prevent duplicates).
 		static std::unordered_set<std::pair<collider_type*, collider_type*>, PairHasher> pairs;
 		pairs.clear();

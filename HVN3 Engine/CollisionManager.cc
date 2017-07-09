@@ -182,7 +182,7 @@ namespace hvn3 {
 
 		// Test for a collision with each pair and call the appropriate "on collision" function(s).
 		for (auto i = pairs.begin(); i != pairs.end(); ++i) {
-
+			
 			ObjectCollisionBody* body_1 = static_cast<ObjectCollisionBody*>(i->first);
 			ObjectCollisionBody* body_2 = static_cast<ObjectCollisionBody*>(i->second);
 

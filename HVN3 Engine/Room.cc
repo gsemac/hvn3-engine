@@ -12,8 +12,17 @@ namespace hvn3 {
 
 	void Room::OnUpdate(UpdateEventArgs& e) {
 
-		// Update room.
-		RoomBase::OnUpdate(e);
+		// Update objects (begin).
+		Objects()->OnBeginUpdate(e);
+
+		// Update objects (primary).
+		Objects()->OnUpdate(e);
+
+		// Update collision manager.
+		Collisions()->OnUpdate(e);
+
+		// Update objects (end).
+		Objects()->OnEndUpdate(e);
 
 		// Update views.
 		_view_manager.Update(ViewUpdateEventArgs(e.Delta(), hvn3::SizeI(Width(), Height())));

@@ -10,6 +10,7 @@ namespace hvn3 {
 
 	}
 	void ObjectBase::OnCreate(CreateEventArgs& e) {}
+	void ObjectBase::OnDestroy(DestroyEventArgs& e) {}
 	void ObjectBase::OnDraw(DrawEventArgs& e) {}
 	void ObjectBase::OnUpdate(UpdateEventArgs& e) {}
 	void ObjectBase::Destroy() {

@@ -122,22 +122,25 @@ namespace hvn3 {
 
 	}
 
-	void ObjectManager::OnUpdate(UpdateEventArgs& e) {
+	void ObjectManager::OnBeginUpdate(UpdateEventArgs& e) {
 
 		// Run the pre-update procedure for all objects.
 		for (auto it = _objects.begin(); it != _objects.end(); ++it)
 			(*it)->OnBeginUpdate(e);
 
+	}
+	void ObjectManager::OnUpdate(UpdateEventArgs& e) {
+
 		// Run the primary update procedure for all objects.
 		for (auto it = _objects.begin(); it != _objects.end(); ++it)
 			(*it)->OnUpdate(e);
 
-		//// Update the Collision Manager.
-		//_collision_manager->Update(e);
-
 		// Trigger all listeners.
 		for (size_t i = 0; i < _listeners.size(); ++i)
 			_listeners[i]->OnObjectManagerUpdate(e);
+
+	}
+	void ObjectManager::OnEndUpdate(UpdateEventArgs& e) {
 
 		// Run the post update procedure for all objects.
 		for (auto it = _objects.begin(); it != _objects.end(); ++it)

@@ -20,7 +20,9 @@ namespace hvn3 {
 		virtual size_t InstanceCount(ObjectId id) const override;
 		virtual bool InstanceExists(ObjectId id) const override;
 
+		virtual void OnBeginUpdate(UpdateEventArgs& e) override;
 		virtual void OnUpdate(UpdateEventArgs& e) override;
+		virtual void OnEndUpdate(UpdateEventArgs& e) override;
 		virtual void OnDraw(DrawEventArgs& e) override;
 
 		virtual void AddListener(IObjectManagerListener* listener) override;
