@@ -8,7 +8,7 @@ namespace hvn3 {
 	class ObjectCollisionBody final : public ICollisionBody {
 
 	public:
-		ObjectCollisionBody(Object* object);
+		ObjectCollisionBody(ObjectPtr& object);
 
 		float X() const override;
 		float Y() const override;
@@ -27,10 +27,13 @@ namespace hvn3 {
 		virtual void SetSolid(bool value) override;
 
 		Object* GetObject();
+		const Object* GetObject() const;
+		bool ObjectExpired() const;
 
 	private:
 		bool _solid;
-		Object* _object;
+		Object* _key;
+		std::weak_ptr<Object> _object;
 		HitMaskPtr _mask;
 		CollisionFilter _filter;
 

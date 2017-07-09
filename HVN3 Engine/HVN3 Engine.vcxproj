@@ -365,7 +365,7 @@
     <ClInclude Include="Circle.h" />
     <ClInclude Include="CircleHitMask.h" />
     <ClInclude Include="CollisionEventArgs.h" />
-    <ClInclude Include="CreateEventArgs.h" />
+    <ClInclude Include="ObjectEventArgs.h" />
     <ClInclude Include="DisplayController.h" />
     <ClInclude Include="FrameworkAdapter.h" />
     <ClInclude Include="AllegroExtensions.h" />

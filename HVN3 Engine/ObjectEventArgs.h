@@ -10,4 +10,11 @@ namespace hvn3 {
 
 	};
 
+	class DestroyEventArgs : public EventArgs {
+
+	public:
+		DestroyEventArgs() = default;
+
+	};
+
 }

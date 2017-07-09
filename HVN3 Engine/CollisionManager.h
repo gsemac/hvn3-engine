@@ -3,6 +3,7 @@
 #include "ObjectCollisionBody.h"
 #include "NarrowPhaseCollisionManager.h"
 #include <memory>
+#include <unordered_map>
 
 namespace hvn3 {
 
@@ -36,9 +37,9 @@ namespace hvn3 {
 		// The narrow phase collision management object.
 		NarrowPhaseCollisionManager _narrowphase_method;
 		// A collection of keys mapped to bodies.
-		std::vector<value_type> _bodies;
+		std::unordered_map<key_type, ObjectCollisionBody> _bodies;
 
-		void CheckPairs(const IBroadPhaseCollisionManager::collider_pair_collection_type& pairs) const;
+		void CheckPairs(const IBroadPhaseCollisionManager::collider_pair_collection_type& pairs);
 
 	};
 

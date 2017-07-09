@@ -19,7 +19,8 @@ namespace hvn3 {
 	}
 	const ICollisionBody* CollisionManager::GetBody(key_type key) const {
 
-		auto it = std::find_if(_bodies.begin(), _bodies.end(), [&](const value_type& pair) { return pair.first == key; });
+		//auto it = std::find_if(_bodies.begin(), _bodies.end(), [&](const value_type& pair) { return pair.first == key; });
+		auto it = _bodies.find(key);
 
 		if (it == _bodies.end())
 			return nullptr;
@@ -29,18 +30,20 @@ namespace hvn3 {
 	}
 	ICollisionBody* CollisionManager::CreateBody(key_type key) {
 
-		_bodies.emplace_back(value_type(key, ObjectCollisionBody(key)));
+		auto result = _bodies.emplace(value_type(key, ObjectCollisionBody(key->Shared())));
 
-		ICollisionBody* body = &(--_bodies.end())->second;
+		ICollisionBody* body = &result.first->second;
 
-		_broadphase_method->AddBody(body);
+		if (result.second)
+			_broadphase_method->AddBody(body);
 
 		return body;
 
 	}
 	bool CollisionManager::RemoveBody(key_type key) {
 
-		auto it = std::find_if(_bodies.begin(), _bodies.end(), [&](const value_type& pair) { return pair.first == key; });
+		//auto it = std::find_if(_bodies.begin(), _bodies.end(), [&](const value_type& pair) { return pair.first == key; });
+		auto it = _bodies.find(key);
 
 		if (it == _bodies.end())
 			return false;
@@ -175,7 +178,7 @@ namespace hvn3 {
 
 	}
 
-	void CollisionManager::CheckPairs(const IBroadPhaseCollisionManager::collider_pair_collection_type& pairs) const {
+	void CollisionManager::CheckPairs(const IBroadPhaseCollisionManager::collider_pair_collection_type& pairs) {
 
 		// Test for a collision with each pair and call the appropriate "on collision" function(s).
 		for (auto i = pairs.begin(); i != pairs.end(); ++i) {
@@ -185,6 +188,19 @@ namespace hvn3 {
 
 			if (!_narrowphase_method.TestCollision(body_1, body_2))
 				continue;
+
+			if (body_1->ObjectExpired() || body_2->ObjectExpired()) {
+
+				// If either object is expired, disregard the collision and remove the bodies.
+				if (body_1->ObjectExpired())
+					RemoveBody(body_1->GetObject());
+
+				if (body_2->ObjectExpired())
+					RemoveBody(body_2->GetObject());
+
+				return;
+
+			}
 
 			if (body_1->Filter().MaskBits() & body_2->Filter().CategoryBits())
 				body_1->GetObject()->OnCollision(CollisionEventArgs(body_2->GetObject(), body_2));

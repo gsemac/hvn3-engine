@@ -1058,9 +1058,6 @@
     <ClInclude Include="GridRenderer.h">
       <Filter>Header Files\Drawing</Filter>
     </ClInclude>
-    <ClInclude Include="CreateEventArgs.h">
-      <Filter>Header Files\System\Events\EventArgs</Filter>
-    </ClInclude>
     <ClInclude Include="IPhysicsManager.h">
       <Filter>Header Files\System\Physics</Filter>
     </ClInclude>
@@ -1087,6 +1084,9 @@
     </ClInclude>
     <ClInclude Include="ObjectCollisionBody.h">
       <Filter>Header Files\System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectEventArgs.h">
+      <Filter>Header Files\System\Events\EventArgs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

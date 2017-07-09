@@ -3,8 +3,9 @@
 
 namespace hvn3 {
 
-	ObjectCollisionBody::ObjectCollisionBody(Object* object) {
+	ObjectCollisionBody::ObjectCollisionBody(ObjectPtr& object) {
 
+		_key = _object.lock().get();
 		_object = object;
 		_solid = false;
 
@@ -12,50 +13,50 @@ namespace hvn3 {
 
 	float ObjectCollisionBody::X() const {
 
-		return _object->X();
+		return GetObject()->X();
 
 	}
 	float ObjectCollisionBody::Y() const {
 
-		return _object->Y();
+		return GetObject()->Y();
 
 	}
 	void ObjectCollisionBody::SetX(float x) {
 
-		_object->SetX(x);
+		GetObject()->SetX(x);
 
 	}
 	void ObjectCollisionBody::SetY(float y) {
 
-		_object->SetY(y);
+		GetObject()->SetY(y);
 
 	}
 	PointF ObjectCollisionBody::Position() const {
 
-		return _object->Position();
+		return GetObject()->Position();
 
 	}
 	void ObjectCollisionBody::SetPosition(const PointF& position) {
 
-		_object->SetPosition(position);
+		GetObject()->SetPosition(position);
 
 	}
 	void ObjectCollisionBody::SetPosition(float x, float y) {
 
-		_object->SetPosition(x, y);
+		GetObject()->SetPosition(x, y);
 
 	}
 	RectangleF ObjectCollisionBody::AABB() const {
 
-		float x = _object->X();
-		float y = _object->Y();
+		float x = GetObject()->X();
+		float y = GetObject()->Y();
 
 		// Return an empty rectangle if the collider doesn't have a mask.
 		if (!HitMask())
-			return RectangleF(_object->X(), _object->Y(), 0, 0);
+			return RectangleF(GetObject()->X(), GetObject()->Y(), 0, 0);
 
 		RectangleF aabb = HitMask()->AABB();
-		aabb.Translate(_object->X(), _object->Y());
+		aabb.Translate(GetObject()->X(), GetObject()->Y());
 
 		return aabb;
 
@@ -98,7 +99,17 @@ namespace hvn3 {
 
 	Object* ObjectCollisionBody::GetObject() {
 
-		return _object;
+		return _key;
+
+	}
+	const Object* ObjectCollisionBody::GetObject() const {
+
+		return _key;
+
+	}
+	bool ObjectCollisionBody::ObjectExpired() const {
+
+		return !_object.expired();
 
 	}
 

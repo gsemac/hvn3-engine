@@ -1,7 +1,7 @@
 #pragma once
 #include "IUpdatable.h"
 #include "IDrawable.h"
-#include "CreateEventArgs.h"
+#include "ObjectEventArgs.h"
 #include "BitFlags.h"
 
 namespace hvn3 {
@@ -28,6 +28,7 @@ namespace hvn3 {
 		ObjectBase();
 
 		virtual void OnCreate(CreateEventArgs& e);
+		virtual void OnDestroy(DestroyEventArgs& e);
 		virtual void OnDraw(DrawEventArgs& e) override;
 		virtual void OnUpdate(UpdateEventArgs& e) override;
 		

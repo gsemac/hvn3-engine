@@ -25,6 +25,7 @@ namespace hvn3 {
 	}
 
 	void Object::OnCreate(CreateEventArgs& e) {}
+	void OnDestroy(DestroyEventArgs& e) {}
 	void Object::OnUpdate(UpdateEventArgs& e) {
 
 		
@@ -55,6 +56,17 @@ namespace hvn3 {
 	void Object::SetDepth(int depth) {
 
 		_depth = depth;
+
+	}
+
+	ObjectPtr Object::Shared() {
+
+		return shared_from_this();
+
+	}
+	ConstObjectPtr Object::Shared() const {
+
+		return shared_from_this();
 
 	}
 
