@@ -250,6 +250,7 @@
     <ClCompile Include="Color.cc" />
     <ClCompile Include="Comparison.cc" />
     <ClCompile Include="Connection.cc" />
+    <ClCompile Include="Console.cc" />
     <ClCompile Include="Display.cc" />
     <ClCompile Include="DisplayController.cc" />
     <ClCompile Include="DisplaySizeChangedEventArgs.cc" />
@@ -315,6 +316,7 @@
     <ClCompile Include="RectangleHitMask.cc" />
     <ClCompile Include="RoomTransitionFade.cc" />
     <ClCompile Include="RoomTransitionNone.cc" />
+    <ClCompile Include="Thread.cc" />
     <ClCompile Include="TilesetPanel.cc" />
     <ClCompile Include="Utility.cc" />
     <ClCompile Include="Collider.cc" />
@@ -365,6 +367,7 @@
     <ClInclude Include="Circle.h" />
     <ClInclude Include="CircleHitMask.h" />
     <ClInclude Include="CollisionEventArgs.h" />
+    <ClInclude Include="Console.h" />
     <ClInclude Include="ObjectEventArgs.h" />
     <ClInclude Include="DisplayController.h" />
     <ClInclude Include="FrameworkAdapter.h" />
@@ -454,6 +457,7 @@
     <ClInclude Include="RoomTransitionFade.h" />
     <ClInclude Include="RoomTransitionNone.h" />
     <ClInclude Include="SharedCreatableBase.h" />
+    <ClInclude Include="Thread.h" />
     <ClInclude Include="TilesetPanel.h" />
     <ClInclude Include="UniqueCreateableBase.h" />
     <ClInclude Include="UniquePolymorphicCreateableBase.h" />

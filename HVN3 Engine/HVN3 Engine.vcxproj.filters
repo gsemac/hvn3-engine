@@ -567,6 +567,12 @@
     <ClCompile Include="ObjectCollisionBody.cc">
       <Filter>Source Files\System\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="Console.cc">
+      <Filter>Source Files\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread.cc">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -1087,6 +1093,12 @@
     </ClInclude>
     <ClInclude Include="ObjectEventArgs.h">
       <Filter>Header Files\System\Events\EventArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Header Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread.h">
+      <Filter>Header Files\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
