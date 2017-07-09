@@ -4,7 +4,7 @@
 
 namespace hvn3 {
 
-	enum CropSide {
+	enum class CropSide {
 		Top,
 		Left,
 		Right,
