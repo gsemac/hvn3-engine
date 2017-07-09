@@ -154,8 +154,8 @@ namespace std {
 		std::size_t operator()(const hvn3::Point2d<T>& point) const {
 
 			size_t seed = 0;
-			hash_combine(seed, point.X());
-			hash_combine(seed, point.Y());
+			hvn3::hash_combine(seed, point.X());
+			hvn3::hash_combine(seed, point.Y());
 			return seed;
 
 		}

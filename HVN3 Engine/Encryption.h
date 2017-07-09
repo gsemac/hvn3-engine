@@ -1,17 +1,21 @@
-#ifndef __ENCRYPTION_H
-#define __ENCRYPTION_H
+#pragma once
 #include <string>
 #include "MD5.h"
 
-namespace Encryption {
+/*
+Yes, I know, hashing != encrypting.
+In the future, this namespace will contain more comprehensive hashing and encryption algorithms.
+*/
 
-	std::string MD5(char* filename) {
+namespace hvn3 {
+	namespace Encryption {
 
-		MD5Calculator md5;
-		return std::string(md5.digestFile(filename));
+		std::string MD5(char* filename) {
+
+			MD5Calculator md5;
+			return std::string(md5.digestFile(filename));
+
+		}
 
 	}
-	
 }
-
-#endif
