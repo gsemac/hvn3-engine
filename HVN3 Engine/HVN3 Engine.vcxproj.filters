@@ -573,6 +573,9 @@
     <ClCompile Include="Thread.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
+    <ClCompile Include="Direction8.cc">
+      <Filter>Source Files\Structures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExampleGame.h">
@@ -1099,6 +1102,9 @@
     </ClInclude>
     <ClInclude Include="Thread.h">
       <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Direction8.h">
+      <Filter>Header Files\Structures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

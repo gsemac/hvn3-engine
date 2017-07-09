@@ -102,7 +102,7 @@ public:
 		Object(1, PointF(x, y)) {
 
 		_radius = Random::Float(10, 25);
-		_velocity = Vector2d(Random::Float(0, 360), Random::Float(0.1, 1));
+		_velocity = Vector2d::FromDirection(Random::Float(0, 360), Random::Float(0.1, 1));
 
 	}
 
@@ -211,7 +211,7 @@ public:
 			Vector2d move_vec(_last_position, Position());
 			Vector2d dir_vec = Vector2d(Position(), ptr->Position()) + move_vec;
 
-			Vector2d tot_vec(move_vec.Angle(), dir_vec.Magnitude());
+			Vector2d tot_vec = Vector2d::FromDirection(move_vec.Angle(), dir_vec.Magnitude());
 
 			// Set the ball's new velocity.	
 			ptr->SetVelocity(tot_vec);
@@ -281,7 +281,7 @@ public:
 
 		Backgrounds()->BackgroundAdd(MyGame.Resources().Backgrounds(BACKGROUND_1));
 		Backgrounds()->PropertiesAt(0).SetTiledHorizontally(true);
-		Backgrounds()->PropertiesAt(0).SetVelocity(Vector2d(0, 1));
+		Backgrounds()->PropertiesAt(0).SetVelocity(Vector2d::FromDirection(0, 1));
 
 		Objects()->AddInstance(Object::Create<oController>());
 		Objects()->AddInstance(Object::Create<oMouseBox>());

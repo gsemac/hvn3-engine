@@ -6,9 +6,9 @@
 namespace hvn3 {
 	namespace Physics {
 
-		BasicPhysicsManager::BasicPhysicsManager(ICollisionManager<key_type>* collision_manager) :
-			_gravity(270.0f, 9.81f) {
+		BasicPhysicsManager::BasicPhysicsManager(ICollisionManager<key_type>* collision_manager) {
 
+			_gravity = Vector2d::FromDirection(270.0f, 9.81f);
 			_collision_manager = collision_manager;
 
 		}

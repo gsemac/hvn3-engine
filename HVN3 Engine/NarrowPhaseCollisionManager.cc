@@ -4,6 +4,7 @@
 #include "Vector2d.h"
 #include "SpriteMask.h"
 #include "ICollisionBody.h"
+#include "Direction8.h"
 #include <allegro5/allegro.h>
 #include <algorithm>
 
@@ -104,13 +105,13 @@ namespace hvn3 {
 
 		// Find the closest edge.
 		float dist_x, dist_y;
-		Direction edge;
+		Direction8 edge;
 		dist_x = (std::abs)(circle.X() - center.X());
 		dist_y = (std::abs)(circle.Y() - center.Y());
 		if (dist_x > dist_y)
-			edge = (circle.X() < center.X()) ? LEFT : RIGHT;
+			edge = (circle.X() < center.X()) ? DIRECTION_LEFT : DIRECTION_RIGHT;
 		else
-			edge = (circle.Y() < center.Y()) ? UP : DOWN;
+			edge = (circle.Y() < center.Y()) ? DIRECTION_UP : DIRECTION_DOWN;
 
 		return false;
 

@@ -134,8 +134,8 @@ namespace hvn3 {
 	void Emitter::Particle::Reset(float x, float y, const ParticleType& type) {
 
 		SetPosition(x, y);
-		__velocity = Vector2d(Random::Float(type.__dir_min, type.__dir_max), Random::Float(type.__speed_min, type.__speed_max));
-		__gravity = Vector2d(type.__grav_amount, type.__grav_direction);
+		__velocity = Vector2d::FromDirection(Random::Float(type.__dir_min, type.__dir_max), Random::Float(type.__speed_min, type.__speed_max));
+		__gravity = Vector2d::FromDirection(type.__grav_amount, type.__grav_direction);
 
 		__sprite_index = type.__sprite_index;
 		__size = Random::Integer(type.__size_min, type.__size_max);
@@ -226,7 +226,7 @@ namespace hvn3 {
 		}
 
 		// Update velocity.
-		__velocity = Vector2d(new_direction, (std::max)(0.0f, new_speed));
+		__velocity = Vector2d::FromDirection(new_direction, (std::max)(0.0f, new_speed));
 
 		// Update position.
 		SetPosition(X() + __velocity.X() + __gravity.X(), Y() + __velocity.Y() + __gravity.Y());

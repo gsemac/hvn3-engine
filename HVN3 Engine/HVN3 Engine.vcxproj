@@ -251,6 +251,7 @@
     <ClCompile Include="Comparison.cc" />
     <ClCompile Include="Connection.cc" />
     <ClCompile Include="Console.cc" />
+    <ClCompile Include="Direction8.cc" />
     <ClCompile Include="Display.cc" />
     <ClCompile Include="DisplayController.cc" />
     <ClCompile Include="DisplaySizeChangedEventArgs.cc" />
@@ -368,6 +369,7 @@
     <ClInclude Include="CircleHitMask.h" />
     <ClInclude Include="CollisionEventArgs.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="Direction8.h" />
     <ClInclude Include="ObjectEventArgs.h" />
     <ClInclude Include="DisplayController.h" />
     <ClInclude Include="FrameworkAdapter.h" />

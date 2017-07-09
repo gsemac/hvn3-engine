@@ -3,62 +3,21 @@
 
 namespace hvn3 {
 
-	enum DIRECTION {
-		NONE = -1,
-		ANY = -1,
-		RIGHT = 0,
-		UP_RIGHT = 45,
-		UP = 90,
-		UP_LEFT = 135,
-		LEFT = 180,
-		DOWN_LEFT = 225,
-		DOWN = 270,
-		DOWN_RIGHT = 315
-	};
-
-	class Direction {
-
-	private:
-		DIRECTION __direction;
-
-	public:
-		Direction();
-		Direction(DIRECTION direction);
-
-		bool FacingLeft();
-		bool FacingRight();
-		bool FacingUp();
-		bool FacingDown();
-		bool IsVertical();
-		bool IsHorizontal();
-		bool IsDiagonal();
-		DIRECTION Value();
-
-		bool operator==(const DIRECTION& other);
-		Direction& operator=(const DIRECTION& other);
-		Direction& operator+=(const DIRECTION& other);
-
-	};
-
 	class Vector2d {
-
-	private:
-		float _m;
-		float _x;
-		float _y;
 
 	public:
 		Vector2d();
+		Vector2d(float x, float y);
 		Vector2d(const PointF& start, const PointF& end);
-		Vector2d(float direction, float magnitude);
 		Vector2d(const std::pair<float, float>& components);
 
+		static Vector2d FromDirection(float degrees, float magnitude);
+		
 		void SetX(float value);
 		void SetY(float value);
 		void SetMagnitude(float value);
 		void SetDirection(float degrees);
 
-		Direction Direction() const;
 		float Angle() const;
 		int Quadrant() const;
 		float X() const;
@@ -74,11 +33,14 @@ namespace hvn3 {
 		Vector2d& operator-=(const Vector2d& other);
 		Vector2d operator*(const Vector2d& other);
 		Vector2d& operator*=(const Vector2d& other);
-
 		Vector2d operator*(const float other);
 		Vector2d& operator*=(const float other);
-
 		Vector2d operator-() const;
+
+	private:
+		float _m;
+		float _x;
+		float _y;
 
 	};
 

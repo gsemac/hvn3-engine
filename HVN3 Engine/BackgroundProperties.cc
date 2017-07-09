@@ -5,7 +5,7 @@ namespace hvn3 {
 	BackgroundProperties::BackgroundProperties() :
 		_offset(0.0f, 0.0f),
 		_scale(1.0f, 1.0f),
-		_velocity(0.0f, 0.0f) {
+		_velocity() {
 
 		_foreground = false;
 		_tile_h = false;

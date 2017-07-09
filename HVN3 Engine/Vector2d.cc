@@ -7,148 +7,37 @@
 
 namespace hvn3 {
 
-	Direction::Direction() {
-
-		__direction = NONE;
-
-	}
-	Direction::Direction(DIRECTION direction) {
-
-		__direction = direction;
-
-	}
-
-	bool Direction::FacingLeft() {
-
-		return __direction == UP_LEFT || __direction == LEFT || __direction == DOWN_LEFT;
-
-	}
-	bool Direction::FacingRight() {
-
-		return __direction == UP_RIGHT || __direction == RIGHT || __direction == DOWN_RIGHT;
-
-	}
-	bool Direction::FacingUp() {
-
-		return __direction == UP_RIGHT || __direction == UP || __direction == UP_LEFT;
-
-	}
-	bool Direction::FacingDown() {
-
-		return __direction == DOWN_RIGHT || __direction == DOWN || __direction == DOWN_LEFT;
-
-	}
-	bool Direction::IsVertical() {
-
-		return __direction == UP || __direction == DOWN;
-
-	}
-	bool Direction::IsHorizontal() {
-
-		return __direction == LEFT || __direction == RIGHT;
-
-	}
-	bool Direction::IsDiagonal() {
-
-		return __direction == UP_RIGHT || __direction == UP_LEFT || __direction == DOWN_RIGHT || __direction == DOWN_LEFT;
-
-	}
-	DIRECTION Direction::Value() {
-
-		return __direction;
-
-	}
-
-	bool Direction::operator==(const DIRECTION& other) {
-
-		return __direction == other;
-
-	}
-	Direction& Direction::operator=(const DIRECTION& other) {
-
-		__direction = other;
-
-		return *this;
-
-	}
-	Direction& Direction::operator+=(const DIRECTION& other) {
-
-		switch (other) {
-		case DOWN:
-			switch (__direction) {
-			case UP: __direction = NONE;  break;
-			case LEFT: __direction = DOWN_LEFT; break;
-			case RIGHT: __direction = DOWN_RIGHT; break;
-			case UP_LEFT: __direction = LEFT; break;
-			case UP_RIGHT: __direction = RIGHT; break;
-			case DOWN_LEFT: __direction = DOWN_LEFT; break;
-			case DOWN_RIGHT: __direction = DOWN_RIGHT; break;
-			default: __direction = DOWN; break;
-			} break;
-		case UP:
-			switch (__direction) {
-			case DOWN: __direction = NONE;  break;
-			case LEFT: __direction = UP_LEFT; break;
-			case RIGHT: __direction = UP_RIGHT; break;
-			case UP_LEFT: __direction = UP_LEFT; break;
-			case UP_RIGHT: __direction = UP_RIGHT; break;
-			case DOWN_LEFT: __direction = LEFT; break;
-			case DOWN_RIGHT: __direction = RIGHT; break;
-			default: __direction = UP; break;
-			} break;
-		case LEFT:
-			switch (__direction) {
-			case RIGHT: __direction = NONE;  break;
-			case UP: __direction = UP_LEFT; break;
-			case DOWN: __direction = DOWN_LEFT; break;
-			case UP_LEFT: __direction = UP_LEFT; break;
-			case UP_RIGHT: __direction = UP; break;
-			case DOWN_LEFT: __direction = DOWN_LEFT; break;
-			case DOWN_RIGHT: __direction = DOWN; break;
-			default: __direction = LEFT; break;
-			} break;
-		case RIGHT:
-			switch (__direction) {
-			case RIGHT: __direction = NONE;  break;
-			case UP: __direction = UP_LEFT; break;
-			case DOWN: __direction = DOWN_LEFT; break;
-			case UP_LEFT: __direction = UP_LEFT; break;
-			case UP_RIGHT: __direction = UP; break;
-			case DOWN_LEFT: __direction = DOWN_LEFT; break;
-			case DOWN_RIGHT: __direction = DOWN; break;
-			default: __direction = LEFT; break;
-			} break;
-		}
-
-		return *this;
-
-	}
-
 	Vector2d::Vector2d() :
-		Vector2d(0.0f, 0.0f) {
+		Vector2d(PointF(0.0f, 0.0f), PointF(0.0f, 0.0f)) {
+	}
+	Vector2d::Vector2d(float x, float y) {
+
+		_x = x;
+		_y = y;
+		_m = std::hypotf(_x, _y);
+
 	}
 	Vector2d::Vector2d(const PointF& start, const PointF& end) {
 
 		_x = end.X() - start.X();
 		_y = end.Y() - start.Y();
 		_m = std::hypotf(_x, _y);
-		
-	}
-	Vector2d::Vector2d(float degrees, float magnitude) {
 
+	}
+	Vector2d::Vector2d(const std::pair<float, float>& components) : 
+		Vector2d(components.first, components.second) {}
+
+	Vector2d Vector2d::FromDirection(float degrees, float magnitude) {
+		
 		float rad = DegreesToRadians(degrees);
 
-		_m = magnitude;
-		_x = std::cos(rad) * _m;
-		_y = std::sin(rad) * -_m;
+		Vector2d vec;
 
+		vec._m = magnitude;
+		vec._x = std::cos(rad) * vec._m;
+		vec._y = std::sin(rad) * -vec._m;
 
-	}
-	Vector2d::Vector2d(const std::pair<float, float>& components) {
-
-		_x = components.first;
-		_y = components.second;
-		_m = std::hypotf(_x, _y);
+		return vec;
 
 	}
 
@@ -194,34 +83,6 @@ namespace hvn3 {
 
 	}
 
-	Direction Vector2d::Direction() const {
-
-		if (_y < 0.0f) {
-			if (_x < 0.0f)
-				return hvn3::Direction(UP_LEFT);
-			else if (_x > 0.0f)
-				return hvn3::Direction(UP_RIGHT);
-			else
-				return hvn3::Direction(UP);
-		}
-		else if (_y > 0.0f) {
-			if (_x < 0.0f)
-				return hvn3::Direction(DOWN_LEFT);
-			else if (_x > 0.0f)
-				return hvn3::Direction(DOWN_RIGHT);
-			else
-				return hvn3::Direction(DOWN);
-		}
-		else {
-			if (_x < 0.0f)
-				return hvn3::Direction(LEFT);
-			else if (_x > 0.0f)
-				return hvn3::Direction(RIGHT);
-			else
-				return hvn3::Direction(NONE);
-		}
-
-	}
 	float Vector2d::Angle() const {
 
 		// Initialize variables.
