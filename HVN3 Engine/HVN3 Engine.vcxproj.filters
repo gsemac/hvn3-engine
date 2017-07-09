@@ -43,9 +43,6 @@
     <Filter Include="Header Files\Interfaces">
       <UniqueIdentifier>{bc1813df-f546-4a39-bbba-9ba804b37a97}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\System\Example">
-      <UniqueIdentifier>{b9d08057-b9db-4de9-be7b-64710a5a9784}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Helper\Encryption">
       <UniqueIdentifier>{c98df63e-c288-4ee1-8fde-a5fd7c110cfc}</UniqueIdentifier>
     </Filter>
@@ -578,9 +575,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ExampleGame.h">
-      <Filter>Header Files\System\Example</Filter>
-    </ClInclude>
     <ClInclude Include="Background.h">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
@@ -740,14 +734,8 @@
     <ClInclude Include="SpriteMask.h">
       <Filter>Header Files\System\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="ExampleGame2.h">
-      <Filter>Header Files\System\Example</Filter>
-    </ClInclude>
     <ClInclude Include="HVN3.h">
       <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="ExampleGame3.h">
-      <Filter>Header Files\System\Example</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
       <Filter>Header Files\System\Events</Filter>

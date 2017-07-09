@@ -394,7 +394,6 @@
     <ClInclude Include="DrawEventArgs.h" />
     <ClInclude Include="Encryption.h" />
     <ClInclude Include="EventArgs.h" />
-    <ClInclude Include="ExampleGame3.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GraphicsState.h" />
     <ClInclude Include="GridRenderer.h" />
@@ -434,8 +433,6 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventQueue.h" />
     <ClInclude Include="EventSource.h" />
-    <ClInclude Include="ExampleGame.h" />
-    <ClInclude Include="ExampleGame2.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Framework.h" />
