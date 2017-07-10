@@ -330,7 +330,6 @@
     <ClCompile Include="RoomExitEventArgs.cc" />
     <ClCompile Include="RoomManager.cc" />
     <ClCompile Include="Runner.cc" />
-    <ClCompile Include="RoomBase.cc" />
     <ClCompile Include="Scale.cc" />
     <ClCompile Include="Sound.cc" />
     <ClCompile Include="Sprite.cc" />

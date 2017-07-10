@@ -315,9 +315,6 @@
     <ClCompile Include="BackgroundDrawEventArgs.cc">
       <Filter>Source Files\System\Events\EventArgs</Filter>
     </ClCompile>
-    <ClCompile Include="RoomBase.cc">
-      <Filter>Source Files\Resources\Room</Filter>
-    </ClCompile>
     <ClCompile Include="RoomController.cc">
       <Filter>Source Files\System\Controllers</Filter>
     </ClCompile>
