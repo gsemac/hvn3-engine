@@ -58,7 +58,7 @@ namespace hvn3 {
 			e.Graphics().Clear(BackColor());
 
 			if (Font())
-				e.Graphics().DrawText(DEFAULT_ICON_MAX_WIDTH + 4.0f, Round(Height() / 2 - Font()->Height() / 2), Text(), Font(), ForeColor());
+				e.Graphics().DrawText(DEFAULT_ICON_MAX_WIDTH + 4.0f, Math::Round(Height() / 2 - Font()->Height() / 2), Text(), Font(), ForeColor());
 
 			// Draw icon separator.
 			e.Graphics().DrawLine(DEFAULT_ICON_MAX_WIDTH, 0, DEFAULT_ICON_MAX_WIDTH, Height(), BackColor().Lighter(), 1);
@@ -67,7 +67,7 @@ namespace hvn3 {
 			if (_sub_menu_ptr) {
 				auto icon = Manager()->StyleManager()->GetImageResource(BitmapResourceId::ArrowR);
 				if (icon)
-					e.Graphics().DrawBitmap(Width() - 10, Round(Height() / 2 - icon->Height() / 2), icon);
+					e.Graphics().DrawBitmap(Width() - 10, Math::Round(Height() / 2 - icon->Height() / 2), icon);
 			}
 
 		}
@@ -198,7 +198,7 @@ namespace hvn3 {
 		}
 		void ToolStripMenuItem::_DecrementSubMenuDestroyTimerValue(float amount) {
 
-			_SetSubMenuDestroyTimerValue(Max(_SubMenuDestroyTimerValue() - amount, 0.0f));
+			_SetSubMenuDestroyTimerValue(Math::Max(_SubMenuDestroyTimerValue() - amount, 0.0f));
 
 		}
 		void ToolStripMenuItem::_ResetSubMenuDestroyTimer() {

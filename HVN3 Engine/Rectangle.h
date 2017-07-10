@@ -129,8 +129,8 @@ namespace hvn3 {
 		}
 		static Rectangle<T> Union(const Rectangle<T>& rect_a, const Rectangle<T>& rect_b) {
 
-			Point2d<T> point_a(Min(rect_a.Left(), rect_b.Left()), Min(rect_a.Top(), rect_b.Top()));
-			Point2d<T> point_b(Max(rect_a.Right(), rect_b.Right()), Max(rect_a.Bottom(), rect_b.Bottom()));
+			Point2d<T> point_a(Math::Min(rect_a.Left(), rect_b.Left()), Math::Min(rect_a.Top(), rect_b.Top()));
+			Point2d<T> point_b(Math::Max(rect_a.Right(), rect_b.Right()), Math::Max(rect_a.Bottom(), rect_b.Bottom()));
 
 			return Rectangle<T>(point_a, point_b);
 

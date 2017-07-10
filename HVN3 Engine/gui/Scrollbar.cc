@@ -32,7 +32,7 @@ namespace hvn3 {
 		void Scrollbar::SetScrollPercentage(float percent) {
 
 			// Make sure that percentage value is valid.
-			percent = Clamp(percent, 0.0f, 1.0f);
+			percent = Math::Clamp(percent, 0.0f, 1.0f);
 
 			// Adjust the position of the slider.
 			if (_orientation == Orientation::Vertical)
@@ -105,9 +105,9 @@ namespace hvn3 {
 				// Calculate the new position of the slider.
 				float new_position;
 				if (_orientation == Orientation::Vertical)
-					new_position = Min(Height() - _slider_height, Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::Y)));
+					new_position = Math::Min(Height() - _slider_height, Math::Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::Y)));
 				else
-					new_position = Min(Width() - _slider_height, Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::X)));
+					new_position = Math::Min(Width() - _slider_height, Math::Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::X)));
 
 				if (new_position != _Position()) {
 				
@@ -219,15 +219,15 @@ namespace hvn3 {
 				if (_target == nullptr || _target->ScrollableRegion().Height() < Height())
 					_slider_height = Height();
 				else
-					_slider_height = Max(0.0f, (_target->VisibleRegion().Height() / _target->ScrollableRegion().Height()) * Height());
+					_slider_height = Math::Max(0.0f, (_target->VisibleRegion().Height() / _target->ScrollableRegion().Height()) * Height());
 			else
 				if (_target == nullptr || _target->ScrollableRegion().Width() < Width())
 					_slider_height = Width();
 				else
-					_slider_height = Max(0.0f, (_target->VisibleRegion().Width() / _target->ScrollableRegion().Width()) * Width());
+					_slider_height = Math::Max(0.0f, (_target->VisibleRegion().Width() / _target->ScrollableRegion().Width()) * Width());
 
 			// Set a minimum size for the slider so it doesn't become unclickable.
-			_slider_height = Max(_slider_height, MINIMUM_SLIDER_SIZE);
+			_slider_height = Math::Max(_slider_height, MINIMUM_SLIDER_SIZE);
 
 			// Adjust the scroll position to compensate for the new height of the slider.
 			// We want to maintain the same scroll position unless the visible region becomes large enough that we can no longer scroll that far.

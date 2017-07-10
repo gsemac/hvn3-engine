@@ -4,6 +4,7 @@
 #include "DrawEventArgs.h"
 #include "IFocusable.h"
 #include "UniquePolymorphicCreateableBase.h"
+#include "UTF8String.h"
 
 namespace hvn3 {
 

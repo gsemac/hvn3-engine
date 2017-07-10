@@ -528,6 +528,9 @@
     <ClCompile Include="RectangleHitMask.cc">
       <Filter>Source Files\System\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="MathUtils.cc">
+      <Filter>Source Files\Helper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h">
@@ -991,6 +994,9 @@
     </ClInclude>
     <ClInclude Include="gui\ITextable.h">
       <Filter>Header Files\Resources\Gui\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="MathUtils.h">
+      <Filter>Header Files\Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

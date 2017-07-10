@@ -385,7 +385,7 @@ int main(int argc, char *argv[]) {
 	MyGame.Properties().ScalingMode = ScalingMode::Fixed;
 	MyGame.Properties().StartFullscreen = false;
 	MyGame.Properties().FPS = 60;
-
+	
 	// Load resources.
 	MyGame.Resources().Tilesets().Add(TILESET_1, Resource::Create<Tileset>("data/test/tileset1.png", SizeI(32, 32)));
 	MyGame.Resources().Backgrounds().Add(BACKGROUND_1, Resource::Create<Background>("data/test/tileset1.png"));

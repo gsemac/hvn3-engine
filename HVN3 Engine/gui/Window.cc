@@ -152,8 +152,8 @@ namespace hvn3 {
 
 			// Draw titlebar text.
 			if (Font()) {
-				float tx = Round(Width() / 2.0f);
-				float ty = Round((TitlebarHeight() / 2.0f) - (Font()->Height() / 2.0f)) - 1;
+				float tx = Math::Round(Width() / 2.0f);
+				float ty = Math::Round((TitlebarHeight() / 2.0f) - (Font()->Height() / 2.0f)) - 1;
 				e.Graphics().DrawText(tx + 1, ty + 1, Text(), Font(), Color(0, 0, 0, 128), Alignment::Center);
 				e.Graphics().DrawText(tx, ty, Text(), Font(), Color(186, 186, 186), Alignment::Center);
 			}
@@ -326,7 +326,7 @@ namespace hvn3 {
 
 				// If there is a difference, resize the Control.
 				if (std::abs((_original_size.Height() - _size_diff.Height()) - Height()) > 0.0f) {
-					new_height = Clamp(_original_size.Height() - (_size_diff.Height() / scale), MinimumSize().Height(), MaximumSize().Height());
+					new_height = Math::Clamp(_original_size.Height() - (_size_diff.Height() / scale), MinimumSize().Height(), MaximumSize().Height());
 					SetY(_original_position.Y() + (_original_size.Height() - new_height) * scale);
 				}
 
@@ -348,7 +348,7 @@ namespace hvn3 {
 
 				// If there is a difference, resize the Control.
 				if (std::abs((_original_size.Width() - _size_diff.Width()) - Width()) > 0.0f) {
-					new_width = Clamp(_original_size.Width() - (_size_diff.Width() / scale), MinimumSize().Width(), MaximumSize().Width());
+					new_width = Math::Clamp(_original_size.Width() - (_size_diff.Width() / scale), MinimumSize().Width(), MaximumSize().Width());
 					SetX(_original_position.X() + (_original_size.Width() - new_width) * scale);
 				}
 

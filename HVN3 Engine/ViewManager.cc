@@ -55,10 +55,10 @@ namespace hvn3 {
 			if ((std::abs)(diff_x) > (view.Region().Width() / 2.0f - view.HorizontalBorder())) {
 
 				// Calculate the amount that the view has to shift by.
-				float diff = (view.HorizontalBorder() - ((view.Region().Width() / 2.0f) - (std::abs)(diff_x))) * Signum(diff_x);
+				float diff = (view.HorizontalBorder() - ((view.Region().Width() / 2.0f) - (std::abs)(diff_x))) * Math::Signum(diff_x);
 
 				// Make sure the View doesn't shift outside of the room boundaries.
-				diff = Clamp(diff, -(e.RoomSize().Width() - view.Region().Width() - view.Position().X()), view.Position().X());
+				diff = Math::Clamp(diff, -(e.RoomSize().Width() - view.Region().Width() - view.Position().X()), view.Position().X());
 
 				// Adjust View position.
 				view.SetPosition(view.ViewX() - diff, view.ViewY());
@@ -69,10 +69,10 @@ namespace hvn3 {
 			if ((std::abs)(diff_y) > (view.Region().Height() / 2.0f - view.VerticalBorder())) {
 
 				// Calculate the amount that the view has to shift by.
-				float diff = (view.VerticalBorder() - ((view.Region().Height() / 2.0f) - (std::abs)(diff_y))) * Signum(diff_y);
+				float diff = (view.VerticalBorder() - ((view.Region().Height() / 2.0f) - (std::abs)(diff_y))) * Math::Signum(diff_y);
 
 				// Make sure the View doesn't shift outside of the room boundaries.
-				diff = Clamp(diff, -(e.RoomSize().Height() - view.Region().Height() - view.Position().Y()), view.Position().Y());
+				diff = Math::Clamp(diff, -(e.RoomSize().Height() - view.Region().Height() - view.Position().Y()), view.Position().Y());
 
 				// Adjust View/mouse position.
 				view.SetPosition(view.ViewX(), view.ViewY() - diff);

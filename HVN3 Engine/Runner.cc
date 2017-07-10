@@ -74,7 +74,7 @@ namespace hvn3 {
 
 		else
 			// Draw placeholder graphics.
-			e.Graphics().DrawText(Round(_display.Width() / 2.0f), Round(_display.Height() / 2.0f), Properties().DisplayTitle.c_str(), SystemFont(), Color::White, Alignment::Center);
+			e.Graphics().DrawText(Math::Round(_display.Width() / 2.0f), Math::Round(_display.Height() / 2.0f), Properties().DisplayTitle.c_str(), SystemFont(), Color::White, Alignment::Center);
 
 		// If running in debug mode, draw the FPS counter.
 		if (Properties().DebugMode)
@@ -466,7 +466,7 @@ namespace hvn3 {
 			float pos_y = (room_region.Height() < _display.Height()) ? (_display.Height() / 2.0f - room_region.Height() / 2.0f) : 0.0f;
 
 			scaling_transform.Translate(pos_x, pos_y);
-			clipping_rectangle = RectangleF(pos_x, pos_y, Min(room_region.Width(), (float)_display.Width()), Min(room_region.Height(), (float)_display.Height()));
+			clipping_rectangle = RectangleF(pos_x, pos_y, Math::Min(room_region.Width(), (float)_display.Width()), Math::Min(room_region.Height(), (float)_display.Height()));
 
 			break;
 
@@ -474,7 +474,7 @@ namespace hvn3 {
 		case ScalingMode::MaintainAspectRatio: {
 
 			// Stretch drawing as much as possible while maintaining the aspect ratio.
-			float scale_factor = Min(_display.Scale().XScale(), _display.Scale().YScale());
+			float scale_factor = Math::Min(_display.Scale().XScale(), _display.Scale().YScale());
 			float room_width = room_region.Width() * scale_factor;
 			float room_height = room_region.Height() * scale_factor;
 			float pos_x = (room_width < _display.Width()) ? (_display.Width() / 2.0f - room_width / 2.0f) : 0.0f;
@@ -482,7 +482,7 @@ namespace hvn3 {
 
 			scaling_transform.Scale(scale_factor, scale_factor);
 			scaling_transform.Translate(pos_x, pos_y);
-			clipping_rectangle = RectangleF(pos_x, pos_y, Min(room_width, (float)_display.Width()), Min(room_height, (float)_display.Height()));
+			clipping_rectangle = RectangleF(pos_x, pos_y, Math::Min(room_width, (float)_display.Width()), Math::Min(room_height, (float)_display.Height()));
 
 			break;
 		}

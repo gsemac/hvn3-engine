@@ -233,8 +233,8 @@ namespace hvn3 {
 	PointI CollisionGrid::CellAt(float x, float y) const {
 
 		// Round the floating point position down (ex: [32.2, 6.2] should end up in cell [1, 0]).
-		x = Floor(x);
-		y = Floor(y);
+		x = Math::Floor(x);
+		y = Math::Floor(y);
 
 		// Calculate the position of the cell, keeping in mind the potential for negative cell positions.
 		PointI cell(

@@ -106,7 +106,7 @@ namespace hvn3 {
 			void ScrollToCaret() {
 
 				// Clamp the offset within an acceptable range.
-				__scroll_h_offset = Clamp((float)__scroll_h_offset, (std::min)(0.0f, -(Text().Width(*Font()) + __padding * 2 - Width())), 0.0f);
+				__scroll_h_offset = Math::Clamp((float)__scroll_h_offset, (std::min)(0.0f, -(Text().Width(*Font()) + __padding * 2 - Width())), 0.0f);
 
 				// Calculate the visible region of text and the (actual) caret position.
 				Range<float> visible_region(-__scroll_h_offset, -__scroll_h_offset + Width(), false);
@@ -172,7 +172,7 @@ namespace hvn3 {
 					int besterr = aerr;
 					int new_pos, new_pos_x, new_err;
 					do {
-						new_pos = pos + Signum(err);
+						new_pos = pos + Math::Signum(err);
 						new_pos_x = text_x1 + Text().RefSubString(0, new_pos).Width(*Font());
 						new_err = (std::abs)(point.X() - new_pos_x);
 						if (new_err < besterr) {
@@ -619,7 +619,7 @@ namespace hvn3 {
 					// Set the caret and adjust the selection range.
 					PointF p = Mouse::Position();
 					if (__mouse_last_pos != Mouse::Position() && Range<float>(bounds.X(), bounds.X2()).ContainsValue(Mouse::X)) {
-						p.SetX(Clamp(p.X(), bounds.X() + 1, bounds.X2() - 1));
+						p.SetX(Math::Clamp(p.X(), bounds.X() + 1, bounds.X2() - 1));
 						p.SetY(bounds.Y());
 						__caret.SetPosition(GetCharacterIndexFromPoint(p));
 						__sel.AssignToMax((__caret.Position()));
@@ -719,7 +719,7 @@ namespace hvn3 {
 				void SetPosition(int pos) {
 
 					// Set the caret position (index).
-					pos = Clamp((unsigned int)pos, 0U, (unsigned int)__tb->Text().Length());
+					pos = Math::Clamp((unsigned int)pos, 0U, (unsigned int)__tb->Text().Length());
 					__position = pos;
 
 					// Set the caret's actual position (pixel offset).
@@ -794,7 +794,7 @@ namespace hvn3 {
 			void ScrollTo(int pos) {
 
 				// Clamp the offset within an acceptable range.
-				__scroll_h_offset = Clamp((float)__scroll_h_offset, (std::min)(0.0f, -(Text().Width(*Font()) + __padding * 2 - Width())), 0.0f);
+				__scroll_h_offset = Math::Clamp((float)__scroll_h_offset, (std::min)(0.0f, -(Text().Width(*Font()) + __padding * 2 - Width())), 0.0f);
 
 				// Calculate the visible region of text and the (actual) caret position.
 				Range<float> visible_region(-__scroll_h_offset, -__scroll_h_offset + Width(), false);

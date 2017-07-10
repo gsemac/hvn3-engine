@@ -73,8 +73,8 @@ namespace hvn3 {
 	void Gui::Control::Resize(float width, float height) {
 
 		// Clamp values within the maximum/minimum size.
-		width = Clamp(width, __minimum_size.Width(), __maximum_size.Width());
-		height = Clamp(height, __minimum_size.Height(), __maximum_size.Height());
+		width = Math::Clamp(width, __minimum_size.Width(), __maximum_size.Width());
+		height = Math::Clamp(height, __minimum_size.Height(), __maximum_size.Height());
 
 		// If the new size is equal to the current size, do not call any events.
 		if (width == Width() && height == Height())

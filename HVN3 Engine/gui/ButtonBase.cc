@@ -82,7 +82,7 @@ namespace hvn3 {
 
 			// Draw image.
 			if (Image()) {
-				float iy = Round((Height() / 2.0f - Image()->Height() / 2.0f - 1.0f) + _text_offset.Y());
+				float iy = Math::Round((Height() / 2.0f - Image()->Height() / 2.0f - 1.0f) + _text_offset.Y());
 				e.Graphics().DrawBitmap(3, iy, Image());
 			}
 

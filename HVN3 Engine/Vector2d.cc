@@ -29,7 +29,7 @@ namespace hvn3 {
 
 	Vector2d Vector2d::FromDirection(float degrees, float magnitude) {
 		
-		float rad = DegreesToRadians(degrees);
+		float rad = Math::DegreesToRadians(degrees);
 
 		Vector2d vec;
 
@@ -70,7 +70,7 @@ namespace hvn3 {
 	}
 	void Vector2d::SetMagnitude(float value) {
 
-		float rad = DegreesToRadians(Angle());
+		float rad = Math::DegreesToRadians(Angle());
 
 		_m = value;
 		_x = std::cos(rad) * _m;
@@ -90,12 +90,12 @@ namespace hvn3 {
 
 		// Determine the angle using an appropriate means.
 		if ((std::abs)(_x) > 0.0f)
-			degrees = RadiansToDegrees((std::acos)(_x / _m));
+			degrees = Math::RadiansToDegrees((std::acos)(_x / _m));
 		else if ((std::abs)(-_y) > 0.0f) {
 			if (_y > 0.0f)
 				degrees = 270.0f;
 			else
-				degrees = RadiansToDegrees((std::asin)((std::abs)(-_y) / _m));
+				degrees = Math::RadiansToDegrees((std::asin)((std::abs)(-_y) / _m));
 		}
 
 		// Adjust the angle according to its quadrant.

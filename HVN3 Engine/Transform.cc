@@ -44,13 +44,13 @@ namespace hvn3 {
 		}
 		void Transform::Rotate(float degrees) {
 
-			al_rotate_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
+			al_rotate_transform((ALLEGRO_TRANSFORM*)this, Math::DegreesToRadians(degrees));
 
 		}
 		void Transform::Rotate(float origin_x, float origin_y, float degrees) {
 
 			al_translate_transform((ALLEGRO_TRANSFORM*)this, -origin_x, -origin_y);
-			al_rotate_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
+			al_rotate_transform((ALLEGRO_TRANSFORM*)this, Math::DegreesToRadians(degrees));
 			al_translate_transform((ALLEGRO_TRANSFORM*)this, origin_x, origin_y);
 
 		}
@@ -66,13 +66,13 @@ namespace hvn3 {
 		}
 		void Transform::HorizontalShear(float degrees) {
 
-			al_horizontal_shear_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
+			al_horizontal_shear_transform((ALLEGRO_TRANSFORM*)this, Math::DegreesToRadians(degrees));
 
 		}
 		void Transform::HorizontalShear(float origin_x, float origin_y, float degrees) {
 
 			al_translate_transform((ALLEGRO_TRANSFORM*)this, -origin_x, -origin_y);
-			al_horizontal_shear_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
+			al_horizontal_shear_transform((ALLEGRO_TRANSFORM*)this, Math::DegreesToRadians(degrees));
 			al_translate_transform((ALLEGRO_TRANSFORM*)this, origin_x, origin_y);
 
 		}
@@ -83,13 +83,13 @@ namespace hvn3 {
 		}
 		void Transform::VerticalShear(float degrees) {
 
-			al_vertical_shear_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
+			al_vertical_shear_transform((ALLEGRO_TRANSFORM*)this, Math::DegreesToRadians(degrees));
 
 		}
 		void Transform::VerticalShear(float origin_x, float origin_y, float degrees) {
 
 			al_translate_transform((ALLEGRO_TRANSFORM*)this, -origin_x, -origin_y);
-			al_vertical_shear_transform((ALLEGRO_TRANSFORM*)this, DegreesToRadians(degrees));
+			al_vertical_shear_transform((ALLEGRO_TRANSFORM*)this, Math::DegreesToRadians(degrees));
 			al_translate_transform((ALLEGRO_TRANSFORM*)this, origin_x, origin_y);
 
 		}
@@ -124,15 +124,15 @@ namespace hvn3 {
 
 		hvn3::Scale Transform::GetScale() const {
 
-			float scale_x = Sign(_matrix[0][0]) * std::sqrt(std::pow(_matrix[0][0], 2.0f) + std::pow(_matrix[1][0], 2.0f));
-			float scale_y = Sign(_matrix[1][1]) * std::sqrt(std::pow(_matrix[0][1], 2.0f) + std::pow(_matrix[1][1], 2.0f));
+			float scale_x = Math::Sign(_matrix[0][0]) * std::sqrt(std::pow(_matrix[0][0], 2.0f) + std::pow(_matrix[1][0], 2.0f));
+			float scale_y = Math::Sign(_matrix[1][1]) * std::sqrt(std::pow(_matrix[0][1], 2.0f) + std::pow(_matrix[1][1], 2.0f));
 
 			return hvn3::Scale(scale_x, scale_y);
 
 		}
 		float Transform::GetAngle() const {
 
-			return RadiansToDegrees(std::atan2(_matrix[0][1], _matrix[1][1]));
+			return Math::RadiansToDegrees(std::atan2(_matrix[0][1], _matrix[1][1]));
 
 		}
 		PointF Transform::GetOffset() const {

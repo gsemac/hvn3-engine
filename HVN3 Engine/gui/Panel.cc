@@ -39,9 +39,9 @@ namespace hvn3 {
 
 			// For each child control, we want it to be shifted by the scroll offset.
 			if (e.Orientation() == Orientation::Vertical)
-				Controls()->SetControlOffset(Controls()->ControlOffset().X(), Round(-e.Position()));
+				Controls()->SetControlOffset(Controls()->ControlOffset().X(), Math::Round(-e.Position()));
 			else
-				Controls()->SetControlOffset(Round(-e.Position()), Controls()->ControlOffset().Y());
+				Controls()->SetControlOffset(Math::Round(-e.Position()), Controls()->ControlOffset().Y());
 
 			IScrollable::OnScroll(e);
 
@@ -68,7 +68,7 @@ namespace hvn3 {
 			SetVisibleRegion(SizeF(vwidth, vheight));
 
 			// We can also set the scrollable region, which will be the control region.
-			SetScrollableRegion(SizeF(Max(VisibleRegion().Width(), control_region.Width()), Max(VisibleRegion().Height(), control_region.Height())));
+			SetScrollableRegion(SizeF(Math::Max(VisibleRegion().Width(), control_region.Width()), Math::Max(VisibleRegion().Height(), control_region.Height())));
 
 			// Update the positions/sizes of the scrollbars.
 			UpdateScrollbarPositionsAndSizes();

@@ -152,7 +152,7 @@ namespace hvn3 {
 		}
 		PointI TilesetPanel::SnapToTilesetGrid(const PointF& position) {
 
-			return  PointI(Floor(position.X() / 32), Floor(position.Y() / 32));
+			return  PointI(Math::Floor(position.X() / 32), Math::Floor(position.Y() / 32));
 
 		}
 		bool TilesetPanel::PositionIsOnBitmap(const PointF& position) {

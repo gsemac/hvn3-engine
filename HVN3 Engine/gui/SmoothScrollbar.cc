@@ -28,7 +28,7 @@ namespace hvn3 {
 			Scrollbar::OnUpdate(e);
 
 			// Ease towards the target position.
-			float diff = Diff(_ease_position, Scrollbar::_Position());
+			float diff = Math::Diff(_ease_position, Scrollbar::_Position());
 			if (diff > 0.0f) {
 
 				if (diff <= 0.1f)

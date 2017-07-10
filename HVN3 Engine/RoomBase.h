@@ -112,7 +112,7 @@ namespace hvn3 {
 		}
 		virtual RectangleF GetVisibleRegion() override {
 
-			return RectangleF(0, 0, Width(), Height());
+			return RectangleF(0.0f, 0.0f, static_cast<float>(Width()), static_cast<float>(Height()));
 
 		}
 

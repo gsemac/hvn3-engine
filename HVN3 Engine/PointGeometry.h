@@ -24,7 +24,7 @@ namespace hvn3 {
 	template <typename T>
 	Point2d<T> PointInDirection(const Point2d<T>& point, float degrees, float distance) {
 		
-		float rad = DegreesToRadians(degrees);
+		float rad = Math::DegreesToRadians(degrees);
 		return Point2d<T>(point.X() + std::cos(rad) * distance, point.Y() - std::sin(rad) * distance);
 
 	}
@@ -32,7 +32,7 @@ namespace hvn3 {
 	template <typename T>
 	float PointDirection(T ax, T ay, T bx, T by) {
 
-		float angle = RadiansToDegrees((std::atan2)(ay - by, bx - ax));
+		float angle = Math::RadiansToDegrees((std::atan2)(ay - by, bx - ax));
 		if (angle < 0.0f) angle += 360.0f;
 
 		return angle;
@@ -48,7 +48,7 @@ namespace hvn3 {
 	template <typename T>
 	void PointRotate(Point2d<T>& point, const Point2d<T>& origin, float angle) {
 
-		float rad = DegreesToRadians(angle);
+		float rad = Math::DegreesToRadians(angle);
 		float s = std::sin(rad);
 		float c = std::cos(rad);
 

@@ -130,7 +130,7 @@ namespace hvn3 {
 
 			_image_index_timer += (std::fabs)(ImageSpeed());
 			if (_image_index_timer >= 1.0f) {
-				switch (Sign(ImageSpeed())) {
+				switch (static_cast<int>(Math::Sign(ImageSpeed()))) {
 				case -1:
 					if (ImageIndex() == 0)
 						SetImageIndex(INT_MAX);

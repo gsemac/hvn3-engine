@@ -93,11 +93,11 @@ namespace hvn3 {
 		// Calculate scaled dimensions of the background.
 		float scale_x = p.Scale().XScale();
 		float scale_y = p.Scale().YScale();
-		float width = bg.Width() * Abs(scale_x);
-		float height = bg.Height() * Abs(scale_y);
+		float width = bg.Width() * Math::Abs(scale_x);
+		float height = bg.Height() * Math::Abs(scale_y);
 
 		// If either dimension is 0, don't draw.
-		if (IsZero(width, 0.1f) || IsZero(height, 0.1f))
+		if (Math::IsZero(width, 0.1f) || Math::IsZero(height, 0.1f))
 			return;
 
 		// Calculate the offset of the background. If the background is tiled, this is the starting offset.

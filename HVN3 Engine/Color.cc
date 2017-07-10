@@ -170,7 +170,7 @@ namespace hvn3 {
 		// Increase luminance.
 		float h = Hue();
 		float s = Saturation();
-		float l = Clamp(Luminance() + factor, 0.0f, 1.0f);
+		float l = Math::Clamp(Luminance() + factor, 0.0f, 1.0f);
 
 		// Recalculate RGB values.
 		return Color::FromHsl(h, s, l);
@@ -181,7 +181,7 @@ namespace hvn3 {
 		// Decrease luminance.
 		float h = Hue();
 		float s = Saturation();
-		float l = Clamp(Luminance() - factor, 0.0f, 1.0f);
+		float l = Math::Clamp(Luminance() - factor, 0.0f, 1.0f);
 
 		// Recalculate RGB values.
 		return Color::FromHsl(h, s, l);
