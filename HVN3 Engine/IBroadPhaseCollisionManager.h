@@ -22,7 +22,7 @@ namespace hvn3 {
 
 		virtual void AddBody(ICollisionBody* body) = 0;
 		virtual bool RemoveBody(ICollisionBody* body) = 0;
-		virtual void ClearBodies() = 0;
+		virtual void ClearAll() = 0;
 
 		// Returns a vector of potentially-colliding pairs.
 		virtual const collider_pair_collection_type& FindPairs() = 0;

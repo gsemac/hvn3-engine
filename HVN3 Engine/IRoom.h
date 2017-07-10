@@ -8,6 +8,7 @@
 #include "RoomEnterEventArgs.h"
 #include "RoomExitEventArgs.h"
 #include "ICollisionManager.h"
+#include "UniqueCreateableBase.h"
 
 namespace hvn3 {
 
@@ -19,7 +20,12 @@ namespace hvn3 {
 	class IViewManager;
 	class Object;
 	
+	namespace System {
+		class RoomController;
+	}
+
 	class IRoom : public IUpdatable, public IDrawable, public SizeableBase<int> {
+		friend class System::RoomController;
 
 	public:
 		IRoom(const SizeI& size);
@@ -52,6 +58,7 @@ namespace hvn3 {
 		virtual void OnRoomEnter(RoomEnterEventArgs& e) = 0;
 		virtual void OnRoomExit(RoomExitEventArgs& e) = 0;
 		virtual void OnSetUp() = 0;
+		virtual bool IsSetUp() const = 0;
 		virtual void OnReset() = 0;
 		virtual void OnRender(DrawEventArgs& e) = 0;
 

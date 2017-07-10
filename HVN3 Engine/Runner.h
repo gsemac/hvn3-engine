@@ -5,11 +5,12 @@
 #include "Properties.h"
 #include "Graphics.h"
 #include "RoomManager.h"
+#include "Stopwatch.h"
 
 namespace hvn3 {
 
 	class Font;
-	class RoomBase;
+	class IRoom;
 	class UpdateEventArgs;
 	class DrawEventArgs;
 
@@ -25,7 +26,7 @@ namespace hvn3 {
 		// Returns an object representing a collection of game properties. 
 		const Properties& Properties() const;
 
-		RoomBase* CurrentRoom();
+		IRoom* CurrentRoom();
 
 	protected:
 		// Renders the current game state to the display surface.
@@ -55,17 +56,18 @@ namespace hvn3 {
 		virtual void OnRedraw();
 
 	private:
-		bool __allow_redraw;
-		bool __exit_loop;
-		int __frames_skipped;
-		EventQueue __event_queue;
-		Timer __timer;
+		bool _allow_redraw;
+		bool _exit_loop;
+		int _frames_skipped;
+		EventQueue _event_queue;
+		Timer _timer;
+		Stopwatch _delta_timer;
 		// Flag used to detect when the fullscreen state of the display changes.
 		bool _display_was_fullscreen;
 
 		RoomManager& _room_manager;
 		Display _display;
-		Font* __default_font;
+		Font* _default_font;
 		hvn3::Properties& _properties;
 		Drawing::Graphics _graphics;
 

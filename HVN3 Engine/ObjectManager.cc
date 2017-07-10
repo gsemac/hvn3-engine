@@ -57,17 +57,25 @@ namespace hvn3 {
 		//}
 
 	}
-	void ObjectManager::Clear() {
+	void ObjectManager::ClearAll() {
 
-		//// Clear all colliders from the collision manager.
-		//_collision_manager->ClearObjects();
+		// Clear all objects from the object manager.
+		_objects.clear();
+
+	}
+	void ObjectManager::DestroyAll() {
 
 		// Trigger all listeners.
 		for (size_t i = 0; i < _listeners.size(); ++i)
 			_listeners[i]->OnInstancesCleared(InstancesClearedEventArgs());
 
-		// Clear all objects from the object manager.
-		_objects.clear();
+		// Call the destroy event for each object.
+		DestroyEventArgs e;
+		for (auto it = _objects.begin(); it != _objects.end(); ++it)
+			(*it)->OnDestroy(e);
+
+		// Clear all objects.
+		ClearAll();
 
 	}
 	Object* ObjectManager::FindInstance(ObjectId id) {
@@ -124,16 +132,44 @@ namespace hvn3 {
 
 	void ObjectManager::OnBeginUpdate(UpdateEventArgs& e) {
 
-		// Run the pre-update procedure for all objects.
-		for (auto it = _objects.begin(); it != _objects.end(); ++it)
-			(*it)->OnBeginUpdate(e);
+		bool removed = false;
+
+		// Call the begin update event for all objects.
+		for (auto it = _objects.begin(); it != _objects.end(); ++it) {
+
+			if ((*it)->IsDestroyed()) {
+				removed = true;
+				(*it)->OnDestroy(DestroyEventArgs());
+			}
+			else if ((*it)->IsActive())
+				(*it)->OnBeginUpdate(e);
+
+		}
+
+		// If any objects were destroyed, remove them from the collection.
+		if (removed)
+			_RemoveDestroyedObjects(_objects.begin(), _objects.end());
 
 	}
 	void ObjectManager::OnUpdate(UpdateEventArgs& e) {
 
-		// Run the primary update procedure for all objects.
-		for (auto it = _objects.begin(); it != _objects.end(); ++it)
-			(*it)->OnUpdate(e);
+		bool removed = false;
+
+		// Call the update event for all objects.
+		for (auto it = _objects.begin(); it != _objects.end(); ++it) {
+
+			if ((*it)->IsDestroyed()) {
+				removed = true;
+				(*it)->OnDestroy(DestroyEventArgs());
+			}
+			else if ((*it)->IsActive())
+				(*it)->OnUpdate(e);
+
+		}
+
+		// If any objects were destroyed, remove them from the collection.
+		if (removed)
+			_RemoveDestroyedObjects(_objects.begin(), _objects.end());
 
 		// Trigger all listeners.
 		for (size_t i = 0; i < _listeners.size(); ++i)
@@ -142,16 +178,31 @@ namespace hvn3 {
 	}
 	void ObjectManager::OnEndUpdate(UpdateEventArgs& e) {
 
-		// Run the post update procedure for all objects.
-		for (auto it = _objects.begin(); it != _objects.end(); ++it)
-			(*it)->OnEndUpdate(e);
+		bool removed = false;
+
+		// Call the end update event for all objects.
+		for (auto it = _objects.begin(); it != _objects.end(); ++it) {
+
+			if ((*it)->IsDestroyed()) {
+				removed = true;
+				(*it)->OnDestroy(DestroyEventArgs());
+			}
+			else if ((*it)->IsActive())
+				(*it)->OnEndUpdate(e);
+
+		}
+
+		// If any objects were destroyed, remove them from the collection.
+		if (removed)
+			_RemoveDestroyedObjects(_objects.begin(), _objects.end());
 
 	}
 	void ObjectManager::OnDraw(DrawEventArgs& e) {
 
 		// Draw all objects.
 		for (auto it = _objects.begin(); it != _objects.end(); ++it)
-			(*it)->OnDraw(e);
+			if ((*it)->IsActive())
+				(*it)->OnDraw(e);
 
 	}
 
@@ -163,9 +214,16 @@ namespace hvn3 {
 	void ObjectManager::RemoveListener(IObjectManagerListener* listener) {
 
 		auto position = std::find(_listeners.begin(), _listeners.end(), listener);
-		
+
 		if (position != _listeners.end())
 			_listeners.erase(position);
+
+	}
+
+
+	void ObjectManager::_RemoveDestroyedObjects(std::vector<ObjectPtr>::iterator begin, std::vector<ObjectPtr>::iterator end) {
+
+		std::remove_if(begin, end, [](const ObjectPtr& obj) { return obj->IsDestroyed(); });
 
 	}
 

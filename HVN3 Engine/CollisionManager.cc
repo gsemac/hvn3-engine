@@ -53,9 +53,9 @@ namespace hvn3 {
 		return true;
 
 	}
-	void CollisionManager::ClearBodies() {
+	void CollisionManager::ClearAll() {
 
-		_broadphase_method->ClearBodies();
+		_broadphase_method->ClearAll();
 
 		_bodies.clear();
 

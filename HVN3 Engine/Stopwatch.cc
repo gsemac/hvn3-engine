@@ -2,69 +2,83 @@
 
 namespace hvn3 {
 
-	typedef std::chrono::high_resolution_clock Clock;
+	typedef std::chrono::high_resolution_clock clock_type;
 
-	Stopwatch::Stopwatch(bool start) {
+	Stopwatch::Stopwatch(bool start_immediately) {
 
-		__initialized = false;
+		// Initialize the starting duration to 0 ns.
+		_nanoseconds_elapsed = 0;
 
-		if (start)
+		// The stopwatch is not currently running.
+		_running = false;
+
+		// Start the stopwatch immediately if requested.
+		if (start_immediately)
 			Start();
 
 	}
 	void Stopwatch::Start() {
 
-		__running = true;
+		// If the stopwatch is running, do nothing.
+		if (_running)
+			return;
 
-		if (!__initialized) {
-			__start = Clock::now();
-			__initialized = true;
-		}
+		// The stopwatch is now running.
+		_running = true;
+
+		// Set the starting time.
+		_start = clock_type::now();
 
 	}
 	void Stopwatch::Stop() {
 
-		__running = false;
-		__end = Clock::now();
+		// If the stopwatch is not running, do nothing.
+		if (!_running)
+			return;
+
+		// The stopwatch is no longer running.
+		_running = false;
+
+		// Update the time elapsed.
+		_nanoseconds_elapsed += std::chrono::duration_cast<std::chrono::nanoseconds>(clock_type::now() - _start).count();
 
 	}
-	void Stopwatch::Reset(bool start) {
+	void Stopwatch::Reset() {
 
-		__start = Clock::now();
-		__end = Clock::now();
-		__running = false;
+		// Reset the time elapsed.
+		_nanoseconds_elapsed = 0;
 
-		if (start)
-			Start();
-
+		// Reset the starting time, in case the stopwatch is running.
+		_start = clock_type::now();
+		
 	}
 
-	long long Stopwatch::NanoSecondsElapsed() {
+	int64_t Stopwatch::NanoSecondsElapsed() {
 
-		if (__running)
-			return std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - __start).count();
+		if (_running)
+			return _nanoseconds_elapsed + std::chrono::duration_cast<std::chrono::nanoseconds>(clock_type::now() - _start).count();
 		else
-			return std::chrono::duration_cast<std::chrono::nanoseconds>(__end - __start).count();
+			return _nanoseconds_elapsed;
 
 	}
-	long double Stopwatch::MicroSecondsElapsed() {
+	double Stopwatch::MicroSecondsElapsed() {
 
-		return NanoSecondsElapsed() / 1000.0F;
-
-	}
-	long double Stopwatch::MilliSecondsElapsed() {
-
-		return MicroSecondsElapsed() / 1000.0F;
+		return NanoSecondsElapsed() / 1.e+3;
 
 	}
-	long double Stopwatch::SecondsElapsed() {
+	double Stopwatch::MilliSecondsElapsed() {
 
-		return MilliSecondsElapsed() / 1000.0F;
+		return NanoSecondsElapsed() / 1.e+6;
 
 	}
-	long double Stopwatch::MinutesElapsed() {
+	double Stopwatch::SecondsElapsed() {
 
-		return SecondsElapsed() / 60.0F;
+		return NanoSecondsElapsed() / 1.e+9;
+
+	}
+	double Stopwatch::MinutesElapsed() {
+
+		return NanoSecondsElapsed() / 6.e+10;
 
 	}
 

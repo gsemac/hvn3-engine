@@ -4,8 +4,6 @@
 
 namespace hvn3 {
 
-	class RoomBase;
-
 	class ViewManager : public IViewManager {
 
 	public:

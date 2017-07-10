@@ -26,7 +26,7 @@ namespace hvn3 {
 
 	Runner::Runner(hvn3::Properties& properties, RoomManager& room_manager) :
 		_properties(properties),
-		__timer(1.0f / properties.FPS),
+		_timer(1.0f / properties.FPS),
 		_display(properties.DisplaySize.Width(), properties.DisplaySize.Height(), properties.DisplayTitle.c_str(), properties.DisplayFlags),
 		_graphics(_display.BackBuffer()),
 		_room_manager(room_manager) {
@@ -37,28 +37,28 @@ namespace hvn3 {
 		_display_was_fullscreen = _display.IsFullscreen();
 
 		// Initialize the event queue.
-		__event_queue.AddEventSource(_display.EventSource());
-		__event_queue.AddEventSource(__timer.EventSource());
-		__event_queue.AddEventSource(Mouse::EventSource());
-		__event_queue.AddEventSource(Keyboard::EventSource());
+		_event_queue.AddEventSource(_display.EventSource());
+		_event_queue.AddEventSource(_timer.EventSource());
+		_event_queue.AddEventSource(Mouse::EventSource());
+		_event_queue.AddEventSource(Keyboard::EventSource());
 
 		// Initialize mouse parameters.
 		if (!properties.DisplayCursor)
 			Mouse::HideCursor();
 
 		// Initialize other member variables.
-		__allow_redraw = true;
-		__exit_loop = false;
-		__default_font = nullptr;
+		_allow_redraw = true;
+		_exit_loop = false;
+		_default_font = nullptr;
 
 	}
 	Runner::~Runner() {
 
 		// Dispose of resources.
 
-		if (__default_font)
-			delete __default_font;
-		__default_font = nullptr;
+		if (_default_font)
+			delete _default_font;
+		_default_font = nullptr;
 
 		//if (__graphics)
 		//	delete __graphics;
@@ -83,7 +83,10 @@ namespace hvn3 {
 	}
 	void Runner::Update(UpdateEventArgs& e) {
 
-		if (_room_manager.RoomCount() > 0 && (!Properties().FreezeWhenLostFocus || _display.HasFocus()) && __frames_skipped++ <= Properties().MaxFrameSkip) {
+		if (_room_manager.RoomCount() > 0 && (!Properties().FreezeWhenLostFocus || _display.HasFocus()) && _frames_skipped++ <= Properties().MaxFrameSkip) {
+
+			// Reset the delta timer.
+			_delta_timer.Reset();
 
 			// Update the active room.
 			_room_manager.Update(e);
@@ -94,7 +97,7 @@ namespace hvn3 {
 				_display_was_fullscreen = _display.IsFullscreen();
 			}
 
-#ifdef HVN3_DEBUG
+#if defined(HVN3_DEBUG) && defined(HVN3_DEBUG_CONSOLE)
 			// Draw stats in the console window in debug mode. Limiting rate helps with flickering.
 			if (Properties().DebugMode) {
 				Console::Clear();
@@ -104,7 +107,7 @@ namespace hvn3 {
 				Console::Write("Instances: ");
 				Console::WriteLine(_room_manager.CurrentRoom()->Objects()->InstanceCount());
 				if (_room_manager.CurrentRoom()->Collisions()) {
-					Console::Write("Collision Bodies: ");
+					Console::Write("\nCollision Bodies: ");
 				}
 				Console::WriteLine("------------------------------");
 				Console::WriteLine(" Global");
@@ -121,7 +124,7 @@ namespace hvn3 {
 
 		// Wait for the next event.
 		Event ev;
-		__event_queue.WaitForEvent(ev);
+		_event_queue.WaitForEvent(ev);
 
 		// Handle the next event depending on its type.
 		switch (ev.Type()) {
@@ -181,7 +184,7 @@ namespace hvn3 {
 		}
 
 		// Redraw the display surface when the event queue is empty.
-		if (__allow_redraw && __event_queue.IsEmpty())
+		if (_allow_redraw && _event_queue.IsEmpty())
 			OnRedraw();
 
 	}
@@ -191,10 +194,13 @@ namespace hvn3 {
 		OnRedraw();
 
 		// Start the timer.
-		__timer.Start();
+		_timer.Start();
+
+		// Start the frame delta timer.
+		_delta_timer.Start();
 
 		// Run the update loop.
-		while (!__exit_loop)
+		while (!_exit_loop)
 			WaitForEvent();
 
 		// Call the destructor so resources can be disposed before the framework is shut down.
@@ -224,17 +230,14 @@ namespace hvn3 {
 		_graphics.DrawText(10, 10, ss.str().c_str(), SystemFont(), Color::White);
 
 		// Reset the FPS timer.
-		fps_timer.Reset(true);
+		fps_timer.Reset();
 
 	}
 
 	void Runner::OnTimerTick(Event& ev) {
-
-		// Initialize the delta timer. At some point, the frame timer could be used for this.
-		static Stopwatch delta_timer(true);
-
+		
 		// Update the state of the game.
-		Update(UpdateEventArgs(delta_timer.SecondsElapsed()));
+		Update(UpdateEventArgs(_delta_timer.SecondsElapsed()));
 
 		// Update the mouse position.
 		RecalculateMousePosition();
@@ -245,16 +248,13 @@ namespace hvn3 {
 		// Unset all pressed/released mouse buttons so the values will be false until next triggered.
 		Mouse::MouseController::ResetButtonStates(true, true, false);
 
-		// Reset the delta timer.
-		delta_timer.Reset(true);
-
 		// Allow redrawing, since actors have been updated.
-		__allow_redraw = true;
+		_allow_redraw = true;
 
 	}
 	void Runner::OnDisplayClose(Event& ev) {
 
-		__exit_loop = true;
+		_exit_loop = true;
 
 	}
 	void Runner::OnKeyDown(Event& ev) {
@@ -268,7 +268,7 @@ namespace hvn3 {
 
 		// Exit the loop if the escape key has been pressed.
 		if (ev.AlPtr()->keyboard.keycode == ALLEGRO_KEY_ESCAPE && Properties().ExitWithEscapeKey)
-			__exit_loop = true;
+			_exit_loop = true;
 
 	}
 	void Runner::OnKeyUp(Event& ev) {
@@ -380,10 +380,15 @@ namespace hvn3 {
 		System::DisplayController(&_display).SetFocus(false);
 		Keyboard::StateAccessor::ResetKeyStates();
 
+		if (Properties().FreezeWhenLostFocus)
+			_delta_timer.Stop();
+
 	}
 	void Runner::OnDisplaySwitchIn(Event& ev) {
 
 		System::DisplayController(&_display).SetFocus(true);
+
+		_delta_timer.Start();
 
 	}
 	void Runner::OnRedraw() {
@@ -401,19 +406,19 @@ namespace hvn3 {
 		_display.Refresh();
 
 		// Redrawing will be disabled until the event queue is cleared.
-		__allow_redraw = false;
+		_allow_redraw = false;
 
 		// Reset the skipped frame count.
-		__frames_skipped = 0;
+		_frames_skipped = 0;
 
 	}
 
 	const Font* Runner::SystemFont() {
 
-		if (!__default_font)
-			__default_font = new Font(Font::BuiltIn());
+		if (!_default_font)
+			_default_font = new Font(Font::BuiltIn());
 
-		return __default_font;
+		return _default_font;
 
 	}
 
@@ -422,7 +427,7 @@ namespace hvn3 {
 		return _properties;
 
 	}
-	RoomBase* Runner::CurrentRoom() {
+	IRoom* Runner::CurrentRoom() {
 
 		return _room_manager.CurrentRoom();
 
@@ -435,7 +440,7 @@ namespace hvn3 {
 			return;
 
 		// Get a reference to the current room.
-		RoomBase& room = *_room_manager.CurrentRoom();
+		IRoom& room = *_room_manager.CurrentRoom();
 
 		// For scaling, we need to consider the largest view, or the size of the room if no views are enabled.
 		RectangleF room_region = room.GetVisibleRegion();
@@ -495,7 +500,7 @@ namespace hvn3 {
 		if (_room_manager.RoomCount() <= 0)
 			return;
 
-		RoomBase& room = *_room_manager.CurrentRoom();
+		IRoom& room = *_room_manager.CurrentRoom();
 
 		if (room.Views()->ViewCount()) {
 

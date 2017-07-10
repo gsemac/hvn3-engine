@@ -20,7 +20,7 @@ namespace hvn3 {
 		const ICollisionBody* GetBody(key_type key) const override;
 		ICollisionBody* CreateBody(key_type key) override;
 		bool RemoveBody(key_type key) override;
-		void ClearBodies() override;
+		void ClearAll() override;
 		IBroadPhaseCollisionManager* BroadPhase() override;
 		void OnUpdate(UpdateEventArgs& e) override;
 

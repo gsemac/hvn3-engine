@@ -20,7 +20,7 @@ namespace hvn3 {
 		// Removes the body from the manager with the given key. Returns true if a body was removed.
 		virtual bool RemoveBody(key_type key) = 0;
 		// Clears all bodies from the manager.
-		virtual void ClearBodies() = 0;
+		virtual void ClearAll() = 0;
 
 		// Returns true if the body collides with any other body at the given position.
 		virtual bool PlaceFree(ICollisionBody* body, const PointF& position) = 0;

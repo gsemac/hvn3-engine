@@ -5,7 +5,7 @@ namespace hvn3 {
 	ObjectBase::ObjectBase() {
 
 		_is_destroyed = false;
-		_active = false;
+		_active = true;
 		_flags = static_cast<ObjectFlags>(0);
 
 	}

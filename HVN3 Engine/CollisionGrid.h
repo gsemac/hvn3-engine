@@ -14,7 +14,7 @@ namespace hvn3 {
 
 		void AddBody(ICollisionBody* body) override;
 		bool RemoveBody(ICollisionBody* body) override;
-		void ClearBodies() override;
+		void ClearAll() override;
 		void OnUpdate(UpdateEventArgs& e) override;
 		const collider_pair_collection_type& FindPairs() override;
 		collider_type* Pick(const PointF& point) const override;

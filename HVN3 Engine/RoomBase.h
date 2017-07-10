@@ -1,54 +1,179 @@
 #pragma once
 #include "IRoom.h"
 #include "UniquePolymorphicCreateableBase.h"
-#include "ObjectManager.h"
 
 namespace hvn3 {
 
 	typedef int RoomId;
 
-	class RoomBase : public IRoom, public UniquePolymorphicCreateableBase<RoomBase> {
-		friend class RoomController;
+	template <typename object_manager_type>
+	class RoomBase : public IRoom, public UniquePolymorphicCreateableBase<IRoom> {
 
 	public:
-		RoomBase(RoomId id, const SizeI& size);
+		RoomBase(RoomId id, const SizeI& size) :
+			IRoom(size) {
+
+			_id = id;
+
+			// Set the default background color.
+			_background_color = Color::Silver;
+
+			// The current View is 0 because no views have been added yet. When drawing occurs, this value corresponds to the view currently being drawn.
+			_persistent = false;
+			_set_up = false;
+
+		}
 		virtual ~RoomBase() = default;
 
-		virtual void OnUpdate(UpdateEventArgs& e) override;
-		virtual void OnDraw(DrawEventArgs& e) override;
-		virtual void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e) override;
+		virtual void OnUpdate(UpdateEventArgs& e) override {
 
-		virtual const View* CurrentView() const override;
+			_obj_manager.OnBeginUpdate(e);
+			_obj_manager.OnUpdate(e);
+			_obj_manager.OnEndUpdate(e);
 
-		const IObjectManager* Objects() const override;
-		virtual IObjectManager* Objects() override;
-		virtual const IBackgroundManager* Backgrounds() const override;
-		virtual IBackgroundManager* Backgrounds() override;
-		virtual const IViewManager* Views() const override;
-		virtual IViewManager* Views() override;
-		virtual const ICollisionManager<Object*>* Collisions() const override;
-		virtual ICollisionManager<Object*>* Collisions() override;
-		virtual const Physics::IPhysicsManager<Object*>* Physics() const override;
-		virtual Physics::IPhysicsManager<Object*>* Physics() override;
+		}
+		virtual void OnDraw(DrawEventArgs& e) override {
 
-		RoomId Id() const override;
-		virtual RectangleF GetVisibleRegion() override;
+			// Save the current graphics state.
+			Drawing::Transform original_tranform(e.Graphics().GetTransform());
+			RectangleF original_clip(e.Graphics().Clip());
 
-		void SetBackgroundColor(const Color& color) override;
-		const Color& BackgroundColor() const override;
+			// Render the room state.
+			OnRender(e);
 
-		bool Persistent() const override;
-		void SetPersistent(bool value) override;
+			// Restore the previous graphics state.
+			e.Graphics().SetTransform(original_tranform);
+			e.Graphics().SetClip(original_clip);
+
+		}
+		virtual void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e) override {}
+
+		virtual const View* CurrentView() const override {
+
+			return nullptr;
+
+		}
+
+		const IObjectManager* Objects() const override {
+
+			return &_obj_manager;
+
+		}
+		virtual IObjectManager* Objects() override {
+
+			return &_obj_manager;
+
+		}
+		virtual const IBackgroundManager* Backgrounds() const override {
+
+			return nullptr;
+
+		}
+		virtual IBackgroundManager* Backgrounds() override {
+
+			return nullptr;
+
+		}
+		virtual const IViewManager* Views() const override {
+
+			return nullptr;
+
+		}
+		virtual IViewManager* Views() override {
+
+			return nullptr;
+
+		}
+		virtual const ICollisionManager<Object*>* Collisions() const override {
+
+			return nullptr;
+
+		}
+		virtual ICollisionManager<Object*>* Collisions() override {
+
+			return nullptr;
+
+		}
+		virtual const Physics::IPhysicsManager<Object*>* Physics() const override {
+
+			return nullptr;
+
+		}
+		virtual Physics::IPhysicsManager<Object*>* Physics() override {
+
+			return nullptr;
+
+		}
+
+		RoomId Id() const override {
+
+			return _id;
+
+		}
+		virtual RectangleF GetVisibleRegion() override {
+
+			return RectangleF(0, 0, Width(), Height());
+
+		}
+
+		void SetBackgroundColor(const Color& color) override {
+
+			_background_color = color;
+
+		}
+		const Color& BackgroundColor() const override {
+
+			return _background_color;
+
+		}
+
+		bool Persistent() const override {
+
+			return _persistent;
+
+		}
+		void SetPersistent(bool value) override {
+
+			_persistent = value;
+
+		}
 
 	protected:
-		virtual void OnRoomEnter(RoomEnterEventArgs& e) override;
-		virtual void OnRoomExit(RoomExitEventArgs& e) override;
-		virtual void OnSetUp() override;
-		virtual void OnReset() override;
-		virtual void OnRender(DrawEventArgs& e) override;
+		virtual void OnRoomEnter(RoomEnterEventArgs& e) override {}
+		virtual void OnRoomExit(RoomExitEventArgs& e) override {}
+		virtual void OnSetUp() override {
+		
+			_set_up = true;
+
+		}
+		bool IsSetUp() const {
+
+			return _set_up;
+
+		}
+		virtual void OnReset() override {
+
+			// Clear all objects, but don't bother calling their destroy events.
+			_obj_manager.ClearAll();
+
+			// Reset members to default values.
+			_background_color = Color::Black;
+
+			_set_up = false;
+
+		}
+		virtual void OnRender(DrawEventArgs& e) override {
+
+			// Clear to background color.
+			e.Graphics().Clear(_background_color);
+
+			// Draw all objects.
+			_obj_manager.OnDraw(e);
+
+		}
 
 	private:
-		ObjectManager _obj_manager;
+		object_manager_type _obj_manager;
 
 		RoomId _id;
 		Color _background_color;

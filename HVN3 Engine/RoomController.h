@@ -1,27 +1,30 @@
 #pragma once
 #include "RoomEnterEventArgs.h"
 #include "RoomExitEventArgs.h"
+#include "RoomBase.h"
 
 namespace hvn3 {
 
-	class RoomBase;
+	class IRoom;
 
-	class RoomController {
+	namespace System {
 
-	public:
-		RoomController(RoomBase& room);
+		class RoomController {
 
-		void SetUp();
-		bool IsSetUp() const;
-		void SetSetUp(bool value);
-		void Reset();
+		public:
+			RoomController(IRoom* room);
 
-		void CallRoomEnterEvent(RoomEnterEventArgs& e);
-		void CallRoomExitEvent(RoomExitEventArgs& e);
+			void SetUp();
+			bool IsSetUp() const;
+			void Reset();
 
-	private:
-		RoomBase* _room;
+			void CallRoomEnterEvent(RoomEnterEventArgs& e);
+			void CallRoomExitEvent(RoomExitEventArgs& e);
 
-	};
+		private:
+			IRoom* _room;
 
+		};
+
+	}
 }

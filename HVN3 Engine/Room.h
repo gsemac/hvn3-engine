@@ -4,11 +4,13 @@
 #include "ViewManager.h"
 #include "CollisionManager.h"
 #include "IPhysicsManager.h"
+#include "UniqueCreateableBase.h"
+#include "ObjectManager.h"
 
 namespace hvn3 {
 
 	// This class extends the responsibilites of the room class to include background, tile, and view management.
-	class Room : public RoomBase {
+	class Room : public RoomBase<ObjectManager> {
 
 	public:
 		Room(RoomId id, const SizeI& size);

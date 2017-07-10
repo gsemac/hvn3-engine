@@ -125,7 +125,7 @@ public:
 		Object::OnUpdate(e);
 
 		float r = _radius;
-		RoomBase* room = MyGame.Rooms().CurrentRoom();
+		IRoom* room = MyGame.Rooms().CurrentRoom();
 
 		if ((Y() - r < 0 && _velocity.Y() < 0) || (Y() + r > room->Height() && _velocity.Y() > 0))
 			_velocity.SetY(-_velocity.Y());
@@ -323,8 +323,59 @@ private:
 
 };
 
-int main(int argc, char *argv[]) {
+class FreeFpsBall : public Object {
 
+public:
+	FreeFpsBall() : Object(0, PointF(0, 300)) {
+	
+		_delay = 0;
+		_elapsed.Start();
+
+	}
+	void OnUpdate(UpdateEventArgs& e) override {
+
+		SetX(X() + 500 * e.Delta());
+		//std::cout << e.Delta() << std::endl;
+		if (X() > MyGame.Rooms().CurrentRoom()->Width()) {
+			SetX(0);
+			std::cout << "TIME ELAPSED: " << _elapsed.SecondsElapsed() << std::endl;
+			_elapsed.Reset();
+		}
+
+		if (Keyboard::KeyPressed(Key::KeyPadPlus))
+			_delay += 100;
+		if (Keyboard::KeyPressed(Key::KeyPadMinus))
+			_delay -= 100;
+
+		Threading::Thread::Sleep(_delay);
+
+	}
+	void OnDraw(DrawEventArgs& e) override {
+
+		e.Graphics().DrawFilledCircle(Position(), 15, Color::Red);
+
+	}
+
+private:
+	long _delay;
+	Stopwatch _elapsed;
+
+};
+
+class TestRoom2 : public MyRoom {
+
+public:
+	TestRoom2() : MyRoom(960, 720) {}
+
+private:
+	void OnSetUp() override {
+		Objects()->AddInstance(Object::Create<FreeFpsBall>());
+	}
+
+};
+
+int main(int argc, char *argv[]) {
+	
 	// Initialize game properties.
 	MyGame.Initialize(argc, argv);
 	MyGame.Properties().DebugMode = false;
@@ -344,6 +395,7 @@ int main(int argc, char *argv[]) {
 	SizeI large_size(MyGame.Properties().DisplaySize.Width() * 2, MyGame.Properties().DisplaySize.Height() * 2);
 	SizeI medium_size(1000, 800);
 	SizeI small_size(640, 480);
+	MyGame.Rooms().AddRoom(Room::Create<TestRoom2>());
 	MyGame.Rooms().AddRoom(Room::Create<editor::LevelEditor>(large_size, MyGame.Properties().DisplaySize));
 	//MyGame.Rooms().AddRoom(Room::Create<TestRoom>());
 	MyGame.Rooms().SetRoomTransition(RoomTransitionFade::Create(Color::Black, true));

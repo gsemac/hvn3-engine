@@ -1,42 +1,37 @@
 #include "RoomController.h"
-#include "RoomBase.h"
+#include "IRoom.h"
 
 namespace hvn3 {
+	namespace System {
 
-	RoomController::RoomController(RoomBase& room) : _room(&room) {}
+		RoomController::RoomController(IRoom* room) : _room(room) {}
 
-	void RoomController::SetUp() {
+		void RoomController::SetUp() {
 
-		_room->OnSetUp();
-		SetSetUp(true);
+			_room->OnSetUp();
 
-	}
-	bool RoomController::IsSetUp() const {
+		}
+		bool RoomController::IsSetUp() const {
 
-		return _room->_set_up;
+			return _room->IsSetUp();
 
-	}
-	void RoomController::SetSetUp(bool value) {
+		}
+		void RoomController::Reset() {
 
-		_room->_set_up = value;
+			_room->OnReset();
 
-	}
-	void RoomController::Reset() {
+		}
 
-		_room->OnReset();
-		SetSetUp(false);
+		void RoomController::CallRoomEnterEvent(RoomEnterEventArgs& e) {
 
-	}
+			_room->OnRoomEnter(e);
 
-	void RoomController::CallRoomEnterEvent(RoomEnterEventArgs& e) {
+		}
+		void RoomController::CallRoomExitEvent(RoomExitEventArgs& e) {
 
-		_room->OnRoomEnter(e);
+			_room->OnRoomExit(e);
 
-	}
-	void RoomController::CallRoomExitEvent(RoomExitEventArgs& e) {
-
-		_room->OnRoomExit(e);
+		}
 
 	}
-
 }

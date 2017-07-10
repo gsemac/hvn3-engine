@@ -23,14 +23,14 @@ namespace hvn3 {
 		RoomManager();
 		~RoomManager();
 
-		void AddRoom(std::unique_ptr<RoomBase>& room);
+		void AddRoom(std::unique_ptr<IRoom>& room);
 		void GotoRoom(RoomId id);
 		void LoadNext();
 		void LoadPrevious();
 
 		void RestartRoom();
 		void ClearRoom();
-		RoomBase* CurrentRoom();
+		IRoom* CurrentRoom();
 		size_t CurrentRoomIndex() const;
 		size_t RoomCount() const;
 
@@ -42,7 +42,7 @@ namespace hvn3 {
 	protected:
 		void LoadRoom(size_t room_index);
 		size_t FindRoomIndex(RoomId id) const;
-		size_t FindRoomIndex(const std::unique_ptr<RoomBase>& room) const;
+		size_t FindRoomIndex(const std::unique_ptr<IRoom>& room) const;
 
 		// If the current room is not null, resets the room and calls the on exit event; otherwise, does nothing.
 		void ExitCurrentRoom();
@@ -53,7 +53,7 @@ namespace hvn3 {
 	private:
 		size_t _current_room;
 		size_t _next_room;
-		std::vector<std::unique_ptr<RoomBase>> _rooms;
+		std::vector<std::unique_ptr<IRoom>> _rooms;
 		bool _restart_pending;
 		ROOM_TRANSITION_STATE _room_transition_state;
 		std::unique_ptr<IRoomTransition> _transition;

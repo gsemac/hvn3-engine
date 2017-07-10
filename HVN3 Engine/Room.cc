@@ -1,10 +1,11 @@
 #include "Room.h"
 #include "CollisionGrid.h"
+#include "ObjectManager.h"
 
 namespace hvn3 {
 
 	Room::Room(RoomId id, const SizeI& size) :
-		RoomBase(id, size),
+		RoomBase<ObjectManager>(id, size),
 		_rendering_view(0),
 		_collision_manager(std::unique_ptr<IBroadPhaseCollisionManager>(new CollisionGrid(32, 32))) {
 
@@ -160,7 +161,10 @@ namespace hvn3 {
 
 	void Room::OnReset() {
 
-		// Reset room.
+		// Clear all bodies from the collision manager.
+		_collision_manager.ClearAll();
+
+		// Reset base (clears all objects).
 		RoomBase::OnReset();
 
 		// Reset the view manager.

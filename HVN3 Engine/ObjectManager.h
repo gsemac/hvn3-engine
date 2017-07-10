@@ -12,7 +12,8 @@ namespace hvn3 {
 		ObjectManager();
 
 		virtual void AddInstance(ObjectPtr& object) override;
-		virtual void Clear() override;
+		virtual void ClearAll() override;
+		virtual void DestroyAll() override;
 
 		virtual Object* FindInstance(ObjectId id) override;
 		virtual Object* FindNextInstance(ObjectId id) override;
@@ -33,6 +34,8 @@ namespace hvn3 {
 		std::vector<IObjectManagerListener*> _listeners;
 		ObjectId _last_found_id;
 		size_t _last_found_index;
+
+		void _RemoveDestroyedObjects(std::vector<ObjectPtr>::iterator begin, std::vector<ObjectPtr>::iterator end);
 
 	};
 

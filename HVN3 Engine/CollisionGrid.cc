@@ -37,7 +37,7 @@ namespace hvn3 {
 		return true;
 
 	}
-	void CollisionGrid::ClearBodies() {
+	void CollisionGrid::ClearAll() {
 
 		_grid.clear();
 		_colliders.clear();

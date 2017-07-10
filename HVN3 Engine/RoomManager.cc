@@ -29,14 +29,14 @@ namespace hvn3 {
 
 	}
 
-	void RoomManager::AddRoom(std::unique_ptr<RoomBase>& room) {
+	void RoomManager::AddRoom(std::unique_ptr<IRoom>& room) {
 
 		// Add the new room.
 		_rooms.push_back(std::move(room));
 
 		// If this is the first room we've added and it hasn't been set up, set it up.
 		if (_rooms.size() == 1) {
-			RoomController controller(*CurrentRoom());
+			System::RoomController controller(CurrentRoom());
 			controller.CallRoomEnterEvent(RoomEnterEventArgs());
 			if (!controller.IsSetUp())
 				controller.SetUp();
@@ -100,11 +100,11 @@ namespace hvn3 {
 
 		// Reset the state of the current room without calling any events.
 		// #todo This should be pending; it shouldn't happen immediately.
-		RoomController(*CurrentRoom()).Reset();
+		System::RoomController(CurrentRoom()).Reset();
 
 	}
 
-	RoomBase* RoomManager::CurrentRoom() {
+	IRoom* RoomManager::CurrentRoom() {
 
 		if (_current_room >= 0 && _current_room < _rooms.size())
 			return _rooms[_current_room].get();
@@ -177,7 +177,7 @@ namespace hvn3 {
 		if (_restart_pending) {
 
 			// Create a controller object for the current room.
-			RoomController controller(*CurrentRoom());
+			System::RoomController controller(CurrentRoom());
 
 			// Reset the state of the room.
 			controller.Reset();
@@ -207,8 +207,8 @@ namespace hvn3 {
 	void RoomManager::LoadRoom(size_t room_index) {
 
 		// Create room controllers for the current room and the next room.
-		RoomController current_room_controller(*CurrentRoom());
-		RoomController next_room_controller(*_rooms[room_index]);
+		System::RoomController current_room_controller(CurrentRoom());
+		System::RoomController next_room_controller(_rooms[room_index].get());
 
 		// If the current room has been set up and isn't persistent, reset it.
 		if (current_room_controller.IsSetUp() && !CurrentRoom()->Persistent())
@@ -239,7 +239,7 @@ namespace hvn3 {
 		return _rooms.size();
 
 	}
-	size_t RoomManager::FindRoomIndex(const std::unique_ptr<RoomBase>& room) const {
+	size_t RoomManager::FindRoomIndex(const std::unique_ptr<IRoom>& room) const {
 
 		// Look through the list for a room with the same pointer.
 		for (size_t i = 0; i < _rooms.size(); ++i)
@@ -255,7 +255,7 @@ namespace hvn3 {
 
 		// Call the room exit event for the current room.
 		if (_rooms.size() >= 1) {
-			RoomController controller(*CurrentRoom());
+			System::RoomController controller(CurrentRoom());
 			controller.Reset();
 			controller.CallRoomExitEvent(RoomExitEventArgs());
 		}

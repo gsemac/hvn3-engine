@@ -5,8 +5,6 @@
 
 namespace hvn3 {
 
-	class RoomBase;
-
 	class BackgroundManager : public IBackgroundManager {
 
 		typedef std::pair<ResourceHandle<Background>, BackgroundProperties> bg_type;
