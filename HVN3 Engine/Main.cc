@@ -2,8 +2,7 @@
 #include "LevelEditor.h"
 #include "CollisionManager.h"
 #include "CollisionGrid.h"
-#include "Console.h"
-#include "Thread.h"
+#include "gui/Gui.h"
 using namespace hvn3;
 using namespace hvn3::Gui;
 
@@ -74,10 +73,10 @@ public:
 
 	void OnUpdate(UpdateEventArgs& e) override {
 
-		if (Keyboard::KeyPressed(ALLEGRO_KEY_F5))
+		if (Keyboard::KeyPressed(Key::F5))
 			MyGame.Rooms().GotoRoom(MyGame.Rooms().CurrentRoom()->Id());
 
-		if (Keyboard::KeyPressed(ALLEGRO_KEY_O)) {
+		if (Keyboard::KeyPressed(Key::O)) {
 			std::cout << MyGame.Resources().Tilesets()[TILESET_1]->TileCount();
 		}
 
@@ -183,7 +182,7 @@ public:
 
 		ICollisionBody* body = MyGame.Collisions().CreateBody(this);
 
-		body->SetHitMask(CircleHitMask::Create(10));
+		body->SetHitMask(CircleHitMask::Create(10.0f));
 		body->Filter().SetCategoryBits(0b001);
 		body->Filter().SetMaskBits(0b010);
 
@@ -230,19 +229,6 @@ public:
 private:
 	PointF _last_position;
 	ICollisionBody* _body;
-
-};
-
-class oSpriteableObject : public Object, public SpriteableBase {
-
-public:
-	oSpriteableObject() :
-		Object(NoOne, PointF()),
-		SpriteableBase(MyGame.Resources().Sprites(BACKGROUND_1)) {
-
-		SetX(5);
-
-	}
 
 };
 

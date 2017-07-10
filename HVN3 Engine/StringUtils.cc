@@ -75,7 +75,7 @@ namespace hvn3 {
 	}
 	bool StringUtils::IsNumeric(int ch) {
 
-		return isdigit(ch);
+		return !(isdigit(ch) == 0);
 
 	}
 

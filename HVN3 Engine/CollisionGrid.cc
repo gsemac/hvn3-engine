@@ -257,11 +257,11 @@ namespace hvn3 {
 			PointI cell = (*i).first;
 
 			e.Graphics().DrawRectangle(
-				cell.X() * _cell_size.Width(),
-				cell.Y() * _cell_size.Width(),
-				_cell_size.Width(),
-				_cell_size.Height(),
-				Color::Fuchsia, 1);
+				static_cast<float>(cell.X() * _cell_size.Width()),
+				static_cast<float>(cell.Y() * _cell_size.Width()),
+				static_cast<float>(_cell_size.Width()),
+				static_cast<float>(_cell_size.Height()),
+				Color::Fuchsia, 1.0f);
 
 		}
 

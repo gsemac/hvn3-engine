@@ -1,40 +1,35 @@
-#ifndef IP_ADDRESS_H
-#define IP_ADDRESS_H
+#pragma once
 #include <string>
-#include "IStringable.h"
+#include <iostream>
 
 namespace hvn3 {
 	namespace Net {
 
-		class IPAddress : public IStringable {
-
-		private:
-			unsigned int __address;
-			unsigned short __port;
+		class IPAddress {
 
 		public:
-			IPAddress(unsigned char a, unsigned char b, unsigned char c, unsigned char d, unsigned short port = 0);
-			IPAddress(unsigned int address, unsigned short port = 0);
-			IPAddress() {
+			IPAddress(unsigned char a, unsigned char b, unsigned char c, unsigned char d);
+			IPAddress(unsigned int address);
+			IPAddress(const char* address);
 
-				__address = 0;
-				__port = 0;
+			// Returns object representing the address 127.0.0.1.
+			static IPAddress LocalHost();
 
-			}
-
-			static IPAddress LocalHost(unsigned short port = 0);
-
+			// Returns integer representation of the address.
 			unsigned int Address() const;
-			unsigned short Port() const;
 
-			bool operator == (const IPAddress& other) const;
-			bool operator != (const IPAddress& other) const;
+			bool operator==(const IPAddress& other) const;
+			bool operator!=(const IPAddress& other) const;
 
-			std::string ToString();
+			// Returns string representation of the address.
+			std::string ToString() const;
+
+		private:
+			unsigned int _address;
 
 		};
 
+		std::ostream& operator << (std::ostream& stream, const IPAddress& value);
+
 	}
 }
-
-#endif

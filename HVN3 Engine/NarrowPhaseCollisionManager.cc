@@ -1,8 +1,6 @@
 #include "NarrowPhaseCollisionManager.h"
-#include "Collider.h"
 #include "Sprite.h"
 #include "Vector2d.h"
-#include "SpriteMask.h"
 #include "ICollisionBody.h"
 #include "Direction8.h"
 #include <allegro5/allegro.h>
@@ -116,15 +114,15 @@ namespace hvn3 {
 		return false;
 
 	}
-	bool NarrowPhaseCollisionManager::TestIntersection(const SpriteMask& mask, const CircleF& circle, const PointF& pos) const {
+	//bool NarrowPhaseCollisionManager::TestIntersection(const SpriteMask& mask, const CircleF& circle, const PointF& pos) const {
 
-		// Adjust Point of Circle to be relative to the (0, 0)-based SpriteMask.
-		PointF adj = PointF(circle.X() - pos.X(), circle.Y() - pos.Y());
-		CircleF c = CircleF(adj, circle.Radius());
+	//	// Adjust Point of Circle to be relative to the (0, 0)-based SpriteMask.
+	//	PointF adj = PointF(circle.X() - pos.X(), circle.Y() - pos.Y());
+	//	CircleF c = CircleF(adj, circle.Radius());
 
-		// Check for intersection.
-		return mask.Intersects(c);
+	//	// Check for intersection.
+	//	return mask.Intersects(c);
 
-	}
+	//}
 
 }

@@ -18,7 +18,7 @@ namespace hvn3 {
 		// Returns true if the axis-aligned Sprite intersects with the Circle at the specific position.
 		bool TestIntersection(Sprite* sprite, const CircleF& circle, const PointF& pos) const;
 		// Returns true if the SpriteMask intersects with the Circle at the specified position.
-		bool TestIntersection(const SpriteMask& mask, const CircleF& circle, const PointF& pos) const;
+		//bool TestIntersection(const SpriteMask& mask, const CircleF& circle, const PointF& pos) const;
 
 	};
 

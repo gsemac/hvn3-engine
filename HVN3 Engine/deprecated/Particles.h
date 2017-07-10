@@ -6,7 +6,6 @@
 #include "Positionable2dBase.h"
 #include "IUpdatable.h"
 #include "IDrawable.h"
-#include "SpriteableBase.h"
 #include "Vector2d.h"
 #include "UpdateEventArgs.h"
 #include "DrawEventArgs.h"
@@ -56,7 +55,7 @@ namespace hvn3 {
 	class Emitter : public Positionable2dBase<float>, public IUpdatable, public IDrawable {
 
 	private:
-		class Particle : public Positionable2dBase<float>, public SpriteableBase, public IUpdatable, public IDrawable {
+		class Particle : public Positionable2dBase<float>, public IUpdatable, public IDrawable {
 
 		private:
 			int __sprite_index;

@@ -2,7 +2,6 @@
 #include "ObjectBase.h"
 #include "SharedCreatableBase.h"
 #include "Positionable2dBase.h"
-#include "Collider.h"
 #include "ICollidable.h"
 
 namespace hvn3 {

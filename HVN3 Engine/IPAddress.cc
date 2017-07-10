@@ -1,63 +1,72 @@
 #include <sstream>
+#include <cstdio>
 #include "IPAddress.h"
+#ifdef _WIN32
+#define sscanf sscanf_s
+#endif
 
 namespace hvn3 {
 	namespace Net {
 
-		IPAddress::IPAddress(unsigned char a, unsigned char b, unsigned char c, unsigned char d, unsigned short port) {
+		IPAddress::IPAddress(unsigned char a, unsigned char b, unsigned char c, unsigned char d) {
 
-			__address = (a << 24) | (b << 16) | (c << 8) | d;
-			__port = port;
-
-		}
-		IPAddress::IPAddress(unsigned int address, unsigned short port) {
-
-			__address = address;
-			__port = port;
+			_address = (a << 24) | (b << 16) | (c << 8) | d;
 
 		}
+		IPAddress::IPAddress(unsigned int address) {
 
-		IPAddress IPAddress::LocalHost(unsigned short port) {
+			_address = address;
 
-			return IPAddress(127, 0, 0, 1, port);
+		}
+		IPAddress::IPAddress(const char* address) {
+
+			unsigned short a, b, c, d;
+			sscanf(address, "%hu.%hu.%hu.%hu", &a, &b, &c, &d);
+			_address = (a << 24) | (b << 16) | (c << 8) | d;
+
+		}
+
+		IPAddress IPAddress::LocalHost() {
+
+			return IPAddress(127, 0, 0, 1);
 
 		}
 
 		unsigned int IPAddress::Address() const {
 
-			return __address;
-
-		}
-		unsigned short IPAddress::Port() const {
-
-			return __port;
+			return _address;
 
 		}
 
-		bool IPAddress::operator == (const IPAddress& other) const {
+		bool IPAddress::operator==(const IPAddress& other) const {
 
-			return (__address == other.__address) && (__port == other.__port);
+			return (_address == other._address);
 
 		}
-		bool IPAddress::operator != (const IPAddress& other) const {
+		bool IPAddress::operator!=(const IPAddress& other) const {
 
 			return  !(*this == other);
 
 		}
 
-		std::string IPAddress::ToString() {
+		std::string IPAddress::ToString() const {
 
 			std::stringstream stream;
 
-			stream << (unsigned int)(unsigned char)(__address >> 24) << ".";
-			stream << (unsigned int)(unsigned char)(__address >> 16) << ".";
-			stream << (unsigned int)(unsigned char)(__address >> 8) << ".";
-			stream << (unsigned int)(unsigned char)(__address);
-
-			if (__port)
-				stream << ":" << __port;
+			stream << (unsigned int)(unsigned char)(_address >> 24) << ".";
+			stream << (unsigned int)(unsigned char)(_address >> 16) << ".";
+			stream << (unsigned int)(unsigned char)(_address >> 8) << ".";
+			stream << (unsigned int)(unsigned char)(_address);
 
 			return stream.str();
+
+		}
+
+		std::ostream& operator << (std::ostream& stream, const IPAddress& value) {
+
+			stream << value.ToString();
+
+			return stream;
 
 		}
 

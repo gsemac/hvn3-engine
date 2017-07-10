@@ -179,7 +179,7 @@ namespace hvn3 {
 	void Console::SetCursorPosition(int x, int y) {
 
 #ifdef OS_WINDOWS
-		COORD position = { x, y };
+		COORD position = { static_cast<short>(x), static_cast<short>(y) };
 		HANDLE h_console = GetStdHandle(STD_OUTPUT_HANDLE);
 		SetConsoleCursorPosition(h_console, position);
 #endif

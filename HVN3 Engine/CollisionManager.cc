@@ -3,7 +3,6 @@
 #include "CollisionManager.h"
 #include "Vector2d.h"
 #include "NarrowPhaseCollisionManager.h"
-#include "Collider.h"
 #include "Object.h"
 
 namespace hvn3 {

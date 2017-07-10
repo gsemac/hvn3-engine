@@ -147,7 +147,7 @@ namespace hvn3 {
 
 		bool Panel::HasActiveChild() {
 
-			return Controls()->ActiveControl();
+			return Controls()->ActiveControl() != nullptr;
 
 		}
 

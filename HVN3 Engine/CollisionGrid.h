@@ -1,7 +1,6 @@
 #pragma once
 #include <unordered_map>
 #include <list>
-#include "Collider.h"
 #include "IBroadPhaseCollisionManager.h"
 #include "DrawEventArgs.h"
 

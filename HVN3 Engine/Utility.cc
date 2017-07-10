@@ -6,7 +6,7 @@
 
 namespace hvn3 {
 
-	const float PI = std::acos(-1.0L);
+	const long double PI = std::acos(-1.0L);
 
 	short Sign(float x) {
 
@@ -16,27 +16,6 @@ namespace hvn3 {
 	short Signum(float x) {
 
 		return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
-
-	}
-
-	//float Max(float a, float b) {
-	//
-	//	return (std::fmax)(a, b);
-	//
-	//}
-	//float Max(int a, int b) {
-	//
-	//	return (std::max)(a, b);
-	//
-	//}
-	//float Min(float a, float b) {
-	//
-	//	return (std::fmin)(a, b);
-	//
-	//}
-	int Round(float n) {
-
-		return (std::roundf)(n);
 
 	}
 	bool IsZero(float n, float epsilon) {

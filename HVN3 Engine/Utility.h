@@ -9,7 +9,7 @@ namespace hvn3 {
 	class String;
 	class Font;
 
-	extern const float PI;
+	extern const long double PI;
 
 	// Returns the sign of a given number (1 for all numbers greater than or equal to 0; -1 otherwise). 
 	short Sign(float);
@@ -62,7 +62,12 @@ namespace hvn3 {
 	// Returns the minimum of two values.
 	//float Min(float a, float b);
 	// Returns the given float rounded to the nearest integer.
-	int Round(float n);
+	template <typename T>
+	inline T Round(T n) {
+
+		return (std::round)(n);
+
+	}
 	// Returns true if n is within epsilon of 0.
 	bool IsZero(float n, float epsilon);
 

@@ -6,6 +6,7 @@ namespace hvn3 {
 
 	RectangleHitMask::RectangleHitMask(const RectangleF& bounds) :
 		_mask(bounds) {}
+
 	void RectangleHitMask::SetOffset(const PointF& offset) {
 
 		_mask.SetPosition(offset);
