@@ -378,13 +378,14 @@ int main(int argc, char *argv[]) {
 	
 	// Initialize game properties.
 	MyGame.Initialize(argc, argv);
-	MyGame.Properties().DebugMode = false;
+	MyGame.Properties().DebugMode = true;
 	MyGame.Properties().OutsideColor = Color::Black;
 	MyGame.Properties().DisplaySize = SizeI(960, 720);
 	MyGame.Properties().DisplayFlags |= DisplayFlags::Resizable;
 	MyGame.Properties().ScalingMode = ScalingMode::Fixed;
 	MyGame.Properties().StartFullscreen = false;
-	MyGame.Properties().FPS = 60;
+	MyGame.Properties().Fps = FLT_MAX;
+	MyGame.Properties().IsFixedFrameRate = false;
 	
 	// Load resources.
 	MyGame.Resources().Tilesets().Add(TILESET_1, Resource::Create<Tileset>("data/test/tileset1.png", SizeI(32, 32)));

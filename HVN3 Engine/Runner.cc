@@ -26,7 +26,7 @@ namespace hvn3 {
 
 	Runner::Runner(hvn3::Properties& properties, RoomManager& room_manager) :
 		_properties(properties),
-		_timer(1.0f / properties.FPS),
+		_timer(1.0f / properties.Fps),
 		_display(properties.DisplaySize.Width(), properties.DisplaySize.Height(), properties.DisplayTitle.c_str(), properties.DisplayFlags),
 		_graphics(_display.BackBuffer()),
 		_room_manager(room_manager) {
@@ -124,62 +124,73 @@ namespace hvn3 {
 
 		// Wait for the next event.
 		Event ev;
-		_event_queue.WaitForEvent(ev);
+		bool got_event = true;
 
-		// Handle the next event depending on its type.
-		switch (ev.Type()) {
-
-		case EventType::Timer:
+		if (Properties().IsFixedFrameRate)
+			_event_queue.WaitForEvent(ev);
+		else if (!_event_queue.GetNextEvent(ev)) {
 			OnTimerTick(ev);
-			break;
+			got_event = false;
+		}
 
-		case EventType::DisplayClose:
-			OnDisplayClose(ev);
-			break;
+		if (got_event) {
 
-		case EventType::KeyDown:
-			OnKeyDown(ev);
-			break;
+			// Handle the next event depending on its type.
+			switch (ev.Type()) {
 
-		case EventType::KeyUp:
-			OnKeyUp(ev);
-			break;
+			case EventType::Timer:
+				OnTimerTick(ev);
+				break;
 
-		case EventType::KeyChar:
-			OnKeyChar(ev);
-			break;
+			case EventType::DisplayClose:
+				OnDisplayClose(ev);
+				break;
 
-		case EventType::MouseButtonDown:
-			OnMouseButtonDown(ev);
-			break;
+			case EventType::KeyDown:
+				OnKeyDown(ev);
+				break;
 
-		case EventType::MouseButtonUp:
-			OnMouseButtonUp(ev);
-			break;
+			case EventType::KeyUp:
+				OnKeyUp(ev);
+				break;
 
-		case EventType::MouseAxes:
-			OnMouseAxes(ev);
-			break;
+			case EventType::KeyChar:
+				OnKeyChar(ev);
+				break;
 
-		case EventType::MouseEnterDisplay:
-			OnMouseEnterDisplay(ev);
-			break;
+			case EventType::MouseButtonDown:
+				OnMouseButtonDown(ev);
+				break;
 
-		case EventType::MouseLeaveDisplay:
-			OnMouseLeaveDisplay(ev);
-			break;
+			case EventType::MouseButtonUp:
+				OnMouseButtonUp(ev);
+				break;
 
-		case EventType::DisplayResize:
-			OnDisplayResize(ev);
-			break;
+			case EventType::MouseAxes:
+				OnMouseAxes(ev);
+				break;
 
-		case EventType::DisplaySwitchOut:
-			OnDisplaySwitchOut(ev);
-			break;
+			case EventType::MouseEnterDisplay:
+				OnMouseEnterDisplay(ev);
+				break;
 
-		case EventType::DisplaySwitchIn:
-			OnDisplaySwitchIn(ev);
-			break;
+			case EventType::MouseLeaveDisplay:
+				OnMouseLeaveDisplay(ev);
+				break;
+
+			case EventType::DisplayResize:
+				OnDisplayResize(ev);
+				break;
+
+			case EventType::DisplaySwitchOut:
+				OnDisplaySwitchOut(ev);
+				break;
+
+			case EventType::DisplaySwitchIn:
+				OnDisplaySwitchIn(ev);
+				break;
+
+			}
 
 		}
 
@@ -194,7 +205,8 @@ namespace hvn3 {
 		OnRedraw();
 
 		// Start the timer.
-		_timer.Start();
+		if (Properties().IsFixedFrameRate)
+			_timer.Start();
 
 		// Start the frame delta timer.
 		_delta_timer.Start();
@@ -225,7 +237,7 @@ namespace hvn3 {
 
 		// Draw the FPS.
 		std::stringstream ss;
-		ss << (int)(std::min)((std::ceil)(fps_sum / 60.0f), Properties().FPS) << " FPS";
+		ss << (int)(std::min)((std::ceil)(fps_sum / 60.0f), Properties().Fps) << " FPS";
 		_graphics.DrawText(11, 11, ss.str().c_str(), SystemFont(), Color::Black);
 		_graphics.DrawText(10, 10, ss.str().c_str(), SystemFont(), Color::White);
 
@@ -235,7 +247,7 @@ namespace hvn3 {
 	}
 
 	void Runner::OnTimerTick(Event& ev) {
-		
+
 		// Update the state of the game.
 		Update(UpdateEventArgs(_delta_timer.SecondsElapsed()));
 

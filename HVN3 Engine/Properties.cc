@@ -12,8 +12,9 @@ namespace hvn3 {
 		DisplayFlags = hvn3::DisplayFlags::None;
 
 		FreezeWhenLostFocus = true;
-		FPS = 60.0f;
+		Fps = 60.0f;
 		MaxFrameSkip = 0;
+		IsFixedFrameRate = true;
 
 		DisplayCursor = true;
 		ExitWithEscapeKey = true;
