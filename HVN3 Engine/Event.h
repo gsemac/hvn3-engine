@@ -42,14 +42,14 @@ namespace hvn3 {
 
 	public:
 		Event();
-		EventType Type();
-		const EventSource& Source();
-		double Timestamp();
+		EventType Type() const;
+		EventSource Source() const;
+		double Timestamp() const;
 		ALLEGRO_EVENT* AlPtr();
 
 		// Todo: Make this member private and derive specific event classes.
 	public:
-		ALLEGRO_EVENT __ev;
+		ALLEGRO_EVENT _ev;
 
 	};
 

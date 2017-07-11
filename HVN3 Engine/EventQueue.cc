@@ -60,13 +60,13 @@ namespace hvn3 {
 	bool EventQueue::GetNextEvent(Event& ev) {
 
 		// Get the next event.
-		return al_get_next_event(__event_queue, &ev.__ev);
+		return al_get_next_event(__event_queue, &ev._ev);
 
 	}
 	bool EventQueue::PeekNextEvent(Event& ev) const {
 
 		// Peek the next event.
-		return al_peek_next_event(__event_queue, &ev.__ev);
+		return al_peek_next_event(__event_queue, &ev._ev);
 
 	}
 	bool EventQueue::DropNextEvent() {
@@ -81,12 +81,12 @@ namespace hvn3 {
 	}
 	void EventQueue::WaitForEvent(Event& ev) {
 
-		al_wait_for_event(__event_queue, &ev.__ev);
+		al_wait_for_event(__event_queue, &ev._ev);
 
 	}
 	bool EventQueue::WaitForEvent(Event& ev, float seconds) {
 
-		return al_wait_for_event_timed(__event_queue, &ev.__ev, seconds);
+		return al_wait_for_event_timed(__event_queue, &ev._ev, seconds);
 
 	}
 

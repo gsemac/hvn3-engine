@@ -3,9 +3,9 @@
 namespace hvn3 {
 
 	Event::Event() {}
-	EventType Event::Type() {
+	EventType Event::Type() const {
 
-		switch (__ev.type) {
+		switch (_ev.type) {
 		case ALLEGRO_EVENT_JOYSTICK_AXIS:
 			return EventType::JoystickAxis;
 		case ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN:
@@ -69,19 +69,19 @@ namespace hvn3 {
 		}
 
 	}
-	const EventSource& Event::Source() {
+	EventSource Event::Source() const {
 
-		return EventSource(__ev.any.source);
+		return EventSource(_ev.any.source);
 
 	}
-	double Event::Timestamp() {
+	double Event::Timestamp() const {
 
-		return __ev.any.timestamp;
+		return _ev.any.timestamp;
 
 	}
 	ALLEGRO_EVENT* Event::AlPtr() {
 
-		return &__ev;
+		return &_ev;
 
 	}
 
