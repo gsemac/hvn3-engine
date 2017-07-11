@@ -58,7 +58,7 @@ namespace hvn3 {
 				if (body->Type() != PhysicsBodyType::Dynamic)
 					continue;
 
-				_collision_manager->MoveContactIf(obj, _gravity.Angle(), _gravity.Magnitude(), 
+				_collision_manager->MoveContactIf(obj, _gravity.Direction(), _gravity.Length(),
 					[](ICollisionBody* body) { return body->IsSolid(); }
 				);
 

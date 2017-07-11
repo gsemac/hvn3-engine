@@ -1,14 +1,11 @@
 #include <cmath>
-#include <iostream>
 #include "Vector2d.h"
-#include "Geometry.h"
-#include "Utility.h"
-#include "Exception.h"
+#include "MathUtils.h"
 
 namespace hvn3 {
 
 	Vector2d::Vector2d() :
-		Vector2d(PointF(0.0f, 0.0f), PointF(0.0f, 0.0f)) {
+		Vector2d(0.0f, 0.0f) {
 	}
 	Vector2d::Vector2d(float x, float y) {
 
@@ -24,16 +21,14 @@ namespace hvn3 {
 		_m = std::hypotf(_x, _y);
 
 	}
-	Vector2d::Vector2d(const std::pair<float, float>& components) : 
-		Vector2d(components.first, components.second) {}
 
-	Vector2d Vector2d::FromDirection(float degrees, float magnitude) {
-		
+	Vector2d Vector2d::FromDirection(float degrees, float length) {
+
 		float rad = Math::DegreesToRadians(degrees);
 
 		Vector2d vec;
 
-		vec._m = magnitude;
+		vec._m = length;
 		vec._x = std::cos(rad) * vec._m;
 		vec._y = std::sin(rad) * -vec._m;
 
@@ -51,7 +46,7 @@ namespace hvn3 {
 		return _y;
 
 	}
-	float Vector2d::Magnitude() const {
+	float Vector2d::Length() const {
 
 		return _m;
 
@@ -68,9 +63,9 @@ namespace hvn3 {
 		_m = std::hypotf(_x, _y);
 
 	}
-	void Vector2d::SetMagnitude(float value) {
+	void Vector2d::SetLength(float value) {
 
-		float rad = Math::DegreesToRadians(Angle());
+		float rad = Math::DegreesToRadians(Direction());
 
 		_m = value;
 		_x = std::cos(rad) * _m;
@@ -79,16 +74,16 @@ namespace hvn3 {
 	}
 	void Vector2d::SetDirection(float degrees) {
 
-		throw System::NotImplementedException();
+		*this = Vector2d::FromDirection(degrees, Length());
 
 	}
 
-	float Vector2d::Angle() const {
+	float Vector2d::Direction() const {
 
 		// Initialize variables.
 		float degrees = 0.0f;
 
-		// Determine the angle using an appropriate means.
+		// Determine the angle.
 		if ((std::abs)(_x) > 0.0f)
 			degrees = Math::RadiansToDegrees((std::acos)(_x / _m));
 		else if ((std::abs)(-_y) > 0.0f) {
@@ -130,25 +125,20 @@ namespace hvn3 {
 	}
 	Vector2d Vector2d::CrossProduct(const Vector2d& other) const {
 
-		return Vector2d({ X() * other.X() , Y() * other.Y() });
+		return Vector2d(X() * other.X(), Y() * other.Y());
+
+	}
+	Vector2d Vector2d::Normalize() const {
+
+		return *this / Length();
 
 	}
 
-	Vector2d Vector2d::operator+(const Vector2d& other) {
-
-		return Vector2d({ X() + other.X() , Y() + other.Y() });
-
-	}
 	Vector2d& Vector2d::operator+=(const Vector2d& other) {
 
 		SetX(X() + other.X());
 		SetY(Y() + other.Y());
 		return *this;
-
-	}
-	Vector2d Vector2d::operator-(const Vector2d& other) {
-
-		return Vector2d({ X() - other.X() , Y() - other.Y() });
 
 	}
 	Vector2d& Vector2d::operator-=(const Vector2d& other) {
@@ -158,21 +148,11 @@ namespace hvn3 {
 		return *this;
 
 	}
-	Vector2d Vector2d::operator*(const Vector2d& other) {
-
-		return CrossProduct(other);
-
-	}
 	Vector2d& Vector2d::operator*=(const Vector2d& other) {
 
 		SetX(X() * other.X());
 		SetY(Y() * other.Y());
 		return *this;
-
-	}
-	Vector2d Vector2d::operator*(const float other) {
-
-		return Vector2d(X() * other, Y() * other);
 
 	}
 	Vector2d& Vector2d::operator*=(const float other) {
@@ -183,9 +163,40 @@ namespace hvn3 {
 		return *this;
 
 	}
-	Vector2d Vector2d::operator-() const {
 
-		return Vector2d(-X(), -Y());
+	Vector2d operator+(const Vector2d& lhs, const Vector2d& rhs) {
+
+		return Vector2d(lhs.X() + rhs.X(), lhs.Y() + rhs.Y());
+
+	}
+	Vector2d operator-(const Vector2d& lhs, const Vector2d& rhs) {
+
+		return Vector2d(lhs.X() - rhs.X(), lhs.Y() - rhs.Y());
+
+	}
+	Vector2d operator*(const Vector2d& lhs, const Vector2d& rhs) {
+
+		return lhs.CrossProduct(rhs);
+
+	}
+	Vector2d operator/(const Vector2d& lhs, const Vector2d& rhs) {
+
+		return Vector2d(lhs.X() / rhs.X(), lhs.Y() * rhs.Y());
+
+	}
+	Vector2d operator*(const Vector2d& lhs, const float rhs) {
+
+		return Vector2d(lhs.X() * rhs, lhs.Y() * rhs);
+
+	}
+	Vector2d operator/(const Vector2d& lhs, const float rhs) {
+
+		return Vector2d(lhs.X() / rhs, lhs.Y() / rhs);
+
+	}
+	Vector2d operator-(const Vector2d& rhs) {
+
+		return Vector2d(-rhs.X(), -rhs.Y());
 
 	}
 

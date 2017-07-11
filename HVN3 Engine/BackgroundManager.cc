@@ -53,7 +53,7 @@ namespace hvn3 {
 
 		// Update Backgrounds.
 		for (size_t i = 0; i < _backgrounds.size(); ++i)
-			if (_backgrounds[i].second.Velocity().Magnitude() != 0.0f)
+			if (_backgrounds[i].second.Velocity().Length() != 0.0f)
 				_backgrounds[i].second.SetOffset(
 					_backgrounds[i].second.Offset().X() + _backgrounds[i].second.Velocity().X(),
 					_backgrounds[i].second.Offset().Y() + _backgrounds[i].second.Velocity().Y()

@@ -210,13 +210,13 @@ public:
 			Vector2d move_vec(_last_position, Position());
 			Vector2d dir_vec = Vector2d(Position(), ptr->Position()) + move_vec;
 
-			Vector2d tot_vec = Vector2d::FromDirection(move_vec.Angle(), dir_vec.Magnitude());
+			Vector2d tot_vec = Vector2d::FromDirection(move_vec.Direction(), dir_vec.Length());
 
 			// Set the ball's new velocity.	
 			ptr->SetVelocity(tot_vec);
 
 			// Move the ball outside of the cursor.
-			if (tot_vec.Magnitude() > 0)
+			if (tot_vec.Length() > 0)
 				MyGame.Collisions().MoveOutsideBody(e.Body(), _body, PointDirection(e.Object()->Position(), Position()), 1);
 
 			break;
