@@ -10,6 +10,7 @@
 
 #include "GameManager.h"
 #include "ResourceManager.h"
+#include "BasicPhysicsManager.h"
 
 #include "io/IO.h"
 

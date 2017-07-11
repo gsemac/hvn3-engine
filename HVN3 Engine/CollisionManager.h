@@ -24,6 +24,8 @@ namespace hvn3 {
 		IBroadPhaseCollisionManager* BroadPhase() override;
 		void OnUpdate(UpdateEventArgs& e) override;
 
+		const std::vector<CollisionManifold>& CollidingPairs() const override;
+
 		bool PlaceFree(ICollisionBody* body, const PointF& position) override;
 		bool PlaceFreeIf(ICollisionBody* body, const PointF& position, const std::function<bool(ICollisionBody*)>& condition) override;
 		bool MoveContact(ICollisionBody* body, float direction, float max_distance) override;

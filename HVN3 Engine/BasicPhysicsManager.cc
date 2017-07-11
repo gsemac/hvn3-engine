@@ -31,7 +31,7 @@ namespace hvn3 {
 		}
 		BasicPhysicsBody* BasicPhysicsManager::CreateBody(key_type key) {
 
-			auto it = _bodies.insert(std::pair<key_type, mapped_type>(key, BasicPhysicsBody()));
+			auto it = _bodies.insert(std::pair<key_type, mapped_type>(key, BasicPhysicsBody(key->Shared())));
 
 			return &it.first->second;
 
@@ -52,15 +52,16 @@ namespace hvn3 {
 
 			for (collection_type::iterator i = _bodies.begin(); i != _bodies.end(); ++i) {
 				
-				ICollisionBody* obj = i->first;
+				Object* obj = i->first;
 				BasicPhysicsBody* body = &i->second;
 				
-				if (body->Type() != PhysicsBodyType::Dynamic)
+				if (body->Type() != BodyType::Dynamic)
 					continue;
 
-				_collision_manager->MoveContactIf(obj, _gravity.Direction(), _gravity.Length(),
+
+			/*	_collision_manager->MoveContactIf(obj, _gravity.Direction(), _gravity.Length(),
 					[](ICollisionBody* body) { return body->IsSolid(); }
-				);
+				);*/
 
 			}
 

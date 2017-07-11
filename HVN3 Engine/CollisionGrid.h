@@ -16,7 +16,7 @@ namespace hvn3 {
 		bool RemoveBody(ICollisionBody* body) override;
 		void ClearAll() override;
 		void OnUpdate(UpdateEventArgs& e) override;
-		const collider_pair_collection_type& FindPairs() override;
+		const collider_pair_collection_type& FindCandidatePairs() override;
 		collider_type* Pick(const PointF& point) const override;
 		void QueryRegion(const RectangleF& region, collider_collection_type& output, int filter = 0) const override;
 		collider_type* QueryNearest(const PointF& point, int filter = 0) const override;

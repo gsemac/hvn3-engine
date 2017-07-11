@@ -4,6 +4,7 @@
 #include "Vector2d.h"
 #include "NarrowPhaseCollisionManager.h"
 #include "Object.h"
+#include "Exception.h"
 
 namespace hvn3 {
 
@@ -73,7 +74,13 @@ namespace hvn3 {
 		_broadphase_method->OnUpdate(e);
 
 		// Get a vector containing all potentially-colliding pairs from the broadphase method, and check all collisions.
-		CheckPairs(_broadphase_method->FindPairs());
+		CheckPairs(_broadphase_method->FindCandidatePairs());
+
+	}
+
+	const std::vector<CollisionManifold>& CollisionManager::CollidingPairs() const {
+
+		throw System::NotImplementedException();
 
 	}
 

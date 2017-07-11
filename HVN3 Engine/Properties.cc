@@ -14,7 +14,7 @@ namespace hvn3 {
 		FreezeWhenLostFocus = true;
 		Fps = 60.0f;
 		MaxFrameSkip = 0;
-		IsFixedFrameRate = true;
+		FixedFrameRate = true;
 
 		DisplayCursor = true;
 		ExitWithEscapeKey = true;

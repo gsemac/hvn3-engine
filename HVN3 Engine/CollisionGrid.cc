@@ -53,7 +53,7 @@ namespace hvn3 {
 			MapToCells(*it);
 
 	}
-	const CollisionGrid::collider_pair_collection_type& CollisionGrid::FindPairs() {
+	const CollisionGrid::collider_pair_collection_type& CollisionGrid::FindCandidatePairs() {
 	
 		// Create a set for storing pairs (to prevent duplicates).
 		static std::unordered_set<std::pair<collider_type*, collider_type*>, PairHasher> pairs;

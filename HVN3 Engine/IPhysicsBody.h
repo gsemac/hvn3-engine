@@ -10,7 +10,7 @@ namespace hvn3 {
 			PointF Center;
 		};
 
-		enum class PhysicsBodyType {
+		enum class BodyType {
 			// A body that is not affected by world forces or collisions, and cannot be moved.
 			Static,
 			// A body that is not affected by world forces or collisions, but can be moved.
@@ -22,14 +22,17 @@ namespace hvn3 {
 		class IPhysicsBody {
 
 		public:
+			virtual const PointF& Position() const = 0;
 			virtual const Vector2d& LinearVelocity() const = 0;
 			virtual void SetLinearVelocity(const Vector2d& vec) = 0;
 
 			virtual float Mass() const = 0;
 			virtual void SetMass(float value) = 0;
+			virtual float Restitution() const = 0;
+			virtual void SetRestitution(float value) = 0;
 			
-			virtual PhysicsBodyType Type() const = 0;
-			virtual void SetType(PhysicsBodyType type) = 0;
+			virtual BodyType Type() const = 0;
+			virtual void SetType(BodyType type) = 0;
 
 		};
 

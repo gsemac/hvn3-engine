@@ -126,7 +126,7 @@ namespace hvn3 {
 		Event ev;
 		bool got_event = true;
 
-		if (Properties().IsFixedFrameRate)
+		if (Properties().FixedFrameRate)
 			_event_queue.WaitForEvent(ev);
 		else if (!_event_queue.GetNextEvent(ev)) {
 			OnTimerTick(ev);
@@ -205,7 +205,7 @@ namespace hvn3 {
 		OnRedraw();
 
 		// Start the timer.
-		if (Properties().IsFixedFrameRate)
+		if (Properties().FixedFrameRate)
 			_timer.Start();
 
 		// Start the frame delta timer.

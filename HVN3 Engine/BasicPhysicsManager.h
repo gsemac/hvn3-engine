@@ -11,7 +11,7 @@ namespace hvn3 {
 	
 	namespace Physics {
 
-		class BasicPhysicsManager : public IPhysicsManager<ICollisionBody*> {
+		class BasicPhysicsManager : public IPhysicsManager<Object*> {
 
 			typedef std::unordered_map<IPhysicsManager::key_type, BasicPhysicsBody> collection_type;
 			typedef BasicPhysicsManager this_type;
