@@ -306,6 +306,7 @@
     <ClCompile Include="ObjectCollisionBody.cc" />
     <ClCompile Include="ObjectManager.cc" />
     <ClCompile Include="Padding.cc" />
+    <ClCompile Include="PhysicsUtils.cc" />
     <ClCompile Include="Properties.cc" />
     <ClCompile Include="Graphics.cc" />
     <ClCompile Include="GraphicsState.cc" />
@@ -430,6 +431,7 @@
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="ObjectCollisionBody.h" />
     <ClInclude Include="Padding.h" />
+    <ClInclude Include="PhysicsUtils.h" />
     <ClInclude Include="PointGeometry.h" />
     <ClInclude Include="RectangleHitMask.h" />
     <ClInclude Include="RoomTransitionFade.h" />

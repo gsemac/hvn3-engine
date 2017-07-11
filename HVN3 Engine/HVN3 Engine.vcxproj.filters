@@ -528,6 +528,9 @@
     <ClCompile Include="MathUtils.cc">
       <Filter>Source Files\Helper</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsUtils.cc">
+      <Filter>Source Files\System\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h">
@@ -994,6 +997,9 @@
     </ClInclude>
     <ClInclude Include="MathUtils.h">
       <Filter>Header Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsUtils.h">
+      <Filter>Header Files\System\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
