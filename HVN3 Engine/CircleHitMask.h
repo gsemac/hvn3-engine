@@ -3,6 +3,7 @@
 #include "UniqueCreateableBase.h"
 
 namespace hvn3 {
+	namespace Collision {
 
 	struct CollisionManifold;
 
@@ -26,4 +27,5 @@ namespace hvn3 {
 
 	};
 
+	}
 }

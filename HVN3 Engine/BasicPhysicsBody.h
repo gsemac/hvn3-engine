@@ -4,12 +4,17 @@
 #include <memory>
 
 namespace hvn3 {
+
+	namespace Collision {
+		class ICollisionBody;
+	}
+
 	namespace Physics {
 
 		class BasicPhysicsBody : public IPhysicsBody {
 
 		public:
-			BasicPhysicsBody(ICollisionBody* body);
+			BasicPhysicsBody(Collision::ICollisionBody* body);
 
 			const PointF& Position() const override;
 			const Vector2d& LinearVelocity() const override;
@@ -29,7 +34,7 @@ namespace hvn3 {
 			mutable PointF _position;
 			Vector2d _linear_velocity;
 			BodyType _type;
-			ICollisionBody* _body;
+			Collision::ICollisionBody* _body;
 
 			//Object* _key;
 			//std::weak_ptr<Object> _object;

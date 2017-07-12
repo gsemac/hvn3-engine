@@ -7,7 +7,7 @@ namespace hvn3 {
 	Room::Room(RoomId id, const SizeI& size) :
 		RoomBase<ObjectManager>(id, size),
 		_rendering_view(0),
-		_collision_manager(std::unique_ptr<IBroadPhaseCollisionManager>(new CollisionGrid(32, 32))) {
+		_collision_manager(std::unique_ptr<Collision::IBroadPhaseCollisionManager>(new Collision::CollisionGrid(32, 32))) {
 
 	}
 
@@ -111,12 +111,12 @@ namespace hvn3 {
 		return &_view_manager;
 
 	}
-	const ICollisionManager<Object*>* Room::Collisions() const {
+	const Collision::ICollisionManager<Object*>* Room::Collisions() const {
 
 		return &_collision_manager;
 
 	}
-	ICollisionManager<Object*>* Room::Collisions() {
+	Collision::ICollisionManager<Object*>* Room::Collisions() {
 
 		return &_collision_manager;
 

@@ -7,12 +7,15 @@
 namespace hvn3 {
 	
 	class Object;
-	class ICollisionBody;
-	struct CollisionManifold;
+
+	namespace Collision {
+		class ICollisionBody;
+		struct CollisionManifold;
+	}
 	
 	namespace Physics {
 
-		class BasicPhysicsManager : public IPhysicsManager<ICollisionBody*> {
+		class BasicPhysicsManager : public IPhysicsManager<Collision::ICollisionBody*> {
 
 			typedef std::unordered_map<IPhysicsManager::key_type, BasicPhysicsBody> collection_type;
 			typedef BasicPhysicsManager this_type;
@@ -31,11 +34,11 @@ namespace hvn3 {
 			void OnUpdate(UpdateEventArgs& e) override;
 
 		private:
-			ICollisionManager<key_type>* _collision_manager;
+			Collision::ICollisionManager<key_type>* _collision_manager;
 			collection_type _bodies;
 			Vector2d _gravity;
 
-			void _ResolveCollision(IPhysicsBody* body_1, IPhysicsBody* body_2, CollisionManifold& manifold) const;
+			void _ResolveCollision(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const;
 
 		};
 

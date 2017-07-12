@@ -9,7 +9,7 @@ public:
 	DynamicBox(float x, float y) : Object(1, PointF(x, y)) {}
 	void OnCreate(CreateEventArgs& e) override {
 		_collision_body = GameState.Collisions().CreateBody(this);
-		_collision_body->SetHitMask(RectangleHitMask::Create(RectangleF(32.0f, 32.0f)));
+		_collision_body->SetHitMask(Collision::RectangleHitMask::Create(RectangleF(32.0f, 32.0f)));
 		_physics_body = PhysicsManager.CreateBody(_collision_body);
 		_physics_body->SetType(Physics::BodyType::Dynamic);
 	}
@@ -22,7 +22,7 @@ public:
 	}
 private:
 	Physics::IPhysicsBody* _physics_body;
-	ICollisionBody* _collision_body;
+	Collision::ICollisionBody* _collision_body;
 };
 
 class StaticBox : public Object {
@@ -30,7 +30,7 @@ public:
 	StaticBox(float x, float y) : Object(2, PointF(x, y)) {}
 	void OnCreate(CreateEventArgs& e) override {
 		_collision_body = GameState.Collisions().CreateBody(this);
-		_collision_body->SetHitMask(RectangleHitMask::Create(RectangleF(512.0f, 16.0f)));
+		_collision_body->SetHitMask(Collision::RectangleHitMask::Create(RectangleF(512.0f, 16.0f)));
 		_physics_body = PhysicsManager.CreateBody(_collision_body);
 		_physics_body->SetType(Physics::BodyType::Static);
 	}
@@ -42,7 +42,7 @@ public:
 	}
 private:
 	Physics::IPhysicsBody* _physics_body;
-	ICollisionBody* _collision_body;
+	Collision::ICollisionBody* _collision_body;
 };
 
 class PhysicsRoom : public Room {
@@ -61,7 +61,7 @@ protected:
 };
 
 int main(int argc, char *argv[]) {
-
+	
 	// Initialize game properties.
 	GameState.Initialize(argc, argv);
 	GameState.Properties().DebugMode = true;

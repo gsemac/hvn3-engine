@@ -4,7 +4,7 @@
 namespace hvn3 {
 	namespace Physics {
 
-		BasicPhysicsBody::BasicPhysicsBody(ICollisionBody* body) {
+		BasicPhysicsBody::BasicPhysicsBody(Collision::ICollisionBody* body) {
 
 			//_key = object.get();
 			//_object = object;

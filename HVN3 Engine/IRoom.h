@@ -44,8 +44,8 @@ namespace hvn3 {
 		virtual IBackgroundManager* Backgrounds() = 0;
 		virtual const IViewManager* Views() const = 0;
 		virtual IViewManager* Views() = 0;
-		virtual const ICollisionManager<Object*>* Collisions() const = 0;
-		virtual ICollisionManager<Object*>* Collisions() = 0;
+		virtual const Collision::ICollisionManager<Object*>* Collisions() const = 0;
+		virtual Collision::ICollisionManager<Object*>* Collisions() = 0;
 		virtual const Physics::IPhysicsManager<Object*>* Physics() const = 0;
 		virtual Physics::IPhysicsManager<Object*>* Physics() = 0;
 

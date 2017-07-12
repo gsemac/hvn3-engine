@@ -60,7 +60,7 @@ namespace hvn3 {
 		return _resource_manager;
 
 	}
-	ICollisionManager<Object*>& GameManager::Collisions() {
+	Collision::ICollisionManager<Object*>& GameManager::Collisions() {
 
 		auto room_ptr = _room_manager.CurrentRoom();
 

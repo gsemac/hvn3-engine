@@ -2,7 +2,7 @@
 
 namespace hvn3 {
 
-	CollisionEventArgs::CollisionEventArgs(hvn3::Object* other, ICollisionBody* body) :
+	CollisionEventArgs::CollisionEventArgs(hvn3::Object* other, Collision::ICollisionBody* body) :
 		_other(other),
 		_body(body) {}
 
@@ -16,12 +16,12 @@ namespace hvn3 {
 		return _other;
 
 	}
-	ICollisionBody* CollisionEventArgs::Body() {
+	Collision::ICollisionBody* CollisionEventArgs::Body() {
 
 		return _body;
 
 	}
-	ICollisionBody* CollisionEventArgs::Body() const {
+	Collision::ICollisionBody* CollisionEventArgs::Body() const {
 
 		return _body;
 

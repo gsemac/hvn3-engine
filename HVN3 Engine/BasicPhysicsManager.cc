@@ -74,7 +74,7 @@ namespace hvn3 {
 
 		// Private methods
 
-		void BasicPhysicsManager::_ResolveCollision(IPhysicsBody* body_1, IPhysicsBody* body_2, CollisionManifold& manifold) const {
+		void BasicPhysicsManager::_ResolveCollision(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const {
 
 			// Calculate relative velocity.
 			Vector2d relative_velocity = body_2->LinearVelocity() - body_1->LinearVelocity();
