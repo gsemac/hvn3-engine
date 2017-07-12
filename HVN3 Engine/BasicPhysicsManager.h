@@ -22,7 +22,7 @@ namespace hvn3 {
 			typedef BasicPhysicsBody mapped_type;
 
 		public:
-			BasicPhysicsManager();
+			BasicPhysicsManager(Collision::ICollisionManager<Object*>* collision_manager);
 
 			BasicPhysicsBody* GetBody(key_type key) override;
 			const BasicPhysicsBody* GetBody(key_type key) const override;
@@ -34,7 +34,7 @@ namespace hvn3 {
 			void OnUpdate(UpdateEventArgs& e) override;
 
 		private:
-			Collision::ICollisionManager<key_type>* _collision_manager;
+			Collision::ICollisionManager<Object*>* _collision_manager;
 			collection_type _bodies;
 			Vector2d _gravity;
 

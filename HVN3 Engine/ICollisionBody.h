@@ -7,10 +7,6 @@
 namespace hvn3 {
 	namespace Collision {
 
-		enum class CollisionBodyType {
-
-		};
-
 		class ICollisionBody : public IPositionable2d<float> {
 
 		public:

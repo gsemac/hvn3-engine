@@ -1,6 +1,7 @@
 #include "RectangleHitMask.h"
 #include "Exception.h"
 #include "Geometry.h"
+#include "CollisionUtils.h"
 
 namespace hvn3 {
 	namespace Collision {
@@ -32,7 +33,7 @@ namespace hvn3 {
 		}
 		bool RectangleHitMask::TestCollision(const RectangleF& other, CollisionManifold& manifold) const {
 
-			return Math::Geometry::TestIntersection(_mask, other);
+			return Collision::TestCollision(_mask, other, manifold);
 
 		}
 		bool RectangleHitMask::TestCollision(const CircleF& other, CollisionManifold& manifold) const {

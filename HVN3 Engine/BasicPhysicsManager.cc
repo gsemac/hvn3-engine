@@ -1,16 +1,18 @@
 #include "BasicPhysicsManager.h"
 #include "ICollisionBody.h"
 #include "CollisionManifold.h"
+#include "Direction8.h"
+#include "PhysicsUtils.h"
 #include "Object.h"
 #include <utility>
 
 namespace hvn3 {
 	namespace Physics {
 
-		BasicPhysicsManager::BasicPhysicsManager() {
+		BasicPhysicsManager::BasicPhysicsManager(Collision::ICollisionManager<Object*>* collision_manager) {
 
-			_gravity = Vector2d::FromDirection(270.0f, 9.81f);
-			_collision_manager = nullptr;
+			_gravity = Vector2d::FromDirection(DIRECTION_DOWN, Physics::StandardGravity());
+			_collision_manager = collision_manager;
 
 		}
 
@@ -33,7 +35,7 @@ namespace hvn3 {
 		BasicPhysicsBody* BasicPhysicsManager::CreateBody(key_type key) {
 
 			auto it = _bodies.insert(std::pair<key_type, mapped_type>(key, BasicPhysicsBody(key)));
-
+			
 			return &it.first->second;
 
 		}
@@ -56,19 +58,22 @@ namespace hvn3 {
 			// Get a list of colliding pairs from the collision manager.
 			auto pairs = _collision_manager->CollidingPairs();
 
-			//for (collection_type::iterator i = _bodies.begin(); i != _bodies.end(); ++i) {
+			std::cout << pairs.size();
 
-			//	ICollisionBody* obj = i->first;
-			//	BasicPhysicsBody* body = &i->second;
+			for (collection_type::iterator i = _bodies.begin(); i != _bodies.end(); ++i) {
 
-			//	if (body->Type() != BodyType::Dynamic)
-			//		continue;
-			//	
-			//	/*	_collision_manager->MoveContactIf(obj, _gravity.Direction(), _gravity.Length(),
-			//			[](ICollisionBody* body) { return body->IsSolid(); }
-			//		);*/
+				BasicPhysicsBody* body = &i->second;
 
-			//}
+			
+
+				if (body->Type() != BodyType::Dynamic)
+					continue;
+				
+				/*	_collision_manager->MoveContactIf(obj, _gravity.Direction(), _gravity.Length(),
+						[](ICollisionBody* body) { return body->IsSolid(); }
+					);*/
+
+			}
 
 		}
 

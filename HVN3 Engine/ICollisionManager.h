@@ -16,11 +16,10 @@ namespace hvn3 {
 		public:
 			typedef _key_type key_type;
 
-			// Adds a new body to the collision manager.
 			virtual ICollisionBody* GetBody(key_type key) = 0;
 			virtual const ICollisionBody* GetBody(key_type key) const = 0;
 			virtual ICollisionBody* CreateBody(key_type key) = 0;
-			// Removes the body from the manager with the given key. Returns true if a body was removed.
+			// Removes the body from the manager associated with the given key. Returns true if a body was removed.
 			virtual bool RemoveBody(key_type key) = 0;
 			// Clears all bodies from the manager.
 			virtual void ClearAll() = 0;

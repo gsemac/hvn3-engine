@@ -245,6 +245,7 @@
     <ClCompile Include="CollisionFilter.cc" />
     <ClCompile Include="CollisionGrid.cc" />
     <ClCompile Include="CollisionManager.cc" />
+    <ClCompile Include="CollisionManifold.cc" />
     <ClCompile Include="Color.cc" />
     <ClCompile Include="Console.cc" />
     <ClCompile Include="Direction8.cc" />
@@ -354,6 +355,7 @@
     <ClInclude Include="CircleHitMask.h" />
     <ClInclude Include="CollisionEventArgs.h" />
     <ClInclude Include="CollisionManifold.h" />
+    <ClInclude Include="CollisionUtils.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Direction8.h" />
     <ClInclude Include="MathUtils.h" />
