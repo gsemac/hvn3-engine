@@ -2,16 +2,10 @@
 #include "Point2d.h"
 #include "IBroadPhaseCollisionManager.h"
 #include "Vector2d.h"
+#include "CollisionManifold.h"
 #include <functional>
 
 namespace hvn3 {
-
-	struct CollisionManifold {
-		ICollisionBody* BodyA;
-		ICollisionBody* BodyB;
-		Vector2d Normal;
-		float Penetration;
-	};
 	
 	class ICollisionBody;
 		
@@ -30,6 +24,7 @@ namespace hvn3 {
 		// Clears all bodies from the manager.
 		virtual void ClearAll() = 0;
 
+		// Returns a collection of all colliding pairs found in the last update.
 		virtual const std::vector<CollisionManifold>& CollidingPairs() const = 0;
 
 		// Returns true if the body collides with any other body at the given position.

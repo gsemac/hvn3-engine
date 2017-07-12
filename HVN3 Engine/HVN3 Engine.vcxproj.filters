@@ -1001,6 +1001,9 @@
     <ClInclude Include="PhysicsUtils.h">
       <Filter>Header Files\System\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionManifold.h">
+      <Filter>Header Files\System\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\test\tileset1.png">

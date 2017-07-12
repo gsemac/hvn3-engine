@@ -353,6 +353,7 @@
     <ClInclude Include="Circle.h" />
     <ClInclude Include="CircleHitMask.h" />
     <ClInclude Include="CollisionEventArgs.h" />
+    <ClInclude Include="CollisionManifold.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Direction8.h" />
     <ClInclude Include="MathUtils.h" />

@@ -23,22 +23,22 @@ namespace hvn3 {
 
 	}
 
-	bool RectangleHitMask::TestIntersection(const HitMaskPtr& other) const {
+	bool RectangleHitMask::TestCollision(const HitMaskPtr& other, CollisionManifold& manifold) const {
 
-		return other->TestIntersection(_mask);
+		return other->TestCollision(_mask, manifold);
 
 	}
-	bool RectangleHitMask::TestIntersection(const RectangleF& other) const {
+	bool RectangleHitMask::TestCollision(const RectangleF& other, CollisionManifold& manifold) const {
 
 		return hvn3::TestIntersection(_mask, other);
 
 	}
-	bool RectangleHitMask::TestIntersection(const CircleF& other) const {
+	bool RectangleHitMask::TestCollision(const CircleF& other, CollisionManifold& manifold) const {
 
 		return hvn3::TestIntersection(_mask, other);
 
 	}
-	bool RectangleHitMask::TestIntersection(const LineF& other) const {
+	bool RectangleHitMask::TestCollision(const LineF& other, CollisionManifold& manifold) const {
 
 		return hvn3::TestIntersection(_mask, other);
 

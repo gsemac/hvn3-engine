@@ -4,6 +4,8 @@
 
 namespace hvn3 {
 
+	struct CollisionManifold;
+
 	class CircleHitMask : public IHitMask, public UniqueCreateableBase<IHitMask, CircleHitMask> {
 
 	public:
@@ -14,10 +16,10 @@ namespace hvn3 {
 
 		RectangleF AABB() const override;
 
-		bool TestIntersection(const HitMaskPtr& other) const override;
-		bool TestIntersection(const RectangleF& other) const override;
-		bool TestIntersection(const CircleF& other) const override;
-		bool TestIntersection(const LineF& other) const override;
+		bool TestCollision(const HitMaskPtr& other, CollisionManifold& manifold) const override;
+		bool TestCollision(const RectangleF& other, CollisionManifold& manifold) const override;
+		bool TestCollision(const CircleF& other, CollisionManifold& manifold) const override;
+		bool TestCollision(const LineF& other, CollisionManifold& manifold) const override;
 
 	private:
 		CircleF _mask;

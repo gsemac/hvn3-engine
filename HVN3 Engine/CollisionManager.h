@@ -40,6 +40,7 @@ namespace hvn3 {
 		NarrowPhaseCollisionManager _narrowphase_method;
 		// A collection of keys mapped to bodies.
 		std::unordered_map<key_type, ObjectCollisionBody> _bodies;
+		std::vector<CollisionManifold> _collisions;
 
 		void CheckPairs(const IBroadPhaseCollisionManager::collider_pair_collection_type& pairs);
 

@@ -8,22 +8,21 @@
 
 namespace hvn3 {
 
-	bool NarrowPhaseCollisionManager::TestCollision(ICollisionBody* a, ICollisionBody* b) const {
+	bool NarrowPhaseCollisionManager::TestCollision(ICollisionBody* a, ICollisionBody* b, CollisionManifold& m) const {
 
-		return TestCollision(a, a->Position(), b, b->Position());
+		return TestCollision(a, a->Position(), b, b->Position(), m);
 
 	}
-	bool NarrowPhaseCollisionManager::TestCollision(ICollisionBody* a, const PointF& position_a, ICollisionBody* b, const PointF& position_b) const {
-
+	bool NarrowPhaseCollisionManager::TestCollision(ICollisionBody* a, const PointF& position_a, ICollisionBody* b, const PointF& position_b, CollisionManifold& m) const {
+		 
 		// Get the masks for both colliders.
 		HitMaskPtr& a_mask = a->HitMask();
 		HitMaskPtr& b_mask = b->HitMask();
+		bool hit;
 
 		// Offset both colliders by the given offsets.
 		a_mask->SetOffset(PointF(a_mask->Offset().X() + position_a.X(), a_mask->Offset().Y() + position_a.Y()));
 		b_mask->SetOffset(PointF(b_mask->Offset().X() + position_b.X(), b_mask->Offset().Y() + position_b.Y()));
-
-		bool hit = false;
 
 		// If the bounding boxes do not intersect, return false.
 		if (!hvn3::TestIntersection(a_mask->AABB(), b_mask->AABB()))
@@ -31,7 +30,7 @@ namespace hvn3 {
 
 		// Test to see if the two masks intersect one another.
 		else
-			hit = a_mask->TestIntersection(b_mask);
+			hit = a_mask->TestCollision(b_mask, m);
 
 		// Reset the offsets.
 		a_mask->SetOffset(PointF(a_mask->Offset().X() - position_a.X(), a_mask->Offset().Y() - position_a.Y()));
@@ -114,15 +113,18 @@ namespace hvn3 {
 		return false;
 
 	}
-	//bool NarrowPhaseCollisionManager::TestIntersection(const SpriteMask& mask, const CircleF& circle, const PointF& pos) const {
 
-	//	// Adjust Point of Circle to be relative to the (0, 0)-based SpriteMask.
-	//	PointF adj = PointF(circle.X() - pos.X(), circle.Y() - pos.Y());
-	//	CircleF c = CircleF(adj, circle.Radius());
+	/*
+	bool NarrowPhaseCollisionManager::TestIntersection(const SpriteMask& mask, const CircleF& circle, const PointF& pos) const {
 
-	//	// Check for intersection.
-	//	return mask.Intersects(c);
+		// Adjust Point of Circle to be relative to the (0, 0)-based SpriteMask.
+		PointF adj = PointF(circle.X() - pos.X(), circle.Y() - pos.Y());
+		CircleF c = CircleF(adj, circle.Radius());
 
-	//}
+		// Check for intersection.
+		return mask.Intersects(c);
+
+	}
+	*/
 
 }

@@ -80,7 +80,7 @@ namespace hvn3 {
 
 	const std::vector<CollisionManifold>& CollisionManager::CollidingPairs() const {
 
-		throw System::NotImplementedException();
+		return _collisions;
 
 	}
 
@@ -112,7 +112,8 @@ namespace hvn3 {
 				continue;
 
 			// Check for a collision.
-			if (_narrowphase_method.TestCollision(body, position, hits[i], hits[i]->Position()))
+			CollisionManifold m;
+			if (_narrowphase_method.TestCollision(body, position, hits[i], hits[i]->Position(), m))
 				return false;
 
 		}
@@ -171,8 +172,9 @@ namespace hvn3 {
 		float dist = 0.0f;
 		float distance_per_step = 1.0f;
 		bool place_free;
+		CollisionManifold m;
 
-		while ((place_free = _narrowphase_method.TestCollision(body, other), place_free) && dist < (std::abs)(max_distance)) {
+		while ((place_free = _narrowphase_method.TestCollision(body, other, m), place_free) && dist < (std::abs)(max_distance)) {
 
 			body->SetPosition(PointInDirection(body->Position(), direction, distance_per_step));
 
@@ -186,13 +188,17 @@ namespace hvn3 {
 
 	void CollisionManager::CheckPairs(const IBroadPhaseCollisionManager::collider_pair_collection_type& pairs) {
 
+		// Clear the list of colliding pairs.
+		_collisions.clear();
+
 		// Test for a collision with each pair and call the appropriate "on collision" function(s).
 		for (auto i = pairs.begin(); i != pairs.end(); ++i) {
 			
 			ObjectCollisionBody* body_1 = static_cast<ObjectCollisionBody*>(i->first);
 			ObjectCollisionBody* body_2 = static_cast<ObjectCollisionBody*>(i->second);
 
-			if (!_narrowphase_method.TestCollision(body_1, body_2))
+			CollisionManifold m;
+			if (!_narrowphase_method.TestCollision(body_1, body_2, m))
 				continue;
 
 			if (body_1->ObjectExpired() || body_2->ObjectExpired()) {
@@ -208,11 +214,16 @@ namespace hvn3 {
 
 			}
 
+			// Call the collision event for the first object.
 			if (body_1->Filter().MaskBits() & body_2->Filter().CategoryBits())
 				body_1->GetObject()->OnCollision(CollisionEventArgs(body_2->GetObject(), body_2));
 
+			// Call the collision event for the second object.
 			if (body_2->Filter().MaskBits() & body_1->Filter().CategoryBits())
 				body_2->GetObject()->OnCollision(CollisionEventArgs(body_1->GetObject(), body_2));
+			
+			// Add the pair to the list of collisions.
+			_collisions.push_back(m);
 
 		}
 

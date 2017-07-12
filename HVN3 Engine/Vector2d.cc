@@ -189,9 +189,19 @@ namespace hvn3 {
 		return Vector2d(lhs.X() * rhs, lhs.Y() * rhs);
 
 	}
+	Vector2d operator*(const float lhs, const Vector2d& rhs) {
+
+		return rhs * lhs;
+
+	}
 	Vector2d operator/(const Vector2d& lhs, const float rhs) {
 
 		return Vector2d(lhs.X() / rhs, lhs.Y() / rhs);
+
+	}
+	Vector2d operator/(const float lhs, const Vector2d& rhs) {
+
+		return rhs / lhs;
 
 	}
 	Vector2d operator-(const Vector2d& rhs) {

@@ -47,7 +47,9 @@ namespace hvn3 {
 	Vector2d operator/(const Vector2d& lhs, const Vector2d& rhs);
 	Vector2d operator*(const Vector2d& lhs, const Vector2d& rhs);
 	Vector2d operator*(const Vector2d& lhs, const float rhs);
+	Vector2d operator*(const float lhs, const Vector2d& rhs);
 	Vector2d operator/(const Vector2d& lhs, const float rhs);
+	Vector2d operator/(const float lhs, const Vector2d& rhs);
 	Vector2d operator-(const Vector2d& rhs);
 	
 	PointF operator+(const PointF& lhs, const Vector2d& rhs);

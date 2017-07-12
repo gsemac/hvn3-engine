@@ -1,23 +1,25 @@
 #include "BasicPhysicsBody.h"
+#include "ICollisionBody.h"
 
 namespace hvn3 {
 	namespace Physics {
 
-		BasicPhysicsBody::BasicPhysicsBody(ObjectPtr& object) {
+		BasicPhysicsBody::BasicPhysicsBody(ICollisionBody* body) {
 
-			_key = object.get();
-			_object = object;
+			//_key = object.get();
+			//_object = object;
 
 			_mass = 1.0f;
 			_restitution = 0.0f;
 			_type = BodyType::Dynamic;
+			_body = body;
 
 		}
 
 		const PointF& BasicPhysicsBody::Position() const {
 
-			_position.SetX(_key->X());
-			_position.SetY(_key->Y());
+			_position.SetX(_body->X());
+			_position.SetY(_body->Y());
 
 			return _position;
 

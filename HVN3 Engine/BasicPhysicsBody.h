@@ -9,7 +9,7 @@ namespace hvn3 {
 		class BasicPhysicsBody : public IPhysicsBody {
 
 		public:
-			BasicPhysicsBody(ObjectPtr& object);
+			BasicPhysicsBody(ICollisionBody* body);
 
 			const PointF& Position() const override;
 			const Vector2d& LinearVelocity() const override;
@@ -29,9 +29,10 @@ namespace hvn3 {
 			mutable PointF _position;
 			Vector2d _linear_velocity;
 			BodyType _type;
+			ICollisionBody* _body;
 
-			Object* _key;
-			std::weak_ptr<Object> _object;
+			//Object* _key;
+			//std::weak_ptr<Object> _object;
 
 		};
 

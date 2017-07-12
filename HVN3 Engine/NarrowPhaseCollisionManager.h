@@ -1,17 +1,17 @@
 #pragma once
 #include "Geometry.h"
+#include "CollisionManifold.h"
 
 namespace hvn3 {
-
-	class ICollisionBody;
+	
 	class Sprite;
 	class SpriteMask;
 
 	class NarrowPhaseCollisionManager {
 
 	public:
-		bool TestCollision(ICollisionBody* a, ICollisionBody* b) const;
-		bool TestCollision(ICollisionBody* a, const PointF& position_a, ICollisionBody* b, const PointF& position_b) const;
+		bool TestCollision(ICollisionBody* a, ICollisionBody* b, CollisionManifold& m) const;
+		bool TestCollision(ICollisionBody* a, const PointF& position_a, ICollisionBody* b, const PointF& position_b, CollisionManifold& m) const;
 
 		// Returns true if two axis-aligned Sprites intersect at the specified positions.
 		bool TestIntersection(Sprite* s1, Sprite* s2, const PointF& p1, const PointF& p2) const;

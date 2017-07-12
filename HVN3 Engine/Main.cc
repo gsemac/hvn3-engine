@@ -2,7 +2,7 @@
 using namespace hvn3;
 
 GameManager GameState;
-Physics::BasicPhysicsManager PhysicsManager(nullptr);
+Physics::BasicPhysicsManager PhysicsManager;
 
 class DynamicBox : public Object {
 public:
@@ -10,7 +10,7 @@ public:
 	void OnCreate(CreateEventArgs& e) override {
 		_collision_body = GameState.Collisions().CreateBody(this);
 		_collision_body->SetHitMask(RectangleHitMask::Create(RectangleF(32.0f, 32.0f)));
-		_physics_body = PhysicsManager.CreateBody(this);
+		_physics_body = PhysicsManager.CreateBody(_collision_body);
 		_physics_body->SetType(Physics::BodyType::Dynamic);
 	}
 	void OnDestroy(DestroyEventArgs& e) override {
@@ -31,7 +31,7 @@ public:
 	void OnCreate(CreateEventArgs& e) override {
 		_collision_body = GameState.Collisions().CreateBody(this);
 		_collision_body->SetHitMask(RectangleHitMask::Create(RectangleF(512.0f, 16.0f)));
-		_physics_body = PhysicsManager.CreateBody(this);
+		_physics_body = PhysicsManager.CreateBody(_collision_body);
 		_physics_body->SetType(Physics::BodyType::Static);
 	}
 	void OnDestroy(DestroyEventArgs& e) override {

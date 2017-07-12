@@ -7,6 +7,7 @@
 namespace hvn3 {
 
 	class IHitMask;
+	struct CollisionManifold;
 
 	typedef std::unique_ptr<IHitMask> HitMaskPtr;
 
@@ -18,10 +19,10 @@ namespace hvn3 {
 
 		virtual RectangleF AABB() const = 0;
 
-		virtual bool TestIntersection(const HitMaskPtr& other) const = 0;
-		virtual bool TestIntersection(const RectangleF& other) const = 0;
-		virtual bool TestIntersection(const CircleF& other) const = 0;
-		virtual bool TestIntersection(const LineF& other) const = 0;
+		virtual bool TestCollision(const HitMaskPtr& other, CollisionManifold& manifold) const = 0;
+		virtual bool TestCollision(const RectangleF& other, CollisionManifold& manifold) const = 0;
+		virtual bool TestCollision(const CircleF& other, CollisionManifold& manifold) const = 0;
+		virtual bool TestCollision(const LineF& other, CollisionManifold& manifold) const = 0;
 
 	};
 
