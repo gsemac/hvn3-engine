@@ -25,7 +25,7 @@ namespace hvn3 {
 		b_mask->SetOffset(PointF(b_mask->Offset().X() + position_b.X(), b_mask->Offset().Y() + position_b.Y()));
 
 		// If the bounding boxes do not intersect, return false.
-		if (!hvn3::TestIntersection(a_mask->AABB(), b_mask->AABB()))
+		if (!Math::Geometry::TestIntersection(a_mask->AABB(), b_mask->AABB()))
 			hit = false;
 
 		// Test to see if the two masks intersect one another.
@@ -50,7 +50,7 @@ namespace hvn3 {
 		// Create bounding Rectangles from the Sprites.
 		RectangleF a(p1.X() - s1->Origin().X(), p1.Y() - s1->Origin().Y(), s1->Width(), s1->Height());
 		RectangleF b(p2.X() - s2->Origin().X(), p2.Y() - s2->Origin().Y(), s2->Width(), s2->Height());
-		if (!hvn3::TestIntersection(a, b)) return false;
+		if (!Math::Geometry::TestIntersection(a, b)) return false;
 
 		// Create Rectangle to represent the overlap area.
 		RectangleF overlap(PointF((std::max)(a.Left(), b.Left()), (std::max)(a.Top(), b.Top())),

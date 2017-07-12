@@ -533,7 +533,7 @@ namespace hvn3 {
 				_graphics.GetTransform().TransformPoint(port_p1);
 				_graphics.GetTransform().TransformPoint(port_p2);
 				RectangleF viewport(port_p1, port_p2);
-				if (!PointIn(pos, viewport))
+				if (!Math::Geometry::PointIn(pos, viewport))
 					continue;
 
 				// Get the scale of the actual viewport relative to the view's port, as well as the view's scale.
@@ -576,7 +576,7 @@ namespace hvn3 {
 			default: {
 
 				// If the mouse is outside of the clipping area, don't track it.
-				if (!PointIn(pos, _graphics.Clip()))
+				if (!Math::Geometry::PointIn(pos, _graphics.Clip()))
 					return;
 
 				// Set the position relative to the clipping area.

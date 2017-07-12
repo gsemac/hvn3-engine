@@ -155,7 +155,7 @@ namespace hvn3 {
 				if (String::IsNullOrEmpty(Text())) return 0;
 
 				// If the point is out of the textbox bounds, return first index.
-				if (!PointIn(point, RectangleF(real.X(), real.Y(), Width(), Height()))) return 0;
+				if (!Math::Geometry::PointIn(point, RectangleF(real.X(), real.Y(), Width(), Height()))) return 0;
 
 				// If the point is beyond the position of the string, return the last index.
 				if (point.X() > text_x2) return (int)Text().Length();

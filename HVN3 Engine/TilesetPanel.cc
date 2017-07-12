@@ -157,7 +157,7 @@ namespace hvn3 {
 		}
 		bool TilesetPanel::PositionIsOnBitmap(const PointF& position) {
 
-			return PointIn(position, RectangleF(-ScrollPosition().X(), -ScrollPosition().Y(), _tileset->Bitmap().Width(), _tileset->Bitmap().Height()));
+			return Math::Geometry::PointIn(position, RectangleF(-ScrollPosition().X(), -ScrollPosition().Y(), _tileset->Bitmap().Width(), _tileset->Bitmap().Height()));
 			
 
 		}

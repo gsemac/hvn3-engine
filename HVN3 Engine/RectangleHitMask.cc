@@ -30,17 +30,17 @@ namespace hvn3 {
 	}
 	bool RectangleHitMask::TestCollision(const RectangleF& other, CollisionManifold& manifold) const {
 
-		return hvn3::TestIntersection(_mask, other);
+		return Math::Geometry::TestIntersection(_mask, other);
 
 	}
 	bool RectangleHitMask::TestCollision(const CircleF& other, CollisionManifold& manifold) const {
 
-		return hvn3::TestIntersection(_mask, other);
+		return Math::Geometry::TestIntersection(_mask, other);
 
 	}
 	bool RectangleHitMask::TestCollision(const LineF& other, CollisionManifold& manifold) const {
 
-		return hvn3::TestIntersection(_mask, other);
+		return Math::Geometry::TestIntersection(_mask, other);
 
 	}
 
