@@ -94,7 +94,7 @@ namespace hvn3 {
 
 			// Calculate relative velocity in terms of the normal.
 			float velocity_along_normal = relative_velocity.DotProduct(manifold.Normal);
-			
+		
 			// If the velocities are separating, don't do anything.
 			if (velocity_along_normal > 0.0f)
 				return;
