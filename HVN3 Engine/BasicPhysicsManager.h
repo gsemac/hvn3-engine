@@ -5,20 +5,20 @@
 #include <unordered_map>
 
 namespace hvn3 {
-	
+
 	class Object;
 
 	namespace Collision {
 		class ICollisionBody;
 		struct CollisionManifold;
 	}
-	
+
 	namespace Physics {
 
 		class BasicPhysicsManager : public IPhysicsManager<Collision::ICollisionBody*> {
 
 			typedef std::unordered_map<IPhysicsManager::key_type, BasicPhysicsBody> collection_type;
-			typedef BasicPhysicsManager this_type;
+			typedef BasicPhysicsManager* this_type;
 			typedef BasicPhysicsBody mapped_type;
 
 		public:
@@ -36,9 +36,11 @@ namespace hvn3 {
 		private:
 			Collision::ICollisionManager<Object*>* _collision_manager;
 			collection_type _bodies;
-			Vector2d _gravity;
+			Vector2d _gravity;	
 
 			void _ResolveCollision(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const;
+			void _IntegrateForces(IPhysicsBody* body, float dt) const;
+			void _IntegrateVelocity(IPhysicsBody* body, float dt) const;
 
 		};
 

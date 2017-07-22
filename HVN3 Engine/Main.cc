@@ -12,7 +12,7 @@ public:
 		_collision_body->SetHitMask(Collision::RectangleHitMask::Create(RectangleF(32.0f, 32.0f)));
 		_physics_body = PhysicsManager.CreateBody(_collision_body);
 		_physics_body->SetType(Physics::BodyType::Dynamic);
-		_physics_body->SetLinearVelocity(Vector2d(0.0f, 1.0f));
+		//_physics_body->SetLinearVelocity(Vector2d(40, 0));
 	}
 	void OnDestroy(DestroyEventArgs& e) override {
 		// Destroy bodies
@@ -34,6 +34,7 @@ public:
 		_collision_body->SetHitMask(Collision::RectangleHitMask::Create(RectangleF(512.0f, 16.0f)));
 		_physics_body = PhysicsManager.CreateBody(_collision_body);
 		_physics_body->SetType(Physics::BodyType::Static);
+		_physics_body->SetMaterial(Physics::Material::Static);
 	}
 	void OnDestroy(DestroyEventArgs& e) override {
 		// Destroy bodies

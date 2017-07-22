@@ -57,4 +57,6 @@ namespace hvn3 {
 	PointF operator-(const PointF& lhs, const Vector2d& rhs);
 	PointF& operator-=(PointF& lhs, const Vector2d& rhs);
 
+	std::ostream& operator<< (std::ostream& stream, const Vector2d& vector);
+
 }

@@ -1,18 +1,21 @@
 #include "BasicPhysicsBody.h"
 #include "ICollisionBody.h"
+#include "Exception.h"
 
 namespace hvn3 {
 	namespace Physics {
 
-		BasicPhysicsBody::BasicPhysicsBody(Collision::ICollisionBody* body) {
+		BasicPhysicsBody::BasicPhysicsBody(Collision::ICollisionBody* body) :
+			_material(0.0f, 0.0f),
+			_linear_velocity(0.0f, 0.0f) {
 
 			//_key = object.get();
 			//_object = object;
 
-			_mass = 1.0f;
 			_restitution = 0.0f;
 			_type = BodyType::Dynamic;
 			_body = body;
+			SetMaterial(Material::Rock);
 
 		}
 
@@ -22,6 +25,11 @@ namespace hvn3 {
 			_position.SetY(_body->Y());
 
 			return _position;
+
+		}
+		void BasicPhysicsBody::SetPosition(const PointF& position) {
+
+			_body->SetPosition(position);
 
 		}
 		const Vector2d&	BasicPhysicsBody::LinearVelocity() const {
@@ -37,12 +45,22 @@ namespace hvn3 {
 
 		float BasicPhysicsBody::Mass() const {
 
-			return _mass;
+			return _mass_data.Mass;
 
 		}
-		void BasicPhysicsBody::SetMass(float value) {
+		float BasicPhysicsBody::InverseMass() const {
 
-			_mass = value;
+			return _mass_data.InverseMass;
+
+		}
+		Physics::MassData BasicPhysicsBody::MassData() const {
+
+			return _mass_data;
+
+		}
+		void BasicPhysicsBody::SetMassData(const Physics::MassData& value) {
+
+			_mass_data = value;
 
 		}
 		float BasicPhysicsBody::Restitution() const {
@@ -53,6 +71,40 @@ namespace hvn3 {
 		void BasicPhysicsBody::SetRestitution(float value) {
 
 			_restitution = value;
+
+		}
+		Vector2d BasicPhysicsBody::Force() const {
+
+			return _force;
+
+		}
+		void BasicPhysicsBody::SetForce(const Vector2d& force) {
+
+			_force = force;
+
+		}
+		void BasicPhysicsBody::ApplyForce(const Vector2d& force) {
+
+			_force += force;
+
+		}
+		void BasicPhysicsBody::ApplyForce(const Vector2d& force, const PointF& point) {
+
+			throw System::NotImplementedException();
+
+		}
+		Physics::Material BasicPhysicsBody::Material() const {
+
+			return _material;
+
+		}
+		void BasicPhysicsBody::SetMaterial(const Physics::Material& material) {
+
+			_material = material;
+
+			// mass = density * volume
+			_mass_data.Mass = _material.Density * (32 * 32);
+			_mass_data.InverseMass = _mass_data.Mass > 0.0f ? 1.0f / _mass_data.Mass : 0.0f;
 
 		}
 

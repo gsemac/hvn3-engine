@@ -301,6 +301,7 @@
     <ClCompile Include="IRoom.cc" />
     <ClCompile Include="IRoomTransition.cc" />
     <ClCompile Include="LevelEditor.cc" />
+    <ClCompile Include="Material.cc" />
     <ClCompile Include="MathUtils.cc" />
     <ClCompile Include="NarrowPhaseCollisionManager.cc" />
     <ClCompile Include="ObjectBase.cc" />
@@ -358,6 +359,7 @@
     <ClInclude Include="CollisionUtils.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Direction8.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="ObjectEventArgs.h" />
     <ClInclude Include="DisplayController.h" />

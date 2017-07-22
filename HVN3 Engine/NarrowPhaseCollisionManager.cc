@@ -32,7 +32,7 @@ namespace hvn3 {
 			// Test to see if the two masks intersect one another.
 			else
 				hit = a_mask->TestCollision(b_mask, m);
-
+			
 			// Reset the offsets.
 			a_mask->SetOffset(PointF(a_mask->Offset().X() - position_a.X(), a_mask->Offset().Y() - position_a.Y()));
 			b_mask->SetOffset(PointF(b_mask->Offset().X() - position_b.X(), b_mask->Offset().Y() - position_b.Y()));

@@ -534,6 +534,9 @@
     <ClCompile Include="CollisionManifold.cc">
       <Filter>Source Files\System\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="Material.cc">
+      <Filter>Source Files\System\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h">
@@ -1009,6 +1012,9 @@
     </ClInclude>
     <ClInclude Include="CollisionUtils.h">
       <Filter>Header Files\System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\System\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
