@@ -190,7 +190,7 @@
     <None Include="Environment.h">
       <Filter>Header Files\System</Filter>
     </None>
-    <None Include="README.md" />
+    <None Include="..\README.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cc">

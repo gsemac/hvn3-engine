@@ -228,9 +228,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\README.md" />
     <None Include="Environment.h" />
     <None Include="packages.config" />
-    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AllegroExtensions.cc" />
