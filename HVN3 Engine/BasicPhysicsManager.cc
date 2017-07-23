@@ -55,10 +55,10 @@ namespace hvn3 {
 			// If we do not have a collision manager, do nothing.
 			if (_collision_manager == nullptr)
 				return;
-			
+
 			// Get a list of colliding pairs from the collision manager.
 			auto pairs = _collision_manager->CollidingPairs();
-			
+
 			// Integrate forces for each physics body.
 			for (collection_type::iterator i = _bodies.begin(); i != _bodies.end(); ++i)
 				_IntegrateForces(&i->second, e.Delta());
@@ -73,7 +73,7 @@ namespace hvn3 {
 				// If either are null, don't consider the collision.
 				if (body_a == nullptr || body_b == nullptr)
 					break;
-				
+
 				// Resolve the collsion.
 				_ResolveCollision(body_a, body_b, *i);
 
@@ -94,11 +94,11 @@ namespace hvn3 {
 
 			// Calculate relative velocity in terms of the normal.
 			float velocity_along_normal = relative_velocity.DotProduct(manifold.Normal);
-		
+
 			// If the velocities are separating, don't do anything.
-			if (velocity_along_normal > 0.0f)
-				return;
-		
+			/*if (velocity_along_normal > 0.0f)
+				return;*/
+
 			// Use the lesser restitution of the two bodies.
 			float e = Math::Min(body_1->Restitution(), body_2->Restitution());
 
@@ -108,7 +108,6 @@ namespace hvn3 {
 
 			// Apply the impulse to both bodies.
 			Vector2d impulse = manifold.Normal * j;
-		
 			body_1->SetLinearVelocity(body_1->LinearVelocity() - (body_1->InverseMass() * impulse));
 			body_2->SetLinearVelocity(body_2->LinearVelocity() + (body_2->InverseMass() * impulse));
 
@@ -125,7 +124,7 @@ namespace hvn3 {
 
 			if (body->InverseMass() == 0.0f)
 				return;
-		
+
 			body->SetPosition(body->Position() + body->LinearVelocity() * dt);
 
 		}

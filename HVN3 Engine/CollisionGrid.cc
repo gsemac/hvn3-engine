@@ -71,8 +71,18 @@ namespace hvn3 {
 
 				// Generate colliding pairs for each combination of colliders with this key.
 				for (auto j = starting_it; j != ending_it; ++j)
-					for (auto k = std::next(j, 1); k != ending_it; ++k)
+					for (auto k = std::next(j, 1); k != ending_it; ++k) {
+
+						// If the objects can't possibly collide due to their filter flags, skip the pair.
+						if (
+							!(j->second->Filter().MaskBits() & k->second->Filter().CategoryBits()) && 
+							!(k->second->Filter().MaskBits() & j->second->Filter().CategoryBits())
+							)
+							continue;
+
 						pairs.insert(std::pair<collider_type*, collider_type*>(j->second, k->second));
+
+					}						
 
 				// Continue the loop for the next key.
 				i = ending_it;

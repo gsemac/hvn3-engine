@@ -10,9 +10,12 @@ public:
 	void OnCreate(CreateEventArgs& e) override {
 		_collision_body = GameState.Collisions().CreateBody(this);
 		_collision_body->SetHitMask(Collision::RectangleHitMask::Create(RectangleF(32.0f, 32.0f)));
+		_collision_body->Filter().SetCategoryBits(1);
+		_collision_body->Filter().SetMaskBits(1 | 2);
 		_physics_body = PhysicsManager.CreateBody(_collision_body);
 		_physics_body->SetType(Physics::BodyType::Dynamic);
-		//_physics_body->SetLinearVelocity(Vector2d(40, 0));
+		if (Random::Boolean())
+			_physics_body->SetLinearVelocity(Vector2d(40, 0));
 	}
 	void OnDestroy(DestroyEventArgs& e) override {
 		// Destroy bodies
@@ -20,6 +23,8 @@ public:
 	void OnDraw(DrawEventArgs& e) override {
 		e.Graphics().DrawFilledRectangle(X(), Y(), 32.0f, 32.0f, Color::White);
 		e.Graphics().DrawRectangle(X(), Y(), 32.0f, 32.0f, Color::Black, 2.0f);
+	}
+	void OnCollision(CollisionEventArgs& e) override {
 	}
 private:
 	Physics::IPhysicsBody* _physics_body;
@@ -32,6 +37,7 @@ public:
 	void OnCreate(CreateEventArgs& e) override {
 		_collision_body = GameState.Collisions().CreateBody(this);
 		_collision_body->SetHitMask(Collision::RectangleHitMask::Create(RectangleF(512.0f, 16.0f)));
+		_collision_body->Filter().SetCategoryBits(2);
 		_physics_body = PhysicsManager.CreateBody(_collision_body);
 		_physics_body->SetType(Physics::BodyType::Static);
 		_physics_body->SetMaterial(Physics::Material::Static);
@@ -53,18 +59,21 @@ public:
 	void OnUpdate(UpdateEventArgs& e) override {
 		Room::OnUpdate(e);
 		PhysicsManager.OnUpdate(e);
+		if (Keyboard::KeyPressed(Key::F5))
+			GameState.Rooms().RestartRoom();
 	}
 protected:
 	void OnSetUp() override {
 		PhysicsManager = Physics::BasicPhysicsManager(Collisions());
 		SetBackgroundColor(Color::Silver);
 		Objects()->AddInstance(Object::Create<DynamicBox>(320.0f, 240.0f));
-		Objects()->AddInstance(Object::Create<StaticBox>(50.0f, 400.0f));
+		Objects()->AddInstance(Object::Create<DynamicBox>(280.0f, 240.0f));
+		Objects()->AddInstance(Object::Create<StaticBox>(0.0f, 400.0f));
 	}
 };
 
 int main(int argc, char *argv[]) {
-	
+
 	// Initialize game properties.
 	GameState.Initialize(argc, argv);
 	GameState.Properties().DebugMode = true;
