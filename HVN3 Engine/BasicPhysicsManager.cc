@@ -12,7 +12,7 @@ namespace hvn3 {
 
 		BasicPhysicsManager::BasicPhysicsManager(Collision::ICollisionManager<Object*>* collision_manager) {
 
-			_gravity = Vector2d::FromDirection(DIRECTION_DOWN, Physics::StandardGravity() * 10.0f);
+			_gravity = Vector2d::FromDirection(DIRECTION_DOWN, Physics::StandardGravity() * 100.0f);
 			_collision_manager = collision_manager;
 
 		}
@@ -60,7 +60,7 @@ namespace hvn3 {
 			auto pairs = _collision_manager->CollidingPairs();
 
 			// Integrate forces for each physics body.
-			for (collection_type::iterator i = _bodies.begin(); i != _bodies.end(); ++i)
+			for (auto i = _bodies.begin(); i != _bodies.end(); ++i)
 				_IntegrateForces(&i->second, e.Delta());
 
 			// We need to handle the collision between each pair of bodies.
@@ -80,7 +80,7 @@ namespace hvn3 {
 			}
 
 			// Integrate velocities for each physics body.
-			for (collection_type::iterator i = _bodies.begin(); i != _bodies.end(); ++i)
+			for (auto i = _bodies.begin(); i != _bodies.end(); ++i)
 				_IntegrateVelocity(&i->second, e.Delta());
 
 		}
@@ -88,7 +88,7 @@ namespace hvn3 {
 		// Private methods
 
 		void BasicPhysicsManager::_ResolveCollision(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const {
-
+			
 			// Calculate relative velocity.
 			Vector2d relative_velocity = body_2->LinearVelocity() - body_1->LinearVelocity();
 

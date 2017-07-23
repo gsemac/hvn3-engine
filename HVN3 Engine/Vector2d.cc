@@ -120,7 +120,7 @@ namespace hvn3 {
 
 	float Vector2d::DotProduct(const Vector2d& other) const {
 
-		return (_x * _y) + (other._x * other._y);
+		return (_x * other._x) + (_y * other._y);
 
 	}
 	Vector2d Vector2d::CrossProduct(const Vector2d& other) const {

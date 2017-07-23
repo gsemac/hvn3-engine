@@ -15,7 +15,7 @@ public:
 		_physics_body = PhysicsManager.CreateBody(_collision_body);
 		_physics_body->SetType(Physics::BodyType::Dynamic);
 		if (Random::Boolean())
-			_physics_body->SetLinearVelocity(Vector2d(40, 0));
+			_physics_body->SetLinearVelocity(Vector2d::FromDirection(DIRECTION_RIGHT, 40.0f));
 	}
 	void OnDestroy(DestroyEventArgs& e) override {
 		// Destroy bodies
@@ -25,6 +25,9 @@ public:
 		e.Graphics().DrawRectangle(X(), Y(), 32.0f, 32.0f, Color::Black, 2.0f);
 	}
 	void OnCollision(CollisionEventArgs& e) override {
+	}
+	void OnUpdate(UpdateEventArgs& e) override {
+		//std::cout << _physics_body->LinearVelocity().Direction() << std::endl;
 	}
 private:
 	Physics::IPhysicsBody* _physics_body;
@@ -61,14 +64,16 @@ public:
 		PhysicsManager.OnUpdate(e);
 		if (Keyboard::KeyPressed(Key::F5))
 			GameState.Rooms().RestartRoom();
+		if(Mouse::ButtonPressed(MouseButton::Left))
+			Objects()->AddInstance(Object::Create<DynamicBox>(Mouse::X, Mouse::Y));
 	}
 protected:
 	void OnSetUp() override {
 		PhysicsManager = Physics::BasicPhysicsManager(Collisions());
 		SetBackgroundColor(Color::Silver);
-		Objects()->AddInstance(Object::Create<DynamicBox>(320.0f, 240.0f));
-		Objects()->AddInstance(Object::Create<DynamicBox>(280.0f, 240.0f));
-		Objects()->AddInstance(Object::Create<StaticBox>(0.0f, 400.0f));
+		//Objects()->AddInstance(Object::Create<DynamicBox>(320.0f, 240.0f));
+		//Objects()->AddInstance(Object::Create<DynamicBox>(280.0f, 240.0f));
+		Objects()->AddInstance(Object::Create<StaticBox>(64.0f, 400.0f));
 	}
 };
 

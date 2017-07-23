@@ -15,7 +15,7 @@ namespace hvn3 {
 		DIRECTION_DOWN = 270,
 		DIRECTION_DOWN_RIGHT = 315
 	};
-
+	 
 	class Direction8 {
 
 	public:
