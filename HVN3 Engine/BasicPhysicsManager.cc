@@ -83,21 +83,35 @@ namespace hvn3 {
 			for (auto i = _bodies.begin(); i != _bodies.end(); ++i)
 				_IntegrateVelocity(&i->second, e.Delta());
 
+			// Apply positional correction.
+			for (auto i = pairs.begin(); i != pairs.end(); ++i) {
+
+				BasicPhysicsBody* body_a = GetBody(i->BodyA);
+				BasicPhysicsBody* body_b = GetBody(i->BodyB);
+
+				if (body_a == nullptr || body_b == nullptr)
+					break;
+			
+				_PositionalCorrection(body_a, body_b, *i);
+
+			}
+
+
 		}
 
 		// Private methods
 
 		void BasicPhysicsManager::_ResolveCollision(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const {
-			
+
 			// Calculate relative velocity.
 			Vector2d relative_velocity = body_2->LinearVelocity() - body_1->LinearVelocity();
 
 			// Calculate relative velocity in terms of the normal.
 			float velocity_along_normal = relative_velocity.DotProduct(manifold.Normal);
 
-			// If the velocities are separating, don't do anything.
-			/*if (velocity_along_normal > 0.0f)
-				return;*/
+			//// If the velocities are separating, don't do anything.
+			if (velocity_along_normal > 0.0f)
+				return;
 
 			// Use the lesser restitution of the two bodies.
 			float e = Math::Min(body_1->Restitution(), body_2->Restitution());
@@ -126,6 +140,16 @@ namespace hvn3 {
 				return;
 
 			body->SetPosition(body->Position() + body->LinearVelocity() * dt);
+
+		}
+		void BasicPhysicsManager::_PositionalCorrection(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const {
+
+			const float percent = 0.4f;
+			const float slop = 0.05f;
+			Vector2d correction = Math::Max(manifold.Penetration - slop, 0.0f) / (body_1->InverseMass() + body_2->InverseMass()) * percent * manifold.Normal;
+
+			body_1->SetPosition(body_1->Position() + (body_1->InverseMass() * correction));
+			body_2->SetPosition(body_2->Position() - (body_2->InverseMass() * correction));
 
 		}
 

@@ -41,6 +41,7 @@ namespace hvn3 {
 			void _ResolveCollision(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const;
 			void _IntegrateForces(IPhysicsBody* body, float dt) const;
 			void _IntegrateVelocity(IPhysicsBody* body, float dt) const;
+			void _PositionalCorrection(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const;
 
 		};
 

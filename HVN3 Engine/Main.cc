@@ -14,8 +14,8 @@ public:
 		_collision_body->Filter().SetMaskBits(1 | 2);
 		_physics_body = PhysicsManager.CreateBody(_collision_body);
 		_physics_body->SetType(Physics::BodyType::Dynamic);
-		if (Random::Boolean())
-			_physics_body->SetLinearVelocity(Vector2d::FromDirection(DIRECTION_RIGHT, 40.0f));
+		/*if (Random::Boolean())
+			_physics_body->SetLinearVelocity(Vector2d::FromDirection(DIRECTION_RIGHT, 40.0f));*/
 	}
 	void OnDestroy(DestroyEventArgs& e) override {
 		// Destroy bodies

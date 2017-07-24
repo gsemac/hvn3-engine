@@ -15,7 +15,7 @@ namespace hvn3 {
 			_restitution = 0.0f;
 			_type = BodyType::Dynamic;
 			_body = body;
-			SetMaterial(Material::Rock);
+			SetMaterial(Material::Metal);
 
 		}
 
