@@ -5,6 +5,11 @@
 
 namespace hvn3 {
 
+	enum class RoomTransition {
+		None,
+		Fade
+	};
+
 	class IRoomTransition;
 
 	typedef std::unique_ptr<IRoomTransition> RoomTransitionPtr;

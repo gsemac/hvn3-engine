@@ -3,6 +3,7 @@
 #include "RoomEnterEventArgs.h"
 #include "RoomExitEventArgs.h"
 #include "RoomTransitionNone.h"
+#include "RoomTransitionFade.h"
 #include <utility>
 
 namespace hvn3 {
@@ -126,6 +127,21 @@ namespace hvn3 {
 	void RoomManager::SetRoomTransition(RoomTransitionPtr& transition) {
 
 		_transition = std::move(transition);
+
+	}
+	void RoomManager::SetRoomTransition(RoomTransition transition) {
+
+		switch (transition) {
+
+		case RoomTransition::None:
+			SetRoomTransition(RoomTransitionNone::Create(new RoomTransitionNone));
+			break;
+
+		case RoomTransition::Fade:
+			SetRoomTransition(RoomTransitionFade::Create(new RoomTransitionFade(Color::Black, true)));
+			break;
+
+		}
 
 	}
 

@@ -35,6 +35,7 @@ namespace hvn3 {
 		size_t RoomCount() const;
 
 		void SetRoomTransition(RoomTransitionPtr& transition);
+		void SetRoomTransition(RoomTransition transition);
 
 		void Update(UpdateEventArgs& e);
 		void Draw(DrawEventArgs& e);
