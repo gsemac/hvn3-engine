@@ -238,8 +238,6 @@
     <ClCompile Include="BackgroundDrawEventArgs.cc" />
     <ClCompile Include="BackgroundManager.cc" />
     <ClCompile Include="BackgroundProperties.cc" />
-    <ClCompile Include="BasicPhysicsBody.cc" />
-    <ClCompile Include="BasicPhysicsManager.cc" />
     <ClCompile Include="Bitmap.cc" />
     <ClCompile Include="CircleHitMask.cc" />
     <ClCompile Include="CollisionEventArgs.cc" />
@@ -302,14 +300,16 @@
     <ClCompile Include="IRoom.cc" />
     <ClCompile Include="IRoomTransition.cc" />
     <ClCompile Include="LevelEditor.cc" />
-    <ClCompile Include="Material.cc" />
     <ClCompile Include="MathUtils.cc" />
     <ClCompile Include="NarrowPhaseCollisionManager.cc" />
     <ClCompile Include="ObjectBase.cc" />
     <ClCompile Include="ObjectCollisionBody.cc" />
     <ClCompile Include="ObjectManager.cc" />
     <ClCompile Include="Padding.cc" />
-    <ClCompile Include="PhysicsUtils.cc" />
+    <ClCompile Include="physics\BasicPhysicsBody.cc" />
+    <ClCompile Include="physics\BasicPhysicsManager.cc" />
+    <ClCompile Include="physics\Material.cc" />
+    <ClCompile Include="physics\PhysicsUtils.cc" />
     <ClCompile Include="Properties.cc" />
     <ClCompile Include="Graphics.cc" />
     <ClCompile Include="GraphicsState.cc" />
@@ -351,8 +351,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroForwardDeclarations.h" />
-    <ClInclude Include="BasicPhysicsBody.h" />
-    <ClInclude Include="BasicPhysicsManager.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="CircleHitMask.h" />
     <ClInclude Include="CollisionEventArgs.h" />
@@ -360,7 +358,6 @@
     <ClInclude Include="CollisionUtils.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Direction8.h" />
-    <ClInclude Include="Material.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="ObjectEventArgs.h" />
     <ClInclude Include="DisplayController.h" />
@@ -428,8 +425,6 @@
     <ClInclude Include="ICollisionManager.h" />
     <ClInclude Include="IHitMask.h" />
     <ClInclude Include="IObjectManagerListener.h" />
-    <ClInclude Include="IPhysicsBody.h" />
-    <ClInclude Include="IPhysicsManager.h" />
     <ClInclude Include="IPositionable2d.h" />
     <ClInclude Include="IRoomTransition.h" />
     <ClInclude Include="LevelEditor.h" />
@@ -437,13 +432,20 @@
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="ObjectCollisionBody.h" />
     <ClInclude Include="Padding.h" />
-    <ClInclude Include="PhysicsUtils.h" />
+    <ClInclude Include="physics\BasicPhysicsBody.h" />
+    <ClInclude Include="physics\BasicPhysicsManager.h" />
+    <ClInclude Include="physics\IPhysicsBody.h" />
+    <ClInclude Include="physics\IPhysicsManager.h" />
+    <ClInclude Include="physics\Material.h" />
+    <ClInclude Include="physics\PhysicsUtils.h" />
     <ClInclude Include="PointGeometry.h" />
     <ClInclude Include="RectangleHitMask.h" />
     <ClInclude Include="RoomTransitionFade.h" />
     <ClInclude Include="RoomTransitionNone.h" />
     <ClInclude Include="SharedCreatableBase.h" />
     <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="test\Global.h" />
+    <ClInclude Include="test\PhysicsRoom.h" />
     <ClInclude Include="Thread.h" />
     <ClInclude Include="TilesetPanel.h" />
     <ClInclude Include="UniqueCreateableBase.h" />

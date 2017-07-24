@@ -184,6 +184,9 @@
     <Filter Include="Source Files\Resources\Gui\Interfaces">
       <UniqueIdentifier>{dcc5ed3a-787c-4e7d-adb7-125a84fd4903}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test Rooms">
+      <UniqueIdentifier>{334faef5-3f94-474f-86ed-8f31b70737f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -475,12 +478,6 @@
     <ClCompile Include="GridRenderer.cc">
       <Filter>Source Files\Drawing</Filter>
     </ClCompile>
-    <ClCompile Include="BasicPhysicsBody.cc">
-      <Filter>Source Files\System\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="BasicPhysicsManager.cc">
-      <Filter>Source Files\System\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="IObjectManagerListener.cc">
       <Filter>Source Files\System\Managers\Listeners</Filter>
     </ClCompile>
@@ -529,13 +526,19 @@
     <ClCompile Include="MathUtils.cc">
       <Filter>Source Files\Helper</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsUtils.cc">
-      <Filter>Source Files\System\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionManifold.cc">
       <Filter>Source Files\System\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Material.cc">
+    <ClCompile Include="physics\BasicPhysicsBody.cc">
+      <Filter>Source Files\System\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="physics\BasicPhysicsManager.cc">
+      <Filter>Source Files\System\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="physics\Material.cc">
+      <Filter>Source Files\System\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="physics\PhysicsUtils.cc">
       <Filter>Source Files\System\Physics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -924,18 +927,6 @@
     <ClInclude Include="GridRenderer.h">
       <Filter>Header Files\Drawing</Filter>
     </ClInclude>
-    <ClInclude Include="IPhysicsManager.h">
-      <Filter>Header Files\System\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="IPhysicsBody.h">
-      <Filter>Header Files\System\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="BasicPhysicsBody.h">
-      <Filter>Header Files\System\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="BasicPhysicsManager.h">
-      <Filter>Header Files\System\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="IObjectManagerListener.h">
       <Filter>Header Files\System\Managers\Listeners</Filter>
     </ClInclude>
@@ -1005,16 +996,34 @@
     <ClInclude Include="MathUtils.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsUtils.h">
-      <Filter>Header Files\System\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionManifold.h">
       <Filter>Header Files\System\Collision</Filter>
     </ClInclude>
     <ClInclude Include="CollisionUtils.h">
       <Filter>Header Files\System\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
+    <ClInclude Include="test\PhysicsRoom.h">
+      <Filter>Test Rooms</Filter>
+    </ClInclude>
+    <ClInclude Include="test\Global.h">
+      <Filter>Test Rooms</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\Material.h">
+      <Filter>Header Files\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\PhysicsUtils.h">
+      <Filter>Header Files\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\BasicPhysicsBody.h">
+      <Filter>Header Files\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\BasicPhysicsManager.h">
+      <Filter>Header Files\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\IPhysicsBody.h">
+      <Filter>Header Files\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\IPhysicsManager.h">
       <Filter>Header Files\System\Physics</Filter>
     </ClInclude>
   </ItemGroup>

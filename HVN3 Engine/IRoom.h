@@ -3,7 +3,7 @@
 #include "IDrawable.h"
 #include "DisplaySizeChangedEventArgs.h"
 #include "Color.h"
-#include "IPhysicsManager.h"
+#include "physics/IPhysicsManager.h"
 #include "Rectangle.h"
 #include "RoomEnterEventArgs.h"
 #include "RoomExitEventArgs.h"

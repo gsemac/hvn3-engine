@@ -3,7 +3,7 @@
 #include "BackgroundManager.h"
 #include "ViewManager.h"
 #include "CollisionManager.h"
-#include "IPhysicsManager.h"
+#include "physics/IPhysicsManager.h"
 #include "UniqueCreateableBase.h"
 #include "ObjectManager.h"
 
