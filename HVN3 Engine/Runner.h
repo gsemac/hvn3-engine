@@ -6,6 +6,7 @@
 #include "Graphics.h"
 #include "RoomManager.h"
 #include "Stopwatch.h"
+#include "FpsCounter.h"
 
 namespace hvn3 {
 
@@ -64,6 +65,7 @@ namespace hvn3 {
 		Stopwatch _delta_timer;
 		// Flag used to detect when the fullscreen state of the display changes.
 		bool _display_was_fullscreen;
+		System::FpsCounter _fps_counter;
 
 		RoomManager& _room_manager;
 		Display _display;

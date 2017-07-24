@@ -259,6 +259,7 @@
     <ClCompile Include="EventSource.cc" />
     <ClCompile Include="Exception.cc" />
     <ClCompile Include="Font.cc" />
+    <ClCompile Include="FpsCounter.cc" />
     <ClCompile Include="Framework.cc" />
     <ClCompile Include="FrameworkAdapter.cc" />
     <ClCompile Include="GameManager.cc" />
@@ -358,6 +359,7 @@
     <ClInclude Include="CollisionUtils.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Direction8.h" />
+    <ClInclude Include="FpsCounter.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="ObjectEventArgs.h" />
     <ClInclude Include="DisplayController.h" />

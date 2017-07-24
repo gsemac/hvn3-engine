@@ -52,6 +52,11 @@ namespace hvn3 {
 		_start = clock_type::now();
 		
 	}
+	bool Stopwatch::IsTiming() const {
+
+		return _running;
+
+	}
 
 	int64_t Stopwatch::NanoSecondsElapsed() {
 

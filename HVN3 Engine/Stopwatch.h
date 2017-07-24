@@ -12,6 +12,7 @@ namespace hvn3 {
 		void Start();
 		void Stop();
 		void Reset();
+		bool IsTiming() const;
 
 		int64_t NanoSecondsElapsed();
 		double MicroSecondsElapsed();

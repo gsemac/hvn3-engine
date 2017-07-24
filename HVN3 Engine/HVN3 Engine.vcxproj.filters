@@ -541,6 +541,9 @@
     <ClCompile Include="physics\PhysicsUtils.cc">
       <Filter>Source Files\System\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="FpsCounter.cc">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h">
@@ -1025,6 +1028,9 @@
     </ClInclude>
     <ClInclude Include="physics\IPhysicsManager.h">
       <Filter>Header Files\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="FpsCounter.h">
+      <Filter>Header Files\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

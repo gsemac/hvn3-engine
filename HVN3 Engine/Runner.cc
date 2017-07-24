@@ -29,7 +29,8 @@ namespace hvn3 {
 		_timer(1.0f / properties.Fps),
 		_display(properties.DisplaySize.Width(), properties.DisplaySize.Height(), properties.DisplayTitle.c_str(), properties.DisplayFlags),
 		_graphics(_display.BackBuffer()),
-		_room_manager(room_manager) {
+		_room_manager(room_manager),
+		_fps_counter(0.25) {
 
 		// Create the display, and initialize its parameters.
 		if (properties.StartFullscreen)
@@ -59,10 +60,6 @@ namespace hvn3 {
 		if (_default_font)
 			delete _default_font;
 		_default_font = nullptr;
-
-		//if (__graphics)
-		//	delete __graphics;
-		//__graphics = nullptr;
 
 	}
 	void Runner::Draw(DrawEventArgs& e) {
@@ -221,28 +218,19 @@ namespace hvn3 {
 	}
 	void Runner::DrawFps() {
 
-		// Initialize variables.
-		static float fps_buf[60];
-		static float fps_sum = 0.0f;
-		static int buf_index = 0;
-		static Stopwatch fps_timer(true);
+		// Update the FPS counter.
+		_fps_counter.NextFrame();
 
-		// Calculate the average FPS over 60 frames.
-		int new_fps = (float)(1.0f / fps_timer.SecondsElapsed());
-		fps_sum -= fps_buf[buf_index];
-		fps_sum += new_fps;
-		fps_buf[buf_index] = new_fps;
-		if (++buf_index == 60)
-			buf_index = 0;
+		// Get the average FPS at this instant.
+		double fps = Math::Round(_fps_counter.AverageFps());
+		if (_properties.FixedFrameRate)
+			fps = Math::Min(fps, (double)_properties.Fps);
 
 		// Draw the FPS.
 		std::stringstream ss;
-		ss << (int)(std::min)((std::ceil)(fps_sum / 60.0f), Properties().Fps) << " FPS";
+		ss << fps << " FPS";
 		_graphics.DrawText(11, 11, ss.str().c_str(), SystemFont(), Color::Black);
 		_graphics.DrawText(10, 10, ss.str().c_str(), SystemFont(), Color::White);
-
-		// Reset the FPS timer.
-		fps_timer.Reset();
 
 	}
 

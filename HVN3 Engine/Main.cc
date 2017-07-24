@@ -1,6 +1,5 @@
 #include "HVN3.h"
 #include "test/Global.h"
-using namespace hvn3;
 
 int main(int argc, char *argv[]) {
 	
