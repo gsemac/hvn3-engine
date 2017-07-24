@@ -6,7 +6,7 @@ namespace hvn3 {
 
 	class Display;
 
-	class DisplaySizeChangedEventArgs : public EventArgs {
+	class DisplaySizeChangedEventArgs : public System::EventArgs {
 
 	public:
 		DisplaySizeChangedEventArgs(const Size<int>& old_size, const Size<int>& new_size, Display* display);

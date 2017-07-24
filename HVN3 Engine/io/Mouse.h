@@ -68,7 +68,7 @@ namespace hvn3 {
 		static void ShowCursor();
 		static void HideCursor();
 		static void SetCursor(SystemCursor cursor);
-		static EventSource EventSource();
+		static System::EventSource EventSource();
 
 	private:
 		struct MouseButton {

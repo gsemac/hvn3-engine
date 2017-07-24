@@ -2,11 +2,13 @@
 #include "EventSource.h"
 
 namespace hvn3 {
+	namespace System {
 
-	EventSource::EventSource(ALLEGRO_EVENT_SOURCE* source) {
+		EventSource::EventSource(ALLEGRO_EVENT_SOURCE* source) {
 
-		__ev_source = source;
+			_event_source = source;
+
+		}
 
 	}
-
 }

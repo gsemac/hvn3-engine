@@ -6,7 +6,7 @@ namespace hvn3 {
 	
 	class Object;
 
-	class InstanceAddedEventArgs : public EventArgs {
+	class InstanceAddedEventArgs : public System::EventArgs {
 	public:
 		InstanceAddedEventArgs(Object* instance);
 		Object* Instance();
@@ -14,7 +14,7 @@ namespace hvn3 {
 		Object* _instance;
 	};
 
-	class InstanceRemovedEventArgs : public EventArgs {
+	class InstanceRemovedEventArgs : public System::EventArgs {
 	public:
 		InstanceRemovedEventArgs(Object* instance);
 		Object* Instance();
@@ -22,7 +22,7 @@ namespace hvn3 {
 		Object* _instance;
 	};
 
-	class InstancesClearedEventArgs : public EventArgs {
+	class InstancesClearedEventArgs : public System::EventArgs {
 	public:
 		InstancesClearedEventArgs() = default;
 	};

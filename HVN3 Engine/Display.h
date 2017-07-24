@@ -65,7 +65,7 @@ namespace hvn3 {
 		bool IsFullscreen() const;
 		void SetFullscreen(bool value);
 		bool HasFocus() const;
-		hvn3::EventSource EventSource() const;
+		System::EventSource EventSource() const;
 		Drawing::Bitmap BackBuffer() const;
 		ALLEGRO_DISPLAY* AlPtr() const;
 		void Refresh();

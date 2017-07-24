@@ -265,9 +265,6 @@
     <ClCompile Include="Environment.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
-    <ClCompile Include="Event.cc">
-      <Filter>Source Files\System\Events</Filter>
-    </ClCompile>
     <ClCompile Include="EventQueue.cc">
       <Filter>Source Files\System\Events</Filter>
     </ClCompile>
@@ -544,6 +541,9 @@
     <ClCompile Include="FpsCounter.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
+    <ClCompile Include="Event.cc">
+      <Filter>Source Files\System\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h">
@@ -662,9 +662,6 @@
     </ClInclude>
     <ClInclude Include="HVN3.h">
       <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Event.h">
-      <Filter>Header Files\System\Events</Filter>
     </ClInclude>
     <ClInclude Include="EventQueue.h">
       <Filter>Header Files\System\Events</Filter>
@@ -1031,6 +1028,9 @@
     </ClInclude>
     <ClInclude Include="FpsCounter.h">
       <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Header Files\System\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

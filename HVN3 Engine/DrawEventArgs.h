@@ -4,7 +4,7 @@
 
 namespace hvn3 {
 
-	class DrawEventArgs : public EventArgs {
+	class DrawEventArgs : public System::EventArgs {
 
 	public:
 		DrawEventArgs(Drawing::Graphics& graphics);

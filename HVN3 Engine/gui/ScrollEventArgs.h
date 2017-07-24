@@ -6,7 +6,7 @@ namespace hvn3 {
 
 	namespace Gui {
 
-		class ScrollEventArgs : public EventArgs {
+		class ScrollEventArgs : public hvn3::System::EventArgs {
 
 		public:
 			ScrollEventArgs(float percent, float position, Orientation orientation);

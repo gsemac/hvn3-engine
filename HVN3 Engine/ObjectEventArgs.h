@@ -3,14 +3,14 @@
 
 namespace hvn3 {
 
-	class CreateEventArgs : public EventArgs {
+	class CreateEventArgs : public System::EventArgs {
 
 	public:
 		CreateEventArgs() = default;
 
 	};
 
-	class DestroyEventArgs : public EventArgs {
+	class DestroyEventArgs : public System::EventArgs {
 
 	public:
 		DestroyEventArgs() = default;

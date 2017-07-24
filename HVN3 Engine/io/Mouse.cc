@@ -130,9 +130,9 @@ namespace hvn3 {
 		al_set_system_mouse_cursor(Display::ActiveDisplay()->AlPtr(), (ALLEGRO_SYSTEM_MOUSE_CURSOR)cursor);
 
 	}
-	hvn3::EventSource Mouse::EventSource() {
+	System::EventSource Mouse::EventSource() {
 
-		return hvn3::EventSource(al_get_mouse_event_source());
+		return System::EventSource(al_get_mouse_event_source());
 
 	}
 

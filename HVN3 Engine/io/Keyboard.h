@@ -201,7 +201,7 @@ namespace hvn3 {
 		static bool IsChar(int key_code);
 		static bool IsChar(hvn3::Key key);
 
-		static EventSource EventSource();
+		static System::EventSource EventSource();
 
 	private:
 		struct Key {

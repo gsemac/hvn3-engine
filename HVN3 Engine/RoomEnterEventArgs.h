@@ -3,7 +3,7 @@
 
 namespace hvn3 {
 
-	class RoomEnterEventArgs : public EventArgs {
+	class RoomEnterEventArgs : public System::EventArgs {
 
 	public:
 		RoomEnterEventArgs();

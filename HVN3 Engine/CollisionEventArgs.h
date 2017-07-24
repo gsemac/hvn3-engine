@@ -9,7 +9,7 @@ namespace hvn3 {
 		class ICollisionBody;
 	}
 
-	class CollisionEventArgs : public EventArgs {
+	class CollisionEventArgs : public System::EventArgs {
 
 	public:
 		CollisionEventArgs(Object* other, Collision::ICollisionBody* body);

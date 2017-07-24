@@ -21,7 +21,7 @@ namespace hvn3 {
 		ResourceManager& Resources();
 		Collision::ICollisionManager<Object*>& Collisions();
 		IObjectManager& Objects();
-		Runner& Runner();
+		System::Runner& Runner();
 
 	protected:
 		virtual void Shutdown();
@@ -30,7 +30,7 @@ namespace hvn3 {
 		hvn3::Properties _properties;
 		hvn3::RoomManager _room_manager;
 		hvn3::ResourceManager _resource_manager;
-		hvn3::Runner* _runner;
+		System::Runner* _runner;
 
 	};
 

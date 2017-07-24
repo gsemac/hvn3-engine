@@ -104,7 +104,7 @@ namespace hvn3 {
 
 	}
 
-	hvn3::EventSource Keyboard::EventSource() {
+	System::EventSource Keyboard::EventSource() {
 
 		return al_get_keyboard_event_source();
 

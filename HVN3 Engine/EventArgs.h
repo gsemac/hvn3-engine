@@ -4,20 +4,22 @@
 // This class will eventually replace Event as more specific event types are derived from it.
 
 namespace hvn3 {
+	namespace System {
 
-	class EventArgs {
+		class EventArgs {
 
-	public:
-		EventArgs();
-		EventArgs(const EventSource& source);
+		public:
+			EventArgs();
+			EventArgs(const EventSource& source);
 
-		const EventSource& Source() const;
-		double Timestamp() const;
+			const EventSource& Source() const;
+			double Timestamp() const;
 
-	private:
-		//EventSource __source;
-		double __timestamp;
+		private:
+			//EventSource __source;
+			double _timestamp;
 
-	};
+		};
 
+	}
 }

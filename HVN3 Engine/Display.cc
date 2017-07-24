@@ -183,9 +183,9 @@ namespace hvn3 {
 		return _has_focus;
 
 	}
-	hvn3::EventSource Display::EventSource() const {
+	System::EventSource Display::EventSource() const {
 
-		return hvn3::EventSource(al_get_display_event_source(_display));
+		return System::EventSource(al_get_display_event_source(_display));
 
 	}
 	Drawing::Bitmap Display::BackBuffer() const {

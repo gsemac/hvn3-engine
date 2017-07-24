@@ -24,7 +24,7 @@ namespace hvn3 {
 	}
 	void GameManager::Loop() {
 
-		_runner = new hvn3::Runner(_properties, _room_manager);
+		_runner = new System::Runner(_properties, _room_manager);
 
 		_runner->Loop();
 
@@ -90,7 +90,7 @@ namespace hvn3 {
 		return *ptr;
 
 	}
-	Runner& GameManager::Runner() {
+	System::Runner& GameManager::Runner() {
 
 		return *_runner;
 

@@ -47,7 +47,7 @@ namespace hvn3 {
 			Fill
 		};
 
-		struct ResizeEventArgs : public EventArgs {
+		struct ResizeEventArgs : public hvn3::System::EventArgs {
 
 		public:
 			ResizeEventArgs(const Size<float>& old_size, const Size<float>& new_size) :
@@ -79,7 +79,7 @@ namespace hvn3 {
 
 		};
 
-		class ManagerChangedEventArgs : public EventArgs {
+		class ManagerChangedEventArgs : public hvn3::System::EventArgs {
 
 		public:
 			ManagerChangedEventArgs(GuiManager* old_manager) {
@@ -98,7 +98,7 @@ namespace hvn3 {
 
 		};
 
-		class MoveEventArgs : public EventArgs {
+		class MoveEventArgs : public hvn3::System::EventArgs {
 
 		public:
 			MoveEventArgs(const Point2d<float>& old_position) :
@@ -116,7 +116,7 @@ namespace hvn3 {
 
 		};
 
-		class EnabledChangedEventArgs : public EventArgs {
+		class EnabledChangedEventArgs : public hvn3::System::EventArgs {
 
 		public:
 			EnabledChangedEventArgs(bool enabled) :
@@ -134,7 +134,7 @@ namespace hvn3 {
 
 		};
 
-		class MouseEventArgs : public EventArgs {
+		class MouseEventArgs : public hvn3::System::EventArgs {
 
 		public:
 			MouseEventArgs(const PointF& mouse_position) :
