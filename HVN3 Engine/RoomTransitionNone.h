@@ -1,5 +1,6 @@
 #pragma once
 #include "IRoomTransition.h"
+#include "UniqueCreateableBase.h"
 
 namespace hvn3 {
 
