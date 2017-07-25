@@ -19,6 +19,7 @@
 #include "Event.h"
 #include "DisplayController.h"
 #include "KeyboardController.h"
+#include "MouseController.h"
 #ifdef HVN3_DEBUG 
 #include "Console.h"
 #endif
@@ -42,7 +43,7 @@ namespace hvn3 {
 			// Initialize the event queue.
 			_event_queue.AddEventSource(_display.EventSource());
 			_event_queue.AddEventSource(_timer.EventSource());
-			_event_queue.AddEventSource(Mouse::EventSource());
+			_event_queue.AddEventSource(MouseController().GetEventSource());
 			_event_queue.AddEventSource(KeyboardController().GetEventSource());
 
 			// Initialize mouse parameters.
@@ -91,7 +92,11 @@ namespace hvn3 {
 				_room_manager.Update(e);
 
 				// For any keys held, dispatch the appropriate event to all keyboard listeners.
-				KeyboardController().DispatchAllKeyDownEvents();
+				if (Keyboard::KeyDown(Key::Any))
+					KeyboardController().DispatchAllKeyDownEvents();
+
+				// For any mouse buttons held, dispatch the appropriate event to all mouse listeners.
+				MouseController().DispatchAllMouseDownEvents();
 
 				// If the fullscreen state of the display has changed, emit a DisplaySizeChanged event.
 				if (_display_was_fullscreen != _display.IsFullscreen()) {
@@ -251,7 +256,7 @@ namespace hvn3 {
 			KeyboardController().ResetKeyStates(true, true, false);
 
 			// Unset all pressed/released mouse buttons so the values will be false until next triggered.
-			Mouse::MouseController::ResetButtonStates(true, true, false);
+			MouseController().ResetButtonStates(true, true, false);
 
 			// Allow redrawing, since actors have been updated.
 			_allow_redraw = true;
@@ -285,7 +290,7 @@ namespace hvn3 {
 			// Unset the key that was pressed.
 			KeyboardController con;
 			con.SetKeyState(ev.AlPtr()->keyboard.keycode, false);
-			con.DispatchEvent(KeyReleasedEventArgs((Key)ev.AlPtr()->keyboard.keycode));
+			con.DispatchEvent(KeyUpEventArgs((Key)ev.AlPtr()->keyboard.keycode));
 
 		}
 		void Runner::OnKeyChar(Event& ev) {
@@ -306,57 +311,78 @@ namespace hvn3 {
 		}
 		void Runner::OnMouseButtonDown(Event& ev) {
 
+			MouseController con;
+			MouseButton button;
+
 			switch (ev.AlPtr()->mouse.button) {
 
 			case 1:
-				Mouse::MouseController::SetButtonState(MouseButton::Left, true);
+				button = MouseButton::Left;
 				break;
 
 			case 2:
-				Mouse::MouseController::SetButtonState(MouseButton::Right, true);
+				button = MouseButton::Right;
 				break;
 
 			case 3:
-				Mouse::MouseController::SetButtonState(MouseButton::Middle, true);
+				button = MouseButton::Middle;
 				break;
 
 			}
+
+			con.SetButtonState(button, true);
+
+			if (Mouse::ButtonPressed(button))
+				con.DispatchEvent(MousePressedEventArgs(button, Mouse::ButtonDoubleClicked(button) ? 2 : 1));
 
 		}
 		void Runner::OnMouseButtonUp(Event& ev) {
 
+			MouseController con;
+			MouseButton button;
+
 			switch (ev.AlPtr()->mouse.button) {
 
 			case 1:
-				Mouse::MouseController::SetButtonState(MouseButton::Left, false);
+				button = MouseButton::Left;
 				break;
 
 			case 2:
-				Mouse::MouseController::SetButtonState(MouseButton::Right, false);
+				button = MouseButton::Right;
 				break;
 
 			case 3:
-				Mouse::MouseController::SetButtonState(MouseButton::Middle, false);
+				button = MouseButton::Middle;
 				break;
 
 			}
 
+			con.SetButtonState(button, false);
+			
+			con.DispatchEvent(MouseUpEventArgs(button));
+			
 		}
 		void Runner::OnMouseAxes(Event& ev) {
 
 			if (!Properties().FreezeWhenLostFocus || _display.HasFocus()) {
 
+				MouseController con;
+
 				// Set the Mouse' position relative to the display.
-				Mouse::MouseController::SetDisplayPosition(ev.AlPtr()->mouse.x, ev.AlPtr()->mouse.y);
+				con.SetDisplayPosition(ev.AlPtr()->mouse.x, ev.AlPtr()->mouse.y);
 
 				// Calculate the mouse position relative to the view that it's in.
 				RecalculateMousePosition();
 
+				// Dispatch event to all mouse listeners.
+				con.DispatchEvent(MouseMoveEventArgs());
+
 				// If the scroll wheel was moved, set the scroll state.
-				// #todo don't use static variable and add horizontal scrolling
-				static int scroll_position = 0;
-				Mouse::MouseController::SetScrollState(ev.AlPtr()->mouse.z < scroll_position, ev.AlPtr()->mouse.z > scroll_position);
-				scroll_position = ev.AlPtr()->mouse.z;
+				ALLEGRO_MOUSE_EVENT& mouse = ev.AlPtr()->mouse;			
+				if (mouse.dw != 0 || mouse.dz != 0) {
+					con.SetScrollState(mouse.dz < 0, mouse.dz > 0);
+					con.DispatchEvent(MouseScrollEventArgs(mouse.w, mouse.z, mouse.dw, mouse.dz));
+				}
 
 			}
 
@@ -556,7 +582,7 @@ namespace hvn3 {
 					// Translate it according to the view's offset.
 					pos += view.Position();
 
-					Mouse::MouseController::SetPosition(pos.X(), pos.Y());
+					MouseController().SetPosition(pos.X(), pos.Y());
 					break;
 
 				}
@@ -592,7 +618,7 @@ namespace hvn3 {
 				}
 
 				// Set the new mouse position.
-				Mouse::MouseController::SetPosition(pos.X(), pos.Y());
+				MouseController().SetPosition(pos.X(), pos.Y());
 
 			}
 

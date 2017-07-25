@@ -7,6 +7,8 @@ namespace hvn3 {
 		class KeyboardController {
 
 		public:
+			KeyboardController() = default;
+
 			void ResetKeyStates(bool pressed, bool released, bool held) const;
 			void ResetKeyStates() const;
 			void SetKeyState(int key_code, bool pressed) const;
@@ -16,7 +18,7 @@ namespace hvn3 {
 
 			void DispatchEvent(KeyDownEventArgs& e) const;
 			void DispatchEvent(KeyPressedEventArgs& e) const;
-			void DispatchEvent(KeyReleasedEventArgs& e) const;
+			void DispatchEvent(KeyUpEventArgs& e) const;
 			void DispatchEvent(KeyCharEventArgs& e) const;
 			
 			System::EventSource GetEventSource() const;

@@ -17,7 +17,7 @@ namespace hvn3 {
 
 	void KeyboardEventListener::OnKeyDown(KeyDownEventArgs& e) {}
 	void KeyboardEventListener::OnKeyPressed(KeyPressedEventArgs& e) {}
-	void KeyboardEventListener::OnKeyReleased(KeyReleasedEventArgs& e) {}
+	void KeyboardEventListener::OnKeyUp(KeyUpEventArgs& e) {}
 	void KeyboardEventListener::OnKeyChar(KeyCharEventArgs& e) {}
 
 	// Private members

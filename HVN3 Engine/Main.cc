@@ -1,12 +1,10 @@
 #include "HVN3.h"
 #include "test/Global.h"
 
-class KeyListenerObject : 
-	public hvn3::Object, 
-	public hvn3::KeyboardEventListener {
+class KeyListenerObject : public hvn3::Object, public hvn3::KeyboardEventListener {
 
 public:
-	KeyListenerObject() : 
+	KeyListenerObject() :
 		hvn3::Object(0) {}
 
 	void OnKeyPressed(hvn3::KeyPressedEventArgs& e) override {
@@ -14,7 +12,7 @@ public:
 		hvn3::Console::WriteLine(e.KeyCode(), " Pressed!");
 
 	}
-	void OnKeyReleased(hvn3::KeyReleasedEventArgs& e) override {
+	void OnKeyUp(hvn3::KeyUpEventArgs& e) override {
 
 		hvn3::Console::WriteLine(e.KeyCode(), " Released!");
 
@@ -32,8 +30,27 @@ public:
 
 };
 
+class MouseListenerObject : public hvn3::Object, public hvn3::MouseEventListener {
+
+public:
+	MouseListenerObject() :
+		hvn3::Object(2) {}
+
+	void OnMousePressed(hvn3::MousePressedEventArgs& e) override {
+
+		hvn3::Console::WriteLine((int)e.Button(), " clicked ", e.Clicks(), " time(s)!");
+
+	}
+	void OnMouseDown(hvn3::MouseDownEventArgs& e) override {
+
+		hvn3::Console::WriteLine((int)e.Button(), " held!");
+
+	}
+
+};
+
 int main(int argc, char *argv[]) {
-	
+
 	// Initialize game properties.
 	GameState.Initialize(argc, argv);
 	GameState.Properties().DebugMode = true;
@@ -41,10 +58,10 @@ int main(int argc, char *argv[]) {
 	GameState.Properties().FixedFrameRate = true;
 
 	auto room = hvn3::Room::Create<hvn3::Room>(0, GameState.Properties().DisplaySize);
-	room->Objects()->AddInstance(KeyListenerObject::Create<KeyListenerObject>());
+	room->Objects()->AddInstance(hvn3::Object::Create<MouseListenerObject>());
 
 	GameState.Rooms().AddRoom(room);
-	
+
 	// Run the main game loop.
 	GameState.Loop();
 

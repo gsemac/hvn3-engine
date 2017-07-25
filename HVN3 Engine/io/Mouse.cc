@@ -3,8 +3,6 @@
 #include "Mouse.h"
 #include "Display.h"
 
-#define DBL_CLICK_SEC 0.5f
-
 namespace hvn3 {
 
 	float Mouse::X = -std::numeric_limits<float>::max();
@@ -130,11 +128,6 @@ namespace hvn3 {
 		al_set_system_mouse_cursor(Display::ActiveDisplay()->AlPtr(), (ALLEGRO_SYSTEM_MOUSE_CURSOR)cursor);
 
 	}
-	System::EventSource Mouse::EventSource() {
-
-		return System::EventSource(al_get_mouse_event_source());
-
-	}
 
 	Mouse::Mouse() {}
 	Mouse::MouseButton* Mouse::ToMouseButton(hvn3::MouseButton button) {
@@ -160,93 +153,6 @@ namespace hvn3 {
 		dbl_clicked = false;
 		dbl_waiting = false;
 		dbl_waiting_allowed = true;
-
-	}
-
-	void Mouse::MouseController::SetButtonState(hvn3::MouseButton button, bool pressed) {
-
-		Mouse::MouseButton* mb = ToMouseButton(button);
-
-		// Assign state to the mouse button.
-		mb->held = pressed;
-		if (!(mb->locked))
-			mb->pressed = pressed;
-		mb->released = !pressed;
-		mb->locked = pressed;
-
-		// Check for double-clicks (press > release > press).
-		if (mb->released) {
-			if (mb->dbl_waiting_allowed) {
-				// Wait for the next press.
-				mb->dbl_waiting = true;
-				_last_click_position = Position();
-			}
-			else
-				mb->dbl_waiting_allowed = true;
-			mb->last_release.Reset();
-		}
-		else if (mb->pressed && mb->dbl_waiting) {
-			// Detect double-click.
-			if (mb->last_release.SecondsElapsed() < DBL_CLICK_SEC && _last_click_position == Position())
-				mb->dbl_clicked = true;
-			mb->dbl_waiting = false;
-			// Prevent the next release from triggering wait.
-			mb->dbl_waiting_allowed = false;
-			// if (mb->dbl_clicked) std::cout << "DOUBLE-CLICKED!\n";
-		}
-
-	}
-	void Mouse::MouseController::ResetButtonStates(bool pressed, bool released, bool held) {
-
-		if (pressed) {
-			_left.pressed = false;
-			_right.pressed = false;
-			_middle.pressed = false;
-		}
-
-		if (released) {
-			_left.released = false;
-			_right.released = false;
-			_middle.released = false;
-		}
-
-		if (held) {
-			_left.held = false;
-			_right.held = false;
-			_middle.held = false;
-		}
-
-		_scrolled_up = false;
-		_scrolled_down = false;
-
-		_left.dbl_clicked = false;
-		_right.dbl_clicked = false;
-		_middle.dbl_clicked = false;
-
-		if (_left.last_release.SecondsElapsed() > DBL_CLICK_SEC)
-			_left.dbl_waiting = false;
-		if (_right.last_release.SecondsElapsed() > DBL_CLICK_SEC)
-			_right.dbl_waiting = false;
-		if (_middle.last_release.SecondsElapsed() > DBL_CLICK_SEC)
-			_middle.dbl_waiting = false;
-
-	}
-	void Mouse::MouseController::SetPosition(float x, float y) {
-
-		X = x;
-		Y = y;
-
-	}
-	void Mouse::MouseController::SetDisplayPosition(int x, int y) {
-
-		_display_position.SetX(x);
-		_display_position.SetY(y);
-
-	}
-	void Mouse::MouseController::SetScrollState(bool scrolled_up, bool scrolled_down) {
-
-		_scrolled_down = scrolled_down;
-		_scrolled_up = scrolled_up;
 
 	}
 

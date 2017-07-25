@@ -18,7 +18,7 @@ namespace hvn3 {
 
 		virtual void OnKeyDown(KeyDownEventArgs& e);
 		virtual void OnKeyPressed(KeyPressedEventArgs& e);
-		virtual void OnKeyReleased(KeyReleasedEventArgs& e);
+		virtual void OnKeyUp(KeyUpEventArgs& e);
 		virtual void OnKeyChar(KeyCharEventArgs& e);
 
 	private:

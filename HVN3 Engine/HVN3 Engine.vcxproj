@@ -305,6 +305,9 @@
     <ClCompile Include="KeyEventArgs.cc" />
     <ClCompile Include="LevelEditor.cc" />
     <ClCompile Include="MathUtils.cc" />
+    <ClCompile Include="MouseController.cc" />
+    <ClCompile Include="MouseEventArgs.cc" />
+    <ClCompile Include="MouseEventListener.cc" />
     <ClCompile Include="NarrowPhaseCollisionManager.cc" />
     <ClCompile Include="ObjectBase.cc" />
     <ClCompile Include="ObjectCollisionBody.cc" />
@@ -367,6 +370,9 @@
     <ClInclude Include="KeyboardEventListener.h" />
     <ClInclude Include="KeyEventArgs.h" />
     <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="MouseController.h" />
+    <ClInclude Include="MouseEventArgs.h" />
+    <ClInclude Include="MouseEventListener.h" />
     <ClInclude Include="ObjectEventArgs.h" />
     <ClInclude Include="DisplayController.h" />
     <ClInclude Include="FrameworkAdapter.h" />

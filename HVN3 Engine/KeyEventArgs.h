@@ -33,7 +33,7 @@ namespace hvn3 {
 
 	};
 
-	class KeyReleasedEventArgs : public KeyEventArgs {
+	class KeyUpEventArgs : public KeyEventArgs {
 
 	public:
 		using KeyEventArgs::KeyEventArgs;

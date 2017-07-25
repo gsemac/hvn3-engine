@@ -6,12 +6,24 @@
 
 namespace hvn3 {
 
+	namespace System {
+		class MouseController;
+	}
+
 	enum class MouseButton {
 		Left = 0x01,
 		Middle = 0x02,
 		Right = 0x04
 	};
 	ENABLE_BITFLAG_OPERATORS(MouseButton);
+
+	enum class MouseScrollDirection {
+		Up = 1,
+		Down = 2,
+		Left = 4,
+		Right = 8
+	};
+	ENABLE_BITFLAG_OPERATORS(MouseScrollDirection);
 
 	enum class SystemCursor {
 		None = 0,
@@ -37,19 +49,9 @@ namespace hvn3 {
 	};
 
 	class Mouse {
+		friend class System::MouseController;
 
 	public:
-		class MouseController {
-
-		public:
-			static void ResetButtonStates(bool pressed, bool released, bool held);
-			static void SetButtonState(MouseButton button, bool pressed);
-			static void SetScrollState(bool scrolled_up, bool scrolled_down);
-			static void SetPosition(float x, float y);
-			static void SetDisplayPosition(int x, int y);
-
-		};
-
 		static float X, Y;
 
 		static bool ButtonDown(MouseButton button);
@@ -68,7 +70,6 @@ namespace hvn3 {
 		static void ShowCursor();
 		static void HideCursor();
 		static void SetCursor(SystemCursor cursor);
-		static System::EventSource EventSource();
 
 	private:
 		struct MouseButton {
