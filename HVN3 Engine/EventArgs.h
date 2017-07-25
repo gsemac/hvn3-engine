@@ -14,10 +14,13 @@ namespace hvn3 {
 
 			const EventSource& Source() const;
 			double Timestamp() const;
+			bool Handled() const;
+			void SetHandled(bool value);
 
 		private:
 			//EventSource __source;
 			double _timestamp;
+			bool _handled;
 
 		};
 

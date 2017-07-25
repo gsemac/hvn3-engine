@@ -32,11 +32,29 @@ namespace hvn3 {
 			std::cout << value;
 
 		}
-		// Writes the specified string value, followed by the current line terminator, to the standard output stream.
+		// Writes the text representation of the specified values to the standard output stream.
+		template <typename T, typename... Args>
+		static void Write(const T& value, Args... args) {
+
+			std::cout << value;
+
+			Write(args...);
+
+		}
+		// Writes the text representation of the specified value, followed by the current line terminator, to the standard output stream.
 		template<typename T>
 		static void WriteLine(const T& value) {
 
 			std::cout << value << '\n';
+
+		}
+		// Writes the text representation of the specified values, followed by the current line terminator, to the standard output stream.
+		template <typename T, typename... Args>
+		static void WriteLine(const T& value, Args... args) {
+
+			Write(value);
+			Write(args...);
+			WriteLine();
 
 		}
 		// Writes the current line terminator to the standard output stream.

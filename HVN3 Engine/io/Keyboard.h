@@ -2,10 +2,15 @@
 #include <queue>
 #include <string>
 #include "EventSource.h"
+#include "BitFlags.h"
 
 namespace hvn3 {
 
 	class GameManager;
+
+	namespace System {
+		class KeyboardController;
+	}
 
 	enum class Key {
 
@@ -151,7 +156,8 @@ namespace hvn3 {
 		Unknown,
 
 		// Insert additional keys here
-		Control = -2,
+		Alt = -3,
+		Control,
 		Shift,
 		Any,
 
@@ -161,7 +167,7 @@ namespace hvn3 {
 		LControl,
 		RControl,
 		LAlt,
-		RAlt,
+		RAlt, // AltGr
 		LWin,
 		RWin,
 		Menu,
@@ -171,20 +177,23 @@ namespace hvn3 {
 
 	};
 
+	enum class KeyModifiers {
+		LShift = 1,
+		RShift = 2,
+		LControl = 4,
+		RControl = 8,
+		LAlt = 16,
+		RAlt = 32,
+		Shift = LShift | RShift,
+		Control = LControl | RControl,
+		Alt = LAlt | RAlt
+	};
+	ENABLE_BITFLAG_OPERATORS(KeyModifiers);
+
 	class Keyboard {
-		friend class StateAccessor;
+		friend class System::KeyboardController;
 
 	public:
-		class StateAccessor {
-
-		public:
-			static void ResetKeyStates(bool pressed, bool released, bool held);
-			static void ResetKeyStates();
-			static void SetKeyState(int key_code, bool pressed);
-			static void SetLastChar(int key_char);
-
-		};
-
 		static bool KeyPressed(int key_code);
 		static bool KeyDown(int key_code);
 		static bool KeyReleased(int key_code);
@@ -200,8 +209,6 @@ namespace hvn3 {
 		static void ClearLastKey();
 		static bool IsChar(int key_code);
 		static bool IsChar(hvn3::Key key);
-
-		static System::EventSource EventSource();
 
 	private:
 		struct Key {

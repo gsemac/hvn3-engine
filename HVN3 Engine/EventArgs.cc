@@ -28,6 +28,16 @@ namespace hvn3 {
 			return _timestamp;
 
 		}
+		bool EventArgs::Handled() const {
+
+			return _handled;
+
+		}
+		void EventArgs::SetHandled(bool value) {
+
+			_handled = value;
+
+		}
 
 	}
 }

@@ -544,6 +544,15 @@
     <ClCompile Include="Event.cc">
       <Filter>Source Files\System\Events</Filter>
     </ClCompile>
+    <ClCompile Include="KeyboardEventListener.cc">
+      <Filter>Source Files\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyEventArgs.cc">
+      <Filter>Source Files\System\Events\EventArgs</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardController.cc">
+      <Filter>Source Files\System\Controllers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h">
@@ -1031,6 +1040,15 @@
     </ClInclude>
     <ClInclude Include="Event.h">
       <Filter>Header Files\System\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardEventListener.h">
+      <Filter>Header Files\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyEventArgs.h">
+      <Filter>Header Files\System\Events\EventArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardController.h">
+      <Filter>Header Files\System\Controllers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

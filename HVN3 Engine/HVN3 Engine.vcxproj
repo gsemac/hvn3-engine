@@ -300,6 +300,9 @@
     <ClCompile Include="io\Path.cc" />
     <ClCompile Include="IRoom.cc" />
     <ClCompile Include="IRoomTransition.cc" />
+    <ClCompile Include="KeyboardController.cc" />
+    <ClCompile Include="KeyboardEventListener.cc" />
+    <ClCompile Include="KeyEventArgs.cc" />
     <ClCompile Include="LevelEditor.cc" />
     <ClCompile Include="MathUtils.cc" />
     <ClCompile Include="NarrowPhaseCollisionManager.cc" />
@@ -360,6 +363,9 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="Direction8.h" />
     <ClInclude Include="FpsCounter.h" />
+    <ClInclude Include="KeyboardController.h" />
+    <ClInclude Include="KeyboardEventListener.h" />
+    <ClInclude Include="KeyEventArgs.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="ObjectEventArgs.h" />
     <ClInclude Include="DisplayController.h" />

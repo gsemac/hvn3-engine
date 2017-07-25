@@ -18,6 +18,7 @@
 #include "RoomController.h"
 #include "Event.h"
 #include "DisplayController.h"
+#include "KeyboardController.h"
 #ifdef HVN3_DEBUG 
 #include "Console.h"
 #endif
@@ -42,7 +43,7 @@ namespace hvn3 {
 			_event_queue.AddEventSource(_display.EventSource());
 			_event_queue.AddEventSource(_timer.EventSource());
 			_event_queue.AddEventSource(Mouse::EventSource());
-			_event_queue.AddEventSource(Keyboard::EventSource());
+			_event_queue.AddEventSource(KeyboardController().GetEventSource());
 
 			// Initialize mouse parameters.
 			if (!properties.DisplayCursor)
@@ -88,6 +89,9 @@ namespace hvn3 {
 
 				// Update the active room.
 				_room_manager.Update(e);
+
+				// For any keys held, dispatch the appropriate event to all keyboard listeners.
+				KeyboardController().DispatchAllKeyDownEvents();
 
 				// If the fullscreen state of the display has changed, emit a DisplaySizeChanged event.
 				if (_display_was_fullscreen != _display.IsFullscreen()) {
@@ -244,7 +248,7 @@ namespace hvn3 {
 			RecalculateMousePosition();
 
 			// Unset all pressed/released keys so the values will be false until next triggered.
-			Keyboard::StateAccessor::ResetKeyStates(true, true, false);
+			KeyboardController().ResetKeyStates(true, true, false);
 
 			// Unset all pressed/released mouse buttons so the values will be false until next triggered.
 			Mouse::MouseController::ResetButtonStates(true, true, false);
@@ -261,7 +265,11 @@ namespace hvn3 {
 		void Runner::OnKeyDown(Event& ev) {
 
 			// Set the key that was pressed.
-			Keyboard::StateAccessor::SetKeyState(ev.AlPtr()->keyboard.keycode, true);
+			int keycode = ev.AlPtr()->keyboard.keycode;
+			KeyboardController con;
+			con.SetKeyState(keycode, true);
+			if (Keyboard::KeyPressed(keycode))
+				con.DispatchEvent(KeyPressedEventArgs((Key)ev.AlPtr()->keyboard.keycode));
 
 			// Toggle fullscreen if F11 is pressed.
 			if (ev.AlPtr()->keyboard.keycode == ALLEGRO_KEY_F11)
@@ -275,7 +283,9 @@ namespace hvn3 {
 		void Runner::OnKeyUp(Event& ev) {
 
 			// Unset the key that was pressed.
-			Keyboard::StateAccessor::SetKeyState(ev.AlPtr()->keyboard.keycode, false);
+			KeyboardController con;
+			con.SetKeyState(ev.AlPtr()->keyboard.keycode, false);
+			con.DispatchEvent(KeyReleasedEventArgs((Key)ev.AlPtr()->keyboard.keycode));
 
 		}
 		void Runner::OnKeyChar(Event& ev) {
@@ -285,8 +295,13 @@ namespace hvn3 {
 				ev.AlPtr()->keyboard.keycode != ALLEGRO_KEY_BACKSPACE &&
 				ev.AlPtr()->keyboard.keycode != ALLEGRO_KEY_DELETE &&
 				!(ev.AlPtr()->keyboard.modifiers & ALLEGRO_KEYMOD_CTRL) &&
-				ev.AlPtr()->keyboard.unichar > 0)
-				Keyboard::StateAccessor::SetLastChar(ev.AlPtr()->keyboard.unichar);
+				ev.AlPtr()->keyboard.unichar > 0) {
+
+				KeyboardController con;
+				con.SetLastChar(ev.AlPtr()->keyboard.unichar);
+				con.DispatchEvent(KeyCharEventArgs((Key)ev.AlPtr()->keyboard.keycode, ev.AlPtr()->keyboard.unichar));
+
+			}
 
 		}
 		void Runner::OnMouseButtonDown(Event& ev) {
@@ -379,7 +394,7 @@ namespace hvn3 {
 		void Runner::OnDisplaySwitchOut(Event& ev) {
 
 			System::DisplayController(&_display).SetFocus(false);
-			Keyboard::StateAccessor::ResetKeyStates();
+			KeyboardController().ResetKeyStates();
 
 			if (Properties().FreezeWhenLostFocus)
 				_delta_timer.Stop();
