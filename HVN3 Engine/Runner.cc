@@ -18,8 +18,8 @@
 #include "RoomController.h"
 #include "Event.h"
 #include "DisplayController.h"
-#include "KeyboardController.h"
-#include "MouseController.h"
+#include "io/KeyboardController.h"
+#include "io/MouseController.h"
 #ifdef HVN3_DEBUG 
 #include "Console.h"
 #endif

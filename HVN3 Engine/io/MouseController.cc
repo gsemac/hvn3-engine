@@ -1,5 +1,5 @@
 #include "MouseController.h"
-#include "MouseEventListener.h"
+#include "MouseListener.h"
 #include <allegro5/allegro.h>
 #define DBL_CLICK_SEC 0.5f
 
@@ -113,31 +113,31 @@ namespace hvn3 {
 		}
 		void MouseController::DispatchEvent(MouseDownEventArgs& e) const {
 
-			for (auto i = MouseEventListener::_Listeners().begin(); i != MouseEventListener::_Listeners().end(); ++i)
+			for (auto i = MouseListener::_Listeners().begin(); i != MouseListener::_Listeners().end(); ++i)
 				(*i)->OnMouseDown(e);
 
 		}
 		void MouseController::DispatchEvent(MousePressedEventArgs& e) const {
 
-			for (auto i = MouseEventListener::_Listeners().begin(); i != MouseEventListener::_Listeners().end(); ++i)
+			for (auto i = MouseListener::_Listeners().begin(); i != MouseListener::_Listeners().end(); ++i)
 				(*i)->OnMousePressed(e);
 
 		}
 		void MouseController::DispatchEvent(MouseUpEventArgs& e) const {
 
-			for (auto i = MouseEventListener::_Listeners().begin(); i != MouseEventListener::_Listeners().end(); ++i)
+			for (auto i = MouseListener::_Listeners().begin(); i != MouseListener::_Listeners().end(); ++i)
 				(*i)->OnMouseUp(e);
 
 		}
 		void MouseController::DispatchEvent(MouseMoveEventArgs& e) const {
 
-			for (auto i = MouseEventListener::_Listeners().begin(); i != MouseEventListener::_Listeners().end(); ++i)
+			for (auto i = MouseListener::_Listeners().begin(); i != MouseListener::_Listeners().end(); ++i)
 				(*i)->OnMouseMove(e);
 
 		}
 		void MouseController::DispatchEvent(MouseScrollEventArgs& e) const {
 
-			for (auto i = MouseEventListener::_Listeners().begin(); i != MouseEventListener::_Listeners().end(); ++i)
+			for (auto i = MouseListener::_Listeners().begin(); i != MouseListener::_Listeners().end(); ++i)
 				(*i)->OnMouseScroll(e);
 
 		}

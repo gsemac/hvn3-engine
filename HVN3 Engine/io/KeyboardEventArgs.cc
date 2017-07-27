@@ -1,8 +1,8 @@
-#include "KeyEventArgs.h"
+#include "KeyboardEventArgs.h"
 
 namespace hvn3 {
 
-	KeyEventArgs::KeyEventArgs(hvn3::Key key) {
+	KeyboardEventArgs::KeyboardEventArgs(hvn3::Key key) {
 
 		_key = key;
 
@@ -20,24 +20,24 @@ namespace hvn3 {
 			_modifiers |= KeyModifiers::RAlt;
 
 	}
-	Key KeyEventArgs::Key() const {
+	Key KeyboardEventArgs::Key() const {
 
 		return _key;
 
 	}
-	int KeyEventArgs::KeyCode() const {
+	int KeyboardEventArgs::KeyCode() const {
 
 		return (int)_key;
 
 	}
-	KeyModifiers KeyEventArgs::Modifiers() const {
+	KeyModifiers KeyboardEventArgs::Modifiers() const {
 
 		return _modifiers;
 
 	}
 
 	KeyCharEventArgs::KeyCharEventArgs(hvn3::Key key, int keychar) :
-		KeyEventArgs(key) {
+		KeyboardEventArgs(key) {
 
 		_keychar = keychar;
 

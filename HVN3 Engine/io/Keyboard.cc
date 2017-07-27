@@ -1,6 +1,6 @@
 #include <allegro5/allegro.h>
 #include "Keyboard.h"
-#include "KeyboardEventListener.h"
+#include "KeyboardListener.h"
 #include <cctype>
 
 namespace hvn3 {

@@ -1,7 +1,7 @@
 #include "HVN3.h"
 #include "test/Global.h"
 
-class KeyListenerObject : public hvn3::Object, public hvn3::KeyboardEventListener {
+class KeyListenerObject : public hvn3::Object, public hvn3::KeyboardListener {
 
 public:
 	KeyListenerObject() : hvn3::Object(0) {}
@@ -29,7 +29,7 @@ public:
 
 };
 
-class MouseListenerObject : public hvn3::Object, public hvn3::MouseEventListener {
+class MouseListenerObject : public hvn3::Object, public hvn3::MouseListener {
 
 public:
 	MouseListenerObject() : hvn3::Object(1) {}

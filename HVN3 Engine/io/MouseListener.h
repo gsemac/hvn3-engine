@@ -8,12 +8,12 @@ namespace hvn3 {
 		class MouseController;
 	}
 
-	class MouseEventListener {
+	class MouseListener {
 		friend class System::MouseController;
 
 	public:
-		MouseEventListener();
-		virtual ~MouseEventListener();
+		MouseListener();
+		virtual ~MouseListener();
 
 		virtual void OnMouseDown(MouseDownEventArgs& e);
 		virtual void OnMousePressed(MousePressedEventArgs& e);
@@ -22,7 +22,7 @@ namespace hvn3 {
 		virtual void OnMouseScroll(MouseScrollEventArgs& e);
 
 	protected:
-		static std::unordered_set<MouseEventListener*>& _Listeners();
+		static std::unordered_set<MouseListener*>& _Listeners();
 
 	};
 

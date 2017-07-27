@@ -1,5 +1,5 @@
 #pragma once
-#include "KeyEventArgs.h"
+#include "KeyboardEventArgs.h"
 #include <unordered_set>
 //#include <queue>
 
@@ -9,12 +9,12 @@ namespace hvn3 {
 		class KeyboardController;
 	}
 
-	class KeyboardEventListener {
+	class KeyboardListener {
 		friend class System::KeyboardController;
 
 	public:
-		KeyboardEventListener();
-		virtual ~KeyboardEventListener();
+		KeyboardListener();
+		virtual ~KeyboardListener();
 
 		virtual void OnKeyDown(KeyDownEventArgs& e);
 		virtual void OnKeyPressed(KeyPressedEventArgs& e);
@@ -22,7 +22,7 @@ namespace hvn3 {
 		virtual void OnKeyChar(KeyCharEventArgs& e);
 
 	protected:
-		static std::unordered_set<KeyboardEventListener*>& _Listeners();
+		static std::unordered_set<KeyboardListener*>& _Listeners();
 
 	};
 
