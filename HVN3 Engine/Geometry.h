@@ -13,6 +13,12 @@ namespace hvn3 {
 				return (point.X() >= rect.X() && point.X() < rect.X2() && point.Y() >= rect.Y() && point.Y() < rect.Y2());
 
 			}
+			template <typename T>
+			bool PointIn(const Point2d<T>& point, const Circle<T>& circle) {
+
+				return PointDistanceSquared(point, circle.Position()) < (circle.Radius() * circle.Radius());
+
+			}
 
 			template <typename T>
 			float PointDistance(const Point2d<T>& point, const Line<T>& line) {
