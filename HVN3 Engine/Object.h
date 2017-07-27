@@ -12,8 +12,7 @@ namespace hvn3 {
 	class Object : 
 		public ICollidable, 
 		public ObjectBase, 
-		public Positionable2dBase<float>, 
-		public SharedCreateableBase<Object>, 
+		public Positionable2dBase<float>,  
 		public std::enable_shared_from_this<Object> {
 
 	public:

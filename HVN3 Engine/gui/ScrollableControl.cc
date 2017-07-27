@@ -110,8 +110,8 @@ namespace hvn3 {
 
 			// Otherwise, just add them to the new manager.
 			else {
-				Manager()->ControlManager()->AddControl(Control::Create(_scrollbars[VERTICAL]));
-				Manager()->ControlManager()->AddControl(Control::Create(_scrollbars[HORIZONTAL]));
+				Manager()->ControlManager()->AddControl(ControlPtr(_scrollbars[VERTICAL]));
+				Manager()->ControlManager()->AddControl(ControlPtr(_scrollbars[HORIZONTAL]));
 			}
 
 			// Update the visible region of the control (showing scrollbars decreases the visible region).

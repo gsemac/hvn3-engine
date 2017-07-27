@@ -64,4 +64,6 @@ namespace hvn3 {
 
 	};
 
+	typedef std::unique_ptr<IRoom> RoomPtr;
+
 }

@@ -168,7 +168,7 @@ namespace hvn3 {
 
 		// Initialize the new Sprite. Note that the sheet must be maintained, because sub-bitmaps share its memory.
 		// The sheet will be maintained as the first of the subimages; calls to the first subimage will return the second, and so on.
-		SpritePtr sprite = Sprite::Create(new Sprite);
+		SpritePtr sprite = SpritePtr(new Sprite);
 		sprite->_origin_x = origin_x;
 		sprite->_origin_y = origin_y;
 		sprite->_strip_length = columns;

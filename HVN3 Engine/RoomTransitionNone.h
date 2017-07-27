@@ -1,10 +1,9 @@
 #pragma once
 #include "IRoomTransition.h"
-#include "UniqueCreateableBase.h"
 
 namespace hvn3 {
 
-	class RoomTransitionNone : public IRoomTransition, public UniqueCreateableBase<IRoomTransition, RoomTransitionNone> {
+	class RoomTransitionNone : public IRoomTransition {
 
 	public:
 		RoomTransitionNone();

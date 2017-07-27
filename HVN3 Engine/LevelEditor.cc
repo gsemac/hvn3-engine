@@ -82,18 +82,18 @@ namespace hvn3 {
 			menu_strip->AddItem(new Gui::ToolStripSeparator);
 			menu_strip->AddItem(new Gui::ToolStripLabel("Snap X: "));
 
-			GuiManager().ControlManager()->AddControl(Gui::Control::Create(menu_strip));
+			GuiManager().ControlManager()->AddControl(Gui::ControlPtr(menu_strip));
 			
 			Gui::Window* tileset_window = new Gui::Window(20, 20, 150, 100, "Tiles");
 			tileset_window->SetDock(Gui::DockStyle::Left);
 			Gui::TilesetPanel* tileset_panel = new Gui::TilesetPanel(PointF(0, 0), SizeF(tileset_window->Width(), tileset_window->Height() - tileset_window->TitlebarHeight()), _tileset);
 			tileset_panel->SetDock(Gui::DockStyle::Fill);
-			tileset_window->Controls()->AddControl(Gui::Control::Create(tileset_panel));
-			GuiManager().ControlManager()->AddControl(Gui::Control::Create(tileset_window));
+			tileset_window->Controls()->AddControl(Gui::ControlPtr(tileset_panel));
+			GuiManager().ControlManager()->AddControl(Gui::ControlPtr(tileset_window));
 
 			Gui::Scrollbar* hscroll = new Gui::Scrollbar(nullptr, PointF(0,0), SizeF(50, 15), Gui::Orientation::Horizontal);
 			hscroll->SetDock(Gui::DockStyle::Bottom);
-			GuiManager().ControlManager()->AddControl(Gui::Control::Create(hscroll));
+			GuiManager().ControlManager()->AddControl(Gui::ControlPtr(hscroll));
 
 			_visible_region.Translate(0, menu_strip->Height());
 

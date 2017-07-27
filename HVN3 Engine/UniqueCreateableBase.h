@@ -2,25 +2,27 @@
 #include <memory>
 
 namespace hvn3 {
+	namespace System {
 
-	template <typename ptr_type, typename my_type>
-	class UniqueCreateableBase {
+		template <typename ptr_type, typename my_type>
+		class UniqueCreateableBase {
 
-	public:
-		typedef ptr_type PtrType;
+		public:
+			typedef ptr_type PtrType;
 
-		template<typename ... Args>
-		static std::unique_ptr<ptr_type> Create(Args &&... args) {
+			template<typename ... Args>
+			static std::unique_ptr<ptr_type> Create(Args &&... args) {
 
-			return std::make_unique<my_type>(std::forward<Args>(args)...);
+				return std::make_unique<my_type>(std::forward<Args>(args)...);
 
-		}
-		static std::unique_ptr<ptr_type> Create(my_type* ptr) {
+			}
+			static std::unique_ptr<ptr_type> Create(my_type* ptr) {
 
-			return std::unique_ptr<ptr_type>(ptr);
+				return std::unique_ptr<ptr_type>(ptr);
 
-		}
+			}
 
-	};
+		};
 
+	}
 }

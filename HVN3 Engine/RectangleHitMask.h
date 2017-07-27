@@ -1,13 +1,12 @@
 #pragma once
 #include "IHitMask.h"
-#include "UniqueCreateableBase.h"
 
 namespace hvn3 {
 	namespace Collision {
 
 		struct CollisionManifold;
 
-		class RectangleHitMask : public IHitMask, public UniqueCreateableBase<IHitMask, RectangleHitMask> {
+		class RectangleHitMask : public IHitMask {
 
 		public:
 			RectangleHitMask(const RectangleF& bounds);

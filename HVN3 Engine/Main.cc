@@ -57,8 +57,9 @@ int main(int argc, char *argv[]) {
 	GameState.Properties().Fps = 60.0f;
 	GameState.Properties().FixedFrameRate = true;
 
-	auto room = hvn3::Room::Create<hvn3::Room>(0, GameState.Properties().DisplaySize);
-	room->Objects()->AddInstance(hvn3::Object::Create<MouseListenerObject>());
+	auto room = hvn3::RoomPtr(new hvn3::Room(0, GameState.Properties().DisplaySize));
+	room->Objects()->AddInstance(hvn3::ObjectPtr(new KeyListenerObject));
+	room->Objects()->AddInstance(hvn3::ObjectPtr(new MouseListenerObject));
 
 	GameState.Rooms().AddRoom(room);
 

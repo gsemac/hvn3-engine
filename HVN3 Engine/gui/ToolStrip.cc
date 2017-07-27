@@ -26,7 +26,7 @@ namespace hvn3 {
 
 			item->SetHeight(Height() - DEFAULT_TOP_PADDING - DEFAULT_BOTTOM_PADDING);
 
-			_Controls()->AddControl(Control::Create(item));
+			_Controls()->AddControl(ControlPtr(item));
 
 		}
 

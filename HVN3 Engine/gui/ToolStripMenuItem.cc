@@ -167,7 +167,7 @@ namespace hvn3 {
 
 			// Add the control to the parent control's manager.
 			if (!_sub_menu_is_managed) {
-				Parent()->Manager()->ControlManager()->AddControl(Control::Create(_sub_menu_ptr));
+				Parent()->Manager()->ControlManager()->AddControl(ControlPtr(_sub_menu_ptr));
 				_sub_menu_is_managed = true;
 			}
 

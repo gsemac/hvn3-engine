@@ -7,7 +7,7 @@ namespace hvn3 {
 	typedef int RoomId;
 
 	template <typename object_manager_type>
-	class RoomBase : public IRoom, public UniquePolymorphicCreateableBase<IRoom> {
+	class RoomBase : public IRoom {
 
 	public:
 		RoomBase(RoomId id, const SizeI& size) :

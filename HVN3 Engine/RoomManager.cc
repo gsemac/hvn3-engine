@@ -134,11 +134,11 @@ namespace hvn3 {
 		switch (transition) {
 
 		case RoomTransition::None:
-			SetRoomTransition(RoomTransitionNone::Create(new RoomTransitionNone));
+			SetRoomTransition(RoomTransitionPtr(new RoomTransitionNone));
 			break;
 
 		case RoomTransition::Fade:
-			SetRoomTransition(RoomTransitionFade::Create(new RoomTransitionFade(Color::Black, true)));
+			SetRoomTransition(RoomTransitionPtr(new RoomTransitionFade(Color::Black, true)));
 			break;
 
 		}

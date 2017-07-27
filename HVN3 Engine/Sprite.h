@@ -12,7 +12,7 @@ namespace hvn3 {
 
 	typedef std::unique_ptr<Sprite> SpritePtr;
 
-	class Sprite : public UniqueCreateableBase<Sprite, Sprite> {
+	class Sprite {
 
 	public:
 		Sprite(const char* path);
@@ -59,13 +59,13 @@ namespace hvn3 {
 		static SpritePtr CreateFromSpriteSheet(const char* path, int frame_width, int frame_height, int origin_x, int origin_y, const Color& alpha_color);
 		static SpritePtr CreateFromSpriteSheet(const char* path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y);
 		static SpritePtr CreateFromSpriteSheet(const char* path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y, const Color& alpha_color);
-		
+
 		static SpritePtr CreateFromSpriteSheet(const std::string& path, int frame_width, int frame_height);
 		static SpritePtr CreateFromSpriteSheet(const std::string& path, int frame_width, int frame_height, int origin_x, int origin_y);
 		static SpritePtr CreateFromSpriteSheet(const std::string& path, int frame_width, int frame_height, int origin_x, int origin_y, const Color& alpha_color);
 		static SpritePtr CreateFromSpriteSheet(const std::string& path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y);
 		static SpritePtr CreateFromSpriteSheet(const std::string& path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y, const Color& alpha_color);
-		
+
 	private:
 		std::vector<Drawing::Bitmap> _frames;
 		int _origin_x;

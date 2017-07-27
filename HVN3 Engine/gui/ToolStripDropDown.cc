@@ -25,7 +25,7 @@ namespace hvn3 {
 			Resize(Width(), Height() + item->Height() + _item_margin);
 
 			// Add the new item to the collection.
-			_Controls()->AddControl(Control::Create(item));
+			_Controls()->AddControl(ControlPtr(item));
 
 			// Add the new item to our list of items.
 			_menu_items.push_back(item);

@@ -1,11 +1,10 @@
 #pragma once
 #include "IRoomTransition.h"
 #include "Color.h"
-#include "UniqueCreateableBase.h"
 
 namespace hvn3 {
 
-	class RoomTransitionFade : public IRoomTransition, public UniqueCreateableBase<IRoomTransition, RoomTransitionFade> {
+	class RoomTransitionFade : public IRoomTransition {
 
 	public:
 		RoomTransitionFade();
