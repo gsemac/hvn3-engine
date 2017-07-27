@@ -4,8 +4,7 @@
 class KeyListenerObject : public hvn3::Object, public hvn3::KeyboardEventListener {
 
 public:
-	KeyListenerObject() :
-		hvn3::Object(0) {}
+	KeyListenerObject() : hvn3::Object(0) {}
 
 	void OnKeyPressed(hvn3::KeyPressedEventArgs& e) override {
 
@@ -33,8 +32,7 @@ public:
 class MouseListenerObject : public hvn3::Object, public hvn3::MouseEventListener {
 
 public:
-	MouseListenerObject() :
-		hvn3::Object(2) {}
+	MouseListenerObject() : hvn3::Object(1) {}
 
 	void OnMousePressed(hvn3::MousePressedEventArgs& e) override {
 
