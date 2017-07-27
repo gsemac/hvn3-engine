@@ -210,6 +210,11 @@ namespace hvn3 {
 				);
 
 		}
+		void Graphics::DrawFilledCircle(const CircleF& circle, const Color& color) {
+
+			DrawFilledCircle(circle.X(), circle.Y(), circle.Radius(), color);
+
+		}
 
 		void Graphics::Clear(const Color& color) {
 

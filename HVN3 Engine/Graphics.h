@@ -63,6 +63,7 @@ namespace hvn3 {
 			void DrawCircle(const CircleF& circle, const Color& color, float thickness);
 			void DrawFilledCircle(const PointF& point, float radius, const Color& color);
 			void DrawFilledCircle(float x, float y, float radius, const Color& color);
+			void DrawFilledCircle(const CircleF& circle, const Color& color);
 
 			void Clear(const Color& color);
 
