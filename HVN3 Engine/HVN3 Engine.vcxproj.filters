@@ -181,6 +181,9 @@
     <Filter Include="Test Rooms">
       <UniqueIdentifier>{334faef5-3f94-474f-86ed-8f31b70737f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Controllers">
+      <UniqueIdentifier>{2bf42d3b-c4e6-47ef-8134-4d74a08776e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -543,6 +546,18 @@
     </ClCompile>
     <ClCompile Include="io\KeyboardEventArgs.cc">
       <Filter>Source Files\System\Events\EventArgs</Filter>
+    </ClCompile>
+    <ClCompile Include="io\KeyboardController.cc">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="io\MouseController.cc">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomController.cc">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayController.cc">
+      <Filter>Source Files\Controllers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -249,6 +249,7 @@
     <ClCompile Include="Console.cc" />
     <ClCompile Include="Direction8.cc" />
     <ClCompile Include="Display.cc" />
+    <ClCompile Include="DisplayController.cc" />
     <ClCompile Include="DisplaySizeChangedEventArgs.cc" />
     <ClCompile Include="DrawEventArgs.cc" />
     <ClCompile Include="Environment.cc" />
@@ -295,9 +296,11 @@
     <ClCompile Include="io\Directory.cc" />
     <ClCompile Include="io\File.cc" />
     <ClCompile Include="io\Keyboard.cc" />
+    <ClCompile Include="io\KeyboardController.cc" />
     <ClCompile Include="io\KeyboardListener.cc" />
     <ClCompile Include="io\KeyboardEventArgs.cc" />
     <ClCompile Include="io\Mouse.cc" />
+    <ClCompile Include="io\MouseController.cc" />
     <ClCompile Include="io\MouseEventArgs.cc" />
     <ClCompile Include="io\MouseListener.cc" />
     <ClCompile Include="io\Path.cc" />
@@ -319,6 +322,7 @@
     <ClCompile Include="GraphicsState.cc" />
     <ClCompile Include="Grid.cc" />
     <ClCompile Include="RectangleHitMask.cc" />
+    <ClCompile Include="RoomController.cc" />
     <ClCompile Include="RoomTransitionFade.cc" />
     <ClCompile Include="RoomTransitionNone.cc" />
     <ClCompile Include="SpriteRenderer.cc" />
