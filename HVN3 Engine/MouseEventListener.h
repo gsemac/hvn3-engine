@@ -21,8 +21,8 @@ namespace hvn3 {
 		virtual void OnMouseMove(MouseMoveEventArgs& e);
 		virtual void OnMouseScroll(MouseScrollEventArgs& e);
 
-	private:
-		static std::unordered_set<MouseEventListener*> _listeners;
+	protected:
+		static std::unordered_set<MouseEventListener*>& _Listeners();
 
 	};
 

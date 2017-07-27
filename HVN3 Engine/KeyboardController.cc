@@ -66,25 +66,25 @@ namespace hvn3 {
 		}
 		void KeyboardController::DispatchEvent(KeyDownEventArgs& e) const {
 
-			for (auto i = KeyboardEventListener::_listeners.begin(); i != KeyboardEventListener::_listeners.end(); ++i)
+			for (auto i = KeyboardEventListener::_Listeners().begin(); i != KeyboardEventListener::_Listeners().end(); ++i)
 				(*i)->OnKeyDown(e);
 
 		}
 		void KeyboardController::DispatchEvent(KeyPressedEventArgs& e) const {
 
-			for (auto i = KeyboardEventListener::_listeners.begin(); i != KeyboardEventListener::_listeners.end(); ++i)
+			for (auto i = KeyboardEventListener::_Listeners().begin(); i != KeyboardEventListener::_Listeners().end(); ++i)
 				(*i)->OnKeyPressed(e);
 
 		}
 		void KeyboardController::DispatchEvent(KeyUpEventArgs& e) const {
 
-			for (auto i = KeyboardEventListener::_listeners.begin(); i != KeyboardEventListener::_listeners.end(); ++i)
+			for (auto i = KeyboardEventListener::_Listeners().begin(); i != KeyboardEventListener::_Listeners().end(); ++i)
 				(*i)->OnKeyUp(e);
 
 		}
 		void KeyboardController::DispatchEvent(KeyCharEventArgs& e) const {
 
-			for (auto i = KeyboardEventListener::_listeners.begin(); i != KeyboardEventListener::_listeners.end(); ++i)
+			for (auto i = KeyboardEventListener::_Listeners().begin(); i != KeyboardEventListener::_Listeners().end(); ++i)
 				(*i)->OnKeyChar(e);
 
 		}

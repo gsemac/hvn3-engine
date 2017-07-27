@@ -21,8 +21,8 @@ namespace hvn3 {
 		virtual void OnKeyUp(KeyUpEventArgs& e);
 		virtual void OnKeyChar(KeyCharEventArgs& e);
 
-	private:
-		static std::unordered_set<KeyboardEventListener*> _listeners;
+	protected:
+		static std::unordered_set<KeyboardEventListener*>& _Listeners();
 
 	};
 

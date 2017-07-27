@@ -5,15 +5,15 @@ namespace hvn3 {
 	KeyboardEventListener::KeyboardEventListener() {
 
 		// Add self to the global collection of keyboard listeners.
-		_listeners.insert(this);
+		_Listeners().insert(this);
 
 	}
 	KeyboardEventListener::~KeyboardEventListener() {
 
-		// It's possible for mouse listeners to be freed after the listener collection is freed when the game state falls out of scope.
-		// Make sure that we exist in the collection before trying to remove ourselves.
-		if (_listeners.count(this) > 0)
-			_listeners.erase(this);
+		// When exiting the game, it's possible for the listener collection to fall out of scope and have its contents freed.
+		// Attempting to access the collection at this point will throw an exception, so make sure its size is > 0.
+		if (_Listeners().size() > 0)
+			_Listeners().erase(this);
 
 	}
 
@@ -22,8 +22,12 @@ namespace hvn3 {
 	void KeyboardEventListener::OnKeyUp(KeyUpEventArgs& e) {}
 	void KeyboardEventListener::OnKeyChar(KeyCharEventArgs& e) {}
 
-	// Private members
+	std::unordered_set<KeyboardEventListener*>& KeyboardEventListener::_Listeners() {
 
-	std::unordered_set<KeyboardEventListener*>KeyboardEventListener::_listeners;
+		static std::unordered_set<KeyboardEventListener*> _listeners;
+
+		return _listeners;
+
+	}
 
 }

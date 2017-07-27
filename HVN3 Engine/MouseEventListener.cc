@@ -4,16 +4,16 @@ namespace hvn3 {
 
 	MouseEventListener::MouseEventListener() {
 
-		_listeners.insert(this);
+		_Listeners().insert(this);
 
 	}
 	MouseEventListener::~MouseEventListener() {
 
-		// It's possible for mouse listeners to be freed after the listener collection is freed when the game state falls out of scope.
-		// Make sure that we exist in the collection before trying to remove ourselves.
-		if (_listeners.count(this) > 0)
-			_listeners.erase(this);
-
+		// When exiting the game, it's possible for the listener collection to fall out of scope and have its contents freed.
+		// Attempting to access the collection at this point will throw an exception, so make sure its size is > 0.
+		if(_Listeners().size() > 0)
+			_Listeners().erase(this);
+	
 	}
 
 	void MouseEventListener::OnMouseDown(MouseDownEventArgs& e) {}
@@ -22,6 +22,12 @@ namespace hvn3 {
 	void MouseEventListener::OnMouseMove(MouseMoveEventArgs& e) {}
 	void MouseEventListener::OnMouseScroll(MouseScrollEventArgs& e) {}
 
-	std::unordered_set<MouseEventListener*> MouseEventListener::_listeners;
+	std::unordered_set<MouseEventListener*>& MouseEventListener::_Listeners() {
+
+		static std::unordered_set<MouseEventListener*> _listeners;
+
+		return _listeners;
+
+	}
 
 }
