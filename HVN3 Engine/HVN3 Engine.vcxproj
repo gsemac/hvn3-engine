@@ -452,7 +452,6 @@
     <ClInclude Include="physics\IPhysicsManager.h" />
     <ClInclude Include="physics\Material.h" />
     <ClInclude Include="physics\PhysicsUtils.h" />
-    <ClInclude Include="PointGeometry.h" />
     <ClInclude Include="RectangleHitMask.h" />
     <ClInclude Include="RoomTransitionFade.h" />
     <ClInclude Include="RoomTransitionNone.h" />
@@ -478,7 +477,7 @@
     <ClInclude Include="IObjectManager.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Properties.h" />
-    <ClInclude Include="Geometry.h" />
+    <ClInclude Include="GeometryUtils.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Hash.h" />

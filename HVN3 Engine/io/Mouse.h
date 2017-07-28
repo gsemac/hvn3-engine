@@ -1,6 +1,6 @@
 #pragma once
 #include "Stopwatch.h"
-#include "Geometry.h"
+#include "GeometryUtils.h"
 #include "BitFlags.h"
 #include "EventSource.h"
 

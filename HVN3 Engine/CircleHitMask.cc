@@ -1,6 +1,6 @@
 #include "CircleHitMask.h"
 #include "Exception.h"
-#include "Geometry.h"
+#include "GeometryUtils.h"
 
 namespace hvn3 {
 	namespace Collision {

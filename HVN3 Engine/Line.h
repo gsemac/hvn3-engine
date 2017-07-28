@@ -1,5 +1,4 @@
 #pragma once
-#include "PointGeometry.h"
 
 namespace hvn3 {
 
@@ -27,7 +26,11 @@ namespace hvn3 {
 
 		T Length() const {
 
-			return PointDistance(_a, _b);
+			float dx = b.X() - a.X();
+			float dy = b.Y() - a.Y();
+			float d_sq = dx * dx + dy * dy;
+
+			return std::sqrt(d_sq);
 
 		}
 

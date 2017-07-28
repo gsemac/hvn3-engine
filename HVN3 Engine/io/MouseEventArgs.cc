@@ -37,6 +37,7 @@ namespace hvn3 {
 		_y = y;
 		_x_delta = x_delta;
 		_y_delta = y_delta;
+		_position = Mouse::Position();
 
 		_direction = (MouseScrollDirection)0;
 
@@ -73,6 +74,11 @@ namespace hvn3 {
 	MouseScrollDirection MouseScrollEventArgs::Direction() const {
 
 		return _direction;
+
+	}
+	const PointF& MouseScrollEventArgs::Position() const {
+
+		return _position;
 
 	}
 

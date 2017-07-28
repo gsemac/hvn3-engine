@@ -591,9 +591,6 @@
     <ClInclude Include="Framework.h">
       <Filter>Header Files\System</Filter>
     </ClInclude>
-    <ClInclude Include="Geometry.h">
-      <Filter>Header Files\Structures</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics.h">
       <Filter>Header Files\Drawing</Filter>
     </ClInclude>
@@ -912,9 +909,6 @@
     <ClInclude Include="Line.h">
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
-    <ClInclude Include="PointGeometry.h">
-      <Filter>Header Files\Structures</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionEventArgs.h">
       <Filter>Header Files\System\Events\EventArgs</Filter>
     </ClInclude>
@@ -1064,6 +1058,9 @@
     </ClInclude>
     <ClInclude Include="io\KeyboardEventArgs.h">
       <Filter>Header Files\System\Events\EventArgs</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometryUtils.h">
+      <Filter>Header Files\Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

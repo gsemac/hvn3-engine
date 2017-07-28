@@ -136,9 +136,9 @@ namespace hvn3 {
 		case hvn3::MouseButton::Left:
 			return &_left;
 		case hvn3::MouseButton::Right:
-			return &_middle;
-		default:
 			return &_right;
+		default:
+			return &_middle;
 		}
 
 	}

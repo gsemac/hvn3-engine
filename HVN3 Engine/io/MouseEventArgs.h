@@ -54,6 +54,7 @@ namespace hvn3 {
 		int DeltaX() const;
 		int DeltaY() const;
 		MouseScrollDirection Direction() const;
+		const PointF& Position() const;
 
 	private:
 		MouseScrollDirection _direction;
@@ -61,6 +62,7 @@ namespace hvn3 {
 		int _y;
 		int _x_delta;
 		int _y_delta;
+		PointF _position;
 
 	};
 

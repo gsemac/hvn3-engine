@@ -1,6 +1,6 @@
 #include "RectangleHitMask.h"
 #include "Exception.h"
-#include "Geometry.h"
+#include "GeometryUtils.h"	
 #include "CollisionUtils.h"
 
 namespace hvn3 {

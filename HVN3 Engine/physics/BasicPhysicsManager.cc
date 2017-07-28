@@ -5,6 +5,7 @@
 #include "PhysicsUtils.h"
 #include "Object.h"
 #include "UpdateEventArgs.h"
+#include "MathUtils.h"
 #include <utility>
 
 namespace hvn3 {

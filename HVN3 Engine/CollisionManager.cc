@@ -132,14 +132,14 @@ namespace hvn3 {
 
 			float distance = 0.0f;
 			float distance_per_step = 1.0f;
-			PointF new_position = PointInDirection(body->Position(), direction, distance_per_step);
+			PointF new_position = Math::Geometry::PointInDirection(body->Position(), direction, distance_per_step);
 			bool place_free;
 
 			while ((place_free = PlaceFreeIf(body, new_position, condition), place_free) && distance < (std::abs)(max_distance)) {
 
 				body->SetPosition(new_position);
 
-				new_position = PointInDirection(new_position, direction, distance_per_step);
+				new_position = Math::Geometry::PointInDirection(new_position, direction, distance_per_step);
 
 				distance += distance_per_step;
 
@@ -157,7 +157,7 @@ namespace hvn3 {
 
 			while ((place_free = PlaceFree(body, pos), !place_free) && dist < max_distance) {
 
-				pos = PointInDirection(pos, direction, distance_per_step);
+				pos = Math::Geometry::PointInDirection(pos, direction, distance_per_step);
 
 				dist += distance_per_step;
 
@@ -177,7 +177,7 @@ namespace hvn3 {
 
 			while ((place_free = _narrowphase_method.TestCollision(body, other, m), place_free) && dist < (std::abs)(max_distance)) {
 
-				body->SetPosition(PointInDirection(body->Position(), direction, distance_per_step));
+				body->SetPosition(Math::Geometry::PointInDirection(body->Position(), direction, distance_per_step));
 
 				dist += distance_per_step;
 

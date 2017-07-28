@@ -1,6 +1,6 @@
 #pragma once
 #include "SizeableBase.h"
-#include "Geometry.h"
+#include "GeometryUtils.h"
 #include "Color.h"
 #include "io/File.h"
 

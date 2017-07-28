@@ -329,7 +329,7 @@ namespace hvn3 {
 				break;
 
 			}
-
+		
 			con.SetButtonState(button, true);
 
 			if (Mouse::ButtonPressed(button))
@@ -358,9 +358,9 @@ namespace hvn3 {
 			}
 
 			con.SetButtonState(button, false);
-			
+
 			con.DispatchEvent(MouseUpEventArgs(button));
-			
+
 		}
 		void Runner::OnMouseAxes(Event& ev) {
 
@@ -378,7 +378,7 @@ namespace hvn3 {
 				con.DispatchEvent(MouseMoveEventArgs());
 
 				// If the scroll wheel was moved, set the scroll state.
-				ALLEGRO_MOUSE_EVENT& mouse = ev.AlPtr()->mouse;			
+				ALLEGRO_MOUSE_EVENT& mouse = ev.AlPtr()->mouse;
 				if (mouse.dw != 0 || mouse.dz != 0) {
 					con.SetScrollState(mouse.dz < 0, mouse.dz > 0);
 					con.DispatchEvent(MouseScrollEventArgs(mouse.w, mouse.z, mouse.dw, mouse.dz));
@@ -577,7 +577,7 @@ namespace hvn3 {
 					(view_scale * port_scale).Inverse().ScalePoint(pos);
 
 					// Rotate it against the view's angle.
-					PointRotate(pos, view.Port().Midpoint(), -view.Angle());
+					Math::Geometry::PointRotate(pos, view.Port().Midpoint(), -view.Angle());
 
 					// Translate it according to the view's offset.
 					pos += view.Position();

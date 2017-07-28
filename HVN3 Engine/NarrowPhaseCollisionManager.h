@@ -1,5 +1,5 @@
 #pragma once
-#include "Geometry.h"
+#include "GeometryUtils.h"
 #include "CollisionManifold.h"
 
 namespace hvn3 {

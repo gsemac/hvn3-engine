@@ -18,7 +18,7 @@ public:
 	}
 	void OnKeyDown(hvn3::KeyDownEventArgs& e) override {
 
-		hvn3::Console::WriteLine(e.KeyCode(), " Held!");
+		//hvn3::Console::WriteLine(e.KeyCode(), " Held!");
 
 	}
 	void OnKeyChar(hvn3::KeyCharEventArgs& e) override {
@@ -41,7 +41,7 @@ public:
 	}
 	void OnMouseDown(hvn3::MouseDownEventArgs& e) override {
 
-		hvn3::Console::WriteLine((int)e.Button(), " held!");
+		//hvn3::Console::WriteLine((int)e.Button(), " held!");
 
 	}
 
