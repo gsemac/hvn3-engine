@@ -2,6 +2,7 @@
 #include "Rectangle.h"
 #include "Circle.h"
 #include "Line.h"
+#include "Vector2d.h"
 #include "MathUtils.h"
 
 namespace hvn3 {
@@ -47,23 +48,7 @@ namespace hvn3 {
 			}
 
 			// Returns the two points of contact of the lines tangent to the circle passing through the given point.
-			template<typename T>
-			std::pair<Point2d<T>, Point2d<T>> PointTangent(const Circle<T>& circle, Point2d<T> point) {
-
-				// https://gamedev.stackexchange.com/questions/35763/tangent-to-a-circle-through-a-point
-
-				// Vector from center of circle to the target point
-				float v = Vector2d(circle.Position(), point);
-
-				float angle_1 = Math::Pi - (std::atan2)(v.Y(), v.X()) - (std::acos)(circle.Radius() / v.Length());
-				float angle_2 = Math::Pi - (std::atan2)(v.Y(), v.X()) + (std::acos)(circle.Radius() / v.Length());
-
-				return std::pair<Point2d<T>, Point2d<T>>(
-					PointInDirection(circle.Position(), angle_1, circle.Radius()),
-					PointInDirection(circle.Position(), angle_2, circle.Radius())
-					);
-
-			}
+			std::pair<PointF, PointF> PointTangent(const CircleF& circle, const PointF& point);
 
 			// Translates the given point by an offset.
 			template <typename T>

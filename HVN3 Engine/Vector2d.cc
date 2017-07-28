@@ -81,27 +81,17 @@ namespace hvn3 {
 	float Vector2d::Direction() const {
 
 		// Initialize variables.
-		float degrees = 0.0f;
+		float rad = 0.0f;
 
-		// Determine the angle.
-		if ((std::abs)(_x) > 0.0f)
-			degrees = Math::RadiansToDegrees((std::acos)(_x / _m));
-		else if ((std::abs)(-_y) > 0.0f) {
-			if (_y > 0.0f)
-				degrees = 270.0f;
-			else
-				degrees = Math::RadiansToDegrees((std::asin)((std::abs)(-_y) / _m));
-		}
+		rad = std::atan2(-_y, _x);
 
-		// Adjust the angle according to its quadrant.
-		switch (Quadrant()) {
-		case 3: degrees += 90.0f; break;
-		case 4: degrees += 270.0f; break;
-		}
+		float deg = Math::RadiansToDegrees(rad);
 
-		// Return the result.
-		return degrees;
+		if (deg < 0.0f)
+			deg += 360.0f;
 
+		return deg;
+		
 	}
 	int Vector2d::Quadrant() const {
 

@@ -108,6 +108,25 @@ namespace hvn3 {
 
 			}
 
+			std::pair<PointF, PointF> PointTangent(const CircleF& circle, const PointF& point) {
+
+				// Get the vector going from the circle to the desination point.
+				Vector2d vec(circle.Position(), point);
+
+				// Calculate the point in the direction of the vector on the edge of the circle.
+				PointF point_1 = Math::Geometry::PointInDirection(circle.Position(), vec.Direction(), circle.Radius());
+				PointF point_2(point_1);
+
+				// Rotate the points to the tangent point.
+				float degrees = Math::RadiansToDegrees((std::acos)(circle.Radius() / vec.Length()));
+				Math::Geometry::PointRotate(point_1, circle.Position(), -degrees);
+				Math::Geometry::PointRotate(point_2, circle.Position(), degrees);
+
+				// Return the result.
+				return std::pair<PointF, PointF>(point_1, point_2);
+
+			}
+
 		}
 	}
 }

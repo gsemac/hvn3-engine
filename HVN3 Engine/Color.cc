@@ -206,7 +206,7 @@ namespace hvn3 {
 	Color Color::Merge(const Color& color_1, const Color& color_2, float amount) {
 
 		Color color;
-		
+
 		float from_c1 = 1.0f - amount;
 		float from_c2 = amount;
 
@@ -367,6 +367,7 @@ namespace hvn3 {
 	const Color Color::DodgerBlue = FromArgb(30, 144, 255);
 	const Color Color::Fuchsia = FromArgb(255, 0, 255);
 	const Color Color::Gainsboro = FromArgb(220, 220, 220);
+	const Color Color::Green = FromArgb(0, 255, 0);
 	const Color Color::Grey = FromArgbf(0.5f, 0.5f, 0.5f);
 	const Color Color::Red = FromArgbf(1.0f, 0.0f, 0.0f);
 	const Color Color::Silver = FromArgb(192, 192, 192);
