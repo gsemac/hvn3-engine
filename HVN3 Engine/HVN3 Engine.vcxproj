@@ -263,6 +263,7 @@
     <ClCompile Include="Framework.cc" />
     <ClCompile Include="FrameworkAdapter.cc" />
     <ClCompile Include="GameManager.cc" />
+    <ClCompile Include="GeometryUtils.cc" />
     <ClCompile Include="GridRenderer.cc" />
     <ClCompile Include="gui\Button.cc" />
     <ClCompile Include="gui\ButtonBase.cc" />

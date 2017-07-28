@@ -5,122 +5,31 @@
 #include "MathUtils.h"
 
 namespace hvn3 {
-
 	namespace Math {
 		namespace Geometry {
 
 			// Returns the distance squared between two points.
-			float PointDistanceSquared(const PointF& a, const PointF& b) {
-
-				float dx = b.X() - a.X();
-				float dy = b.Y() - a.Y();
-
-				return dx * dx + dy * dy;
-
-			}
+			float PointDistanceSquared(const PointF& a, const PointF& b);
 			// Returns the distance squared between a point and a rectangle.
-			float PointDistanceSquared(const PointF& point, const RectangleF& rectangle) {
-
-				float dx = Math::Max((std::abs)(point.X() - rectangle.X() + rectangle.Width() / 2.0f) - rectangle.Width() / 2.0f, 0.0f);
-				float dy = Math::Max((std::abs)(point.Y() - rectangle.Y() + rectangle.Height() / 2.0f) - rectangle.Height() / 2.0f, 0.0f);
-
-				return dx * dx + dy * dy;
-
-			}
+			float PointDistanceSquared(const PointF& point, const RectangleF& rectangle);
 
 			// Returns the distance between two points.
-			float PointDistance(const PointF& a, const PointF& b) {
-
-				return std::sqrt(PointDistanceSquared(a, b));
-
-			}
+			float PointDistance(const PointF& a, const PointF& b);
 			// Returns the distance from the given point to the given line.
-			float PointDistance(const PointF& point, const LineF& line) {
-
-				float a = point.X() - line.First().X();
-				float b = point.Y() - line.First().Y();
-				float c = line.Second().X() - line.First().X();
-				float d = line.Second().Y() - line.First().Y();
-
-				float dot = a * c + b * d;
-				float len_sq = c * c + d * d;
-				float param = -1.0f;
-				if (len_sq != 0)
-					param = dot / len_sq;
-
-				float xx, yy;
-
-				if (param < 0) {
-					xx = line.First().X();
-					yy = line.First().Y();
-				}
-				else if (param > 1) {
-					xx = line.Second().X();
-					yy = line.Second().Y();
-				}
-				else {
-					xx = line.First().X() + param * c;
-					yy = line.First().Y() + param * d;
-				}
-
-				float dx = point.X() - xx;
-				float dy = point.Y() - yy;
-
-				return std::sqrt(dx * dx + dy * dy);
-
-			}
+			float PointDistance(const PointF& point, const LineF& line);
 			// Returns the distance from the given point to the given rectangle.
-			float PointDistance(const PointF& point, const RectangleF& rectangle) {
-
-				return (std::sqrtf)(PointDistanceSquared(point, rectangle));
-
-			}
+			float PointDistance(const PointF& point, const RectangleF& rectangle);
 
 			// Returns the point at the given distance from the starting point in the given direction.
-			PointF PointInDirection(const PointF& point, float degrees, float distance) {
+			PointF PointInDirection(const PointF& point, float degrees, float distance);
 
-				float rad = Math::DegreesToRadians(degrees);
-				return PointF(point.X() + std::cos(rad) * distance, point.Y() - std::sin(rad) * distance);
-
-			}
-			
 			// Returns the angle between two points.
-			float PointDirection(float x1, float y1, float x2, float y2) {
-
-				float angle = Math::RadiansToDegrees((std::atan2)(y1 - y2, x2 - x1));
-
-				if (angle < 0.0f) 
-					angle += 360.0f;
-
-				return angle;
-
-			}
+			float PointDirection(float x1, float y1, float x2, float y2);
 			// Returns the angle between two points.
-			float PointDirection(const PointF& a, const PointF& b) {
-
-				return PointDirection(a.X(), a.Y(), b.X(), b.Y());
-
-			}
+			float PointDirection(const PointF& a, const PointF& b);
 
 			// Rotates the given point about the origin point by the given number of degrees.
-			void PointRotate(PointF& point, const PointF& origin, float degrees) {
-
-				float rad = Math::DegreesToRadians(degrees);
-				float s = std::sin(rad);
-				float c = std::cos(rad);
-
-				// Translate the Point to the origin.
-				point -= origin;
-
-				// Rotate the Point.
-				float xnew = point.X() * c - point.Y() * s;
-				float ynew = point.X() * s + point.Y() * c;
-
-				// Translate the Point back.
-				point.SetX(xnew + origin.X());
-				point.SetY(ynew + origin.Y());
-
-			}
+			void PointRotate(PointF& point, const PointF& origin, float degrees);
 
 			// Returns true if the given point is inside of the given rectangle.
 			template <typename T>
@@ -136,7 +45,26 @@ namespace hvn3 {
 				return PointDistanceSquared(point, circle.Position()) < (circle.Radius() * circle.Radius());
 
 			}
-			
+
+			// Returns the two points of contact of the lines tangent to the circle passing through the given point.
+			template<typename T>
+			std::pair<Point2d<T>, Point2d<T>> PointTangent(const Circle<T>& circle, Point2d<T> point) {
+
+				// https://gamedev.stackexchange.com/questions/35763/tangent-to-a-circle-through-a-point
+
+				// Vector from center of circle to the target point
+				float v = Vector2d(circle.Position(), point);
+
+				float angle_1 = Math::Pi - (std::atan2)(v.Y(), v.X()) - (std::acos)(circle.Radius() / v.Length());
+				float angle_2 = Math::Pi - (std::atan2)(v.Y(), v.X()) + (std::acos)(circle.Radius() / v.Length());
+
+				return std::pair<Point2d<T>, Point2d<T>>(
+					PointInDirection(circle.Position(), angle_1, circle.Radius()),
+					PointInDirection(circle.Position(), angle_2, circle.Radius())
+					);
+
+			}
+
 			// Translates the given point by an offset.
 			template <typename T>
 			Positionable2dBase<T>& TranslatePoint(Positionable2dBase<T>& obj, T x_offset, T y_offset) {
