@@ -9,6 +9,24 @@ namespace hvn3 {
 	namespace Math {
 		namespace Geometry {
 
+			struct CommonTangentsResult {
+				CommonTangentsResult() : Tangents{
+					LineF(0.0f, 0.0f, 0.0f, 0.0f),
+					LineF(0.0f, 0.0f, 0.0f, 0.0f),
+					LineF(0.0f, 0.0f, 0.0f, 0.0f),
+					LineF(0.0f, 0.0f, 0.0f, 0.0f),
+				},
+				Count(0) {}
+				LineF Tangents[4];
+				size_t Count;
+			};
+
+			template <typename T>
+			struct SlopeIntercept {
+				T Slope;
+				T Intercept;
+			};
+
 			// Returns the distance squared between two points.
 			float PointDistanceSquared(const PointF& a, const PointF& b);
 			// Returns the distance squared between a point and a rectangle.
@@ -47,8 +65,15 @@ namespace hvn3 {
 
 			}
 
+			// Returns an angle in the given range, or a default of 0-360.
+			float NormalizeAngle(float degrees, float min = 0.0f, float max = 360.0f);
+
 			// Returns the two points of contact of the lines tangent to the circle passing through the given point.
-			std::pair<PointF, PointF> PointTangent(const CircleF& circle, const PointF& point);
+			std::pair<PointF, PointF> TangentThroughPoint(const CircleF& circle, const PointF& point);
+			// Returns the number of common tangents between two circles. Assumes that the two circles are not the same circle.
+			int NumberOfCommonTangents(const CircleF& a, const CircleF& b);
+			CommonTangentsResult CommonTangents(const CircleF& a, const CircleF& b);
+			//CommonTangentsResult CommonInternalTangents(const CircleF& a, const CircleF& b);
 
 			// Translates the given point by an offset.
 			template <typename T>
@@ -90,6 +115,33 @@ namespace hvn3 {
 					return b.Top() - a.Bottom();
 				else
 					return a.Top() - b.Bottom();
+
+			}
+
+			template <typename T>
+			Point2d<T> LineIntersectionPoint(T slope1, T intercept1, T slope2, T intercept2) {
+
+				T x = (intercept2 - intercept1) / (slope1 - slope2);
+				T y = (slope1 * x + intercept1);
+
+				return Point2d<T>(x, y);
+
+			}
+			template <typename T>
+			Point2d<T> LineIntersectionPoint(SlopeIntercept<T> equation1, SlopeIntercept<T> equation2) {
+
+				return LineIntersectionPoint(equation1.Slope, equation1.Intercept, equation2.Slope, equation2.Intercept);
+
+			}
+			template <typename T>
+			SlopeIntercept<T> CalculateSlopeIntercept(Point2d<T> p1, Point2d<T> p2) {
+
+				SlopeIntercept<T> result;
+
+				result.Slope = (p2.Y() - p1.Y()) / (p2.X() - p1.X());
+				result.Intercept = -result.Slope * p2.X() + p2.Y();
+				
+				return result;
 
 			}
 
@@ -166,8 +218,6 @@ namespace hvn3 {
 				return PointDistance(Point2d<T>(a.X(), a.Y()), Point2d<T>(b.X(), b.Y())) < (a.Radius() + b.Radius());
 
 			}
-
-
 
 		}
 	}

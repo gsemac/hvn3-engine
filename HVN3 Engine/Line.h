@@ -24,6 +24,12 @@ namespace hvn3 {
 
 		}
 
+		Point2d<T> Midpoint() const {
+
+			return Point2d<T>((_a.X() + _b.X()) / T(2), (_a.Y() + _b.Y()) / T(2));
+
+		}
+
 		T Length() const {
 
 			float dx = b.X() - a.X();

@@ -22,11 +22,39 @@ namespace hvn3 {
 			return _radius;
 
 		}
-
+		
 	private:
 		T _radius;
 
 	};
+
+	template <typename T>
+	bool operator>(const Circle<T>& lhs, const Circle<T>& rhs) {
+
+		return lhs.Radius() > rhs.Radius();
+
+	}
+	template <typename T>
+	bool operator<(const Circle<T>& lhs, const Circle<T>& rhs) {
+
+		return lhs.Radius() < rhs.Radius();
+
+	}
+	template <typename T>
+	bool operator==(const Circle<T>& lhs, const Circle<T>& rhs) {
+
+		return 
+			lhs.X() == rhs.X() &&
+			lhs.Y() == rhs.Y() &&
+			lhs.Radius() == lhs.Radius();
+
+	}
+	template <typename T>
+	bool operator!=(const Circle<T>& lhs, const Circle<T>& rhs) {
+
+		return !(lhs == rhs);
+
+	}
 
 	typedef Circle<float> CircleF;
 	typedef Circle<int> CircleI;

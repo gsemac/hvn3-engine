@@ -5,6 +5,8 @@ namespace hvn3 {
 	namespace Math {
 
 		extern const long double Pi;
+		extern const float FloatEpsilon;
+		extern const double DoubleEpsilon;
 
 		// Returns 1 if the number is greater than or equal to zero, or -1 if the number is less than zero.
 		template <typename T>
@@ -77,6 +79,13 @@ namespace hvn3 {
 
 		}
 
+		template <typename T>
+		inline T Square(T n) {
+
+			return (std::pow)(n, T(2));
+
+		}
+
 		// Forces a value to be between a minimum and maximum value.
 		template <typename T>
 		T Clamp(T value, T min, T max) {
@@ -91,10 +100,34 @@ namespace hvn3 {
 
 		// Returns true if n is within epsilon of zero.
 		bool IsZero(float n, float epsilon);
+		// Returns true if n is within epsilon of zero.
+		bool IsZero(float n);
+		// Returns true if n is within epsilon of zero.
+		bool IsZero(double n, double epsilon);
+		// Returns true if n is within epsilon of zero.
+		bool IsZero(double n);
+
+		// Returns true if the difference between n1 and n2 is less than epsilon.
+		bool AreEqual(float n1, float n2, float epsilon);
+		// Returns true if the difference between n1 and n2 is less than the default epsilon.
+		bool AreEqual(float n1, float n2);
+		// Returns true if the difference between n1 and n2 is less than epsilon.
+		bool AreEqual(double n1, double n2, double epsilon);
+		// Returns true if the difference between n1 and n2 is less than the default epsilon.
+		bool AreEqual(double n1, double n2);
+
+		bool IsGreaterThan(float n1, float n2, float epsilon);
+		bool IsGreaterThan(float n1, float n2);
+		bool IsGreaterThan(double n1, double n2, double epsilon);
+		bool IsGreaterThan(double n1, double n2);
+
+		bool IsLessThan(float n1, float n2, float epsilon);
+		bool IsLessThan(float n1, float n2);
+		bool IsLessThan(double n1, double n2, double epsilon);
+		bool IsLessThan(double n1, double n2);
 
 		// Returns the given degrees expressed in radians.
 		float DegreesToRadians(float degrees);
-
 		// Returns the given radians expressed in degrees.
 		float RadiansToDegrees(float radians);
 
