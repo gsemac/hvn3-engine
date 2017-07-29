@@ -51,8 +51,8 @@ class TangentTest : public hvn3::Object {
 
 public:
 	TangentTest() : hvn3::Object(0),
-		a(200.0f, 200.0f, 100.0f),
-		b(250.0f, 200.0f, 50.0f)
+		a(200.0f, 200.0f, 50.0f),
+		b(300.0f, 200.0f, 50.0f)
 	{
 
 		//hvn3::Console::WriteLine("# of Common Tangents: ", hvn3::Math::Geometry::NumberOfCommonTangents(a, b));
@@ -101,6 +101,7 @@ int main(int argc, char *argv[]) {
 
 	auto room = hvn3::RoomPtr(new hvn3::Room(0, GameState.Properties().DisplaySize));
 	room->Objects()->AddInstance(hvn3::ObjectPtr(new TangentTest));
+	room->Objects()->AddInstance(hvn3::ObjectPtr(new MouseListenerObject));
 
 	GameState.Rooms().AddRoom(room);
 

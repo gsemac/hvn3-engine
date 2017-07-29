@@ -5,8 +5,19 @@ namespace hvn3 {
 	namespace Math {
 
 		extern const long double Pi;
-		extern const float FloatEpsilon;
-		extern const double DoubleEpsilon;
+
+		template <typename T>
+		struct Epsilon {
+			static const T value = static_cast<T>(0);
+		};
+		template <>
+		struct Epsilon<float> {
+			static const float value;
+		};
+		template <>
+		struct Epsilon<double> {
+			static const double value;
+		};
 
 		// Returns 1 if the number is greater than or equal to zero, or -1 if the number is less than zero.
 		template <typename T>
@@ -86,6 +97,20 @@ namespace hvn3 {
 
 		}
 
+		template <typename T>
+		typename std::enable_if<std::is_integral<T>::value, T>::type Mod(T lhs, T rhs) {
+			
+			return lhs % rhs;
+
+		}
+
+		template <typename T>
+		typename std::enable_if<std::is_floating_point<T>::value, T>::type Mod(T lhs, T rhs) {
+
+			return (std::fmod)(lhs, rhs);
+
+		}
+
 		// Forces a value to be between a minimum and maximum value.
 		template <typename T>
 		T Clamp(T value, T min, T max) {
@@ -99,37 +124,75 @@ namespace hvn3 {
 		}
 
 		// Returns true if n is within epsilon of zero.
-		bool IsZero(float n, float epsilon);
-		// Returns true if n is within epsilon of zero.
-		bool IsZero(float n);
-		// Returns true if n is within epsilon of zero.
-		bool IsZero(double n, double epsilon);
-		// Returns true if n is within epsilon of zero.
-		bool IsZero(double n);
+		template <typename T>
+		bool IsZero(T n, T epsilon) {
 
+			return (n < epsilon && n > -epsilon);
+
+		}
+		// Returns true if n is within epsilon of zero.
+		template <typename T>
+		bool IsZero(T n) {
+
+			return IsZero(n, Epsilon<T>::value);
+
+		}
+		
 		// Returns true if the difference between n1 and n2 is less than epsilon.
-		bool AreEqual(float n1, float n2, float epsilon);
-		// Returns true if the difference between n1 and n2 is less than the default epsilon.
-		bool AreEqual(float n1, float n2);
-		// Returns true if the difference between n1 and n2 is less than epsilon.
-		bool AreEqual(double n1, double n2, double epsilon);
-		// Returns true if the difference between n1 and n2 is less than the default epsilon.
-		bool AreEqual(double n1, double n2);
+		template <typename T>
+		bool AreEqual(T n1, T n2, T epsilon) {
 
-		bool IsGreaterThan(float n1, float n2, float epsilon);
-		bool IsGreaterThan(float n1, float n2);
-		bool IsGreaterThan(double n1, double n2, double epsilon);
-		bool IsGreaterThan(double n1, double n2);
+			return (Diff(n1, n2) < epsilon);
 
-		bool IsLessThan(float n1, float n2, float epsilon);
-		bool IsLessThan(float n1, float n2);
-		bool IsLessThan(double n1, double n2, double epsilon);
-		bool IsLessThan(double n1, double n2);
+		}
+		// Returns true if the difference between n1 and n2 is less than the default epsilon.
+		template <typename T>
+		bool AreEqual(T n1, T n2) {
+
+			return AreEqual(n1, n2, Epsilon<T>::value);
+
+		}
+
+		template <typename T>
+		bool IsGreaterThan(T n1, T n2, T epsilon) {
+
+			return n1 > n2 && Diff(n1, n2) >= epsilon;
+
+		}
+		template <typename T>
+		bool IsGreaterThan(T n1, T n2) {
+
+			return IsGreaterThan(n1, n2, Epsilon<T>::value);
+
+		}
+
+		template <typename T>
+		bool IsLessThan(T n1, T n2, T epsilon) {
+
+			return n1 < n2 && Diff(n1, n2) >= epsilon;
+
+		}
+		template <typename T>
+		bool IsLessThan(T n1, T n2) {
+
+			return IsLessThan(n1, n2, Epsilon<T>::value);
+
+		}
 
 		// Returns the given degrees expressed in radians.
-		float DegreesToRadians(float degrees);
+		template <typename T>
+		T DegreesToRadians(T degrees) {
+
+			return (degrees * (static_cast<T>(Pi) / static_cast<T>(180)));
+
+		}
 		// Returns the given radians expressed in degrees.
-		float RadiansToDegrees(float radians);
+		template <typename T>
+		T RadiansToDegrees(T radians) {
+
+			return ((radians * static_cast<T>(180)) / static_cast<T>(Pi));
+
+		}
 
 	}
 }

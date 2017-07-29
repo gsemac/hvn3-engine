@@ -118,6 +118,11 @@ namespace hvn3 {
 		return Vector2d(X() * other.X(), Y() * other.Y());
 
 	}
+	float Vector2d::Determinant(const Vector2d& other) const {
+
+		return X() * other.Y() + Y() * other.X();
+
+	}
 	Vector2d Vector2d::Normalize() const {
 
 		return *this / Length();
@@ -145,10 +150,25 @@ namespace hvn3 {
 		return *this;
 
 	}
+	Vector2d& Vector2d::operator/=(const Vector2d& other) {
+
+		SetX(X() / other.X());
+		SetY(Y() / other.Y());
+		return *this;
+
+	}
 	Vector2d& Vector2d::operator*=(const float other) {
 
 		SetX(X() * other);
 		SetY(Y() * other);
+
+		return *this;
+
+	}
+	Vector2d& Vector2d::operator/=(const float other) {
+
+		SetX(X() / other);
+		SetY(Y() / other);
 
 		return *this;
 

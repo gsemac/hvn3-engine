@@ -32,8 +32,8 @@ namespace hvn3 {
 
 		T Length() const {
 
-			float dx = b.X() - a.X();
-			float dy = b.Y() - a.Y();
+			float dx = _b.X() - _a.X();
+			float dy = _b.Y() - _a.Y();
 			float d_sq = dx * dx + dy * dy;
 
 			return std::sqrt(d_sq);

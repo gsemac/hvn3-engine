@@ -25,6 +25,7 @@ namespace hvn3 {
 
 		float DotProduct(const Vector2d& other) const;
 		Vector2d CrossProduct(const Vector2d& other) const;
+		float Determinant(const Vector2d& other) const;
 		Vector2d Normalize() const;
 
 		Vector2d& operator+=(const Vector2d& other);

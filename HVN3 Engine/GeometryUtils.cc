@@ -1,5 +1,5 @@
 #include "GeometryUtils.h"
-
+#include <iomanip>
 namespace hvn3 {
 	namespace Math {
 		namespace Geometry {
@@ -180,28 +180,31 @@ namespace hvn3 {
 				if (tangents.Count == 0)
 					return tangents;
 
-				// Get the smaller/larger of the two circles.
-				const CircleF *cmin, *cmax;
-				if (a < b) {
-					cmin = &a;
-					cmax = &b;
-				}
-				else {
-					cmin = &b;
-					cmax = &a;
-				}
-
-				// Get a vector pointing from the center of the larger circle to the center of the larger circle.
-				// This is so, in the case that the smaller circle is inside of the larger circle, the vector points towards the point of contact.
-				Vector2d vec(cmax->Position(), cmin->Position());
+				Vector2d vec(a.Position(), b.Position());
 				float direction = vec.Direction();
-				SlopeIntercept<float> eq = CalculateSlopeIntercept(cmax->Position(), cmin->Position());
+				SlopeIntercept<float> eq = CalculateSlopeIntercept(a.Position(), b.Position());
 
 				if (tangents.Count == 1 || tangents.Count == 3) {
 
 					// Represent the tangent as a line of length 1 between the two circles, with its midpoint at the intersection.
 					// If there is 1 tangent, we know for certain that one of the cirles is smaller than the other, and against the inner edge of the outer circle.
 					// If there are 3 tangents, we know that one circle is completely outside of the other, touching the outer edge.
+
+					// Get the smaller/larger of the two circles.
+					const CircleF *cmin, *cmax;
+					if (a < b) {
+						cmin = &a;
+						cmax = &b;
+					}
+					else {
+						cmin = &b;
+						cmax = &a;
+					}
+
+					// Get a vector pointing from the center of the larger circle to the center of the larger circle.
+					// This is so, in the case that the smaller circle is inside of the larger circle, the vector points towards the point of contact.
+					Vector2d vec(cmax->Position(), cmin->Position());
+					float direction = vec.Direction();
 
 					// Get the point of contact.
 					PointF pcontact = PointInDirection(cmax->Position(), direction, cmax->Radius());
@@ -224,18 +227,18 @@ namespace hvn3 {
 
 					// Get a point on the circle's perimeter that is perpendicular to to the direction of the line connecting the two circles.
 					// If the two circles have the same radius, an external center of similitude won't exist. The line that connects these two points will be the tangent instead.
-					PointF p1 = PointInDirection(cmax->Position(), direction + 90.0f, cmax->Radius());
-					PointF p2 = PointInDirection(cmin->Position(), direction + 90.0f, cmin->Radius());
-					PointF p3 = PointInDirection(cmax->Position(), direction - 90.0f, cmax->Radius());
-					PointF p4 = PointInDirection(cmin->Position(), direction - 90.0f, cmin->Radius());
+					PointF p1 = PointInDirection(a.Position(), direction + 90.0f, a.Radius());
+					PointF p2 = PointInDirection(b.Position(), direction + 90.0f, b.Radius());
+					PointF p3 = PointInDirection(a.Position(), direction - 90.0f, a.Radius());
+					PointF p4 = PointInDirection(b.Position(), direction - 90.0f, b.Radius());
 					SlopeIntercept<float> eq2 = CalculateSlopeIntercept(p1, p2);
 
-					if (cmin->Radius() == cmax->Radius()) {
-						tangents.Tangents[tangents.Count == 3 ? 1 : 0] = LineF(p1, p2);
-						tangents.Tangents[tangents.Count == 3 ? 2 : 1] = LineF(p3, p4);
+					if (a.Radius() == b.Radius()) {
+						tangents.Tangents[tangents.Count == 3 ? 1 : 0] = LineF(p3, p4);
+						tangents.Tangents[tangents.Count == 3 ? 2 : 1] = LineF(p1, p2);
 					}
 					else {
-						PointF center_of_similitude = LineIntersectionPoint(eq, eq2);
+						PointF center_of_similitude = IntersectionPoint(eq, eq2);
 						PointF tp1 = TangentThroughPoint(a, center_of_similitude).first;
 						PointF tp2 = TangentThroughPoint(b, center_of_similitude).first;
 						PointF tp3 = TangentThroughPoint(a, center_of_similitude).second;
@@ -251,13 +254,13 @@ namespace hvn3 {
 					// Represent the two tangents as lines starting from the point of tangency on the first circle to the point of tangency on the second circle.
 					// These will be the internal common tangents.
 
-					PointF p1 = PointInDirection(cmax->Position(), direction + 90.0f, cmax->Radius());
-					PointF p2 = PointInDirection(cmin->Position(), direction - 90.0f, cmin->Radius());
-					PointF p3 = PointInDirection(cmax->Position(), direction - 90.0f, cmax->Radius());
-					PointF p4 = PointInDirection(cmin->Position(), direction + 90.0f, cmin->Radius());
+					PointF p1 = PointInDirection(a.Position(), direction + 90.0f, a.Radius());
+					PointF p2 = PointInDirection(b.Position(), direction - 90.0f, b.Radius());
+					PointF p3 = PointInDirection(a.Position(), direction - 90.0f, b.Radius());
+					PointF p4 = PointInDirection(a.Position(), direction + 90.0f, b.Radius());
 					SlopeIntercept<float> eq2 = CalculateSlopeIntercept(p1, p2);
 
-					PointF center_of_similitude = LineIntersectionPoint(eq, eq2);
+					PointF center_of_similitude = IntersectionPoint(eq, eq2);
 					PointF tp1 = TangentThroughPoint(a, center_of_similitude).first;
 					PointF tp2 = TangentThroughPoint(b, center_of_similitude).first;
 					PointF tp3 = TangentThroughPoint(a, center_of_similitude).second;

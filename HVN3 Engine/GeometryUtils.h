@@ -4,6 +4,7 @@
 #include "Line.h"
 #include "Vector2d.h"
 #include "MathUtils.h"
+#include <functional>
 
 namespace hvn3 {
 	namespace Math {
@@ -67,13 +68,24 @@ namespace hvn3 {
 
 			// Returns an angle in the given range, or a default of 0-360.
 			float NormalizeAngle(float degrees, float min = 0.0f, float max = 360.0f);
+			template <typename T>
+			T AngleDifference(T source, T desination) {
+
+				T diff = desination - source;
+				while (diff < static_cast<T>(-180)) 
+					diff += static_cast<T>(360);
+				while (diff > static_cast<T>(180)) 
+					diff -= static_cast<T>(360);
+
+				return diff;
+				
+			}
 
 			// Returns the two points of contact of the lines tangent to the circle passing through the given point.
 			std::pair<PointF, PointF> TangentThroughPoint(const CircleF& circle, const PointF& point);
 			// Returns the number of common tangents between two circles. Assumes that the two circles are not the same circle.
 			int NumberOfCommonTangents(const CircleF& a, const CircleF& b);
 			CommonTangentsResult CommonTangents(const CircleF& a, const CircleF& b);
-			//CommonTangentsResult CommonInternalTangents(const CircleF& a, const CircleF& b);
 
 			// Translates the given point by an offset.
 			template <typename T>
@@ -119,7 +131,7 @@ namespace hvn3 {
 			}
 
 			template <typename T>
-			Point2d<T> LineIntersectionPoint(T slope1, T intercept1, T slope2, T intercept2) {
+			Point2d<T> IntersectionPoint(T slope1, T intercept1, T slope2, T intercept2) {
 
 				T x = (intercept2 - intercept1) / (slope1 - slope2);
 				T y = (slope1 * x + intercept1);
@@ -128,20 +140,56 @@ namespace hvn3 {
 
 			}
 			template <typename T>
-			Point2d<T> LineIntersectionPoint(SlopeIntercept<T> equation1, SlopeIntercept<T> equation2) {
+			Point2d<T> IntersectionPoint(const SlopeIntercept<T>& equation1, const SlopeIntercept<T>& equation2) {
 
-				return LineIntersectionPoint(equation1.Slope, equation1.Intercept, equation2.Slope, equation2.Intercept);
+				return IntersectionPoint(equation1.Slope, equation1.Intercept, equation2.Slope, equation2.Intercept);
 
 			}
 			template <typename T>
-			SlopeIntercept<T> CalculateSlopeIntercept(Point2d<T> p1, Point2d<T> p2) {
+			Point2d<T> IntersectionPoint(const Line<T>& line_segment1, const Line<T>& line_segment2) {
+
+				return IntersectionPoint(CalculateSlopeIntercept(line_segment1), CalculateSlopeIntercept(line_segment2));
+
+			}
+
+			template <typename T>
+			SlopeIntercept<T> CalculateSlopeIntercept(const Point2d<T>& p1, const Point2d<T>& p2) {
 
 				SlopeIntercept<T> result;
 
 				result.Slope = (p2.Y() - p1.Y()) / (p2.X() - p1.X());
 				result.Intercept = -result.Slope * p2.X() + p2.Y();
-				
+
 				return result;
+
+			}
+			template <typename T>
+			SlopeIntercept<T> CalculateSlopeIntercept(const Line<T>& line_segment) {
+
+				return CalculateSlopeIntercept(line_segment.First(), line_segment.Second());
+
+			}
+
+			template <typename T>
+			bool PointIsOnLine(const Line<T>& line, const Point2d<T>& point) {
+
+				T cross_product = (point.Y() - line.First().Y()) * (line.Second().X(), line.First().X()) -
+					(point.X() - line.First().X()) * (line.Second().Y() - line.First().Y());
+
+				if (Math::Abs(cross_product) > static_cast<T>(Math::DoubleEpsilon))
+					return false;
+
+				T dot_product = (point.X() - line.First().X()) * (line.Second().X() - line.First().X()) + (point.Y() - line.First().Y()) * (line.Second().Y() - line.First().Y());
+
+				if (dot_product < T(0))
+					return false;
+
+				T len_sq = (line.Second().X() - line.First().X()) * (line.Second().X() - line.First().X()) + (line.Second().Y() - line.First().Y()) * (line.Second().Y() - line.First().Y());
+
+				if (dot_product > len_sq)
+					return false;
+
+				return true;
 
 			}
 
@@ -193,7 +241,40 @@ namespace hvn3 {
 			template <typename T>
 			bool TestIntersection(const Line<T>& a, const Line<T>& b) {
 
-				throw NotImplementedException();
+				T x1 = a.First().X();
+				T x2 = a.Second().X();
+				T x3 = b.First().X();
+				T x4 = b.Second().X();
+				T y1 = a.First().Y();
+				T y2 = a.Second().Y();
+				T y3 = b.First().Y();
+				T y4 = b.Second().Y();
+
+				T det = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+
+				// If the determinant is 0, then there is no intersection.
+				if (Math::IsZero(det))
+					return false;
+
+				// Calculate the (potential) point of intersection.
+				T pre = (x1 * y2 - y1 * x2);
+				T post = (x3 * y4 - y3 * x4);
+				T x = (pre * (x3 - x4) - (x1 - x2) * post) / det;
+				T y = (pre * (y3 - y4) - (y1 - y2) * post) / det;
+
+				// Check that the point is on the lines.
+				if (Math::IsLessThan(x, Math::Min(x1, x2)) ||
+					Math::IsGreaterThan(x, Math::Max(x1, x2)) ||
+					Math::IsLessThan(x, Math::Min(x3, x4)) ||
+					Math::IsGreaterThan(x, Math::Max(x3, x4)))
+					return false;
+				if (Math::IsLessThan(y, Math::Min(y1, y2)) ||
+					Math::IsGreaterThan(y, Math::Max(y1, y2)) ||
+					Math::IsLessThan(y, Math::Min(y3, y4)) ||
+					Math::IsGreaterThan(y, Math::Max(y3, y4)))
+					return false;
+
+				return true;
 
 			}
 			template <typename T>
