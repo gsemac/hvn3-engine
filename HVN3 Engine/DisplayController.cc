@@ -12,7 +12,7 @@ namespace hvn3 {
 
 		void DisplayController::SetFocus(bool value) {
 			
-			_display->_SetFocus(value);
+			_display->_setFocus(value);
 
 		}
 

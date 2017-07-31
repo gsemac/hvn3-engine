@@ -11,16 +11,16 @@ namespace hvn3 {
 
 		void ToolStripButton::OnPaint(PaintEventArgs& e) {
 
-			_RenderBase(e);
+			_renderBase(e);
 
 			switch (DisplayStyle()) {
 
 			case ToolStripItemDisplayStyle::Image:
-				_RenderImage(e);
+				_renderImage(e);
 				break;
 
 			case ToolStripItemDisplayStyle::Text:
-				_RenderText(e);
+				_renderText(e);
 				break;
 
 			}

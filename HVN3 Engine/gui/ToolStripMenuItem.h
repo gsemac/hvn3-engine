@@ -28,14 +28,14 @@ namespace hvn3 {
 		protected:
 			
 		private:
-			bool _CreateSubMenu();
-			void _DestroySubMenu();
-			void _ShowSubMenu();
-			void _HideSubMenu();
-			float _SubMenuDestroyTimerValue() const;
-			void _SetSubMenuDestroyTimerValue(float value);
-			void _DecrementSubMenuDestroyTimerValue(float amount);
-			void _ResetSubMenuDestroyTimer();
+			bool _createSubMenu();
+			void _destroySubMenu();
+			void _showSubMenu();
+			void _hideSubMenu();
+			float _subMenuDestroyTimerValue() const;
+			void _setSubMenuDestroyTimerValue(float value);
+			void _decrementSubMenuDestroyTimerValue(float amount);
+			void _resetSubMenuDestroyTimer();
 
 			ToolStripDropDown* _sub_menu_ptr;
 			float _sub_menu_is_managed;

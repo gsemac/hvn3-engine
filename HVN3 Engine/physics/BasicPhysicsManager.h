@@ -38,10 +38,10 @@ namespace hvn3 {
 			collection_type _bodies;
 			Vector2d _gravity;	
 
-			void _ResolveCollision(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const;
-			void _IntegrateForces(IPhysicsBody* body, float dt) const;
-			void _IntegrateVelocity(IPhysicsBody* body, float dt) const;
-			void _PositionalCorrection(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const;
+			void _resolveCollision(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const;
+			void _integrateForces(IPhysicsBody* body, float dt) const;
+			void _integrateVelocity(IPhysicsBody* body, float dt) const;
+			void _positionalCorrection(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const;
 
 		};
 

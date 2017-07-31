@@ -14,7 +14,7 @@ namespace hvn3 {
 			virtual void OnUpdate(UpdateEventArgs& e) override;
 
 		protected:
-			void _ScrollTargetToPosition() override;
+			void _scrollTargetToPosition() override;
 
 		private:
 			float _ease_position;

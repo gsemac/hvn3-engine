@@ -73,20 +73,20 @@ namespace hvn3 {
 
 		private:
 			// Adds a control to the list of docked controls.
-			void _AddDockedControl(Control* control);
+			void _addDockedControl(Control* control);
 			// Removes a control from the list of docked controls.
-			void _RemoveDockedControl(Control* control);
+			void _removeDockedControl(Control* control);
 			// Sets the position, size, and anchors for all docked controls after each update.
-			void _ApplyDockStyleForAllControls();
+			void _applyDockStyleForAllControls();
 			// Marks a control for removal, which will cause it to be freed after the next update.
-			void _PendControlForRemoval(collection_type::iterator control_it);
+			void _pendControlForRemoval(collection_type::iterator control_it);
 			// Frees all controls currently pending removal.
-			void _EraseAllControlsPendingRemoval();
+			void _eraseAllControlsPendingRemoval();
 
 			// Sets the position, size, and anchors of the control, and adjusts the remaining dockable area accordingly.
-			void _ApplyDockStyleToControl(Control* control);
+			void _applyDockStyleToControl(Control* control);
 			// Returns the mouse position with the origin at the top-left corner of the control.
-			PointF _GetMousePositionRelativeToControl(Control* control) const;
+			PointF _getMousePositionRelativeToControl(Control* control) const;
 
 			GuiManager* _gui_manager;
 			Control* _held_control;

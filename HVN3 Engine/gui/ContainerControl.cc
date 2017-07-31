@@ -14,54 +14,54 @@ namespace hvn3 {
 		void ContainerControl::OnPaint(PaintEventArgs& e) {
 
 			// Draw child controls.
-			_Controls()->OnDraw(e);
+			_controls()->OnDraw(e);
 
 		}
 		void ContainerControl::OnUpdate(UpdateEventArgs& e) {
 
 			// Update child controls.
 			//if (IsActiveControl())
-			_Controls()->OnUpdate(e);
+			_controls()->OnUpdate(e);
 			if (!IsActiveControl())
-				_Controls()->ClearActiveControl();
+				_controls()->ClearActiveControl();
 
 		}
 
 		// Protected methods
 
-		ControlManager* ContainerControl::_Controls() {
+		ControlManager* ContainerControl::_controls() {
 
 			// Make sure that the style manager has been properly initialized before allowing access to child controls.
-			_InitializeStyleManager();
+			_initializeStyleManager();
 
 			// Return the underlying control manager.
 			return &_control_manager;
 
 		}
-		GuiManager* ContainerControl::_ChildControlManager() {
+		GuiManager* ContainerControl::_childControlManager() {
 
-			_InitializeStyleManager();
+			_initializeStyleManager();
 
 			// Return the gui manager.
 			return &_gui_manager;
 
 		}
-		bool ContainerControl::_HasActiveChildControl() const {
+		bool ContainerControl::_hasActiveChildControl() const {
 
 			return _control_manager.ActiveControl() != nullptr;
 
 		}
-		const RectangleF& ContainerControl::_ChildRegion() const {
+		const RectangleF& ContainerControl::_childRegion() const {
 
 			return _child_region;
 
 		}
-		void ContainerControl::_SetChildRegion(const RectangleF& region) {
+		void ContainerControl::_setChildRegion(const RectangleF& region) {
 
 			_child_region = region;
 
 		}
-		bool ContainerControl::_MouseInChildRegion() const {
+		bool ContainerControl::_mouseInChildRegion() const {
 
 			// Get the child region and offset it to match the control's position.
 			RectangleF region = _child_region;
@@ -71,14 +71,14 @@ namespace hvn3 {
 			return Mouse::InRegion(region);
 
 		}
-		void ContainerControl::_UpdateAnchors(ResizeEventArgs& e) {
+		void ContainerControl::_updateAnchors(ResizeEventArgs& e) {
 
 			// Calculate the difference in size.
 			float width_diff = e.NewSize().Width() - e.OldSize().Width();
 			float height_diff = e.NewSize().Height() - e.OldSize().Height();
 
 			// Reposition all anchored Controls.
-			for (auto it = _Controls()->ControlsBegin(); it != _Controls()->ControlsEnd(); ++it) {
+			for (auto it = _controls()->ControlsBegin(); it != _controls()->ControlsEnd(); ++it) {
 
 				Control* c = it->get();
 
@@ -108,7 +108,7 @@ namespace hvn3 {
 
 		// Private methods
 
-		void ContainerControl::_InitializeStyleManager() {
+		void ContainerControl::_initializeStyleManager() {
 
 			// Updates the style manager of our gui manager so that uses the same one that's used by this control.
 			if (_gui_manager.StyleManager() == nullptr && Manager() != nullptr && Manager()->StyleManager() != nullptr) {
@@ -116,7 +116,7 @@ namespace hvn3 {
 				_gui_manager = gui_manager_type(&_control_manager, Manager()->StyleManager());
 
 				// Call the manager changed event for all child controls.
-				for (auto it = _Controls()->ControlsBegin(); it != _Controls()->ControlsEnd(); ++it)
+				for (auto it = _controls()->ControlsBegin(); it != _controls()->ControlsEnd(); ++it)
 					System::ControlController(*(*it).get()).SetManager(&_gui_manager);
 
 			}

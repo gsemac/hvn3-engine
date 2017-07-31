@@ -24,7 +24,7 @@ namespace hvn3 {
 			virtual void OnSetUp() override;
 			virtual void OnReset() override;
 			virtual void OnRender(DrawEventArgs& e) override;
-			virtual void _RenderGrid(DrawEventArgs& e);
+			virtual void _renderGrid(DrawEventArgs& e);
 
 		private:
 			bool _grid_visible;

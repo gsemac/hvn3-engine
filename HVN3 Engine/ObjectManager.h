@@ -35,7 +35,7 @@ namespace hvn3 {
 		ObjectId _last_found_id;
 		size_t _last_found_index;
 
-		void _RemoveDestroyedObjects(std::vector<ObjectPtr>::iterator begin, std::vector<ObjectPtr>::iterator end);
+		void _removeDestroyedObjects(std::vector<ObjectPtr>::iterator begin, std::vector<ObjectPtr>::iterator end);
 
 	};
 

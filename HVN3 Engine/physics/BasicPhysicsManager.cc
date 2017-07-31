@@ -62,7 +62,7 @@ namespace hvn3 {
 
 			// Integrate forces for each physics body.
 			for (auto i = _bodies.begin(); i != _bodies.end(); ++i)
-				_IntegrateForces(&i->second, e.Delta());
+				_integrateForces(&i->second, e.Delta());
 
 			// We need to handle the collision between each pair of bodies.
 			for (auto i = pairs.begin(); i != pairs.end(); ++i) {
@@ -76,13 +76,13 @@ namespace hvn3 {
 					break;
 
 				// Resolve the collsion.
-				_ResolveCollision(body_a, body_b, *i);
+				_resolveCollision(body_a, body_b, *i);
 
 			}
 
 			// Integrate velocities for each physics body.
 			for (auto i = _bodies.begin(); i != _bodies.end(); ++i)
-				_IntegrateVelocity(&i->second, e.Delta());
+				_integrateVelocity(&i->second, e.Delta());
 
 			// Apply positional correction.
 			for (auto i = pairs.begin(); i != pairs.end(); ++i) {
@@ -93,7 +93,7 @@ namespace hvn3 {
 				if (body_a == nullptr || body_b == nullptr)
 					break;
 			
-				_PositionalCorrection(body_a, body_b, *i);
+				_positionalCorrection(body_a, body_b, *i);
 
 			}
 
@@ -102,7 +102,7 @@ namespace hvn3 {
 
 		// Private methods
 
-		void BasicPhysicsManager::_ResolveCollision(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const {
+		void BasicPhysicsManager::_resolveCollision(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const {
 
 			// Calculate relative velocity.
 			Vector2d relative_velocity = body_2->LinearVelocity() - body_1->LinearVelocity();
@@ -127,7 +127,7 @@ namespace hvn3 {
 			body_2->SetLinearVelocity(body_2->LinearVelocity() + (body_2->InverseMass() * impulse));
 
 		}
-		void BasicPhysicsManager::_IntegrateForces(IPhysicsBody* body, float dt) const {
+		void BasicPhysicsManager::_integrateForces(IPhysicsBody* body, float dt) const {
 
 			if (body->InverseMass() == 0.0f)
 				return;
@@ -135,7 +135,7 @@ namespace hvn3 {
 			body->SetLinearVelocity(body->LinearVelocity() + (body->Force() * body->MassData().InverseMass + _gravity) * (dt / 2.0f));
 
 		}
-		void BasicPhysicsManager::_IntegrateVelocity(IPhysicsBody* body, float dt) const {
+		void BasicPhysicsManager::_integrateVelocity(IPhysicsBody* body, float dt) const {
 
 			if (body->InverseMass() == 0.0f)
 				return;
@@ -143,7 +143,7 @@ namespace hvn3 {
 			body->SetPosition(body->Position() + body->LinearVelocity() * dt);
 
 		}
-		void BasicPhysicsManager::_PositionalCorrection(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const {
+		void BasicPhysicsManager::_positionalCorrection(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const {
 
 			const float percent = 0.4f;
 			const float slop = 0.05f;

@@ -19,7 +19,7 @@ namespace hvn3 {
 			_dragging(false) {
 
 			SetTarget(control);
-			_RecalculateSliderSize();
+			_recalculateSliderSize();
 
 		}
 
@@ -36,14 +36,14 @@ namespace hvn3 {
 
 			// Adjust the position of the slider.
 			if (_orientation == Orientation::Vertical)
-				_SetPosition((Height() - _slider_height) * percent);
+				_setPosition((Height() - _slider_height) * percent);
 			else
-				_SetPosition((Width() - _slider_height) * percent);
+				_setPosition((Width() - _slider_height) * percent);
 
 		}
 		float Scrollbar::ScrollPercentage() const {
 
-			return _PositionToPercentage(_Position());
+			return _positionToPercentage(_getPosition());
 
 		}
 		void Scrollbar::ScrollToTop() {
@@ -60,7 +60,7 @@ namespace hvn3 {
 		void Scrollbar::OnResize(ResizeEventArgs& e) {
 
 			// Relculate the size of the slider to compensate for the new size.
-			_RecalculateSliderSize();
+			_recalculateSliderSize();
 
 			// Invalidate the control so slider is redrawn.
 			Invalidate();
@@ -75,7 +75,7 @@ namespace hvn3 {
 		}
 		void Scrollbar::OnMouseDown(MouseEventArgs& e) {
 
-			if (_MouseOnSlider() && Mouse::ButtonPressed(MouseButton::Left)) {
+			if (_mouseOnSlider() && Mouse::ButtonPressed(MouseButton::Left)) {
 
 				_mouse_clicked_pos = (_orientation == Orientation::Vertical ? Mouse::Y : Mouse::X);
 				_starting_position = _position;
@@ -109,10 +109,10 @@ namespace hvn3 {
 				else
 					new_position = Math::Min(Width() - _slider_height, Math::Max(0.0f, _starting_position - (_mouse_clicked_pos - Mouse::X)));
 
-				if (new_position != _Position()) {
+				if (new_position != _getPosition()) {
 				
 					// Update the position of the slider (if it has changed).
-					_SetPosition(new_position);
+					_setPosition(new_position);
 
 				}
 
@@ -120,10 +120,10 @@ namespace hvn3 {
 			else if (_target && (_target->HasFocus() || HasFocus())) {
 
 				if (_orientation == Orientation::Vertical && (Mouse::ScrolledDown() || Mouse::ScrolledUp()))
-					SetScrollPercentage(_PixelsToPercentage(_PercentageToPixels(ScrollPercentage()) + (Mouse::ScrolledDown() ? -10 : 10)));
+					SetScrollPercentage(_pixelsToPercentage(_percentageToPixels(ScrollPercentage()) + (Mouse::ScrolledDown() ? -10 : 10)));
 
 				else if (_orientation == Orientation::Horizontal && (Mouse::ScrolledLeft() || Mouse::ScrolledRight()))
-					SetScrollPercentage(_PixelsToPercentage(_PercentageToPixels(ScrollPercentage()) + (Mouse::ScrolledLeft() ? -10 : 10)));
+					SetScrollPercentage(_pixelsToPercentage(_percentageToPixels(ScrollPercentage()) + (Mouse::ScrolledLeft() ? -10 : 10)));
 
 			}
 
@@ -133,33 +133,33 @@ namespace hvn3 {
 			e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor().Lighter());
 
 			if (_orientation == Orientation::Vertical)
-				e.Graphics().DrawFilledRectangle(0, _position, Width(), _slider_height, _MouseOnSlider() ? Color::LtGrey : Color::Grey);
+				e.Graphics().DrawFilledRectangle(0, _position, Width(), _slider_height, _mouseOnSlider() ? Color::LtGrey : Color::Grey);
 			else
-				e.Graphics().DrawFilledRectangle(_position, 0, _slider_height, Height(), _MouseOnSlider() ? Color::LtGrey : Color::Grey);
+				e.Graphics().DrawFilledRectangle(_position, 0, _slider_height, Height(), _mouseOnSlider() ? Color::LtGrey : Color::Grey);
 
 		}
 
 		// Protected methods
 
-		void Scrollbar::_SetPosition(float position) {
+		void Scrollbar::_setPosition(float position) {
 
 			// Update the position value.
 			_position = position;
 
 			// Update the position of the control.
 			if (_target)
-				_ScrollTargetToPosition();
+				_scrollTargetToPosition();
 
 			// Invalidate the scrollbar to draw the new slider position.
 			Invalidate();
 
 		}
-		float Scrollbar::_Position() const {
+		float Scrollbar::_getPosition() const {
 
 			return _position;
 
 		}
-		float Scrollbar::_PositionToPercentage(float position) const {
+		float Scrollbar::_positionToPercentage(float position) const {
 
 			if (_orientation == Orientation::Vertical)
 				if (Height() == _slider_height)
@@ -173,7 +173,7 @@ namespace hvn3 {
 					return position / (Width() - _slider_height);
 
 		}
-		ScrollEventArgs Scrollbar::_GetScrollEventArgs(float scroll_percentage) const {
+		ScrollEventArgs Scrollbar::_getScrollEventArgs(float scroll_percentage) const {
 
 			if (_orientation == Orientation::Vertical)
 				return ScrollEventArgs(scroll_percentage, (_target->ScrollableRegion().Height() - _target->VisibleRegion().Height()) * scroll_percentage, _orientation);
@@ -181,25 +181,25 @@ namespace hvn3 {
 				return ScrollEventArgs(scroll_percentage, (_target->ScrollableRegion().Width() - _target->VisibleRegion().Width()) * scroll_percentage, _orientation);
 
 		}
-		IScrollable* Scrollbar::_Target() {
+		IScrollable* Scrollbar::_getTarget() {
 
 			return _target;
 
 		}
-		Orientation Scrollbar::_Orientation() const {
+		Orientation Scrollbar::_getOrientation() const {
 
 			return _orientation;
 		
 		}
-		void Scrollbar::_ScrollTargetToPosition() {
+		void Scrollbar::_scrollTargetToPosition() {
 
-			_Target()->OnScroll(_GetScrollEventArgs(ScrollPercentage()));
+			_getTarget()->OnScroll(_getScrollEventArgs(ScrollPercentage()));
 
 		}
 
 		// Private methods
 
-		bool Scrollbar::_MouseOnSlider() {
+		bool Scrollbar::_mouseOnSlider() {
 
 			if (!IsActiveControl())
 				return false;
@@ -212,7 +212,7 @@ namespace hvn3 {
 				return Mouse::InRegion(fp.X() + _position, fp.Y(), fp.X() + _position + _slider_height, fp.Y() + Height());
 
 		}
-		void Scrollbar::_RecalculateSliderSize() {
+		void Scrollbar::_recalculateSliderSize() {
 
 			// Adjust the height of the slider.
 			if (_orientation == Orientation::Vertical)
@@ -234,12 +234,12 @@ namespace hvn3 {
 			SetScrollPercentage(ScrollPercentage());
 
 		}
-		int Scrollbar::_PercentageToPixels(float percentage) {
+		int Scrollbar::_percentageToPixels(float percentage) {
 
 			return static_cast<int>((Height() - _slider_height) * percentage);
 
 		}
-		float Scrollbar::_PixelsToPercentage(int pixels) {
+		float Scrollbar::_pixelsToPercentage(int pixels) {
 
 			return (float)pixels / (Height() - _slider_height);
 

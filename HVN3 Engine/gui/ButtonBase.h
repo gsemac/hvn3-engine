@@ -18,9 +18,9 @@ namespace hvn3 {
 			virtual void OnPaint(PaintEventArgs& e) override;
 			
 		protected:
-			virtual void _RenderBase(PaintEventArgs& e);
-			virtual void _RenderText(PaintEventArgs& e);
-			virtual void _RenderImage(PaintEventArgs& e);
+			virtual void _renderBase(PaintEventArgs& e);
+			virtual void _renderText(PaintEventArgs& e);
+			virtual void _renderImage(PaintEventArgs& e);
 
 		private:
 			PointF _text_offset;

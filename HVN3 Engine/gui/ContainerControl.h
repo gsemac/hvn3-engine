@@ -33,16 +33,16 @@ namespace hvn3 {
 			virtual void OnUpdate(UpdateEventArgs& e) override;
 
 		protected:
-			ControlManager* _Controls();
-			Gui::GuiManager* _ChildControlManager();
-			bool _HasActiveChildControl() const;
-			const RectangleF& _ChildRegion() const;
-			void _SetChildRegion(const RectangleF& region);
-			bool _MouseInChildRegion() const;
-			void _UpdateAnchors(ResizeEventArgs& e);
+			ControlManager* _controls();
+			Gui::GuiManager* _childControlManager();
+			bool _hasActiveChildControl() const;
+			const RectangleF& _childRegion() const;
+			void _setChildRegion(const RectangleF& region);
+			bool _mouseInChildRegion() const;
+			void _updateAnchors(ResizeEventArgs& e);
 
 		private:
-			void _InitializeStyleManager();
+			void _initializeStyleManager();
 
 			gui_manager_type _gui_manager;
 			control_manager_type _control_manager;

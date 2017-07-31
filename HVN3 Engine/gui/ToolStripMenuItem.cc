@@ -22,7 +22,7 @@ namespace hvn3 {
 
 			// If the sub menu was created, remove it from the manager, or delete if it isn't managed.
 			if (_sub_menu_ptr)
-				_DestroySubMenu();
+				_destroySubMenu();
 
 			_sub_menu_ptr = nullptr;
 
@@ -79,18 +79,18 @@ namespace hvn3 {
 
 			if (_sub_menu_ptr && !show_sub_menu && _sub_menu_ptr->Enabled()) {
 
-				_DecrementSubMenuDestroyTimerValue(0.1f);
-				if (_SubMenuDestroyTimerValue() <= 0.0f && !_sub_menu_ptr->HasVisibleSubMenu())
-					_HideSubMenu();
+				_decrementSubMenuDestroyTimerValue(0.1f);
+				if (_subMenuDestroyTimerValue() <= 0.0f && !_sub_menu_ptr->HasVisibleSubMenu())
+					_hideSubMenu();
 
 			}
 			else
-				_SetSubMenuDestroyTimerValue(DEFAULT_SUBMENU_HOVER_DELAY);
+				_setSubMenuDestroyTimerValue(DEFAULT_SUBMENU_HOVER_DELAY);
 
 		}
 		void ToolStripMenuItem::OnMouseEnter() {
 
-			_ResetSubMenuDestroyTimer();
+			_resetSubMenuDestroyTimer();
 
 			SetBackColor(BackColor().Lighter());
 
@@ -110,7 +110,7 @@ namespace hvn3 {
 
 			if (_hover_time >= DEFAULT_SUBMENU_HOVER_DELAY) {
 
-				_ShowSubMenu();
+				_showSubMenu();
 				_hover_time = DEFAULT_SUBMENU_HOVER_DELAY;
 
 			}
@@ -124,7 +124,7 @@ namespace hvn3 {
 
 		// Private methods
 
-		bool ToolStripMenuItem::_CreateSubMenu() {
+		bool ToolStripMenuItem::_createSubMenu() {
 
 			// Return false if the sub menu has already been created.
 			if (_sub_menu_ptr != nullptr)
@@ -135,8 +135,11 @@ namespace hvn3 {
 			for (int i = 0; i < Random::Integer(2, 6); ++i)
 				_sub_menu_ptr->AddItem(new ToolStripMenuItem);
 
+			// Return true to indicate that a new sub menu has been created.
+			return true;
+
 		}
-		void ToolStripMenuItem::_DestroySubMenu() {
+		void ToolStripMenuItem::_destroySubMenu() {
 
 			// If there is no sub menu, do nothing.
 			if (!_sub_menu_ptr)
@@ -149,9 +152,9 @@ namespace hvn3 {
 			_sub_menu_ptr = nullptr;
 
 		}
-		void ToolStripMenuItem::_ShowSubMenu() {
+		void ToolStripMenuItem::_showSubMenu() {
 
-			_CreateSubMenu();
+			_createSubMenu();
 
 			// Do nothing if a sub menu has not been created.
 			if (!_sub_menu_ptr)
@@ -172,7 +175,7 @@ namespace hvn3 {
 			}
 
 		}
-		void ToolStripMenuItem::_HideSubMenu() {
+		void ToolStripMenuItem::_hideSubMenu() {
 
 			// If there is no sub menu, do nothing.
 			if (!_sub_menu_ptr)
@@ -183,25 +186,25 @@ namespace hvn3 {
 			_sub_menu_ptr->SetEnabled(false);
 
 		}
-		float ToolStripMenuItem::_SubMenuDestroyTimerValue() const {
+		float ToolStripMenuItem::_subMenuDestroyTimerValue() const {
 
 			return _sub_menu_destroy_timer;
 
 		}
-		void ToolStripMenuItem::_SetSubMenuDestroyTimerValue(float value) {
+		void ToolStripMenuItem::_setSubMenuDestroyTimerValue(float value) {
 
 			_sub_menu_destroy_timer = value;
 
 			if (_sub_menu_ptr)
-				_sub_menu_ptr->SetOpacity(_SubMenuDestroyTimerValue() / DEFAULT_SUBMENU_HOVER_DELAY);
+				_sub_menu_ptr->SetOpacity(_subMenuDestroyTimerValue() / DEFAULT_SUBMENU_HOVER_DELAY);
 
 		}
-		void ToolStripMenuItem::_DecrementSubMenuDestroyTimerValue(float amount) {
+		void ToolStripMenuItem::_decrementSubMenuDestroyTimerValue(float amount) {
 
-			_SetSubMenuDestroyTimerValue(Math::Max(_SubMenuDestroyTimerValue() - amount, 0.0f));
+			_setSubMenuDestroyTimerValue(Math::Max(_subMenuDestroyTimerValue() - amount, 0.0f));
 
 		}
-		void ToolStripMenuItem::_ResetSubMenuDestroyTimer() {
+		void ToolStripMenuItem::_resetSubMenuDestroyTimer() {
 
 			_sub_menu_destroy_timer = 0.0f;
 

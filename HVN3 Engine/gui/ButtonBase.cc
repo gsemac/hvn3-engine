@@ -51,14 +51,14 @@ namespace hvn3 {
 		}
 		void ButtonBase::OnPaint(PaintEventArgs& e) {
 
-			_RenderBase(e);
-			_RenderText(e);
+			_renderBase(e);
+			_renderText(e);
 
 		}
 
 		// Protected methods
 
-		void ButtonBase::_RenderBase(PaintEventArgs& e) {
+		void ButtonBase::_renderBase(PaintEventArgs& e) {
 
 			// Draw background.
 			e.Graphics().DrawFilledRectangle(0.0f, 0.0f, Width(), Height(), BackColor());
@@ -67,7 +67,7 @@ namespace hvn3 {
 			e.Graphics().DrawRectangle(0.0f, 0.0f, Width(), Height(), Color::FromArgb(17, 17, 17), 1.0f);
 
 		}
-		void ButtonBase::_RenderText(PaintEventArgs& e) {
+		void ButtonBase::_renderText(PaintEventArgs& e) {
 
 			// Draw text.
 			if (Font()) {
@@ -78,7 +78,7 @@ namespace hvn3 {
 			}
 
 		}
-		void ButtonBase::_RenderImage(PaintEventArgs& e) {
+		void ButtonBase::_renderImage(PaintEventArgs& e) {
 
 			// Draw image.
 			if (Image()) {

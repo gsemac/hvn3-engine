@@ -222,7 +222,7 @@ namespace hvn3 {
 	}
 
 	// Private methods
-	void Display::_SetFocus(bool value) {
+	void Display::_setFocus(bool value) {
 
 		_has_focus = value;
 

@@ -22,7 +22,7 @@ namespace hvn3 {
 		virtual void OnKeyChar(KeyCharEventArgs& e);
 
 	protected:
-		static std::unordered_set<KeyboardListener*>& _Listeners();
+		static std::unordered_set<KeyboardListener*>& _listeners();
 
 	};
 

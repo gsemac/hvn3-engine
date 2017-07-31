@@ -22,7 +22,7 @@ namespace hvn3 {
 		virtual void OnMouseScroll(MouseScrollEventArgs& e);
 
 	protected:
-		static std::unordered_set<MouseListener*>& _Listeners();
+		static std::unordered_set<MouseListener*>& _listeners();
 
 	};
 

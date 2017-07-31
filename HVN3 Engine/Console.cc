@@ -28,7 +28,7 @@ namespace hvn3 {
 		COLOR_WHITE = 0xF
 	};
 
-	bool _GetConsoleColor(short& color) {
+	bool _getConsoleColor(short& color) {
 
 		CONSOLE_SCREEN_BUFFER_INFO info;
 
@@ -40,14 +40,14 @@ namespace hvn3 {
 		return true;
 
 	}
-	void _SetConsoleColor(short color) {
+	void _setConsoleColor(short color) {
 
 		HANDLE h_console = GetStdHandle(STD_OUTPUT_HANDLE);
 
 		SetConsoleTextAttribute(h_console, color);
 
 	}
-	ConsoleColor _ColorToConsoleColor(short color) {
+	ConsoleColor _colorToConsoleColor(short color) {
 
 		switch (color) {
 		default:
@@ -86,7 +86,7 @@ namespace hvn3 {
 		}
 
 	}
-	short _ConsoleColorToColor(ConsoleColor color) {
+	short _consoleColorToColor(ConsoleColor color) {
 
 		switch (color) {
 		default:
@@ -144,8 +144,8 @@ namespace hvn3 {
 
 #ifdef OS_WINDOWS
 		short current_color;
-		_GetConsoleColor(current_color);
-		_SetConsoleColor((_ConsoleColorToColor(color) << 4) | (current_color & 0x0F));
+		_getConsoleColor(current_color);
+		_setConsoleColor((_consoleColorToColor(color) << 4) | (current_color & 0x0F));
 #endif
 
 	}
@@ -153,8 +153,8 @@ namespace hvn3 {
 
 #ifdef OS_WINDOWS
 		short current_color;
-		_GetConsoleColor(current_color);
-		return _ColorToConsoleColor(current_color >> 4);
+		_getConsoleColor(current_color);
+		return _colorToConsoleColor(current_color >> 4);
 #endif
 
 	}
@@ -162,8 +162,8 @@ namespace hvn3 {
 
 #ifdef OS_WINDOWS
 		short current_color;
-		_GetConsoleColor(current_color);
-		_SetConsoleColor(_ConsoleColorToColor(color) | (current_color & 0xF0));
+		_getConsoleColor(current_color);
+		_setConsoleColor(_consoleColorToColor(color) | (current_color & 0xF0));
 #endif
 
 	}
@@ -171,8 +171,8 @@ namespace hvn3 {
 
 #ifdef OS_WINDOWS
 		short current_color;
-		_GetConsoleColor(current_color);
-		return _ColorToConsoleColor(current_color & 0x0F);
+		_getConsoleColor(current_color);
+		return _colorToConsoleColor(current_color & 0x0F);
 #endif
 
 	}

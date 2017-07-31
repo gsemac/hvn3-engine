@@ -30,19 +30,19 @@ namespace hvn3 {
 			virtual void OnPaint(PaintEventArgs& e) override;
 
 		protected:
-			void _SetPosition(float position);
-			float _Position() const;
-			float _PositionToPercentage(float position) const;
-			ScrollEventArgs _GetScrollEventArgs(float scroll_percentage) const;
-			IScrollable* _Target();
-			Orientation _Orientation() const;
-			virtual void _ScrollTargetToPosition();
+			void _setPosition(float position);
+			float _getPosition() const;
+			float _positionToPercentage(float position) const;
+			ScrollEventArgs _getScrollEventArgs(float scroll_percentage) const;
+			IScrollable* _getTarget();
+			Orientation _getOrientation() const;
+			virtual void _scrollTargetToPosition();
 
 		private:
-			void _RecalculateSliderSize();
-			bool _MouseOnSlider();
-			int _PercentageToPixels(float percentage);
-			float _PixelsToPercentage(int pixels);
+			void _recalculateSliderSize();
+			bool _mouseOnSlider();
+			int _percentageToPixels(float percentage);
+			float _pixelsToPercentage(int pixels);
 
 			IScrollable* _target;
 			Orientation _orientation;

@@ -17,8 +17,8 @@ namespace hvn3 {
 
 			item->SetParent(this);
 
-			if (_Controls()->ControlCount() > 0) {
-				auto last_control = _Controls()->ControlAt(_Controls()->ControlCount() - 1);
+			if (_controls()->ControlCount() > 0) {
+				auto last_control = _controls()->ControlAt(_controls()->ControlCount() - 1);
 				item->SetPosition(last_control->X() + last_control->Width(), DEFAULT_TOP_PADDING);
 			}
 			else
@@ -26,7 +26,7 @@ namespace hvn3 {
 
 			item->SetHeight(Height() - DEFAULT_TOP_PADDING - DEFAULT_BOTTOM_PADDING);
 
-			_Controls()->AddControl(ControlPtr(item));
+			_controls()->AddControl(ControlPtr(item));
 
 		}
 

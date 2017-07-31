@@ -148,7 +148,7 @@ namespace hvn3 {
 
 		// If any objects were destroyed, remove them from the collection.
 		if (removed)
-			_RemoveDestroyedObjects(_objects.begin(), _objects.end());
+			_removeDestroyedObjects(_objects.begin(), _objects.end());
 
 	}
 	void ObjectManager::OnUpdate(UpdateEventArgs& e) {
@@ -169,7 +169,7 @@ namespace hvn3 {
 
 		// If any objects were destroyed, remove them from the collection.
 		if (removed)
-			_RemoveDestroyedObjects(_objects.begin(), _objects.end());
+			_removeDestroyedObjects(_objects.begin(), _objects.end());
 
 		// Trigger all listeners.
 		for (size_t i = 0; i < _listeners.size(); ++i)
@@ -194,7 +194,7 @@ namespace hvn3 {
 
 		// If any objects were destroyed, remove them from the collection.
 		if (removed)
-			_RemoveDestroyedObjects(_objects.begin(), _objects.end());
+			_removeDestroyedObjects(_objects.begin(), _objects.end());
 
 	}
 	void ObjectManager::OnDraw(DrawEventArgs& e) {
@@ -221,7 +221,7 @@ namespace hvn3 {
 	}
 
 
-	void ObjectManager::_RemoveDestroyedObjects(std::vector<ObjectPtr>::iterator begin, std::vector<ObjectPtr>::iterator end) {
+	void ObjectManager::_removeDestroyedObjects(std::vector<ObjectPtr>::iterator begin, std::vector<ObjectPtr>::iterator end) {
 
 		std::remove_if(begin, end, [](const ObjectPtr& obj) { return obj->IsDestroyed(); });
 

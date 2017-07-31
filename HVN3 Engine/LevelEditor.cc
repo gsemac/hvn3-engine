@@ -127,7 +127,7 @@ namespace hvn3 {
 			e.Graphics().DrawLine(PointF(0, 0), PointF(Width() / 2, Height() / 2), Color::Blue, 30);
 
 			if (_grid_visible)
-				_RenderGrid(e);
+				_renderGrid(e);
 
 			_gui_manager.OnDraw(e);
 
@@ -139,7 +139,7 @@ namespace hvn3 {
 
 		// Protected methods
 
-		void LevelEditor::_RenderGrid(DrawEventArgs& e) {
+		void LevelEditor::_renderGrid(DrawEventArgs& e) {
 
 			// Draw vertical grid lines.
 			for (float i = 0; i < Width(); i += _grid_space_size.Width())

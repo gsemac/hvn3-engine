@@ -92,7 +92,7 @@ namespace hvn3 {
 		static Display* _active_display;
 
 		// Sets a flag indicating whether or not the display currently has focus.
-		void _SetFocus(bool value);
+		void _setFocus(bool value);
 
 	};
 
