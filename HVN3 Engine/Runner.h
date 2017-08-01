@@ -20,7 +20,7 @@ namespace hvn3 {
 		class Runner {
 
 		public:
-			Runner(Properties& properties, RoomManager& room_manager);
+			Runner(System::Properties* properties, RoomManager* room_manager);
 			~Runner();
 
 			// Processes the main game loop.
@@ -69,10 +69,10 @@ namespace hvn3 {
 			bool _display_was_fullscreen;
 			System::FpsCounter _fps_counter;
 
-			RoomManager& _room_manager;
+			RoomManager* _room_manager;
 			Display _display;
 			Font* _default_font;
-			hvn3::Properties& _properties;
+			System::Properties* _properties;
 			Drawing::Graphics _graphics;
 
 			void ApplyScalingMode();

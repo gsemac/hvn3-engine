@@ -11,37 +11,40 @@ namespace hvn3 {
 		Full,
 		MaintainAspectRatio
 	};
-	
-	struct Properties {
 
-	public:
-		Properties();
+	namespace System {
 
-		// Display Properties
+		struct Properties {
 
-		std::string DisplayTitle;
-		SizeI DisplaySize;
-		bool StartFullscreen;
-		hvn3::ScalingMode ScalingMode;
-		Color OutsideColor;
-		hvn3::DisplayFlags DisplayFlags;
+		public:
+			Properties();
 
-		// Flow Properties
+			// Display Properties
 
-		bool FreezeWhenLostFocus;
-		float Fps;
-		int MaxFrameSkip;
-		bool FixedFrameRate;
+			std::string DisplayTitle;
+			SizeI DisplaySize;
+			bool StartFullscreen;
+			hvn3::ScalingMode ScalingMode;
+			Color OutsideColor;
+			hvn3::DisplayFlags DisplayFlags;
 
-		// Control Properties
+			// Flow Properties
 
-		bool DisplayCursor;
-		bool ExitWithEscapeKey;
+			bool FreezeWhenLostFocus;
+			float Fps;
+			int MaxFrameSkip;
+			bool FixedFrameRate;
 
-		// Debug Properties
+			// Control Properties
 
-		bool DebugMode;
+			bool DisplayCursor;
+			bool ExitWithEscapeKey;
 
-	};
+			// Debug Properties
 
+			bool DebugMode;
+
+		};
+
+	}
 }

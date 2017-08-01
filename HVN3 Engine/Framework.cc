@@ -12,97 +12,96 @@
 #include <iostream>
 
 namespace hvn3 {
+	namespace System {
 
-	Framework::Framework() {
+		Framework::Framework() {
 
-		Initialize();
+			Initialize();
 
-	}
-	Framework::Framework(int argc, char *argv[]) {
+		}
+		Framework::Framework(int argc, char *argv[]) {
 
-		Initialize(argc, argv);
+			Initialize(argc, argv);
 
-	}
-	Framework::~Framework() {
+		}
+		Framework::~Framework() {
 
-		Shutdown();
+			Shutdown();
 
-	}
+		}
 
-	void Framework::Initialize() {
+		void Framework::Initialize() {
 
-		// If the framework has already been initialized, do nothing.
-		if (__initialized)
-			return;
+			// If the framework has already been initialized, do nothing.
+			if (_initialized)
+				return;
 
-		// Initialize the underlying framework.
-		InitializeUnderlyingFramework();
+			// Initialize the underlying framework.
+			_initializeUnderlyingFramework();
 
-		// Flush denormalized numbers to 0 (performance reasons? I honestly don't remember why I did this).
-		_MM_SET_FLUSH_ZERO_MODE(_MM_FLUSH_ZERO_ON);
+			// Flush denormalized numbers to 0 (performance reasons? I honestly don't remember why I did this).
+			_MM_SET_FLUSH_ZERO_MODE(_MM_FLUSH_ZERO_ON);
 
-		// Since the framework has been initialized, set the indicator flag to true.
-		__initialized = true;
+			// Since the framework has been initialized, set the indicator flag to true.
+			_initialized = true;
 
-	}
-	void Framework::Initialize(int argc, char *argv[]) {
+		}
+		void Framework::Initialize(int argc, char *argv[]) {
 
-		// Run basic initialization routine.
-		Initialize();
+			// Run basic initialization routine.
+			Initialize();
 
-		// Store the command line parameters so that they can be accessed from anywhere in the program.
-		Environment::argc = argc;
-		Environment::argv = argv;
+			// Store the command line parameters so that they can be accessed from anywhere in the program.
+			Environment::argc = argc;
+			Environment::argv = argv;
 
-	}
-	void Framework::Shutdown() {
+		}
+		void Framework::Shutdown() {
 
-		// If the framework has not been initialized, do nothing.
-		if (!__initialized)
-			return;
+			// If the framework has not been initialized, do nothing.
+			if (!_initialized)
+				return;
 
-		// Shut down the underlying framework.
-		ShutdownUnderlyingFramework();
+			// Shut down the underlying framework.
+			_shutdownUnderlyingFramework();
 
-		// Since the framework has been shut down, set the indicator flag to false.
-		__initialized = false;
+			// Since the framework has been shut down, set the indicator flag to false.
+			_initialized = false;
 
-	}
-	bool Framework::Initialized() {
+		}
+		bool Framework::Initialized() {
 
-		return __initialized;
+			return _initialized;
 
-	}
+		}
 
-	void Framework::InitializeUnderlyingFramework() {
+		void Framework::_initializeUnderlyingFramework() {
 
-		// Initialize Allegro.
-		al_init();
+			// Initialize Allegro.
+			al_init();
 
-		// Install I/O add-ons.
-		al_install_keyboard();
-		al_install_mouse();
+			// Install I/O add-ons.
+			al_install_keyboard();
+			al_install_mouse();
 
-		// Install audio add-ons.
-		al_install_audio();
-		al_init_acodec_addon();
+			// Install audio add-ons.
+			al_install_audio();
+			al_init_acodec_addon();
 
-		// Install graphics add-ons.
-		al_init_primitives_addon();
-		al_init_font_addon();
-		al_init_ttf_addon();
-		al_init_image_addon();
+			// Install graphics add-ons.
+			al_init_primitives_addon();
+			al_init_font_addon();
+			al_init_ttf_addon();
+			al_init_image_addon();
 
-		// Reserve sound effect sample instances.
-		al_reserve_samples(3);
+			// Reserve sound effect sample instances.
+			al_reserve_samples(3);
 
-		// Enable bilinear filtering for scaled bitmaps.
-		// al_add_new_bitmap_flag(ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
+			// Enable bilinear filtering for scaled bitmaps.
+			// al_add_new_bitmap_flag(ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
 
-	}
-	void Framework::ShutdownUnderlyingFramework() {
-
-		try {
+		}
+		void Framework::_shutdownUnderlyingFramework() {
 
 			// Shut down IO add-ons.
 			al_uninstall_keyboard();
@@ -121,14 +120,8 @@ namespace hvn3 {
 			al_uninstall_system();
 
 		}
-		catch (...) {
 
-			// It's okay for this to fail, as it would typically be called at the end of the program.
-
-		}
+		bool Framework::_initialized = false;
 
 	}
-
-	bool Framework::__initialized = false;
-
 }

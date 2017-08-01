@@ -74,7 +74,7 @@ namespace hvn3 {
 	Sprite::~Sprite() {
 
 		// If the framework has been shut down before freeing resources, do nothing (or else we'd get an error), but alert the user.
-		if (!Framework::Initialized()) {
+		if (!System::Framework::Initialized()) {
 			std::cerr << "Warning: Framework was shutdown before this resource could be freed. Free all resources before shutting down the framework.\n";
 			return;
 		}

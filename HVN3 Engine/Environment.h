@@ -7,6 +7,10 @@
 
 namespace hvn3 {
 
+	namespace System {
+		class Framework;
+	}
+
 	enum class OperatingSystem {
 		Unknown = 0x00,
 		Windows32 = 0x01,
@@ -21,7 +25,7 @@ namespace hvn3 {
 	ENABLE_BITFLAG_OPERATORS(OperatingSystem);
 
 	class Environment {
-		friend class Framework;
+		friend class System::Framework;
 
 	public:
 		static std::string CurrentDirectory();

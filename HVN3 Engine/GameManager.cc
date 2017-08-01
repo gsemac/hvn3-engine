@@ -6,65 +6,82 @@ namespace hvn3 {
 
 	GameManager::GameManager() {
 
-		Framework::Initialize();
+		// Initialize the underlying framework.
+		System::Framework::Initialize();
 
 		// Set new bitmap flags.
-		Drawing::SetNewBitmapFlags(hvn3::Drawing::BitmapFlags::Default | hvn3::Drawing::BitmapFlags::MagLinear | hvn3::Drawing::BitmapFlags::MinLinear);
+		Drawing::SetNewBitmapFlags(Drawing::BitmapFlags::Default | Drawing::BitmapFlags::MagLinear | Drawing::BitmapFlags::MinLinear);
+
+		// Create a new room manager.
+		_room_manager = new RoomManager;
 
 	}
-	GameManager::~GameManager() {
+	GameManager::GameManager(int argc, char* argv[]) : GameManager() {
 
-		Shutdown();
+		Initialize(argc, argv);
 
 	}
+
 	void GameManager::Initialize(int argc, char* argv[]) {
 
-		Framework::Initialize(argc, argv);
+		// Initialize the underlying framework.
+		System::Framework::Initialize(argc, argv);
 
 	}
 	void GameManager::Loop() {
 
-		_runner = new System::Runner(_properties, _room_manager);
+		// Create a new runner for handling the game loop.
+		// The runner will automatically create the display upon construction.
+		_runner = new System::Runner(&_properties, _room_manager);
 
+		// Execute the main game loop.
 		_runner->Loop();
 
+		// Call the shutdown routine when the loop is exited.
+		_shutdown();
+
 	}
-	void GameManager::Shutdown() {
+	void GameManager::_shutdown() {
 
-		// Delete the runner.
-		delete _runner;
+		// Delete the runner if one was created.
+		if (_runner != nullptr)
+			delete _runner;
+		_runner = nullptr;
+		
+		// Delete the room manager if one was created.
+		// This will trigger the exit event for the current room and free all resources used by it.
+		if (_room_manager != nullptr)
+			delete _room_manager;
+		_room_manager = nullptr;
 
-		// Call the destructor for the room manager to trigger the exit event for the current room.
-		_room_manager.~RoomManager(); // #todo do something other than this to avoid destructing it twice
-
-		// Clear all resources.
+		// Clear all resources (this will free them automatically).
 		_resource_manager.Clear();
 
 		// Shutdown the underlying framework.
-		Framework::Shutdown();
+		System::Framework::Shutdown();
 
 	}
 
-	Properties& GameManager::Properties() {
+	System::Properties* GameManager::Properties() {
 
-		return _properties;
+		return &_properties;
 
 	}
-	hvn3::RoomManager& GameManager::Rooms() {
+	hvn3::RoomManager* GameManager::Rooms() {
 
 		return _room_manager;
 
 	}
-	ResourceManager& GameManager::Resources() {
+	ResourceManager* GameManager::Resources() {
 
-		return _resource_manager;
+		return &_resource_manager;
 
 	}
-	Collision::ICollisionManager<Object*>& GameManager::Collisions() {
+	Collision::ICollisionManager<Object*>* GameManager::Collisions() {
 
-		auto room_ptr = _room_manager.CurrentRoom();
+		auto room_ptr = _room_manager->CurrentRoom();
 
-		if(room_ptr == nullptr)
+		if (room_ptr == nullptr)
 			throw System::NotSupportedException("Attempted to access the collision manager for the current room, but there is no active room.");
 
 		auto ptr = room_ptr->Collisions();
@@ -72,27 +89,27 @@ namespace hvn3 {
 		if (ptr == nullptr)
 			throw System::NotSupportedException("The current room does not provide a collision manager.");
 
-		return *ptr;
+		return ptr;
 
 	}
-	IObjectManager& GameManager::Objects() {
-		
-		auto room_ptr = _room_manager.CurrentRoom();
+	IObjectManager* GameManager::Objects() {
+
+		auto room_ptr = _room_manager->CurrentRoom();
 
 		if (room_ptr == nullptr)
 			throw System::NotSupportedException("Attempted to access the object manager for the current room, but there is no active room.");
-		
+
 		auto ptr = room_ptr->Objects();
 
 		if (ptr == nullptr)
 			throw System::NotSupportedException("The current room does not provide an object manager.");
 
-		return *ptr;
+		return ptr;
 
 	}
-	System::Runner& GameManager::Runner() {
+	System::Runner* GameManager::Runner() {
 
-		return *_runner;
+		return _runner;
 
 	}
 

@@ -9,11 +9,10 @@ namespace hvn3 {
 	}
 	MouseListener::~MouseListener() {
 
-		// When exiting the game, it's possible for the listener collection to fall out of scope and have its contents freed.
-		// Attempting to access the collection at this point will throw an exception, so make sure its size is > 0.
-		if(_listeners().size() > 0)
-			_listeners().erase(this);
-	
+		// Be careful! We can't have listeners popping themselves off the stack after the static collection has been deinitialized.
+		// The game manager takes care of this by freeing all objects (and thus any listener instances) before being deinitialized itself.
+		_listeners().erase(this);
+
 	}
 
 	void MouseListener::OnMouseDown(MouseDownEventArgs& e) {}
