@@ -1,40 +1,51 @@
 #pragma once
 #include "BitFlags.h"
+#include <string>
 
 struct ALLEGRO_FONT;
 
 namespace hvn3 {
 
+	namespace System {
+		class FrameworkAdapter;
+	}
+
 	enum class FontOptions {
-		None = 0x00,
-		Scalable = 0x01,
-		Monochrome = 0x02
+		None = 1,
+		Monochrome = 2,
+		AutoScale = 3
 	};
-	ENABLE_BITFLAG_OPERATORS(FontOptions)
+	ENABLE_BITFLAG_OPERATORS(FontOptions);
 
 	class Font {
+		friend class System::FrameworkAdapter;
 
 	public:
 		Font(const char* filename, int size, FontOptions options = FontOptions::None);
 		Font(Font&& other);
 		~Font();
 
-		void Scale(float scale_factor);
-		bool IsScalable() const;
+		// Returns the height of the font in pixels.
 		int Height() const;
+		// Returns the font size that was passed in the constructor.
+		int Size() const;
 
-		ALLEGRO_FONT* AlPtr() const;
-
-		// Returns built-in font resource.
+		// Creates and returns a built-in font resource.
 		static Font BuiltIn();
 
+	protected:
+		void AdjustScale(float scale_factor);
+		bool AutoScaleEnabled() const;
+		ALLEGRO_FONT* AlPtr() const;
+
 	private:
-		Font();
-		ALLEGRO_FONT* __font;
-		bool __scalable;
-		int __size, __height;
-		const char* __filename;
-		FontOptions __flags;
+		Font() = default;
+
+		ALLEGRO_FONT* _font;
+		bool _scalable;
+		int _size;
+		std::string _filename;
+		FontOptions _flags;
 
 	};
 

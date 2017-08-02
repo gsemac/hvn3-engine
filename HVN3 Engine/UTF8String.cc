@@ -1,4 +1,5 @@
 #include "UTF8String.h"
+#include "FrameworkAdapter.h"
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
@@ -128,7 +129,7 @@ namespace hvn3 {
 	}
 	int String::Width(const Font* in_font) const {
 
-		return al_get_ustr_width(in_font->AlPtr(), ustr);
+		return al_get_ustr_width(System::FrameworkAdapter::FromFont(*in_font), ustr);
 
 	}
 	int String::Height(const Font& int_font) const {
@@ -139,7 +140,7 @@ namespace hvn3 {
 	int String::Height(const Font* int_font) const {
 
 		int bbx, bby, bbw, bbh;
-		al_get_ustr_dimensions(int_font->AlPtr(), ustr, &bbx, &bby, &bbw, &bbh);
+		al_get_ustr_dimensions(System::FrameworkAdapter::FromFont(*int_font), ustr, &bbx, &bby, &bbw, &bbh);
 		return bby + bbh;
 
 	}

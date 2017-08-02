@@ -59,7 +59,6 @@ namespace hvn3 {
 		Runner::~Runner() {
 
 			// Dispose of resources.
-
 			if (_default_font)
 				delete _default_font;
 			_default_font = nullptr;
