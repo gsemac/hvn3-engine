@@ -329,7 +329,7 @@ namespace hvn3 {
 				break;
 
 			}
-		
+
 			con.SetButtonState(button, true);
 
 			if (Mouse::ButtonPressed(button))
@@ -590,32 +590,18 @@ namespace hvn3 {
 			}
 			else {
 
-				// If Views are not used, set the mouse position to its position relative to the display.
+				// If views are not used, set the mouse position to its position relative to the display.
 				PointF pos = Mouse::DisplayPosition();
 
-				// 
-				switch (Properties().ScalingMode) {
+				// If the mouse is outside of the clipping area, don't track it.
+				if (!Math::Geometry::PointIn(pos, _graphics.Clip()))
+					return;
 
-				case ScalingMode::Fixed: {
+				// Set the position relative to the clipping area.
+				pos -= _graphics.Clip().TopLeft();
 
-					// If we're using a fixed scaling mode, the mouse position does not need to be changed at all.
-					break;
-
-				}
-
-				default: {
-
-					// If the mouse is outside of the clipping area, don't track it.
-					if (!Math::Geometry::PointIn(pos, _graphics.Clip()))
-						return;
-
-					// Set the position relative to the clipping area.
-					pos -= _graphics.Clip().TopLeft();
+				if (_properties->ScalingMode != ScalingMode::Fixed)
 					Scale(SizeF(room.Width(), room.Height()), _graphics.Clip().Size()).ScalePoint(pos);
-
-				}
-
-				}
 
 				// Set the new mouse position.
 				MouseController().SetPosition(pos.X(), pos.Y());

@@ -1,6 +1,7 @@
 #include "HVN3.h"
 #include "test/Global.h"
 #include "LevelEditor.h"
+#include <string>
 
 class KeyListenerObject : public hvn3::Object, public hvn3::KeyboardListener {
 
@@ -93,16 +94,17 @@ private:
 };
 
 int main(int argc, char *argv[]) {
-	
+
 	// Initialize game properties.
 	GameState.Initialize(argc, argv);
 	GameState.Properties()->DebugMode = true;
 	GameState.Properties()->ScalingMode = hvn3::ScalingMode::Fixed;
 	GameState.Properties()->DisplayFlags |= hvn3::DisplayFlags::Resizable;
+	GameState.Properties()->DisplaySize = hvn3::SizeI(2000, 480);
 	GameState.Properties()->Fps = 60.0f;
 	GameState.Properties()->FixedFrameRate = true;
 
-	auto room = hvn3::RoomPtr(new hvn3::Room(0, GameState.Properties()->DisplaySize));
+	auto room = hvn3::RoomPtr(new hvn3::Room(0, hvn3::SizeI(640, 480)));
 	room->Objects()->AddInstance(hvn3::ObjectPtr(new TangentTest));
 	room->Objects()->AddInstance(hvn3::ObjectPtr(new MouseListenerObject));
 
