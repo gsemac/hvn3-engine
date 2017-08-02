@@ -10,37 +10,37 @@
 namespace hvn3 {
 
 	Gui::Control::Control() :
-		Control(Point2d<float>(0.0f, 0.0f), hvn3::Size<float>(0.0f, 0.0f)) {
+		Control(PointF(0.0f, 0.0f), hvn3::SizeF(0.0f, 0.0f)) {
 	}
-	Gui::Control::Control(const Point2d<float>& location, const hvn3::Size<float>& size) :
+	Gui::Control::Control(const PointF& location, const hvn3::SizeF& size) :
 		Positionable2dBase<float>(location.X(), location.Y()),
 		SizeableBase(size.Width(), size.Height()),
-		__fixed_pos(location.X(), location.Y()),
-		__mouse_last_pos(Mouse::X, Mouse::Y),
-		__minimum_size(0.0f, 0.0f),
-		__maximum_size(FLT_MAX, FLT_MAX),
-		__previous_pos(location.X(), location.Y()),
-		_surface(size.Width(), size.Height()) {
+		_fixed_pos(location.X(), location.Y()),
+		_mouse_last_pos(Mouse::X, Mouse::Y),
+		_minimum_size(0.0f, 0.0f),
+		_maximum_size(FLT_MAX, FLT_MAX),
+		_previous_pos(location.X(), location.Y()),
+		_surface(static_cast<int>(Math::Ceiling(size.Width())), static_cast<int>(Math::Ceiling(size.Height()))) {
 
 		_parent = nullptr;
-		__manager = nullptr;
+		_manager = nullptr;
 
 		_disposed = false;
 		_invalidated = true;
 		_visible = true;
 		_enabled = true;
-		__backcolor = Color::FromArgb(35, 35, 35);
-		__forecolor = Color::FromArgb(186, 186, 186);
+		_backcolor = Color::FromArgb(35, 35, 35);
+		_forecolor = Color::FromArgb(186, 186, 186);
 		_dock = DockStyle::None;
 		_anchor = (Gui::ANCHOR)(ANCHOR_LEFT | ANCHOR_TOP);
-		__opacity = 1.0f;
+		_opacity = 1.0f;
 
-		__mouse_is_on = false;
-		__mouse_is_down = false;
+		_mouse_is_on = false;
+		_mouse_is_down = false;
 
 		Z = 0;
 
-		__prev_focus = false;
+		_prev_focus = false;
 
 	}
 
@@ -73,15 +73,15 @@ namespace hvn3 {
 	void Gui::Control::Resize(float width, float height) {
 
 		// Clamp values within the maximum/minimum size.
-		width = Math::Clamp(width, __minimum_size.Width(), __maximum_size.Width());
-		height = Math::Clamp(height, __minimum_size.Height(), __maximum_size.Height());
+		width = Math::Clamp(width, _minimum_size.Width(), _maximum_size.Width());
+		height = Math::Clamp(height, _minimum_size.Height(), _maximum_size.Height());
 
 		// If the new size is equal to the current size, do not call any events.
 		if (width == Width() && height == Height())
 			return;
 
 		// Create a resize event args object.
-		ResizeEventArgs e(hvn3::Size<float>(Width(), Height()), hvn3::Size<float>(width, height));
+		ResizeEventArgs e(hvn3::SizeF(Width(), Height()), hvn3::SizeF(width, height));
 
 		// Perform the resize.
 		SizeableBase::Resize(width, height);
@@ -120,22 +120,22 @@ namespace hvn3 {
 
 	const Color& Gui::Control::ForeColor() const {
 
-		return __forecolor;
+		return _forecolor;
 
 	}
 	const Color& Gui::Control::BackColor() const {
 
-		return __backcolor;
+		return _backcolor;
 
 	}
 	void Gui::Control::SetForeColor(const Color& color) {
 
-		__forecolor = color;
+		_forecolor = color;
 
 	}
 	void Gui::Control::SetBackColor(const Color& color) {
 
-		__backcolor = color;
+		_backcolor = color;
 
 	}
 
@@ -167,41 +167,41 @@ namespace hvn3 {
 
 	float Gui::Control::Opacity() {
 
-		return __opacity;
+		return _opacity;
 
 	}
 	void Gui::Control::SetOpacity(float opacity) {
 
 		if (opacity < 0.0f)
 			opacity = 0.0f;
-		__opacity = opacity;
+		_opacity = opacity;
 
 		Invalidate();
 
 	}
 
-	hvn3::Size<float> Gui::Control::MinimumSize() {
+	hvn3::SizeF Gui::Control::MinimumSize() {
 
-		return __minimum_size;
+		return _minimum_size;
 
 	}
-	void Gui::Control::SetMinimumSize(const hvn3::Size<float>& size) {
+	void Gui::Control::SetMinimumSize(const hvn3::SizeF& size) {
 
-		__minimum_size = size;
+		_minimum_size = size;
 
 		// Resize the control if it is smaller than the minimum size.
 		if (Width() < size.Width() || Height() < size.Height())
 			Control::Resize(size.Width(), size.Height());
 
 	}
-	hvn3::Size<float> Gui::Control::MaximumSize() {
+	hvn3::SizeF Gui::Control::MaximumSize() {
 
-		return __maximum_size;
+		return _maximum_size;
 
 	}
-	void Gui::Control::SetMaximumSize(const hvn3::Size<float>& size) {
+	void Gui::Control::SetMaximumSize(const hvn3::SizeF& size) {
 
-		__maximum_size = size;
+		_maximum_size = size;
 
 		// Resize the control if it is larger than the maximum size.
 		if (Width() > size.Width() || Height() > size.Height())
@@ -251,7 +251,7 @@ namespace hvn3 {
 		_parent = parent;
 
 		// Update the control's position relative to its parent.
-		__fixed_pos = GetFixedPosition();
+		_fixed_pos = GetFixedPosition();
 
 	}
 	Gui::GuiManager* Gui::Control::Manager() {
@@ -261,18 +261,18 @@ namespace hvn3 {
 	}
 	const Gui::GuiManager* Gui::Control::Manager() const {
 
-		if (__manager == nullptr && Parent() != nullptr)
+		if (_manager == nullptr && Parent() != nullptr)
 			return Parent()->Manager();
 
-		return __manager;
+		return _manager;
 
 	}
 
 	void Gui::Control::BringToFront() {
 
 		// If the Control has a Manager object, allow it to handle the repositioning.
-		if (__manager) {
-			__manager->ControlManager()->BringToFront(this);
+		if (_manager) {
+			_manager->ControlManager()->BringToFront(this);
 			return;
 		}
 
@@ -283,8 +283,8 @@ namespace hvn3 {
 	void Gui::Control::SendToBack() {
 
 		// If the Control has a Manager object, allow it to handle the repositioning.
-		if (__manager) {
-			__manager->ControlManager()->SendToBack(this);
+		if (_manager) {
+			_manager->ControlManager()->SendToBack(this);
 			return;
 		}
 
@@ -293,37 +293,37 @@ namespace hvn3 {
 
 	}
 
-	Point2d<float> Gui::Control::FixedPosition() const {
+	PointF Gui::Control::FixedPosition() const {
 
 		return GetFixedPosition();
 
-		return __fixed_pos;
+		return _fixed_pos;
 
 	}
-	Rectangle<float> Gui::Control::Bounds() const {
+	RectangleF Gui::Control::Bounds() const {
 
-		return Rectangle<float>(__fixed_pos.X(), __fixed_pos.Y(), Width(), Height());
+		return RectangleF(_fixed_pos.X(), _fixed_pos.Y(), Width(), Height());
 
 	}
 
 	float Gui::Control::Scale() const {
 
-		return __manager ? __manager->StyleManager()->DrawingScale() : 1.0f;
+		return _manager ? _manager->StyleManager()->DrawingScale() : 1.0f;
 
 	}
 
 	bool Gui::Control::IsActiveControl() {
 
-		if (__manager == nullptr)
+		if (_manager == nullptr)
 			return false;
 
-		return __manager->ControlManager()->ActiveControl() == this;
+		return _manager->ControlManager()->ActiveControl() == this;
 
 	}
 
 	void Gui::Control::SetX(float x) {
 
-		Point2d<float> old_position(X(), Y());
+		PointF old_position(X(), Y());
 
 		Positionable2dBase::SetX(x);
 
@@ -332,7 +332,7 @@ namespace hvn3 {
 	}
 	void Gui::Control::SetY(float y) {
 
-		Point2d<float> old_position(X(), Y());
+		PointF old_position(X(), Y());
 
 		Positionable2dBase::SetY(y);
 
@@ -341,7 +341,7 @@ namespace hvn3 {
 	}
 	void Gui::Control::SetPosition(float x, float y) {
 
-		Point2d<float> old_position(X(), Y());
+		PointF old_position(X(), Y());
 
 		Positionable2dBase::SetPosition(x, y);
 
@@ -362,7 +362,7 @@ namespace hvn3 {
 	void Gui::Control::OnMove(MoveEventArgs& e) {
 
 		// Update fixed coordinates (relative to view origin).
-		__fixed_pos = GetFixedPosition();
+		_fixed_pos = GetFixedPosition();
 
 	}
 	void Gui::Control::OnGotFocus() {}
@@ -386,9 +386,9 @@ namespace hvn3 {
 		return false;
 
 	}
-	Point2d<float> Gui::Control::GetFixedPosition() const {
+	PointF Gui::Control::GetFixedPosition() const {
 
-		Point2d<float> fp(X(), Y());
+		PointF fp(X(), Y());
 
 		if (Parent())
 			fp.Offset(Parent()->FixedPosition().X(), Parent()->FixedPosition().Y());

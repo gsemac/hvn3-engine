@@ -19,7 +19,7 @@ namespace hvn3 {
 				ManagerChangedEventArgs e(_control->Manager());
 
 				// Change the control's manager.
-				_control->__manager = manager;
+				_control->_manager = manager;
 
 				// Trigger the event.
 				_control->OnManagerChanged(e);
@@ -38,22 +38,22 @@ namespace hvn3 {
 			}
 			PointF ControlController::PreviousPosition() const {
 
-				return _control->__previous_pos;
+				return _control->_previous_pos;
 
 			}
 			void ControlController::SetPreviousPosition(float x, float y) {
 
-				_control->__previous_pos = PointF(x, y);
+				_control->_previous_pos = PointF(x, y);
 
 			}
 			bool ControlController::PrevFocus() const {
 
-				return _control->__prev_focus;
+				return _control->_prev_focus;
 
 			}
 			void ControlController::SetPrevFocus(bool value) {
 
-				_control->__prev_focus = value;
+				_control->_prev_focus = value;
 
 			}
 

@@ -50,25 +50,25 @@ namespace hvn3 {
 		struct ResizeEventArgs : public hvn3::System::EventArgs {
 
 		public:
-			ResizeEventArgs(const Size<float>& old_size, const Size<float>& new_size) :
+			ResizeEventArgs(const SizeF& old_size, const SizeF& new_size) :
 				_old_size(old_size),
 				_new_size(new_size) {
 			}
 
-			const Size<float>& OldSize() const {
+			const SizeF& OldSize() const {
 
 				return _old_size;
 
 			}
-			const Size<float>& NewSize() const {
+			const SizeF& NewSize() const {
 
 				return _new_size;
 
 			}
 
 		private:
-			Size<float> _old_size;
-			Size<float> _new_size;
+			SizeF _old_size;
+			SizeF _new_size;
 
 		};
 
@@ -101,18 +101,18 @@ namespace hvn3 {
 		class MoveEventArgs : public hvn3::System::EventArgs {
 
 		public:
-			MoveEventArgs(const Point2d<float>& old_position) :
+			MoveEventArgs(const PointF& old_position) :
 				_old_position(old_position) {
 			}
 
-			const Point2d<float>& OldPosition() const {
+			const PointF& OldPosition() const {
 
 				return _old_position;
 
 			}
 
 		private:
-			Point2d<float> _old_position;
+			PointF _old_position;
 
 		};
 
@@ -172,7 +172,7 @@ namespace hvn3 {
 			int Z;
 
 			Control();
-			Control(const Point2d<float>& location, const hvn3::Size<float>& size);
+			Control(const PointF& location, const hvn3::SizeF& size);
 			virtual ~Control() = default;
 
 			virtual void OnUpdate(UpdateEventArgs& e) override;
@@ -198,10 +198,10 @@ namespace hvn3 {
 			float Opacity();
 			void SetOpacity(float opacity);
 
-			hvn3::Size<float> MinimumSize();
-			void SetMinimumSize(const hvn3::Size<float>& size);
-			hvn3::Size<float> MaximumSize();
-			void SetMaximumSize(const hvn3::Size<float>& size);
+			hvn3::SizeF MinimumSize();
+			void SetMinimumSize(const hvn3::SizeF& size);
+			hvn3::SizeF MaximumSize();
+			void SetMaximumSize(const hvn3::SizeF& size);
 
 			String Tooltip();
 			void SetTooltip(const char* text);
@@ -222,8 +222,8 @@ namespace hvn3 {
 			void BringToFront();
 			void SendToBack();
 
-			Point2d<float> FixedPosition() const;
-			Rectangle<float> Bounds() const;
+			PointF FixedPosition() const;
+			RectangleF Bounds() const;
 
 			float Scale() const;
 
@@ -260,27 +260,27 @@ namespace hvn3 {
 			bool _enabled;
 
 			Control* _parent;
-			GuiManager* __manager;
+			GuiManager* _manager;
 			Drawing::Bitmap _surface;
-			Color __backcolor, __forecolor;
+			Color _backcolor, _forecolor;
 			int _anchor;
 			DockStyle _dock;
-			float __opacity;
-			hvn3::Size<float> __minimum_size;
-			hvn3::Size<float> __maximum_size;
+			float _opacity;
+			hvn3::SizeF _minimum_size;
+			hvn3::SizeF _maximum_size;
 
-			bool __mouse_is_on;
-			bool __mouse_is_down;
-			Point2d<float> __mouse_last_pos;
+			bool _mouse_is_on;
+			bool _mouse_is_down;
+			PointF _mouse_last_pos;
 
-			Point2d<float> __previous_pos; // Keeps track of previous position for OnMove event
-			bool __prev_focus; // Keeps track of focus state for OnGotFocus/OnLostFocus
+			PointF _previous_pos; // Keeps track of previous position for OnMove event
+			bool _prev_focus; // Keeps track of focus state for OnGotFocus/OnLostFocus
 
 			virtual bool HasActiveChild();
 
-			Point2d<float> __fixed_pos;
+			PointF _fixed_pos;
 
-			Point2d<float> GetFixedPosition() const;
+			PointF GetFixedPosition() const;
 			void ApplyDockStyle();
 
 		};

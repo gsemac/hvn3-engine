@@ -1,5 +1,6 @@
 #include "HVN3.h"
 #include "test/Global.h"
+#include "LevelEditor.h"
 
 class KeyListenerObject : public hvn3::Object, public hvn3::KeyboardListener {
 
@@ -96,6 +97,8 @@ int main(int argc, char *argv[]) {
 	// Initialize game properties.
 	GameState.Initialize(argc, argv);
 	GameState.Properties()->DebugMode = true;
+	GameState.Properties()->ScalingMode = hvn3::ScalingMode::Fixed;
+	GameState.Properties()->DisplayFlags |= hvn3::DisplayFlags::Resizable;
 	GameState.Properties()->Fps = 60.0f;
 	GameState.Properties()->FixedFrameRate = true;
 

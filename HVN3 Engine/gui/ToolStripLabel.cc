@@ -6,13 +6,13 @@ namespace hvn3 {
 
 		ToolStripLabel::ToolStripLabel(const String& text) :
 			TextableControl(text),
-			Control(PointF(0, 0), SizeF(text.Length() * DEFAULT_CHAR_WIDTH, 25)) {
+			Control(PointF(0.0f, 0.0f), SizeF(static_cast<float>(text.Length() * DEFAULT_CHAR_WIDTH), 25.0f)) {
 		}
 
 		void ToolStripLabel::OnPaint(PaintEventArgs& e) {
 
 			// Draw background.
-			e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor());
+			e.Graphics().DrawFilledRectangle(0.0f, 0.0f, Width(), Height(), BackColor());
 			
 			// Draw text.
 			if (Font()) {
