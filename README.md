@@ -1,8 +1,27 @@
-# hvn3-engine
-A WIP 2D game engine
+# HVN3 Engine
+*A WIP 2D game engine*
 
-This is a 2D game engine project based around the [Allegro library](https://github.com/liballeg/allegro5) that I've been working on for the past while.
+HVN3 Engine is a 2D game engine build around [Allegro 5](https://github.com/liballeg/allegro5) that offers many abstractions to ease game development. With a focus on modularity and freedom, engine components can easily be customized or swapped-out with user-created implementations. 
 
-The engine is currently in a fairly *usuable* state, but far from complete. I'm constantly renaming functions and classes, reorganizing hierarchies and namespaces, and refactoring large sections of code, and there's no thorough documentation aside from the comments in a few of the header files. The project should be considered as being in an **alpha** state for the time being.
+For those that just want to make a game without worrying about all the work that goes on in the background, getting started is extremely simple! The following code is enough to create a display and set up everything you need:
 
-I've learned a fair bit through working on this project, so some parts of the code are better written than others, and some of the very old code might not be compliant with mainstream guidelines. Polishing everything out, adding new features, and writing better implementations for existing features is an ongoing process.
+```cpp
+#include "HVN3 Engine/HVN3.h"
+using namespace hvn3;
+
+int main(int argc, char *argv[]) {
+
+  // Create the game manager object, which offers access to scenes, resources, and more.
+  GameManager game(argc, argv);
+  
+  // Run the game loop.
+  game.Loop();
+  
+  return 0;
+  
+}
+```
+
+The engine is currently a work-in-progress, and there is much more work to be done. While the implementation is subject to change, the engine itself is very stable and usuable in its current state.
+
+Putting this engine together has been a valuable learning experience, and my abilities have improved dramatically throughout the time I've spent working on it. As a result, there is some degree of inconsistency between older and newer code that I'm actively working to smooth out.
