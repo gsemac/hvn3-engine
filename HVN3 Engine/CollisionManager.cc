@@ -135,7 +135,8 @@ namespace hvn3 {
 			PointF new_position = Math::Geometry::PointInDirection(body->Position(), direction, distance_per_step);
 			bool place_free;
 
-			while (distance < (std::abs)(max_distance) && (place_free = PlaceFreeIf(body, new_position, condition), place_free)) {
+			// It's important that we check if the place is free before doing the distance check (what if the user passes in a distance of 0?).
+			while ((place_free = PlaceFreeIf(body, new_position, condition), place_free) && distance < (std::abs)(max_distance)) {
 
 				body->SetPosition(new_position);
 
@@ -155,7 +156,8 @@ namespace hvn3 {
 			float distance_per_step = Math::Min(1.0f, max_distance);
 			bool place_free;
 
-			while (dist < max_distance && (place_free = PlaceFree(body, pos), !place_free)) {
+			// It's important that we check if the place is free before doing the distance check (what if the user passes in a distance of 0?).
+			while ((place_free = PlaceFree(body, pos), !place_free) && dist < max_distance) {
 
 				pos = Math::Geometry::PointInDirection(pos, direction, distance_per_step);
 
@@ -175,7 +177,8 @@ namespace hvn3 {
 			bool place_free;
 			CollisionManifold m;
 
-			while (dist < (std::abs)(max_distance) && (place_free = _narrowphase_method.TestCollision(body, other, m), place_free)) {
+			// It's important that we check if the place is free before doing the distance check (what if the user passes in a distance of 0?).
+			while ((place_free = _narrowphase_method.TestCollision(body, other, m), place_free) && dist < (std::abs)(max_distance)) {
 
 				body->SetPosition(Math::Geometry::PointInDirection(body->Position(), direction, distance_per_step));
 
