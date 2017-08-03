@@ -14,7 +14,6 @@ namespace hvn3 {
 		_current_room = 0;
 		_next_room = 0;
 		_room_transition_state = NO_TRANSITION_PENDING;
-		_restart_pending = false;
 
 	}
 	RoomManager::~RoomManager() {
@@ -94,7 +93,8 @@ namespace hvn3 {
 	void RoomManager::RestartRoom() {
 
 		// Initiate a pending restart.
-		_restart_pending = true;
+		if (CurrentRoom() != nullptr)
+			CurrentRoom()->Restart();
 
 	}
 	void RoomManager::ClearRoom() {
@@ -187,22 +187,6 @@ namespace hvn3 {
 				_room_transition_state = NO_TRANSITION_PENDING;
 			}
 			break;
-
-		}
-
-		if (_restart_pending) {
-
-			// Create a controller object for the current room.
-			System::RoomController controller(CurrentRoom());
-
-			// Reset the state of the room.
-			controller.Reset();
-
-			// Set-up the room again.
-			controller.SetUp();
-
-			// Disable the restarting pending flag.
-			_restart_pending = false;
 
 		}
 

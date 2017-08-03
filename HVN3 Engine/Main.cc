@@ -37,7 +37,7 @@ public:
 	MouseListenerObject() : hvn3::Object(1) {}
 
 	void OnMousePressed(hvn3::MousePressedEventArgs& e) override {
-
+		
 		hvn3::Console::WriteLine((int)e.Button(), " clicked ", e.Clicks(), " time(s)!");
 
 	}
@@ -98,13 +98,13 @@ int main(int argc, char *argv[]) {
 	// Initialize game properties.
 	GameState.Initialize(argc, argv);
 	GameState.Properties()->DebugMode = true;
-	GameState.Properties()->ScalingMode = hvn3::ScalingMode::Fixed;
+	GameState.Properties()->ScalingMode = hvn3::ScalingMode::MaintainAspectRatio;
 	GameState.Properties()->DisplayFlags |= hvn3::DisplayFlags::Resizable;
-	GameState.Properties()->DisplaySize = hvn3::SizeI(2000, 480);
+	GameState.Properties()->DisplaySize = hvn3::SizeI(640, 480);
 	GameState.Properties()->Fps = 60.0f;
 	GameState.Properties()->FixedFrameRate = true;
 
-	auto room = hvn3::RoomPtr(new hvn3::Room(0, hvn3::SizeI(640, 480)));
+	auto room = hvn3::RoomPtr(new hvn3::Room(0, GameState.Properties()->DisplaySize));
 	room->Objects()->AddInstance(hvn3::ObjectPtr(new TangentTest));
 	room->Objects()->AddInstance(hvn3::ObjectPtr(new MouseListenerObject));
 

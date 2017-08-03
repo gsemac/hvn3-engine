@@ -32,6 +32,8 @@ namespace hvn3 {
 	
 		virtual RectangleF GetVisibleRegion() override;
 
+		virtual void Restart() override;
+
 	protected:
 		virtual void OnReset() override;
 		virtual void OnRender(DrawEventArgs& e) override;
@@ -42,6 +44,7 @@ namespace hvn3 {
 		hvn3::ViewManager _view_manager;
 
 		size_t _rendering_view;
+		bool _restart_pending;
 
 	};
 

@@ -131,7 +131,7 @@ namespace hvn3 {
 		bool CollisionManager::MoveContactIf(ICollisionBody* body, float direction, float max_distance, const std::function<bool(ICollisionBody*)>& condition) {
 
 			float distance = 0.0f;
-			float distance_per_step = 1.0f;
+			float distance_per_step = Math::Min(1.0f, max_distance);
 			PointF new_position = Math::Geometry::PointInDirection(body->Position(), direction, distance_per_step);
 			bool place_free;
 
@@ -152,7 +152,7 @@ namespace hvn3 {
 
 			PointF pos = body->Position();
 			float dist = 0.0f;
-			float distance_per_step = 1.0f;
+			float distance_per_step = Math::Min(1.0f, max_distance);
 			bool place_free;
 
 			while ((place_free = PlaceFree(body, pos), !place_free) && dist < max_distance) {
@@ -171,7 +171,7 @@ namespace hvn3 {
 		bool CollisionManager::MoveOutsideBody(ICollisionBody* body, ICollisionBody* other, float direction, float max_distance) {
 
 			float dist = 0.0f;
-			float distance_per_step = 1.0f;
+			float distance_per_step = Math::Min(1.0f, max_distance);
 			bool place_free;
 			CollisionManifold m;
 

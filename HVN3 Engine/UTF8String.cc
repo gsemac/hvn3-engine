@@ -381,7 +381,8 @@ namespace hvn3 {
 		String upper = *this;
 
 		// Convert all charcters to uppercase.
-		for (int i = 0, pos = 0; i < al_ustr_size(upper.ustr);) {
+		// Note that "i" will always be positive, but we need to use an integer to pass it into the al_ustr functions.
+		for (int i = 0, pos = 0; static_cast<size_t>(i) < al_ustr_size(upper.ustr);) {
 			int32_t c = al_ustr_get(upper.ustr, i);
 			al_ustr_set_chr(upper.ustr, pos, towupper(c));
 			al_ustr_next(upper.ustr, &i);
@@ -396,7 +397,8 @@ namespace hvn3 {
 		String lower = *this;
 
 		// Convert all charcters to uppercase.
-		for (int i = 0, pos = 0; i < al_ustr_size(lower.ustr);) {
+		// Note that "i" will always be positive, but we need to use an integer to pass it into the al_ustr functions.
+		for (int i = 0, pos = 0; static_cast<size_t>(i) < al_ustr_size(lower.ustr);) {
 			int32_t c = al_ustr_get(lower.ustr, i);
 			al_ustr_set_chr(lower.ustr, pos, towlower(c));
 			al_ustr_next(lower.ustr, &i);

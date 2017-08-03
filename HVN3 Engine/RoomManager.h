@@ -55,7 +55,6 @@ namespace hvn3 {
 		size_t _current_room;
 		size_t _next_room;
 		std::vector<std::unique_ptr<IRoom>> _rooms;
-		bool _restart_pending;
 		ROOM_TRANSITION_STATE _room_transition_state;
 		std::unique_ptr<IRoomTransition> _transition;
 

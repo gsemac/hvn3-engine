@@ -6,8 +6,10 @@ namespace hvn3 {
 
 	Room::Room(RoomId id, const SizeI& size) :
 		RoomBase<ObjectManager>(id, size),
-		_rendering_view(0),
 		_collision_manager(std::unique_ptr<Collision::IBroadPhaseCollisionManager>(new Collision::CollisionGrid(32, 32))) {
+
+		_rendering_view = 0;
+		_restart_pending = false;
 
 	}
 
@@ -30,6 +32,19 @@ namespace hvn3 {
 
 		// Update backgrounds.
 		_background_manager.Update(e);
+
+		if (_restart_pending) {
+
+			// Reset the state of the room.
+			OnReset();
+
+			// Set-up the room again.
+			OnSetUp();
+
+			// Disable the restarting pending flag.
+			_restart_pending = false;
+
+		}
 
 	}
 	void Room::OnDraw(DrawEventArgs& e) {
@@ -154,6 +169,12 @@ namespace hvn3 {
 
 		// Otherwise, return the viewport.
 		return largest->Port();
+
+	}
+
+	void Room::Restart() {
+
+		_restart_pending = true;
 
 	}
 

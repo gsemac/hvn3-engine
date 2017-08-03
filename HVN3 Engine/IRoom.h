@@ -54,6 +54,8 @@ namespace hvn3 {
 		virtual void SetPersistent(bool value) = 0;
 		virtual RectangleF GetVisibleRegion() = 0;
 
+		virtual void Restart() = 0;
+
 	protected:
 		virtual void OnRoomEnter(RoomEnterEventArgs& e) = 0;
 		virtual void OnRoomExit(RoomExitEventArgs& e) = 0;
