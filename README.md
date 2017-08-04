@@ -1,7 +1,7 @@
 # HVN3 Engine
 *A WIP 2D game engine*
 
-HVN3 Engine is a 2D game engine build around [Allegro 5](https://github.com/liballeg/allegro5) that offers many abstractions to ease game development. With a focus on modularity and freedom, engine components can easily be customized or swapped-out with user-created implementations. 
+HVN3 Engine is a 2D game engine built around [Allegro 5](https://github.com/liballeg/allegro5) that offers many abstractions to ease game development. With a focus on modularity and freedom, engine components can easily be customized or swapped-out with user-created implementations. 
 
 For those that just want to make a game without worrying about all the work that goes on in the background, getting started is extremely simple! The following code is enough to create a display and set up everything you need:
 
