@@ -1,5 +1,5 @@
 #pragma once
-#include "AllegroForwardDeclarations.h"
+#include "allegro/AllegroForwardDeclarations.h"
 
 namespace hvn3 {
 	namespace System {

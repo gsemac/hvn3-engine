@@ -1,6 +1,6 @@
 #include "Bitmap.h"
 #include "Graphics.h"
-#include "FrameworkAdapter.h"
+#include "allegro/AllegroAdapter.h"
 #define ALLEGRO_DEFAULT_NEW_BITMAP_FLAGS 4096
 
 namespace hvn3 {

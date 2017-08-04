@@ -4,7 +4,7 @@
 #include <string>
 #include "Utility.h"
 #include "Font.h"
-#include "AllegroForwardDeclarations.h"
+#include "allegro/AllegroForwardDeclarations.h"
 
 namespace hvn3 {
 

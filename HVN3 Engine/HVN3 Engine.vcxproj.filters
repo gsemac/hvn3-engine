@@ -250,9 +250,6 @@
     <ClCompile Include="Exception.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
-    <ClCompile Include="Framework.cc">
-      <Filter>Source Files\System</Filter>
-    </ClCompile>
     <ClCompile Include="Runner.cc">
       <Filter>Source Files\System</Filter>
     </ClCompile>
@@ -267,9 +264,6 @@
     </ClCompile>
     <ClCompile Include="EventSource.cc">
       <Filter>Source Files\System\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="AllegroExtensions.cc">
-      <Filter>Source Files\System\Allegro</Filter>
     </ClCompile>
     <ClCompile Include="EventArgs.cc">
       <Filter>Source Files\System\Events</Filter>
@@ -402,9 +396,6 @@
     </ClCompile>
     <ClCompile Include="DisplaySizeChangedEventArgs.cc">
       <Filter>Source Files\System\Events\EventArgs</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameworkAdapter.cc">
-      <Filter>Source Files\System\Allegro</Filter>
     </ClCompile>
     <ClCompile Include="Bitmap.cc">
       <Filter>Source Files\Drawing</Filter>
@@ -562,6 +553,15 @@
     <ClCompile Include="GeometryUtils.cc">
       <Filter>Source Files\Helper</Filter>
     </ClCompile>
+    <ClCompile Include="allegro\AllegroAdapter.cc">
+      <Filter>Source Files\System\Allegro</Filter>
+    </ClCompile>
+    <ClCompile Include="allegro\AllegroExtensions.cc">
+      <Filter>Source Files\System\Allegro</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework.cc">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h">
@@ -590,9 +590,6 @@
     </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework.h">
-      <Filter>Header Files\System</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
       <Filter>Header Files\Drawing</Filter>
@@ -683,9 +680,6 @@
     </ClInclude>
     <ClInclude Include="EventSource.h">
       <Filter>Header Files\System\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="AllegroExtensions.h">
-      <Filter>Header Files\System\Allegro</Filter>
     </ClInclude>
     <ClInclude Include="EventArgs.h">
       <Filter>Header Files\System\Events</Filter>
@@ -851,12 +845,6 @@
     </ClInclude>
     <ClInclude Include="DisplaySizeChangedEventArgs.h">
       <Filter>Header Files\System\Events\EventArgs</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameworkAdapter.h">
-      <Filter>Header Files\System\Allegro</Filter>
-    </ClInclude>
-    <ClInclude Include="AllegroForwardDeclarations.h">
-      <Filter>Header Files\System\Allegro</Filter>
     </ClInclude>
     <ClInclude Include="Bitmap.h">
       <Filter>Header Files\Drawing</Filter>
@@ -1064,6 +1052,18 @@
     </ClInclude>
     <ClInclude Include="GeometryUtils.h">
       <Filter>Header Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="allegro\AllegroForwardDeclarations.h">
+      <Filter>Header Files\System\Allegro</Filter>
+    </ClInclude>
+    <ClInclude Include="allegro\AllegroAdapter.h">
+      <Filter>Header Files\System\Allegro</Filter>
+    </ClInclude>
+    <ClInclude Include="allegro\AllegroExtensions.h">
+      <Filter>Header Files\System\Allegro</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework.h">
+      <Filter>Header Files\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

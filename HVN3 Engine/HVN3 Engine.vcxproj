@@ -233,7 +233,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AllegroExtensions.cc" />
+    <ClCompile Include="allegro\AllegroAdapter.cc" />
+    <ClCompile Include="allegro\AllegroExtensions.cc" />
     <ClCompile Include="Background.cc" />
     <ClCompile Include="BackgroundDrawEventArgs.cc" />
     <ClCompile Include="BackgroundManager.cc" />
@@ -261,7 +262,6 @@
     <ClCompile Include="Font.cc" />
     <ClCompile Include="FpsCounter.cc" />
     <ClCompile Include="Framework.cc" />
-    <ClCompile Include="FrameworkAdapter.cc" />
     <ClCompile Include="GameManager.cc" />
     <ClCompile Include="GeometryUtils.cc" />
     <ClCompile Include="GridRenderer.cc" />
@@ -358,7 +358,9 @@
     <ClCompile Include="ViewManager.cc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AllegroForwardDeclarations.h" />
+    <ClInclude Include="allegro\AllegroAdapter.h" />
+    <ClInclude Include="allegro\AllegroExtensions.h" />
+    <ClInclude Include="allegro\AllegroForwardDeclarations.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="CircleHitMask.h" />
     <ClInclude Include="CollisionEventArgs.h" />
@@ -367,6 +369,7 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="Direction8.h" />
     <ClInclude Include="FpsCounter.h" />
+    <ClInclude Include="Framework.h" />
     <ClInclude Include="io\KeyboardController.h" />
     <ClInclude Include="io\KeyboardListener.h" />
     <ClInclude Include="io\KeyboardEventArgs.h" />
@@ -376,8 +379,6 @@
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="ObjectEventArgs.h" />
     <ClInclude Include="DisplayController.h" />
-    <ClInclude Include="FrameworkAdapter.h" />
-    <ClInclude Include="AllegroExtensions.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="BackgroundDrawEventArgs.h" />
     <ClInclude Include="BackgroundManager.h" />
@@ -433,7 +434,6 @@
     <ClInclude Include="EventSource.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="Font.h" />
-    <ClInclude Include="Framework.h" />
     <ClInclude Include="IBackgroundManager.h" />
     <ClInclude Include="ICollidable.h" />
     <ClInclude Include="ICollisionBody.h" />

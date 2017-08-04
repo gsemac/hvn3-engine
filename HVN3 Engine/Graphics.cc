@@ -1,6 +1,6 @@
 #include "Graphics.h"
 #include "Exception.h"
-#include "FrameworkAdapter.h"
+#include "allegro/AllegroAdapter.h"
 #include "UTF8String.h"
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
@@ -83,7 +83,7 @@ namespace hvn3 {
 				y + 1.0f,
 				x + width,
 				y + height,
-				System::FrameworkAdapter::ToColor(color),
+				System::AllegroAdapter::ToColor(color),
 				thickness
 				);
 
@@ -102,7 +102,7 @@ namespace hvn3 {
 				y,
 				x + width,
 				y + height,
-				System::FrameworkAdapter::ToColor(color)
+				System::AllegroAdapter::ToColor(color)
 				);
 
 		}
@@ -117,7 +117,7 @@ namespace hvn3 {
 			PrepareDrawingSurface();
 
 			// Note: 0.5 is added to each coordinate to fix the uneven corners drawn by Allegro.
-			al_draw_rounded_rectangle(x + 0.5f, y + 0.5f, x + width + 0.5f, y + height + 0.5f, radius, radius, System::FrameworkAdapter::ToColor(color), thickness);
+			al_draw_rounded_rectangle(x + 0.5f, y + 0.5f, x + width + 0.5f, y + height + 0.5f, radius, radius, System::AllegroAdapter::ToColor(color), thickness);
 
 		}
 		void Graphics::DrawFilledRoundRectangle(const RectangleF& rect, const Color& color, float radius) {
@@ -130,7 +130,7 @@ namespace hvn3 {
 			PrepareDrawingSurface();
 
 			// Note: 0.5 is added to each coordinate to fix the uneven corners drawn by Allegro.
-			al_draw_filled_rounded_rectangle(x + 0.5f, y + 0.5f, x + width + 0.5f, y + height + 0.5f, radius, radius, System::FrameworkAdapter::ToColor(color));
+			al_draw_filled_rounded_rectangle(x + 0.5f, y + 0.5f, x + width + 0.5f, y + height + 0.5f, radius, radius, System::AllegroAdapter::ToColor(color));
 
 		}
 
@@ -153,7 +153,7 @@ namespace hvn3 {
 
 			PrepareDrawingSurface();
 
-			al_draw_line(x1, y1, x2, y2, System::FrameworkAdapter::ToColor(color), thickness);
+			al_draw_line(x1, y1, x2, y2, System::AllegroAdapter::ToColor(color), thickness);
 
 		}
 
@@ -166,7 +166,7 @@ namespace hvn3 {
 
 			PrepareDrawingSurface();
 
-			al_put_pixel(x, y, System::FrameworkAdapter::ToColor(color));
+			al_put_pixel(x, y, System::AllegroAdapter::ToColor(color));
 
 		}
 
@@ -183,7 +183,7 @@ namespace hvn3 {
 				x,
 				y,
 				radius,
-				System::FrameworkAdapter::ToColor(color),
+				System::AllegroAdapter::ToColor(color),
 				thickness
 				);
 
@@ -206,7 +206,7 @@ namespace hvn3 {
 				x,
 				y,
 				radius,
-				System::FrameworkAdapter::ToColor(color)
+				System::AllegroAdapter::ToColor(color)
 				);
 
 		}
@@ -220,7 +220,7 @@ namespace hvn3 {
 
 			PrepareDrawingSurface();
 
-			al_clear_to_color(System::FrameworkAdapter::ToColor(color));
+			al_clear_to_color(System::AllegroAdapter::ToColor(color));
 
 		}
 
@@ -228,7 +228,7 @@ namespace hvn3 {
 
 			PrepareDrawingSurface();
 
-			al_draw_text(System::FrameworkAdapter::FromFont(*font), System::FrameworkAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text);
+			al_draw_text(System::AllegroAdapter::FromFont(*font), System::AllegroAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text);
 
 		}
 		void Graphics::DrawText(float x, float y, const std::string& text, const Font* font, const Color& color) {
@@ -240,7 +240,7 @@ namespace hvn3 {
 
 			PrepareDrawingSurface();
 
-			al_draw_ustr(System::FrameworkAdapter::FromFont(*font), System::FrameworkAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text.AlPtr());
+			al_draw_ustr(System::AllegroAdapter::FromFont(*font), System::AllegroAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text.AlPtr());
 
 		}
 

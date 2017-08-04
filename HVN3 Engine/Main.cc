@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
 	// Initialize game properties.
 	GameState.Initialize(argc, argv);
 	GameState.Properties()->DebugMode = true;
-	GameState.Properties()->ScalingMode = hvn3::ScalingMode::MaintainAspectRatio;
+	GameState.Properties()->ScalingMode = hvn3::ScalingMode::Full;
 	GameState.Properties()->DisplayFlags |= hvn3::DisplayFlags::Resizable;
 	GameState.Properties()->DisplaySize = hvn3::SizeI(640, 480);
 	GameState.Properties()->Fps = 60.0f;

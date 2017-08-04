@@ -7,7 +7,7 @@ struct ALLEGRO_FONT;
 namespace hvn3 {
 
 	namespace System {
-		class FrameworkAdapter;
+		class AllegroAdapter;
 	}
 
 	enum class FontOptions {
@@ -18,7 +18,7 @@ namespace hvn3 {
 	ENABLE_BITFLAG_OPERATORS(FontOptions);
 
 	class Font {
-		friend class System::FrameworkAdapter;
+		friend class System::AllegroAdapter;
 
 	public:
 		Font(const char* filename, int size, FontOptions options = FontOptions::None);
