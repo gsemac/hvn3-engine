@@ -12,6 +12,7 @@ namespace hvn3 {
 		ObjectManager();
 
 		virtual void AddInstance(ObjectPtr& object) override;
+		virtual void AddInstance(Object* object) override;
 		virtual void ClearAll() override;
 		virtual void DestroyAll() override;
 

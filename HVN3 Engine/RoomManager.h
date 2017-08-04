@@ -23,7 +23,8 @@ namespace hvn3 {
 		RoomManager();
 		~RoomManager();
 
-		void AddRoom(std::unique_ptr<IRoom>& room);
+		void AddRoom(RoomPtr& room);
+		void AddRoom(IRoom* room);
 		void GotoRoom(RoomId id);
 		void LoadNext();
 		void LoadPrevious();

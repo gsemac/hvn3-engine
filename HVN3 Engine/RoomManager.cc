@@ -29,7 +29,7 @@ namespace hvn3 {
 
 	}
 
-	void RoomManager::AddRoom(std::unique_ptr<IRoom>& room) {
+	void RoomManager::AddRoom(RoomPtr& room) {
 
 		// Add the new room.
 		_rooms.push_back(std::move(room));
@@ -41,6 +41,11 @@ namespace hvn3 {
 			if (!controller.IsSetUp())
 				controller.SetUp();
 		}
+
+	}
+	void RoomManager::AddRoom(IRoom* room) {
+
+		AddRoom(RoomPtr(room));
 
 	}
 

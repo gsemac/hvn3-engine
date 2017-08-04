@@ -57,6 +57,11 @@ namespace hvn3 {
 		//}
 
 	}
+	void ObjectManager::AddInstance(Object* object) {
+
+		AddInstance(ObjectPtr(object));
+
+	}
 	void ObjectManager::ClearAll() {
 
 		// Clear all objects from the object manager.

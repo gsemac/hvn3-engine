@@ -12,6 +12,7 @@ namespace hvn3 {
 
 	public:
 		virtual void AddInstance(ObjectPtr& object) = 0;
+		virtual void AddInstance(Object* object) = 0;
 		// Clears all instances without calling their destroy events.
 		virtual void ClearAll() = 0;
 		// Calls the destroy event for every instance, and clears all instances.
