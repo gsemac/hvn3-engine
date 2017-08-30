@@ -1,5 +1,5 @@
 #pragma once
-#include "Framework.h"
+#include "../Framework.h"
 #include <allegro5/allegro.h>
 
 namespace hvn3 {

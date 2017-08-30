@@ -1,4 +1,3 @@
-#pragma once
 #include "Exception.h"
 
 namespace hvn3 {
