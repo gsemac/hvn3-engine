@@ -6,6 +6,7 @@ namespace hvn3 {
 	namespace System {
 
 		enum class EventType {
+			Unknown = -1,
 			JoystickAxis,
 			JoystickButtonDown,
 			JoystickButtonUp,

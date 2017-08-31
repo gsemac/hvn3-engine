@@ -67,6 +67,8 @@ namespace hvn3 {
 				return EventType::DisplayConnected;
 			case ALLEGRO_EVENT_DISPLAY_DISCONNECTED:
 				return EventType::DisplayDisconnected;
+			default:
+				return EventType::Unknown;
 			}
 
 		}
