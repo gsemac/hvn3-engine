@@ -62,9 +62,9 @@ namespace hvn3 {
 
 	}
 
-	System::Properties* GameManager::Properties() {
+	System::Properties& GameManager::Properties() {
 
-		return &_properties;
+		return _properties;
 
 	}
 	hvn3::RoomManager* GameManager::Rooms() {

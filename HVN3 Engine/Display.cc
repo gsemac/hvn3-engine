@@ -164,7 +164,7 @@ namespace hvn3 {
 			}
 
 			// Toggle the actual Display flag.
-			al_toggle_display_flag(_display, ALLEGRO_FULLSCREEN_WINDOW, _fullscreen);
+			al_set_display_flag(_display, ALLEGRO_FULLSCREEN_WINDOW, _fullscreen);
 
 			if (_fullscreen)
 				// If we've gone fullscreen, update the size values to match the new window size.

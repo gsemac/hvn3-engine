@@ -97,14 +97,14 @@ int main(int argc, char *argv[]) {
 
 	// Initialize game properties.
 	GameState.Initialize(argc, argv);
-	GameState.Properties()->DebugMode = true;
-	GameState.Properties()->ScalingMode = hvn3::ScalingMode::Full;
-	GameState.Properties()->DisplayFlags |= hvn3::DisplayFlags::Resizable;
-	GameState.Properties()->DisplaySize = hvn3::SizeI(640, 480);
-	GameState.Properties()->Fps = 60.0f;
-	GameState.Properties()->FixedFrameRate = true;
+	GameState.Properties().DebugMode = true;
+	GameState.Properties().ScalingMode = hvn3::ScalingMode::Full;
+	GameState.Properties().DisplayFlags |= hvn3::DisplayFlags::Resizable;
+	GameState.Properties().DisplaySize = hvn3::SizeI(640, 480);
+	GameState.Properties().Fps = 60.0f;
+	GameState.Properties().FixedFrameRate = true;
 
-	hvn3::IRoom* room = new hvn3::Room(0, GameState.Properties()->DisplaySize);
+	hvn3::IRoom* room = new hvn3::Room(0, GameState.Properties().DisplaySize);
 	room->Objects()->AddInstance(new TangentTest);
 	room->Objects()->AddInstance(new MouseListenerObject);
 

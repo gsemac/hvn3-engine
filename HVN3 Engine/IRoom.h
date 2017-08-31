@@ -53,6 +53,7 @@ namespace hvn3 {
 		virtual bool Persistent() const = 0;
 		virtual void SetPersistent(bool value) = 0;
 		virtual RectangleF GetVisibleRegion() = 0;
+		virtual RectangleF Bounds() const = 0;
 
 		virtual void Restart() = 0;
 

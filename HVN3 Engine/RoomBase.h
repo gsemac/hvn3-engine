@@ -115,6 +115,11 @@ namespace hvn3 {
 			return RectangleF(0.0f, 0.0f, static_cast<float>(Width()), static_cast<float>(Height()));
 
 		}
+		virtual RectangleF Bounds() const override {
+
+			return RectangleF(0.0f, 0.0f, static_cast<float>(Width()), static_cast<float>(Height()));
+
+		}
 
 		void SetBackgroundColor(const Color& color) override {
 

@@ -17,7 +17,7 @@ namespace hvn3 {
 		virtual void Initialize(int argc, char* argv[]);
 		virtual void Loop();
 
-		System::Properties* Properties();
+		System::Properties& Properties();
 		RoomManager* Rooms();
 		ResourceManager* Resources();
 		Collision::ICollisionManager<Object*>* Collisions();
