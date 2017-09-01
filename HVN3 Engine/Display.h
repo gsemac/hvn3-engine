@@ -23,13 +23,14 @@ namespace hvn3 {
 	};
 
 	enum class DisplayFlags {
-		None = 0,
+		OpenGL = 4, // ALLEGRO_OPENGL
+		Direct3D = 8, // ALLEGRO_DIRECT3D_INTERNAL
 		Resizable = 16, // ALLEGRO_RESIZABLE
 		NoBorder = 32, // ALLEGRO_NOFRAME
-		OpenGL = 4, // ALLEGRO_OPENGL
 		OpenGL3 = 128, // ALLEGRO_OPENGL_3_0
 		OpenGLForwardCompatible = 256, // ALLEGRO_OPENGL_FORWARD_COMPATIBLE
-		Direct3D = 8
+		FullscreenWindow = 512, // ALLEGRO_FULLSCREEN_WINDOW
+		AntiAlias = 1024
 	};
 	ENABLE_BITFLAG_OPERATORS(DisplayFlags);
 
@@ -61,7 +62,6 @@ namespace hvn3 {
 		PointI Position() const;
 		void SetPosition(int x, int y);
 		void SetPosition(const Point2d<int>& position);
-
 		bool IsFullscreen() const;
 		void SetFullscreen(bool value);
 		bool HasFocus() const;

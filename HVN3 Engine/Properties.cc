@@ -10,7 +10,7 @@ namespace hvn3 {
 			StartFullscreen = false;
 			ScalingMode = hvn3::ScalingMode::MaintainAspectRatio;
 			OutsideColor = Color::Black;
-			DisplayFlags = hvn3::DisplayFlags::None;
+			DisplayFlags = static_cast<hvn3::DisplayFlags>(0);
 
 			FreezeWhenLostFocus = true;
 			Fps = 60.0f;

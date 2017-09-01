@@ -17,7 +17,9 @@ namespace hvn3 {
 			// Creates a Color from an ALLEGRO_COLOR instance.
 			static Color FromColor(const ALLEGRO_COLOR& color);
 			// Returns a pointer to the underlying ALLEGRO_FONT from a font instance.
-			static ALLEGRO_FONT* FromFont(const Font& font);
+			static ALLEGRO_FONT* ToFont(const Font& font);
+			// Converts display flags to Allegro display flags.
+			static int ToDisplayFlags(DisplayFlags flags);
 
 		private:
 			// It should not be possible to instantiate this class.

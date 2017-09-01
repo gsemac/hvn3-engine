@@ -3,6 +3,7 @@
 #include <allegro5/allegro.h>
 #include "Display.h"
 #include "Graphics.h"
+#include "allegro/AllegroAdapter.h"
 #define UNDEFINED_WINDOW_POSITION_X INT_MAX
 #define UNDEFINED_WINDOW_POSITION_Y INT_MAX
 
@@ -16,7 +17,7 @@ namespace hvn3 {
 		Display(width, height, "") {
 	}
 	Display::Display(int width, int height, const char* title) :
-		Display(width, height, title, DisplayFlags::None) {
+		Display(width, height, title, static_cast<DisplayFlags>(0)) {
 	}
 	Display::Display(int width, int height, const char* title, DisplayFlags flags) :
 		Display(UNDEFINED_WINDOW_POSITION_X, UNDEFINED_WINDOW_POSITION_Y, width, height, title, flags) {
@@ -25,21 +26,26 @@ namespace hvn3 {
 		Display(x, y, width, height, "") {
 	}
 	Display::Display(int x, int y, int width, int height, const char* title) :
-		Display(x, y, width, height, title, DisplayFlags::None) {
+		Display(x, y, width, height, title, static_cast<DisplayFlags>(0)) {
 	}
 	Display::Display(int x, int y, int width, int height, const char* title, DisplayFlags flags) :
 		SizeableBase(width, height),
 		_original_size(width, height),
-		_size_before_fullscreen(0.0f, 0.0f) {
+		_size_before_fullscreen(0, 0) {
 
-		// Save the original new display flags so they can be restored.
-		int new_display_flags = al_get_new_display_flags();
-
-		// Set new display flags.
+		// Set new display settings (restored after the display has been created).
 		if (x != UNDEFINED_WINDOW_POSITION_X || y != UNDEFINED_WINDOW_POSITION_Y)
 			al_set_new_window_position(x, y);
-		al_set_new_display_flags(new_display_flags | (int)flags);
+
+		int new_display_flags = al_get_new_display_flags();
+		al_set_new_display_flags(new_display_flags | System::AllegroAdapter::ToDisplayFlags(flags));
+
 		al_set_new_window_title(title);
+
+		if (HasFlag(flags, DisplayFlags::AntiAlias)) {
+			al_set_new_display_option(ALLEGRO_SAMPLE_BUFFERS, 1, ALLEGRO_SUGGEST);
+			al_set_new_display_option(ALLEGRO_SAMPLES, 8, ALLEGRO_SUGGEST);
+		}
 
 		// Create the display.
 		_display = al_create_display(width, height);
@@ -49,7 +55,7 @@ namespace hvn3 {
 		// Set this display as the active display.
 		_active_display = this;
 
-		// Restore display flags.
+		// Restore display settings.
 		al_set_new_display_flags(new_display_flags);
 
 		// Assert that the display could be created.
@@ -96,7 +102,7 @@ namespace hvn3 {
 
 	}
 	void Display::Resize(int width, int height) {
-		
+
 		// If there is not an underlying framework object, do nothing.
 		if (_display == nullptr)
 			return;
@@ -230,7 +236,7 @@ namespace hvn3 {
 
 			// If the display is now focused, make it the active display.
 			Display::_active_display = this;
-			
+
 		}
 		else if (Display::_active_display == this) {
 

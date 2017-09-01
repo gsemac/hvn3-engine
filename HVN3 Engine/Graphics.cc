@@ -228,7 +228,7 @@ namespace hvn3 {
 
 			PrepareDrawingSurface();
 
-			al_draw_text(System::AllegroAdapter::FromFont(*font), System::AllegroAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text);
+			al_draw_text(System::AllegroAdapter::ToFont(*font), System::AllegroAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text);
 
 		}
 		void Graphics::DrawText(float x, float y, const std::string& text, const Font* font, const Color& color) {
@@ -240,7 +240,7 @@ namespace hvn3 {
 
 			PrepareDrawingSurface();
 
-			al_draw_ustr(System::AllegroAdapter::FromFont(*font), System::AllegroAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text.AlPtr());
+			al_draw_ustr(System::AllegroAdapter::ToFont(*font), System::AllegroAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text.AlPtr());
 
 		}
 

@@ -129,7 +129,7 @@ namespace hvn3 {
 	}
 	int String::Width(const Font* in_font) const {
 
-		return al_get_ustr_width(System::AllegroAdapter::FromFont(*in_font), ustr);
+		return al_get_ustr_width(System::AllegroAdapter::ToFont(*in_font), ustr);
 
 	}
 	int String::Height(const Font& int_font) const {
@@ -140,7 +140,7 @@ namespace hvn3 {
 	int String::Height(const Font* int_font) const {
 
 		int bbx, bby, bbw, bbh;
-		al_get_ustr_dimensions(System::AllegroAdapter::FromFont(*int_font), ustr, &bbx, &bby, &bbw, &bbh);
+		al_get_ustr_dimensions(System::AllegroAdapter::ToFont(*int_font), ustr, &bbx, &bby, &bbw, &bbh);
 		return bby + bbh;
 
 	}
