@@ -162,7 +162,7 @@ namespace hvn3 {
 			_obj_manager.ClearAll();
 
 			// Reset members to default values.
-			_background_color = Color::Black;
+			_background_color = Color::Silver;
 
 			_set_up = false;
 
