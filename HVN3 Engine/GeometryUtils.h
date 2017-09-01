@@ -29,12 +29,25 @@ namespace hvn3 {
 			};
 
 			// Returns the distance squared between two points.
-			float PointDistanceSquared(const PointF& a, const PointF& b);
+			template <typename T> 
+			T PointDistanceSquared(const Point2d<T>& a, const Point2d<T>& b) {
+
+				T dx = b.X() - a.X();
+				T dy = b.Y() - a.Y();
+
+				return dx * dx + dy * dy;
+
+			}
 			// Returns the distance squared between a point and a rectangle.
 			float PointDistanceSquared(const PointF& point, const RectangleF& rectangle);
 
 			// Returns the distance between two points.
-			float PointDistance(const PointF& a, const PointF& b);
+			template <typename T> 
+			T PointDistance(const Point2d<T>& a, const Point2d<T>& b) {
+
+				return (std::sqrt)(PointDistanceSquared(a, b));
+
+			}
 			// Returns the distance from the given point to the given line.
 			float PointDistance(const PointF& point, const LineF& line);
 			// Returns the distance from the given point to the given rectangle.
@@ -127,6 +140,15 @@ namespace hvn3 {
 					return b.Top() - a.Bottom();
 				else
 					return a.Top() - b.Bottom();
+
+			}
+			// Returns the distance between two circles.
+			template <typename T>
+			T Distance(const Circle<T>& a, const Circle<T>& b) {
+
+				T distance_sq = PointDistanceSquared(a.Position(), b.Position());
+
+				return distance_sq - (std::pow)(a.Radius() + b.Radius(), static_cast<T>(2));
 
 			}
 

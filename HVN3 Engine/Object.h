@@ -18,6 +18,7 @@ namespace hvn3 {
 	public:
 		Object(ObjectId id);
 		Object(ObjectId id, const PointF& position);
+		virtual ~Object() = default;
 
 		ObjectId Id() const;
 

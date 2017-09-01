@@ -4,14 +4,6 @@ namespace hvn3 {
 	namespace Math {
 		namespace Geometry {
 
-			float PointDistanceSquared(const PointF& a, const PointF& b) {
-
-				float dx = b.X() - a.X();
-				float dy = b.Y() - a.Y();
-
-				return dx * dx + dy * dy;
-
-			}
 			float PointDistanceSquared(const PointF& point, const RectangleF& rectangle) {
 
 				float dx = Math::Max((std::abs)(point.X() - rectangle.X() + rectangle.Width() / 2.0f) - rectangle.Width() / 2.0f, 0.0f);
@@ -21,11 +13,6 @@ namespace hvn3 {
 
 			}
 
-			float PointDistance(const PointF& a, const PointF& b) {
-
-				return std::sqrt(PointDistanceSquared(a, b));
-
-			}
 			float PointDistance(const PointF& point, const LineF& line) {
 
 				float a = point.X() - line.First().X();
