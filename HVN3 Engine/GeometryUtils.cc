@@ -76,25 +76,6 @@ namespace hvn3 {
 
 			}
 
-			void PointRotate(PointF& point, const PointF& origin, float degrees) {
-
-				float rad = Math::DegreesToRadians(degrees);
-				float s = std::sin(rad);
-				float c = std::cos(rad);
-
-				// Translate the Point to the origin.
-				point -= origin;
-
-				// Rotate the Point.
-				float xnew = point.X() * c - point.Y() * s;
-				float ynew = point.X() * s + point.Y() * c;
-
-				// Translate the Point back.
-				point.SetX(xnew + origin.X());
-				point.SetY(ynew + origin.Y());
-
-			}
-
 			float NormalizeAngle(float degrees, float min, float max) {
 
 				float range = max - min;
@@ -115,8 +96,8 @@ namespace hvn3 {
 
 				// Rotate the points to the tangent point.
 				float degrees = Math::RadiansToDegrees((std::acos)(circle.Radius() / vec.Length()));
-				Math::Geometry::PointRotate(point_1, circle.Position(), -degrees);
-				Math::Geometry::PointRotate(point_2, circle.Position(), degrees);
+				point_1 = Math::Geometry::PointRotate(point_1, circle.Position(), -degrees);
+				point_2 = Math::Geometry::PointRotate(point_2, circle.Position(), degrees);
 
 				// Return the result.
 				return std::pair<PointF, PointF>(point_1, point_2);

@@ -576,7 +576,7 @@ namespace hvn3 {
 					(view_scale * port_scale).Inverse().ScalePoint(pos);
 
 					// Rotate it against the view's angle.
-					Math::Geometry::PointRotate(pos, view.Port().Midpoint(), -view.Angle());
+					pos = Math::Geometry::PointRotate(pos, view.Port().Midpoint(), -view.Angle());
 
 					// Translate it according to the view's offset.
 					pos += view.Position();

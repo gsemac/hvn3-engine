@@ -62,7 +62,28 @@ namespace hvn3 {
 			float PointDirection(const PointF& a, const PointF& b);
 
 			// Rotates the given point about the origin point by the given number of degrees.
-			void PointRotate(PointF& point, const PointF& origin, float degrees);
+			template<typename T>
+			Point2d<T> PointRotate(const Point2d<T>& point, const Point2d<T>& origin, float degrees) {
+				
+				Point2d<T> new_point = point;
+				float rad = Math::DegreesToRadians(degrees);
+				float s = std::sin(rad);
+				float c = std::cos(rad);
+
+				// Translate the point to the origin.
+				new_point -= origin;
+
+				// Rotate the point.
+				float xnew = new_point.X() * c - new_point.Y() * s;
+				float ynew = new_point.X() * s + new_point.Y() * c;
+
+				// Translate the point back.
+				new_point.SetX(xnew + origin.X());
+				new_point.SetY(ynew + origin.Y());
+
+				return new_point;
+
+			}
 
 			// Returns true if the given point is inside of the given rectangle.
 			template <typename T>
