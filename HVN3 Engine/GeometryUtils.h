@@ -167,9 +167,13 @@ namespace hvn3 {
 			template <typename T>
 			T Distance(const Circle<T>& a, const Circle<T>& b) {
 
-				T distance_sq = PointDistanceSquared(a.Position(), b.Position());
+				T dist = PointDistance(a.Position(), b.Position());
+				T rsum = a.Radius() + b.Radius();
 
-				return distance_sq - (std::pow)(a.Radius() + b.Radius(), static_cast<T>(2));
+				if (dist > rsum)
+					return dist - rsum;
+				else
+					return static_cast<T>(0);
 
 			}
 
