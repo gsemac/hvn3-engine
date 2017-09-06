@@ -19,7 +19,9 @@ namespace hvn3 {
 			int ImageIndex() const;
 			void SetImageIndex(int value);
 
+			// The speed of the animation in frames-per-update.
 			float ImageSpeed() const;
+			// Sets the speed of the animation in frames-per-update.
 			void SetImageSpeed(float value);
 
 			const Scale& ImageScale() const;
@@ -31,12 +33,16 @@ namespace hvn3 {
 			const Color& ImageBlend() const;
 			void SetImageBlend(const Color& value);
 
+			void ReflectX();
+			void ReflectY();
+
 			ResourceHandle<Sprite> Sprite();
 			const ResourceHandle<hvn3::Sprite>& Sprite() const;
 			void SetSprite(ResourceHandle<hvn3::Sprite> sprite);
 
-			void DrawSprite(const PointF& position, DrawEventArgs& e) const;
+			void DrawSprite(DrawEventArgs& e, const PointF& position) const;
 			void UpdateAnimation();
+			void UpdateAnimation(float delta);
 
 		private:
 			ResourceHandle<hvn3::Sprite> _sprite;
@@ -48,7 +54,7 @@ namespace hvn3 {
 			Color _image_blend;
 			float _image_index_timer;
 
-			void IncrementImageIndex();
+			void _incrementImageIndex(float delta);
 
 		};
 

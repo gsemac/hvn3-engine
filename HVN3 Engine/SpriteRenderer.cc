@@ -80,6 +80,16 @@ namespace hvn3 {
 			_image_blend = value;
 
 		}
+		void SpriteRenderer::ReflectX() {
+
+			_image_scale = Scale(-_image_scale.XScale(), _image_scale.YScale());
+
+		}
+		void SpriteRenderer::ReflectY() {
+
+			_image_scale = Scale(_image_scale.XScale(), -_image_scale.YScale());
+
+		}
 		ResourceHandle<hvn3::Sprite> SpriteRenderer::Sprite() {
 
 			return _sprite;
@@ -96,7 +106,7 @@ namespace hvn3 {
 
 		}
 
-		void SpriteRenderer::DrawSprite(const PointF& position, DrawEventArgs& e) const {
+		void SpriteRenderer::DrawSprite(DrawEventArgs& e, const PointF& position) const {
 
 			if (Sprite()) {
 
@@ -121,14 +131,19 @@ namespace hvn3 {
 		}
 		void SpriteRenderer::UpdateAnimation() {
 
-			IncrementImageIndex();
+			_incrementImageIndex(_image_speed);
+
+		}
+		void SpriteRenderer::UpdateAnimation(float delta) {
+
+			_incrementImageIndex(_image_speed * delta);
 
 		}
 
 		// Private methods
-		void SpriteRenderer::IncrementImageIndex() {
+		void SpriteRenderer::_incrementImageIndex(float delta) {
 
-			_image_index_timer += (std::fabs)(ImageSpeed());
+			_image_index_timer += (std::fabs)(delta);
 			if (_image_index_timer >= 1.0f) {
 				switch (static_cast<int>(Math::Sign(ImageSpeed()))) {
 				case -1:
