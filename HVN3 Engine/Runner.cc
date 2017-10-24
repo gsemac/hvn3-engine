@@ -29,7 +29,7 @@ namespace hvn3 {
 
 		Runner::Runner(System::Properties* properties, RoomManager* room_manager) :
 			_properties(properties),
-			_timer(1.0f / properties->Fps),
+			_timer(1.0f / properties->FrameRate),
 			_display(properties->DisplaySize.Width(), properties->DisplaySize.Height(), properties->DisplayTitle.c_str(), properties->DisplayFlags),
 			_graphics(_display.BackBuffer()),
 			_room_manager(room_manager),
@@ -233,7 +233,7 @@ namespace hvn3 {
 			// Get the average FPS at this instant.
 			double fps = Math::Round(_fps_counter.AverageFps());
 			if (_properties->FixedFrameRate)
-				fps = Math::Min(fps, static_cast<double>(_properties->Fps));
+				fps = Math::Min(fps, static_cast<double>(_properties->FrameRate));
 
 			// Draw the FPS.
 			std::stringstream ss;

@@ -31,7 +31,7 @@ namespace hvn3 {
 			// Flow Properties
 
 			bool FreezeWhenLostFocus;
-			float Fps;
+			float FrameRate;
 			int MaxFrameSkip;
 			bool FixedFrameRate;
 

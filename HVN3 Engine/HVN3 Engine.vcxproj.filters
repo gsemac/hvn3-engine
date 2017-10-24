@@ -1065,6 +1065,9 @@
     <ClInclude Include="Framework.h">
       <Filter>Header Files\System</Filter>
     </ClInclude>
+    <ClInclude Include="test\CircleTangentRoom.h">
+      <Filter>Test Rooms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\test\tileset1.png">

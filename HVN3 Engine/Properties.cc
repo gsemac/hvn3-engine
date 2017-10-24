@@ -13,7 +13,7 @@ namespace hvn3 {
 			DisplayFlags = static_cast<hvn3::DisplayFlags>(0);
 
 			FreezeWhenLostFocus = true;
-			Fps = 60.0f;
+			FrameRate = 60.0f;
 			MaxFrameSkip = 0;
 			FixedFrameRate = true;
 

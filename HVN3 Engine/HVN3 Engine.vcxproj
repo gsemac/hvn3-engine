@@ -542,6 +542,7 @@
     <ClInclude Include="RoomTransitionNone.h" />
     <ClInclude Include="SharedCreatableBase.h" />
     <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="test\CircleTangentRoom.h" />
     <ClInclude Include="test\Global.h" />
     <ClInclude Include="test\PhysicsRoom.h" />
     <ClInclude Include="Thread.h" />
