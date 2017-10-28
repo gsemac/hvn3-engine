@@ -1,4 +1,4 @@
-#include "HVN3.h"
+#include "hvn3.h"
 #include "test/Global.h"
 #include "test/LevelEditor.h"
 #include "test/PhysicsRoom.h"

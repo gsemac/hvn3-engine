@@ -329,6 +329,7 @@
     <ClCompile Include="src\views\ViewUpdateEventArgs.cc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\README.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
