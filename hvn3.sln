@@ -11,10 +11,6 @@ Global
 		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-		Static Library (Debug)|x64 = Static Library (Debug)|x64
-		Static Library (Debug)|x86 = Static Library (Debug)|x86
-		Static Library (Release)|x64 = Static Library (Release)|x64
-		Static Library (Release)|x86 = Static Library (Release)|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}.Debug|x64.ActiveCfg = Debug|x64
@@ -25,14 +21,6 @@ Global
 		{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}.Release|x64.Build.0 = Release|x64
 		{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}.Release|x86.ActiveCfg = Release|Win32
 		{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}.Release|x86.Build.0 = Release|Win32
-		{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}.Static Library (Debug)|x64.ActiveCfg = Static Library|x64
-		{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}.Static Library (Debug)|x64.Build.0 = Static Library|x64
-		{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}.Static Library (Debug)|x86.ActiveCfg = Static Library|Win32
-		{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}.Static Library (Debug)|x86.Build.0 = Static Library|Win32
-		{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}.Static Library (Release)|x64.ActiveCfg = Static Library (Release)|x64
-		{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}.Static Library (Release)|x64.Build.0 = Static Library (Release)|x64
-		{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}.Static Library (Release)|x86.ActiveCfg = Static Library (Release)|Win32
-		{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}.Static Library (Release)|x86.Build.0 = Static Library (Release)|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
