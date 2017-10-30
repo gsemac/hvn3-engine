@@ -22,6 +22,16 @@
     <ClInclude Include="include\allegro\AllegroAdapter.h" />
     <ClInclude Include="include\allegro\AllegroExtensions.h" />
     <ClInclude Include="include\allegro\AllegroForwardDeclarations.h" />
+    <ClInclude Include="include\assets\AssetHandle.h" />
+    <ClInclude Include="include\assets\BitmapAssetLoader.h" />
+    <ClInclude Include="include\assets\FileAssetLoader.h" />
+    <ClInclude Include="include\assets\IAssetLoader.h" />
+    <ClInclude Include="include\assets\AssetManager.h" />
+    <ClInclude Include="include\assets\Assets.h" />
+    <ClInclude Include="include\assets\AssetTypeDefs.h" />
+    <ClInclude Include="include\assets\IBinaryAssetLoader.h" />
+    <ClInclude Include="include\assets\ResourceCollection.h" />
+    <ClInclude Include="include\assets\ResourceManager.h" />
     <ClInclude Include="include\backgrounds\Background.h" />
     <ClInclude Include="include\backgrounds\BackgroundDrawEventArgs.h" />
     <ClInclude Include="include\backgrounds\BackgroundManager.h" />
@@ -72,6 +82,7 @@
     <ClInclude Include="include\graphics\Graphics.h" />
     <ClInclude Include="include\graphics\GraphicsState.h" />
     <ClInclude Include="include\graphics\GridRenderer.h" />
+    <ClInclude Include="include\graphics\Imaging.h" />
     <ClInclude Include="include\graphics\Transform.h" />
     <ClInclude Include="include\gui\Button.h" />
     <ClInclude Include="include\gui\ButtonBase.h" />
@@ -138,8 +149,6 @@
     <ClInclude Include="include\physics\IPhysicsManager.h" />
     <ClInclude Include="include\physics\Material.h" />
     <ClInclude Include="include\physics\PhysicsUtils.h" />
-    <ClInclude Include="include\resources\ResourceCollection.h" />
-    <ClInclude Include="include\resources\ResourceManager.h" />
     <ClInclude Include="include\rooms\IRoom.h" />
     <ClInclude Include="include\rooms\IRoomManager.h" />
     <ClInclude Include="include\rooms\IRoomTransition.h" />
@@ -190,6 +199,9 @@
   <ItemGroup>
     <ClCompile Include="src\allegro\AllegroAdapter.cc" />
     <ClCompile Include="src\allegro\AllegroExtensions.cc" />
+    <ClCompile Include="src\assets\BitmapAssetLoader.cc" />
+    <ClCompile Include="src\assets\FileAssetLoader.cc" />
+    <ClCompile Include="src\assets\ResourceManager.cc" />
     <ClCompile Include="src\backgrounds\Background.cc" />
     <ClCompile Include="src\backgrounds\BackgroundDrawEventArgs.cc" />
     <ClCompile Include="src\backgrounds\BackgroundManager.cc" />
@@ -224,6 +236,7 @@
     <ClCompile Include="src\graphics\Graphics.cc" />
     <ClCompile Include="src\graphics\GraphicsState.cc" />
     <ClCompile Include="src\graphics\GridRenderer.cc" />
+    <ClCompile Include="src\graphics\Imaging.cc" />
     <ClCompile Include="src\graphics\Transform.cc" />
     <ClCompile Include="src\gui\Button.cc" />
     <ClCompile Include="src\gui\ButtonBase.cc" />
@@ -279,7 +292,6 @@
     <ClCompile Include="src\physics\BasicPhysicsManager.cc" />
     <ClCompile Include="src\physics\Material.cc" />
     <ClCompile Include="src\physics\PhysicsUtils.cc" />
-    <ClCompile Include="src\resources\ResourceManager.cc" />
     <ClCompile Include="src\rooms\IRoom.cc" />
     <ClCompile Include="src\rooms\IRoomTransition.cc" />
     <ClCompile Include="src\rooms\Room.cc" />
@@ -376,6 +388,7 @@
     <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
     <Allegro_AddonFont>true</Allegro_AddonFont>
     <Allegro_LibraryType>StaticMonolithRelease</Allegro_LibraryType>
+    <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Allegro_AddonImage>true</Allegro_AddonImage>
@@ -386,6 +399,7 @@
     <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
     <Allegro_AddonFont>true</Allegro_AddonFont>
     <Allegro_LibraryType>StaticMonolithRelease</Allegro_LibraryType>
+    <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Allegro_AddonImage>true</Allegro_AddonImage>
@@ -395,6 +409,7 @@
     <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
     <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
     <Allegro_AddonFont>true</Allegro_AddonFont>
+    <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Allegro_AddonImage>true</Allegro_AddonImage>
@@ -404,6 +419,7 @@
     <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
     <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
     <Allegro_AddonFont>true</Allegro_AddonFont>
+    <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

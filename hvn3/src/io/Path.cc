@@ -80,6 +80,24 @@ namespace hvn3 {
 				return '/';
 
 		}
+		std::string Path::GetExtension(const std::string& path) {
+
+			if (path.length() <= 0)
+				return "";
+
+			for (size_t i = path.length() - 1; i > 0; --i) {
+
+				if (path[i] == DirectorySeparatorChar() || path[i] == AltDirectorySeparatorChar())
+					break;
+
+				if (path[i] == '.')
+					return path.substr(i, path.length() - i);
+
+			}
+
+			return "";
+
+		}
 
 	}
 

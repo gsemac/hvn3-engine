@@ -2,7 +2,7 @@
 #include "graphics/Color.h"
 #include "core/Framework.h"
 #include "rooms/RoomManager.h"
-#include "resources/ResourceManager.h"
+#include "assets/ResourceManager.h"
 #include "collision/ICollisionManager.h"
 #include "objects/IObjectManager.h"
 

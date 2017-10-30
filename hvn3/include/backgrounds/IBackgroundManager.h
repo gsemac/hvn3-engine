@@ -2,7 +2,7 @@
 #include "core/UpdateEventArgs.h"
 #include "backgrounds/BackgroundDrawEventArgs.h"
 #include "BackgroundProperties.h"
-#include "resources/ResourceCollection.h"
+#include "assets/ResourceCollection.h"
 #include "backgrounds/Background.h"
 #include <cstdlib>
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "resources/ResourceCollection.h"
+#include "assets/ResourceCollection.h"
 #include "sprites/Sprite.h"
 #include "utility/Scale.h"
 #include "core/DrawEventArgs.h"

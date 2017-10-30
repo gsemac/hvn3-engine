@@ -49,9 +49,6 @@
     <Filter Include="include\physics">
       <UniqueIdentifier>{03ae3866-de2d-495b-bca0-eb637e320f5c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\resources">
-      <UniqueIdentifier>{dcfb5788-cb02-48cd-8683-c2036b83d1e0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include\rooms">
       <UniqueIdentifier>{a898ee1a-2777-4985-bfec-3c00124e96f3}</UniqueIdentifier>
     </Filter>
@@ -130,14 +127,17 @@
     <Filter Include="src\rooms">
       <UniqueIdentifier>{f49d5776-503f-4d51-89e0-49ba02406091}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\resources">
-      <UniqueIdentifier>{5dd14e44-2a9f-4287-8386-7e856770fcb3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\physics">
       <UniqueIdentifier>{1e608fe0-bb68-4687-930c-e1c69314d555}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\objects">
       <UniqueIdentifier>{f7ff3acf-e595-437c-ab67-9f6f03535226}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\assets">
+      <UniqueIdentifier>{2d307e98-b5c6-40be-beab-ceae233a972e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\assets">
+      <UniqueIdentifier>{6568945e-8374-43c7-9c69-b59e5a7de7ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -444,12 +444,6 @@
     <ClInclude Include="include\physics\IPhysicsBody.h">
       <Filter>include\physics</Filter>
     </ClInclude>
-    <ClInclude Include="include\resources\ResourceManager.h">
-      <Filter>include\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="include\resources\ResourceCollection.h">
-      <Filter>include\resources</Filter>
-    </ClInclude>
     <ClInclude Include="include\rooms\Room.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
@@ -641,6 +635,39 @@
     </ClInclude>
     <ClInclude Include="include\utility\Environment.h">
       <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assets\ResourceCollection.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assets\ResourceManager.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assets\Assets.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assets\AssetHandle.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assets\AssetTypeDefs.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assets\AssetManager.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assets\IAssetLoader.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assets\FileAssetLoader.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assets\IBinaryAssetLoader.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assets\BitmapAssetLoader.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\graphics\Imaging.h">
+      <Filter>include\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -911,9 +938,6 @@
     <ClCompile Include="src\physics\BasicPhysicsBody.cc">
       <Filter>src\physics</Filter>
     </ClCompile>
-    <ClCompile Include="src\resources\ResourceManager.cc">
-      <Filter>src\resources</Filter>
-    </ClCompile>
     <ClCompile Include="src\rooms\RoomController.cc">
       <Filter>src\rooms</Filter>
     </ClCompile>
@@ -1012,6 +1036,18 @@
     </ClCompile>
     <ClCompile Include="src\utility\Environment.cc">
       <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\assets\ResourceManager.cc">
+      <Filter>src\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\assets\FileAssetLoader.cc">
+      <Filter>src\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\assets\BitmapAssetLoader.cc">
+      <Filter>src\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\Imaging.cc">
+      <Filter>src\graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

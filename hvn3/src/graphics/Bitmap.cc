@@ -1,6 +1,7 @@
 #include "graphics/Bitmap.h"
 #include "graphics/Graphics.h"
 #include "allegro/AllegroAdapter.h"
+#include <allegro5/allegro_memfile.h>
 #define ALLEGRO_DEFAULT_NEW_BITMAP_FLAGS 4096
 
 namespace hvn3 {
@@ -39,6 +40,20 @@ namespace hvn3 {
 			_free = free;
 
 		}
+		Bitmap::Bitmap(uint8_t* buffer, size_t buffer_size, Imaging::ImageFormat format) :
+			Bitmap() {
+
+			if (buffer == nullptr || buffer_size <= 0)
+				return;
+			
+			ALLEGRO_FILE* file = al_open_memfile(buffer, buffer_size, "r");
+			
+			_bmp = al_load_bitmap_f(file, ImageFormatToFileExtension(format).c_str());
+			_free = true;
+
+			al_fclose(file);
+
+		}
 		// Creates a sub-bitmap from the given region of the parent bitmap that shares data with the parent bitmap.
 		Bitmap::Bitmap(const Bitmap& other, const RectangleI& region) {
 
@@ -68,6 +83,8 @@ namespace hvn3 {
 
 		}
 		Bitmap::~Bitmap() {
+
+			std::cout << "data: " << _bmp << std::endl;
 
 			if (_bmp && _free)
 				Free();

@@ -1,5 +1,5 @@
 #pragma once
-#include "resources/ResourceCollection.h"
+#include "assets/ResourceCollection.h"
 #include "backgrounds/Background.h"
 #include "fonts/Font.h"
 #include "sound/Sound.h"

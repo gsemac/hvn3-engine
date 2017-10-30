@@ -2,6 +2,7 @@
 #include "core/SizeableBase.h"
 #include "math/GeometryUtils.h"
 #include "graphics/Color.h"
+#include "graphics/Imaging.h"
 #include "io/File.h"
 
 struct ALLEGRO_BITMAP;
@@ -15,7 +16,7 @@ namespace hvn3 {
 			MinLinear = 64,
 			MagLinear = 128
 		};
-		ENABLE_BITFLAG_OPERATORS(BitmapFlags);
+		ENABLE_BITFLAG_OPERATORS(BitmapFlags)
 
 		struct BitmapData {
 			BitmapData();
@@ -31,6 +32,7 @@ namespace hvn3 {
 			Bitmap(int width, int height);
 			Bitmap(const char* filename);
 			Bitmap(ALLEGRO_BITMAP* bitmap, bool free = true);
+			Bitmap(uint8_t* buffer, size_t buffer_size, Imaging::ImageFormat format);
 			Bitmap(const Bitmap& other, const RectangleI& region);
 			Bitmap(const Bitmap& other);
 			Bitmap(Bitmap&& other);

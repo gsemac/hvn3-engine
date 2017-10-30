@@ -1,4 +1,4 @@
-#include "resources/ResourceManager.h"
+#include "assets/ResourceManager.h"
 
 namespace hvn3 {
 

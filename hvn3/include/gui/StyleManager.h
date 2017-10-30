@@ -1,5 +1,5 @@
 #pragma once
-#include "resources/ResourceCollection.h"
+#include "assets/ResourceCollection.h"
 #include "graphics/Bitmap.h"
 #include "graphics/Color.h"
 

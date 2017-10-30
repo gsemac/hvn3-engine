@@ -1,5 +1,5 @@
 #pragma once
-#include "resources/ResourceCollection.h"
+#include "assets/ResourceCollection.h"
 #include "utility/UTF8String.h"
 #include "gui/StyleManager.h"
 

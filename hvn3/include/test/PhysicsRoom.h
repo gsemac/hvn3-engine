@@ -1,5 +1,6 @@
 #pragma once
 #include "test/Global.h"
+#include "physics/BasicPhysicsManager.h"
 
 hvn3::Physics::BasicPhysicsManager PhysicsManager(nullptr);
 
