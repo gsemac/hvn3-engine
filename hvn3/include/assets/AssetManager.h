@@ -1,15 +1,12 @@
 #pragma once
 #include "AssetHandle.h"
 #include "FileAssetLoader.h"
-#include "graphics/Bitmap.h"
 #include <unordered_map>
 #include <string>
 #include <limits>
 #include <memory>
 
 namespace hvn3 {
-
-	// Idea: AssetLoader should simply be a mechanism for taking a string and returning an asset.
 
 	template <typename asset_type>
 	class AssetManager {
@@ -44,7 +41,7 @@ namespace hvn3 {
 		}
 		~AssetManager() {
 
-			//FreeAll();
+			FreeAll();
 
 		}
 
@@ -70,7 +67,7 @@ namespace hvn3 {
 			auto group_iter = _groups.find(group);
 			if (group_iter == _groups.end())
 				group_iter = _groups.insert(std::make_pair(group, map_value_type())).first;				
-			std::cout << "loaded";
+			
 			group_iter->second.emplace(id, Asset(path, load ? _loader->LoadData(path) : _loader->LoadNull(), load));
 
 			return true;
@@ -101,7 +98,7 @@ namespace hvn3 {
 			return true;
 
 		}
-
+		
 		bool Unload(AssetId asset) {
 
 			return Unload(default_group_id, asset);

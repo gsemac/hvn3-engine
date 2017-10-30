@@ -34,7 +34,7 @@ namespace hvn3 {
 
 	}
 	BitmapAssetLoader::asset_type BitmapAssetLoader::LoadNull() {
-		std::cout << "null";
+	
 		return Drawing::Bitmap((ALLEGRO_BITMAP*)nullptr, false);
 
 	}
