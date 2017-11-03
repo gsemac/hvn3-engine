@@ -9,8 +9,8 @@ namespace hvn3 {
 
 	public:
 		asset_type LoadData(const std::string& path) override;
-		void UnloadData(asset_type& asset) override;
-		asset_type LoadNull() override;
+		void FreeData(asset_type& asset) override;
+		asset_type GetNull() override;
 
 	};
 

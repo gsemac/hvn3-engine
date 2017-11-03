@@ -30,7 +30,7 @@ namespace hvn3 {
 		return data;
 
 	}
-	void FileAssetLoader::UnloadData(asset_type& asset) {
+	void FileAssetLoader::FreeData(asset_type& asset) {
 
 		delete[] asset.first;
 
@@ -38,7 +38,7 @@ namespace hvn3 {
 		asset.second = 0;
 
 	}
-	FileAssetLoader::asset_type FileAssetLoader::LoadNull() {
+	FileAssetLoader::asset_type FileAssetLoader::GetNull() {
 
 		asset_type null;
 		null.first = nullptr;

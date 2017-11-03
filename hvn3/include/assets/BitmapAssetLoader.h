@@ -15,8 +15,8 @@ namespace hvn3 {
 		BitmapAssetLoader(std::unique_ptr<IBinaryAssetLoader>&& loader);
 		
 		virtual asset_type LoadData(const std::string& path) override;
-		virtual void UnloadData(asset_type& asset) override;
-		virtual asset_type LoadNull() override;
+		virtual void FreeData(asset_type& asset) override;
+		virtual asset_type GetNull() override;
 
 	private:
 		std::unique_ptr<IBinaryAssetLoader> _loader;

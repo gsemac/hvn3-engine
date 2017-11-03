@@ -10,8 +10,8 @@ namespace hvn3 {
 		typedef asset_type asset_type;
 
 		virtual asset_type LoadData(const std::string& path) = 0;
-		virtual void UnloadData(asset_type& asset) = 0;
-		virtual asset_type LoadNull() = 0;
+		virtual void FreeData(asset_type& asset) = 0;
+		virtual asset_type GetNull() = 0;
 
 	};
 
