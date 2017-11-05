@@ -6,6 +6,14 @@ namespace hvn3 {
 		ThreadPool::ThreadPool() :
 			ThreadPool(std::max(std::thread::hardware_concurrency(), 1U)) {
 		}
+		ThreadPool::~ThreadPool() {
+
+			// Any remaining tasks will not be run.
+			_quit.store(true);
+
+			JoinAll();
+
+		}
 		ThreadPool::ThreadPool(unsigned int max_threads) {
 
 			_thread_count.store(max_threads);

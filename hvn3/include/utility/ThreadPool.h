@@ -17,6 +17,7 @@ namespace hvn3 {
 
 			// Instantiates a thread pool using the hardware-defined core count.
 			ThreadPool();
+			~ThreadPool();
 			// Instantiates a thread pool with the given number of threads.
 			ThreadPool(unsigned int max_threads);
 

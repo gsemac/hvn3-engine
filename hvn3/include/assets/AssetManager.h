@@ -1,7 +1,7 @@
 #pragma once
 #include "AssetHandle.h"
 #include "IAssetLoader.h"
-#include "AssetLoadEventArgs.h"
+#include "AssetLoaderEventArgs.h"
 #include "utility/ThreadPool.h"
 #include <functional>
 #include <limits>
@@ -10,7 +10,6 @@
 #include <string>
 #include <thread>
 #include <unordered_map>
-#include <vector>
 
 namespace hvn3 {
 
@@ -20,14 +19,14 @@ namespace hvn3 {
 	private:
 		struct Asset {
 
-			Asset(std::string Path, asset_type&& Data, bool IsLoaded) :
+			Asset(std::string Path, AssetLoaderResult<asset_type>& Data, bool IsLoaded) :
 				Path(Path),
 				Data(std::move(Data)),
 				IsLoaded(IsLoaded) {
 			}
 
+			AssetLoaderResult<asset_type> Data;
 			std::string Path;
-			asset_type Data;
 			bool IsLoaded;
 
 		};
@@ -37,7 +36,7 @@ namespace hvn3 {
 
 	public:
 		typedef asset_type asset_type;
-		static const AssetGroupId default_group_id = 0;
+		static const AssetGroupId DefaultGroupId = 0;
 
 		AssetManager(std::unique_ptr<IAssetLoader<asset_type> >& loader) :
 			_loader(std::move(loader)) {
@@ -47,123 +46,63 @@ namespace hvn3 {
 		}
 		~AssetManager() {
 
-			FreeAll();
+			RemoveAll();
 
 		}
 
-		AssetId Add(const std::string& path, bool load = true) {
+		AssetId Add(const std::string& path, bool auto_load = true) {
 
 			AssetId id = _getNextFreeId();
 
-			Add(id, path, load);
+			Add(id, path, auto_load);
 
 			return id;
 
 		}
-		bool Add(AssetId id, const std::string& path, bool load = true) {
+		bool Add(AssetId id, const std::string& path, bool auto_load = true) {
 
-			return Add(default_group_id, id, path, load);
-
-		}
-		bool Add(AssetGroupId group, AssetId id, const std::string& path, bool load = true) {
-
-			auto guard = _writeLock();
-
-			return _add(group, id, path, load);
+			return Add(DefaultGroupId, id, path, auto_load);
 
 		}
+		bool Add(AssetGroupId group, AssetId id, const std::string& path, bool auto_load = true) {
 
-		bool Load(AssetId asset) {
+			auto lock = _writeLock();
 
-			return Load(default_group_id, asset);
-
-		}
-		bool Load(AssetGroupId group, AssetId asset) {
-
-			auto guard = _writeLock();
-
-			return _load(group, asset);
-
-		}
-		void LoadAll();
-		void LoadAll(AssetGroupId group);
-		void LoadAllAsync(AssetGroupId group);
-
-		bool Unload(AssetId asset) {
-
-			return Unload(default_group_id, asset);
-
-		}
-		bool Unload(AssetGroupId group, AssetId asset) {
-
-			auto guard = _writeLock();
-
-			return _unload(group, asset);
-
-		}
-		void UnloadAll() {
-
-			auto guard = _writeLock();
-
-			// #todo This process could easily be made more efficient
-
-			for (auto iter = _groups.begin(); iter != _groups.end(); ++iter)
-				_unloadAll(iter->first);
-
-		}
-		void UnloadAll(AssetGroupId group) {
-
-			auto guard = _writeLock();
-
-			// #todo This process could easily be made more efficient
-
-			_unloadAll(group);
+			return _add(group, id, path, auto_load);
 
 		}
 
-		bool Reload(AssetId asset) {
+		AssetHandle<asset_type> Get(AssetId id, bool auto_load = false) {
 
-			return Reload(default_group_id, asset);
-
-		}
-		bool Reload(AssetGroupId group, AssetId asset) {
-
-			auto guard = _writeLock();
-
-			return _reload(group, asset);
+			return Get(DefaultGroupId, id, auto_load);
 
 		}
-		void ReloadAll() {
+		AssetHandle<asset_type> Get(AssetGroupId group, AssetId id, bool auto_load = false) {
 
-			auto guard = _writeLock();
+			auto lock = _readLock();
 
-			// #todo This process could easily be made more efficient
+			Asset* asset = _findAsset(group, id);
 
-			for (auto iter = _groups.begin(); iter != _groups.end(); ++iter)
-				_reloadAll(iter->first);
+			if(asset == nullptr)
+				if (auto_load) {
+					_load(group, id);
+					asset = _findAsset(group, id);
+				}
+				else
+					return nullptr;
 
-		}
-		void ReloadAll(AssetGroupId group) {
-
-			auto guard = _writeLock();
-
-			_reloadAll(group);
-
-		}
-		void ReloadAll(AssetGroupId group, unsigned int number_of_threads, std::function<void(AssetLoadEventArgs&)> callback) {
-
-			_reload_all_mt(group, number_of_threads, callback);
+			return &(asset->Data.Data);
 
 		}
 
-		bool Free(AssetId asset) {
+		bool Remove(AssetId asset) {
 
-			return Free(default_group_id, asset);
+			return Remove(DefaultGroupId, asset);
 
 		}
-		bool Free(AssetGroupId group, AssetId asset) {
+		bool Remove(AssetGroupId group, AssetId asset) {
 
-			auto guard = _writeLock();
+			auto lock = _writeLock();
 
 			auto group_iter = _groups.find(group);
 			if (group_iter == _groups.end())
@@ -178,18 +117,18 @@ namespace hvn3 {
 			return true;
 
 		}
-		bool FreeAll() {
+		bool RemoveAll() {
 
-			auto guard = _writeLock();
+			auto lock = _writeLock();
 
 			_groups.clear();
 
 			return true;
 
 		}
-		bool FreeAll(AssetGroupId group) {
+		bool RemoveAll(AssetGroupId group) {
 
-			auto guard = _writeLock();
+			auto lock = _writeLock();
 
 			auto iter = _groups.find(group);
 			if (iter == _groups.end())
@@ -201,21 +140,125 @@ namespace hvn3 {
 
 		}
 
+		bool Load(AssetId asset) {
+
+			return Load(DefaultGroupId, asset);
+
+		}
+		bool Load(AssetGroupId group, AssetId asset) {
+
+			auto lock = _writeLock();
+
+			return _load(group, asset);
+
+		}
+		void LoadAll() {
+
+			auto lock = _writeLock();
+
+			// #todo This process could easily be made more efficient
+
+			for (auto iter = _groups.begin(); iter != _groups.end(); ++iter)
+				_loadAll(iter->first);
+			
+		}
+		void LoadAll(AssetGroupId group) {
+
+			auto lock = _writeLock();
+
+			_loadAll(group);
+
+		}
+		void LoadAll(AssetGroupId group, unsigned int number_of_threads, std::function<void(AssetLoaderEventArgs&)> callback) {
+
+			_loadAll(group, number_of_threads, callback);
+
+		}
+
+		bool Unload(AssetId asset) {
+
+			return Unload(DefaultGroupId, asset);
+
+		}
+		bool Unload(AssetGroupId group, AssetId asset) {
+
+			auto lock = _writeLock();
+
+			return _unload(group, asset);
+
+		}
+		void UnloadAll() {
+
+			auto lock = _writeLock();
+
+			// #todo This process could easily be made more efficient
+
+			for (auto iter = _groups.begin(); iter != _groups.end(); ++iter)
+				_unloadAll(iter->first);
+
+		}
+		void UnloadAll(AssetGroupId group) {
+
+			auto lock = _writeLock();
+
+			// #todo This process could easily be made more efficient
+
+			_unloadAll(group);
+
+		}
+
+		bool Reload(AssetId asset) {
+
+			return Reload(DefaultGroupId, asset);
+
+		}
+		bool Reload(AssetGroupId group, AssetId asset) {
+
+			auto lock = _writeLock();
+
+			return _reload(group, asset);
+
+		}
+		void ReloadAll() {
+
+			auto lock = _writeLock();
+
+			// #todo This process could easily be made more efficient
+
+			for (auto iter = _groups.begin(); iter != _groups.end(); ++iter)
+				_reloadAll(iter->first);
+
+		}
+		void ReloadAll(AssetGroupId group) {
+
+			auto lock = _writeLock();
+
+			_reloadAll(group);
+
+		}
+		void ReloadAll(AssetGroupId group, unsigned int number_of_threads, std::function<void(AssetLoaderEventArgs&)> callback) {
+
+			UnloadAll(group);
+
+			_loadAll(group, number_of_threads, callback);
+
+		}
+
 		bool Exists(AssetId asset) const {
 
-			return Exists(default_group_id, asset);
+			return Exists(DefaultGroupId, asset);
 
 		}
 		bool Exists(AssetGroupId group, AssetId asset) const {
 
-			auto guard = _readLock();
+			auto lock = _readLock();
 
 			return _exists(group, asset);
 
 		}
 		bool GroupExists(AssetGroupId group) const {
 
-			auto guard = _readLock();
+			auto lock = _readLock();
 
 			auto iter = _groups.find(group);
 
@@ -225,12 +268,12 @@ namespace hvn3 {
 
 		bool IsLoaded(AssetId asset) const {
 
-			return IsLoaded(default_group_id, asset);
+			return IsLoaded(DefaultGroupId, asset);
 
 		}
 		bool IsLoaded(AssetGroupId group, AssetId asset) const {
 
-			auto guard = _readLock();
+			auto lock = _readLock();
 
 			auto group_iter = _groups.find(group);
 			if (group_iter == _groups.end())
@@ -246,7 +289,7 @@ namespace hvn3 {
 
 		size_t Count(AssetGroupId group) const {
 
-			auto guard = _readLock();
+			auto lock = _readLock();
 
 			auto iter = _groups.find(group);
 			if (iter == _groups.end())
@@ -264,6 +307,7 @@ namespace hvn3 {
 
 		/*
 		The following functions are non-threadsafe implementations of the public member functions.
+		They can be called freely and recursively without worrying about locking twice.
 		*/
 
 		// Adds a new asset to the manager (not threadsafe).
@@ -295,10 +339,30 @@ namespace hvn3 {
 			if (asset_iter->second.IsLoaded)
 				return true;
 
-			asset_iter->second.Data = std::move(_loader->LoadData(asset_iter->second.Path));
+			AssetLoaderResult<asset_type> data = _loader->LoadData(asset_iter->second.Path);
+			if (!data.Success) {
+				asset_iter->second.Data.Size = 0;
+				asset_iter->second.IsLoaded = false;
+				_loader->FreeData(data);
+			}
+
+			asset_iter->second.Data.Data = std::move(_loader->LoadData(asset_iter->second.Path).Data);
 			asset_iter->second.IsLoaded = true;
 
 			return true;
+
+		}
+		// Loads all assets in the given group that have not already been loaded (not threadsafe).
+		void _loadAll(AssetGroupId group) {
+
+			auto group_iter = _groups.find(group);
+			if (group_iter == _groups.end())
+				return;
+
+			// #todo This process could easily be made more efficient
+
+			for (auto iter = group_iter->second.begin(); iter != group_iter->second.end(); ++iter)
+				_load(group, iter->first);
 
 		}
 		// Unload asset data for the given asset (not threadsafe).
@@ -366,49 +430,127 @@ namespace hvn3 {
 			return asset_iter != group_iter->second.end();
 
 		}
+		// Returns a pointer to the requested asset, or nullptr if it doesn't exist (not threadsafe). 
+		Asset* _findAsset(AssetGroupId group, AssetId asset) {
 
-		void _reload_all_mt(AssetGroupId group, unsigned int number_of_threads, std::function<void(AssetLoadEventArgs&)> callback) {
+			auto group_iter = _groups.find(group);
+			if (group_iter == _groups.end())
+				return nullptr;
 
-			UnloadAll(group);
+			auto asset_iter = group_iter->second.find(asset);
+			if (asset_iter == group_iter->second.end())
+				return nullptr;
+
+			return &(asset_iter->second);
+
+		}
+
+		// Loads all assets in the given group using a threadpool (threadsafe).
+		void _loadAll(AssetGroupId group, unsigned int number_of_threads, std::function<void(AssetLoaderEventArgs&)> callback) {
 
 			// Enumerate all asset ids for the assets we'll be loading. We iterate the collection in one go to avoid issues with multithreading later.
 			// This also means the assets can be modified or even deleted while they're being loaded.
-			std::vector<AssetId> asset_ids;
-			for (int i = 0; i < 8; ++i)
-				asset_ids.push_back(i);
+
+			// Acquire a read lock so we can access the asset map.
+			auto read_lock = _readLock();
+
+			// Get an iterator to the group we'll be loading assets from. If the group doesn't exist, quit here.
+			auto group_iter = _groups.find(group);
+			if (group_iter == _groups.end())
+				return;
 
 			std::mutex callback_mutex;
 			std::atomic<unsigned int> loaded_assets = 0;
+			std::atomic<size_t> total_assets = group_iter->second.size();
 			Threading::ThreadPool threads(number_of_threads);
 
-			for (size_t i = 0; i < asset_ids.size(); ++i) {
-				threads.AddTask([&, this] {
+			for (auto i = group_iter->second.begin(); i != group_iter->second.end(); ++i) {
+				threads.AddTask([&, i, this] {
 
 					// We need to get the asset information for the asset the thread will be loading.
+					AssetId asset_id = i->first;
+
+					// Acquire a read lock so we can pull asset information from the map.
 					auto read_lock = _readLock();
 
+					// Create a callback lock without yet locking to ensure that only one thread calls the callback at any given time.
+					std::unique_lock<std::mutex> callback_lock(callback_mutex, std::defer_lock);
+
+					// Find the asset in the map. We find the group iterator each time because it may have been deleted while loading assets.
+					Asset* asset = _findAsset(group, asset_id);
+					if (asset == nullptr || asset->IsLoaded) {
+						callback_lock.lock();
+						if (asset == nullptr)
+							callback(AssetLoaderEventArgs(loaded_assets, --total_assets, 0, ASSET_LOADER_EVENT_STATUS_REMOVED, asset_id, group));
+						else
+							callback(AssetLoaderEventArgs(++loaded_assets, total_assets, asset->Data.Size, ASSET_LOADER_EVENT_STATUS_ALREADY_LOADED, asset_id, group));
+						callback_lock.unlock();
+						return;
+					}
+
+					// The asset exists, so get the information we need in order to load it.
+					std::string path = asset->Path;
+
+					// Release the read lock for other threads; we don't need to hold onto it while loading the resource.
 					read_lock.unlock();
 
-					// By ensuring that only one thread can enter the callback function at a time, the events are generated in the proper order.
-					std::lock_guard<std::mutex> callback_lock(callback_mutex);
-					callback(AssetLoadEventArgs(++loaded_assets, asset_ids.size()));
+					// Call the callback function to indicate that the asset has begun being loaded.
+					callback_lock.lock();
+					callback(AssetLoaderEventArgs(loaded_assets, total_assets, 0, ASSET_LOADER_EVENT_STATUS_STARTED, asset_id, group));
+					callback_lock.unlock();
+
+					// Load asset data.
+					AssetLoaderResult<asset_type> data = _loader->LoadData(path);
+
+					// Once the asset data has been loaded, apply it to the asset.		
+
+					auto write_lock = _writeLock();
+
+					// Get the asset from the map again in case it was deleted by another thread.
+					asset = _findAsset(group, asset_id);
+
+					// If we couldn't find the asset or the asset couldn't be loaded, report the error to the callback function.
+					if (asset == nullptr || !data.Success) {
+						if (asset != nullptr)
+							asset->IsLoaded = false;
+						_loader->FreeData(data);
+						callback_lock.lock();
+						callback(AssetLoaderEventArgs(loaded_assets, --total_assets, data.Size, asset == nullptr ? ASSET_LOADER_EVENT_STATUS_REMOVED : ASSET_LOADER_EVENT_STATUS_FAILED, asset_id, group));
+						callback_lock.unlock();
+						return;
+					}
+
+					// Apply the newly-loaded asset data to the asset.
+					asset->Data = std::move(data);
+					asset->IsLoaded = true;
+
+					write_lock.unlock();
+
+					// Call the callback function to indicate that the asset has finished being loaded.
+					callback_lock.lock();
+					callback(AssetLoaderEventArgs(++loaded_assets, total_assets, data.Size, ASSET_LOADER_EVENT_STATUS_FINISHED, asset_id, group));
+					callback_lock.unlock();
 
 				});
 			}
 
+			// Unlock the read lock so that the threads can begin loading assets.
+			read_lock.unlock();
+
+			// Join all threads to wait for the process to complete.
 			threads.JoinAll();
 
 		}
-
+		// Generates a new, unique asset id for assets added to the default group.
 		AssetId _getNextFreeId() const {
 
-			auto guard = _readLock();
+			auto lock = _readLock();
 
 			AssetId id = _next_id;
 			AssetId low = id;
 			bool found = true;
 
-			while (_exists(default_group_id, id)) {
+			while (_exists(DefaultGroupId, id)) {
 				if (id == std::numeric_limits<AssetId>::max()) {
 					found = false;
 					break;
@@ -422,7 +564,7 @@ namespace hvn3 {
 			id = 0;
 			found = true;
 
-			while (_exists(default_group_id, id)) {
+			while (_exists(DefaultGroupId, id)) {
 
 				if (id == low) {
 					found = false;

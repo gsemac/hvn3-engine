@@ -669,11 +669,11 @@
     <ClInclude Include="include\graphics\Imaging.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\assets\AssetLoadEventArgs.h">
-      <Filter>include\assets</Filter>
-    </ClInclude>
     <ClInclude Include="include\utility\ThreadPool.h">
       <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assets\AssetLoaderEventArgs.h">
+      <Filter>include\assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1055,11 +1055,11 @@
     <ClCompile Include="src\graphics\Imaging.cc">
       <Filter>src\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\assets\AssetLoadEventArgs.cc">
-      <Filter>src\assets</Filter>
-    </ClCompile>
     <ClCompile Include="src\utility\ThreadPool.cc">
       <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\assets\AssetLoaderEventArgs.cc">
+      <Filter>src\assets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

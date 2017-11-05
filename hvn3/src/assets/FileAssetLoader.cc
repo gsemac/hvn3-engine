@@ -3,11 +3,9 @@
 
 namespace hvn3 {
 
-	FileAssetLoader::asset_type FileAssetLoader::LoadData(const std::string& path) {
-		
+	AssetLoaderResult<FileAssetLoader::asset_type> FileAssetLoader::LoadData(const std::string& path) {
+
 		asset_type data;
-		data.first = nullptr;
-		data.second = 0;
 
 		// Seek to the end of the file immediately so we can get the file size.
 		std::ifstream file(path, std::ios::binary | std::ios::ate);
@@ -15,36 +13,35 @@ namespace hvn3 {
 
 		// Seek back to the beginning of the file to read it into the buffer.
 		file.seekg(0, std::ios::beg);
-		
+
 		// If the file was empty or couldn't be read, return null data.
 		if (size <= 0)
-			return data;
+			return AssetLoaderResult<asset_type>(data, static_cast<unsigned int>(size), false);
 
 		// Otherwise, allocate a buffer for storing the data from the file.
-		data.first = new uint8_t[size];
-		data.second = (size_t)size;
+		data = new uint8_t[size];
 
 		// Read contents of file into the buffer.
-		file.read((char*)data.first, size);
-		
-		return data;
+		file.read((char*)data, size);
+
+		return AssetLoaderResult<asset_type>(data, static_cast<unsigned int>(size), true);
 
 	}
-	void FileAssetLoader::FreeData(asset_type& asset) {
+	void FileAssetLoader::FreeData(AssetLoaderResult<asset_type>& asset) {
 
-		delete[] asset.first;
+		if (asset.Data != nullptr)
+			delete[] asset.Data;
 
-		asset.first = nullptr;
-		asset.second = 0;
+		asset.Data = nullptr;
+		asset.Size = 0;
+		asset.Success = false;
 
 	}
-	FileAssetLoader::asset_type FileAssetLoader::GetNull() {
+	AssetLoaderResult<FileAssetLoader::asset_type> FileAssetLoader::GetNull() {
 
-		asset_type null;
-		null.first = nullptr;
-		null.second = 0;
+		asset_type data = nullptr;
 
-		return null;
+		return AssetLoaderResult<asset_type>(data, 0, false);
 
 	}
 }

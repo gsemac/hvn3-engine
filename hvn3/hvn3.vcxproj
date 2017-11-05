@@ -23,7 +23,7 @@
     <ClInclude Include="include\allegro\AllegroExtensions.h" />
     <ClInclude Include="include\allegro\AllegroForwardDeclarations.h" />
     <ClInclude Include="include\assets\AssetHandle.h" />
-    <ClInclude Include="include\assets\AssetLoadEventArgs.h" />
+    <ClInclude Include="include\assets\AssetLoaderEventArgs.h" />
     <ClInclude Include="include\assets\BitmapAssetLoader.h" />
     <ClInclude Include="include\assets\FileAssetLoader.h" />
     <ClInclude Include="include\assets\IAssetLoader.h" />
@@ -201,7 +201,7 @@
   <ItemGroup>
     <ClCompile Include="src\allegro\AllegroAdapter.cc" />
     <ClCompile Include="src\allegro\AllegroExtensions.cc" />
-    <ClCompile Include="src\assets\AssetLoadEventArgs.cc" />
+    <ClCompile Include="src\assets\AssetLoaderEventArgs.cc" />
     <ClCompile Include="src\assets\BitmapAssetLoader.cc" />
     <ClCompile Include="src\assets\FileAssetLoader.cc" />
     <ClCompile Include="src\assets\ResourceManager.cc" />

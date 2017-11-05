@@ -15,30 +15,33 @@ namespace hvn3 {
 		_loader(std::move(loader)) {
 	}
 
-	BitmapAssetLoader::asset_type BitmapAssetLoader::LoadData(const std::string& path) {
+	AssetLoaderResult<BitmapAssetLoader::asset_type> BitmapAssetLoader::LoadData(const std::string& path) {
 
 		// Load the raw binary data using the binary asset loader.
-		IBinaryAssetLoader::asset_type data = _loader->LoadData(path);
+		auto binary_data = _loader->LoadData(path);
+		bool success = binary_data.Success;
 
 		// Create a new asset from that data.
 		Imaging::ImageFormat format = Imaging::FileExtensionToImageFormat(IO::Path::GetExtension(path));
-		Drawing::Bitmap asset(data.first, data.second, format);
+		Drawing::Bitmap asset(binary_data.Data, binary_data.Size, format);
 
 		// We don't need the data buffer anymore, so it can be freed.
-		_loader->FreeData(data);
+		_loader->FreeData(binary_data);
 
-		return asset;
+		return AssetLoaderResult<asset_type>(asset, binary_data.Size, success);
 
 	}
-	void BitmapAssetLoader::FreeData(asset_type& asset) {
+	void BitmapAssetLoader::FreeData(AssetLoaderResult<asset_type>& asset) {
 
 		// Calling the destructor will free the resource and set its data pointer to null.
-		asset.~Bitmap();
+		asset.Data.~Bitmap();
+
+		asset.Size = 0;
 
 	}
-	BitmapAssetLoader::asset_type BitmapAssetLoader::GetNull() {
+	AssetLoaderResult<BitmapAssetLoader::asset_type> BitmapAssetLoader::GetNull() {
 
-		return Drawing::Bitmap((ALLEGRO_BITMAP*)nullptr, false);
+		return AssetLoaderResult<asset_type>(Drawing::Bitmap((ALLEGRO_BITMAP*)nullptr, false), 0, false);
 
 	}
 
