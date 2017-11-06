@@ -10,6 +10,14 @@ namespace hvn3 {
 
 	class MouseListener {
 		friend class System::MouseController;
+		friend struct ListenerRegistry;
+
+		typedef std::unordered_set<MouseListener*> listener_collection_type;
+
+		struct ListenerRegistry {
+			listener_collection_type Listeners;
+			~ListenerRegistry();
+		};
 
 	public:
 		MouseListener();
@@ -22,7 +30,12 @@ namespace hvn3 {
 		virtual void OnMouseScroll(MouseScrollEventArgs& e);
 
 	protected:
-		static std::unordered_set<MouseListener*>& _listeners();
+		static listener_collection_type& _listeners();
+
+	private:
+		static ListenerRegistry _registry;
+
+		bool _deregister_self;
 
 	};
 

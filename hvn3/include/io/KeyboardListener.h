@@ -10,7 +10,16 @@ namespace hvn3 {
 	}
 
 	class KeyboardListener {
+
 		friend class System::KeyboardController;
+		friend struct ListenerRegistry;
+
+		typedef std::unordered_set<KeyboardListener*> listener_collection_type;
+
+		struct ListenerRegistry {
+			listener_collection_type Listeners;
+			~ListenerRegistry();
+		};
 
 	public:
 		KeyboardListener();
@@ -22,7 +31,12 @@ namespace hvn3 {
 		virtual void OnKeyChar(KeyCharEventArgs& e);
 
 	protected:
-		static std::unordered_set<KeyboardListener*>& _listeners();
+		static listener_collection_type& _listeners();
+
+	private:
+		static ListenerRegistry _registry;
+
+		bool _deregister_self;
 
 	};
 
