@@ -13,12 +13,13 @@
 namespace hvn3 {
 
 	Object::Object(ObjectId id) :
-		Object(id, PointF(0.0f, 0.0f)) {}
-	Object::Object(ObjectId id, const PointF& position) : 
+		Object(id, PointF(0.0f, 0.0f)) {
+	}
+	Object::Object(ObjectId id, const PointF& position) :
 		Positionable2dBase(position) {
 
 		_id = id;
-		
+
 		SetDepth(0);
 
 	}
@@ -27,8 +28,8 @@ namespace hvn3 {
 	void Object::OnDestroy(DestroyEventArgs& e) {}
 	void Object::OnUpdate(UpdateEventArgs& e) {
 
-		
-		
+
+
 	}
 	void Object::OnDraw(DrawEventArgs& e) {
 
@@ -55,17 +56,6 @@ namespace hvn3 {
 	void Object::SetDepth(int depth) {
 
 		_depth = depth;
-
-	}
-
-	ObjectPtr Object::Shared() {
-
-		return shared_from_this();
-
-	}
-	ConstObjectPtr Object::Shared() const {
-
-		return shared_from_this();
 
 	}
 

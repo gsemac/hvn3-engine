@@ -12,8 +12,7 @@ namespace hvn3 {
 	class Object : 
 		public ICollidable, 
 		public ObjectBase, 
-		public Positionable2dBase<float>,  
-		public std::enable_shared_from_this<Object> {
+		public Positionable2dBase<float> {
 
 	public:
 		Object(ObjectId id);
@@ -24,9 +23,6 @@ namespace hvn3 {
 
 		int Depth() const;
 		void SetDepth(int depth);
-
-		ObjectPtr Shared();
-		ConstObjectPtr Shared() const;
 		
 		virtual void OnCreate(CreateEventArgs& e) override;
 		virtual void OnDestroy(DestroyEventArgs& e) override;
