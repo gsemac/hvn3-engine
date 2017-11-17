@@ -1,7 +1,6 @@
 #include "collision/CollisionFilter.h"
 
 namespace hvn3 {
-	namespace Collision {
 
 		CollisionFilter::CollisionFilter() {
 
@@ -55,5 +54,4 @@ namespace hvn3 {
 
 		}
 
-	}
 }

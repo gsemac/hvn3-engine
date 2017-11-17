@@ -1,6 +1,7 @@
 #pragma once
 #include "core/IUpdatable.h"
 #include "core/IDrawable.h"
+#include "core/DestroyEventArgs.h"
 #include "ObjectEventArgs.h"
 #include "utility/BitFlags.h"
 
@@ -20,7 +21,7 @@ namespace hvn3 {
 		NoCollision = 2,
 		NoPhysics = 4
 	};
-	ENABLE_BITFLAG_OPERATORS(ObjectFlags);
+	ENABLE_BITFLAG_OPERATORS(ObjectFlags)
 
 	class ObjectBase : public virtual IUpdatable, public virtual IDrawable {
 

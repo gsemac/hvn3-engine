@@ -2,6 +2,7 @@
 #include "collision/ICollisionManager.h"
 #include "core/DrawEventArgs.h"
 #include "core/UpdateEventArgs.h"
+#include "core/DestroyEventArgs.h"
 #include <utility>
 #include <algorithm>
 

@@ -2,20 +2,18 @@
 #include "math/Vector2d.h"
 
 namespace hvn3 {
-	namespace Collision {
 
-		class ICollisionBody;
+	class ICollisionBody;
 
-		struct CollisionManifold {
+	struct CollisionManifold {
 
-			CollisionManifold();
+		CollisionManifold();
 
-			ICollisionBody* BodyA;
-			ICollisionBody* BodyB;
-			Vector2d Normal;
-			float Penetration;
-		
-		};
+		ICollisionBody* BodyA;
+		ICollisionBody* BodyB;
+		Vector2d Normal;
+		float Penetration;
 
-	}
+	};
+
 }

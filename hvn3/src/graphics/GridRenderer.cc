@@ -9,12 +9,12 @@ namespace hvn3 {
 			_graphics(graphics) {
 		}
 
-		void GridRenderer::DrawGrid(const Point2d<float>& position, const Grid& grid) {
+		void GridRenderer::Draw(const Point2d<float>& position, const Grid& grid) {
 
-			DrawGrid(position, grid, Color::Black);
+			Draw(position, grid, Color::Black);
 
 		}
-		void GridRenderer::DrawGrid(const Point2d<float>& position, const Grid& grid, const Color& grid_color) {
+		void GridRenderer::Draw(const Point2d<float>& position, const Grid& grid, const Color& grid_color) {
 
 			for (unsigned int i = 1; i < grid.Columns(); ++i)
 				_graphics.DrawLine(position.X() + grid.CellWidth() * i, position.Y(), position.X() + grid.CellWidth() * i, position.Y() + grid.Height(), grid_color, 1.0f);
@@ -23,11 +23,11 @@ namespace hvn3 {
 				_graphics.DrawLine(position.X(), position.Y() + grid.CellHeight() * i, position.X() + grid.Width(), position.Y() + grid.CellHeight() * i, grid_color, 1.0f);
 
 		}
-		void GridRenderer::DrawGrid(const Point2d<float>& position, const Grid& grid, const Color& grid_color, const Color& cell_color) {
+		void GridRenderer::Draw(const Point2d<float>& position, const Grid& grid, const Color& grid_color, const Color& cell_color) {
 
 			_graphics.DrawFilledRectangle(position.X(), position.Y(), grid.Width(), grid.Height(), cell_color);
 
-			DrawGrid(position, grid, grid_color);
+			Draw(position, grid, grid_color);
 
 		}
 

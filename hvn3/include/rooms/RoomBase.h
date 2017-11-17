@@ -84,12 +84,12 @@ namespace hvn3 {
 			return nullptr;
 
 		}
-		virtual const Collision::ICollisionManager<Object*>* Collisions() const override {
+		virtual const ICollisionManager* Collisions() const override {
 
 			return nullptr;
 
 		}
-		virtual Collision::ICollisionManager<Object*>* Collisions() override {
+		virtual ICollisionManager* Collisions() override {
 
 			return nullptr;
 

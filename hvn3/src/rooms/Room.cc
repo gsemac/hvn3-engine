@@ -1,12 +1,10 @@
 #include "rooms/Room.h"
-#include "collision/CollisionGrid.h"
 #include "objects/ObjectManager.h"
 
 namespace hvn3 {
 
 	Room::Room(RoomId id, const SizeI& size) :
-		RoomBase<ObjectManager>(id, size),
-		_collision_manager(std::unique_ptr<Collision::IBroadPhaseCollisionManager>(new Collision::CollisionGrid(32, 32))) {
+		RoomBase<ObjectManager>(id, size) {
 
 		_rendering_view = 0;
 		_restart_pending = false;
@@ -126,12 +124,12 @@ namespace hvn3 {
 		return &_view_manager;
 
 	}
-	const Collision::ICollisionManager<Object*>* Room::Collisions() const {
+	const Room::collision_manager_type* Room::Collisions() const {
 
 		return &_collision_manager;
 
 	}
-	Collision::ICollisionManager<Object*>* Room::Collisions() {
+	Room::collision_manager_type* Room::Collisions() {
 
 		return &_collision_manager;
 
@@ -183,7 +181,7 @@ namespace hvn3 {
 	void Room::OnReset() {
 
 		// Clear all bodies from the collision manager.
-		_collision_manager.ClearAll();
+		_collision_manager.Clear();
 
 		// Reset base (clears all objects).
 		RoomBase::OnReset();

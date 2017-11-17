@@ -18,20 +18,20 @@ namespace hvn3 {
 		virtual void Loop();
 
 		System::Properties& Properties();
+		System::Runner* Runner();
 		RoomManager* Rooms();
 		ResourceManager* Resources();
-		Collision::ICollisionManager<Object*>* Collisions();
+		RoomManager::room_type::collision_manager_type* Collisions();
 		IObjectManager* Objects();
-		System::Runner* Runner();
 
 	protected:
 		virtual void _shutdown();
 
 	private:
 		System::Properties _properties;
+		System::Runner* _runner;
 		hvn3::RoomManager* _room_manager;
 		hvn3::ResourceManager _resource_manager;
-		System::Runner* _runner;
 
 	};
 

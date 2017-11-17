@@ -139,6 +139,12 @@
     <Filter Include="src\assets">
       <UniqueIdentifier>{6568945e-8374-43c7-9c69-b59e5a7de7ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\test\graphics">
+      <UniqueIdentifier>{134b8eb6-aa6b-441d-bc27-08f894a7d131}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\test\graphics">
+      <UniqueIdentifier>{eb4b94ae-3883-4618-8bec-1e048a8ac6c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\allegro\AllegroAdapter.h">
@@ -174,19 +180,10 @@
     <ClInclude Include="include\collision\CollisionFilter.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\collision\CollisionGrid.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\collision\CollisionManager.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
     <ClInclude Include="include\collision\CollisionManifold.h">
       <Filter>include\collision</Filter>
     </ClInclude>
     <ClInclude Include="include\collision\CollisionUtils.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\collision\IBroadPhaseCollisionManager.h">
       <Filter>include\collision</Filter>
     </ClInclude>
     <ClInclude Include="include\collision\ICollidable.h">
@@ -195,13 +192,7 @@
     <ClInclude Include="include\collision\ICollisionBody.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\collision\ICollisionManager.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
     <ClInclude Include="include\collision\IHitMask.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\collision\NarrowPhaseCollisionManager.h">
       <Filter>include\collision</Filter>
     </ClInclude>
     <ClInclude Include="include\collision\RectangleHitMask.h">
@@ -409,9 +400,6 @@
       <Filter>include\net</Filter>
     </ClInclude>
     <ClInclude Include="include\objects\ObjectBase.h">
-      <Filter>include\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="include\objects\ObjectCollisionBody.h">
       <Filter>include\objects</Filter>
     </ClInclude>
     <ClInclude Include="include\objects\ObjectEventArgs.h">
@@ -675,6 +663,48 @@
     <ClInclude Include="include\assets\AssetLoaderEventArgs.h">
       <Filter>include\assets</Filter>
     </ClInclude>
+    <ClInclude Include="include\collision\IBroadPhase.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\collision\SpacialPartitioningGrid.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test\graphics\SpacialPartitioningGridRenderer.h">
+      <Filter>include\test\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\collision\INarrowPhase.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\collision\CollisionBodyHandle.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\collision\ObjectCollisionBody.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\IDestroyable.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\DestroyEventArgs.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\collision\ObjectCollisionManager.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\collision\CollisionBodyMutator.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\collision\CollisionBodyBase.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\collision\NarrowPhase.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\collision\CollisionManagerBase.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\collision\ICollisionManager.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\allegro\AllegroAdapter.cc">
@@ -704,16 +734,10 @@
     <ClCompile Include="src\collision\CollisionFilter.cc">
       <Filter>src\collision</Filter>
     </ClCompile>
-    <ClCompile Include="src\collision\CollisionGrid.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
     <ClCompile Include="src\collision\CollisionManager.cc">
       <Filter>src\collision</Filter>
     </ClCompile>
     <ClCompile Include="src\collision\CollisionManifold.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\collision\NarrowPhaseCollisionManager.cc">
       <Filter>src\collision</Filter>
     </ClCompile>
     <ClCompile Include="src\collision\RectangleHitMask.cc">
@@ -923,9 +947,6 @@
     <ClCompile Include="src\objects\ObjectBase.cc">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="src\objects\ObjectCollisionBody.cc">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="src\objects\ObjectManager.cc">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -1060,6 +1081,24 @@
     </ClCompile>
     <ClCompile Include="src\assets\AssetLoaderEventArgs.cc">
       <Filter>src\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\graphics\SpacialPartitioningGridRenderer.cc">
+      <Filter>src\test\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\collision\CollisionBodyHandle.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\collision\ObjectCollisionBody.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\collision\CollisionBodyBase.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\collision\CollisionBodyMutator.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\collision\NarrowPhase.cc">
+      <Filter>src\collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -67,7 +67,7 @@ namespace hvn3 {
 		return _properties;
 
 	}
-	hvn3::RoomManager* GameManager::Rooms() {
+	RoomManager* GameManager::Rooms() {
 
 		return _room_manager;
 
@@ -77,7 +77,7 @@ namespace hvn3 {
 		return &_resource_manager;
 
 	}
-	Collision::ICollisionManager<Object*>* GameManager::Collisions() {
+	RoomManager::room_type::collision_manager_type* GameManager::Collisions() {
 
 		auto room_ptr = _room_manager->CurrentRoom();
 

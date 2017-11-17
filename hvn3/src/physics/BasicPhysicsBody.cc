@@ -5,7 +5,7 @@
 namespace hvn3 {
 	namespace Physics {
 
-		BasicPhysicsBody::BasicPhysicsBody(Collision::ICollisionBody* body) :
+		BasicPhysicsBody::BasicPhysicsBody(ICollisionBody* body) :
 			_material(0.0f, 0.0f),
 			_linear_velocity(0.0f, 0.0f) {
 

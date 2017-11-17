@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 
 	//hvn3::IRoom* room = new hvn3::Room(0, GameState.Properties().DisplaySize);
 
-	GameState.Rooms()->AddRoom(new PhysicsRoom);
+	//GameState.Rooms()->AddRoom(new PhysicsRoom);
 
 	// Run the main game loop.
 	GameState.Loop();

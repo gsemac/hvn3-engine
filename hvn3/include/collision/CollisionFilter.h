@@ -1,7 +1,6 @@
 #pragma once
 
 namespace hvn3 {
-	namespace Collision {
 
 		class CollisionFilter {
 
@@ -36,5 +35,4 @@ namespace hvn3 {
 
 		};
 
-	}
 }

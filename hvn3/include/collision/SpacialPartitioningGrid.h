@@ -1,32 +1,28 @@
-#include <algorithm>
-#include <iterator>
-#include <unordered_set>
-#include "collision/CollisionGrid.h"
-#include "math/Vector2d.h"
-#include "graphics/Graphics.h"
-#include "rooms/RoomBase.h"
-#include "exceptions/Exception.h"
+#pragma once
+#include "IBroadPhase.h"
 #include "core/DrawEventArgs.h"
-#include "collision/ICollisionBody.h"
+#include "exceptions/Exception.h"
+#include <unordered_set>
+#include <unordered_map>
+#include <list>
+#include <iterator>
 
 namespace hvn3 {
-	namespace Collision {
 
-		// Public members
+	template <unsigned int cell_width, unsigned int cell_height>
+	class SpacialPartitioningGrid final : public IBroadPhase {
 
-		CollisionGrid::CollisionGrid(const SizeI& cell_size) :
-			_cell_size(cell_size) {
-		}
-		CollisionGrid::CollisionGrid(int cell_width, int cell_height) :
-			CollisionGrid(SizeI(cell_width, cell_height)) {
+	public:
+		SpacialPartitioningGrid() :
+			_cell_size(cell_width, cell_height) {
 		}
 
-		void CollisionGrid::AddBody(ICollisionBody* body) {
+		void AddBody(ICollisionBody* body) override {
 
 			_colliders.push_back(body);
 
 		}
-		bool CollisionGrid::RemoveBody(ICollisionBody* body) {
+		bool RemoveBody(ICollisionBody* body) override {
 
 			auto it = std::find(_colliders.begin(), _colliders.end(), body);
 
@@ -38,23 +34,29 @@ namespace hvn3 {
 			return true;
 
 		}
-		void CollisionGrid::ClearAll() {
+		size_t Count() const override {
+
+			return _colliders.size();
+
+		}
+		void Clear() override {
 
 			_grid.clear();
 			_colliders.clear();
 
 		}
-		void CollisionGrid::OnUpdate(UpdateEventArgs& e) {
+
+		void OnUpdate(UpdateEventArgs& e) override {
 
 			// Clear existing map contents.
 			_grid.clear();
 
 			// Map all colliders to grid spaces.
 			for (auto it = _colliders.begin(); it != _colliders.end(); ++it)
-				MapToCells(*it);
+				_mapToCells(*it);
 
 		}
-		const CollisionGrid::collider_pair_collection_type& CollisionGrid::FindCandidatePairs() {
+		const collider_pair_vector_type& FindCandidatePairs() override {
 
 			// Create a set for storing pairs (to prevent duplicates).
 			static std::unordered_set<std::pair<collider_type*, collider_type*>, PairHasher> pairs;
@@ -75,14 +77,14 @@ namespace hvn3 {
 
 						// If the objects can't possibly collide due to their filter flags, skip the pair.
 						if (
-							!(j->second->Filter().MaskBits() & k->second->Filter().CategoryBits()) && 
+							!(j->second->Filter().MaskBits() & k->second->Filter().CategoryBits()) &&
 							!(k->second->Filter().MaskBits() & j->second->Filter().CategoryBits())
 							)
 							continue;
 
 						pairs.insert(std::pair<collider_type*, collider_type*>(j->second, k->second));
 
-					}						
+					}
 
 				// Continue the loop for the next key.
 				i = ending_it;
@@ -97,17 +99,17 @@ namespace hvn3 {
 			return _pairs;
 
 		}
-		CollisionGrid::collider_type* CollisionGrid::Pick(const PointF& point) const {
+		collider_type* Pick(const PointF& point) const override {
 
 			throw System::NotImplementedException();
 
 		}
-		void CollisionGrid::QueryRegion(const RectangleF& region, collider_collection_type& output, int filter) const {
+		void QueryRegion(const RectangleF& region, collider_vector_type& output, int filter = 0) const override {
 
 			// get the cells that are occupied by the region.
 			static std::vector<PointI> cells;
 			cells.clear();
-			GetIntersectedCells(region, cells);
+			_getIntersectedCells(region, cells);
 
 			// Use a set to store the collider list (to prevent duplicates).
 			static std::unordered_set<collider_type*> colliders;
@@ -125,7 +127,7 @@ namespace hvn3 {
 			std::copy(colliders.begin(), colliders.end(), std::back_inserter(output));
 
 		}
-		CollisionGrid::collider_type* CollisionGrid::QueryNearest(const PointF& point, int filter) const {
+		collider_type* QueryNearest(const PointF& point, int filter = 0) const override {
 
 			// The algorithm will check a region surrounding the the given Point, and if no relevant colliders are found, the region will be expanded according by the cell size.
 			// To potentially improve efficiency, the difference of the cells of the two regions could be checked instead.
@@ -152,16 +154,46 @@ namespace hvn3 {
 			//	cells.clear();
 			//} while (region.Size() < Game::Scene().Dimensions());
 			return nullptr;
+
 		}
-		RayCastResult CollisionGrid::RayCast(const LineF& ray) const {
+		RayCastResult RayCast(const LineF& ray) const {
 
 			throw System::NotImplementedException();
 
+			//
+			//	// Calculate the direction of the line.
+			//	float dir = PointDirection(ray.First(), ray.Second());
+			//
+			//	// Walk the line, checking each new sector.
+			//	Point cell(-1.0f, -1.0f);
+			//	Point current_pos = ray.First();
+			//	do {
+			//		if (cell == CellAt(current_pos)) {
+			//			current_pos = PointInDirection(current_pos, dir, 1.0f);
+			//			continue;
+			//		}
+			//		cell = CellAt(current_pos);
+			//		std::vector<Object*>& objects = ObjectsAt(cell.X(), cell.Y);
+			//		// Find the best candidate in this cell.
+			//		for (size_t i = 0; i < objects.size(); ++i) {
+			//			return objects[0];
+			//		}
+			//		current_pos = PointInDirection(current_pos, dir, 1.0f);
+			//	} while (current_pos.X() < ray.Second().X() && current_pos.Y() < ray.Second().Y);
+			//
+			//	return nullptr;
+
 		}
 
-		// Private members
+	private:
+		std::list<collider_type*> _colliders;
+		std::unordered_multimap<PointI, collider_type*> _grid;
+		collider_pair_vector_type _pairs;
+		SizeI _cell_size;
+		// Used for temporarily holding the resulting cells from the "MapToCells" function. Avoids having to create a new vector each time.
+		std::vector<PointI> _cell_mapping_buffer;
 
-		void CollisionGrid::GetIntersectedCells(collider_type* body, std::vector<PointI>& cells) const {
+		void _getIntersectedCells(collider_type* body, std::vector<PointI>& cells) const {
 
 			// If the mask type undefined, do not assign the collider to any cells.
 			if (!body->HitMask())
@@ -171,21 +203,20 @@ namespace hvn3 {
 			RectangleF aabb = body->AABB();
 
 			// Get cells intersected by the AABB.
-			GetIntersectedCells(aabb, cells);
+			_getIntersectedCells(aabb, cells);
 
 		}
-		void CollisionGrid::GetIntersectedCells(const RectangleF& region, std::vector<PointI>& cells) const {
+		void _getIntersectedCells(const RectangleF& region, std::vector<PointI>& cells) const {
 
 			// Determine the cells intersected by each corner.
-			PointI tl = CellAt(region.X(), region.Y());
-			PointI br = CellAt(region.X2(), region.Y2());
+			PointI tl = _cellAt(region.X(), region.Y());
+			PointI br = _cellAt(region.X2(), region.Y2());
 			RectangleI rect(tl, br);
 
 			// Add all cells intersected by the resulting rectangle.
 			for (int i = rect.X(); i <= rect.X2(); ++i)
 				for (int j = rect.Y(); j <= rect.Y2(); ++j)
 					cells.push_back(PointI(i, j));
-
 
 			//	// Add all cells in-between to the collection.
 			//	int cw = static_cast<int>(_cell_size.Width());
@@ -195,13 +226,13 @@ namespace hvn3 {
 			//		cells.push_back(CellAt(i, j));
 
 		}
-		void CollisionGrid::MapToCells(collider_type* body) {
+		void _mapToCells(collider_type* body) {
 
 			// Clear the cell mapping buffer.
 			_cell_mapping_buffer.clear();
 
 			// Get all cells intersected by the given collider.
-			GetIntersectedCells(body, _cell_mapping_buffer);
+			_getIntersectedCells(body, _cell_mapping_buffer);
 
 			// Add all cells to the map.
 			for (size_t i = 0; i < _cell_mapping_buffer.size(); ++i)
@@ -209,39 +240,14 @@ namespace hvn3 {
 
 		}
 
-		//Object* CollisionGrid::RayCast(const Line& ray) {
-		//
-		//	// Calculate the direction of the line.
-		//	float dir = PointDirection(ray.First(), ray.Second());
-		//
-		//	// Walk the line, checking each new sector.
-		//	Point cell(-1.0f, -1.0f);
-		//	Point current_pos = ray.First();
-		//	do {
-		//		if (cell == CellAt(current_pos)) {
-		//			current_pos = PointInDirection(current_pos, dir, 1.0f);
-		//			continue;
-		//		}
-		//		cell = CellAt(current_pos);
-		//		std::vector<Object*>& objects = ObjectsAt(cell.X(), cell.Y);
-		//		// Find the best candidate in this cell.
-		//		for (size_t i = 0; i < objects.size(); ++i) {
-		//			return objects[0];
-		//		}
-		//		current_pos = PointInDirection(current_pos, dir, 1.0f);
-		//	} while (current_pos.X() < ray.Second().X() && current_pos.Y() < ray.Second().Y);
-		//
-		//	return nullptr;
-		//}
+		// Given a position, returns the position of the cell that contains it, aligned to the grid.
+		PointI _cellAt(const PointF& point) const {
 
-		// Private members
-
-		PointI CollisionGrid::CellAt(const PointF& point) const {
-
-			return CellAt(point.X(), point.Y());
+			return _cellAt(point.X(), point.Y());
 
 		}
-		PointI CollisionGrid::CellAt(float x, float y) const {
+		// Given a position, returns the position of the cell that contains it, aligned to the grid.
+		PointI _cellAt(float x, float y) const {
 
 			// Round the floating point position down (ex: [32.2, 6.2] should end up in cell [1, 0]).
 			x = Math::Floor(x);
@@ -258,26 +264,6 @@ namespace hvn3 {
 
 		}
 
-		// Debug methods
+	};
 
-#ifdef HVN3_DEBUG
-		void CollisionGrid::DrawCells(DrawEventArgs& e) const {
-
-			for (auto i = _grid.begin(); i != _grid.end(); ++i) {
-
-				PointI cell = (*i).first;
-
-				e.Graphics().DrawRectangle(
-					static_cast<float>(cell.X() * _cell_size.Width()),
-					static_cast<float>(cell.Y() * _cell_size.Width()),
-					static_cast<float>(_cell_size.Width()),
-					static_cast<float>(_cell_size.Height()),
-					Color::Fuchsia, 1.0f);
-
-			}
-
-		}
-#endif
-
-	}
 }

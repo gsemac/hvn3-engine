@@ -9,7 +9,6 @@
 #include "core/DrawEventArgs.h"
 #include "core/UpdateEventArgs.h"
 #include "rooms/RoomBase.h"
-#include "collision/NarrowPhaseCollisionManager.h"
 
 namespace hvn3 {
 

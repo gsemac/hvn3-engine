@@ -2,29 +2,27 @@
 #include "IHitMask.h"
 
 namespace hvn3 {
-	namespace Collision {
 
-		struct CollisionManifold;
+	struct CollisionManifold;
 
-		class RectangleHitMask : public IHitMask {
+	class RectangleHitMask : public IHitMask {
 
-		public:
-			RectangleHitMask(const RectangleF& bounds);
+	public:
+		RectangleHitMask(const RectangleF& bounds);
 
-			void SetOffset(const PointF& offet) override;
-			PointF Offset() const override;
+		void SetOffset(const PointF& offet) override;
+		PointF Offset() const override;
 
-			RectangleF AABB() const override;
+		RectangleF AABB() const override;
 
-			bool TestCollision(const HitMaskPtr& other, CollisionManifold& manifold) const override;
-			bool TestCollision(const RectangleF& other, CollisionManifold& manifold) const override;
-			bool TestCollision(const CircleF& other, CollisionManifold& manifold) const override;
-			bool TestCollision(const LineF& other, CollisionManifold& manifold) const override;
+		bool TestCollision(const HitMaskPtr& other, CollisionManifold& manifold) const override;
+		bool TestCollision(const RectangleF& other, CollisionManifold& manifold) const override;
+		bool TestCollision(const CircleF& other, CollisionManifold& manifold) const override;
+		bool TestCollision(const LineF& other, CollisionManifold& manifold) const override;
 
-		private:
-			RectangleF _mask;
+	private:
+		RectangleF _mask;
 
-		};
+	};
 
-	}
 }

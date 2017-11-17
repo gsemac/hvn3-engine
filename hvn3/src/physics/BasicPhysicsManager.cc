@@ -11,7 +11,7 @@
 namespace hvn3 {
 	namespace Physics {
 
-		BasicPhysicsManager::BasicPhysicsManager(Collision::ICollisionManager<Object*>* collision_manager) {
+		BasicPhysicsManager::BasicPhysicsManager(ICollisionManager* collision_manager) {
 
 			_gravity = Vector2d::FromDirection(DIRECTION_DOWN, Physics::StandardGravity() * 100.0f);
 			_collision_manager = collision_manager;
@@ -100,9 +100,9 @@ namespace hvn3 {
 
 		}
 
-		// Private methods
+		
 
-		void BasicPhysicsManager::_resolveCollision(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const {
+		void BasicPhysicsManager::_resolveCollision(IPhysicsBody* body_1, IPhysicsBody* body_2, CollisionManifold& manifold) const {
 
 			// Calculate relative velocity.
 			Vector2d relative_velocity = body_2->LinearVelocity() - body_1->LinearVelocity();
@@ -143,7 +143,7 @@ namespace hvn3 {
 			body->SetPosition(body->Position() + body->LinearVelocity() * dt);
 
 		}
-		void BasicPhysicsManager::_positionalCorrection(IPhysicsBody* body_1, IPhysicsBody* body_2, Collision::CollisionManifold& manifold) const {
+		void BasicPhysicsManager::_positionalCorrection(IPhysicsBody* body_1, IPhysicsBody* body_2, CollisionManifold& manifold) const {
 
 			const float percent = 0.4f;
 			const float slop = 0.05f;
