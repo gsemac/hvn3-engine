@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 	GameState.Properties().FixedFrameRate = true;
 	
 	auto room = hvn3::RoomPtr(new hvn3::Room(0, GameState.Properties().DisplaySize));
-	GameState.Rooms()->AddRoom(room);
+	GameState.Rooms().AddRoom(room);
 
 	// Run the main game loop.
 	GameState.Loop();

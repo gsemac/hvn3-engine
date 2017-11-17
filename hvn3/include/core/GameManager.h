@@ -18,11 +18,11 @@ namespace hvn3 {
 		virtual void Loop();
 
 		System::Properties& Properties();
-		System::Runner* Runner();
-		RoomManager* Rooms();
-		ResourceManager* Resources();
-		RoomManager::room_type::collision_manager_type* Collisions();
-		IObjectManager* Objects();
+		System::Runner& Runner();
+		RoomManager& Rooms();
+		ResourceManager& Resources();
+		RoomManager::room_type::collision_manager_type& Collisions();
+		IObjectManager& Objects();
 
 	protected:
 		virtual void _shutdown();

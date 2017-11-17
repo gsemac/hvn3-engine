@@ -67,17 +67,17 @@ namespace hvn3 {
 		return _properties;
 
 	}
-	RoomManager* GameManager::Rooms() {
+	RoomManager& GameManager::Rooms() {
 
-		return _room_manager;
-
-	}
-	ResourceManager* GameManager::Resources() {
-
-		return &_resource_manager;
+		return *_room_manager;
 
 	}
-	RoomManager::room_type::collision_manager_type* GameManager::Collisions() {
+	ResourceManager& GameManager::Resources() {
+
+		return _resource_manager;
+
+	}
+	RoomManager::room_type::collision_manager_type& GameManager::Collisions() {
 
 		auto room_ptr = _room_manager->CurrentRoom();
 
@@ -89,10 +89,10 @@ namespace hvn3 {
 		if (ptr == nullptr)
 			throw System::NotSupportedException("The current room does not provide a collision manager.");
 
-		return ptr;
+		return *ptr;
 
 	}
-	IObjectManager* GameManager::Objects() {
+	IObjectManager& GameManager::Objects() {
 
 		auto room_ptr = _room_manager->CurrentRoom();
 
@@ -104,12 +104,12 @@ namespace hvn3 {
 		if (ptr == nullptr)
 			throw System::NotSupportedException("The current room does not provide an object manager.");
 
-		return ptr;
+		return *ptr;
 
 	}
-	System::Runner* GameManager::Runner() {
+	System::Runner& GameManager::Runner() {
 
-		return _runner;
+		return *_runner;
 
 	}
 
