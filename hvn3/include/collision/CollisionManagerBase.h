@@ -1,8 +1,9 @@
 #pragma once
 #include "collision/CollisionManifold.h"
-#include "collision/CollisionBodyHandle.h"
 #include "collision/CollisionBodyMutator.h"
 #include "collision/ICollisionManager.h"
+#include "collision/IBroadPhase.h"
+#include <vector>
 
 namespace hvn3 {
 
@@ -16,23 +17,90 @@ namespace hvn3 {
 		typedef narrowphase_type narrowphase_type;
 		typedef body_type body_type;
 
-		// Constructs a new collision body with the given arguments and returns a handle to it.
-		template<typename ...Args>
-		CollisionBodyHandle CreateBody(Args&&... args) {
+		CollisionManagerBase() = default;
+		~CollisionManagerBase() {
 
-			body_type body(std::forward<Args>(args)...);
+			// Clear all bodies from the broad phase manager, which will clear each one's manager pointer.
+			_broad_phase.Clear();
 
-			System::CollisionBodyMutator mutator(body);
-			mutator.SetPhasePair(&BroadPhase(), &NarrowPhase());
+			//// Remove self as the manager for all collision bodies.
+			//// This is so that, when the bodies fall out of scope, they do not try to remove themselves from the manager.
+			//for (auto i = Bodies().begin(); i != Bodies().end(); ++i)
+			//	System::CollisionBodyMutator(*i).SetManager(nullptr);
 
-			return AddBody(std::move(body));
+		}
+
+		void AddBody(ICollisionBody& body) override {
+
+			System::CollisionBodyMutator(body).SetManager(this);
+
+			_broad_phase.AddBody(body);
+
+		}
+		void RemoveBody(ICollisionBody& body) override {
+
+			System::CollisionBodyMutator(body).SetManager(nullptr);
+
+			_broad_phase.RemoveBody(body);
+
+		}
+		broadphase_type& BroadPhase() override {
+
+			return _broad_phase;
+
+		}
+		narrowphase_type& NarrowPhase() override {
+
+			return _narrow_phase;
+
+		}
+		const std::vector<CollisionManifold>& CollidingPairs() const override {
+
+			return _pairs;
+
+		}
+		size_t Count() const override {
+
+			return _broad_phase.Count();
+
+		}
+		void Clear() override {
+
+			_broad_phase.Clear();
+
+		}
+
+		void OnUpdate(UpdateEventArgs& e) override {
+
+			// Update the state of the collision detection method.
+			_broad_phase.OnUpdate(e);
+
+			// Get a vector containing all potentially-colliding pairs from the broadphase method, and check all collisions.
+			CheckPairs(_broad_phase.FindCandidatePairs());
 
 		}
 
 	protected:
-		// Adds the body to the manager's body collection.
-		virtual CollisionBodyHandle AddBody(body_type&& body) = 0;
-		
+		// Returns the vector of colliding pairs from the last update.
+		std::vector<CollisionManifold>& Pairs() {
+
+			return _pairs;
+
+		}
+		// Returns the vector of colliding pairs from the last update.
+		const std::vector<CollisionManifold>& Pairs() const {
+
+			return _pairs;
+
+		}
+		// Checks all potentially-colliding pairs and triggers events as needed.
+		virtual void CheckPairs(const typename broadphase_type::collider_pair_vector_type& pairs) = 0;
+
+	private:
+		std::vector<CollisionManifold> _pairs;
+		broadphase_type _broad_phase;
+		narrowphase_type _narrow_phase;
+
 	};
 
 }

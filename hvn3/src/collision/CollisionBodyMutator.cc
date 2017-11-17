@@ -7,9 +7,9 @@ namespace hvn3 {
 		CollisionBodyMutator::CollisionBodyMutator(ICollisionBody& body) : 
 			_body(body) {}
 
-		void CollisionBodyMutator::SetPhasePair(IBroadPhase* broad_phase, INarrowPhase* narrow_phase) {
+		void CollisionBodyMutator::SetManager(ICollisionManager* manager) {
 
-			_body._setCollisionPhasePair(broad_phase, narrow_phase);
+			_body._setManager(manager);
 
 		}
 

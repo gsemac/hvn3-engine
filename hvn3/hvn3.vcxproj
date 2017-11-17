@@ -40,7 +40,6 @@
     <ClInclude Include="include\backgrounds\IBackgroundManager.h" />
     <ClInclude Include="include\collision\CircleHitMask.h" />
     <ClInclude Include="include\collision\CollisionBodyBase.h" />
-    <ClInclude Include="include\collision\CollisionBodyHandle.h" />
     <ClInclude Include="include\collision\CollisionBodyMutator.h" />
     <ClInclude Include="include\collision\CollisionEventArgs.h" />
     <ClInclude Include="include\collision\CollisionFilter.h" />
@@ -178,6 +177,7 @@
     <ClInclude Include="include\test\PhysicsRoom.h" />
     <ClInclude Include="include\tilesets\Tileset.h" />
     <ClInclude Include="include\tilesets\TilesetPanel.h" />
+    <ClInclude Include="include\utility\Algorithm.h" />
     <ClInclude Include="include\utility\BitFlags.h" />
     <ClInclude Include="include\utility\DataGrid.h" />
     <ClInclude Include="include\utility\Direction8.h" />
@@ -219,7 +219,6 @@
     <ClCompile Include="src\backgrounds\BackgroundProperties.cc" />
     <ClCompile Include="src\collision\CircleHitMask.cc" />
     <ClCompile Include="src\collision\CollisionBodyBase.cc" />
-    <ClCompile Include="src\collision\CollisionBodyHandle.cc" />
     <ClCompile Include="src\collision\CollisionBodyMutator.cc" />
     <ClCompile Include="src\collision\CollisionEventArgs.cc" />
     <ClCompile Include="src\collision\CollisionFilter.cc" />

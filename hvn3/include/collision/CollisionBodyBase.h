@@ -7,6 +7,7 @@ namespace hvn3 {
 
 	public:
 		CollisionBodyBase();
+		~CollisionBodyBase();
 
 		PointF Position() const override;
 		void SetPosition(const PointF& position) override;
@@ -32,19 +33,17 @@ namespace hvn3 {
 		bool MoveOutsideBody(ICollisionBody* other, float direction, float max_distance) override;
 
 	protected:
-		IBroadPhase* BroadPhase();
-		INarrowPhase* NarrowPhase();
+		ICollisionManager* Manager();
 
 	private:
-		IBroadPhase* _broad_phase;		// The broad phase manager that manages this body.
-		INarrowPhase* _narrow_phase;	// The narrow phase manager that manages this body.
+		ICollisionManager* _manager;	// The collision manager that manages this body.
 		bool _is_solid;					// If true, the body is solid.
 		bool _is_destroyed;				// If true, the body has been destroyed.
 		HitMaskPtr _mask;
 		CollisionFilter _filter;
 
-		bool _phasePairSet() const;
-		void _setCollisionPhasePair(IBroadPhase* broad_phase, INarrowPhase* narrow_phase) override;
+		bool _managerSet() const;
+		void _setManager(ICollisionManager* manager) override;
 
 	};
 

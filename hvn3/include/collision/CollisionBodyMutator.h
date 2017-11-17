@@ -3,8 +3,7 @@
 namespace hvn3 {
 
 	class ICollisionBody;
-	class IBroadPhase;
-	class INarrowPhase;
+	class ICollisionManager;
 
 	namespace System {
 
@@ -13,7 +12,7 @@ namespace hvn3 {
 		public:
 			CollisionBodyMutator(ICollisionBody& body);
 
-			void SetPhasePair(IBroadPhase* broad_phase, INarrowPhase* narrow_phase);
+			void SetManager(ICollisionManager* manager);
 			
 		private:
 			ICollisionBody& _body;

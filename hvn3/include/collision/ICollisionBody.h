@@ -7,8 +7,7 @@
 
 namespace hvn3 {
 
-	class IBroadPhase;
-	class INarrowPhase;
+	class ICollisionManager;
 
 	namespace System {
 		class CollisionBodyMutator;
@@ -53,8 +52,8 @@ namespace hvn3 {
 		virtual bool MoveOutsideBody(ICollisionBody* other, float direction, float max_distance) = 0;
 
 	private:
-		// Sets the broad phase and narrow phase managers pair use for detecting collisions involving this body.
-		virtual void _setCollisionPhasePair(IBroadPhase* broad_phase, INarrowPhase* narrow_phase) = 0;
+		// Sets the collision manager currently managing this body.
+		virtual void _setManager(ICollisionManager* manager) = 0;
 
 	};
 

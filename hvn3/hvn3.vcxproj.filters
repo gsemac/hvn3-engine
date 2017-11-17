@@ -675,9 +675,6 @@
     <ClInclude Include="include\collision\INarrowPhase.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\collision\CollisionBodyHandle.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
     <ClInclude Include="include\collision\ObjectCollisionBody.h">
       <Filter>include\collision</Filter>
     </ClInclude>
@@ -704,6 +701,9 @@
     </ClInclude>
     <ClInclude Include="include\collision\ICollisionManager.h">
       <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utility\Algorithm.h">
+      <Filter>include\utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1084,9 +1084,6 @@
     </ClCompile>
     <ClCompile Include="src\test\graphics\SpacialPartitioningGridRenderer.cc">
       <Filter>src\test\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\collision\CollisionBodyHandle.cc">
-      <Filter>src\collision</Filter>
     </ClCompile>
     <ClCompile Include="src\collision\ObjectCollisionBody.cc">
       <Filter>src\collision</Filter>

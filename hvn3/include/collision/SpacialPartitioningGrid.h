@@ -2,6 +2,7 @@
 #include "IBroadPhase.h"
 #include "core/DrawEventArgs.h"
 #include "exceptions/Exception.h"
+#include "utility/Algorithm.h"
 #include <unordered_set>
 #include <unordered_map>
 #include <list>
@@ -17,21 +18,14 @@ namespace hvn3 {
 			_cell_size(cell_width, cell_height) {
 		}
 
-		void AddBody(ICollisionBody* body) override {
+		void AddBody(ICollisionBody& body) override {
 
-			_colliders.push_back(body);
+			_colliders.push_back(&body);
 
 		}
-		bool RemoveBody(ICollisionBody* body) override {
+		void RemoveBody(ICollisionBody& body) override {
 
-			auto it = std::find(_colliders.begin(), _colliders.end(), body);
-
-			if (it == _colliders.end())
-				return false;
-
-			_colliders.erase(it);
-
-			return true;
+			_pending_removal.push_back(&body);
 
 		}
 		size_t Count() const override {
@@ -47,6 +41,12 @@ namespace hvn3 {
 		}
 
 		void OnUpdate(UpdateEventArgs& e) override {
+
+			// If there are any colliders pending removal, remove them now.
+			if (_pending_removal.size() > 0) {
+				_colliders.erase(RemoveSameUnordered(_colliders.begin(), _colliders.end(), _pending_removal.begin(), _pending_removal.end()).first, _colliders.end());
+				_pending_removal.clear();
+			}
 
 			// Clear existing map contents.
 			_grid.clear();
@@ -186,7 +186,8 @@ namespace hvn3 {
 		}
 
 	private:
-		std::list<collider_type*> _colliders;
+		std::vector<collider_type*> _colliders;
+		std::vector<collider_type*> _pending_removal;
 		std::unordered_multimap<PointI, collider_type*> _grid;
 		collider_pair_vector_type _pairs;
 		SizeI _cell_size;

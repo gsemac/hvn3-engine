@@ -22,9 +22,9 @@ namespace hvn3 {
 			typedef std::vector<collider_pair_type> collider_pair_vector_type;
 
 			// Adds the given collision body to the broad phase system. The system does not assume ownership of the body.
-			virtual void AddBody(ICollisionBody* body) = 0;
+			virtual void AddBody(ICollisionBody& body) = 0;
 			// Removes the given collision body to the broad phase system.
-			virtual bool RemoveBody(ICollisionBody* body) = 0;
+			virtual void RemoveBody(ICollisionBody& body) = 0;
 			// Returns the number of collision bodies in the system.
 			virtual size_t Count() const = 0;
 			// Removes all collision bodies from the broad phase system.

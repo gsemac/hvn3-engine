@@ -2,17 +2,23 @@
 #include "collision/IBroadPhase.h"
 #include "collision/INarrowPhase.h"
 #include "collision/CollisionManifold.h"
+#include "collision/ICollisionManager.h"
 #include "math/GeometryUtils.h"
 
 namespace hvn3 {
 
 	CollisionBodyBase::CollisionBodyBase() {
 
-		_broad_phase = nullptr;
-		_narrow_phase = nullptr;
+		_manager = nullptr;
 
 		_is_solid = false;
 		_is_destroyed = false;
+
+	}
+	CollisionBodyBase::~CollisionBodyBase() {
+
+		if (_manager != nullptr)
+			_manager->RemoveBody(*this);
 
 	}
 
@@ -99,7 +105,7 @@ namespace hvn3 {
 	}
 	bool CollisionBodyBase::PlaceFreeIf(const PointF& position, const std::function<bool(ICollisionBody*)>& condition) {
 
-		if (!_phasePairSet())
+		if (!_managerSet())
 			return true;
 
 		// If the object does not have a collision mask, return true immediately (no collisions are possible).
@@ -110,7 +116,7 @@ namespace hvn3 {
 		IBroadPhase::collider_vector_type hits;
 
 		// Get a list of all colliders that could potentially collide with the collider.
-		_broad_phase->QueryRegion(AABB(), hits, Filter().MaskBits());
+		_manager->BroadPhase().QueryRegion(AABB(), hits, Filter().MaskBits());
 
 		// If the list is empty, the place is free.
 		if (hits.size() == 0)
@@ -124,7 +130,7 @@ namespace hvn3 {
 
 			// Check for a collision.
 			CollisionManifold m;
-			if (_narrow_phase->TestCollision(this, position, hits[i], hits[i]->Position(), m))
+			if (_manager->NarrowPhase().TestCollision(this, position, hits[i], hits[i]->Position(), m))
 				return false;
 
 		}
@@ -182,13 +188,16 @@ namespace hvn3 {
 	}
 	bool CollisionBodyBase::MoveOutsideBody(ICollisionBody* other, float direction, float max_distance) {
 
+		if (!_managerSet())
+			return true;
+
 		float dist = 0.0f;
 		float distance_per_step = Math::Min(1.0f, max_distance);
 		bool place_free;
 		CollisionManifold m;
 
 		// It's important that we check if the place is free before doing the distance check (what if the user passes in a distance of 0?).
-		while ((place_free = _narrow_phase->TestCollision(this, other, m), place_free) && dist < (std::abs)(max_distance)) {
+		while ((place_free = _manager->NarrowPhase().TestCollision(this, other, m), place_free) && dist < (std::abs)(max_distance)) {
 
 			SetPosition(Math::Geometry::PointInDirection(Position(), direction, distance_per_step));
 
@@ -202,28 +211,22 @@ namespace hvn3 {
 
 
 
-	IBroadPhase* CollisionBodyBase::BroadPhase() {
+	ICollisionManager* CollisionBodyBase::Manager() {
 
-		return _broad_phase;
-
-	}
-	INarrowPhase* CollisionBodyBase::NarrowPhase() {
-
-		return _narrow_phase;
+		return _manager;
 
 	}
 
 
 
-	bool CollisionBodyBase::_phasePairSet() const {
+	bool CollisionBodyBase::_managerSet() const {
 
-		return (_broad_phase != nullptr && _narrow_phase != nullptr);
+		return (_manager != nullptr);
 
 	}
-	void CollisionBodyBase::_setCollisionPhasePair(IBroadPhase* broad_phase, INarrowPhase* narrow_phase) {
+	void CollisionBodyBase::_setManager(ICollisionManager* manager) {
 
-		_broad_phase = broad_phase;
-		_narrow_phase = narrow_phase;
+		_manager = manager;
 
 	}
 
