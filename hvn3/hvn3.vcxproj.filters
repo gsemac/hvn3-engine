@@ -402,9 +402,6 @@
     <ClInclude Include="include\objects\ObjectBase.h">
       <Filter>include\objects</Filter>
     </ClInclude>
-    <ClInclude Include="include\objects\ObjectEventArgs.h">
-      <Filter>include\objects</Filter>
-    </ClInclude>
     <ClInclude Include="include\objects\ObjectManager.h">
       <Filter>include\objects</Filter>
     </ClInclude>
@@ -704,6 +701,9 @@
     </ClInclude>
     <ClInclude Include="include\utility\Algorithm.h">
       <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\CreateEventArgs.h">
+      <Filter>include\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

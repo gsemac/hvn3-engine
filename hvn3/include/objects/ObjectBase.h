@@ -1,8 +1,8 @@
 #pragma once
 #include "core/IUpdatable.h"
 #include "core/IDrawable.h"
+#include "core/CreateEventArgs.h"
 #include "core/DestroyEventArgs.h"
-#include "ObjectEventArgs.h"
 #include "utility/BitFlags.h"
 
 namespace hvn3 {

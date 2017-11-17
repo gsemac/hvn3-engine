@@ -57,6 +57,7 @@
     <ClInclude Include="include\collision\CollisionManagerBase.h" />
     <ClInclude Include="include\collision\IHitMask.h" />
     <ClInclude Include="include\collision\RectangleHitMask.h" />
+    <ClInclude Include="include\core\CreateEventArgs.h" />
     <ClInclude Include="include\core\DestroyEventArgs.h" />
     <ClInclude Include="include\core\DrawEventArgs.h" />
     <ClInclude Include="include\core\Framework.h" />
@@ -148,7 +149,6 @@
     <ClInclude Include="include\objects\IObjectManager.h" />
     <ClInclude Include="include\objects\Object.h" />
     <ClInclude Include="include\objects\ObjectBase.h" />
-    <ClInclude Include="include\objects\ObjectEventArgs.h" />
     <ClInclude Include="include\objects\ObjectManager.h" />
     <ClInclude Include="include\physics\BasicPhysicsBody.h" />
     <ClInclude Include="include\physics\BasicPhysicsManager.h" />
