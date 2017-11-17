@@ -1,19 +1,18 @@
 #include "collision/ObjectCollisionBody.h"
+#include "objects/Object.h"
 
 namespace hvn3 {
 
-	ObjectCollisionBody::ObjectCollisionBody(ObjectPtr& object) {
+	ObjectCollisionBody::ObjectCollisionBody(Object* object) {
 
-		_key = object.get();
 		_object = object;
 
 	}
 	ObjectCollisionBody::ObjectCollisionBody(ObjectCollisionBody&& other) {
 
-		_key = other._key;
-		_object = std::move(other._object);
+		_object = other._object;
 
-		other._key = nullptr;
+		other._object = nullptr;
 
 	}
 
@@ -40,23 +39,12 @@ namespace hvn3 {
 
 	Object* ObjectCollisionBody::GetObject() {
 
-		return _key;
+		return _object;
 
 	}
 	const Object* ObjectCollisionBody::GetObject() const {
 
-		return _key;
-
-	}
-	bool ObjectCollisionBody::ObjectExpired() const {
-
-		return _object.expired();
-
-	}
-
-	bool ObjectCollisionBody::IsDestroyed() const {
-
-		return CollisionBodyBase::IsDestroyed() || ObjectExpired();
+		return _object;
 
 	}
 

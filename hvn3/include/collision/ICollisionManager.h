@@ -1,9 +1,11 @@
 #pragma once
 #include "core/IUpdatable.h"
-#include "collision/IBroadPhase.h"
-#include "collision/INarrowPhase.h"
 
 namespace hvn3 {
+
+	class IBroadPhase;
+	class INarrowPhase;
+	class ICollisionBody;
 
 	class ICollisionManager : public IUpdatable {
 

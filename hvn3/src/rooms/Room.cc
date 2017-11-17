@@ -180,11 +180,12 @@ namespace hvn3 {
 
 	void Room::OnReset() {
 
+		// Reset base (clears all objects).
+		// Objects are cleared before collision bodies so that their collision body handles fall out of scope.
+		RoomBase::OnReset();
+
 		// Clear all bodies from the collision manager.
 		_collision_manager.Clear();
-
-		// Reset base (clears all objects).
-		RoomBase::OnReset();
 
 		// Reset the view manager.
 		_view_manager.Clear();

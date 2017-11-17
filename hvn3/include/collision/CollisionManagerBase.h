@@ -25,7 +25,7 @@ namespace hvn3 {
 			System::CollisionBodyMutator mutator(body);
 			mutator.SetPhasePair(&BroadPhase(), &NarrowPhase());
 
-			return AddBody(body);
+			return AddBody(std::move(body));
 
 		}
 

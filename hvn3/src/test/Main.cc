@@ -13,10 +13,9 @@ int main(int argc, char *argv[]) {
 	GameState.Properties().DisplaySize = hvn3::SizeI(640, 480);
 	GameState.Properties().FrameRate = 60.0f;
 	GameState.Properties().FixedFrameRate = true;
-
-	//hvn3::IRoom* room = new hvn3::Room(0, GameState.Properties().DisplaySize);
-
-	//GameState.Rooms()->AddRoom(new PhysicsRoom);
+	
+	auto room = hvn3::RoomPtr(new hvn3::Room(0, GameState.Properties().DisplaySize));
+	GameState.Rooms()->AddRoom(room);
 
 	// Run the main game loop.
 	GameState.Loop();

@@ -11,7 +11,6 @@
 
 namespace hvn3 {
 
-	// This class extends the responsibilites of the room class to include background, tile, and view management.
 	class Room : public RoomBase<ObjectManager> {
 
 	public:

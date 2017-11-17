@@ -61,7 +61,7 @@ namespace hvn3 {
 			}
 
 		}
-		void AddRoom(room_type* room) {
+		void AddRoom(IRoom* room) {
 
 			AddRoom(RoomPtr(room));
 
