@@ -99,7 +99,7 @@ namespace hvn3 {
 
 		template <typename T>
 		typename std::enable_if<std::is_integral<T>::value, T>::type Mod(T lhs, T rhs) {
-			
+
 			return lhs % rhs;
 
 		}
@@ -137,7 +137,7 @@ namespace hvn3 {
 			return IsZero(n, Epsilon<T>::value);
 
 		}
-		
+
 		// Returns true if the difference between n1 and n2 is less than epsilon.
 		template <typename T>
 		bool AreEqual(T n1, T n2, T epsilon) {
@@ -191,6 +191,14 @@ namespace hvn3 {
 		T RadiansToDegrees(T radians) {
 
 			return ((radians * static_cast<T>(180)) / static_cast<T>(Pi));
+
+		}
+
+		// Performs modulo with floored division.
+		template<typename T, typename N>
+		T ModFloor(T a, N n) {
+
+			return ((a % n) + n) % n;
 
 		}
 

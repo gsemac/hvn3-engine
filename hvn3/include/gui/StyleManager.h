@@ -31,7 +31,7 @@ namespace hvn3 {
 			const Color& TertiaryColor() const;
 			const Color& TextColor() const;
 			ResourceHandle<Font> GetFontResource(FontResourceId id);
-			ResourceHandle<Drawing::Bitmap> GetImageResource(BitmapResourceId id);
+			ResourceHandle<Graphics::Bitmap> GetImageResource(BitmapResourceId id);
 
 			float DrawingScale() const;
 			void SetDrawingScale(float scale);
@@ -49,7 +49,7 @@ namespace hvn3 {
 			Color _text_color;
 
 			ResourceCollection<Font> _fonts;
-			ResourceCollection<Drawing::Bitmap> _bitmaps;
+			ResourceCollection<Graphics::Bitmap> _bitmaps;
 
 		};
 

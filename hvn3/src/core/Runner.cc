@@ -487,7 +487,7 @@ namespace hvn3 {
 			RectangleF room_region = room.GetVisibleRegion();
 
 			// Set the Transform according to the scaling mode.
-			Drawing::Transform scaling_transform;
+			Graphics::Transform scaling_transform;
 			RectangleF clipping_rectangle(0.0f, 0.0f, room_region.Width(), room_region.Height());
 
 			switch (Properties().ScalingMode) {

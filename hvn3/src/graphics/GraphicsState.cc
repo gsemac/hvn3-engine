@@ -3,7 +3,7 @@
 
 namespace hvn3 {
 
-	namespace Drawing {
+	namespace Graphics {
 
 		GraphicsState::GraphicsState(const Graphics& graphics) :
 			__transform(graphics.GetTransform()),

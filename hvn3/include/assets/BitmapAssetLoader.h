@@ -7,7 +7,7 @@ namespace hvn3 {
 
 	class IBinaryAssetLoader;
 
-	class BitmapAssetLoader : public IAssetLoader<Drawing::Bitmap> {
+	class BitmapAssetLoader : public IAssetLoader<Graphics::Bitmap> {
 
 	public:
 		BitmapAssetLoader();

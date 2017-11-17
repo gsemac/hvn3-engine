@@ -6,7 +6,7 @@ namespace hvn3 {
 	class Background {
 
 	private:
-		Drawing::Bitmap __bitmap;
+		Graphics::Bitmap __bitmap;
 
 	public:
 		Background(const char* filename);
@@ -15,7 +15,7 @@ namespace hvn3 {
 		unsigned int Height() const;
 
 		// Returns a reference to the underlying Bitmap.
-		const Drawing::Bitmap& Bitmap() const;
+		const Graphics::Bitmap& Bitmap() const;
 
 	};
 

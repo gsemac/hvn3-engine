@@ -5,7 +5,7 @@
 #include "core/DrawEventArgs.h"
 
 namespace hvn3 {
-	namespace Drawing {
+	namespace Graphics {
 
 		class SpriteRenderer {
 

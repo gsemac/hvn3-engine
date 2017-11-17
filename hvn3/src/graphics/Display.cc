@@ -80,7 +80,7 @@ namespace hvn3 {
 		al_set_window_title(_display, value);
 
 	}
-	void Display::SetIcon(const Drawing::Bitmap& icon) {
+	void Display::SetIcon(const Graphics::Bitmap& icon) {
 
 		SetIcon(icon.AlPtr());
 
@@ -194,9 +194,9 @@ namespace hvn3 {
 		return System::EventSource(al_get_display_event_source(_display));
 
 	}
-	Drawing::Bitmap Display::BackBuffer() const {
+	Graphics::Bitmap Display::BackBuffer() const {
 
-		return Drawing::Bitmap(al_get_backbuffer(_display), false);
+		return Graphics::Bitmap(al_get_backbuffer(_display), false);
 
 	}
 	void Display::Refresh() {

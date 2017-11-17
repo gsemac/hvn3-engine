@@ -53,10 +53,10 @@ namespace hvn3 {
 			return resource;
 
 		}
-		ResourceHandle<Drawing::Bitmap> StyleManager::GetImageResource(BitmapResourceId id) {
+		ResourceHandle<Graphics::Bitmap> StyleManager::GetImageResource(BitmapResourceId id) {
 
 			// Get a resource handle for the requested resource.
-			ResourceHandle<Drawing::Bitmap> resource = _bitmaps.Find((ResourceId)id);
+			ResourceHandle<Graphics::Bitmap> resource = _bitmaps.Find((ResourceId)id);
 
 			// If the resource is null, load the default resource, and get a handle for it.
 			if (!resource) {
@@ -105,10 +105,10 @@ namespace hvn3 {
 			switch (id) {
 
 			case BitmapResourceId::ExitButton:
-				_bitmaps.Add(resId, Resource::Create<Drawing::Bitmap>("data/System/Icons/close.png"));
+				_bitmaps.Add(resId, Resource::Create<Graphics::Bitmap>("data/System/Icons/close.png"));
 				break;
 			case BitmapResourceId::ArrowR:
-				_bitmaps.Add(resId, Resource::Create<Drawing::Bitmap>("data/System/Icons/arrow_r.png"));
+				_bitmaps.Add(resId, Resource::Create<Graphics::Bitmap>("data/System/Icons/arrow_r.png"));
 				break;
 			default:
 				return false;

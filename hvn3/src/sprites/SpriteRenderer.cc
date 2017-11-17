@@ -1,7 +1,7 @@
 #include "sprites/SpriteRenderer.h"
 
 namespace hvn3 {
-	namespace Drawing {
+	namespace Graphics {
 
 		SpriteRenderer::SpriteRenderer() :
 			SpriteRenderer(nullptr) {

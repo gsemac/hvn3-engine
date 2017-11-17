@@ -23,7 +23,7 @@ namespace hvn3 {
 
 		// Create a new asset from that data.
 		Imaging::ImageFormat format = Imaging::FileExtensionToImageFormat(IO::Path::GetExtension(path));
-		Drawing::Bitmap asset(binary_data.Data, binary_data.Size, format);
+		Graphics::Bitmap asset(binary_data.Data, binary_data.Size, format);
 
 		// We don't need the data buffer anymore, so it can be freed.
 		_loader->FreeData(binary_data);
@@ -41,7 +41,7 @@ namespace hvn3 {
 	}
 	AssetLoaderResult<BitmapAssetLoader::asset_type> BitmapAssetLoader::GetNull() {
 
-		return AssetLoaderResult<asset_type>(Drawing::Bitmap((ALLEGRO_BITMAP*)nullptr, false), 0, false);
+		return AssetLoaderResult<asset_type>(Graphics::Bitmap((ALLEGRO_BITMAP*)nullptr, false), 0, false);
 
 	}
 

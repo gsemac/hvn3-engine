@@ -20,7 +20,7 @@ namespace hvn3 {
 
 	}
 
-	const Drawing::Bitmap& Background::Bitmap() const {
+	const Graphics::Bitmap& Background::Bitmap() const {
 
 		return __bitmap;
 

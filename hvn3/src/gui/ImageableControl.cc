@@ -10,7 +10,7 @@ namespace hvn3 {
 
 		}
 
-		const ResourceHandle<Drawing::Bitmap> ImageableControl::Image() {
+		const ResourceHandle<Graphics::Bitmap> ImageableControl::Image() {
 
 			if (Manager() && Manager()->StyleManager())
 				return Manager()->StyleManager()->GetImageResource(_image);

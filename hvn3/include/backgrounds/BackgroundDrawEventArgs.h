@@ -9,7 +9,7 @@ namespace hvn3 {
 	class BackgroundDrawEventArgs : public DrawEventArgs {
 
 	public:
-		BackgroundDrawEventArgs(Drawing::Graphics& graphics, const Size<int>& room_size, const View* current_view);
+		BackgroundDrawEventArgs(Graphics::Graphics& graphics, const Size<int>& room_size, const View* current_view);
 		const View* CurrentView() const;
 		const Size<int>& RoomSize() const;
 

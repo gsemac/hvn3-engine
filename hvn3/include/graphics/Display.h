@@ -51,7 +51,7 @@ namespace hvn3 {
 		~Display();
 
 		void SetTitle(const char* value);
-		void SetIcon(const Drawing::Bitmap& icon);
+		void SetIcon(const Graphics::Bitmap& icon);
 		void SetIcon(const Sprite& icon);
 		void SetIcon(const Sprite* icon);
 		void SetIcon(ALLEGRO_BITMAP* icon);
@@ -66,7 +66,7 @@ namespace hvn3 {
 		void SetFullscreen(bool value);
 		bool HasFocus() const;
 		System::EventSource EventSource() const;
-		Drawing::Bitmap BackBuffer() const;
+		Graphics::Bitmap BackBuffer() const;
 		ALLEGRO_DISPLAY* AlPtr() const;
 		void Refresh();
 

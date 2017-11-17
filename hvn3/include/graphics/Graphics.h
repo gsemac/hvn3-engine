@@ -9,7 +9,7 @@ namespace hvn3 {
 	class Sprite;
 	class String;
 
-	namespace Drawing {
+	namespace Graphics {
 
 		enum class BlendOperation {
 			Normal,

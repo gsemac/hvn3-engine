@@ -10,7 +10,7 @@ namespace hvn3 {
 		System::Framework::Initialize();
 
 		// Set new bitmap flags.
-		Drawing::SetNewBitmapFlags(Drawing::BitmapFlags::Default | Drawing::BitmapFlags::MagLinear | Drawing::BitmapFlags::MinLinear);
+		Graphics::SetNewBitmapFlags(Graphics::BitmapFlags::Default | Graphics::BitmapFlags::MagLinear | Graphics::BitmapFlags::MinLinear);
 
 		// Create a new room manager.
 		_room_manager = new RoomManager;

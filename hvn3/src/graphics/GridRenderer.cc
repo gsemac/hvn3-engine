@@ -1,7 +1,7 @@
 #include "graphics/GridRenderer.h"
 
 namespace hvn3 {
-	namespace Drawing {
+	namespace Graphics {
 
 		// Public methods
 

@@ -4,7 +4,7 @@
 
 namespace hvn3 {
 
-	SpacialPartitioningGridRenderer::SpacialPartitioningGridRenderer(Drawing::Graphics& graphics) :
+	SpacialPartitioningGridRenderer::SpacialPartitioningGridRenderer(Graphics::Graphics& graphics) :
 		_graphics(graphics) {
 	}
 

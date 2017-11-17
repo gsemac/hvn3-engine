@@ -4,7 +4,7 @@
 #include "graphics/Color.h"
 
 namespace hvn3 {
-	namespace Drawing {
+	namespace Graphics {
 
 		class GridRenderer {
 

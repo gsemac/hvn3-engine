@@ -31,7 +31,7 @@ namespace hvn3 {
 				float x = _selected_region.X();
 				float y = _selected_region.Y();
 				float ow = 2.0f;
-				e.Graphics().SetBlendMode(Drawing::BlendOperation::Invert);
+				e.Graphics().SetBlendMode(Graphics::BlendOperation::Invert);
 				e.Graphics().DrawRectangle(x - ScrollPosition().X(), y - ScrollPosition().Y(), _selected_region.Width(), _selected_region.Height(), Color::White, ow);
 				e.Graphics().ResetBlendMode();
 			}

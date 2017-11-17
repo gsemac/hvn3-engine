@@ -21,7 +21,7 @@ namespace hvn3 {
 
 			// Insert the next row of tiles.
 			for (unsigned int x = offset.X(); x < _bitmap.Width(); x += w + separation.X())
-				_tiles.push_back(Drawing::Bitmap(_bitmap, RectangleI(x, y, Math::Min(w, _bitmap.Width() - x), Math::Min(h, _bitmap.Height() - y))));
+				_tiles.push_back(Graphics::Bitmap(_bitmap, RectangleI(x, y, Math::Min(w, _bitmap.Width() - x), Math::Min(h, _bitmap.Height() - y))));
 
 			// Increment the number of rows.
 			++_rows;
@@ -30,12 +30,12 @@ namespace hvn3 {
 
 	}
 
-	const Drawing::Bitmap& Tileset::TileAt(unsigned int x, unsigned int y) const {
+	const Graphics::Bitmap& Tileset::TileAt(unsigned int x, unsigned int y) const {
 
 		return _tiles[y * Columns() + x];
 
 	}
-	const Drawing::Bitmap& Tileset::TileAt(unsigned int n) const {
+	const Graphics::Bitmap& Tileset::TileAt(unsigned int n) const {
 
 		return _tiles[n];
 
@@ -56,7 +56,7 @@ namespace hvn3 {
 
 	}
 
-	const Drawing::Bitmap& Tileset::Bitmap() const {
+	const Graphics::Bitmap& Tileset::Bitmap() const {
 
 		return _bitmap;
 

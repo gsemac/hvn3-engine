@@ -7,11 +7,11 @@ namespace hvn3 {
 	class DrawEventArgs : public System::EventArgs {
 
 	public:
-		DrawEventArgs(Drawing::Graphics& graphics);
-		Drawing::Graphics& Graphics();
+		DrawEventArgs(Graphics::Graphics& graphics);
+		Graphics::Graphics& Graphics();
 
 	private:
-		Drawing::Graphics& __graphics;
+		Graphics::Graphics& __graphics;
 
 	};
 

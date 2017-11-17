@@ -7,12 +7,12 @@ namespace hvn3 {
 	class SpacialPartitioningGridRenderer {
 
 	public:
-		SpacialPartitioningGridRenderer(Drawing::Graphics& graphics);
+		SpacialPartitioningGridRenderer(Graphics::Graphics& graphics);
 
 		void Draw(SpacialPartitioningGridRenderer& grid);
 
 	private:
-		Drawing::Graphics& _graphics;
+		Graphics::Graphics& _graphics;
 
 
 	};

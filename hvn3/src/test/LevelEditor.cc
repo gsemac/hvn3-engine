@@ -111,8 +111,8 @@ namespace hvn3 {
 		void LevelEditor::OnRender(DrawEventArgs& e) {
 
 			// Move drawing downward so that the room is visible despite the menu strip.
-			Drawing::GraphicsState state = e.Graphics().Save();
-			Drawing::Transform t;
+			Graphics::GraphicsState state = e.Graphics().Save();
+			Graphics::Transform t;
 			t.Translate(_gui_manager.ControlManager()->DockableRegion().X(), _gui_manager.ControlManager()->DockableRegion().Y());
 			t.Compose(e.Graphics().GetTransform());
 			e.Graphics().SetTransform(t);
@@ -131,7 +131,7 @@ namespace hvn3 {
 
 			_gui_manager.OnDraw(e);
 
-			e.Graphics().SetBlendMode(Drawing::BlendOperation::Invert);
+			e.Graphics().SetBlendMode(Graphics::BlendOperation::Invert);
 			e.Graphics().DrawCircle(Mouse::Position(), 10, Color::White, 2.0f);
 			e.Graphics().ResetBlendMode();
 

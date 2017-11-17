@@ -36,7 +36,7 @@ namespace hvn3 {
 		bool TracksMouse() const;
 		void TracksMouse(bool tracks);
 
-		Drawing::Transform GetTransform() const;
+		Graphics::Transform GetTransform() const;
 
 	private:
 		Point2d<float> __view_pos;

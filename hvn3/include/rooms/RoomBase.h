@@ -35,7 +35,7 @@ namespace hvn3 {
 		virtual void OnDraw(DrawEventArgs& e) override {
 
 			// Save the current graphics state.
-			Drawing::Transform original_tranform(e.Graphics().GetTransform());
+			Graphics::Transform original_tranform(e.Graphics().GetTransform());
 			RectangleF original_clip(e.Graphics().Clip());
 
 			// Render the room state.

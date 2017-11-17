@@ -8,7 +8,7 @@
 
 namespace hvn3 {
 
-	namespace Drawing {
+	namespace Graphics {
 
 		// Helper functions
 		int ConvertBlendOperation(BlendOperation operation) {

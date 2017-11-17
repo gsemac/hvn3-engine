@@ -261,7 +261,7 @@ namespace hvn3 {
 
 			Control* _parent;
 			GuiManager* _manager;
-			Drawing::Bitmap _surface;
+			Graphics::Bitmap _surface;
 			Color _backcolor, _forecolor;
 			int _anchor;
 			DockStyle _dock;

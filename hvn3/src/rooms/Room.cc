@@ -48,7 +48,7 @@ namespace hvn3 {
 	void Room::OnDraw(DrawEventArgs& e) {
 
 		// Save the current graphics state.
-		Drawing::Transform original_tranform(e.Graphics().GetTransform());
+		Graphics::Transform original_tranform(e.Graphics().GetTransform());
 		RectangleF original_clip(e.Graphics().Clip());
 
 		// Each View needs to be drawn separately.
@@ -72,7 +72,7 @@ namespace hvn3 {
 				e.Graphics().SetClip(clip);
 
 				// Set transform according to view state.		
-				Drawing::Transform transform = CurrentView()->GetTransform();
+				Graphics::Transform transform = CurrentView()->GetTransform();
 				transform.Compose(original_tranform);
 				e.Graphics().SetTransform(transform);
 

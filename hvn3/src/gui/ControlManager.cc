@@ -274,10 +274,10 @@ namespace hvn3 {
 		void ControlManager::OnDraw(DrawEventArgs& e) {
 
 			// Save the state of the Graphics object.
-			Drawing::Transform original_transform(e.Graphics().GetTransform());
+			Graphics::Transform original_transform(e.Graphics().GetTransform());
 
 			// Create a new transform that will be used for transforming each control.
-			Drawing::Transform transform;
+			Graphics::Transform transform;
 			transform.Translate(_control_offset.X(), _control_offset.Y());
 			transform.Compose(original_transform);
 			e.Graphics().SetTransform(transform);

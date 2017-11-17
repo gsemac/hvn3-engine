@@ -51,14 +51,14 @@ namespace hvn3 {
 
 			// If the Control's size is now invalid, set the bitmap to null.
 			if (Width() <= 0.0f || Height() <= 0.0f)
-				_surface = Drawing::Bitmap(nullptr, false);
+				_surface = Graphics::Bitmap(nullptr, false);
 			else if (!_surface || Width() != _surface.Width() || Height() != _surface.Height())
-				_surface = Drawing::Bitmap(Width(), Height());
+				_surface = Graphics::Bitmap(Width(), Height());
 
 			// Call the Control's OnPaint method to redraw it.
 			// Make sure we don't try to draw a Control with dimensions <= 1, because the Graphics object will throw an error when setting the clip.
 			if (Width() >= 1.0f && Height() >= 1.0f)
-				OnPaint(PaintEventArgs(Drawing::Graphics(_surface)));
+				OnPaint(PaintEventArgs(Graphics::Graphics(_surface)));
 
 		}
 

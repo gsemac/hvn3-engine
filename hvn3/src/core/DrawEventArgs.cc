@@ -2,8 +2,8 @@
 
 namespace hvn3 {
 
-	DrawEventArgs::DrawEventArgs(Drawing::Graphics& graphics) : __graphics(graphics) {}
-	Drawing::Graphics& DrawEventArgs::Graphics() {
+	DrawEventArgs::DrawEventArgs(Graphics::Graphics& graphics) : __graphics(graphics) {}
+	Graphics::Graphics& DrawEventArgs::Graphics() {
 
 		return __graphics;
 

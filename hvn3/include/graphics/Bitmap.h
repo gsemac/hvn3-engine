@@ -9,7 +9,7 @@ struct ALLEGRO_BITMAP;
 
 namespace hvn3 {
 
-	namespace Drawing {
+	namespace Graphics {
 
 		enum class BitmapFlags {
 			Default = 1,
@@ -31,6 +31,7 @@ namespace hvn3 {
 		public:
 			Bitmap(int width, int height);
 			Bitmap(const char* filename);
+			Bitmap(const char* filename, const Color& alpha);
 			Bitmap(ALLEGRO_BITMAP* bitmap, bool free = true);
 			Bitmap(uint8_t* buffer, size_t buffer_size, Imaging::ImageFormat format);
 			Bitmap(const Bitmap& other, const RectangleI& region);

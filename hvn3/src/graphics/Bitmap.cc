@@ -6,7 +6,7 @@
 
 namespace hvn3 {
 
-	namespace Drawing {
+	namespace Graphics {
 
 		Bitmap::Bitmap() {
 
@@ -32,6 +32,12 @@ namespace hvn3 {
 
 			_bmp = al_load_bitmap(filename);
 			_free = true;
+
+		}
+		Bitmap::Bitmap(const char* filename, const Color& alpha) :
+			Bitmap(filename) {
+
+			ConvertMaskToAlpha(alpha);
 
 		}
 		Bitmap::Bitmap(ALLEGRO_BITMAP* bitmap, bool free) {
@@ -102,7 +108,7 @@ namespace hvn3 {
 			Bitmap bmp(al_create_bitmap(region.Width(), region.Height()), true);
 
 			// Copy the given bitmap onto the new bitmap.
-			Drawing::Graphics(bmp).DrawBitmap(0, 0, this, region);
+			Graphics::Graphics(bmp).DrawBitmap(0, 0, this, region);
 
 			// Return the result.
 			return bmp;
@@ -179,7 +185,7 @@ namespace hvn3 {
 		}
 		void Bitmap::SetPixel(int x, int y, const Color& color) {
 
-			Drawing::Graphics(*this).DrawPoint(x, y, color);
+			Graphics::Graphics(*this).DrawPoint(x, y, color);
 
 		}
 		Color Bitmap::GetPixel(int x, int y) const {

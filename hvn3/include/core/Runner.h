@@ -73,7 +73,7 @@ namespace hvn3 {
 			Display _display;
 			Font* _default_font;
 			System::Properties* _properties;
-			Drawing::Graphics _graphics;
+			Graphics::Graphics _graphics;
 
 			void ApplyScalingMode();
 			void RecalculateMousePosition();

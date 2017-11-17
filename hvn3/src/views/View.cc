@@ -129,10 +129,10 @@ namespace hvn3 {
 
 	}
 
-	Drawing::Transform View::GetTransform() const {
+	Graphics::Transform View::GetTransform() const {
 
 		Point2d<float> offset(ViewX(), ViewY());
-		Drawing::Transform transform;
+		Graphics::Transform transform;
 		transform.Translate(-offset.X() + Port().X(), -offset.Y() + Port().Y());
 		transform.Rotate(Port().Midpoint(), Angle());
 		transform.Scale(Scale());

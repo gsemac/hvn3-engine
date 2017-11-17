@@ -1,234 +1,144 @@
 #include "sprites/Sprite.h"
-#include "io/Directory.h"
 #include "exceptions/Exception.h"
-#include "core/Framework.h"
-#include <limits>
-#include <cmath>
+#include "math/MathUtils.h"
 
 namespace hvn3 {
 
-	Sprite::Sprite() {}
-	Sprite::Sprite(const char* path) :
-		Sprite(path, 0, 0) {
-	}
-	Sprite::Sprite(const char* path, int origin_x, int origin_y) {
+	Sprite::Sprite() {
 
-		// Load the image from the filesystem.
-		Drawing::Bitmap bmp(path);
-
-		// If we failed to access the file, throw an error.
-		if (!bmp)
-			throw System::IO::IOException("Failed to access file '" + std::string(path) + "'.");
-
-		// We are not using a sprite sheet, so set these values accordingly.
+		_ox = 0;
+		_oy = 0;
 		_using_sprite_sheet = false;
 		_strip_length = 0;
 
-		// Add the image to the subimage collection.
-		AddSubImage(bmp, true);
+	}
+	Sprite::Sprite(const Graphics::Bitmap& bitmap) :
+		Sprite() {
 
-		// Set remaining members.
-		_origin_x = origin_x;
-		_origin_y = origin_y;
+		AddSubImage(Graphics::Bitmap(bitmap));
 
 	}
-	Sprite::Sprite(const char* path, int origin_x, int origin_y, const Color& alpha_color)
-		: Sprite(path, origin_x, origin_y) {
+	Sprite::Sprite(const Graphics::Bitmap& bitmap, const PointI& origin) :
+		Sprite(bitmap) {
 
-		// If the first frame was added successfully, remove the background color.
-		if (_frames[_using_sprite_sheet])
-			_frames[_using_sprite_sheet].ConvertMaskToAlpha(alpha_color);
+		SetOrigin(origin);
 
 	}
-
-	Sprite::Sprite(const std::string& path) :
-		Sprite(path.c_str()) {
+	Sprite::Sprite(const Graphics::Bitmap& bitmap, int ox, int oy) :
+		Sprite(bitmap, PointI(ox, oy)) {
 	}
-	Sprite::Sprite(const std::string& path, int origin_x, int origin_y) :
-		Sprite(path.c_str(), origin_x, origin_y) {
-	}
-	Sprite::Sprite(const std::string& path, int origin_x, int origin_y, const Color& alpha_color)
-		: Sprite(path.c_str(), origin_x, origin_y, alpha_color) {
-	}
-
-	Sprite::Sprite(Sprite&& other) {
-
-		// Move all frames to the other Sprite.
-		for (size_t i = 0; i < other._frames.size(); ++i)
-			_frames.push_back(std::move(other._frames[i]));
-
-		// Copy member variables to the new object.
-		_origin_x = other._origin_x;
-		_origin_y = other._origin_y;
-		_strip_length = other._strip_length;
-		_using_sprite_sheet = other._using_sprite_sheet;
-
-		// Reset the member variables of the object.
-		other._origin_x = 0;
-		other._origin_y = 0;
-		other._strip_length = 0;
-		other._using_sprite_sheet = false;
-
-	}
-
 	Sprite::~Sprite() {
-
-		// If the framework has been shut down before freeing resources, do nothing (or else we'd get an error), but alert the user.
-		if (!System::Framework::Initialized()) {
-			std::cerr << "Warning: Framework was shutdown before this resource could be freed. Free all resources before shutting down the framework.\n";
-			return;
-		}
-
-		// Dispose of all frames.
-		_frames.clear();
-
 	}
 
 	unsigned int Sprite::Width() const {
 
-		return (_frames[_using_sprite_sheet] ? _frames[_using_sprite_sheet].Width() : 0);
+		if (_frames.size() <= 0)
+			return 0;
+
+		return _frames[0].Width();
 
 	}
 	unsigned int Sprite::Height() const {
 
-		return (_frames[_using_sprite_sheet] ? _frames[_using_sprite_sheet].Height() : 0);
+		if (_frames.size() <= 0)
+			return 0;
+
+		return _frames[0].Height();
 
 	}
-
 	unsigned int Sprite::StripLength() const {
 
-		return _strip_length > 0 ? _strip_length : (int)_frames.size();
+		return _strip_length > 0 ? _strip_length : static_cast<unsigned int>(_frames.size());
 
 	}
 	size_t Sprite::Length() const {
 
-		return _frames.size() - _using_sprite_sheet;
+		return _frames.size();
 
 	}
 
-	Point2d<int> Sprite::Origin() const {
+	PointI Sprite::Origin() const {
 
-		return Point2d<int>(_origin_x, _origin_y);
-
-	}
-	void Sprite::SetOrigin(int origin_x, int origin_y) {
-
-		_origin_x = origin_x;
-		_origin_y = origin_y;
+		return PointI(_ox, _oy);
 
 	}
+	void Sprite::SetOrigin(const PointI& origin) {
 
-	void Sprite::AddSubImage(Drawing::Bitmap& subimage, bool owner) {
-
-		if (owner)
-			_frames.push_back(std::move(subimage));
-		else
-			_frames.push_back(subimage);
+		SetOrigin(origin.X(), origin.Y());
 
 	}
-	void Sprite::AddSubImage(const char* path) {
+	void Sprite::SetOrigin(int ox, int oy) {
 
-		AddSubImage(Drawing::Bitmap(path), true);
+		_ox = ox;
+		_oy = oy;
 
 	}
 
-	const Drawing::Bitmap& Sprite::SubImage(int subimage) const {
+	void Sprite::AddSubImage(const Graphics::Bitmap& sub_image) {
 
-		int index = (std::abs)(subimage) % (_frames.size() - _using_sprite_sheet);
-		index += _using_sprite_sheet;
-
-		return _frames[index];
+		_frames.push_back(Graphics::Bitmap(sub_image));
 
 	}
-	const Drawing::Bitmap& Sprite::operator[] (int subimage) const {
+	void Sprite::RemoveSubImage(int sub_image) {
 
-		return SubImage(subimage);
+		if (_frames.size() <= 0)
+			return;
+
+		_frames.erase(_frames.begin() + subImageToIndex(sub_image));
+
+	}
+	const Graphics::Bitmap& Sprite::SubImage(int sub_image) const {
+
+		return _frames[subImageToIndex(sub_image)];
+
+	}
+	const Graphics::Bitmap& Sprite::operator[](int sub_image) const {
+
+		return SubImage(sub_image);
 
 	}
 
-	SpritePtr Sprite::CreateFromSpriteSheet(const char* path, int frame_width, int frame_height) {
+	Sprite Sprite::FromSpriteSheet(const Graphics::Bitmap& bitmap, int frame_width, int frame_height) {
 
-		return CreateFromSpriteSheet(path, frame_width, frame_height, 0, 0);
+		return FromSpriteSheet(bitmap, frame_width, frame_height, 0, 0);
 
 	}
-	SpritePtr Sprite::CreateFromSpriteSheet(const char* path, int frame_width, int frame_height, int origin_x, int origin_y) {
-
-		// Load the sprite sheet from the filesystem.
-		Drawing::Bitmap sheet(path);
-
-		// If we failed to access the file, throw an error.
-		if (!sheet)
-			throw System::IO::IOException("Failed to access file '" + std::string(path) + "'.");
+	Sprite Sprite::FromSpriteSheet(const Graphics::Bitmap& bitmap, int frame_width, int frame_height, int origin_x, int origin_y) {
 
 		// Get the dimensions of the sheet, and determine the number of rows/columns.
-		int sheet_width = sheet.Width();
-		int sheet_height = sheet.Height();
+		int sheet_width = bitmap.Width();
+		int sheet_height = bitmap.Height();
 		int columns = sheet_width / frame_width;
 		int rows = sheet_height / frame_height;
 
 		// Initialize the new Sprite. Note that the sheet must be maintained, because sub-bitmaps share its memory.
 		// The sheet will be maintained as the first of the subimages; calls to the first subimage will return the second, and so on.
-		SpritePtr sprite = SpritePtr(new Sprite);
-		sprite->_origin_x = origin_x;
-		sprite->_origin_y = origin_y;
-		sprite->_strip_length = columns;
-		sprite->_using_sprite_sheet = true;
-
-		// Add the sheet as the first subimage.
-		sprite->AddSubImage(sheet);
+		Sprite sprite;
+		sprite.SetOrigin(origin_x, origin_y);
+		sprite._strip_length = columns;
+		sprite._using_sprite_sheet = true;
 
 		// Create sub-sprites from the sheet.
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < columns; j++)
-				sprite->AddSubImage(Drawing::Bitmap(sprite->_frames[0], RectangleI(frame_width * j, frame_height * i, frame_width, frame_height)));
-		
+				sprite.AddSubImage(Graphics::Bitmap(bitmap, RectangleI(frame_width * j, frame_height * i, frame_width, frame_height)));
+
 		// Return the new sprite.
 		return sprite;
 
 	}
-	SpritePtr Sprite::CreateFromSpriteSheet(const char* path, int frame_width, int frame_height, int origin_x, int origin_y, const Color& alpha_color) {
-
-		SpritePtr sprite = CreateFromSpriteSheet(path, frame_width, frame_height, origin_x, origin_y);
-		sprite->_frames[0].ConvertMaskToAlpha(alpha_color);
-
-		return sprite;
-
-	}
-	SpritePtr Sprite::CreateFromSpriteSheet(const char* path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y) {
-
-		throw System::NotImplementedException();
-
-	}
-	SpritePtr Sprite::CreateFromSpriteSheet(const char* path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y, const Color& alpha_color) {
+	Sprite Sprite::FromSpriteSheet(const Graphics::Bitmap& bitmap, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y) {
 
 		throw System::NotImplementedException();
 
 	}
 
-	SpritePtr Sprite::CreateFromSpriteSheet(const std::string& path, int frame_width, int frame_height) {
+			
 
-		return CreateFromSpriteSheet(path.c_str(), frame_width, frame_height, 0, 0);
+	size_t Sprite::subImageToIndex(int sub_image) const {
 
-	}
-	SpritePtr Sprite::CreateFromSpriteSheet(const std::string& path, int frame_width, int frame_height, int origin_x, int origin_y) {
-
-		return CreateFromSpriteSheet(path.c_str(), frame_width, frame_height, origin_x, origin_y);
+		return Math::ModFloor(sub_image, _frames.size());
 
 	}
-	SpritePtr Sprite::CreateFromSpriteSheet(const std::string& path, int frame_width, int frame_height, int origin_x, int origin_y, const Color& alpha_color) {
 
-		return CreateFromSpriteSheet(path.c_str(), frame_width, frame_height, origin_x, origin_y, alpha_color);
-
-	}
-	SpritePtr Sprite::CreateFromSpriteSheet(const std::string& path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y) {
-
-		return CreateFromSpriteSheet(path.c_str(), frame_width, frame_height, frame_x_offset, frame_y_offset, frame_x_separation, frame_y_separation, frame_number, origin_x, origin_y);
-
-	}
-	SpritePtr Sprite::CreateFromSpriteSheet(const std::string& path, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y, const Color& alpha_color) {
-
-		return CreateFromSpriteSheet(path.c_str(), frame_width, frame_height, frame_x_offset, frame_y_offset, frame_x_separation, frame_y_separation, frame_number, origin_x, origin_y, alpha_color);
-
-	}
-	
 }

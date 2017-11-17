@@ -4,7 +4,7 @@
 
 namespace hvn3 {
 
-	namespace Drawing {
+	namespace Graphics {
 
 		Transform::Transform() {
 
