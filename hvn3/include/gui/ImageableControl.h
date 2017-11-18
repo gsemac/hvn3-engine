@@ -11,7 +11,7 @@ namespace hvn3 {
 		public:
 			ImageableControl();
 
-			virtual const ResourceHandle<Graphics::Bitmap> Image();
+			virtual const AssetHandle<Graphics::Bitmap> Image();
 			virtual void SetImage(BitmapResourceId image);
 
 		private:

@@ -3,42 +3,35 @@
 
 namespace hvn3 {
 
-	size_t BackgroundManager::BackgroundAdd(ResourceHandle<Background> background) {
+	size_t BackgroundManager::Add(const Background& background) {
 
-		return BackgroundAdd(background, BackgroundProperties());
+		_backgrounds.push_back(background);
 
-	}
-	size_t BackgroundManager::BackgroundAdd(ResourceHandle<Background> background, bool is_foreground) {
-
-		BackgroundProperties properties;
-		properties.SetForeground(true);
-
-		return BackgroundAdd(background, properties);
+		return Count() - 1;
 
 	}
-	size_t BackgroundManager::BackgroundAdd(ResourceHandle<Background> background, BackgroundProperties properties) {
+	size_t BackgroundManager::Add(const Background& background, bool foreground) {
 
-		_backgrounds.push_back(std::make_pair(background, properties));
+		Background bg(background);
+		bg.SetForeground(true);
 
-		return BackgroundCount() - 1;
+		return Add(bg);
 
 	}
-	void BackgroundManager::BackgroundRemove(size_t index) {
+	void BackgroundManager::Remove(size_t index) {
+
+		if (index >= _backgrounds.size())
+			return;
 
 		_backgrounds.erase(_backgrounds.begin() + index);
 
 	}
-	const ResourceHandle<Background>& BackgroundManager::BackgroundAt(size_t index) const {
+	const Background& BackgroundManager::At(size_t index) const {
 
-		return _backgrounds[index].first;
-
-	}
-	BackgroundProperties& BackgroundManager::PropertiesAt(size_t index) {
-
-		return _backgrounds[index].second;
+		return _backgrounds[index];
 
 	}
-	size_t BackgroundManager::BackgroundCount() const {
+	size_t BackgroundManager::Count() const {
 
 		return _backgrounds.size();
 
@@ -51,67 +44,53 @@ namespace hvn3 {
 
 	void BackgroundManager::Update(UpdateEventArgs& e) {
 
-		// Update Backgrounds.
+		// Update the offset of all moving backgrounds.
 		for (size_t i = 0; i < _backgrounds.size(); ++i)
-			if (_backgrounds[i].second.Velocity().Length() != 0.0f)
-				_backgrounds[i].second.SetOffset(
-					_backgrounds[i].second.Offset().X() + _backgrounds[i].second.Velocity().X(),
-					_backgrounds[i].second.Offset().Y() + _backgrounds[i].second.Velocity().Y()
-					);
-
+			if (_backgrounds[i].Velocity().Length() != 0.0f)
+				_backgrounds[i].SetOffset(_backgrounds[i].Offset().X() + _backgrounds[i].Velocity().X(), _backgrounds[i].Offset().Y() + _backgrounds[i].Velocity().Y());
 
 	}
-	void BackgroundManager::DrawBackgrounds(BackgroundDrawEventArgs& e) {
-		
-		// Draw all backgrounds.
-		e.Graphics().HoldBitmapDrawing(BackgroundCount() > 1);
-		for (size_t i = 0; i < _backgrounds.size(); ++i)
-			if (!_backgrounds[i].second.IsForeground() && _backgrounds[i].second.Visible())
-				DrawBackground(e, _backgrounds[i]);
-		e.Graphics().HoldBitmapDrawing(BackgroundCount() > 1);
+	void BackgroundManager::Draw(BackgroundDrawEventArgs& e) {
 
-	}
-	void BackgroundManager::DrawForegrounds(BackgroundDrawEventArgs& e) {
+		bool held;
+		if (held = Count() > 1 && !e.Graphics().BitmapDrawingHeld())
+			e.Graphics().HoldBitmapDrawing(true);
 
-		// Draw all foregrounds.
-		e.Graphics().HoldBitmapDrawing(BackgroundCount() > 1);
 		for (size_t i = 0; i < _backgrounds.size(); ++i)
-			if (_backgrounds[i].second.IsForeground() && _backgrounds[i].second.Visible())
-				DrawBackground(e, _backgrounds[i]);
-		e.Graphics().HoldBitmapDrawing(BackgroundCount() > 1);
+			if (((e.DrawForegrounds() && _backgrounds[i].IsForeground()) || !_backgrounds[i].IsForeground()) && _backgrounds[i].Visible())
+				_drawBackground(e, _backgrounds[i]);
+
+		if (held)
+			e.Graphics().HoldBitmapDrawing(false);
 
 	}
 
-	// Protected methods
 
-	void BackgroundManager::DrawBackground(BackgroundDrawEventArgs& e, const BackgroundManager::bg_type& background) const {
 
-		// Get references to the background and properties objects.
-		const Background& bg = *background.first;
-		const BackgroundProperties& p = background.second;
+	void BackgroundManager::_drawBackground(BackgroundDrawEventArgs& e, const Background& background) const {
 
 		// Calculate scaled dimensions of the background.
-		float scale_x = p.Scale().XScale();
-		float scale_y = p.Scale().YScale();
-		float width = bg.Width() * Math::Abs(scale_x);
-		float height = bg.Height() * Math::Abs(scale_y);
+		float scale_x = background.Scale().XScale();
+		float scale_y = background.Scale().YScale();
+		float width = background.Width() * Math::Abs(scale_x);
+		float height = background.Height() * Math::Abs(scale_y);
 
 		// If either dimension is 0, don't draw.
 		if (Math::IsZero(width, 0.1f) || Math::IsZero(height, 0.1f))
 			return;
 
 		// Calculate the offset of the background. If the background is tiled, this is the starting offset.
-		PointF offset = background.second.Offset();
+		PointF offset = background.Offset();
 
 		// If the background is fixed, counteract this by the view offset.
-		if (p.Fixed() && e.CurrentView())
+		if (background.Fixed() && e.CurrentView())
 			offset += e.CurrentView()->Position();
 
-		if (p.IsTiledHorizontally())
+		if (background.IsTiledHorizontally())
 			// Subtract the width of the background from the offset until it is "0" or negative.
 			while (offset.X() > 0.1f) offset.Offset(-width, offset.Y());
 
-		if (p.IsTiledVertically())
+		if (background.IsTiledVertically())
 			// Subtract the height of the background from the offset until it is "0" or negative.
 			while (offset.Y() > 0.1f) offset.Offset(offset.X(), -height);
 
@@ -119,22 +98,22 @@ namespace hvn3 {
 		if (scale_x < 0.0f) offset.Offset(width, offset.Y());
 		if (scale_y < 0.0f) offset.Offset(offset.X(), height);
 
-		if (p.IsTiledHorizontally() && p.IsTiledVertically())
+		if (background.IsTiledHorizontally() && background.IsTiledVertically())
 			// Draw background tiled horizontally and vertically.
 			for (; offset.X() < (scale_x < 0.0f ? e.RoomSize().Width() + width : e.RoomSize().Width()); offset.Offset(width, offset.Y()))
 				for (float j = offset.Y(); j < ((scale_y < 0.0f) ? (e.RoomSize().Height() + height) : e.RoomSize().Height()); j += height)
-					e.Graphics().DrawBitmap(offset.X(), j, &bg.Bitmap(), p.Scale().XScale(), p.Scale().YScale());
-		else if (p.IsTiledHorizontally())
+					e.Graphics().DrawBitmap(offset.X(), j, &background.Bitmap(), background.Scale().XScale(), background.Scale().YScale());
+		else if (background.IsTiledHorizontally())
 			// Draw background tiled horizontally only.
 			for (; offset.X() < (scale_x < 0.0f ? e.RoomSize().Width() + width : e.RoomSize().Width()); offset.Offset(width, offset.Y()))
-				e.Graphics().DrawBitmap(offset.X(), offset.Y(), &bg.Bitmap(), p.Scale().XScale(), p.Scale().YScale());
-		else if (p.IsTiledVertically())
+				e.Graphics().DrawBitmap(offset.X(), offset.Y(), &background.Bitmap(), background.Scale().XScale(), background.Scale().YScale());
+		else if (background.IsTiledVertically())
 			// Draw background tiled vertically only.
 			for (; offset.Y() < (scale_y < 0.0f ? e.RoomSize().Height() + height : e.RoomSize().Height()); offset.Offset(offset.X(), height))
-				e.Graphics().DrawBitmap(offset.X(), offset.Y(), &bg.Bitmap(), p.Scale().XScale(), p.Scale().YScale());
+				e.Graphics().DrawBitmap(offset.X(), offset.Y(), &background.Bitmap(), background.Scale().XScale(), background.Scale().YScale());
 		else
 			// Draw background without tiling.
-			e.Graphics().DrawBitmap(offset.X(), offset.Y(), &bg.Bitmap(), p.Scale().XScale(), p.Scale().YScale());
+			e.Graphics().DrawBitmap(offset.X(), offset.Y(), &background.Bitmap(), background.Scale().XScale(), background.Scale().YScale());
 
 	}
 

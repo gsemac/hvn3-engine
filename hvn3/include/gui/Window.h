@@ -31,7 +31,7 @@ namespace hvn3 {
 			void OnUpdate(UpdateEventArgs& e) override;
 
 		protected:
-			const ResourceHandle<Graphics::Bitmap>& GetExitIcon();
+			const AssetHandle<Graphics::Bitmap>& GetExitIcon();
 			PointF ExitButtonPosition() const;
 			bool MouseOnExitButton() const;
 			void UpdateChildRegion();
@@ -40,7 +40,7 @@ namespace hvn3 {
 		private:
 			int _titlebar_height;
 
-			ResourceHandle<Graphics::Bitmap> _exit_icon;
+			AssetHandle<Graphics::Bitmap> _exit_icon;
 
 			PointF _drag_offset;
 			bool _dragging, _resizing;

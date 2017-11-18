@@ -25,7 +25,7 @@ namespace hvn3 {
 
 		}
 
-		const ResourceHandle<hvn3::Font> ITextable::Font() {
+		const AssetHandle<hvn3::Font> ITextable::Font() {
 
 			if (_control->Manager() && _control->Manager()->StyleManager())
 				return _control->Manager()->StyleManager()->GetFontResource(_font);

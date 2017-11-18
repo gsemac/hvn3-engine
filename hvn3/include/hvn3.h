@@ -2,7 +2,7 @@
 
 // This file includes the header files for common engine components.
 
-#include "assets/ResourceManager.h"
+#include "assets/AssetManager.h"
 #include "collision/RectangleHitMask.h"
 #include "collision/CircleHitMask.h"
 #include "core/Framework.h"

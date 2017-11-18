@@ -7,6 +7,9 @@ namespace hvn3 {
 	class AssetHandle {
 
 	public:
+		AssetHandle() :
+			AssetHandle(nullptr) {
+		}
 		AssetHandle(asset_type* resource) :
 			_resource(resource) {
 		}

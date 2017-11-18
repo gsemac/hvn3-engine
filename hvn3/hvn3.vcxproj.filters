@@ -165,9 +165,6 @@
     <ClInclude Include="include\backgrounds\BackgroundManager.h">
       <Filter>include\backgrounds</Filter>
     </ClInclude>
-    <ClInclude Include="include\backgrounds\BackgroundProperties.h">
-      <Filter>include\backgrounds</Filter>
-    </ClInclude>
     <ClInclude Include="include\backgrounds\IBackgroundManager.h">
       <Filter>include\backgrounds</Filter>
     </ClInclude>
@@ -621,12 +618,6 @@
     <ClInclude Include="include\utility\Environment.h">
       <Filter>include\utility</Filter>
     </ClInclude>
-    <ClInclude Include="include\assets\ResourceCollection.h">
-      <Filter>include\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\assets\ResourceManager.h">
-      <Filter>include\assets</Filter>
-    </ClInclude>
     <ClInclude Include="include\assets\Assets.h">
       <Filter>include\assets</Filter>
     </ClInclude>
@@ -720,9 +711,6 @@
       <Filter>src\backgrounds</Filter>
     </ClCompile>
     <ClCompile Include="src\backgrounds\BackgroundManager.cc">
-      <Filter>src\backgrounds</Filter>
-    </ClCompile>
-    <ClCompile Include="src\backgrounds\BackgroundProperties.cc">
       <Filter>src\backgrounds</Filter>
     </ClCompile>
     <ClCompile Include="src\collision\CircleHitMask.cc">
@@ -1063,9 +1051,6 @@
     </ClCompile>
     <ClCompile Include="src\utility\Environment.cc">
       <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\assets\ResourceManager.cc">
-      <Filter>src\assets</Filter>
     </ClCompile>
     <ClCompile Include="src\assets\FileAssetLoader.cc">
       <Filter>src\assets</Filter>

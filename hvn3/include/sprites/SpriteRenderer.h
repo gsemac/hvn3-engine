@@ -1,5 +1,4 @@
 #pragma once
-#include "assets/ResourceCollection.h"
 #include "sprites/Sprite.h"
 #include "utility/Scale.h"
 #include "core/DrawEventArgs.h"
@@ -10,8 +9,7 @@ namespace hvn3 {
 		class SpriteRenderer {
 
 		public:
-			SpriteRenderer();
-			SpriteRenderer(ResourceHandle<Sprite> sprite);
+			SpriteRenderer(const Sprite& sprite);
 
 			float ImageAlpha() const;
 			void SetImageAlpha(float value);
@@ -36,16 +34,15 @@ namespace hvn3 {
 			void ReflectX();
 			void ReflectY();
 
-			ResourceHandle<Sprite> Sprite();
-			const ResourceHandle<hvn3::Sprite>& Sprite() const;
-			void SetSprite(ResourceHandle<hvn3::Sprite> sprite);
+			const Sprite& Sprite() const;
+			void SetSprite(const hvn3::Sprite& sprite);
 
 			void DrawSprite(DrawEventArgs& e, const PointF& position) const;
 			void UpdateAnimation();
 			void UpdateAnimation(float delta);
 
 		private:
-			ResourceHandle<hvn3::Sprite> _sprite;
+			const hvn3::Sprite* _sprite;
 			int _image_index;
 			float _image_speed;
 			Scale _image_scale;

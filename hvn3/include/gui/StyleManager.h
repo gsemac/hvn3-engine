@@ -1,5 +1,5 @@
 #pragma once
-#include "assets/ResourceCollection.h"
+#include "assets/AssetManager.h"
 #include "graphics/Bitmap.h"
 #include "graphics/Color.h"
 
@@ -9,12 +9,12 @@ namespace hvn3 {
 
 	namespace Gui {
 
-		enum class FontResourceId : ResourceId {
+		enum class FontResourceId : AssetId {
 			Null,
 			PrimaryFont
 		};
 
-		enum class BitmapResourceId : ResourceId {
+		enum class BitmapResourceId : AssetId {
 			Null,
 			ExitButton,
 			ArrowR
@@ -30,8 +30,8 @@ namespace hvn3 {
 			const Color& SecondaryColor() const;
 			const Color& TertiaryColor() const;
 			const Color& TextColor() const;
-			ResourceHandle<Font> GetFontResource(FontResourceId id);
-			ResourceHandle<Graphics::Bitmap> GetImageResource(BitmapResourceId id);
+			AssetHandle<Font> GetFontResource(FontResourceId id);
+			AssetHandle<Graphics::Bitmap> GetImageResource(BitmapResourceId id);
 
 			float DrawingScale() const;
 			void SetDrawingScale(float scale);
@@ -48,8 +48,8 @@ namespace hvn3 {
 			Color _tertiary_color;
 			Color _text_color;
 
-			ResourceCollection<Font> _fonts;
-			ResourceCollection<Graphics::Bitmap> _bitmaps;
+			AssetManager<Font> _fonts;
+			AssetManager<Graphics::Bitmap> _bitmaps;
 
 		};
 

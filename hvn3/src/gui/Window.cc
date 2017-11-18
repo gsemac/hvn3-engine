@@ -206,7 +206,7 @@ namespace hvn3 {
 
 		// Protected methods
 
-		const ResourceHandle<Graphics::Bitmap>& Window::GetExitIcon() {
+		const AssetHandle<Graphics::Bitmap>& Window::GetExitIcon() {
 
 			if (!_exit_icon && Manager())
 				_exit_icon = Manager()->StyleManager()->GetImageResource(Gui::BitmapResourceId::ExitButton);

@@ -299,6 +299,12 @@ namespace hvn3 {
 
 		}
 
+		AssetHandle<asset_type> operator[](AssetId id) {
+
+			return Get(id, true);
+
+		}
+
 	private:
 		std::unique_ptr<IAssetLoader<asset_type> > _loader;
 		group_map_type _groups;

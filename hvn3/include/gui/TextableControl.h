@@ -18,7 +18,7 @@ namespace hvn3 {
 			virtual const String& Text() const;
 			virtual void SetText(const String& text);
 
-			virtual const ResourceHandle<hvn3::Font> Font();
+			virtual const AssetHandle<hvn3::Font> Font();
 			virtual void SetFont(FontResourceId font);
 
 		protected:

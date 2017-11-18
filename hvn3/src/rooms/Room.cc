@@ -201,13 +201,13 @@ namespace hvn3 {
 		e.Graphics().Clear(BackgroundColor());
 
 		// Draw all backgrounds.
-		Backgrounds()->DrawBackgrounds(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView()));
+		Backgrounds()->Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView(), false));
 
 		// Draw all objects.
 		Objects()->OnDraw(e);
 
 		// Draw all foregrounds.
-		Backgrounds()->DrawForegrounds(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView()));
+		Backgrounds()->Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView(), true));
 
 	}
 

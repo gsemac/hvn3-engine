@@ -14,8 +14,8 @@ namespace hvn3 {
 		}
 		StyleManager::~StyleManager() {
 
-			_fonts.Clear();
-			_bitmaps.Clear();
+			_fonts.RemoveAll();
+			_bitmaps.RemoveAll();
 
 		}
 		const Color& StyleManager::PrimaryColor() const {
@@ -38,30 +38,30 @@ namespace hvn3 {
 			return _text_color;
 
 		}
-		ResourceHandle<Font> StyleManager::GetFontResource(FontResourceId id) {
+		AssetHandle<Font> StyleManager::GetFontResource(FontResourceId id) {
 
 			// Get a resource handle for the requested resource.
-			ResourceHandle<Font> resource = _fonts.Find((ResourceId)id);
+			AssetHandle<Font> resource = _fonts.Get(static_cast<AssetId>(id));
 
 			// If the resource is null, load the default resource, and get a handle for it.
 			if (!resource) {
 				LoadDefaultFontResource(id);
-				resource = _fonts[(ResourceId)id];
+				resource = _fonts[static_cast<AssetId>(id)];
 			}
 
 			// Return the resource.
 			return resource;
 
 		}
-		ResourceHandle<Graphics::Bitmap> StyleManager::GetImageResource(BitmapResourceId id) {
+		AssetHandle<Graphics::Bitmap> StyleManager::GetImageResource(BitmapResourceId id) {
 
 			// Get a resource handle for the requested resource.
-			ResourceHandle<Graphics::Bitmap> resource = _bitmaps.Find((ResourceId)id);
+			AssetHandle<Graphics::Bitmap> resource = _bitmaps.Get(static_cast<AssetId>(id));
 
 			// If the resource is null, load the default resource, and get a handle for it.
 			if (!resource) {
 				LoadDefaultBitmapResource(id);
-				resource = _bitmaps[(ResourceId)id];
+				resource = _bitmaps[static_cast<AssetId>(id)];
 			}
 
 			// Return the resource.
@@ -84,7 +84,7 @@ namespace hvn3 {
 
 		bool StyleManager::LoadDefaultFontResource(FontResourceId id) {
 
-			ResourceId resId = (ResourceId)id;
+			AssetId resId = static_cast<AssetId>(id);
 
 			switch (id) {
 
@@ -100,15 +100,15 @@ namespace hvn3 {
 		}
 		bool StyleManager::LoadDefaultBitmapResource(BitmapResourceId id) {
 
-			ResourceId resId = (ResourceId)id;
+			AssetId resId = static_cast<AssetId>(id);
 
 			switch (id) {
 
 			case BitmapResourceId::ExitButton:
-				_bitmaps.Add(resId, Resource::Create<Graphics::Bitmap>("data/System/Icons/close.png"));
+				_bitmaps.Add(resId, "data/System/Icons/close.png");
 				break;
 			case BitmapResourceId::ArrowR:
-				_bitmaps.Add(resId, Resource::Create<Graphics::Bitmap>("data/System/Icons/arrow_r.png"));
+				_bitmaps.Add(resId, "data/System/Icons/arrow_r.png");
 				break;
 			default:
 				return false;

@@ -373,6 +373,11 @@ namespace hvn3 {
 			al_hold_bitmap_drawing(hold);
 
 		}
+		bool Graphics::BitmapDrawingHeld() const {
+
+			return al_is_bitmap_drawing_held();
+
+		}
 
 		GraphicsState Graphics::Save() const {
 

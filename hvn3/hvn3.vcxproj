@@ -31,12 +31,9 @@
     <ClInclude Include="include\assets\Assets.h" />
     <ClInclude Include="include\assets\AssetTypeDefs.h" />
     <ClInclude Include="include\assets\IBinaryAssetLoader.h" />
-    <ClInclude Include="include\assets\ResourceCollection.h" />
-    <ClInclude Include="include\assets\ResourceManager.h" />
     <ClInclude Include="include\backgrounds\Background.h" />
     <ClInclude Include="include\backgrounds\BackgroundDrawEventArgs.h" />
     <ClInclude Include="include\backgrounds\BackgroundManager.h" />
-    <ClInclude Include="include\backgrounds\BackgroundProperties.h" />
     <ClInclude Include="include\backgrounds\IBackgroundManager.h" />
     <ClInclude Include="include\collision\CircleHitMask.h" />
     <ClInclude Include="include\collision\CollisionBodyBase.h" />
@@ -212,11 +209,9 @@
     <ClCompile Include="src\assets\AssetLoaderEventArgs.cc" />
     <ClCompile Include="src\assets\BitmapAssetLoader.cc" />
     <ClCompile Include="src\assets\FileAssetLoader.cc" />
-    <ClCompile Include="src\assets\ResourceManager.cc" />
     <ClCompile Include="src\backgrounds\Background.cc" />
     <ClCompile Include="src\backgrounds\BackgroundDrawEventArgs.cc" />
     <ClCompile Include="src\backgrounds\BackgroundManager.cc" />
-    <ClCompile Include="src\backgrounds\BackgroundProperties.cc" />
     <ClCompile Include="src\collision\CircleHitMask.cc" />
     <ClCompile Include="src\collision\CollisionBodyBase.cc" />
     <ClCompile Include="src\collision\CollisionBodyMutator.cc" />
