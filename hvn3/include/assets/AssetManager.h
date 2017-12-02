@@ -50,7 +50,7 @@ namespace hvn3 {
 
 		}
 
-		AssetId Add(const std::string& path, bool auto_load = true) {
+		AssetId Add(const std::string& path, bool auto_load = false) {
 
 			AssetId id = _getNextFreeId();
 
@@ -59,12 +59,12 @@ namespace hvn3 {
 			return id;
 
 		}
-		bool Add(AssetId id, const std::string& path, bool auto_load = true) {
+		bool Add(AssetId id, const std::string& path, bool auto_load = false) {
 
 			return Add(DefaultGroupId, id, path, auto_load);
 
 		}
-		bool Add(AssetGroupId group, AssetId id, const std::string& path, bool auto_load = true) {
+		bool Add(AssetGroupId group, AssetId id, const std::string& path, bool auto_load = false) {
 
 			auto lock = _writeLock();
 
@@ -72,12 +72,12 @@ namespace hvn3 {
 
 		}
 
-		AssetHandle<asset_type> Get(AssetId id, bool auto_load = false) {
+		AssetHandle<asset_type> Get(AssetId id, bool auto_load = true) {
 
 			return Get(DefaultGroupId, id, auto_load);
 
 		}
-		AssetHandle<asset_type> Get(AssetGroupId group, AssetId id, bool auto_load = false) {
+		AssetHandle<asset_type> Get(AssetGroupId group, AssetId id, bool auto_load = true) {
 
 			auto lock = _readLock();
 
