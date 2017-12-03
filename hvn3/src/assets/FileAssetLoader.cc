@@ -3,7 +3,7 @@
 
 namespace hvn3 {
 
-	AssetLoaderResult<FileAssetLoader::asset_type> FileAssetLoader::LoadData(const std::string& path) {
+	AssetLoaderResult<FileAssetLoader::asset_type> FileAssetLoader::LoadData(const asset_args_type& path) {
 
 		asset_type data;
 
@@ -29,15 +29,15 @@ namespace hvn3 {
 	}
 	void FileAssetLoader::FreeData(AssetLoaderResult<asset_type>& asset) {
 
-		if (asset.Data != nullptr)
-			delete[] asset.Data;
+		if (asset.data != nullptr)
+			delete[] asset.data;
 
-		asset.Data = nullptr;
-		asset.Size = 0;
-		asset.Success = false;
+		asset.data = nullptr;
+		asset.size = 0;
+		asset.success = false;
 
 	}
-	AssetLoaderResult<FileAssetLoader::asset_type> FileAssetLoader::GetNull() {
+	AssetLoaderResult<FileAssetLoader::asset_type> FileAssetLoader::NullData() {
 
 		asset_type data = nullptr;
 

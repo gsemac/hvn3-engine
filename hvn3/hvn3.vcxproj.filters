@@ -696,6 +696,9 @@
     <ClInclude Include="include\core\CreateEventArgs.h">
       <Filter>include\core</Filter>
     </ClInclude>
+    <ClInclude Include="include\assets\FontAssetLoader.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\allegro\AllegroAdapter.cc">
@@ -1081,6 +1084,9 @@
     </ClCompile>
     <ClCompile Include="src\collision\NarrowPhase.cc">
       <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\assets\FontAssetLoader.cc">
+      <Filter>src\assets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

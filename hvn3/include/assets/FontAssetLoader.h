@@ -1,27 +1,28 @@
 #pragma once
 #include "IAssetLoader.h"
 #include "IBinaryAssetLoader.h"
-#include "graphics/Bitmap.h"
+#include "fonts/Font.h"
 #include <memory>
 
 namespace hvn3 {
 
-	struct BitmapAssetArgs {
+	struct FontAssetArgs {
 
-		BitmapAssetArgs(const std::string& path);
-		BitmapAssetArgs(const char* path);
+		FontAssetArgs(const std::string& path, int size, FontOptions options = FontOptions::None);
 
 		std::string path;
+		int size;
+		FontOptions options;
 
 	};
 
-	class BitmapAssetLoader : public IAssetLoader<Graphics::Bitmap, BitmapAssetArgs> {
+	class FontAssetLoader : public IAssetLoader<Font, FontAssetArgs> {
 
 	public:
-		BitmapAssetLoader();
-		BitmapAssetLoader(std::unique_ptr<IBinaryAssetLoader>& loader);
-		BitmapAssetLoader(std::unique_ptr<IBinaryAssetLoader>&& loader);
-		
+		FontAssetLoader();
+		FontAssetLoader(std::unique_ptr<IBinaryAssetLoader>& loader);
+		FontAssetLoader(std::unique_ptr<IBinaryAssetLoader>&& loader);
+
 		virtual AssetLoaderResult<asset_type> LoadData(const asset_args_type& args) override;
 		virtual void FreeData(AssetLoaderResult<asset_type>& asset) override;
 		virtual AssetLoaderResult<asset_type> NullData() override;

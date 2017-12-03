@@ -5,6 +5,15 @@
 
 namespace hvn3 {
 
+	BitmapAssetArgs::BitmapAssetArgs(const std::string& path) :
+		path(path) {
+	}
+	BitmapAssetArgs::BitmapAssetArgs(const char* path) :
+		BitmapAssetArgs(path) {
+	}
+
+
+
 	BitmapAssetLoader::BitmapAssetLoader() :
 		BitmapAssetLoader(std::make_unique<FileAssetLoader>()) {
 	}
@@ -15,33 +24,33 @@ namespace hvn3 {
 		_loader(std::move(loader)) {
 	}
 
-	AssetLoaderResult<BitmapAssetLoader::asset_type> BitmapAssetLoader::LoadData(const std::string& path) {
+	AssetLoaderResult<BitmapAssetLoader::asset_type> BitmapAssetLoader::LoadData(const asset_args_type& args) {
 
 		// Load the raw binary data using the binary asset loader.
-		auto binary_data = _loader->LoadData(path);
-		bool success = binary_data.Success;
+		auto binary_data = _loader->LoadData(args.path);
+		bool success = binary_data.success;
 
 		// Create a new asset from that data.
-		Imaging::ImageFormat format = Imaging::FileExtensionToImageFormat(IO::Path::GetExtension(path));
-		Graphics::Bitmap asset(binary_data.Data, binary_data.Size, format);
+		Imaging::ImageFormat format = Imaging::FileExtensionToImageFormat(IO::Path::GetExtension(args.path));
+		Graphics::Bitmap asset(binary_data.data, binary_data.size, format);
 
 		// We don't need the data buffer anymore, so it can be freed.
 		_loader->FreeData(binary_data);
 
-		return AssetLoaderResult<asset_type>(asset, binary_data.Size, success);
+		return AssetLoaderResult<asset_type>(asset, binary_data.size, success);
 
 	}
 	void BitmapAssetLoader::FreeData(AssetLoaderResult<asset_type>& asset) {
 
 		// Calling the destructor will free the resource and set its data pointer to null.
-		asset.Data.~Bitmap();
+		asset.data.~Bitmap();
 
-		asset.Size = 0;
+		asset.size = 0;
 
 	}
-	AssetLoaderResult<BitmapAssetLoader::asset_type> BitmapAssetLoader::GetNull() {
+	AssetLoaderResult<BitmapAssetLoader::asset_type> BitmapAssetLoader::NullData() {
 
-		return AssetLoaderResult<asset_type>(Graphics::Bitmap((ALLEGRO_BITMAP*)nullptr, false), 0, false);
+		return AssetLoaderResult<asset_type>(Graphics::Bitmap(nullptr, false), 0, false);
 
 	}
 

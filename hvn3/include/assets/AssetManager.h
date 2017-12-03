@@ -13,21 +13,32 @@
 
 namespace hvn3 {
 
-	template <typename asset_type>
+	enum class AssetAutoLoadBehavior {
+		AutoLoadOnAdd,
+		AutoLoadOnGet,
+		AutoLoadDisabled
+	};
+
+	template <typename asset_loader_type>
 	class AssetManager {
+
+	public:
+		typedef asset_loader_type asset_loader_type;
+		typedef typename asset_loader_type::asset_type asset_type;
+		typedef typename asset_loader_type::asset_args_type asset_args_type;
 
 	private:
 		struct Asset {
 
-			Asset(std::string Path, AssetLoaderResult<asset_type>& Data, bool IsLoaded) :
-				Path(Path),
-				Data(std::move(Data)),
-				IsLoaded(IsLoaded) {
+			Asset(AssetLoaderResult<asset_type>& data, const asset_args_type& args, bool is_loaded) :
+				args(args),
+				data(std::move(data)),
+				isLoaded(is_loaded) {
 			}
 
-			AssetLoaderResult<asset_type> Data;
-			std::string Path;
-			bool IsLoaded;
+			AssetLoaderResult<asset_type> data;
+			asset_args_type args;
+			bool isLoaded;
 
 		};
 
@@ -35,13 +46,19 @@ namespace hvn3 {
 		typedef std::unordered_map<AssetGroupId, asset_map_type> group_map_type;
 
 	public:
-		typedef asset_type asset_type;
 		static const AssetGroupId DefaultGroupId = 0;
 
-		AssetManager(std::unique_ptr<IAssetLoader<asset_type> >& loader) :
+		AssetManager() {
+
+			_loader = std::make_unique<asset_loader_type>();
+
+			_init();
+
+		}
+		AssetManager(std::unique_ptr<asset_loader_type>& loader) :
 			_loader(std::move(loader)) {
 
-			_next_id = 0;
+			_init();
 
 		}
 		~AssetManager() {
@@ -50,48 +67,48 @@ namespace hvn3 {
 
 		}
 
-		AssetId Add(const std::string& path, bool auto_load = false) {
+		AssetId Add(const asset_args_type& args) {
 
 			AssetId id = _getNextFreeId();
 
-			Add(id, path, auto_load);
+			Add(id, args);
 
 			return id;
 
 		}
-		bool Add(AssetId id, const std::string& path, bool auto_load = false) {
+		bool Add(AssetId id, const asset_args_type& args) {
 
-			return Add(DefaultGroupId, id, path, auto_load);
+			return Add(DefaultGroupId, id, args);
 
 		}
-		bool Add(AssetGroupId group, AssetId id, const std::string& path, bool auto_load = false) {
+		bool Add(AssetGroupId group, AssetId id, const asset_args_type& args) {
 
 			auto lock = _writeLock();
 
-			return _add(group, id, path, auto_load);
+			return _add(group, id, args, _asset_auto_load_behavior == AssetAutoLoadBehavior::AutoLoadOnAdd);
 
 		}
 
-		AssetHandle<asset_type> Get(AssetId id, bool auto_load = true) {
+		AssetHandle<asset_type> Get(AssetId id) {
 
-			return Get(DefaultGroupId, id, auto_load);
+			return Get(DefaultGroupId, id);
 
 		}
-		AssetHandle<asset_type> Get(AssetGroupId group, AssetId id, bool auto_load = true) {
+		AssetHandle<asset_type> Get(AssetGroupId group, AssetId id) {
 
 			auto lock = _readLock();
 
 			Asset* asset = _findAsset(group, id);
 
-			if(asset == nullptr)
-				if (auto_load) {
+			if (asset == nullptr)
+				if (_asset_auto_load_behavior == AssetAutoLoadBehavior::AutoLoadOnGet) {
 					_load(group, id);
 					asset = _findAsset(group, id);
 				}
 				else
 					return nullptr;
 
-			return &(asset->Data.Data);
+			return &(asset->data.data);
 
 		}
 
@@ -160,7 +177,7 @@ namespace hvn3 {
 
 			for (auto iter = _groups.begin(); iter != _groups.end(); ++iter)
 				_loadAll(iter->first);
-			
+
 		}
 		void LoadAll(AssetGroupId group) {
 
@@ -283,7 +300,7 @@ namespace hvn3 {
 			if (asset_iter == group_iter->second.end())
 				return false;
 
-			return asset_iter->second.IsLoaded;
+			return asset_iter->second.isLoaded;
 
 		}
 
@@ -299,6 +316,17 @@ namespace hvn3 {
 
 		}
 
+		AssetAutoLoadBehavior AutoLoadBehavior() const {
+
+			return _asset_auto_load_behavior;
+
+		}
+		void SetAutoLoadBehavior(AssetAutoLoadBehavior asset_load_behavior) {
+
+			_asset_auto_load_behavior = asset_load_behavior;
+
+		}
+
 		AssetHandle<asset_type> operator[](AssetId id) {
 
 			return Get(id, true);
@@ -306,10 +334,19 @@ namespace hvn3 {
 		}
 
 	private:
-		std::unique_ptr<IAssetLoader<asset_type> > _loader;
+		std::unique_ptr<asset_loader_type> _loader;
 		group_map_type _groups;
-		mutable std::shared_timed_mutex _groups_mutex;
 		AssetId _next_id;
+		AssetAutoLoadBehavior _asset_auto_load_behavior;
+
+		mutable std::shared_timed_mutex _groups_mutex;
+
+		void _init() {
+
+			_next_id = 0;
+			_asset_auto_load_behavior = AssetAutoLoadBehavior::AutoLoadOnGet;
+
+		}
 
 		/*
 		The following functions are non-threadsafe implementations of the public member functions.
@@ -317,7 +354,7 @@ namespace hvn3 {
 		*/
 
 		// Adds a new asset to the manager (not threadsafe).
-		bool _add(AssetGroupId group, AssetId id, const std::string& path, bool load = true) {
+		bool _add(AssetGroupId group, AssetId id, const asset_args_type& args, bool auto_load) {
 
 			if (_exists(group, id))
 				return false;
@@ -326,7 +363,7 @@ namespace hvn3 {
 			if (group_iter == _groups.end())
 				group_iter = _groups.insert(std::make_pair(group, asset_map_type())).first;
 
-			group_iter->second.emplace(id, Asset(path, load ? _loader->LoadData(path) : _loader->GetNull(), load));
+			group_iter->second.emplace(id, Asset(auto_load ? _loader->LoadData(args) : _loader->NullData(), args, auto_load));
 
 			return true;
 
@@ -342,18 +379,20 @@ namespace hvn3 {
 			if (asset_iter == group_iter->second.end())
 				return false;
 
-			if (asset_iter->second.IsLoaded)
+			if (asset_iter->second.isLoaded)
 				return true;
 
-			AssetLoaderResult<asset_type> data = _loader->LoadData(asset_iter->second.Path);
-			if (!data.Success) {
-				asset_iter->second.Data.Size = 0;
-				asset_iter->second.IsLoaded = false;
+			AssetLoaderResult<asset_type> data = _loader->LoadData(asset_iter->second.args);
+			
+			if (!data.success) {
+				asset_iter->second.data.size = 0;
+				asset_iter->second.isLoaded = false;
 				_loader->FreeData(data);
+				return false;
 			}
-
-			asset_iter->second.Data.Data = std::move(_loader->LoadData(asset_iter->second.Path).Data);
-			asset_iter->second.IsLoaded = true;
+			
+			asset_iter->second.data.data = std::move(data.data);
+			asset_iter->second.isLoaded = true;
 
 			return true;
 
@@ -382,11 +421,11 @@ namespace hvn3 {
 			if (asset_iter == group_iter->second.end())
 				return false;
 
-			if (!asset_iter->second.IsLoaded)
+			if (!asset_iter->second.isLoaded)
 				return true;
 
-			_loader->FreeData(asset_iter->second.Data);
-			asset_iter->second.IsLoaded = false;
+			_loader->FreeData(asset_iter->second.data);
+			asset_iter->second.isLoaded = false;
 
 			return true;
 
@@ -484,18 +523,18 @@ namespace hvn3 {
 
 					// Find the asset in the map. We find the group iterator each time because it may have been deleted while loading assets.
 					Asset* asset = _findAsset(group, asset_id);
-					if (asset == nullptr || asset->IsLoaded) {
+					if (asset == nullptr || asset->isLoaded) {
 						callback_lock.lock();
 						if (asset == nullptr)
 							callback(AssetLoaderEventArgs(loaded_assets, --total_assets, 0, ASSET_LOADER_EVENT_STATUS_REMOVED, asset_id, group));
 						else
-							callback(AssetLoaderEventArgs(++loaded_assets, total_assets, asset->Data.Size, ASSET_LOADER_EVENT_STATUS_ALREADY_LOADED, asset_id, group));
+							callback(AssetLoaderEventArgs(++loaded_assets, total_assets, asset->data.size, ASSET_LOADER_EVENT_STATUS_ALREADY_LOADED, asset_id, group));
 						callback_lock.unlock();
 						return;
 					}
 
 					// The asset exists, so get the information we need in order to load it.
-					std::string path = asset->Path;
+					asset_args_type args = asset->args;
 
 					// Release the read lock for other threads; we don't need to hold onto it while loading the resource.
 					read_lock.unlock();
@@ -506,7 +545,7 @@ namespace hvn3 {
 					callback_lock.unlock();
 
 					// Load asset data.
-					AssetLoaderResult<asset_type> data = _loader->LoadData(path);
+					AssetLoaderResult<asset_type> data = _loader->LoadData(args);
 
 					// Once the asset data has been loaded, apply it to the asset.		
 
@@ -516,25 +555,25 @@ namespace hvn3 {
 					asset = _findAsset(group, asset_id);
 
 					// If we couldn't find the asset or the asset couldn't be loaded, report the error to the callback function.
-					if (asset == nullptr || !data.Success) {
+					if (asset == nullptr || !data.success) {
 						if (asset != nullptr)
-							asset->IsLoaded = false;
+							asset->isLoaded = false;
 						_loader->FreeData(data);
 						callback_lock.lock();
-						callback(AssetLoaderEventArgs(loaded_assets, --total_assets, data.Size, asset == nullptr ? ASSET_LOADER_EVENT_STATUS_REMOVED : ASSET_LOADER_EVENT_STATUS_FAILED, asset_id, group));
+						callback(AssetLoaderEventArgs(loaded_assets, --total_assets, data.size, asset == nullptr ? ASSET_LOADER_EVENT_STATUS_REMOVED : ASSET_LOADER_EVENT_STATUS_FAILED, asset_id, group));
 						callback_lock.unlock();
 						return;
 					}
 
 					// Apply the newly-loaded asset data to the asset.
-					asset->Data = std::move(data);
-					asset->IsLoaded = true;
+					asset->data = std::move(data);
+					asset->isLoaded = true;
 
 					write_lock.unlock();
 
 					// Call the callback function to indicate that the asset has finished being loaded.
 					callback_lock.lock();
-					callback(AssetLoaderEventArgs(++loaded_assets, total_assets, data.Size, ASSET_LOADER_EVENT_STATUS_FINISHED, asset_id, group));
+					callback(AssetLoaderEventArgs(++loaded_assets, total_assets, data.size, ASSET_LOADER_EVENT_STATUS_FINISHED, asset_id, group));
 					callback_lock.unlock();
 
 				});

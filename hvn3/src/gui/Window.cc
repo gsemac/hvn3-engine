@@ -360,7 +360,7 @@ namespace hvn3 {
 		}
 		bool Window::HasActiveChild() {
 
-			return Controls()->ActiveControl();
+			return Controls()->ActiveControl() != nullptr;
 
 		}
 

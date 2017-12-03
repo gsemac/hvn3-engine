@@ -1,5 +1,7 @@
 #pragma once
 #include "assets/AssetManager.h"
+#include "assets/FontAssetLoader.h"
+#include "assets/BitmapAssetLoader.h"
 #include "graphics/Bitmap.h"
 #include "graphics/Color.h"
 
@@ -48,8 +50,8 @@ namespace hvn3 {
 			Color _tertiary_color;
 			Color _text_color;
 
-			AssetManager<Font> _fonts;
-			AssetManager<Graphics::Bitmap> _bitmaps;
+			AssetManager<FontAssetLoader> _fonts;
+			AssetManager<BitmapAssetLoader> _bitmaps;
 
 		};
 
