@@ -67,9 +67,6 @@
     <Filter Include="include\views">
       <UniqueIdentifier>{dff20e7a-6c4d-4439-8692-41dca4ed88a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\test">
-      <UniqueIdentifier>{996f00ef-492e-4fa2-93a7-41eb03ae9fcd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\allegro">
       <UniqueIdentifier>{23a9cf8e-2427-4cf1-8960-97cb48f725c3}</UniqueIdentifier>
     </Filter>
@@ -106,9 +103,6 @@
     <Filter Include="src\net">
       <UniqueIdentifier>{28a1ce6c-8ca7-49ba-a6e8-bb3fbcd1958d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\test">
-      <UniqueIdentifier>{0d665bb9-1e0e-4e5b-bf67-538450787779}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\views">
       <UniqueIdentifier>{15a51cca-411b-4678-a1aa-43bc5b9189d4}</UniqueIdentifier>
     </Filter>
@@ -139,958 +133,925 @@
     <Filter Include="src\assets">
       <UniqueIdentifier>{6568945e-8374-43c7-9c69-b59e5a7de7ac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\test\graphics">
-      <UniqueIdentifier>{134b8eb6-aa6b-441d-bc27-08f894a7d131}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\test\graphics">
-      <UniqueIdentifier>{eb4b94ae-3883-4618-8bec-1e048a8ac6c1}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\allegro\AllegroAdapter.h">
+    <ClInclude Include="include\hvn3\allegro\AllegroAdapter.h">
       <Filter>include\allegro</Filter>
     </ClInclude>
-    <ClInclude Include="include\allegro\AllegroExtensions.h">
+    <ClInclude Include="include\hvn3\allegro\AllegroExtensions.h">
       <Filter>include\allegro</Filter>
     </ClInclude>
-    <ClInclude Include="include\allegro\AllegroForwardDeclarations.h">
+    <ClInclude Include="include\hvn3\allegro\AllegroForwardDeclarations.h">
       <Filter>include\allegro</Filter>
     </ClInclude>
-    <ClInclude Include="include\backgrounds\Background.h">
+    <ClInclude Include="include\hvn3\assets\AssetHandle.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\assets\AssetLoaderEventArgs.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\assets\AssetManager.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\assets\Assets.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\assets\AssetTypeDefs.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\assets\BitmapAssetLoader.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\assets\FileAssetLoader.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\assets\FontAssetLoader.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\assets\IAssetLoader.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\assets\IBinaryAssetLoader.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\backgrounds\Background.h">
       <Filter>include\backgrounds</Filter>
     </ClInclude>
-    <ClInclude Include="include\backgrounds\BackgroundDrawEventArgs.h">
+    <ClInclude Include="include\hvn3\backgrounds\BackgroundDrawEventArgs.h">
       <Filter>include\backgrounds</Filter>
     </ClInclude>
-    <ClInclude Include="include\backgrounds\BackgroundManager.h">
+    <ClInclude Include="include\hvn3\backgrounds\BackgroundManager.h">
       <Filter>include\backgrounds</Filter>
     </ClInclude>
-    <ClInclude Include="include\backgrounds\IBackgroundManager.h">
+    <ClInclude Include="include\hvn3\backgrounds\IBackgroundManager.h">
       <Filter>include\backgrounds</Filter>
     </ClInclude>
-    <ClInclude Include="include\collision\CircleHitMask.h">
+    <ClInclude Include="include\hvn3\collision\CircleHitMask.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\collision\CollisionEventArgs.h">
+    <ClInclude Include="include\hvn3\collision\CollisionBodyBase.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\collision\CollisionFilter.h">
+    <ClInclude Include="include\hvn3\collision\CollisionBodyMutator.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\collision\CollisionManifold.h">
+    <ClInclude Include="include\hvn3\collision\CollisionEventArgs.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\collision\CollisionUtils.h">
+    <ClInclude Include="include\hvn3\collision\CollisionFilter.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\collision\ICollidable.h">
+    <ClInclude Include="include\hvn3\collision\CollisionManagerBase.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\collision\ICollisionBody.h">
+    <ClInclude Include="include\hvn3\collision\CollisionManifold.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\collision\IHitMask.h">
+    <ClInclude Include="include\hvn3\collision\CollisionUtils.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\collision\RectangleHitMask.h">
+    <ClInclude Include="include\hvn3\collision\IBroadPhase.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\events\Event.h">
+    <ClInclude Include="include\hvn3\collision\ICollidable.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\ICollisionBody.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\ICollisionManager.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\IHitMask.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\INarrowPhase.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\NarrowPhase.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\ObjectCollisionBody.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\ObjectCollisionManager.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\RectangleHitMask.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\SpacialPartitioningGrid.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\CreateEventArgs.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\DestroyEventArgs.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\DrawEventArgs.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\Framework.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\GameManager.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\IDestroyable.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\IDrawable.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\IPositionable2d.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\IStringable.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\ITransformable.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\IUpdatable.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\Positionable2dBase.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\Properties.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\Runner.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\SharedCreatableBase.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\SizeableBase.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\UniqueCreateableBase.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\UniquePolymorphicCreateableBase.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\UpdateEventArgs.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\events\Event.h">
       <Filter>include\events</Filter>
     </ClInclude>
-    <ClInclude Include="include\events\EventArgs.h">
+    <ClInclude Include="include\hvn3\events\EventArgs.h">
       <Filter>include\events</Filter>
     </ClInclude>
-    <ClInclude Include="include\events\EventQueue.h">
+    <ClInclude Include="include\hvn3\events\EventQueue.h">
       <Filter>include\events</Filter>
     </ClInclude>
-    <ClInclude Include="include\events\EventSource.h">
+    <ClInclude Include="include\hvn3\events\EventSource.h">
       <Filter>include\events</Filter>
     </ClInclude>
-    <ClInclude Include="include\exceptions\Exception.h">
+    <ClInclude Include="include\hvn3\events\Timer.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\exceptions\Exception.h">
       <Filter>include\exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="include\fonts\Font.h">
+    <ClInclude Include="include\hvn3\fonts\Font.h">
       <Filter>include\fonts</Filter>
     </ClInclude>
-    <ClInclude Include="include\graphics\Bitmap.h">
+    <ClInclude Include="include\hvn3\graphics\Bitmap.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\graphics\Color.h">
+    <ClInclude Include="include\hvn3\graphics\Color.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\graphics\Display.h">
+    <ClInclude Include="include\hvn3\graphics\Display.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\graphics\DisplayController.h">
+    <ClInclude Include="include\hvn3\graphics\DisplayController.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\graphics\DisplaySizeChangedEventArgs.h">
+    <ClInclude Include="include\hvn3\graphics\DisplaySizeChangedEventArgs.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\graphics\Graphics.h">
+    <ClInclude Include="include\hvn3\graphics\Graphics.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\graphics\GraphicsState.h">
+    <ClInclude Include="include\hvn3\graphics\GraphicsState.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\graphics\GridRenderer.h">
+    <ClInclude Include="include\hvn3\graphics\GridRenderer.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\graphics\Transform.h">
+    <ClInclude Include="include\hvn3\graphics\Imaging.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\ITextable.h">
+    <ClInclude Include="include\hvn3\graphics\Transform.h">
+      <Filter>include\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\Container.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\Panel.h">
+    <ClInclude Include="include\hvn3\gui\ContainerControl.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\ScrollableControl.h">
+    <ClInclude Include="include\hvn3\gui\Control.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\Scrollbar.h">
+    <ClInclude Include="include\hvn3\gui\ControlController.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\ScrollEventArgs.h">
+    <ClInclude Include="include\hvn3\gui\ControlManager.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\SmoothScrollbar.h">
+    <ClInclude Include="include\hvn3\gui\Gui.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\StyleManager.h">
+    <ClInclude Include="include\hvn3\gui\GuiManager.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\TextableControl.h">
+    <ClInclude Include="include\hvn3\gui\Handle.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\Textbox.h">
+    <ClInclude Include="include\hvn3\gui\IContainer.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\ToolStrip.h">
+    <ClInclude Include="include\hvn3\gui\IFocusable.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\ToolStripButton.h">
+    <ClInclude Include="include\hvn3\gui\ImageableControl.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\ToolStripDropDown.h">
+    <ClInclude Include="include\hvn3\gui\IScrollable.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\ToolStripItem.h">
+    <ClInclude Include="include\hvn3\gui\ITextable.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\ToolStripLabel.h">
+    <ClInclude Include="include\hvn3\gui\Panel.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\ToolStripMenuItem.h">
+    <ClInclude Include="include\hvn3\gui\ScrollableControl.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\ToolStripSeparator.h">
+    <ClInclude Include="include\hvn3\gui\Scrollbar.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\Window.h">
+    <ClInclude Include="include\hvn3\gui\ScrollEventArgs.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\Button.h">
+    <ClInclude Include="include\hvn3\gui\SmoothScrollbar.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\ButtonBase.h">
+    <ClInclude Include="include\hvn3\gui\StyleManager.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\Container.h">
+    <ClInclude Include="include\hvn3\gui\TextableControl.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\ContainerControl.h">
+    <ClInclude Include="include\hvn3\gui\Textbox.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\Control.h">
+    <ClInclude Include="include\hvn3\gui\ToolStrip.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\ControlController.h">
+    <ClInclude Include="include\hvn3\gui\ToolStripButton.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\ControlManager.h">
+    <ClInclude Include="include\hvn3\gui\ToolStripDropDown.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\Gui.h">
+    <ClInclude Include="include\hvn3\gui\ToolStripItem.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\GuiManager.h">
+    <ClInclude Include="include\hvn3\gui\ToolStripLabel.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\Handle.h">
+    <ClInclude Include="include\hvn3\gui\ToolStripMenuItem.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\IContainer.h">
+    <ClInclude Include="include\hvn3\gui\ToolStripSeparator.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\IFocusable.h">
+    <ClInclude Include="include\hvn3\gui\Window.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\ImageableControl.h">
+    <ClInclude Include="include\hvn3\gui\Button.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\IScrollable.h">
+    <ClInclude Include="include\hvn3\gui\ButtonBase.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\io\KeyboardController.h">
+    <ClInclude Include="include\hvn3\io\Clipboard.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\io\KeyboardEventArgs.h">
+    <ClInclude Include="include\hvn3\io\Console.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\io\KeyboardListener.h">
+    <ClInclude Include="include\hvn3\io\Directory.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\io\Mouse.h">
+    <ClInclude Include="include\hvn3\io\File.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\io\MouseController.h">
+    <ClInclude Include="include\hvn3\io\IO.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\io\MouseEventArgs.h">
+    <ClInclude Include="include\hvn3\io\Keyboard.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\io\MouseListener.h">
+    <ClInclude Include="include\hvn3\io\KeyboardController.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\io\Path.h">
+    <ClInclude Include="include\hvn3\io\KeyboardEventArgs.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\io\Clipboard.h">
+    <ClInclude Include="include\hvn3\io\KeyboardListener.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\io\Console.h">
+    <ClInclude Include="include\hvn3\io\Mouse.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\io\Directory.h">
+    <ClInclude Include="include\hvn3\io\MouseController.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\io\File.h">
+    <ClInclude Include="include\hvn3\io\MouseEventArgs.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\io\IO.h">
+    <ClInclude Include="include\hvn3\io\MouseListener.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\io\Keyboard.h">
+    <ClInclude Include="include\hvn3\io\Path.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\math\GeometryUtils.h">
+    <ClInclude Include="include\hvn3\math\Line.h">
       <Filter>include\math</Filter>
     </ClInclude>
-    <ClInclude Include="include\math\Line.h">
+    <ClInclude Include="include\hvn3\math\MathUtils.h">
       <Filter>include\math</Filter>
     </ClInclude>
-    <ClInclude Include="include\math\MathUtils.h">
+    <ClInclude Include="include\hvn3\math\Rectangle.h">
       <Filter>include\math</Filter>
     </ClInclude>
-    <ClInclude Include="include\math\Rectangle.h">
+    <ClInclude Include="include\hvn3\math\Vector2d.h">
       <Filter>include\math</Filter>
     </ClInclude>
-    <ClInclude Include="include\math\Vector2d.h">
+    <ClInclude Include="include\hvn3\math\Circle.h">
       <Filter>include\math</Filter>
     </ClInclude>
-    <ClInclude Include="include\math\Circle.h">
+    <ClInclude Include="include\hvn3\math\GeometryUtils.h">
       <Filter>include\math</Filter>
     </ClInclude>
-    <ClInclude Include="include\net\IPAddress.h">
+    <ClInclude Include="include\hvn3\net\IPAddress.h">
       <Filter>include\net</Filter>
     </ClInclude>
-    <ClInclude Include="include\objects\ObjectBase.h">
+    <ClInclude Include="include\hvn3\objects\IObjectManager.h">
       <Filter>include\objects</Filter>
     </ClInclude>
-    <ClInclude Include="include\objects\ObjectManager.h">
+    <ClInclude Include="include\hvn3\objects\Object.h">
       <Filter>include\objects</Filter>
     </ClInclude>
-    <ClInclude Include="include\objects\IObjectManager.h">
+    <ClInclude Include="include\hvn3\objects\ObjectBase.h">
       <Filter>include\objects</Filter>
     </ClInclude>
-    <ClInclude Include="include\objects\Object.h">
+    <ClInclude Include="include\hvn3\objects\ObjectManager.h">
       <Filter>include\objects</Filter>
     </ClInclude>
-    <ClInclude Include="include\physics\IPhysicsManager.h">
+    <ClInclude Include="include\hvn3\physics\BasicPhysicsBody.h">
       <Filter>include\physics</Filter>
     </ClInclude>
-    <ClInclude Include="include\physics\Material.h">
+    <ClInclude Include="include\hvn3\physics\BasicPhysicsManager.h">
       <Filter>include\physics</Filter>
     </ClInclude>
-    <ClInclude Include="include\physics\PhysicsUtils.h">
+    <ClInclude Include="include\hvn3\physics\IPhysicsBody.h">
       <Filter>include\physics</Filter>
     </ClInclude>
-    <ClInclude Include="include\physics\BasicPhysicsBody.h">
+    <ClInclude Include="include\hvn3\physics\IPhysicsManager.h">
       <Filter>include\physics</Filter>
     </ClInclude>
-    <ClInclude Include="include\physics\BasicPhysicsManager.h">
+    <ClInclude Include="include\hvn3\physics\Material.h">
       <Filter>include\physics</Filter>
     </ClInclude>
-    <ClInclude Include="include\physics\IPhysicsBody.h">
+    <ClInclude Include="include\hvn3\physics\PhysicsUtils.h">
       <Filter>include\physics</Filter>
     </ClInclude>
-    <ClInclude Include="include\rooms\Room.h">
+    <ClInclude Include="include\hvn3\rooms\IRoom.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\rooms\RoomBase.h">
+    <ClInclude Include="include\hvn3\rooms\IRoomManager.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\rooms\RoomController.h">
+    <ClInclude Include="include\hvn3\rooms\IRoomTransition.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\rooms\RoomEnterEventArgs.h">
+    <ClInclude Include="include\hvn3\rooms\Room.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\rooms\RoomExitEventArgs.h">
+    <ClInclude Include="include\hvn3\rooms\RoomBase.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\rooms\RoomManager.h">
+    <ClInclude Include="include\hvn3\rooms\RoomController.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\rooms\RoomTransitionFade.h">
+    <ClInclude Include="include\hvn3\rooms\RoomEnterEventArgs.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\rooms\RoomTransitionNone.h">
+    <ClInclude Include="include\hvn3\rooms\RoomExitEventArgs.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\rooms\IRoom.h">
+    <ClInclude Include="include\hvn3\rooms\RoomManager.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\rooms\IRoomManager.h">
+    <ClInclude Include="include\hvn3\rooms\RoomTransitionFade.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\rooms\IRoomTransition.h">
+    <ClInclude Include="include\hvn3\rooms\RoomTransitionNone.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\sound\Sound.h">
+    <ClInclude Include="include\hvn3\sound\Sound.h">
       <Filter>include\sound</Filter>
     </ClInclude>
-    <ClInclude Include="include\sprites\Sprite.h">
+    <ClInclude Include="include\hvn3\sprites\Sprite.h">
       <Filter>include\sprites</Filter>
     </ClInclude>
-    <ClInclude Include="include\sprites\SpriteRenderer.h">
+    <ClInclude Include="include\hvn3\sprites\SpriteRenderer.h">
       <Filter>include\sprites</Filter>
     </ClInclude>
-    <ClInclude Include="include\test\CircleTangentRoom.h">
-      <Filter>include\test</Filter>
-    </ClInclude>
-    <ClInclude Include="include\test\Global.h">
-      <Filter>include\test</Filter>
-    </ClInclude>
-    <ClInclude Include="include\test\LevelEditor.h">
-      <Filter>include\test</Filter>
-    </ClInclude>
-    <ClInclude Include="include\test\PhysicsRoom.h">
-      <Filter>include\test</Filter>
-    </ClInclude>
-    <ClInclude Include="include\tilesets\Tileset.h">
+    <ClInclude Include="include\hvn3\tilesets\Tileset.h">
       <Filter>include\tilesets</Filter>
     </ClInclude>
-    <ClInclude Include="include\tilesets\TilesetPanel.h">
+    <ClInclude Include="include\hvn3\tilesets\TilesetPanel.h">
       <Filter>include\tilesets</Filter>
     </ClInclude>
-    <ClInclude Include="include\views\IViewManager.h">
+    <ClInclude Include="include\hvn3\utility\BitFlags.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\DataGrid.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Direction8.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Encryption.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Environment.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\FpsCounter.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Grid.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Hash.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\MD5.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Padding.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Point2d.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Quadtree.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Random.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Range.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Scale.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Size.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Sorting.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Stopwatch.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\StringUtils.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Thread.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\ThreadPool.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Utility.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Algorithm.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\views\IViewManager.h">
       <Filter>include\views</Filter>
     </ClInclude>
-    <ClInclude Include="include\views\View.h">
+    <ClInclude Include="include\hvn3\views\View.h">
       <Filter>include\views</Filter>
     </ClInclude>
-    <ClInclude Include="include\views\ViewManager.h">
+    <ClInclude Include="include\hvn3\views\ViewManager.h">
       <Filter>include\views</Filter>
     </ClInclude>
-    <ClInclude Include="include\views\ViewUpdateEventArgs.h">
+    <ClInclude Include="include\hvn3\views\ViewUpdateEventArgs.h">
       <Filter>include\views</Filter>
     </ClInclude>
-    <ClInclude Include="include\events\Timer.h">
-      <Filter>include\events</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Stopwatch.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\UTF8String.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Utility.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Point2d.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Hash.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Encryption.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Thread.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Scale.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\BitFlags.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Sorting.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\StringUtils.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\DataGrid.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Grid.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\MD5.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Padding.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Quadtree.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Random.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Range.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Size.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\FpsCounter.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3.h">
+    <ClInclude Include="include\hvn3\hvn3.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\core\DrawEventArgs.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\Framework.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\GameManager.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\IDrawable.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\IUpdatable.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\Properties.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\Runner.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\UpdateEventArgs.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\IStringable.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\ITransformable.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\SharedCreatableBase.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\UniqueCreateableBase.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\UniquePolymorphicCreateableBase.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\IPositionable2d.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\Positionable2dBase.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\SizeableBase.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Direction8.h">
+    <ClInclude Include="include\hvn3\utility\Utf8String.h">
       <Filter>include\utility</Filter>
     </ClInclude>
-    <ClInclude Include="include\utility\Environment.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\assets\Assets.h">
-      <Filter>include\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\assets\AssetHandle.h">
-      <Filter>include\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\assets\AssetTypeDefs.h">
-      <Filter>include\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\assets\AssetManager.h">
-      <Filter>include\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\assets\IAssetLoader.h">
-      <Filter>include\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\assets\FileAssetLoader.h">
-      <Filter>include\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\assets\IBinaryAssetLoader.h">
-      <Filter>include\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\assets\BitmapAssetLoader.h">
-      <Filter>include\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\graphics\Imaging.h">
-      <Filter>include\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\ThreadPool.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\assets\AssetLoaderEventArgs.h">
-      <Filter>include\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\collision\IBroadPhase.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\collision\SpacialPartitioningGrid.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\test\graphics\SpacialPartitioningGridRenderer.h">
-      <Filter>include\test\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="include\collision\INarrowPhase.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\collision\ObjectCollisionBody.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\IDestroyable.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\DestroyEventArgs.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\collision\ObjectCollisionManager.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\collision\CollisionBodyMutator.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\collision\CollisionBodyBase.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\collision\NarrowPhase.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\collision\CollisionManagerBase.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\collision\ICollisionManager.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utility\Algorithm.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\CreateEventArgs.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\assets\FontAssetLoader.h">
-      <Filter>include\assets</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\allegro\AllegroAdapter.cc">
-      <Filter>src\allegro</Filter>
-    </ClCompile>
-    <ClCompile Include="src\allegro\AllegroExtensions.cc">
-      <Filter>src\allegro</Filter>
-    </ClCompile>
-    <ClCompile Include="src\backgrounds\Background.cc">
-      <Filter>src\backgrounds</Filter>
-    </ClCompile>
-    <ClCompile Include="src\backgrounds\BackgroundDrawEventArgs.cc">
-      <Filter>src\backgrounds</Filter>
-    </ClCompile>
-    <ClCompile Include="src\backgrounds\BackgroundManager.cc">
-      <Filter>src\backgrounds</Filter>
-    </ClCompile>
-    <ClCompile Include="src\collision\CircleHitMask.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\collision\CollisionEventArgs.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\collision\CollisionFilter.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\collision\CollisionManager.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\collision\CollisionManifold.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\collision\RectangleHitMask.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\Framework.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\GameManager.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\IUpdatable.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\Properties.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\Runner.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\UpdateEventArgs.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\Event.cc">
-      <Filter>src\events</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\EventArgs.cc">
-      <Filter>src\events</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\EventQueue.cc">
-      <Filter>src\events</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\EventSource.cc">
-      <Filter>src\events</Filter>
-    </ClCompile>
-    <ClCompile Include="src\exceptions\Exception.cc">
-      <Filter>src\exceptions</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fonts\Font.cc">
-      <Filter>src\fonts</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\Bitmap.cc">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\Color.cc">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\Display.cc">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\DisplayController.cc">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\DisplaySizeChangedEventArgs.cc">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\Graphics.cc">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\GraphicsState.cc">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\GridRenderer.cc">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\Transform.cc">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\IFocusable.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ImageableControl.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\IScrollable.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ITextable.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\Panel.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ScrollableControl.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\Scrollbar.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ScrollEventArgs.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\SmoothScrollbar.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\StyleManager.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\TextableControl.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ToolStrip.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ToolStripButton.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ToolStripDropDown.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ToolStripItem.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ToolStripLabel.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ToolStripMenuItem.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ToolStripSeparator.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\Window.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\Button.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ButtonBase.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\Container.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ContainerControl.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\Control.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ControlCollection.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ControlController.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\ControlManager.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\GuiManager.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\IContainer.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\io\Clipboard.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\io\Console.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\io\Directory.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\io\File.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\io\Keyboard.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\io\KeyboardController.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\io\KeyboardEventArgs.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\io\KeyboardListener.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\io\Mouse.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\io\MouseController.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\io\MouseEventArgs.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\io\MouseListener.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\io\Path.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\math\GeometryUtils.cc">
-      <Filter>src\math</Filter>
-    </ClCompile>
-    <ClCompile Include="src\math\MathUtils.cc">
-      <Filter>src\math</Filter>
-    </ClCompile>
-    <ClCompile Include="src\math\Vector2d.cc">
-      <Filter>src\math</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\IPAddress.cc">
-      <Filter>src\net</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\ObjectBase.cc">
-      <Filter>src\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\ObjectManager.cc">
-      <Filter>src\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\Object.cc">
-      <Filter>src\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\physics\BasicPhysicsManager.cc">
-      <Filter>src\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\physics\Material.cc">
-      <Filter>src\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\physics\PhysicsUtils.cc">
-      <Filter>src\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\physics\BasicPhysicsBody.cc">
-      <Filter>src\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\rooms\RoomController.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\rooms\RoomEnterEventArgs.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\rooms\RoomExitEventArgs.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\rooms\RoomManager.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\rooms\RoomTransitionFade.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\rooms\RoomTransitionNone.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\rooms\IRoom.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\rooms\IRoomTransition.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\rooms\Room.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sound\Sound.cc">
-      <Filter>src\sound</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sprites\Sprite.cc">
-      <Filter>src\sprites</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sprites\SpriteRenderer.cc">
-      <Filter>src\sprites</Filter>
-    </ClCompile>
-    <ClCompile Include="src\test\LevelEditor.cc">
-      <Filter>src\test</Filter>
-    </ClCompile>
-    <ClCompile Include="src\test\Main.cc">
-      <Filter>src\test</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tilesets\Tileset.cc">
-      <Filter>src\tilesets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tilesets\TilesetPanel.cc">
-      <Filter>src\tilesets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\Timer.cc">
-      <Filter>src\events</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\DrawEventArgs.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\FpsCounter.cc">
-      <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\Grid.cc">
-      <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\Padding.cc">
-      <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\Random.cc">
-      <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\Scale.cc">
-      <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\Stopwatch.cc">
-      <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\StringUtils.cc">
-      <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\Thread.cc">
-      <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\UTF8String.cc">
-      <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\Utility.cc">
-      <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\views\View.cc">
-      <Filter>src\views</Filter>
-    </ClCompile>
-    <ClCompile Include="src\views\ViewManager.cc">
-      <Filter>src\views</Filter>
-    </ClCompile>
-    <ClCompile Include="src\views\ViewUpdateEventArgs.cc">
-      <Filter>src\views</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\Direction8.cc">
-      <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\Environment.cc">
-      <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\assets\FileAssetLoader.cc">
-      <Filter>src\assets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\assets\BitmapAssetLoader.cc">
-      <Filter>src\assets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\Imaging.cc">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\ThreadPool.cc">
-      <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\assets\AssetLoaderEventArgs.cc">
-      <Filter>src\assets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\test\graphics\SpacialPartitioningGridRenderer.cc">
-      <Filter>src\test\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\collision\ObjectCollisionBody.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\collision\CollisionBodyBase.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\collision\CollisionBodyMutator.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\collision\NarrowPhase.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\assets\FontAssetLoader.cc">
-      <Filter>src\assets</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="..\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\hvn3\allegro\AllegroAdapter.cc">
+      <Filter>src\allegro</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\allegro\AllegroExtensions.cc">
+      <Filter>src\allegro</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\assets\AssetLoaderEventArgs.cc">
+      <Filter>src\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\assets\BitmapAssetLoader.cc">
+      <Filter>src\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\assets\FileAssetLoader.cc">
+      <Filter>src\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\assets\FontAssetLoader.cc">
+      <Filter>src\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\backgrounds\BackgroundDrawEventArgs.cc">
+      <Filter>src\backgrounds</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\backgrounds\BackgroundManager.cc">
+      <Filter>src\backgrounds</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\backgrounds\Background.cc">
+      <Filter>src\backgrounds</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\CollisionBodyBase.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\CollisionBodyMutator.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\CollisionEventArgs.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\CollisionFilter.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\CollisionManager.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\CollisionManifold.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\NarrowPhase.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\ObjectCollisionBody.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\RectangleHitMask.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\CircleHitMask.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\GameManager.cc">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\IUpdatable.cc">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\Properties.cc">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\Runner.cc">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\UpdateEventArgs.cc">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\DrawEventArgs.cc">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\Framework.cc">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\events\EventSource.cc">
+      <Filter>src\events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\events\Timer.cc">
+      <Filter>src\events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\events\Event.cc">
+      <Filter>src\events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\events\EventArgs.cc">
+      <Filter>src\events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\events\EventQueue.cc">
+      <Filter>src\events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\exceptions\Exception.cc">
+      <Filter>src\exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\fonts\Font.cc">
+      <Filter>src\fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\DisplayController.cc">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\DisplaySizeChangedEventArgs.cc">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\Graphics.cc">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\GraphicsState.cc">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\GridRenderer.cc">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\Imaging.cc">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\Transform.cc">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\Bitmap.cc">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\Color.cc">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\Display.cc">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ContainerControl.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\Control.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ControlController.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ControlManager.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\GuiManager.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\IContainer.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\IFocusable.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ImageableControl.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\IScrollable.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ITextable.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\Panel.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ScrollableControl.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\Scrollbar.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ScrollEventArgs.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\SmoothScrollbar.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\StyleManager.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\TextableControl.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ToolStrip.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ToolStripButton.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ToolStripDropDown.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ToolStripItem.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ToolStripLabel.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ToolStripMenuItem.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ToolStripSeparator.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\Window.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\Button.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ButtonBase.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\Container.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\Clipboard.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\Console.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\Directory.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\File.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\Keyboard.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\KeyboardController.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\KeyboardEventArgs.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\KeyboardListener.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\Mouse.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\MouseController.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\MouseEventArgs.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\MouseListener.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\Path.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\math\GeometryUtils.cc">
+      <Filter>src\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\math\MathUtils.cc">
+      <Filter>src\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\math\Vector2d.cc">
+      <Filter>src\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\net\IPAddress.cc">
+      <Filter>src\net</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\objects\Object.cc">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\objects\ObjectBase.cc">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\objects\ObjectManager.cc">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\physics\BasicPhysicsBody.cc">
+      <Filter>src\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\physics\BasicPhysicsManager.cc">
+      <Filter>src\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\physics\Material.cc">
+      <Filter>src\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\physics\PhysicsUtils.cc">
+      <Filter>src\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\IRoom.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\IRoomTransition.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\Room.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\RoomController.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\RoomEnterEventArgs.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\RoomExitEventArgs.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\RoomManager.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\RoomTransitionFade.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\RoomTransitionNone.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\sound\Sound.cc">
+      <Filter>src\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\sprites\Sprite.cc">
+      <Filter>src\sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\sprites\SpriteRenderer.cc">
+      <Filter>src\sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tilesets\TilesetPanel.cc">
+      <Filter>src\tilesets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tilesets\Tileset.cc">
+      <Filter>src\tilesets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\Direction8.cc">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\Environment.cc">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\FpsCounter.cc">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\Grid.cc">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\Padding.cc">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\Random.cc">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\Scale.cc">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\Stopwatch.cc">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\StringUtils.cc">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\Thread.cc">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\ThreadPool.cc">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\Utility.cc">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\views\View.cc">
+      <Filter>src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\views\ViewManager.cc">
+      <Filter>src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\views\ViewUpdateEventArgs.cc">
+      <Filter>src\views</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\Utf8String.cc">
+      <Filter>src\utility</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

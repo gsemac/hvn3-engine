@@ -6,7 +6,7 @@ HVN3 Engine is a 2D game engine built around [Allegro 5](https://github.com/liba
 For those that just want to make a game without worrying about all the work that goes on in the background, getting started is extremely simple! The following code is enough to create a display and set up everything you need:
 
 ```cpp
-#include "hvn3.h"
+#include "hvn3/hvn3.h"
 using namespace hvn3;
 
 int main(int argc, char *argv[]) {
