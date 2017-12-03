@@ -102,7 +102,7 @@ namespace hvn3 {
 
 		}
 		void Framework::_shutdownUnderlyingFramework() {
-
+			
 			// Shut down IO add-ons.
 			al_uninstall_keyboard();
 			al_uninstall_mouse();

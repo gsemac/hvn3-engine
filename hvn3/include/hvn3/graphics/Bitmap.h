@@ -29,6 +29,7 @@ namespace hvn3 {
 		class Bitmap {
 
 		public:
+			Bitmap();
 			Bitmap(int width, int height);
 			Bitmap(const char* filename);
 			Bitmap(const char* filename, const Color& alpha);
@@ -41,10 +42,6 @@ namespace hvn3 {
 
 			Bitmap Clone() const;
 			Bitmap Clone(const RectangleF& region) const;
-
-			//static Bitmap RefBitmap(const Bitmap& other, const Rectangle& region);
-			//static Bitmap RefBitmap(ALLEGRO_BITMAP* other, const Rectangle& region);
-			//bool IsRefBitmap() const;
 
 			unsigned int Width() const;
 			unsigned int Height() const;
@@ -66,12 +63,12 @@ namespace hvn3 {
 			explicit operator bool() const;
 
 		private:
-			Bitmap();
-			ALLEGRO_BITMAP* _bmp;
+			ALLEGRO_BITMAP* _bitmap;
 			bool _free;
 
-			void ShallowCopy(Bitmap& other);
-			void Free();
+			void _shallowCopy(const Bitmap& other);
+			void _moveCopy(Bitmap& other);
+			void _freeBitmap();
 
 		};
 

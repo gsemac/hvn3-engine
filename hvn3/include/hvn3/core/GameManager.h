@@ -12,9 +12,11 @@ namespace hvn3 {
 	public:
 		GameManager();
 		GameManager(int argc, char* argv[]);
+		~GameManager();
 
 		virtual void Initialize(int argc, char* argv[]);
 		virtual void Loop();
+		virtual void Shutdown();
 
 		System::Properties& Properties();
 		System::Runner& Runner();
@@ -22,13 +24,12 @@ namespace hvn3 {
 		RoomManager::room_type::collision_manager_type& Collisions();
 		IObjectManager& Objects();
 
-	protected:
-		virtual void Shutdown();
-
 	private:
 		System::Properties _properties;
 		System::Runner* _runner;
 		hvn3::RoomManager _room_manager;
+
+		void _onShutdown();
 
 	};
 

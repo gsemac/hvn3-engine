@@ -100,7 +100,7 @@ namespace hvn3 {
 
 		void SpriteRenderer::DrawSprite(DrawEventArgs& e, const PointF& position) const {
 
-			if (_sprite != nullptr) {
+			if (_sprite != nullptr && _sprite->Length() > 0) {
 
 				e.Graphics().DrawSprite(
 					position.X(),
@@ -111,9 +111,9 @@ namespace hvn3 {
 					ImageScale().YScale(),
 					ImageAngle(),
 					Color::FromArgbf(
-						ImageBlend().Rf() * ImageAlpha(), 
-						ImageBlend().Gf() * ImageAlpha(), 
-						ImageBlend().Bf() * ImageAlpha(), 
+						ImageBlend().Rf() * ImageAlpha(),
+						ImageBlend().Gf() * ImageAlpha(),
+						ImageBlend().Bf() * ImageAlpha(),
 						ImageAlpha()
 						)
 					);

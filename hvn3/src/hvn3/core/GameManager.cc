@@ -18,6 +18,11 @@ namespace hvn3 {
 		Initialize(argc, argv);
 
 	}
+	GameManager::~GameManager() {
+
+		Shutdown();
+
+	}
 
 	void GameManager::Initialize(int argc, char* argv[]) {
 
@@ -29,16 +34,19 @@ namespace hvn3 {
 
 		// Create a new runner for handling the game loop.
 		// The runner will automatically create the display upon construction.
-		_runner = new System::Runner(&_properties, &_room_manager);
+		if (_runner == nullptr)
+			_runner = new System::Runner(&_properties, &_room_manager);
 
 		// Execute the main game loop.
 		_runner->Loop();
 
-		// Call the shutdown routine when the loop is exited.
-		Shutdown();
+	}
+	void GameManager::Shutdown() {
+
+		_onShutdown();
 
 	}
-	
+
 	System::Properties& GameManager::Properties() {
 
 		return _properties;
@@ -84,10 +92,10 @@ namespace hvn3 {
 		return *_runner;
 
 	}
-	
 
 
-	void GameManager::Shutdown() {
+
+	void GameManager::_onShutdown() {
 
 		// Delete the runner if one was created.
 		if (_runner != nullptr)
@@ -97,7 +105,7 @@ namespace hvn3 {
 		// Call the destructor for the room manager so all of its resources are freed before shutting down the framework.
 		_room_manager.~RoomManager();
 
-		// Shutdown the underlying framework.
+		// Shutdown the framework. At this point, all other framework objects should be deinitialized (bitmaps, etc.).
 		System::Framework::Shutdown();
 
 	}

@@ -9,7 +9,7 @@ namespace hvn3 {
 		path(path) {
 	}
 	BitmapAssetArgs::BitmapAssetArgs(const char* path) :
-		BitmapAssetArgs(path) {
+		BitmapAssetArgs(std::string(path)) {
 	}
 
 

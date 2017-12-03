@@ -1,10 +1,9 @@
 #pragma once
-#include <vector>
-#include <string>
 #include "hvn3/utility/Point2d.h"
 #include "hvn3/graphics/Color.h"
 #include "hvn3/graphics/Bitmap.h"
-#include "hvn3/core/UniqueCreateableBase.h"
+#include <vector>
+#include <string>
 
 namespace hvn3 {
 
@@ -15,6 +14,8 @@ namespace hvn3 {
 		Sprite(const Graphics::Bitmap& bitmap);
 		Sprite(const Graphics::Bitmap& bitmap, const PointI& origin);
 		Sprite(const Graphics::Bitmap& bitmap, int ox, int oy);
+		//Sprite(Sprite& other);
+		Sprite(Sprite&& other);
 		~Sprite();
 
 		// Returns the width of the first sub-image, or 0 if the sprite does not contain any sub-images.
@@ -47,6 +48,8 @@ namespace hvn3 {
 		static Sprite FromSpriteSheet(const Graphics::Bitmap& bitmap, int frame_width, int frame_height, int origin_x, int origin_y);
 		static Sprite FromSpriteSheet(const Graphics::Bitmap& bitmap, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y);
 		
+		Sprite& operator=(Sprite&& other);
+
 	private:
 		std::vector<Graphics::Bitmap> _frames;
 		int _ox, _oy;

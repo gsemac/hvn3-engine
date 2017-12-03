@@ -27,6 +27,15 @@ namespace hvn3 {
 	Sprite::Sprite(const Graphics::Bitmap& bitmap, int ox, int oy) :
 		Sprite(bitmap, PointI(ox, oy)) {
 	}
+	Sprite::Sprite(Sprite&& other) {
+	
+		_ox = other._ox;
+		_oy = other._oy;
+		_using_sprite_sheet = other._using_sprite_sheet;
+		_strip_length = other._strip_length;
+		_frames = std::move(other._frames);
+
+	}
 	Sprite::~Sprite() {
 	}
 
@@ -111,17 +120,16 @@ namespace hvn3 {
 		int columns = sheet_width / frame_width;
 		int rows = sheet_height / frame_height;
 
-		// Initialize the new Sprite. Note that the sheet must be maintained, because sub-bitmaps share its memory.
-		// The sheet will be maintained as the first of the subimages; calls to the first subimage will return the second, and so on.
+		// Initialize the new sprite.
 		Sprite sprite;
 		sprite.SetOrigin(origin_x, origin_y);
 		sprite._strip_length = columns;
 		sprite._using_sprite_sheet = true;
 
-		// Create sub-sprites from the sheet.
+		// Create sub-images from the sheet.
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < columns; j++)
-				sprite.AddSubImage(Graphics::Bitmap(bitmap, RectangleI(frame_width * j, frame_height * i, frame_width, frame_height)));
+				sprite._frames.push_back(std::move(Graphics::Bitmap(bitmap, RectangleI(frame_width * j, frame_height * i, frame_width, frame_height))));
 
 		// Return the new sprite.
 		return sprite;
@@ -133,6 +141,13 @@ namespace hvn3 {
 
 	}
 
+	Sprite& Sprite::operator=(Sprite&& other) {
+
+		*this = std::move(other);
+
+		return *this;
+
+	}
 			
 
 	size_t Sprite::subImageToIndex(int sub_image) const {

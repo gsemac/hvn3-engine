@@ -30,6 +30,12 @@ namespace hvn3 {
 			return !IsNull();
 
 		}
+		operator const asset_type&() const {
+
+			return *_resource;
+
+		}
+
 		operator asset_type*() const {
 
 			return _resource;

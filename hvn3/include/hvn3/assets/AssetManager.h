@@ -329,7 +329,7 @@ namespace hvn3 {
 
 		AssetHandle<asset_type> operator[](AssetId id) {
 
-			return Get(id, true);
+			return Get(DefaultGroupId, id);
 
 		}
 
