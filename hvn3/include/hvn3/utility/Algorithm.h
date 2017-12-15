@@ -5,7 +5,7 @@ namespace hvn3 {
 
 	// Moves matching elements to the ends of both containers and returns a pair of iterators one past the last elements. Not guaranteed to preserve element ordering.
 	template<typename Iter>
-	std::pair<Iter, Iter> RemoveSameUnordered(Iter begin_1, Iter end_1, Iter begin_2, Iter end_2) {
+	std::pair<Iter, Iter> RemoveSame(Iter begin_1, Iter end_1, Iter begin_2, Iter end_2) {
 
 		bool found = false;
 

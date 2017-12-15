@@ -12,6 +12,8 @@ namespace hvn3 {
 	class ICollisionManager : public IUpdatable {
 
 	public:
+		virtual ~ICollisionManager() = 0;
+
 		// Adds a new body to the collision manager.
 		virtual void AddBody(ICollisionBody& body) = 0;
 		// Marks a body for removal from the collision manager.
