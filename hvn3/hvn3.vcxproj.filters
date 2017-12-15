@@ -615,9 +615,6 @@
     <ClInclude Include="include\hvn3\utility\Padding.h">
       <Filter>include\utility</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\utility\Point2d.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\utility\Quadtree.h">
       <Filter>include\utility</Filter>
     </ClInclude>
@@ -671,6 +668,9 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\utility\Utf8String.h">
       <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\math\Point2d.h">
+      <Filter>include\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

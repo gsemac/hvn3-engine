@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/utility/Point2d.h"
+#include "hvn3/math/Point2d.h"
 #include "hvn3/graphics/Color.h"
 #include "hvn3/graphics/Bitmap.h"
 #include <vector>

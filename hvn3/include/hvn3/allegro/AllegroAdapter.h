@@ -20,6 +20,8 @@ namespace hvn3 {
 			static Color FromColor(const ALLEGRO_COLOR& color);
 			// Returns a pointer to the underlying ALLEGRO_FONT from a font instance.
 			static ALLEGRO_FONT* ToFont(const Font& font);
+			// Returns a pointer to the underlying ALLEGRO_BITMAP from a bitmap instance.
+			static ALLEGRO_BITMAP* ToBitmap(const Graphics::Bitmap& bitmap);
 			// Converts display flags to Allegro display flags.
 			static int ToDisplayFlags(DisplayFlags flags);
 

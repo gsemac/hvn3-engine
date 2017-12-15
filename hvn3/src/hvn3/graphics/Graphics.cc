@@ -225,47 +225,47 @@ namespace hvn3 {
 
 		}
 
-		void Graphics::DrawText(float x, float y, const char* text, const Font* font, const Color& color, Alignment alignment) {
+		void Graphics::DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment) {
 
 			PrepareDrawingSurface();
 
-			al_draw_text(System::AllegroAdapter::ToFont(*font), System::AllegroAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text);
+			al_draw_text(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text);
 
 		}
-		void Graphics::DrawText(float x, float y, const std::string& text, const Font* font, const Color& color) {
+		void Graphics::DrawText(float x, float y, const std::string& text, const Font& font, const Color& color) {
 
 			DrawText(x, y, text.c_str(), font, color);
 
 		}
-		void Graphics::DrawText(float x, float y, const String& text, const Font* font, const Color& color, Alignment alignment) {
+		void Graphics::DrawText(float x, float y, const String& text, const Font& font, const Color& color, Alignment alignment) {
 
 			PrepareDrawingSurface();
 
-			al_draw_ustr(System::AllegroAdapter::ToFont(*font), System::AllegroAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text.AlPtr());
+			al_draw_ustr(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text.AlPtr());
 
 		}
 
-		void Graphics::DrawSprite(float x, float y, const Sprite* sprite, int subimage) {
+		void Graphics::DrawSprite(float x, float y, const Sprite& sprite, int subimage) {
 
 			PrepareDrawingSurface();
 
 			al_draw_bitmap(
-				(*sprite)[subimage].AlPtr(),
-				x + sprite->Origin().X(),
-				y + sprite->Origin().Y(),
+				(sprite)[subimage].AlPtr(),
+				x + sprite.Origin().X(),
+				y + sprite.Origin().Y(),
 				NULL
 				);
 
 		}
-		void Graphics::DrawSprite(float x, float y, const Sprite* sprite, int subimage, float xscale, float yscale, float angle, const Color& blend) {
+		void Graphics::DrawSprite(float x, float y, const Sprite& sprite, int subimage, float xscale, float yscale, float angle, const Color& blend) {
 
 			PrepareDrawingSurface();
 
 			al_draw_tinted_scaled_rotated_bitmap(
-				(*sprite)[subimage].AlPtr(),
+				(sprite)[subimage].AlPtr(),
 				al_map_rgba_f(blend.Rf() * blend.Alphaf(), blend.Gf() * blend.Alphaf(), blend.Bf() * blend.Alphaf(), blend.Alphaf()),
-				sprite->Origin().X(),
-				sprite->Origin().Y(),
+				sprite.Origin().X(),
+				sprite.Origin().Y(),
 				x,
 				y,
 				xscale,
@@ -276,42 +276,42 @@ namespace hvn3 {
 
 		}
 
-		void Graphics::DrawBitmap(float x, float y, const Bitmap* bitmap) {
+		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap) {
 
 			PrepareDrawingSurface();
 
 			al_draw_bitmap(
-				bitmap->AlPtr(),
+				System::AllegroAdapter::ToBitmap(bitmap),
 				x,
 				y,
 				NULL
 				);
 
 		}
-		void Graphics::DrawBitmap(float x, float y, const Bitmap* bitmap, float xscale, float yscale) {
+		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale) {
 
 			PrepareDrawingSurface();
 
 			al_draw_scaled_bitmap(
-				bitmap->AlPtr(),
+				System::AllegroAdapter::ToBitmap(bitmap),
 				0.0f,
 				0.0f,
-				bitmap->Width(),
-				bitmap->Height(),
+				bitmap.Width(),
+				bitmap.Height(),
 				x,
 				y,
-				bitmap->Width() * xscale,
-				bitmap->Height() * yscale,
+				bitmap.Width() * xscale,
+				bitmap.Height() * yscale,
 				NULL
 				);
 
 		}
-		void Graphics::DrawBitmap(float x, float y, const Bitmap* bitmap, float xscale, float yscale, const PointF& origin, float angle) {
+		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const PointF& origin, float angle) {
 
 			PrepareDrawingSurface();
 
 			al_draw_scaled_rotated_bitmap(
-				bitmap->AlPtr(),
+				System::AllegroAdapter::ToBitmap(bitmap),
 				origin.X(),
 				origin.Y(),
 				x,
@@ -323,24 +323,18 @@ namespace hvn3 {
 				);
 
 		}
-		void Graphics::DrawBitmap(float x, float y, const Bitmap* bitmap, const RectangleF& region) {
+		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, const RectangleF& region) {
 
 			PrepareDrawingSurface();
 
-			al_draw_bitmap_region(bitmap->AlPtr(), region.X(), region.Y(), region.Width(), region.Height(), x, y, NULL);
+			al_draw_bitmap_region(System::AllegroAdapter::ToBitmap(bitmap), region.X(), region.Y(), region.Width(), region.Height(), x, y, NULL);
 
 		}
-		void Graphics::DrawBitmap(float x, float y, const Bitmap* bitmap, const Color& tint) {
+		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, const Color& tint) {
 
 			PrepareDrawingSurface();
 
-			al_draw_tinted_bitmap(bitmap->AlPtr(), al_map_rgba_f(tint.Alphaf(), tint.Alphaf(), tint.Alphaf(), tint.Alphaf()), x, y, NULL);
-
-		}
-
-		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap) {
-
-			DrawBitmap(x, y, &bitmap);
+			al_draw_tinted_bitmap(System::AllegroAdapter::ToBitmap(bitmap), al_map_rgba_f(tint.Alphaf(), tint.Alphaf(), tint.Alphaf(), tint.Alphaf()), x, y, NULL);
 
 		}
 

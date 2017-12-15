@@ -105,7 +105,7 @@ namespace hvn3 {
 				e.Graphics().DrawSprite(
 					position.X(),
 					position.Y(),
-					&Sprite(),
+					Sprite(),
 					ImageIndex(),
 					ImageScale().XScale(),
 					ImageScale().YScale(),

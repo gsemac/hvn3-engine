@@ -4,7 +4,7 @@
 #include <memory>
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/core/IDrawable.h"
-#include "hvn3/utility/Point2d.h"
+#include "hvn3/math/Point2d.h"
 #include "hvn3/gui/Handle.h"
 #include "hvn3/gui/Control.h"
 

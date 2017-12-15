@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/utility/Point2d.h"
+#include "hvn3/math/Point2d.h"
 
 namespace hvn3 {
 	namespace Gui {

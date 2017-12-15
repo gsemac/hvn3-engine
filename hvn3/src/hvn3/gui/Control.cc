@@ -67,7 +67,7 @@ namespace hvn3 {
 
 		// Draw the Control's surface bitmap.
 		if (_surface)
-			e.Graphics().DrawBitmap(X(), Y(), &_surface, Color::FromArgbf(Opacity(), Opacity(), Opacity(), Opacity()));
+			e.Graphics().DrawBitmap(X(), Y(), _surface, Color::FromArgbf(Opacity(), Opacity(), Opacity(), Opacity()));
 
 	}
 	void Gui::Control::Resize(float width, float height) {

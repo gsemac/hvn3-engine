@@ -36,12 +36,6 @@ namespace hvn3 {
 
 		}
 
-		operator asset_type*() const {
-
-			return _resource;
-
-		}
-
 		asset_type* operator->() const {
 
 			return _resource;

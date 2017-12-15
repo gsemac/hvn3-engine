@@ -141,6 +141,7 @@
     <ClInclude Include="include\hvn3\math\GeometryUtils.h" />
     <ClInclude Include="include\hvn3\math\Line.h" />
     <ClInclude Include="include\hvn3\math\MathUtils.h" />
+    <ClInclude Include="include\hvn3\math\Point2d.h" />
     <ClInclude Include="include\hvn3\math\Rectangle.h" />
     <ClInclude Include="include\hvn3\math\Vector2d.h" />
     <ClInclude Include="include\hvn3\net\IPAddress.h" />
@@ -181,7 +182,6 @@
     <ClInclude Include="include\hvn3\utility\Hash.h" />
     <ClInclude Include="include\hvn3\utility\MD5.h" />
     <ClInclude Include="include\hvn3\utility\Padding.h" />
-    <ClInclude Include="include\hvn3\utility\Point2d.h" />
     <ClInclude Include="include\hvn3\utility\Quadtree.h" />
     <ClInclude Include="include\hvn3\utility\Random.h" />
     <ClInclude Include="include\hvn3\utility\Range.h" />

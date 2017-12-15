@@ -20,6 +20,11 @@ namespace hvn3 {
 			return font._font;
 
 		}
+		ALLEGRO_BITMAP* ToBitmap(const Graphics::Bitmap& bitmap) {
+
+			return bitmap.AlPtr();
+
+		}
 		int AllegroAdapter::ToDisplayFlags(DisplayFlags flags) {
 
 			int allegro_flags = 0;
