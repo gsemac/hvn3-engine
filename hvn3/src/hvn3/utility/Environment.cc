@@ -1,7 +1,7 @@
 #include "hvn3/utility/Environment.h"
 #include "hvn3/io/Path.h"
 #include "hvn3/exceptions/Exception.h"
-#include <allegro5\allegro.h>
+#include <allegro5/allegro.h>
 #include <algorithm>
 #ifdef _WIN64
 #define ENVIRONMENT hvn3::OperatingSystem::Windows64

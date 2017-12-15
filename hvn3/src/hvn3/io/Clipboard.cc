@@ -1,7 +1,7 @@
 #include "hvn3/io/Clipboard.h"
 #include "hvn3/utility/UTF8String.h"
 #include "hvn3/graphics/Display.h"
-#include <allegro5\allegro.h>
+#include <allegro5/allegro.h>
 
 namespace hvn3 {
 
