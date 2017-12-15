@@ -29,11 +29,7 @@ namespace hvn3 {
 	}
 	Sprite::Sprite(Sprite&& other) {
 	
-		_ox = other._ox;
-		_oy = other._oy;
-		_using_sprite_sheet = other._using_sprite_sheet;
-		_strip_length = other._strip_length;
-		_frames = std::move(other._frames);
+		moveSpriteToThis(other);
 
 	}
 	Sprite::~Sprite() {
@@ -143,7 +139,7 @@ namespace hvn3 {
 
 	Sprite& Sprite::operator=(Sprite&& other) {
 
-		*this = std::move(other);
+		moveSpriteToThis(other);
 
 		return *this;
 
@@ -153,6 +149,15 @@ namespace hvn3 {
 	size_t Sprite::subImageToIndex(int sub_image) const {
 
 		return Math::ModFloor(sub_image, _frames.size());
+
+	}
+	void Sprite::moveSpriteToThis(Sprite& other) {
+
+		_ox = other._ox;
+		_oy = other._oy;
+		_using_sprite_sheet = other._using_sprite_sheet;
+		_strip_length = other._strip_length;
+		_frames = std::move(other._frames);
 
 	}
 

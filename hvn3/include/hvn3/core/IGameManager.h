@@ -12,7 +12,7 @@ namespace hvn3 {
 	class IGameManager {
 
 	public:
-		virtual ~IGameManager() = 0;
+		virtual ~IGameManager() = default;
 
 		virtual void Initialize(int argc, char* argv[]) = 0;
 		virtual void Loop() = 0;

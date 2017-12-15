@@ -2,11 +2,17 @@
 
 namespace hvn3 {
 
-	UpdateEventArgs::UpdateEventArgs(float dt) : __delta_time(dt) {}
+	UpdateEventArgs::UpdateEventArgs(float dt) :
+		UpdateEventArgs(dt, nullptr) {
+	}
+	UpdateEventArgs::UpdateEventArgs(float dt, IGameManager* manager) :
+		GameStateEventArgs(manager),
+		_delta_time(dt) {
+	}
 
 	float UpdateEventArgs::Delta() const {
 
-		return __delta_time;
+		return _delta_time;
 
 	}
 

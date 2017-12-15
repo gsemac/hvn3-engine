@@ -37,7 +37,7 @@ namespace hvn3 {
 		// Create a new runner for handling the game loop.
 		// The runner will automatically create the display upon construction.
 		if (_runner == nullptr)
-			_runner = new System::Runner(&_properties, &_room_manager);
+			_runner = new System::Runner(*this);
 
 		// Execute the main game loop.
 		_runner->Loop();

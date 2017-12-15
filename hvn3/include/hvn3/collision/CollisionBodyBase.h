@@ -7,7 +7,7 @@ namespace hvn3 {
 
 	public:
 		CollisionBodyBase();
-		~CollisionBodyBase();
+		~CollisionBodyBase() override;
 
 		PointF Position() const override;
 		void SetPosition(const PointF& position) override;

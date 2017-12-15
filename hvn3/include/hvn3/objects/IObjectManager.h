@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/objects/Object.h"
+#include "hvn3/objects/ObjectTypeDefs.h"
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/core/IDrawable.h"
 #include <memory>

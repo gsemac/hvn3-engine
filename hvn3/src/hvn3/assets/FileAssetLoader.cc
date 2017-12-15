@@ -19,7 +19,7 @@ namespace hvn3 {
 			return AssetLoaderResult<asset_type>(data, static_cast<unsigned int>(size), false);
 
 		// Otherwise, allocate a buffer for storing the data from the file.
-		data = new uint8_t[size];
+		data = new uint8_t[static_cast<unsigned int>(size)];
 
 		// Read contents of file into the buffer.
 		file.read((char*)data, size);

@@ -22,6 +22,9 @@ namespace hvn3 {
 	Display::Display(int width, int height, const char* title, DisplayFlags flags) :
 		Display(UNDEFINED_WINDOW_POSITION_X, UNDEFINED_WINDOW_POSITION_Y, width, height, title, flags) {
 	}
+	Display::Display(const SizeI& size, const char* title, DisplayFlags flags) :
+		Display(size.Width(), size.Height(), title, flags) {
+	}
 	Display::Display(int x, int y, int width, int height) :
 		Display(x, y, width, height, "") {
 	}

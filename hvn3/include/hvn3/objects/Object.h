@@ -6,9 +6,6 @@
 
 namespace hvn3 {
 
-	typedef std::shared_ptr<Object> ObjectPtr;
-	typedef std::shared_ptr<const Object> ConstObjectPtr;
-
 	class Object : 
 		public ICollidable, 
 		public ObjectBase, 

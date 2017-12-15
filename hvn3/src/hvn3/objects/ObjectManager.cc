@@ -1,12 +1,23 @@
-#include "hvn3/objects/ObjectManager.h"
 #include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/core/DrawEventArgs.h"
 #include "hvn3/core/UpdateEventArgs.h"
-#include "hvn3/core/DestroyEventArgs.h"
+#include "hvn3/objects/Object.h"
+#include "hvn3/objects/ObjectEventArgs.h"
+#include "hvn3/objects/ObjectManager.h"
 #include <utility>
 #include <algorithm>
 
 namespace hvn3 {
+
+	ObjectManager::ObjectListItem::ObjectListItem(ObjectPtr& object) :
+		object(object) {
+
+		callOnCreateEvent = true;
+		callOnDestroyEvent = true;
+
+	}
+
+
 
 	ObjectManager::ObjectManager() {
 
@@ -15,6 +26,7 @@ namespace hvn3 {
 
 	}
 
+
 	void ObjectManager::AddInstance(ObjectPtr& object) {
 
 		//// Trigger all listeners.
@@ -22,10 +34,7 @@ namespace hvn3 {
 		//	_listeners[i]->OnInstanceAdded(InstanceAddedEventArgs(object.get()));
 
 		// Add the object to our object collection.
-		_objects.push_back(object);
-
-		// Call the object's create event.
-		object->OnCreate(CreateEventArgs());
+		_objects.emplace_back(ObjectListItem(object));
 
 		//// If there are no objects in the list, just insert the new object.
 		//if (_objects.size() == 0) {
@@ -64,30 +73,23 @@ namespace hvn3 {
 	}
 	void ObjectManager::ClearAll() {
 
-		// Clear all objects from the object manager.
+		// Clear all Objects from the Object Manager without calling any events.
 		_objects.clear();
 
 	}
 	void ObjectManager::DestroyAll() {
 
-		//// Trigger all listeners.
-		//for (size_t i = 0; i < _listeners.size(); ++i)
-		//	_listeners[i]->OnInstancesCleared(InstancesClearedEventArgs());
-
-		// Call the destroy event for each object.
-		DestroyEventArgs e;
+		// Destroy each Object. They will be removed with the next update.
 		for (auto it = _objects.begin(); it != _objects.end(); ++it)
-			(*it)->OnDestroy(e);
-
-		// Clear all objects.
-		ClearAll();
+			if (!it->object->IsDestroyed())
+				it->object->Destroy();
 
 	}
 	Object* ObjectManager::FindInstance(ObjectId id) {
 
 		for (size_t i = 0; i < _objects.size(); ++i)
-			if (_objects[i]->Id() == id)
-				return _objects[i].get();
+			if (_objects[i].object->Id() == id)
+				return _objects[i].object.get();
 
 		return nullptr;
 
@@ -101,8 +103,8 @@ namespace hvn3 {
 
 		// Find the next instance, starting at the last found index.
 		for (size_t i = _last_found_index + 1; i < _objects.size(); ++i)
-			if (_objects[i]->Id() == id)
-				return _objects[i].get();
+			if (_objects[i].object->Id() == id)
+				return _objects[i].object.get();
 
 		// If we didn't find any more instances, reset the last found index and return nullptr.
 		_last_found_index = 0;
@@ -119,7 +121,7 @@ namespace hvn3 {
 		size_t count = 0;
 
 		for (size_t i = 0; i < _objects.size(); ++i)
-			if (_objects[i]->Id() == id)
+			if (_objects[i].object->Id() == id)
 				++count;
 
 		return count;
@@ -128,7 +130,7 @@ namespace hvn3 {
 	bool ObjectManager::InstanceExists(ObjectId id) const {
 
 		for (size_t i = 0; i < _objects.size(); ++i)
-			if (_objects[i]->Id() == id)
+			if (_objects[i].object->Id() == id)
 				return true;
 
 		return false;
@@ -139,19 +141,12 @@ namespace hvn3 {
 
 		bool removed = false;
 
-		// Call the begin update event for all objects.
-		for (auto it = _objects.begin(); it != _objects.end(); ++it) {
-
-			if ((*it)->IsDestroyed()) {
+		for (auto it = _objects.begin(); it != _objects.end(); ++it)
+			if (_updateAndCheckObject(*it, e))
+				it->object->OnBeginUpdate(e);
+			else if (it->object->IsDestroyed())
 				removed = true;
-				(*it)->OnDestroy(DestroyEventArgs());
-			}
-			else if ((*it)->IsActive())
-				(*it)->OnBeginUpdate(e);
 
-		}
-
-		// If any objects were destroyed, remove them from the collection.
 		if (removed)
 			_removeDestroyedObjects(_objects.begin(), _objects.end());
 
@@ -160,44 +155,26 @@ namespace hvn3 {
 
 		bool removed = false;
 
-		// Call the update event for all objects.
-		for (auto it = _objects.begin(); it != _objects.end(); ++it) {
-
-			if ((*it)->IsDestroyed()) {
+		for (auto it = _objects.begin(); it != _objects.end(); ++it)
+			if (_updateAndCheckObject(*it, e))
+				it->object->OnUpdate(e);
+			else if (it->object->IsDestroyed())
 				removed = true;
-				(*it)->OnDestroy(DestroyEventArgs());
-			}
-			else if ((*it)->IsActive())
-				(*it)->OnUpdate(e);
 
-		}
-
-		// If any objects were destroyed, remove them from the collection.
 		if (removed)
 			_removeDestroyedObjects(_objects.begin(), _objects.end());
-
-		//// Trigger all listeners.
-		//for (size_t i = 0; i < _listeners.size(); ++i)
-		//	_listeners[i]->OnObjectManagerUpdate(e);
 
 	}
 	void ObjectManager::OnEndUpdate(UpdateEventArgs& e) {
 
 		bool removed = false;
 
-		// Call the end update event for all objects.
-		for (auto it = _objects.begin(); it != _objects.end(); ++it) {
-
-			if ((*it)->IsDestroyed()) {
+		for (auto it = _objects.begin(); it != _objects.end(); ++it)
+			if (_updateAndCheckObject(*it, e))
+				it->object->OnEndUpdate(e);
+			else if (it->object->IsDestroyed())
 				removed = true;
-				(*it)->OnDestroy(DestroyEventArgs());
-			}
-			else if ((*it)->IsActive())
-				(*it)->OnEndUpdate(e);
 
-		}
-
-		// If any objects were destroyed, remove them from the collection.
 		if (removed)
 			_removeDestroyedObjects(_objects.begin(), _objects.end());
 
@@ -206,8 +183,8 @@ namespace hvn3 {
 
 		// Draw all objects.
 		for (auto it = _objects.begin(); it != _objects.end(); ++it)
-			if ((*it)->IsActive())
-				(*it)->OnDraw(e);
+			if (it->object->IsActive())
+				it->object->OnDraw(e);
 
 	}
 
@@ -226,9 +203,31 @@ namespace hvn3 {
 	}
 
 
-	void ObjectManager::_removeDestroyedObjects(std::vector<ObjectPtr>::iterator begin, std::vector<ObjectPtr>::iterator end) {
 
-		std::remove_if(begin, end, [](const ObjectPtr& obj) { return obj->IsDestroyed(); });
+	void ObjectManager::_removeDestroyedObjects(object_list_type::iterator begin, object_list_type::iterator end) {
+
+		_objects.erase(std::remove_if(begin, end, [](const ObjectListItem& item) { return item.object->IsDestroyed(); }), _objects.end());
+
+	}
+	bool ObjectManager::_updateAndCheckObject(ObjectListItem& item, UpdateEventArgs& e) {
+
+		// Call the OnCreate event for the Object if it hasn't been called yet.
+		if (item.callOnCreateEvent) {
+			item.object->OnCreate(CreateEventArgs(&e.Game()));
+			item.callOnCreateEvent = false;
+		}
+
+		if (item.object->IsDestroyed()) {
+			if (item.callOnDestroyEvent) {
+				item.object->OnDestroy(DestroyEventArgs(&e.Game()));
+				item.callOnDestroyEvent = false;
+			}
+		}
+		else if (item.object->IsActive())
+			return true;
+
+		// If the Object is not active, its update events should not be called.
+		return false;
 
 	}
 

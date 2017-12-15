@@ -1,27 +1,11 @@
 #pragma once
-#include "hvn3/core/IUpdatable.h"
 #include "hvn3/core/IDrawable.h"
-#include "hvn3/core/CreateEventArgs.h"
-#include "hvn3/core/DestroyEventArgs.h"
+#include "hvn3/core/IUpdatable.h"
+#include "hvn3/objects/ObjectEventArgs.h"
+#include "hvn3/objects/ObjectTypeDefs.h"
 #include "hvn3/utility/BitFlags.h"
 
 namespace hvn3 {
-
-	typedef int ObjectId;
-
-	enum : ObjectId {
-		Self = -1,
-		Other = -2,
-		All = -3,
-		NoOne = -4
-	};
-
-	enum class ObjectFlags {
-		Solid = 1,
-		NoCollision = 2,
-		NoPhysics = 4
-	};
-	ENABLE_BITFLAG_OPERATORS(ObjectFlags)
 
 	class ObjectBase : public virtual IUpdatable, public virtual IDrawable {
 

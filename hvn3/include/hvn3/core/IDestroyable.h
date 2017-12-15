@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/core/DestroyEventArgs.h"
+#include "hvn3/objects/ObjectEventArgs.h"
 
 namespace hvn3 {
 

@@ -10,32 +10,27 @@
 
 namespace hvn3 {
 
-	class Font;
-	class IRoom;
-	class UpdateEventArgs;
 	class DrawEventArgs;
-
+	class Font;
+	class IGameManager;
+	class IRoom;
+	
 	namespace System {
 
 		class Runner {
 
 		public:
-			Runner(System::Properties* properties, RoomManager* room_manager);
-			~Runner();
+			Runner(IGameManager& game_manager);
+			virtual ~Runner();
 
 			// Processes the main game loop.
 			virtual void Loop();
 
-			// Returns an object representing a collection of game properties. 
-			const Properties& Properties() const;
-
-			IRoom* CurrentRoom();
-
 		protected:
 			// Renders the current game state to the display surface.
-			virtual void Draw(DrawEventArgs& e);
+			virtual void OnDraw(DrawEventArgs& e);
 			// Updates the state of the game.
-			virtual void Update(UpdateEventArgs& e);
+			virtual void OnUpdate(UpdateEventArgs& e);
 			// Waits for and processes the next event in the event queue.
 			virtual void WaitForEvent();
 
@@ -67,16 +62,18 @@ namespace hvn3 {
 			Stopwatch _delta_timer;
 			// Flag used to detect when the fullscreen state of the display changes.
 			bool _display_was_fullscreen;
+			bool _track_mouse_outside_display;
 			System::FpsCounter _fps_counter;
 
-			RoomManager* _room_manager;
+			IGameManager* _game_manager;
 			Display _display;
 			Font* _default_font;
-			System::Properties* _properties;
 			Graphics::Graphics _graphics;
 
-			void ApplyScalingMode();
-			void RecalculateMousePosition();
+			void _applyScalingMode();
+			void _recalculateMousePosition();
+			IRoom* _currentRoom();
+			Properties& _properties();
 
 		};
 

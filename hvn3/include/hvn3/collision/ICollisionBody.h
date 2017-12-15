@@ -18,7 +18,7 @@ namespace hvn3 {
 		friend class System::CollisionBodyMutator;
 
 	public:
-		virtual ~ICollisionBody() = 0;
+		virtual ~ICollisionBody() = default;
 
 		// Returns the body's axis-aligned bounding box.
 		virtual RectangleF AABB() const = 0;

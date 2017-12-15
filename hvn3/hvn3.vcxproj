@@ -55,11 +55,9 @@
     <ClInclude Include="include\hvn3\collision\ObjectCollisionManager.h" />
     <ClInclude Include="include\hvn3\collision\RectangleHitMask.h" />
     <ClInclude Include="include\hvn3\collision\SpacialPartitioningGrid.h" />
-    <ClInclude Include="include\hvn3\core\CreateEventArgs.h" />
-    <ClInclude Include="include\hvn3\core\DestroyEventArgs.h" />
     <ClInclude Include="include\hvn3\core\DrawEventArgs.h" />
     <ClInclude Include="include\hvn3\core\Framework.h" />
-    <ClInclude Include="include\hvn3\core\GameEventArgs.h" />
+    <ClInclude Include="include\hvn3\core\GameStateEventArgs.h" />
     <ClInclude Include="include\hvn3\core\GameManager.h" />
     <ClInclude Include="include\hvn3\core\IDestroyable.h" />
     <ClInclude Include="include\hvn3\core\IDrawable.h" />
@@ -150,7 +148,9 @@
     <ClInclude Include="include\hvn3\objects\IObjectManager.h" />
     <ClInclude Include="include\hvn3\objects\Object.h" />
     <ClInclude Include="include\hvn3\objects\ObjectBase.h" />
+    <ClInclude Include="include\hvn3\objects\ObjectEventArgs.h" />
     <ClInclude Include="include\hvn3\objects\ObjectManager.h" />
+    <ClInclude Include="include\hvn3\objects\ObjectTypeDefs.h" />
     <ClInclude Include="include\hvn3\physics\BasicPhysicsBody.h" />
     <ClInclude Include="include\hvn3\physics\BasicPhysicsManager.h" />
     <ClInclude Include="include\hvn3\physics\IPhysicsBody.h" />
@@ -227,7 +227,7 @@
     <ClCompile Include="src\hvn3\collision\RectangleHitMask.cc" />
     <ClCompile Include="src\hvn3\core\DrawEventArgs.cc" />
     <ClCompile Include="src\hvn3\core\Framework.cc" />
-    <ClCompile Include="src\hvn3\core\GameEventArgs.cc" />
+    <ClCompile Include="src\hvn3\core\GameStateEventArgs.cc" />
     <ClCompile Include="src\hvn3\core\GameManager.cc" />
     <ClCompile Include="src\hvn3\core\IUpdatable.cc" />
     <ClCompile Include="src\hvn3\core\Properties.cc" />

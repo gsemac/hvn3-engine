@@ -45,6 +45,7 @@ namespace hvn3 {
 		Display(int width, int height);
 		Display(int width, int height, const char* title);
 		Display(int width, int height, const char* title, DisplayFlags flags);
+		Display(const SizeI& size, const char* title, DisplayFlags flags);
 		Display(int x, int y, int width, int height);
 		Display(int x, int y, int width, int height, const char* title);
 		Display(int x, int y, int width, int height, const char* title, DisplayFlags flags);

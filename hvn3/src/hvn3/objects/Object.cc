@@ -27,19 +27,10 @@ namespace hvn3 {
 	void Object::OnCreate(CreateEventArgs& e) {}
 	void Object::OnDestroy(DestroyEventArgs& e) {}
 	void Object::OnUpdate(UpdateEventArgs& e) {
-
-
-
 	}
 	void Object::OnDraw(DrawEventArgs& e) {
-
-
-
 	}
 	void Object::OnCollision(CollisionEventArgs& e) {
-
-
-
 	}
 
 	ObjectId Object::Id() const {

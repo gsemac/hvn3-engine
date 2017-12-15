@@ -57,6 +57,7 @@ namespace hvn3 {
 		unsigned int _strip_length;
 
 		size_t subImageToIndex(int sub_image) const;
+		void moveSpriteToThis(Sprite& other);
 
 	};
 

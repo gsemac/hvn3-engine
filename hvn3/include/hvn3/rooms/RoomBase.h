@@ -54,27 +54,12 @@ namespace hvn3 {
 
 		}
 
-		const IObjectManager* Objects() const override {
-
-			return &_obj_manager;
-
-		}
 		virtual IObjectManager* Objects() override {
 
 			return &_obj_manager;
 
 		}
-		virtual const IBackgroundManager* Backgrounds() const override {
-
-			return nullptr;
-
-		}
 		virtual IBackgroundManager* Backgrounds() override {
-
-			return nullptr;
-
-		}
-		virtual const IViewManager* Views() const override {
 
 			return nullptr;
 
@@ -84,17 +69,7 @@ namespace hvn3 {
 			return nullptr;
 
 		}
-		virtual const ICollisionManager* Collisions() const override {
-
-			return nullptr;
-
-		}
 		virtual ICollisionManager* Collisions() override {
-
-			return nullptr;
-
-		}
-		virtual const Physics::IPhysicsManager<Object*>* Physics() const override {
 
 			return nullptr;
 
@@ -105,6 +80,32 @@ namespace hvn3 {
 
 		}
 
+		const IObjectManager* Objects() const override {
+
+			return &_obj_manager;
+
+		}
+		virtual const IBackgroundManager* Backgrounds() const override {
+
+			return nullptr;
+
+		}
+		virtual const IViewManager* Views() const override {
+
+			return nullptr;
+
+		}
+		virtual const ICollisionManager* Collisions() const override {
+
+			return nullptr;
+
+		}
+		virtual const Physics::IPhysicsManager<Object*>* Physics() const override {
+
+			return nullptr;
+
+		}
+		
 		RoomId Id() const override {
 
 			return _id;
@@ -179,7 +180,6 @@ namespace hvn3 {
 
 	private:
 		object_manager_type _obj_manager;
-
 		RoomId _id;
 		Color _background_color;
 		bool _set_up;
