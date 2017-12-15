@@ -129,11 +129,11 @@
     <ClInclude Include="include\hvn3\io\File.h" />
     <ClInclude Include="include\hvn3\io\IO.h" />
     <ClInclude Include="include\hvn3\io\Keyboard.h" />
-    <ClInclude Include="include\hvn3\io\KeyboardController.h" />
+    <ClInclude Include="include\hvn3\io\KeyboardMutator.h" />
     <ClInclude Include="include\hvn3\io\KeyboardEventArgs.h" />
     <ClInclude Include="include\hvn3\io\KeyboardListener.h" />
     <ClInclude Include="include\hvn3\io\Mouse.h" />
-    <ClInclude Include="include\hvn3\io\MouseController.h" />
+    <ClInclude Include="include\hvn3\io\MouseMutator.h" />
     <ClInclude Include="include\hvn3\io\MouseEventArgs.h" />
     <ClInclude Include="include\hvn3\io\MouseListener.h" />
     <ClInclude Include="include\hvn3\io\Path.h" />
@@ -280,11 +280,11 @@
     <ClCompile Include="src\hvn3\io\Directory.cc" />
     <ClCompile Include="src\hvn3\io\File.cc" />
     <ClCompile Include="src\hvn3\io\Keyboard.cc" />
-    <ClCompile Include="src\hvn3\io\KeyboardController.cc" />
+    <ClCompile Include="src\hvn3\io\KeyboardMutator.cc" />
     <ClCompile Include="src\hvn3\io\KeyboardEventArgs.cc" />
     <ClCompile Include="src\hvn3\io\KeyboardListener.cc" />
     <ClCompile Include="src\hvn3\io\Mouse.cc" />
-    <ClCompile Include="src\hvn3\io\MouseController.cc" />
+    <ClCompile Include="src\hvn3\io\MouseMutator.cc" />
     <ClCompile Include="src\hvn3\io\MouseEventArgs.cc" />
     <ClCompile Include="src\hvn3\io\MouseListener.cc" />
     <ClCompile Include="src\hvn3\io\Path.cc" />

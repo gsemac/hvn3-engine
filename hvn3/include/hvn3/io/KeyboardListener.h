@@ -5,12 +5,12 @@
 namespace hvn3 {
 
 	namespace System {
-		class KeyboardController;
+		class KeyboardMutator;
 	}
 
 	class KeyboardListener {
 
-		friend class System::KeyboardController;
+		friend class System::KeyboardMutator;
 		friend struct ListenerRegistry;
 
 		typedef std::unordered_set<KeyboardListener*> listener_collection_type;

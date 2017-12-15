@@ -7,7 +7,7 @@
 namespace hvn3 {
 
 	namespace System {
-		class MouseController;
+		class MouseMutator;
 	}
 
 	enum class MouseButton {
@@ -49,7 +49,7 @@ namespace hvn3 {
 	};
 
 	class Mouse {
-		friend class System::MouseController;
+		friend class System::MouseMutator;
 
 	public:
 		static float X, Y;

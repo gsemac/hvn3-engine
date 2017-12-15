@@ -4,10 +4,10 @@
 namespace hvn3 {
 	namespace System {
 
-		class MouseController {
+		class MouseMutator {
 
 		public:
-			MouseController() = default;
+			MouseMutator() = default;
 
 			void ResetButtonStates(bool pressed, bool released, bool held) const;
 			void SetButtonState(MouseButton button, bool pressed) const;

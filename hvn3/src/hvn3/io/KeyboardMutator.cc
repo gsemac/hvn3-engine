@@ -1,4 +1,4 @@
-#include "hvn3/io/KeyboardController.h"
+#include "hvn3/io/KeyboardMutator.h"
 #include "hvn3/io/KeyboardListener.h"
 #include "hvn3/io/Keyboard.h"
 #include <allegro5/allegro.h>
@@ -6,7 +6,7 @@
 namespace hvn3 {
 	namespace System {
 
-		void KeyboardController::ResetKeyStates() const {
+		void KeyboardMutator::ResetKeyStates() const {
 
 			for (size_t i = 0; i < ALLEGRO_KEY_MAX; ++i) {
 				Keyboard::_key_states[i].pressed = false;
@@ -15,7 +15,7 @@ namespace hvn3 {
 			}
 
 		}
-		void KeyboardController::SetKeyState(int key_code, bool pressed) const {
+		void KeyboardMutator::SetKeyState(int key_code, bool pressed) const {
 
 			Keyboard::_key_states[key_code].held = pressed;
 
@@ -38,7 +38,7 @@ namespace hvn3 {
 				Keyboard::_last_key = key_code;
 
 		}
-		void KeyboardController::ResetKeyStates(bool pressed, bool released, bool held) const {
+		void KeyboardMutator::ResetKeyStates(bool pressed, bool released, bool held) const {
 
 			for (size_t i = 0; i < ALLEGRO_KEY_MAX; ++i) {
 				Keyboard::_key_states[i].pressed = Keyboard::_key_states[i].pressed && !pressed;
@@ -50,46 +50,45 @@ namespace hvn3 {
 			Keyboard::_released_any = Keyboard::_released_any && !released;
 
 		}
-		void KeyboardController::SetLastChar(int key_char) const {
+		void KeyboardMutator::SetLastChar(int key_char) const {
 
 			Keyboard::_last_char = key_char;
 
 		}
 
-		void KeyboardController::DispatchAllKeyDownEvents() const {
+		void KeyboardMutator::DispatchAllKeyDownEvents() const {
 
 			for (size_t i = 0; i < ALLEGRO_KEY_MAX; ++i)
 				if (Keyboard::_key_states[i].held)
 					DispatchEvent(KeyDownEventArgs((Key)i));
 
-
 		}
-		void KeyboardController::DispatchEvent(KeyDownEventArgs& e) const {
+		void KeyboardMutator::DispatchEvent(KeyDownEventArgs& e) const {
 
 			for (auto i = KeyboardListener::_listeners().begin(); i != KeyboardListener::_listeners().end(); ++i)
 				(*i)->OnKeyDown(e);
 
 		}
-		void KeyboardController::DispatchEvent(KeyPressedEventArgs& e) const {
+		void KeyboardMutator::DispatchEvent(KeyPressedEventArgs& e) const {
 
 			for (auto i = KeyboardListener::_listeners().begin(); i != KeyboardListener::_listeners().end(); ++i)
 				(*i)->OnKeyPressed(e);
 
 		}
-		void KeyboardController::DispatchEvent(KeyUpEventArgs& e) const {
+		void KeyboardMutator::DispatchEvent(KeyUpEventArgs& e) const {
 
 			for (auto i = KeyboardListener::_listeners().begin(); i != KeyboardListener::_listeners().end(); ++i)
 				(*i)->OnKeyUp(e);
 
 		}
-		void KeyboardController::DispatchEvent(KeyCharEventArgs& e) const {
+		void KeyboardMutator::DispatchEvent(KeyCharEventArgs& e) const {
 
 			for (auto i = KeyboardListener::_listeners().begin(); i != KeyboardListener::_listeners().end(); ++i)
 				(*i)->OnKeyChar(e);
 
 		}
 
-		System::EventSource KeyboardController::GetEventSource() const {
+		System::EventSource KeyboardMutator::GetEventSource() const {
 
 			return al_get_keyboard_event_source();
 

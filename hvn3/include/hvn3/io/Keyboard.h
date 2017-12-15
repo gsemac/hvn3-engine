@@ -9,7 +9,7 @@ namespace hvn3 {
 	class GameManager;
 
 	namespace System {
-		class KeyboardController;
+		class KeyboardMutator;
 	}
 
 	enum class Key {
@@ -191,7 +191,7 @@ namespace hvn3 {
 	ENABLE_BITFLAG_OPERATORS(KeyModifiers);
 
 	class Keyboard {
-		friend class System::KeyboardController;
+		friend class System::KeyboardMutator;
 
 	public:
 		static bool KeyPressed(int key_code);

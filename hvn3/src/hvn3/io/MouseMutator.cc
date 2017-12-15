@@ -1,4 +1,4 @@
-#include "hvn3/io/MouseController.h"
+#include "hvn3/io/MouseMutator.h"
 #include "hvn3/io/MouseListener.h"
 #include <allegro5/allegro.h>
 #define DBL_CLICK_SEC 0.5f
@@ -6,7 +6,7 @@
 namespace hvn3 {
 	namespace System {
 
-		void MouseController::SetButtonState(hvn3::MouseButton button, bool pressed) const {
+		void MouseMutator::SetButtonState(hvn3::MouseButton button, bool pressed) const {
 
 			Mouse::MouseButton* mb = Mouse::ToMouseButton(button);
 
@@ -47,7 +47,7 @@ namespace hvn3 {
 			}
 
 		}
-		void MouseController::MouseController::ResetButtonStates(bool pressed, bool released, bool held) const {
+		void MouseMutator::MouseMutator::ResetButtonStates(bool pressed, bool released, bool held) const {
 
 			if (pressed) {
 				Mouse::_left.pressed = false;
@@ -82,26 +82,26 @@ namespace hvn3 {
 				Mouse::_middle.dbl_waiting = false;
 
 		}
-		void MouseController::MouseController::SetPosition(float x, float y) const {
+		void MouseMutator::MouseMutator::SetPosition(float x, float y) const {
 
 			Mouse::X = x;
 			Mouse::Y = y;
 
 		}
-		void MouseController::MouseController::SetDisplayPosition(int x, int y) const {
+		void MouseMutator::MouseMutator::SetDisplayPosition(int x, int y) const {
 
 			Mouse::_display_position.SetX(x);
 			Mouse::_display_position.SetY(y);
 
 		}
-		void MouseController::MouseController::SetScrollState(bool scrolled_up, bool scrolled_down) const {
+		void MouseMutator::MouseMutator::SetScrollState(bool scrolled_up, bool scrolled_down) const {
 
 			Mouse::_scrolled_down = scrolled_down;
 			Mouse::_scrolled_up = scrolled_up;
 
 		}
 
-		void MouseController::DispatchAllMouseDownEvents() const {
+		void MouseMutator::DispatchAllMouseDownEvents() const {
 
 			if (Mouse::_left.held)
 				DispatchEvent(MouseDownEventArgs(MouseButton::Left));
@@ -111,38 +111,38 @@ namespace hvn3 {
 				DispatchEvent(MouseDownEventArgs(MouseButton::Middle));
 
 		}
-		void MouseController::DispatchEvent(MouseDownEventArgs& e) const {
+		void MouseMutator::DispatchEvent(MouseDownEventArgs& e) const {
 
 			for (auto i = MouseListener::_listeners().begin(); i != MouseListener::_listeners().end(); ++i)
 				(*i)->OnMouseDown(e);
 
 		}
-		void MouseController::DispatchEvent(MousePressedEventArgs& e) const {
+		void MouseMutator::DispatchEvent(MousePressedEventArgs& e) const {
 
 			for (auto i = MouseListener::_listeners().begin(); i != MouseListener::_listeners().end(); ++i)
 				(*i)->OnMousePressed(e);
 
 		}
-		void MouseController::DispatchEvent(MouseUpEventArgs& e) const {
+		void MouseMutator::DispatchEvent(MouseUpEventArgs& e) const {
 
 			for (auto i = MouseListener::_listeners().begin(); i != MouseListener::_listeners().end(); ++i)
 				(*i)->OnMouseUp(e);
 
 		}
-		void MouseController::DispatchEvent(MouseMoveEventArgs& e) const {
+		void MouseMutator::DispatchEvent(MouseMoveEventArgs& e) const {
 
 			for (auto i = MouseListener::_listeners().begin(); i != MouseListener::_listeners().end(); ++i)
 				(*i)->OnMouseMove(e);
 
 		}
-		void MouseController::DispatchEvent(MouseScrollEventArgs& e) const {
+		void MouseMutator::DispatchEvent(MouseScrollEventArgs& e) const {
 
 			for (auto i = MouseListener::_listeners().begin(); i != MouseListener::_listeners().end(); ++i)
 				(*i)->OnMouseScroll(e);
 
 		}
 
-		System::EventSource MouseController::GetEventSource() const {
+		System::EventSource MouseMutator::GetEventSource() const {
 
 			return al_get_mouse_event_source();
 

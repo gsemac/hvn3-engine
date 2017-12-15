@@ -4,10 +4,10 @@
 namespace hvn3 {
 	namespace System {
 
-		class KeyboardController {
+		class KeyboardMutator {
 
 		public:
-			KeyboardController() = default;
+			KeyboardMutator() = default;
 
 			void ResetKeyStates(bool pressed, bool released, bool held) const;
 			void ResetKeyStates() const;

@@ -5,11 +5,11 @@
 namespace hvn3 {
 
 	namespace System {
-		class MouseController;
+		class MouseMutator;
 	}
 
 	class MouseListener {
-		friend class System::MouseController;
+		friend class System::MouseMutator;
 		friend struct ListenerRegistry;
 
 		typedef std::unordered_set<MouseListener*> listener_collection_type;

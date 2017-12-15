@@ -18,8 +18,8 @@
 #include "hvn3/rooms/RoomController.h"
 #include "hvn3/events/Event.h"
 #include "hvn3/graphics/DisplayController.h"
-#include "hvn3/io/KeyboardController.h"
-#include "hvn3/io/MouseController.h"
+#include "hvn3/io/KeyboardMutator.h"
+#include "hvn3/io/MouseMutator.h"
 #ifdef HVN3_DEBUG 
 #include "hvn3/io/Console.h"
 #endif
@@ -43,8 +43,8 @@ namespace hvn3 {
 			// Initialize the event queue.
 			_event_queue.AddEventSource(_display.EventSource());
 			_event_queue.AddEventSource(_timer.EventSource());
-			_event_queue.AddEventSource(MouseController().GetEventSource());
-			_event_queue.AddEventSource(KeyboardController().GetEventSource());
+			_event_queue.AddEventSource(MouseMutator().GetEventSource());
+			_event_queue.AddEventSource(KeyboardMutator().GetEventSource());
 
 			// Initialize mouse parameters.
 			if (!properties->DisplayCursor)
@@ -92,10 +92,10 @@ namespace hvn3 {
 
 				// For any keys held, dispatch the appropriate event to all keyboard listeners.
 				if (Keyboard::KeyDown(Key::Any))
-					KeyboardController().DispatchAllKeyDownEvents();
+					KeyboardMutator().DispatchAllKeyDownEvents();
 
 				// For any mouse buttons held, dispatch the appropriate event to all mouse listeners.
-				MouseController().DispatchAllMouseDownEvents();
+				MouseMutator().DispatchAllMouseDownEvents();
 
 				// If the fullscreen state of the display has changed, emit a DisplaySizeChanged event.
 				if (_display_was_fullscreen != _display.IsFullscreen()) {
@@ -252,10 +252,10 @@ namespace hvn3 {
 			RecalculateMousePosition();
 
 			// Unset all pressed/released keys so the values will be false until next triggered.
-			KeyboardController().ResetKeyStates(true, true, false);
+			KeyboardMutator().ResetKeyStates(true, true, false);
 
 			// Unset all pressed/released mouse buttons so the values will be false until next triggered.
-			MouseController().ResetButtonStates(true, true, false);
+			MouseMutator().ResetButtonStates(true, true, false);
 
 			// Allow redrawing, since actors have been updated.
 			_allow_redraw = true;
@@ -270,7 +270,7 @@ namespace hvn3 {
 
 			// Set the key that was pressed.
 			int keycode = ev.AlPtr()->keyboard.keycode;
-			KeyboardController con;
+			KeyboardMutator con;
 			con.SetKeyState(keycode, true);
 			if (Keyboard::KeyPressed(keycode))
 				con.DispatchEvent(KeyPressedEventArgs((Key)ev.AlPtr()->keyboard.keycode));
@@ -287,7 +287,7 @@ namespace hvn3 {
 		void Runner::OnKeyUp(Event& ev) {
 
 			// Unset the key that was pressed.
-			KeyboardController con;
+			KeyboardMutator con;
 			con.SetKeyState(ev.AlPtr()->keyboard.keycode, false);
 			con.DispatchEvent(KeyUpEventArgs((Key)ev.AlPtr()->keyboard.keycode));
 
@@ -301,7 +301,7 @@ namespace hvn3 {
 				!(ev.AlPtr()->keyboard.modifiers & ALLEGRO_KEYMOD_CTRL) &&
 				ev.AlPtr()->keyboard.unichar > 0) {
 
-				KeyboardController con;
+				KeyboardMutator con;
 				con.SetLastChar(ev.AlPtr()->keyboard.unichar);
 				con.DispatchEvent(KeyCharEventArgs((Key)ev.AlPtr()->keyboard.keycode, ev.AlPtr()->keyboard.unichar));
 
@@ -310,7 +310,7 @@ namespace hvn3 {
 		}
 		void Runner::OnMouseButtonDown(Event& ev) {
 
-			MouseController con;
+			MouseMutator con;
 			MouseButton button;
 
 			switch (ev.AlPtr()->mouse.button) {
@@ -337,7 +337,7 @@ namespace hvn3 {
 		}
 		void Runner::OnMouseButtonUp(Event& ev) {
 
-			MouseController con;
+			MouseMutator con;
 			MouseButton button;
 
 			switch (ev.AlPtr()->mouse.button) {
@@ -365,7 +365,7 @@ namespace hvn3 {
 
 			if (!Properties().FreezeWhenLostFocus || _display.HasFocus()) {
 
-				MouseController con;
+				MouseMutator con;
 
 				// Set the Mouse' position relative to the display.
 				con.SetDisplayPosition(ev.AlPtr()->mouse.x, ev.AlPtr()->mouse.y);
@@ -419,7 +419,7 @@ namespace hvn3 {
 		void Runner::OnDisplaySwitchOut(Event& ev) {
 
 			System::DisplayController(&_display).SetFocus(false);
-			KeyboardController().ResetKeyStates();
+			KeyboardMutator().ResetKeyStates();
 
 			if (Properties().FreezeWhenLostFocus)
 				_delta_timer.Stop();
@@ -581,7 +581,7 @@ namespace hvn3 {
 					// Translate it according to the view's offset.
 					pos += view.Position();
 
-					MouseController().SetPosition(pos.X(), pos.Y());
+					MouseMutator().SetPosition(pos.X(), pos.Y());
 					break;
 
 				}
@@ -603,7 +603,7 @@ namespace hvn3 {
 					Scale(SizeF(room.Width(), room.Height()), _graphics.Clip().Size()).ScalePoint(pos);
 
 				// Set the new mouse position.
-				MouseController().SetPosition(pos.X(), pos.Y());
+				MouseMutator().SetPosition(pos.X(), pos.Y());
 
 			}
 

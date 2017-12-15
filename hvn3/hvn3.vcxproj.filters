@@ -462,9 +462,6 @@
     <ClInclude Include="include\hvn3\io\Keyboard.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\io\KeyboardController.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\io\KeyboardEventArgs.h">
       <Filter>include\io</Filter>
     </ClInclude>
@@ -472,9 +469,6 @@
       <Filter>include\io</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\io\Mouse.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\io\MouseController.h">
       <Filter>include\io</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\io\MouseEventArgs.h">
@@ -671,6 +665,12 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\math\Point2d.h">
       <Filter>include\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\KeyboardMutator.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\MouseMutator.h">
+      <Filter>include\io</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -906,9 +906,6 @@
     <ClCompile Include="src\hvn3\io\Keyboard.cc">
       <Filter>src\io</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\io\KeyboardController.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\io\KeyboardEventArgs.cc">
       <Filter>src\io</Filter>
     </ClCompile>
@@ -916,9 +913,6 @@
       <Filter>src\io</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\io\Mouse.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\io\MouseController.cc">
       <Filter>src\io</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\io\MouseEventArgs.cc">
@@ -1052,6 +1046,12 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\utility\Utf8String.cc">
       <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\KeyboardMutator.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\MouseMutator.cc">
+      <Filter>src\io</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
