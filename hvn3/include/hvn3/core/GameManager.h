@@ -1,26 +1,25 @@
 #pragma once
-#include "hvn3/graphics/Color.h"
-#include "hvn3/core/Framework.h"
+#include "hvn3/core/IGameManager.h"
+#include "hvn3/core/Properties.h"
 #include "hvn3/rooms/RoomManager.h"
-#include "hvn3/collision/ICollisionManager.h"
-#include "hvn3/objects/IObjectManager.h"
 
 namespace hvn3 {
 
-	class GameManager {
+	class GameManager : public IGameManager {
 
 	public:
 		GameManager();
 		GameManager(int argc, char* argv[]);
 		~GameManager();
 
-		virtual void Initialize(int argc, char* argv[]);
-		virtual void Loop();
-		virtual void Shutdown();
+		void Initialize(int argc, char* argv[]) override;
+		void Loop() override;
+		void Shutdown() override;
 
-		System::Properties& Properties();
-		System::Runner& Runner();
-		RoomManager& Rooms();
+		System::Properties& Properties() override;
+		System::Runner& Runner() override;
+		RoomManager& Rooms() override;
+
 		RoomManager::room_type::collision_manager_type& Collisions();
 		IObjectManager& Objects();
 

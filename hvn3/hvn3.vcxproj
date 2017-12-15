@@ -59,9 +59,11 @@
     <ClInclude Include="include\hvn3\core\DestroyEventArgs.h" />
     <ClInclude Include="include\hvn3\core\DrawEventArgs.h" />
     <ClInclude Include="include\hvn3\core\Framework.h" />
+    <ClInclude Include="include\hvn3\core\GameEventArgs.h" />
     <ClInclude Include="include\hvn3\core\GameManager.h" />
     <ClInclude Include="include\hvn3\core\IDestroyable.h" />
     <ClInclude Include="include\hvn3\core\IDrawable.h" />
+    <ClInclude Include="include\hvn3\core\IGameManager.h" />
     <ClInclude Include="include\hvn3\core\IPositionable2d.h" />
     <ClInclude Include="include\hvn3\core\IStringable.h" />
     <ClInclude Include="include\hvn3\core\ITransformable.h" />
@@ -225,6 +227,7 @@
     <ClCompile Include="src\hvn3\collision\RectangleHitMask.cc" />
     <ClCompile Include="src\hvn3\core\DrawEventArgs.cc" />
     <ClCompile Include="src\hvn3\core\Framework.cc" />
+    <ClCompile Include="src\hvn3\core\GameEventArgs.cc" />
     <ClCompile Include="src\hvn3\core\GameManager.cc" />
     <ClCompile Include="src\hvn3\core\IUpdatable.cc" />
     <ClCompile Include="src\hvn3\core\Properties.cc" />

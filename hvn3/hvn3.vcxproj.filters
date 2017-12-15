@@ -672,6 +672,12 @@
     <ClInclude Include="include\hvn3\io\MouseMutator.h">
       <Filter>include\io</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\core\GameEventArgs.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\IGameManager.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1052,6 +1058,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\io\MouseMutator.cc">
       <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\GameEventArgs.cc">
+      <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

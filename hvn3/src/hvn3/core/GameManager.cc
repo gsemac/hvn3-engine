@@ -1,6 +1,8 @@
 #include "hvn3/core/GameManager.h"
-#include "hvn3/graphics/Bitmap.h"
+#include "hvn3/core/Framework.h"
+#include "hvn3/core/Runner.h"
 #include "hvn3/exceptions/Exception.h"
+#include "hvn3/graphics/Bitmap.h"
 
 namespace hvn3 {
 
@@ -52,11 +54,17 @@ namespace hvn3 {
 		return _properties;
 
 	}
+	System::Runner& GameManager::Runner() {
+
+		return *_runner;
+
+	}
 	RoomManager& GameManager::Rooms() {
 
 		return _room_manager;
 
 	}
+
 	RoomManager::room_type::collision_manager_type& GameManager::Collisions() {
 
 		auto room_ptr = _room_manager.CurrentRoom();
@@ -87,12 +95,7 @@ namespace hvn3 {
 		return *ptr;
 
 	}
-	System::Runner& GameManager::Runner() {
-
-		return *_runner;
-
-	}
-
+	
 
 
 	void GameManager::_onShutdown() {
