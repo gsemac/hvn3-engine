@@ -63,6 +63,7 @@
     <ClInclude Include="include\hvn3\core\IDrawable.h" />
     <ClInclude Include="include\hvn3\core\IGameManager.h" />
     <ClInclude Include="include\hvn3\core\IPositionable2d.h" />
+    <ClInclude Include="include\hvn3\core\ISizeable.h" />
     <ClInclude Include="include\hvn3\core\IStringable.h" />
     <ClInclude Include="include\hvn3\core\ITransformable.h" />
     <ClInclude Include="include\hvn3\core\IUpdatable.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="include\hvn3\rooms\RoomManager.h" />
     <ClInclude Include="include\hvn3\rooms\RoomTransitionFade.h" />
     <ClInclude Include="include\hvn3\rooms\RoomTransitionNone.h" />
+    <ClInclude Include="include\hvn3\rooms\RoomTypeDefs.h" />
     <ClInclude Include="include\hvn3\sound\Sound.h" />
     <ClInclude Include="include\hvn3\sprites\Sprite.h" />
     <ClInclude Include="include\hvn3\sprites\SpriteRenderer.h" />
@@ -302,7 +304,6 @@
     <ClCompile Include="src\hvn3\physics\BasicPhysicsManager.cc" />
     <ClCompile Include="src\hvn3\physics\Material.cc" />
     <ClCompile Include="src\hvn3\physics\PhysicsUtils.cc" />
-    <ClCompile Include="src\hvn3\rooms\IRoom.cc" />
     <ClCompile Include="src\hvn3\rooms\IRoomTransition.cc" />
     <ClCompile Include="src\hvn3\rooms\Room.cc" />
     <ClCompile Include="src\hvn3\rooms\RoomController.cc" />

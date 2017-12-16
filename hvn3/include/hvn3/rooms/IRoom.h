@@ -8,11 +8,10 @@
 #include "hvn3/math/Rectangle.h"
 #include "hvn3/rooms/RoomEnterEventArgs.h"
 #include "hvn3/rooms/RoomExitEventArgs.h"
+#include "hvn3/rooms/RoomTypeDefs.h"
 #include "hvn3/collision/ICollisionManager.h"
 
 namespace hvn3 {
-
-	typedef int RoomId;
 
 	class View;
 	class IObjectManager;
@@ -24,11 +23,10 @@ namespace hvn3 {
 		class RoomController;
 	}
 
-	class IRoom : public IUpdatable, public IDrawable, public SizeableBase<int> {
+	class IRoom : public IUpdatable, public IDrawable, public virtual ISizeable<int> {
 		friend class System::RoomController;
 
 	public:
-		IRoom(const SizeI& size);
 		virtual ~IRoom() = default;
 
 		virtual void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e) = 0;
@@ -67,7 +65,5 @@ namespace hvn3 {
 		virtual void OnRender(DrawEventArgs& e) = 0;
 
 	};
-
-	typedef std::unique_ptr<IRoom> RoomPtr;
 
 }

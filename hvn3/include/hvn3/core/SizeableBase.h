@@ -1,21 +1,22 @@
 #pragma once
-#include "hvn3/utility/Size.h"
+#include "hvn3/core/ISizeable.h"
 
 namespace hvn3 {
 
 	template <typename T>
-	class SizeableBase {
+	class SizeableBase : public virtual ISizeable<T> {
 
 	public:
 		SizeableBase() :
-			SizeableBase(0, 0) {}
+			SizeableBase(0, 0) {
+		}
 		SizeableBase(T width, T height) {
 
 			_width = width;
 			_height = height;
 
 		}
-		SizeableBase(const Size<T>& size) {
+		SizeableBase(const hvn3::Size<T>& size) {
 
 			_width = size.Width();
 			_height = size.Height();
@@ -23,39 +24,38 @@ namespace hvn3 {
 		}
 
 		// Returns the width of the object.
-		virtual T Width() const {
+		T Width() const override {
 
 			return _width;
 
 		}
 		// Returns the height of the object.
-		virtual T Height() const {
+		T Height() const override {
 
 			return _height;
 
 		}
 		// Sets the width of the object.
-		virtual void SetWidth(T value) {
+		void SetWidth(T value) override {
 
 			Resize(value, _height);
 
 		}
 		// Sets the height of the object.
-		virtual void SetHeight(T value) {
+		void SetHeight(T value) override {
 
 			Resize(_width, value);
 
 		}
 		// Resizes the object to the specified dimensions.
-		virtual void Resize(T width, T height) {
+		void Resize(T width, T height) override {
 
 			_width = width;
 			_height = height;
 
 		}
-
 		// Returns the size of the object.
-		Size<T> Size() const {
+		hvn3::Size<T> Size() const override {
 
 			return hvn3::Size<T>(_width, _height);
 

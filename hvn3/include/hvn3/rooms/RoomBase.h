@@ -7,11 +7,11 @@ namespace hvn3 {
 	typedef int RoomId;
 
 	template <typename object_manager_type>
-	class RoomBase : public IRoom {
+	class RoomBase : public IRoom, public SizeableBase<int> {
 
 	public:
 		RoomBase(RoomId id, const SizeI& size) :
-			IRoom(size) {
+			SizeableBase(size) {
 
 			_id = id;
 

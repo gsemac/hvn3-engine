@@ -678,6 +678,12 @@
     <ClInclude Include="include\hvn3\objects\ObjectTypeDefs.h">
       <Filter>include\objects</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\core\ISizeable.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\rooms\RoomTypeDefs.h">
+      <Filter>include\rooms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -962,9 +968,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\physics\PhysicsUtils.cc">
       <Filter>src\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\rooms\IRoom.cc">
-      <Filter>src\rooms</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\rooms\IRoomTransition.cc">
       <Filter>src\rooms</Filter>
