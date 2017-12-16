@@ -2,6 +2,9 @@
 #include "hvn3/rooms/IRoom.h"
 #include "hvn3/core/UniquePolymorphicCreateableBase.h"
 
+#pragma warning(push)
+#pragma warning(disable:4250)
+
 namespace hvn3 {
 
 	typedef int RoomId;
@@ -54,58 +57,58 @@ namespace hvn3 {
 
 		}
 
-		virtual IObjectManager* Objects() override {
+		virtual IObjectManager& Objects() override {
 
-			return &_obj_manager;
-
-		}
-		virtual IBackgroundManager* Backgrounds() override {
-
-			return nullptr;
+			return _obj_manager;
 
 		}
-		virtual IViewManager* Views() override {
+		virtual IBackgroundManager& Backgrounds() override {
 
-			return nullptr;
-
-		}
-		virtual ICollisionManager* Collisions() override {
-
-			return nullptr;
+			throw System::NotImplementedException();
 
 		}
-		virtual Physics::IPhysicsManager<Object*>* Physics() override {
+		virtual IViewManager& Views() override {
 
-			return nullptr;
+			throw System::NotImplementedException();
+
+		}
+		virtual ICollisionManager& Collisions() override {
+
+			throw System::NotImplementedException();
+
+		}
+		virtual Physics::IPhysicsManager& Physics() override {
+
+			throw System::NotImplementedException();
 
 		}
 
-		const IObjectManager* Objects() const override {
+		const IObjectManager& Objects() const override {
 
-			return &_obj_manager;
-
-		}
-		virtual const IBackgroundManager* Backgrounds() const override {
-
-			return nullptr;
+			return _obj_manager;
 
 		}
-		virtual const IViewManager* Views() const override {
+		virtual const IBackgroundManager& Backgrounds() const override {
 
-			return nullptr;
-
-		}
-		virtual const ICollisionManager* Collisions() const override {
-
-			return nullptr;
+			throw System::NotImplementedException();
 
 		}
-		virtual const Physics::IPhysicsManager<Object*>* Physics() const override {
+		virtual const IViewManager& Views() const override {
 
-			return nullptr;
+			throw System::NotImplementedException();
 
 		}
-		
+		virtual const ICollisionManager& Collisions() const override {
+
+			throw System::NotImplementedException();
+
+		}
+		virtual const Physics::IPhysicsManager& Physics() const override {
+
+			throw System::NotImplementedException();
+
+		}
+
 		RoomId Id() const override {
 
 			return _id;
@@ -148,7 +151,7 @@ namespace hvn3 {
 		virtual void OnRoomEnter(RoomEnterEventArgs& e) override {}
 		virtual void OnRoomExit(RoomExitEventArgs& e) override {}
 		virtual void OnSetUp() override {
-		
+
 			_set_up = true;
 
 		}
@@ -188,3 +191,5 @@ namespace hvn3 {
 	};
 
 }
+
+#pragma warning(pop)

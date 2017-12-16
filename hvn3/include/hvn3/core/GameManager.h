@@ -20,9 +20,6 @@ namespace hvn3 {
 		System::Runner& Runner() override;
 		RoomManager& Rooms() override;
 
-		RoomManager::room_type::collision_manager_type& Collisions();
-		IObjectManager& Objects();
-
 	private:
 		System::Properties _properties;
 		System::Runner* _runner;

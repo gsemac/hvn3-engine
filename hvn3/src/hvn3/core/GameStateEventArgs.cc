@@ -16,7 +16,7 @@ namespace hvn3 {
 		}
 		IObjectManager& GameStateEventArgs::Objects() {
 
-			return *Room().Objects();
+			return Room().Objects();
 
 		}
 		IRoom& GameStateEventArgs::Room() {
@@ -26,7 +26,12 @@ namespace hvn3 {
 		}
 		ICollisionManager& GameStateEventArgs::Collisions() {
 
-			return *Room().Collisions();
+			return Room().Collisions();
+
+		}
+		Physics::IPhysicsManager& GameStateEventArgs::Physics() {
+
+			return Room().Physics();
 
 		}
 

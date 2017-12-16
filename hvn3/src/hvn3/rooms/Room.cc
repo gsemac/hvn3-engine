@@ -14,16 +14,16 @@ namespace hvn3 {
 	void Room::OnUpdate(UpdateEventArgs& e) {
 
 		// Update objects (begin).
-		Objects()->OnBeginUpdate(e);
+		Objects().OnBeginUpdate(e);
 
 		// Update objects (primary).
-		Objects()->OnUpdate(e);
+		Objects().OnUpdate(e);
 
 		// Update collision manager.
-		Collisions()->OnUpdate(e);
+		Collisions().OnUpdate(e);
 
 		// Update objects (end).
-		Objects()->OnEndUpdate(e);
+		Objects().OnEndUpdate(e);
 
 		// Update views.
 		_view_manager.Update(ViewUpdateEventArgs(e.Delta(), hvn3::SizeI(Width(), Height())));
@@ -104,47 +104,51 @@ namespace hvn3 {
 
 	}
 
-	const IBackgroundManager* Room::Backgrounds() const {
+	IBackgroundManager& Room::Backgrounds() {
 
-		return &_background_manager;
-
-	}
-	IBackgroundManager* Room::Backgrounds() {
-
-		return &_background_manager;
+		return _background_manager;
 
 	}
-	const IViewManager* Room::Views() const {
+	IViewManager& Room::Views() {
 
-		return &_view_manager;
-		
-	}
-	IViewManager* Room::Views() {
-
-		return &_view_manager;
+		return _view_manager;
 
 	}
-	const Room::collision_manager_type* Room::Collisions() const {
+	Room::collision_manager_type& Room::Collisions() {
 
-		return &_collision_manager;
-
-	}
-	Room::collision_manager_type* Room::Collisions() {
-
-		return &_collision_manager;
+		return _collision_manager;
 
 	}
-	const Physics::IPhysicsManager<Object*>* Room::Physics() const {
+	Physics::IPhysicsManager& Room::Physics() {
 
-		return nullptr;
-
-	}
-	Physics::IPhysicsManager<Object*>* Room::Physics() {
-
-		return nullptr;
+		return _physics_manager;
 
 	}
 	
+	const IBackgroundManager& Room::Backgrounds() const {
+
+		return _background_manager;
+
+	}
+	const IViewManager& Room::Views() const {
+
+		return _view_manager;
+
+	}
+	const Room::collision_manager_type& Room::Collisions() const {
+
+		return _collision_manager;
+
+	}
+	const Physics::IPhysicsManager& Room::Physics() const {
+
+		return _physics_manager;
+
+	}
+
+
+
+
 	RectangleF Room::GetVisibleRegion() {
 
 		// Return the rectangle representing the largest view.
@@ -201,14 +205,16 @@ namespace hvn3 {
 		e.Graphics().Clear(BackgroundColor());
 
 		// Draw all backgrounds.
-		Backgrounds()->Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView(), false));
+		Backgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView(), false));
 
 		// Draw all objects.
-		Objects()->OnDraw(e);
+		Objects().OnDraw(e);
 
 		// Draw all foregrounds.
-		Backgrounds()->Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView(), true));
+		Backgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView(), true));
 
 	}
 
 }
+
+#pragma warning(pop)

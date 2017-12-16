@@ -5,9 +5,12 @@
 #include "hvn3/collision/NarrowPhase.h"
 #include "hvn3/backgrounds/BackgroundManager.h"
 #include "hvn3/views/ViewManager.h"
-#include "hvn3/physics/IPhysicsManager.h"
+#include "hvn3/physics/PhysicsManagerBase.h"
 #include "hvn3/core/UniqueCreateableBase.h"
 #include "hvn3/objects/ObjectManager.h"
+
+#pragma warning(push)
+#pragma warning(disable:4250)
 
 namespace hvn3 {
 
@@ -24,14 +27,14 @@ namespace hvn3 {
 
 		const View* CurrentView() const override;
 
-		const IBackgroundManager* Backgrounds() const override;
-		IBackgroundManager* Backgrounds() override;
-		const IViewManager* Views() const override;
-		IViewManager* Views() override;
-		const collision_manager_type* Collisions() const override;
-		collision_manager_type* Collisions() override;
-		virtual const Physics::IPhysicsManager<Object*>* Physics() const override;
-		virtual Physics::IPhysicsManager<Object*>* Physics() override;
+		const IBackgroundManager& Backgrounds() const override;
+		IBackgroundManager& Backgrounds() override;
+		const IViewManager& Views() const override;
+		IViewManager& Views() override;
+		const collision_manager_type& Collisions() const override;
+		collision_manager_type& Collisions() override;
+		virtual const Physics::IPhysicsManager& Physics() const override;
+		virtual Physics::IPhysicsManager& Physics() override;
 
 		virtual RectangleF GetVisibleRegion() override;
 
@@ -45,6 +48,7 @@ namespace hvn3 {
 		collision_manager_type  _collision_manager;
 		hvn3::BackgroundManager _background_manager;
 		hvn3::ViewManager _view_manager;
+		hvn3::Physics::PhysicsManagerBase _physics_manager;
 
 		size_t _rendering_view;
 		bool _restart_pending;

@@ -684,6 +684,9 @@
     <ClInclude Include="include\hvn3\rooms\RoomTypeDefs.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\physics\PhysicsManagerBase.h">
+      <Filter>include\physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1064,6 +1067,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\core\GameStateEventArgs.cc">
       <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\physics\PhysicsManagerBase.cc">
+      <Filter>src\physics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
