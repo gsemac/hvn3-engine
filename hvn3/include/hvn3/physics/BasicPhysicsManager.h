@@ -8,9 +8,9 @@ namespace hvn3 {
 		class BasicPhysicsManager : public PhysicsManagerBase {
 
 		public:
-			virtual void AddBody(IPhysicsBody& body) override;
-			virtual void RemoveBody(IPhysicsBody& body) override;
-
+			void AddBody(IPhysicsBody& body) override;
+			void RemoveBody(IPhysicsBody& body) override;
+			
 			void OnUpdate(UpdateEventArgs& e) override;
 
 		private:

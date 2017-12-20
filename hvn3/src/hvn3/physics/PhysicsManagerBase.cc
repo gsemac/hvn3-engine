@@ -9,6 +9,8 @@ namespace hvn3 {
 		PhysicsManagerBase::PhysicsManagerBase() :
 			_gravity(0.0f, Physics::StandardGravity()) {
 
+			SetPixelsToMetersScale(1.0f / 32.0f);
+
 		}
 
 		void PhysicsManagerBase::AddBody(IPhysicsBody& body) {
@@ -29,6 +31,16 @@ namespace hvn3 {
 		void PhysicsManagerBase::SetGravity(const Vector2d& value) {
 
 			_gravity = value;
+
+		}
+		float PhysicsManagerBase::PixelsToMetersScale() const {
+
+			return _pixels_to_meters_scale;
+
+		}
+		void PhysicsManagerBase::SetPixelsToMetersScale(float value) {
+
+			_pixels_to_meters_scale = value;
 
 		}
 		size_t PhysicsManagerBase::Count() const {

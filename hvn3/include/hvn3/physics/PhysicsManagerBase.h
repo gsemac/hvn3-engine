@@ -15,6 +15,8 @@ namespace hvn3 {
 			void RemoveBody(IPhysicsBody& body) override;
 			const Vector2d& Gravity() const override;
 			void SetGravity(const Vector2d& value) override;
+			float PixelsToMetersScale() const override;
+			void SetPixelsToMetersScale(float value) override;
 			size_t Count() const override;
 			void Clear() override;
 
@@ -30,6 +32,7 @@ namespace hvn3 {
 			bodies_list_type _bodies;
 			bodies_list_type _pending_removal;
 			Vector2d _gravity;
+			float _pixels_to_meters_scale;
 
 		};
 

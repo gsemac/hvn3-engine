@@ -29,14 +29,18 @@ namespace hvn3 {
 				IPhysicsBody* physics_body = (*i);
 				ICollisionBody* collision_body = &(*i)->CollisionBody();
 
-				collision_body->MoveContactIf(Gravity().Direction(), Gravity().Length(), [&](ICollisionBody* other) {
+				physics_body->SetLinearVelocity(physics_body->LinearVelocity() + Gravity() * PixelsToMetersScale());
+
+				collision_body->MoveContactIf(physics_body->LinearVelocity().Direction(), physics_body->LinearVelocity().Length(), [&](ICollisionBody* other) {
 
 					IPhysicsBody* other_physics_body = _lookupBody(other);
 
-					if (other_physics_body == nullptr)
-						return false;
+					if (other_physics_body != nullptr && physics_body->Category().CheckHit(other_physics_body->Category())) {
+						physics_body->SetLinearVelocity(Vector2d(physics_body->LinearVelocity().X(), 0.0f));
+						return true;
+					}
 
-					return physics_body->Category().CheckHit(other_physics_body->Category());
+					return false;
 
 				});
 
