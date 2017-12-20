@@ -42,7 +42,7 @@ namespace hvn3 {
 		HitMaskPtr _mask;
 		CategoryFilter _filter;
 
-		bool _managerSet() const;
+		bool _managerIsSet() const;
 		void _setManager(ICollisionManager* manager) override;
 
 	};

@@ -1,3 +1,4 @@
+#include "hvn3/physics/PhysicsBodyMutator.h"
 #include "hvn3/physics/PhysicsManagerBase.h"
 #include "hvn3/physics/PhysicsUtils.h"
 #include "hvn3/utility/Algorithm.h"
@@ -14,6 +15,8 @@ namespace hvn3 {
 		}
 
 		void PhysicsManagerBase::AddBody(IPhysicsBody& body) {
+
+			System::PhysicsBodyMutator(body).SetManager(this);
 
 			_bodies.push_back(&body);
 

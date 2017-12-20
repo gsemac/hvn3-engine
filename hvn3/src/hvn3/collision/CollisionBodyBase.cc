@@ -105,7 +105,7 @@ namespace hvn3 {
 	}
 	bool CollisionBodyBase::PlaceFreeIf(const PointF& position, const std::function<bool(ICollisionBody*)>& condition) {
 
-		if (!_managerSet())
+		if (!_managerIsSet())
 			return true;
 
 		// If the object does not have a collision mask, return true immediately (no collisions are possible).
@@ -146,10 +146,27 @@ namespace hvn3 {
 	}
 	bool CollisionBodyBase::MoveContactIf(float direction, float max_distance, const std::function<bool(ICollisionBody*)>& condition) {
 
+		// If the distance is negative, reverse the direction and then make it positive.
+		if (max_distance < 0.0f) {
+			direction += 180.0f;
+			max_distance = Math::Abs(max_distance);
+		}
+
+		// If the distance is 0, just return if the current position is free.
+		if (Math::IsZero(max_distance))
+			return PlaceFreeIf(Position(), condition);
+
 		float distance = 0.0f;
-		float distance_per_step = Math::Min(AABB().Width() - 1.0f, AABB().Height() - 1.0f, max_distance);
+		float distance_per_step = Math::Min(AABB().Width(), AABB().Height(), max_distance);
 		PointF new_position = Math::Geometry::PointInDirection(Position(), direction, distance_per_step);
 		bool place_free;
+		
+		if (distance_per_step <= 0.0f) {
+			// The body doesn't have a valid AABB, and thus will never collide with anything. Just move to the position and return false to indicate no collisions occurred.
+			SetPosition(Math::Geometry::PointInDirection(Position(), direction, max_distance));
+			return false;
+		}
+
 
 		// It's important that we check if the place is free before doing the distance check (what if the user passes in a distance of 0?).
 		while ((place_free = PlaceFreeIf(new_position, condition), place_free) && distance < (std::abs)(max_distance)) {
@@ -188,7 +205,7 @@ namespace hvn3 {
 	}
 	bool CollisionBodyBase::MoveOutsideBody(ICollisionBody* other, float direction, float max_distance) {
 
-		if (!_managerSet())
+		if (!_managerIsSet())
 			return true;
 
 		float dist = 0.0f;
@@ -219,7 +236,7 @@ namespace hvn3 {
 
 
 
-	bool CollisionBodyBase::_managerSet() const {
+	bool CollisionBodyBase::_managerIsSet() const {
 
 		return (_manager != nullptr);
 

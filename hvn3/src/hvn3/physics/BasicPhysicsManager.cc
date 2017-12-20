@@ -8,46 +8,48 @@ namespace hvn3 {
 
 		void BasicPhysicsManager::AddBody(IPhysicsBody& body) {
 
-			_body_lookup_table[&body.CollisionBody()] = &body;
-
 			PhysicsManagerBase::AddBody(body);
 
+			_body_lookup_table[&body.CollisionBody()] = &body;
 
 		}
 		void BasicPhysicsManager::RemoveBody(IPhysicsBody& body) {
 
-			_body_lookup_table.erase(&body.CollisionBody());
-
 			PhysicsManagerBase::RemoveBody(body);
+
+			_body_lookup_table.erase(&body.CollisionBody());
 
 		}
 
 		void BasicPhysicsManager::OnUpdate(UpdateEventArgs& e) {
+
+			PhysicsManagerBase::OnUpdate(e);
 
 			for (auto i = Bodies().begin(); i != Bodies().end(); ++i) {
 
 				IPhysicsBody* physics_body = (*i);
 				ICollisionBody* collision_body = &(*i)->CollisionBody();
 
+				if (physics_body->Type() == BodyType::Static)
+					continue;
+
 				physics_body->SetLinearVelocity(physics_body->LinearVelocity() + Gravity() * PixelsToMetersScale());
 
-				collision_body->MoveContactIf(physics_body->LinearVelocity().Direction(), physics_body->LinearVelocity().Length(), [&](ICollisionBody* other) {
+				if (collision_body->MoveContactIf(physics_body->LinearVelocity().Direction(), physics_body->LinearVelocity().Length(), [&](ICollisionBody* other) {
 
 					IPhysicsBody* other_physics_body = _lookupBody(other);
 
-					if (other_physics_body != nullptr && physics_body->Category().CheckHit(other_physics_body->Category())) {
-						physics_body->SetLinearVelocity(Vector2d(physics_body->LinearVelocity().X(), 0.0f));
+					if (other_physics_body != nullptr && physics_body->Category().CheckHit(other_physics_body->Category()))
 						return true;
-					}
 
 					return false;
 
-				});
+				})) {
+					physics_body->SetLinearVelocity(Vector2d(physics_body->LinearVelocity().X(), 0.0f));
+				}
 
 
 			}
-
-			PhysicsManagerBase::OnUpdate(e);
 
 		}
 

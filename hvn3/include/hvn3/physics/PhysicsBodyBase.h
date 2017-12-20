@@ -9,6 +9,7 @@ namespace hvn3 {
 
 		public:
 			PhysicsBodyBase(ICollisionBody& collision_body);
+			~PhysicsBodyBase();
 
 			virtual const PointF Position() const override;
 			virtual void SetPosition(float x, float y) override;
@@ -34,6 +35,9 @@ namespace hvn3 {
 			CategoryFilter& Category() override;
 			const CategoryFilter& Category() const override;
 
+		protected:
+			IPhysicsManager* Manager();
+
 		private:
 			Physics::MassData _mass_data;
 			float _restitution;
@@ -43,6 +47,10 @@ namespace hvn3 {
 			Physics::Material _material;
 			ICollisionBody* _collision_body;
 			CategoryFilter _filter;
+			IPhysicsManager* _manager;
+
+			bool _managerIsSet() const;
+			void _setManager(IPhysicsManager* manager) override;
 
 		};
 

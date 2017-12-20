@@ -687,6 +687,12 @@
     <ClInclude Include="include\hvn3\collision\CategoryFilter.h">
       <Filter>include\collision</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\objects\PhysicsObject.h">
+      <Filter>include\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\physics\PhysicsBodyMutator.h">
+      <Filter>include\physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1069,6 +1075,12 @@
       <Filter>src\physics</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\physics\BasicPhysicsManager.cc">
+      <Filter>src\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\objects\PhysicsObject.cc">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\physics\PhysicsBodyMutator.cc">
       <Filter>src\physics</Filter>
     </ClCompile>
   </ItemGroup>

@@ -141,25 +141,31 @@ namespace hvn3 {
 
 		bool removed = false;
 
-		for (auto it = _objects.begin(); it != _objects.end(); ++it)
-			if (_updateAndCheckObject(*it, e))
-				it->object->OnBeginUpdate(e);
-			else if (it->object->IsDestroyed())
+		for (size_t i = 0; i < _objects.size(); ++i) {
+
+			if (_updateAndCheckObject(_objects[i], e))
+				_objects[i].object->OnBeginUpdate(e);
+
+			if (_objects[i].object->IsDestroyed())
 				removed = true;
+		}
 
 		if (removed)
 			_removeDestroyedObjects(_objects.begin(), _objects.end());
-
+		
 	}
 	void ObjectManager::OnUpdate(UpdateEventArgs& e) {
 
 		bool removed = false;
 
-		for (auto it = _objects.begin(); it != _objects.end(); ++it)
-			if (_updateAndCheckObject(*it, e))
-				it->object->OnUpdate(e);
-			else if (it->object->IsDestroyed())
+		for (size_t i = 0; i < _objects.size(); ++i) {
+
+			if (_updateAndCheckObject(_objects[i], e))
+				_objects[i].object->OnUpdate(e);
+
+			if (_objects[i].object->IsDestroyed())
 				removed = true;
+		}
 
 		if (removed)
 			_removeDestroyedObjects(_objects.begin(), _objects.end());
@@ -169,11 +175,14 @@ namespace hvn3 {
 
 		bool removed = false;
 
-		for (auto it = _objects.begin(); it != _objects.end(); ++it)
-			if (_updateAndCheckObject(*it, e))
-				it->object->OnEndUpdate(e);
-			else if (it->object->IsDestroyed())
+		for (size_t i = 0; i < _objects.size(); ++i) {
+
+			if (_updateAndCheckObject(_objects[i], e))
+				_objects[i].object->OnEndUpdate(e);
+
+			if (_objects[i].object->IsDestroyed())
 				removed = true;
+		}
 
 		if (removed)
 			_removeDestroyedObjects(_objects.begin(), _objects.end());

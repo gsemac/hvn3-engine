@@ -5,7 +5,12 @@
 namespace hvn3 {
 
 	class ICollisionBody;
+	class IPhysicsManager;
 	class CategoryFilter;
+
+	namespace System {
+		class PhysicsBodyMutator;
+	}
 
 	namespace Physics {
 
@@ -32,8 +37,11 @@ namespace hvn3 {
 		};
 
 		class IPhysicsBody {
+			friend class System::PhysicsBodyMutator;
 
 		public:
+			virtual ~IPhysicsBody() = default;
+
 			virtual const PointF Position() const = 0;
 			virtual void SetPosition(float x, float y) = 0;
 			virtual void SetPosition(const PointF& position) = 0;
@@ -57,6 +65,9 @@ namespace hvn3 {
 			virtual ICollisionBody& CollisionBody() const = 0;
 			virtual CategoryFilter& Category() = 0;
 			virtual const CategoryFilter& Category() const = 0;
+
+		private:
+			virtual void _setManager(IPhysicsManager* manager) = 0;
 
 		};
 

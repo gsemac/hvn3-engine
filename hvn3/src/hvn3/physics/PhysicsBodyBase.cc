@@ -12,8 +12,15 @@ namespace hvn3 {
 			_restitution = 0.0f;
 			_type = BodyType::Dynamic;
 			_collision_body = &collision_body;
+			_manager = nullptr;
 
 			SetMaterial(Material::Metal);
+
+		}
+		PhysicsBodyBase::~PhysicsBodyBase() {
+
+			if (_manager != nullptr)
+				_manager->RemoveBody(*this);
 
 		}
 
@@ -136,6 +143,27 @@ namespace hvn3 {
 		const CategoryFilter& PhysicsBodyBase::Category() const {
 
 			return _filter;
+
+		}
+
+
+
+		IPhysicsManager* PhysicsBodyBase::Manager() {
+
+			return _manager;
+
+		}
+
+
+
+		bool PhysicsBodyBase::_managerIsSet() const {
+
+			return _manager != nullptr;
+
+		}
+		void PhysicsBodyBase::_setManager(IPhysicsManager* manager) {
+
+			_manager = manager;
 
 		}
 
