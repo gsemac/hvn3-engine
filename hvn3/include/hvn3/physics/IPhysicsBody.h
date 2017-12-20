@@ -3,6 +3,10 @@
 #include "hvn3/physics/Material.h"
 
 namespace hvn3 {
+
+	class ICollisionBody;
+	class CategoryFilter;
+
 	namespace Physics {
 
 		struct MassData {
@@ -30,11 +34,11 @@ namespace hvn3 {
 		class IPhysicsBody {
 
 		public:
-			virtual const PointF& Position() const = 0;
+			virtual const PointF Position() const = 0;
+			virtual void SetPosition(float x, float y) = 0;
 			virtual void SetPosition(const PointF& position) = 0;
 			virtual const Vector2d& LinearVelocity() const = 0;
 			virtual void SetLinearVelocity(const Vector2d& vec) = 0;
-
 			virtual float Mass() const = 0;
 			virtual float InverseMass() const = 0;
 			virtual Physics::MassData MassData() const = 0;
@@ -47,9 +51,12 @@ namespace hvn3 {
 			virtual void ApplyForce(const Vector2d& force, const PointF& point) = 0;
 			virtual Material Material() const = 0;
 			virtual void SetMaterial(const Physics::Material& material) = 0;
-
 			virtual BodyType Type() const = 0;
 			virtual void SetType(BodyType type) = 0;
+			virtual ICollisionBody& CollisionBody() = 0;
+			virtual ICollisionBody& CollisionBody() const = 0;
+			virtual CategoryFilter& Category() = 0;
+			virtual const CategoryFilter& Category() const = 0;
 
 		};
 

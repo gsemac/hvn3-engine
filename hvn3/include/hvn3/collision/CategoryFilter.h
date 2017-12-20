@@ -2,10 +2,10 @@
 
 namespace hvn3 {
 
-		class CollisionFilter {
+		class CategoryFilter {
 
 		public:
-			CollisionFilter();
+			CategoryFilter();
 
 			// Returns the category bits flag associated with the collider. This represents what the collider "is".
 			int CategoryBits() const;
@@ -27,7 +27,7 @@ namespace hvn3 {
 			void RemoveMask(int bits);
 
 			// Returns true if the other filter's category bits are contained in this filter's mask bits. Otherwise, returns false.
-			bool CheckHit(const CollisionFilter& other) const;
+			bool CheckHit(const CategoryFilter& other) const;
 
 		private:
 			int _category_bits;

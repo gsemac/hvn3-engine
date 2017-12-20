@@ -66,6 +66,16 @@ namespace hvn3 {
 			return n1 < n2 ? n1 : n2;
 
 		}
+		
+		// Returns the minimum of all given values.
+		template <typename T, typename... Args>
+		T Min(T n, Args... args) {
+
+			T m = Min(args...);
+
+			return m < n ? m : n;
+
+		}
 
 		template <typename T>
 		inline T Floor(T n) {

@@ -13,8 +13,8 @@ namespace hvn3 {
 		void SetPosition(const PointF& position) override;
 		void SetPosition(float x, float y) override;
 		RectangleF AABB() const override;
-		CollisionFilter& Filter() override;
-		const CollisionFilter& Filter() const override;
+		CategoryFilter& Category() override;
+		const CategoryFilter& Category() const override;
 		HitMaskPtr& HitMask() override;
 		const HitMaskPtr& HitMask() const override;
 		void SetHitMask(HitMaskPtr& mask) override;
@@ -40,7 +40,7 @@ namespace hvn3 {
 		bool _is_solid;					// If true, the body is solid.
 		bool _is_destroyed;				// If true, the body has been destroyed.
 		HitMaskPtr _mask;
-		CollisionFilter _filter;
+		CategoryFilter _filter;
 
 		bool _managerSet() const;
 		void _setManager(ICollisionManager* manager) override;

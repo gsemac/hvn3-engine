@@ -192,6 +192,7 @@ namespace hvn3 {
 		return _has_focus;
 
 	}
+
 	System::EventSource Display::EventSource() const {
 
 		return System::EventSource(al_get_display_event_source(_display));
@@ -212,9 +213,22 @@ namespace hvn3 {
 		return _display;
 
 	}
+
 	Display* Display::ActiveDisplay() {
 
 		return _active_display;
+
+	}
+	int Display::GetNewDisplayOption(DisplayOption option) {
+
+		int importance;
+
+		return al_get_new_display_option(System::AllegroAdapter::ToDisplayOption(option), &importance);
+
+	}
+	void Display::SetNewDisplayOption(DisplayOption option, int value) {
+
+		al_set_new_display_option(System::AllegroAdapter::ToDisplayOption(option), value, ALLEGRO_SUGGEST);
 
 	}
 

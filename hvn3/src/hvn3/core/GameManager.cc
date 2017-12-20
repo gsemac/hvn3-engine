@@ -12,7 +12,7 @@ namespace hvn3 {
 		System::Framework::Initialize();
 
 		// Set new bitmap flags.
-		Graphics::SetNewBitmapFlags(Graphics::BitmapFlags::Default | Graphics::BitmapFlags::MagLinear | Graphics::BitmapFlags::MinLinear);
+		Graphics::Bitmap::SetNewBitmapFlags(Graphics::BitmapFlags::AllegroDefault | Graphics::BitmapFlags::MagLinear | Graphics::BitmapFlags::MinLinear);
 
 	}
 	GameManager::GameManager(int argc, char* argv[]) : GameManager() {

@@ -32,7 +32,11 @@ namespace hvn3 {
 		FullscreenWindow = 512, // ALLEGRO_FULLSCREEN_WINDOW
 		AntiAlias = 1024
 	};
-	ENABLE_BITFLAG_OPERATORS(DisplayFlags)
+	ENABLE_BITFLAG_OPERATORS(DisplayFlags);
+
+	enum class DisplayOption {
+		VsyncEnabled
+	};
 
 	namespace System {
 		class DisplayController;
@@ -66,14 +70,19 @@ namespace hvn3 {
 		bool IsFullscreen() const;
 		void SetFullscreen(bool value);
 		bool HasFocus() const;
-		System::EventSource EventSource() const;
+
 		Graphics::Bitmap BackBuffer() const;
-		ALLEGRO_DISPLAY* AlPtr() const;
+
 		void Refresh();
 
-		static Display* ActiveDisplay();
+		System::EventSource EventSource() const;
+		ALLEGRO_DISPLAY* AlPtr() const;
 
 		Display& Display::operator=(Display&& other);
+
+		static Display* ActiveDisplay();
+		static int GetNewDisplayOption(DisplayOption option);
+		static void SetNewDisplayOption(DisplayOption option, int value);
 
 	private:
 		// Pointer to the underlying framework object.

@@ -22,8 +22,14 @@ namespace hvn3 {
 			static ALLEGRO_FONT* ToFont(const Font& font);
 			// Returns a pointer to the underlying ALLEGRO_BITMAP from a bitmap instance.
 			static ALLEGRO_BITMAP* ToBitmap(const Graphics::Bitmap& bitmap);
+			// Converts bitmap flags to Allegro bitmap flags.
+			static int ToBitmapFlags(Graphics::BitmapFlags flags);
+			// Converts Allegro bitmap flags to bitmap flags.
+			static Graphics::BitmapFlags FromBitmapFlags(int flags);
 			// Converts display flags to Allegro display flags.
 			static int ToDisplayFlags(DisplayFlags flags);
+			// Converts display option to Allegro display option.
+			static int ToDisplayOption(DisplayOption option);
 
 		private:
 			// It should not be possible to instantiate this class.

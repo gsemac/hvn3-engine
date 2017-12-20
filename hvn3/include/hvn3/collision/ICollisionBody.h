@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/collision/CollisionFilter.h"
+#include "hvn3/collision/CategoryFilter.h"
 #include "hvn3/collision/ICollidable.h"
 #include "hvn3/collision/IHitMask.h"
 #include "hvn3/core/IPositionable2d.h"
@@ -24,9 +24,9 @@ namespace hvn3 {
 		virtual RectangleF AABB() const = 0;
 
 		// Returns the collision filter associated with this body.
-		virtual CollisionFilter& Filter() = 0;
+		virtual CategoryFilter& Category() = 0;
 		// Returns the collision filter associated with this body.
-		virtual const CollisionFilter& Filter() const = 0;
+		virtual const CategoryFilter& Category() const = 0;
 
 		// Returns the hit mask associated with this body.
 		virtual HitMaskPtr& HitMask() = 0;

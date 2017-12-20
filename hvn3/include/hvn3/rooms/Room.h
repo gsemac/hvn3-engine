@@ -5,7 +5,7 @@
 #include "hvn3/collision/NarrowPhase.h"
 #include "hvn3/backgrounds/BackgroundManager.h"
 #include "hvn3/views/ViewManager.h"
-#include "hvn3/physics/PhysicsManagerBase.h"
+#include "hvn3/physics/BasicPhysicsManager.h"
 #include "hvn3/core/UniqueCreateableBase.h"
 #include "hvn3/objects/ObjectManager.h"
 
@@ -48,7 +48,7 @@ namespace hvn3 {
 		collision_manager_type  _collision_manager;
 		hvn3::BackgroundManager _background_manager;
 		hvn3::ViewManager _view_manager;
-		hvn3::Physics::PhysicsManagerBase _physics_manager;
+		hvn3::Physics::BasicPhysicsManager _physics_manager;
 
 		size_t _rendering_view;
 		bool _restart_pending;

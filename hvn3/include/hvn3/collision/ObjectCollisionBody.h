@@ -13,8 +13,10 @@ namespace hvn3 {
 
 		float X() const override;
 		float Y() const override;
+		PointF Position() const override;
 		void SetX(float x) override;
 		void SetY(float y) override;
+		void SetPosition(const PointF& position) override;
 
 		Object* GetObject();
 		const Object* GetObject() const;

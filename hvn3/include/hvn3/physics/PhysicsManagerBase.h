@@ -20,9 +20,15 @@ namespace hvn3 {
 
 			void OnUpdate(UpdateEventArgs& e) override;
 
+		protected:
+			typedef std::vector<IPhysicsBody*> bodies_list_type;
+
+			bodies_list_type& Bodies();
+			const bodies_list_type& Bodies() const;
+
 		private:
-			std::vector<IPhysicsBody*> _bodies;
-			std::vector<IPhysicsBody*> _pending_removal;
+			bodies_list_type _bodies;
+			bodies_list_type _pending_removal;
 			Vector2d _gravity;
 
 		};

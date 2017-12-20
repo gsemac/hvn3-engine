@@ -26,6 +26,11 @@ namespace hvn3 {
 		return GetObject()->Y();
 
 	}
+	PointF ObjectCollisionBody::Position() const {
+
+		return GetObject()->Position();
+
+	}
 	void ObjectCollisionBody::SetX(float x) {
 
 		GetObject()->SetX(x);
@@ -34,6 +39,11 @@ namespace hvn3 {
 	void ObjectCollisionBody::SetY(float y) {
 
 		GetObject()->SetY(y);
+
+	}
+	void ObjectCollisionBody::SetPosition(const PointF& position) {
+
+		GetObject()->SetPosition(position);
 
 	}
 

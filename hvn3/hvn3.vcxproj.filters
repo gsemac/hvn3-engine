@@ -198,9 +198,6 @@
     <ClInclude Include="include\hvn3\collision\CollisionEventArgs.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\collision\CollisionFilter.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\collision\CollisionManagerBase.h">
       <Filter>include\collision</Filter>
     </ClInclude>
@@ -507,12 +504,6 @@
     <ClInclude Include="include\hvn3\objects\ObjectManager.h">
       <Filter>include\objects</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\physics\BasicPhysicsBody.h">
-      <Filter>include\physics</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\physics\BasicPhysicsManager.h">
-      <Filter>include\physics</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\physics\IPhysicsBody.h">
       <Filter>include\physics</Filter>
     </ClInclude>
@@ -686,6 +677,15 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\physics\PhysicsManagerBase.h">
       <Filter>include\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\physics\PhysicsBodyBase.h">
+      <Filter>include\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\physics\BasicPhysicsManager.h">
+      <Filter>include\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\CategoryFilter.h">
+      <Filter>include\collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -960,12 +960,6 @@
     <ClCompile Include="src\hvn3\objects\ObjectManager.cc">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\physics\BasicPhysicsBody.cc">
-      <Filter>src\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\physics\BasicPhysicsManager.cc">
-      <Filter>src\physics</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\physics\Material.cc">
       <Filter>src\physics</Filter>
     </ClCompile>
@@ -1069,6 +1063,12 @@
       <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\physics\PhysicsManagerBase.cc">
+      <Filter>src\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\physics\PhysicsBodyBase.cc">
+      <Filter>src\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\physics\BasicPhysicsManager.cc">
       <Filter>src\physics</Filter>
     </ClCompile>
   </ItemGroup>

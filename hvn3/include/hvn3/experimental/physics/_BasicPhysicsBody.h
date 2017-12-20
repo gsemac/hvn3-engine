@@ -14,7 +14,7 @@ namespace hvn3 {
 		public:
 			BasicPhysicsBody(ICollisionBody* body);
 
-			const PointF& Position() const override;
+			const PointF Position() const override;
 			void SetPosition(const PointF& position) override;
 			const Vector2d& LinearVelocity() const override;
 			void SetLinearVelocity(const Vector2d& vec) override;
@@ -31,7 +31,6 @@ namespace hvn3 {
 			void ApplyForce(const Vector2d& force, const PointF& point) override;
 			Physics::Material Material() const override;
 			void SetMaterial(const Physics::Material& material) override;
-
 			virtual BodyType Type() const override;
 			virtual void SetType(BodyType type) override;
 

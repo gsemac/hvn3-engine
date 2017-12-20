@@ -30,7 +30,7 @@ namespace hvn3 {
 
 		Runner::Runner(IGameManager& game_manager) :
 			_game_manager(&game_manager),
-			_timer(1.0f / game_manager.Properties().FrameRate),
+			_timer(1.0 / game_manager.Properties().FrameRate),
 			_display(game_manager.Properties().DisplaySize, game_manager.Properties().DisplayTitle.c_str(), game_manager.Properties().DisplayFlags),
 			_graphics(_display.BackBuffer()),
 			_fps_counter(0.25) {

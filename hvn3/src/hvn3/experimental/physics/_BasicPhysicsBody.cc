@@ -1,4 +1,4 @@
-#include "hvn3/physics/BasicPhysicsBody.h"
+#include "hvn3/physics/_BasicPhysicsBody.h"
 #include "hvn3/collision/ICollisionBody.h"
 #include "hvn3/exceptions/Exception.h"
 
@@ -19,7 +19,7 @@ namespace hvn3 {
 
 		}
 
-		const PointF& BasicPhysicsBody::Position() const {
+		const PointF BasicPhysicsBody::Position() const {
 
 			_position.SetX(_body->X());
 			_position.SetY(_body->Y());

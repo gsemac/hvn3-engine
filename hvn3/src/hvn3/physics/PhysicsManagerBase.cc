@@ -1,10 +1,13 @@
 #include "hvn3/physics/PhysicsManagerBase.h"
+#include "hvn3/physics/PhysicsUtils.h"
 #include "hvn3/utility/Algorithm.h"
+#include "hvn3/utility/Direction8.h"
 
 namespace hvn3 {
 	namespace Physics {
 
-		PhysicsManagerBase::PhysicsManagerBase() {
+		PhysicsManagerBase::PhysicsManagerBase() :
+			_gravity(0.0f, Physics::StandardGravity()) {
 
 		}
 
@@ -46,6 +49,19 @@ namespace hvn3 {
 				_bodies.erase(RemoveSame(_bodies.begin(), _bodies.end(), _pending_removal.begin(), _pending_removal.end()).first, _bodies.end());
 				_pending_removal.clear();
 			}
+
+		}
+
+
+
+		PhysicsManagerBase::bodies_list_type& PhysicsManagerBase::Bodies() {
+
+			return _bodies;
+
+		}
+		const PhysicsManagerBase::bodies_list_type& PhysicsManagerBase::Bodies() const {
+
+			return _bodies;
 
 		}
 

@@ -12,7 +12,7 @@ namespace hvn3 {
 	namespace Graphics {
 
 		enum class BitmapFlags {
-			Default = 1,
+			AllegroDefault = 1,
 			MinLinear = 64,
 			MagLinear = 128
 		};
@@ -62,6 +62,9 @@ namespace hvn3 {
 			Bitmap& operator=(Bitmap&& other);
 			explicit operator bool() const;
 
+			static BitmapFlags NewBitmapFlags();
+			static void SetNewBitmapFlags(BitmapFlags flags);
+
 		private:
 			ALLEGRO_BITMAP* _bitmap;
 			bool _free;
@@ -71,9 +74,6 @@ namespace hvn3 {
 			void _freeBitmap();
 
 		};
-
-		BitmapFlags NewBitmapFlags();
-		void SetNewBitmapFlags(BitmapFlags flags);
 
 	}
 

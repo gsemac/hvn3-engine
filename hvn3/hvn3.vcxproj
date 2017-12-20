@@ -40,7 +40,7 @@
     <ClInclude Include="include\hvn3\collision\CollisionBodyBase.h" />
     <ClInclude Include="include\hvn3\collision\CollisionBodyMutator.h" />
     <ClInclude Include="include\hvn3\collision\CollisionEventArgs.h" />
-    <ClInclude Include="include\hvn3\collision\CollisionFilter.h" />
+    <ClInclude Include="include\hvn3\collision\CategoryFilter.h" />
     <ClInclude Include="include\hvn3\collision\CollisionManagerBase.h" />
     <ClInclude Include="include\hvn3\collision\CollisionManifold.h" />
     <ClInclude Include="include\hvn3\collision\CollisionUtils.h" />
@@ -152,8 +152,8 @@
     <ClInclude Include="include\hvn3\objects\ObjectEventArgs.h" />
     <ClInclude Include="include\hvn3\objects\ObjectManager.h" />
     <ClInclude Include="include\hvn3\objects\ObjectTypeDefs.h" />
-    <ClInclude Include="include\hvn3\physics\BasicPhysicsBody.h" />
     <ClInclude Include="include\hvn3\physics\BasicPhysicsManager.h" />
+    <ClInclude Include="include\hvn3\physics\PhysicsBodyBase.h" />
     <ClInclude Include="include\hvn3\physics\IPhysicsBody.h" />
     <ClInclude Include="include\hvn3\physics\IPhysicsManager.h" />
     <ClInclude Include="include\hvn3\physics\Material.h" />
@@ -301,8 +301,8 @@
     <ClCompile Include="src\hvn3\objects\Object.cc" />
     <ClCompile Include="src\hvn3\objects\ObjectBase.cc" />
     <ClCompile Include="src\hvn3\objects\ObjectManager.cc" />
-    <ClCompile Include="src\hvn3\physics\BasicPhysicsBody.cc" />
     <ClCompile Include="src\hvn3\physics\BasicPhysicsManager.cc" />
+    <ClCompile Include="src\hvn3\physics\PhysicsBodyBase.cc" />
     <ClCompile Include="src\hvn3\physics\Material.cc" />
     <ClCompile Include="src\hvn3\physics\PhysicsManagerBase.cc" />
     <ClCompile Include="src\hvn3\physics\PhysicsUtils.cc" />

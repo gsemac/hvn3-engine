@@ -22,6 +22,9 @@ namespace hvn3 {
 		// Update collision manager.
 		Collisions().OnUpdate(e);
 
+		// Update physics manager.
+		Physics().OnUpdate(e);
+
 		// Update objects (end).
 		Objects().OnEndUpdate(e);
 

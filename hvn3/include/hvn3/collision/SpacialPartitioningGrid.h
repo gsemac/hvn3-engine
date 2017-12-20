@@ -77,8 +77,8 @@ namespace hvn3 {
 
 						// If the objects can't possibly collide due to their filter flags, skip the pair.
 						if (
-							!(j->second->Filter().MaskBits() & k->second->Filter().CategoryBits()) &&
-							!(k->second->Filter().MaskBits() & j->second->Filter().CategoryBits())
+							!(j->second->Category().MaskBits() & k->second->Category().CategoryBits()) &&
+							!(k->second->Category().MaskBits() & j->second->Category().CategoryBits())
 							)
 							continue;
 
@@ -119,7 +119,7 @@ namespace hvn3 {
 			for (size_t i = 0; i < cells.size(); ++i) {
 				auto r = _grid.equal_range(cells[i]);
 				for (auto j = r.first; j != r.second; ++j)
-					if (filter == 0 || j->second->Filter().CategoryBits() & filter)
+					if (filter == 0 || j->second->Category().CategoryBits() & filter)
 						colliders.insert(j->second);
 			}
 

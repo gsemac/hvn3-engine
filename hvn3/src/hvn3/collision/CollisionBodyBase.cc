@@ -50,12 +50,12 @@ namespace hvn3 {
 		return aabb;
 
 	}
-	CollisionFilter& CollisionBodyBase::Filter() {
+	CategoryFilter& CollisionBodyBase::Category() {
 
 		return _filter;
 
 	}
-	const CollisionFilter& CollisionBodyBase::Filter() const {
+	const CategoryFilter& CollisionBodyBase::Category() const {
 
 		return _filter;
 
@@ -116,7 +116,7 @@ namespace hvn3 {
 		IBroadPhase::collider_vector_type hits;
 
 		// Get a list of all colliders that could potentially collide with the collider.
-		_manager->BroadPhase().QueryRegion(AABB(), hits, Filter().MaskBits());
+		_manager->BroadPhase().QueryRegion(AABB(), hits, Category().MaskBits());
 
 		// If the list is empty, the place is free.
 		if (hits.size() == 0)
@@ -147,7 +147,7 @@ namespace hvn3 {
 	bool CollisionBodyBase::MoveContactIf(float direction, float max_distance, const std::function<bool(ICollisionBody*)>& condition) {
 
 		float distance = 0.0f;
-		float distance_per_step = Math::Min(1.0f, max_distance);
+		float distance_per_step = Math::Min(AABB().Width() - 1.0f, AABB().Height() - 1.0f, max_distance);
 		PointF new_position = Math::Geometry::PointInDirection(Position(), direction, distance_per_step);
 		bool place_free;
 

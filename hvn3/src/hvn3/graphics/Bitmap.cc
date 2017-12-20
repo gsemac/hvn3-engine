@@ -2,7 +2,7 @@
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/allegro/AllegroAdapter.h"
 #include <allegro5/allegro_memfile.h>
-#define ALLEGRO_DEFAULT_NEW_BITMAP_FLAGS 4096
+
 
 namespace hvn3 {
 
@@ -227,6 +227,17 @@ namespace hvn3 {
 
 		}
 
+		BitmapFlags Bitmap::NewBitmapFlags() {
+
+			return System::AllegroAdapter::FromBitmapFlags(al_get_new_bitmap_flags());
+			
+		}
+		void Bitmap::SetNewBitmapFlags(BitmapFlags flags) {
+
+			al_set_new_bitmap_flags(System::AllegroAdapter::ToBitmapFlags(flags));
+
+		}
+
 		BitmapData::BitmapData() {
 
 			Scan0 = nullptr;
@@ -267,48 +278,6 @@ namespace hvn3 {
 			
 			_bitmap = nullptr;
 			_free = false;
-
-		}
-
-		// Static helper functions
-		int ConvertBitmapFlags(BitmapFlags flags) {
-
-			int al_flags = 0;
-
-			if (HasFlag(flags, BitmapFlags::Default))
-				al_flags |= ALLEGRO_DEFAULT_NEW_BITMAP_FLAGS;
-
-			if (HasFlag(flags, BitmapFlags::MinLinear))
-				al_flags |= ALLEGRO_MIN_LINEAR;
-
-			if (HasFlag(flags, BitmapFlags::MagLinear))
-				al_flags |= ALLEGRO_MAG_LINEAR;
-
-			return al_flags;
-
-		}
-
-		// Free functions
-		BitmapFlags NewBitmapFlags() {
-
-			int al_flags = al_get_new_bitmap_flags();
-			int my_flags = 0;
-
-			if (al_flags & ALLEGRO_DEFAULT_NEW_BITMAP_FLAGS)
-				my_flags |= ALLEGRO_DEFAULT_NEW_BITMAP_FLAGS;
-
-			if (al_flags & ALLEGRO_MIN_LINEAR)
-				my_flags |= static_cast<int>(BitmapFlags::MinLinear);
-
-			if (al_flags & ALLEGRO_MAG_LINEAR)
-				my_flags |= static_cast<int>(BitmapFlags::MagLinear);
-
-			return (BitmapFlags)my_flags;
-
-		}
-		void SetNewBitmapFlags(BitmapFlags flags) {
-
-			al_set_new_bitmap_flags(ConvertBitmapFlags(flags));
 
 		}
 
