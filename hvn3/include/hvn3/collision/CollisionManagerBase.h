@@ -17,7 +17,11 @@ namespace hvn3 {
 		typedef narrowphase_type narrowphase_type;
 		typedef body_type body_type;
 
-		CollisionManagerBase() = default;
+		CollisionManagerBase() {
+
+			_precision = 0.4f; // Precise to 2/5th of a pixel
+
+		}
 		~CollisionManagerBase() {
 
 			// Clear all bodies from the broad phase manager, which will clear each one's manager pointer.
@@ -67,6 +71,17 @@ namespace hvn3 {
 		void Clear() override {
 
 			_broad_phase.Clear();
+
+		}
+
+		float Precision() const {
+
+			return _precision;
+
+		}
+		void SetPrecision(float value) {
+
+			_precision = value;
 
 		}
 
@@ -153,20 +168,23 @@ namespace hvn3 {
 			float distance_per_step = Math::Min(body.AABB().Width(), body.AABB().Height(), max_distance);
 			PointF new_position = body.Position();
 			bool place_free;
+			bool contact_made = false;
 
 			if (distance_per_step <= 0.0f) {
 				// The body doesn't have a valid AABB, and thus will never collide with anything. Just move to the position and return false to indicate no collisions occurred.
 				body.SetPosition(Math::Geometry::PointInDirection(body.Position(), direction, max_distance));
 				return false;
 			}
-
+	
 			while (distance < (std::abs)(max_distance)) {
 
 				PointF tentative_position = Math::Geometry::PointInDirection(new_position, direction, distance_per_step);
 				place_free = PlaceFreeIf(body, tentative_position, condition);
 
+				// If we make contact with an object, start halving the movement distance so we can get close enough to satisfy the precision value.
 				if (!place_free) {
-					if (distance_per_step < 0.2f)
+					contact_made = true;
+					if (distance_per_step < _precision)
 						break;
 					else {
 						distance_per_step /= 2.0f;
@@ -176,6 +194,14 @@ namespace hvn3 {
 
 				new_position = tentative_position;
 				distance += distance_per_step;
+
+				// If we know that there's going to be a collision, there is no point in trying to move the same half again. Half the movement distance immediately.
+				if (contact_made)
+					distance_per_step /= 2.0f;
+
+				// If the distance we're now moving is below the precision threshold, there is no need to continue.
+				if (distance_per_step < _precision)
+					break;
 
 			}
 
@@ -245,6 +271,7 @@ namespace hvn3 {
 		std::vector<CollisionManifold> _pairs;
 		broadphase_type _broad_phase;
 		narrowphase_type _narrow_phase;
+		float _precision;
 
 	};
 

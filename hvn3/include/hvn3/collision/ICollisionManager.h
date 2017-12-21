@@ -31,6 +31,11 @@ namespace hvn3 {
 		// Clears all collision bodies from the manager.
 		virtual void Clear() = 0;
 
+		// Returns the level of precision used for collision calculations, in pixels.
+		virtual float Precision() const = 0;
+		// Sets the level of precision used for collision calculations, in pixels.
+		virtual void SetPrecision(float value) = 0;
+
 		// Returns true if the body collides with any other body at the given position.
 		virtual bool PlaceFree(ICollisionBody& body, const PointF& position) = 0;
 		// Returns true if the body collides with any other body at the given position.
