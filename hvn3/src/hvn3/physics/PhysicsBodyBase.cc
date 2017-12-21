@@ -1,5 +1,6 @@
 #include "hvn3/collision/ICollisionBody.h"
 #include "hvn3/physics/PhysicsBodyBase.h"
+#include "hvn3/physics/IPhysicsManager.h"
 #include "hvn3/exceptions/Exception.h"
 
 namespace hvn3 {

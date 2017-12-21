@@ -123,7 +123,7 @@ namespace hvn3 {
 		// If the object does not have a collision mask, return true immediately (no collisions are possible).
 		if (HitMask() == nullptr)
 			return true;
-
+		
 		// Create a vector to store the results.
 		IBroadPhase::collider_vector_type hits;
 

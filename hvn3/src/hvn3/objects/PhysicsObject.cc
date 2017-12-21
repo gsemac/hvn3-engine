@@ -1,4 +1,6 @@
+#include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/objects/PhysicsObject.h"
+#include "hvn3/physics/IPhysicsManager.h"
 
 namespace hvn3 {
 

@@ -24,7 +24,7 @@ namespace hvn3 {
 		void BasicPhysicsManager::OnUpdate(UpdateEventArgs& e) {
 
 			PhysicsManagerBase::OnUpdate(e);
-
+			
 			for (auto i = Bodies().begin(); i != Bodies().end(); ++i) {
 
 				IPhysicsBody* physics_body = (*i);
