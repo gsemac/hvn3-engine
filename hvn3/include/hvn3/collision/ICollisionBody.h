@@ -40,23 +40,6 @@ namespace hvn3 {
 		// Sets the solid flag to the given value.
 		virtual void SetSolid(bool value) = 0;
 
-		// Returns true if the body collides with any other body at the given position.
-		virtual bool PlaceFree(const PointF& position) = 0;
-		// Returns true if the body collides with any other body at the given position.
-		virtual bool PlaceFree(float x, float y) = 0;
-		// Returns true if the body collides with any other body at the given position for which the given condition is true.
-		virtual bool PlaceFreeIf(const PointF& position, const std::function<bool(ICollisionBody*)>& condition) = 0;
-		// Returns true if the body collides with any other body at the given position for which the given condition is true, and stores the collision manifold.
-		virtual bool PlaceFreeIf(const PointF& position, const std::function<bool(ICollisionBody*)>& condition, CollisionManifold& manifold) = 0;
-		// Moves the body a set distance in a given direction (in degrees) until it collides with another body.
-		virtual bool MoveContact(float direction, float max_distance) = 0;
-		// Moves the body a set distance in a given direction (in degrees) until it collides with another body for which the given condition is true.
-		virtual bool MoveContactIf(float direction, float max_distance, const std::function<bool(ICollisionBody*)>& condition) = 0;
-		// Moves the body in a given direction (in degrees) until it is no longer colliding with any other bodies.
-		virtual bool MoveOutside(float direction, float max_distance) = 0;
-		// Moves the body in a given direction (in degrees) until it is no longer colliding with the given body.
-		virtual bool MoveOutsideBody(ICollisionBody* other, float direction, float max_distance) = 0;
-
 	private:
 		// Sets the collision manager currently managing this body.
 		virtual void _setManager(ICollisionManager* manager) = 0;

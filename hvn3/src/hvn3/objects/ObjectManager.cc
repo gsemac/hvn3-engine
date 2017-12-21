@@ -1,4 +1,3 @@
-#include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/core/DrawEventArgs.h"
 #include "hvn3/core/UpdateEventArgs.h"
 #include "hvn3/objects/Object.h"

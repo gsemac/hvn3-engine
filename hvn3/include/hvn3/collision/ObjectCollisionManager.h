@@ -23,7 +23,7 @@ namespace hvn3 {
 				m.BodyA = body_1;
 				m.BodyB = body_2;
 
-				if (!NarrowPhase().TestCollision(body_1, body_2, m))
+				if (!NarrowPhase().TestCollision(*body_1, *body_2, m))
 					continue;
 
 				// Call the collision event for the first object.

@@ -4,21 +4,21 @@
 
 namespace hvn3 {
 
-	bool NarrowPhase::TestCollision(ICollisionBody* a, ICollisionBody* b, CollisionManifold& m) const {
+	bool NarrowPhase::TestCollision(ICollisionBody& body, ICollisionBody& other, CollisionManifold& manifold) const {
 
-		return TestCollision(a, a->Position(), b, b->Position(), m);
+		return TestCollision(body, body.Position(), other, other.Position(), manifold);
 
 	}
-	bool NarrowPhase::TestCollision(ICollisionBody* a, const PointF& position_a, ICollisionBody* b, const PointF& position_b, CollisionManifold& m) const {
+	bool NarrowPhase::TestCollision(ICollisionBody& body, const PointF& body_position, ICollisionBody& other, const PointF& other_position, CollisionManifold& manifold) const {
 
 		// Get the masks for both colliders.
-		HitMaskPtr& a_mask = a->HitMask();
-		HitMaskPtr& b_mask = b->HitMask();
+		HitMaskPtr& a_mask = body.HitMask();
+		HitMaskPtr& b_mask = other.HitMask();
 		bool hit;
 
 		// Offset both colliders by the given offsets.
-		a_mask->SetOffset(PointF(a_mask->Offset().X() + position_a.X(), a_mask->Offset().Y() + position_a.Y()));
-		b_mask->SetOffset(PointF(b_mask->Offset().X() + position_b.X(), b_mask->Offset().Y() + position_b.Y()));
+		a_mask->SetOffset(PointF(a_mask->Offset().X() + body_position.X(), a_mask->Offset().Y() + body_position.Y()));
+		b_mask->SetOffset(PointF(b_mask->Offset().X() + other_position.X(), b_mask->Offset().Y() + other_position.Y()));
 
 		// If the bounding boxes do not intersect, return false.
 		if (!Math::Geometry::TestIntersection(a_mask->AABB(), b_mask->AABB()))
@@ -26,11 +26,11 @@ namespace hvn3 {
 
 		// Test to see if the two masks intersect one another.
 		else
-			hit = a_mask->TestCollision(b_mask, m);
+			hit = a_mask->TestCollision(b_mask, manifold);
 
 		// Reset the offsets.
-		a_mask->SetOffset(PointF(a_mask->Offset().X() - position_a.X(), a_mask->Offset().Y() - position_a.Y()));
-		b_mask->SetOffset(PointF(b_mask->Offset().X() - position_b.X(), b_mask->Offset().Y() - position_b.Y()));
+		a_mask->SetOffset(PointF(a_mask->Offset().X() - body_position.X(), a_mask->Offset().Y() - body_position.Y()));
+		b_mask->SetOffset(PointF(b_mask->Offset().X() - other_position.X(), b_mask->Offset().Y() - other_position.Y()));
 
 		// Return the result.
 		return hit;

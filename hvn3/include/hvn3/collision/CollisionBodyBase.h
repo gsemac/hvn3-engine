@@ -25,15 +25,6 @@ namespace hvn3 {
 		bool IsDestroyed() const override;
 		void OnDestroy(DestroyEventArgs& e) override;
 
-		bool PlaceFree(const PointF& position) override;
-		bool PlaceFree(float x, float y) override;
-		bool PlaceFreeIf(const PointF& position, const std::function<bool(ICollisionBody*)>& condition) override;
-		bool PlaceFreeIf(const PointF& position, const std::function<bool(ICollisionBody*)>& condition, CollisionManifold& manifold) override;
-		bool MoveContact(float direction, float max_distance) override;
-		bool MoveContactIf(float direction, float max_distance, const std::function<bool(ICollisionBody*)>& condition) override;
-		bool MoveOutside(float direction, float max_distance) override;
-		bool MoveOutsideBody(ICollisionBody* other, float direction, float max_distance) override;
-
 	protected:
 		ICollisionManager* Manager();
 

@@ -1,6 +1,4 @@
 #pragma once
-#include "hvn3/collision/ICollisionManager.h"
-#include "hvn3/core/IGameManager.h"
 #include "hvn3/objects/IObjectManager.h"
 #include <memory>
 #include <vector>

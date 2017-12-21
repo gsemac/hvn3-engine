@@ -9,8 +9,8 @@ namespace hvn3 {
 	class INarrowPhase {
 
 	public:
-		virtual bool TestCollision(ICollisionBody* a, ICollisionBody* b, CollisionManifold& m) const = 0;
-		virtual bool TestCollision(ICollisionBody* a, const PointF& position_a, ICollisionBody* b, const PointF& position_b, CollisionManifold& m) const = 0;
+		virtual bool TestCollision(ICollisionBody& body, ICollisionBody& other, CollisionManifold& manifold) const = 0;
+		virtual bool TestCollision(ICollisionBody& body, const PointF& body_position, ICollisionBody& other, const PointF& other_position, CollisionManifold& manifold) const = 0;
 
 	};
 
