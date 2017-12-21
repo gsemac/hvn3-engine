@@ -42,12 +42,14 @@ namespace hvn3 {
 		virtual bool PlaceFree(ICollisionBody& body, float x, float y) = 0;
 		// Returns true if the body collides with any other body at the given position for which the given condition is true.
 		virtual bool PlaceFreeIf(ICollisionBody& body, const PointF& position, const std::function<bool(ICollisionBody*)>& condition) = 0;
-		// Returns true if the body collides with any other body at the given position for which the given condition is true, and stores the collision manifold.
+		// Returns true if the body collides with any other body at the given position for which the given condition is true, and stores collision information.
 		virtual bool PlaceFreeIf(ICollisionBody& body, const PointF& position, const std::function<bool(ICollisionBody*)>& condition, CollisionManifold& manifold) = 0;
 		// Moves the body a set distance in a given direction (in degrees) until it collides with another body.
-		virtual bool MoveContact(ICollisionBody& body, float direction, float max_distance) = 0;
+		virtual bool MoveContact(ICollisionBody& body, float direction, float distance) = 0;
 		// Moves the body a set distance in a given direction (in degrees) until it collides with another body for which the given condition is true.
-		virtual bool MoveContactIf(ICollisionBody& body, float direction, float max_distance, const std::function<bool(ICollisionBody*)>& condition) = 0;
+		virtual bool MoveContactIf(ICollisionBody& body, float direction, float distance, const std::function<bool(ICollisionBody*)>& condition) = 0;
+		// Moves the body a set distance in a given direction (in degrees) until it collides with another body for which the given condition is true, and stores collision information.
+		virtual bool MoveContactIf(ICollisionBody& body, float direction, float distance, const std::function<bool(ICollisionBody*)>& condition, CollisionManifold& manifold) = 0;
 		// Moves the body in a given direction (in degrees) until it is no longer colliding with any other bodies.
 		virtual bool MoveOutside(ICollisionBody& body, float direction, float max_distance) = 0;
 		// Moves the body in a given direction (in degrees) until it is no longer colliding with the given body.

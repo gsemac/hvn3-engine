@@ -147,39 +147,47 @@ namespace hvn3 {
 			return true;
 
 		}
-		bool MoveContact(ICollisionBody& body, float direction, float max_distance) override {
+		bool MoveContact(ICollisionBody& body, float direction, float distance) override {
 
-			return MoveContactIf(body, direction, max_distance, [](ICollisionBody*) { return true; });
+			return MoveContactIf(body, direction, distance, [](ICollisionBody*) { return true; });
 
 		}
-		bool MoveContactIf(ICollisionBody& body, float direction, float max_distance, const std::function<bool(ICollisionBody*)>& condition) override {
+		bool MoveContactIf(ICollisionBody& body, float direction, float distance, const std::function<bool(ICollisionBody*)>& condition) override {
+
+			CollisionManifold manifold;
+
+			MoveContactIf(body, direction, distance, condition, manifold);
+
+		}
+		bool MoveContactIf(ICollisionBody& body, float direction, float distance, const std::function<bool(ICollisionBody*)>& condition, CollisionManifold& manifold) override {
 
 			// If the distance is negative, reverse the direction and then make it positive.
-			if (max_distance < 0.0f) {
+			if (distance < 0.0f) {
 				direction += 180.0f;
-				max_distance = Math::Abs(max_distance);
+				distance = Math::Abs(distance);
 			}
 
 			// If the distance is 0, just return if the current position is free.
-			if (Math::IsZero(max_distance))
+			if (Math::IsZero(distance))
 				return PlaceFreeIf(body, body.Position(), condition);
+			
+			float distance_per_step = Math::Min(body.AABB().Width(), body.AABB().Height(), distance);
+			
+			if (distance_per_step <= 0.0f) {
+				// The body doesn't have a valid AABB, and thus will never collide with anything. Just move to the position and return false to indicate no collisions occurred.
+				body.SetPosition(Math::Geometry::PointInDirection(body.Position(), direction, distance));
+				return false;
+			}
 
-			float distance = 0.0f;
-			float distance_per_step = Math::Min(body.AABB().Width(), body.AABB().Height(), max_distance);
+			float distance_total = 0.0f;
 			PointF new_position = body.Position();
 			bool place_free;
 			bool contact_made = false;
 
-			if (distance_per_step <= 0.0f) {
-				// The body doesn't have a valid AABB, and thus will never collide with anything. Just move to the position and return false to indicate no collisions occurred.
-				body.SetPosition(Math::Geometry::PointInDirection(body.Position(), direction, max_distance));
-				return false;
-			}
-	
-			while (distance < (std::abs)(max_distance)) {
+			while (distance_total < (std::abs)(distance)) {
 
 				PointF tentative_position = Math::Geometry::PointInDirection(new_position, direction, distance_per_step);
-				place_free = PlaceFreeIf(body, tentative_position, condition);
+				place_free = PlaceFreeIf(body, tentative_position, condition, manifold);
 
 				// If we make contact with an object, start halving the movement distance so we can get close enough to satisfy the precision value.
 				if (!place_free) {
@@ -193,7 +201,7 @@ namespace hvn3 {
 				}
 
 				new_position = tentative_position;
-				distance += distance_per_step;
+				distance_total += distance_per_step;
 
 				// If we know that there's going to be a collision, there is no point in trying to move the same half again. Half the movement distance immediately.
 				if (contact_made)
