@@ -156,7 +156,7 @@ namespace hvn3 {
 
 			CollisionManifold manifold;
 
-			MoveContactIf(body, direction, distance, condition, manifold);
+			return MoveContactIf(body, direction, distance, condition, manifold);
 
 		}
 		bool MoveContactIf(ICollisionBody& body, float direction, float distance, const std::function<bool(ICollisionBody*)>& condition, CollisionManifold& manifold) override {
@@ -215,7 +215,7 @@ namespace hvn3 {
 
 			body.SetPosition(new_position);
 
-			return !place_free;
+			return contact_made;
 
 		}
 		bool MoveOutside(ICollisionBody& body, float direction, float max_distance) override {
