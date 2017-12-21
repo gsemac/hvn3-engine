@@ -17,7 +17,10 @@ namespace hvn3 {
 		void SetLength(float value);
 		void SetDirection(float degrees);
 
+		// Returns the direction of the vector, from 0 to 360 degrees.
 		float Direction() const;
+		// Returns the angle of the vector relative to the quadrant that it is in, from 0 to 90 degrees.
+		float Angle() const;
 		int Quadrant() const;
 		float X() const;
 		float Y() const;

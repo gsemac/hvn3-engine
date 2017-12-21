@@ -6,7 +6,8 @@ namespace hvn3 {
 		BodyA(nullptr),
 		BodyB(nullptr),
 		Normal(0.0f, 0.0f),
-		Penetration(0.0f) {
+		FaceNormal(0.0f, 0.0f),
+		PenetrationDepth(0.0f) {
 	}
 
 }

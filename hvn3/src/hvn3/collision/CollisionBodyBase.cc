@@ -103,7 +103,19 @@ namespace hvn3 {
 		return PlaceFreeIf(position, [](ICollisionBody*) { return true; });
 
 	}
+	bool CollisionBodyBase::PlaceFree(float x, float y) {
+
+		return PlaceFree(PointF(x, y));
+
+	}
 	bool CollisionBodyBase::PlaceFreeIf(const PointF& position, const std::function<bool(ICollisionBody*)>& condition) {
+
+		CollisionManifold m;
+
+		return PlaceFreeIf(position, condition, m);
+
+	}
+	bool CollisionBodyBase::PlaceFreeIf(const PointF& position, const std::function<bool(ICollisionBody*)>& condition, CollisionManifold& manifold) {
 
 		if (!_managerIsSet())
 			return true;
@@ -116,7 +128,10 @@ namespace hvn3 {
 		IBroadPhase::collider_vector_type hits;
 
 		// Get a list of all colliders that could potentially collide with the collider.
-		_manager->BroadPhase().QueryRegion(AABB(), hits, Category().MaskBits());
+		RectangleF aabb = AABB();
+		aabb.Translate(-X(), -Y());
+		aabb.Translate(position.X(), position.Y());
+		_manager->BroadPhase().QueryRegion(aabb, hits, Category().MaskBits());
 
 		// If the list is empty, the place is free.
 		if (hits.size() == 0)
@@ -129,13 +144,12 @@ namespace hvn3 {
 				continue;
 
 			// Check for a collision.
-			CollisionManifold m;
-			if (_manager->NarrowPhase().TestCollision(this, position, hits[i], hits[i]->Position(), m))
+			if (_manager->NarrowPhase().TestCollision(this, position, hits[i], hits[i]->Position(), manifold))
 				return false;
 
 		}
 
-		// The collider did not collide with any other colliders, so the plaec is free.
+		// The collider did not collide with any other colliders, so the place is free.
 		return true;
 
 	}
@@ -158,26 +172,34 @@ namespace hvn3 {
 
 		float distance = 0.0f;
 		float distance_per_step = Math::Min(AABB().Width(), AABB().Height(), max_distance);
-		PointF new_position = Math::Geometry::PointInDirection(Position(), direction, distance_per_step);
+		PointF new_position = Position();
 		bool place_free;
-		
+
 		if (distance_per_step <= 0.0f) {
 			// The body doesn't have a valid AABB, and thus will never collide with anything. Just move to the position and return false to indicate no collisions occurred.
 			SetPosition(Math::Geometry::PointInDirection(Position(), direction, max_distance));
 			return false;
 		}
 
+		while (distance < (std::abs)(max_distance)) {
+			PointF tentative_position = Math::Geometry::PointInDirection(new_position, direction, distance_per_step);
+			place_free = PlaceFreeIf(tentative_position, condition);
 
-		// It's important that we check if the place is free before doing the distance check (what if the user passes in a distance of 0?).
-		while ((place_free = PlaceFreeIf(new_position, condition), place_free) && distance < (std::abs)(max_distance)) {
+			if (!place_free) {
+				if (distance_per_step < 0.2f)
+					break;
+				else {
+					distance_per_step /= 2.0f;
+					continue;
+				}
+			}
 
-			SetPosition(new_position);
-
-			new_position = Math::Geometry::PointInDirection(new_position, direction, distance_per_step);
-
+			new_position = tentative_position;
 			distance += distance_per_step;
 
 		}
+
+		SetPosition(new_position);
 
 		return !place_free;
 

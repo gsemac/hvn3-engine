@@ -12,7 +12,8 @@ namespace hvn3 {
 		ICollisionBody* BodyA;
 		ICollisionBody* BodyB;
 		Vector2d Normal;
-		float Penetration;
+		Vector2d FaceNormal;
+		float PenetrationDepth;
 
 	};
 

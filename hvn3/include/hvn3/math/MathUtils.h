@@ -204,11 +204,60 @@ namespace hvn3 {
 
 		}
 
+		// Returns an angle in the given range, or a default of 0-360.
+		template <typename T>
+		T NormalizeAngle(T degrees, T min = 0, T max = 360) {
+
+			T range = max - min;
+			T offset = degrees - min;
+
+			return (offset - ((std::floor)(offset / range) * range)) + min;
+
+		}
+		// Returns the smallest difference between two angles.
+		template <typename T>
+		T AngleDifference(T from, T to) {
+
+			T diff = to - from;
+			while (diff < static_cast<T>(-180))
+				diff += static_cast<T>(360);
+			while (diff > static_cast<T>(180))
+				diff -= static_cast<T>(360);
+
+			return diff;
+
+		}
+		// Returns the quadrant that the angle resides in, from 1-4.
+		template <typename T>
+		int AngleQuadrant(T degrees) {
+
+			degrees = NormalizeAngle(degrees);
+
+			if (degrees <= 90)
+				return 1;
+			if (degrees <= 180)
+				return 2;
+			if (degrees <= 270)
+				return 3;
+			return 4;
+
+		}
+
 		// Performs modulo with floored division.
 		template<typename T, typename N>
 		T ModFloor(T a, N n) {
 
 			return ((a % n) + n) % n;
+
+		}
+
+		// Returns the cosine of an angle, given in degrees.
+		template<typename T>
+		T Cosine(T degrees) {
+
+			T rad = DegreesToRadians(degrees);	
+
+			return std::cos(rad);
 
 		}
 

@@ -80,11 +80,7 @@ namespace hvn3 {
 
 	float Vector2d::Direction() const {
 
-		// Initialize variables.
-		float rad = 0.0f;
-
-		rad = std::atan2(-_y, _x);
-
+		float rad = std::atan2(-_y, _x);
 		float deg = Math::RadiansToDegrees(rad);
 
 		if (deg < 0.0f)
@@ -92,6 +88,17 @@ namespace hvn3 {
 
 		return deg;
 		
+	}
+	float Vector2d::Angle() const {
+
+		float rad = std::atan(-_y / _x);
+		float deg = Math::RadiansToDegrees(rad);
+
+		if (deg < 0.0f)
+			deg += 90.0f;
+
+		return deg;
+
 	}
 	int Vector2d::Quadrant() const {
 

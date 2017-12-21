@@ -76,15 +76,6 @@ namespace hvn3 {
 
 			}
 
-			float NormalizeAngle(float degrees, float min, float max) {
-
-				float range = max - min;
-				float offset = degrees - min;
-
-				return (offset - ((std::floor)(offset / range) * range)) + min;
-
-			}
-
 			std::pair<PointF, PointF> TangentThroughPoint(const CircleF& circle, const PointF& point) {
 
 				// Get the vector going from the circle to the desination point.

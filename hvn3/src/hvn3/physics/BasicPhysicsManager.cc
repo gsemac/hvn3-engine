@@ -33,7 +33,20 @@ namespace hvn3 {
 				if (physics_body->Type() == BodyType::Static)
 					continue;
 
-				physics_body->SetLinearVelocity(physics_body->LinearVelocity() + Gravity() * PixelsToMetersScale());
+				Vector2d gravity_vector = physics_body->LinearVelocity() + Gravity() * PixelsToMetersScale();
+
+				if (collision_body->PlaceFree(collision_body->X(), collision_body->Y() + 0.1f))
+					physics_body->SetLinearVelocity(physics_body->LinearVelocity() + Gravity() * PixelsToMetersScale());
+				else {
+
+					// The body is contact with the floor. Stop all positive vertical velocity.
+					if (physics_body->LinearVelocity().Y() > 0.0f)
+						physics_body->SetLinearVelocity(Vector2d(physics_body->LinearVelocity().X(), 0.0f));
+
+					// Reduce horizontal velocity according to friction. #todo
+					physics_body->SetLinearVelocity(Vector2d(physics_body->LinearVelocity().X() * 0.8f, physics_body->LinearVelocity().Y()));
+
+				}
 
 				if (collision_body->MoveContactIf(physics_body->LinearVelocity().Direction(), physics_body->LinearVelocity().Length(), [&](ICollisionBody* other) {
 
@@ -45,7 +58,9 @@ namespace hvn3 {
 					return false;
 
 				})) {
-					physics_body->SetLinearVelocity(Vector2d(physics_body->LinearVelocity().X(), 0.0f));
+
+					//physics_body->SetLinearVelocity(Vector2d(physics_body->LinearVelocity().X(), 0.0f));
+
 				}
 
 

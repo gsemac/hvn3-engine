@@ -100,21 +100,6 @@ namespace hvn3 {
 
 			}
 
-			// Returns an angle in the given range, or a default of 0-360.
-			float NormalizeAngle(float degrees, float min = 0.0f, float max = 360.0f);
-			template <typename T>
-			T AngleDifference(T source, T desination) {
-
-				T diff = desination - source;
-				while (diff < static_cast<T>(-180)) 
-					diff += static_cast<T>(360);
-				while (diff > static_cast<T>(180)) 
-					diff -= static_cast<T>(360);
-
-				return diff;
-				
-			}
-
 			// Returns the two points of contact of the lines tangent to the circle passing through the given point.
 			std::pair<PointF, PointF> TangentThroughPoint(const CircleF& circle, const PointF& point);
 			// Returns the number of common tangents between two circles. Assumes that the two circles are not the same circle.
