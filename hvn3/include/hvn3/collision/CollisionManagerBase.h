@@ -169,10 +169,10 @@ namespace hvn3 {
 
 			// If the distance is 0, just return if the current position is free.
 			if (Math::IsZero(distance))
-				return PlaceFreeIf(body, body.Position(), condition);
-			
+				return PlaceFreeIf(body, body.Position(), condition, manifold);
+
 			float distance_per_step = Math::Min(body.AABB().Width(), body.AABB().Height(), distance);
-			
+
 			if (distance_per_step <= 0.0f) {
 				// The body doesn't have a valid AABB, and thus will never collide with anything. Just move to the position and return false to indicate no collisions occurred.
 				body.SetPosition(Math::Geometry::PointInDirection(body.Position(), direction, distance));
