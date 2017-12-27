@@ -3,11 +3,12 @@
 namespace hvn3 {
 	namespace Physics {
 
-		Material::Material(float density, float restitution) {
-		
-			Density = density;
-			Restitution = restitution;
-		
+		Material::Material() :
+			Material(1.0f, 0.2f) {
+		}
+		Material::Material(float density, float restitution) :
+			density(density),
+			restitution(restitution) {
 		}
 
 		const Material Material::Rock(0.6f, 0.1f);

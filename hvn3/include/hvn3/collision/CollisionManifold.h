@@ -9,11 +9,10 @@ namespace hvn3 {
 
 		CollisionManifold();
 
-		ICollisionBody* BodyA;
-		ICollisionBody* BodyB;
-		Vector2d Normal;
-		Vector2d FaceNormal;
-		float PenetrationDepth;
+		ICollisionBody* bodyA;
+		ICollisionBody* bodyB;
+		Vector2d normal;
+		float penetrationDepth;
 
 	};
 

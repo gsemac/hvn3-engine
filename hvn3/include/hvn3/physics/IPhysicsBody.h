@@ -16,8 +16,8 @@ namespace hvn3 {
 
 		struct MassData {
 			MassData() {
-				Mass = 0.0f;
-				InverseMass = 0.0f;
+				Mass = 1.0f;
+				InverseMass = 1.0f;
 				RotationalInertia = 0.0f;
 				Center = PointF(0.0f, 0.0f);
 			}

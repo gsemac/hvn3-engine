@@ -5,10 +5,11 @@ namespace hvn3 {
 
 		struct Material {
 			
+			Material();
 			Material(float density, float restitution);
 			
-			float Density;
-			float Restitution;
+			float density;
+			float restitution;
 
 			static const Material Rock;
 			static const Material Wood;

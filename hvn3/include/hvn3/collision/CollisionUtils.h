@@ -38,22 +38,22 @@ namespace hvn3 {
 				if (x_overlap < y_overlap) {
 
 					if (normal.X() < static_cast<T>(0))
-						manifold.FaceNormal = Vector2d(-1.0f, 0.0f);
+						manifold.normal = Vector2d(-1.0f, 0.0f);
 					else
-						manifold.FaceNormal = Vector2d(1.0f, 0.0f);
+						manifold.normal = Vector2d(1.0f, 0.0f);
 
-					manifold.PenetrationDepth = x_overlap;
+					manifold.penetrationDepth = x_overlap;
 					return true;
 
 				}
 				else {
 
 					if (normal.Y() < static_cast<T>(0))
-						manifold.FaceNormal = Vector2d(0.0f, -1.0f);
+						manifold.normal = Vector2d(0.0f, -1.0f);
 					else
-						manifold.FaceNormal = Vector2d(0.0f, 1.0f);
+						manifold.normal = Vector2d(0.0f, 1.0f);
 
-					manifold.PenetrationDepth = y_overlap;
+					manifold.penetrationDepth = y_overlap;
 					return true;
 
 				}

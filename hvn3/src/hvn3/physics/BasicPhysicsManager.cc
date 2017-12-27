@@ -3,6 +3,7 @@
 #include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/physics/BasicPhysicsManager.h"
 #include "hvn3/physics/IPhysicsBody.h"
+#include "hvn3/physics/PhysicsUtils.h"
 
 namespace hvn3 {
 	namespace Physics {
@@ -28,42 +29,46 @@ namespace hvn3 {
 
 			for (auto i = Bodies().begin(); i != Bodies().end(); ++i) {
 
-				IPhysicsBody& physics_body = *(*i);
+				// Get the physics and collision bodies associated with this body.
+				IPhysicsBody& this_body = *(*i);
 				ICollisionBody& collision_body = (*i)->CollisionBody();
 
-				if (physics_body.Type() == BodyType::Static)
+				// If the body is static, we do not need to apply physics to it.
+				if (this_body.Type() == BodyType::Static)
 					continue;
 
-				Vector2d gravity_vector = physics_body.LinearVelocity() + Gravity() * PixelsToMetersScale();
+				// Calculate and apply the force of gravity.
+				Vector2d force_gravity = this_body.Mass() * Gravity() * PixelsToMetersScale();
+				this_body.ApplyForce(force_gravity);
 
-				if (e.Collisions().PlaceFree(collision_body, collision_body.X(), collision_body.Y() + 0.1f))
-					physics_body.SetLinearVelocity(gravity_vector);
-				else {
+				// Calculate the new position and velocity.
+				IntegrationResult integration_result = GetEulerIntegrationResult(this_body, 1.0);
+				this_body.SetLinearVelocity(integration_result.velocity);
 
-					// The body is contact with the floor. Stop all positive vertical velocity.
-					if (physics_body.LinearVelocity().Y() > 0.0f)
-						physics_body.SetLinearVelocity(Vector2d(physics_body.LinearVelocity().X(), 0.0f));
+				// Move the body towards its new position until it hits something.
+				Vector2d movement_vector = Vector2d(this_body.Position(), integration_result.position);
+				CollisionManifold manifold;
+				if (e.Collisions().MoveContactIf(collision_body, movement_vector.Direction(), movement_vector.Length(), [&](ICollisionBody* other) {
 
-					// Reduce horizontal velocity according to friction. #todo
-					physics_body.SetLinearVelocity(Vector2d(physics_body.LinearVelocity().X() * 0.8f, physics_body.LinearVelocity().Y()));
-
-				}
-
-				if (e.Collisions().MoveContactIf(collision_body, physics_body.LinearVelocity().Direction(), physics_body.LinearVelocity().Length(), [&](ICollisionBody* other) {
-
-					IPhysicsBody* other_physics_body = _lookupBody(other);
-
-					if (other_physics_body != nullptr && physics_body.Category().CheckHit(other_physics_body->Category()))
+					// Only handle collisions with other bodies that are actually part of the physics system.
+					IPhysicsBody* other_body = _lookupBody(other);
+					if (other_body != nullptr && this_body.Category().CheckHit(other_body->Category()))
 						return true;
-
 					return false;
 
-				})) {
+				}, manifold)) {
 
-					//physics_body->SetLinearVelocity(Vector2d(physics_body->LinearVelocity().X(), 0.0f));
+					// Resolve the collision with the other body.
+					IPhysicsBody* other_body = _lookupBody(manifold.bodyB);
+
+					VelocityAfterCollisionResult result = GetLinearVelocityAfterCollision(this_body, *other_body, manifold.normal);
+
+					this_body.SetLinearVelocity(result.velocity1);
+					other_body->SetLinearVelocity(result.velocity2);
 
 				}
 
+				this_body.SetForce(Vector2d(0.0f, 0.0f));
 
 			}
 

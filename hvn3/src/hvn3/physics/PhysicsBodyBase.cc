@@ -7,15 +7,12 @@ namespace hvn3 {
 	namespace Physics {
 
 		PhysicsBodyBase::PhysicsBodyBase(ICollisionBody& collision_body) :
-			_material(0.0f, 0.0f),
+			_material(),
 			_linear_velocity(0.0f, 0.0f) {
 
-			_restitution = 0.0f;
 			_type = BodyType::Dynamic;
 			_collision_body = &collision_body;
 			_manager = nullptr;
-
-			SetMaterial(Material::Metal);
 
 		}
 		PhysicsBodyBase::~PhysicsBodyBase() {
@@ -47,7 +44,8 @@ namespace hvn3 {
 		}
 		void PhysicsBodyBase::SetLinearVelocity(const Vector2d& vec) {
 
-			_linear_velocity = vec;
+			if (_type != BodyType::Static)
+				_linear_velocity = vec;
 
 		}
 		float PhysicsBodyBase::Mass() const {
@@ -72,12 +70,12 @@ namespace hvn3 {
 		}
 		float PhysicsBodyBase::Restitution() const {
 
-			return _restitution;
+			return _material.restitution;
 
 		}
 		void PhysicsBodyBase::SetRestitution(float value) {
 
-			_restitution = value;
+			_material.restitution = value;
 
 		}
 		Vector2d PhysicsBodyBase::Force() const {
@@ -106,12 +104,10 @@ namespace hvn3 {
 
 		}
 		void PhysicsBodyBase::SetMaterial(const Physics::Material& material) {
-
+			
 			_material = material;
 
-			// #todo Calculate the mass properly.
-			// mass = density * volume
-			_mass_data.Mass = _material.Density * (32 * 32);
+			_mass_data.Mass = _material.density * _collision_body->AABB().Area(); // mass = density * volume
 			_mass_data.InverseMass = _mass_data.Mass > 0.0f ? 1.0f / _mass_data.Mass : 0.0f;
 
 		}

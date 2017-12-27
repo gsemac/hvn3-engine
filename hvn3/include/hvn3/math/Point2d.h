@@ -118,6 +118,32 @@ namespace hvn3 {
 			return *this;
 
 		}
+		friend Point2d<T> operator*(const Point2d<T>& rhs, const T other) {
+
+			return Point2d<T>(_x * other, _y * other);
+
+		}
+		Point2d<T>& operator*=(const T other) {
+
+			_x *= other;
+			_y *= other;
+
+			return *this;
+
+		}
+		friend Point2d<T> operator/(const Point2d<T>& lhs, const T other) {
+
+			return Point2d<T>(_x / other, _y / other);
+
+		}
+		Point2d<T>& operator/=(const T other) {
+
+			_x /= other;
+			_y /= other;
+
+			return *this;
+
+		}
 
 		template<typename U>
 		operator Point2d<U>() {
@@ -143,6 +169,8 @@ namespace hvn3 {
 		return stream;
 
 	}
+
+
 
 }
 

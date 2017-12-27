@@ -138,8 +138,11 @@ namespace hvn3 {
 					continue;
 
 				// Check for a collision.
-				if (NarrowPhase().TestCollision(body, position, *hits[i], hits[i]->Position(), manifold))
+				if (NarrowPhase().TestCollision(body, position, *hits[i], hits[i]->Position(), manifold)) {
+					manifold.bodyA = &body;
+					manifold.bodyB = hits[i];
 					return false;
+				}
 
 			}
 
@@ -169,7 +172,7 @@ namespace hvn3 {
 
 			// If the distance is 0, just return if the current position is free.
 			if (Math::IsZero(distance))
-				return PlaceFreeIf(body, body.Position(), condition, manifold);
+				return !PlaceFreeIf(body, body.Position(), condition, manifold);
 
 			float distance_per_step = Math::Min(body.AABB().Width(), body.AABB().Height(), distance);
 

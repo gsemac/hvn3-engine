@@ -40,7 +40,6 @@ namespace hvn3 {
 
 		private:
 			Physics::MassData _mass_data;
-			float _restitution;
 			Vector2d _linear_velocity;
 			BodyType _type;
 			Vector2d _force;

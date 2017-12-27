@@ -8,10 +8,10 @@ namespace hvn3 {
 	public:
 		Vector2d();
 		Vector2d(float x, float y);
-		Vector2d(const PointF& start, const PointF& end);
+		Vector2d(const PointF& from, const PointF& to);
 
 		static Vector2d FromDirection(float degrees, float length);
-		
+
 		void SetX(float value);
 		void SetY(float value);
 		void SetLength(float value);
@@ -55,11 +55,16 @@ namespace hvn3 {
 	Vector2d operator/(const Vector2d& lhs, const float rhs);
 	Vector2d operator/(const float lhs, const Vector2d& rhs);
 	Vector2d operator-(const Vector2d& rhs);
-	
+
 	PointF operator+(const PointF& lhs, const Vector2d& rhs);
 	PointF& operator+=(PointF& lhs, const Vector2d& rhs);
 	PointF operator-(const PointF& lhs, const Vector2d& rhs);
 	PointF& operator-=(PointF& lhs, const Vector2d& rhs);
+
+	Vector2d operator+(const Vector2d& lhs, const PointF& rhs);
+	Vector2d& operator+=(Vector2d& lhs, const PointF& rhs);
+	Vector2d operator-(const Vector2d& lhs, const PointF& rhs);
+	Vector2d& operator-=(Vector2d& lhs, const PointF& rhs);
 
 	std::ostream& operator<< (std::ostream& stream, const Vector2d& vector);
 

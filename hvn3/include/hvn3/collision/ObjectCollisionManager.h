@@ -20,8 +20,8 @@ namespace hvn3 {
 				ObjectCollisionBody* body_2 = static_cast<ObjectCollisionBody*>(i->second);
 
 				CollisionManifold m;
-				m.BodyA = body_1;
-				m.BodyB = body_2;
+				m.bodyA = body_1;
+				m.bodyB = body_2;
 
 				if (!NarrowPhase().TestCollision(*body_1, *body_2, m))
 					continue;

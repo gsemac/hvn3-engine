@@ -14,10 +14,10 @@ namespace hvn3 {
 		_m = std::hypotf(_x, _y);
 
 	}
-	Vector2d::Vector2d(const PointF& start, const PointF& end) {
+	Vector2d::Vector2d(const PointF& from, const PointF& to) {
 
-		_x = end.X() - start.X();
-		_y = end.Y() - start.Y();
+		_x = to.X() - from.X();
+		_y = to.Y() - from.Y();
 		_m = std::hypotf(_x, _y);
 
 	}
@@ -247,6 +247,31 @@ namespace hvn3 {
 	PointF& operator-=(PointF& lhs, const Vector2d& rhs) {
 
 		lhs.Offset(-rhs.X(), -rhs.Y());
+
+		return lhs;
+
+	}
+
+	Vector2d operator+(const Vector2d& lhs, const PointF& rhs) {
+
+		return Vector2d(lhs.X() + rhs.X(), lhs.Y() + rhs.Y());
+
+	}
+	Vector2d& operator+=(Vector2d& lhs, const PointF& rhs) {
+
+		lhs = (lhs + rhs);
+
+		return lhs;
+
+	}
+	Vector2d operator-(const Vector2d& lhs, const PointF& rhs) {
+
+		return Vector2d(lhs.X() - rhs.X(), lhs.Y() - rhs.Y());
+
+	}
+	Vector2d& operator-=(Vector2d& lhs, const PointF& rhs) {
+
+		lhs = (lhs - rhs);
 
 		return lhs;
 
