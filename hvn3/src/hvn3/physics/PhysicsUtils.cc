@@ -56,8 +56,8 @@ namespace hvn3 {
 			Vector2d j = GetLinearImpulseAfterCollision(body, other, normal);
 			float e = Math::Min(body.Restitution(), other.Restitution());
 
-			result.velocity1 = body.LinearVelocity() - normal * (j * body.InverseMass()) * e;
-			result.velocity2 = other.LinearVelocity() + normal * (j * other.InverseMass()) * e;
+			result.velocity1 = body.LinearVelocity() + normal * (j * body.InverseMass()) * e;
+			result.velocity2 = other.LinearVelocity() - normal * (j * other.InverseMass()) * e;
 
 			return result;
 
