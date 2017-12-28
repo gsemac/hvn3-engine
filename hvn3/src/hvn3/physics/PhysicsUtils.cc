@@ -52,7 +52,32 @@ namespace hvn3 {
 		}
 		VelocityAfterCollisionResult GetLinearVelocityAfterCollision(const IPhysicsBody& body, const IPhysicsBody& other, const Vector2d& normal) {
 
-			throw System::NotImplementedException();
+			VelocityAfterCollisionResult result;
+			Vector2d j = GetLinearImpulseAfterCollision(body, other, normal);
+			float e = Math::Min(body.Restitution(), other.Restitution());
+
+			result.velocity1 = body.LinearVelocity() - normal * (j * body.InverseMass()) * e;
+			result.velocity2 = other.LinearVelocity() + normal * (j * other.InverseMass()) * e;
+
+			return result;
+
+		}
+		Vector2d GetLinearImpulseAfterCollision(const IPhysicsBody& body, const IPhysicsBody& other, const Vector2d& normal) {
+
+			float e = Math::Min(body.Restitution(), other.Restitution());
+
+			return (-(1.0f + e) * (body.LinearVelocity() - other.LinearVelocity()) * normal) / (body.InverseMass() + other.InverseMass());
+
+		}
+
+		Vector2d GetLinearAcceleration(const IPhysicsBody& body) {
+
+			return body.Force() / body.Mass();
+
+		}
+		Vector2d GetLinearMomentum(const IPhysicsBody& body) {
+
+			return body.LinearVelocity() * body.Mass();
 
 		}
 
