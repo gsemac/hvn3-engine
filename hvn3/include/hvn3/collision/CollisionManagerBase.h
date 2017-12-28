@@ -95,6 +95,11 @@ namespace hvn3 {
 
 		}
 
+		bool PlaceFree(ICollisionBody& body) override {
+
+			return PlaceFree(body, body.Position());
+
+		}
 		bool PlaceFree(ICollisionBody& body, const PointF& position) override {
 
 			return PlaceFreeIf(body, position, [](ICollisionBody*) { return true; });
@@ -105,14 +110,19 @@ namespace hvn3 {
 			return PlaceFree(body, PointF(x, y));
 
 		}
+		bool PlaceFree(ICollisionBody& body, const PointF& position, CollisionManifold& manifold) override {
+
+			return PlaceFreeIf(body, position, manifold, [](ICollisionBody*) { return true; });
+
+		}
 		bool PlaceFreeIf(ICollisionBody& body, const PointF& position, const std::function<bool(ICollisionBody*)>& condition) override {
 
 			CollisionManifold m;
 
-			return PlaceFreeIf(body, position, condition, m);
+			return PlaceFreeIf(body, position, m, condition);
 
 		}
-		bool PlaceFreeIf(ICollisionBody& body, const PointF& position, const std::function<bool(ICollisionBody*)>& condition, CollisionManifold& manifold) override {
+		bool PlaceFreeIf(ICollisionBody& body, const PointF& position, CollisionManifold& manifold, const std::function<bool(ICollisionBody*)>& condition) override {
 
 			// If the object does not have a collision mask, return true immediately (no collisions are possible).
 			if (body.HitMask() == nullptr)
@@ -159,10 +169,10 @@ namespace hvn3 {
 
 			CollisionManifold manifold;
 
-			return MoveContactIf(body, direction, distance, condition, manifold);
+			return MoveContactIf(body, direction, distance, manifold, condition);
 
 		}
-		bool MoveContactIf(ICollisionBody& body, float direction, float distance, const std::function<bool(ICollisionBody*)>& condition, CollisionManifold& manifold) override {
+		bool MoveContactIf(ICollisionBody& body, float direction, float distance, CollisionManifold& manifold, const std::function<bool(ICollisionBody*)>& condition) override {
 
 			// If the distance is negative, reverse the direction and then make it positive.
 			if (distance < 0.0f) {
@@ -171,8 +181,8 @@ namespace hvn3 {
 			}
 
 			// If the distance is 0, just return if the current position is free.
-			if (Math::IsZero(distance))
-				return !PlaceFreeIf(body, body.Position(), condition, manifold);
+			if (Math::IsZero(distance, _precision))
+				return !PlaceFreeIf(body, body.Position(), manifold, condition);
 
 			float distance_per_step = Math::Min(body.AABB().Width(), body.AABB().Height(), distance);
 
@@ -190,7 +200,7 @@ namespace hvn3 {
 			while (distance_total < (std::abs)(distance)) {
 
 				PointF tentative_position = Math::Geometry::PointInDirection(new_position, direction, distance_per_step);
-				place_free = PlaceFreeIf(body, tentative_position, condition, manifold);
+				place_free = PlaceFreeIf(body, tentative_position, manifold, condition);
 
 				// If we make contact with an object, start halving the movement distance so we can get close enough to satisfy the precision value.
 				if (!place_free) {

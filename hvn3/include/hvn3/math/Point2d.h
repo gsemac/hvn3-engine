@@ -170,8 +170,6 @@ namespace hvn3 {
 
 	}
 
-
-
 }
 
 namespace std {

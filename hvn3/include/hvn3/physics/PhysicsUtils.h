@@ -20,15 +20,14 @@ namespace hvn3 {
 		};
 
 		// Returns the next position and velocity of the body according to the Euler method.
-		IntegrationResult GetEulerIntegrationResult(const IPhysicsBody& body, double delta);
+		IntegrationResult GetEulerIntegrationResult(const IPhysicsBody& body, float delta);
 		// Returns the next position and velocity of the body according to the Verlet method.
-		IntegrationResult GetVerletIntegrationResult(const IPhysicsBody& body, const Vector2d& last_acceleration, double delta);
+		IntegrationResult GetVerletIntegrationResult(const IPhysicsBody& body, const Vector2d& last_acceleration, float delta);
 
-		// Returns the new linear velocities for both bodies when they collide.
+		// Returns the new linear velocities for both bodies upon collision.
 		VelocityAfterCollisionResult GetLinearVelocityAfterCollision(const IPhysicsBody& body, const IPhysicsBody& other);
-		// Returns the new linear velocities for both bodies when they collide with respect to the collision normal.
+		// Returns the new linear velocities for both bodies upon collision with respect to the collision normal.
 		VelocityAfterCollisionResult GetLinearVelocityAfterCollision(const IPhysicsBody& body, const IPhysicsBody& other, const Vector2d& normal);
-
-
+		
 	}
 }

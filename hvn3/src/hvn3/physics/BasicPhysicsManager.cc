@@ -8,6 +8,12 @@
 namespace hvn3 {
 	namespace Physics {
 
+		struct contact {
+			IPhysicsBody* a;
+			IPhysicsBody* b;
+			VelocityAfterCollisionResult result;
+		};
+
 		void BasicPhysicsManager::AddBody(IPhysicsBody& body) {
 
 			PhysicsManagerBase::AddBody(body);
@@ -27,6 +33,8 @@ namespace hvn3 {
 
 			PhysicsManagerBase::OnUpdate(e);
 
+			_contacts.clear();
+
 			for (auto i = Bodies().begin(); i != Bodies().end(); ++i) {
 
 				// Get the physics and collision bodies associated with this body.
@@ -45,10 +53,19 @@ namespace hvn3 {
 				IntegrationResult integration_result = GetEulerIntegrationResult(this_body, 1.0);
 				this_body.SetLinearVelocity(integration_result.velocity);
 
+				// If the current position isn't free, move until it is.
+				// #todo Need to check condition as below
+				CollisionManifold manifold;
+				if (!e.Collisions().PlaceFree(collision_body, collision_body.Position(), manifold)) {
+					if (manifold.bodyB < &collision_body)
+						e.Collisions().MoveOutside(collision_body, manifold.normal.Direction(), FLT_MAX);
+					else
+						e.Collisions().MoveOutside(*manifold.bodyB, manifold.normal.Direction() + 180.0f, FLT_MAX);
+				}
+
 				// Move the body towards its new position until it hits something.
 				Vector2d movement_vector = Vector2d(this_body.Position(), integration_result.position);
-				CollisionManifold manifold;
-				if (e.Collisions().MoveContactIf(collision_body, movement_vector.Direction(), movement_vector.Length(), [&](ICollisionBody* other) {
+				if (e.Collisions().MoveContactIf(collision_body, movement_vector.Direction(), movement_vector.Length(), manifold, [&](ICollisionBody* other) {
 
 					// Only handle collisions with other bodies that are actually part of the physics system.
 					IPhysicsBody* other_body = _lookupBody(other);
@@ -56,21 +73,25 @@ namespace hvn3 {
 						return true;
 					return false;
 
-				}, manifold)) {
+				})) {
 
 					// Resolve the collision with the other body.
 					IPhysicsBody* other_body = _lookupBody(manifold.bodyB);
 
-					VelocityAfterCollisionResult result = GetLinearVelocityAfterCollision(this_body, *other_body, manifold.normal);
+					VelocityAfterCollisionResult result = GetLinearVelocityAfterCollision(this_body, *other_body);
+
+					_contacts.push_back(Contact{ other_body, result.velocity2 });
 
 					this_body.SetLinearVelocity(result.velocity1);
-					other_body->SetLinearVelocity(result.velocity2);
 
 				}
 
 				this_body.SetForce(Vector2d(0.0f, 0.0f));
 
 			}
+
+			for (int i = 0; i < _contacts.size(); ++i)
+				_contacts[i].body->SetLinearVelocity(_contacts[i].velocity);
 
 		}
 

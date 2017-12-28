@@ -279,7 +279,7 @@ namespace hvn3 {
 
 	std::ostream& operator<< (std::ostream& stream, const Vector2d& vector) {
 
-		stream << "[" << vector.X() << ", " << vector.Y() << "]";
+		stream << "<" << vector.X() << ", " << vector.Y() << ">";
 
 		return stream;
 

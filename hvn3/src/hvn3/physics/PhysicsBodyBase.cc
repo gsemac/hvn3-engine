@@ -104,7 +104,7 @@ namespace hvn3 {
 
 		}
 		void PhysicsBodyBase::SetMaterial(const Physics::Material& material) {
-			
+
 			_material = material;
 
 			_mass_data.Mass = _material.density * _collision_body->AABB().Area(); // mass = density * volume
