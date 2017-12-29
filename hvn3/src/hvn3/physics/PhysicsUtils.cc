@@ -42,10 +42,10 @@ namespace hvn3 {
 			result.velocity1 = (body.Mass() * body.LinearVelocity() + other.Mass() * other.LinearVelocity() + other.Mass() * e * (other.LinearVelocity() - body.LinearVelocity())) / (body.Mass() + other.Mass());
 			result.velocity2 = (body.Mass() * body.LinearVelocity() + other.Mass() * other.LinearVelocity() + body.Mass() * e * (body.LinearVelocity() - other.LinearVelocity())) / (body.Mass() + other.Mass());
 
-			if (other.Type() == BodyType::Static)
+			/*if (other.Type() == BodyType::Static)
 				result.velocity1.SetDirection(180.0f - result.velocity1.Direction());
 			else
-				result.velocity1.SetDirection(result.velocity1.Direction() - 180.0f);
+				result.velocity1.SetDirection(result.velocity1.Direction() - 180.0f);*/
 
 			return result;
 
@@ -53,20 +53,26 @@ namespace hvn3 {
 		VelocityAfterCollisionResult GetLinearVelocityAfterCollision(const IPhysicsBody& body, const IPhysicsBody& other, const Vector2d& normal) {
 
 			VelocityAfterCollisionResult result;
-			Vector2d j = GetLinearImpulseAfterCollision(body, other, normal);
-			float e = Math::Min(body.Restitution(), other.Restitution());
 
-			result.velocity1 = body.LinearVelocity() + normal * (j * body.InverseMass()) * e;
-			result.velocity2 = other.LinearVelocity() - normal * (j * other.InverseMass()) * e;
+			Vector2d impulse = GetLinearImpulseAfterCollision(body, other, normal);
+
+			result.velocity1 = body.LinearVelocity() - (body.InverseMass() * impulse);
+			result.velocity2 = body.LinearVelocity() + (body.InverseMass() * impulse);
 
 			return result;
 
 		}
 		Vector2d GetLinearImpulseAfterCollision(const IPhysicsBody& body, const IPhysicsBody& other, const Vector2d& normal) {
 
+			Vector2d relative_velocity = other.LinearVelocity() - body.LinearVelocity();
+			float velocity_along_normal = relative_velocity.DotProduct(normal);
+			
 			float e = Math::Min(body.Restitution(), other.Restitution());
 
-			return (-(1.0f + e) * (body.LinearVelocity() - other.LinearVelocity()) * normal) / (body.InverseMass() + other.InverseMass());
+			float impulse_scalar = -(1.0f + e) * velocity_along_normal;
+			impulse_scalar /= body.InverseMass() + other.InverseMass();
+
+			return impulse_scalar * normal;
 
 		}
 
