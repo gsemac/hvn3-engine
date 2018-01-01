@@ -123,10 +123,10 @@ namespace hvn3 {
 				(*i)->OnMousePressed(e);
 
 		}
-		void MouseMutator::DispatchEvent(MouseUpEventArgs& e) const {
+		void MouseMutator::DispatchEvent(MouseReleasedEventArgs& e) const {
 
 			for (auto i = MouseListener::_listeners().begin(); i != MouseListener::_listeners().end(); ++i)
-				(*i)->OnMouseUp(e);
+				(*i)->OnMouseReleased(e);
 
 		}
 		void MouseMutator::DispatchEvent(MouseMoveEventArgs& e) const {

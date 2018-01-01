@@ -37,7 +37,7 @@ namespace hvn3 {
 
 	};
 
-	class MouseUpEventArgs : public MouseEventArgs {
+	class MouseReleasedEventArgs : public MouseEventArgs {
 
 	public:
 		using MouseEventArgs::MouseEventArgs;

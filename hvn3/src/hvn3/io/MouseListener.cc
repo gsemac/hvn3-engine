@@ -27,7 +27,7 @@ namespace hvn3 {
 
 	void MouseListener::OnMouseDown(MouseDownEventArgs& e) {}
 	void MouseListener::OnMousePressed(MousePressedEventArgs& e) {}
-	void MouseListener::OnMouseUp(MouseUpEventArgs& e) {}
+	void MouseListener::OnMouseReleased(MouseReleasedEventArgs& e) {}
 	void MouseListener::OnMouseMove(MouseMoveEventArgs& e) {}
 	void MouseListener::OnMouseScroll(MouseScrollEventArgs& e) {}
 

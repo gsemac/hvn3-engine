@@ -358,7 +358,7 @@ namespace hvn3 {
 
 			con.SetButtonState(button, false);
 
-			con.DispatchEvent(MouseUpEventArgs(button));
+			con.DispatchEvent(MouseReleasedEventArgs(button));
 
 		}
 		void Runner::OnMouseAxes(Event& ev) {

@@ -25,7 +25,7 @@ namespace hvn3 {
 
 		virtual void OnMouseDown(MouseDownEventArgs& e);
 		virtual void OnMousePressed(MousePressedEventArgs& e);
-		virtual void OnMouseUp(MouseUpEventArgs& e);
+		virtual void OnMouseReleased(MouseReleasedEventArgs& e);
 		virtual void OnMouseMove(MouseMoveEventArgs& e);
 		virtual void OnMouseScroll(MouseScrollEventArgs& e);
 

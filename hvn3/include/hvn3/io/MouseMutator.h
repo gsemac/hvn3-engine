@@ -19,7 +19,7 @@ namespace hvn3 {
 
 			void DispatchEvent(MouseDownEventArgs& e) const;
 			void DispatchEvent(MousePressedEventArgs& e) const;
-			void DispatchEvent(MouseUpEventArgs& e) const;
+			void DispatchEvent(MouseReleasedEventArgs& e) const;
 			void DispatchEvent(MouseMoveEventArgs& e) const;
 			void DispatchEvent(MouseScrollEventArgs& e) const;
 
