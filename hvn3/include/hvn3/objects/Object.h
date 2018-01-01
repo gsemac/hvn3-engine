@@ -14,6 +14,7 @@ namespace hvn3 {
 	public:
 		Object(ObjectId id);
 		Object(ObjectId id, const PointF& position);
+		Object(ObjectId id, float x, float y);
 		virtual ~Object() = default;
 
 		ObjectId Id() const;

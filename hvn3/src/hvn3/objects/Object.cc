@@ -23,6 +23,9 @@ namespace hvn3 {
 		SetDepth(0);
 
 	}
+	Object::Object(ObjectId id, float x, float y) :
+		Object(id, PointF(x, y)) {
+	}
 
 	void Object::OnCreate(CreateEventArgs& e) {}
 	void Object::OnDestroy(DestroyEventArgs& e) {}
