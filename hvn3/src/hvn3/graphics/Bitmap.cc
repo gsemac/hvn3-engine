@@ -201,6 +201,17 @@ namespace hvn3 {
 
 		}
 
+		bool Bitmap::IsVideoBitmap() const {
+
+			return al_get_bitmap_flags(_bitmap) & ALLEGRO_VIDEO_BITMAP;
+
+		}
+		void Bitmap::ConvertToVideoBitmap() {
+
+			al_convert_bitmap(_bitmap);
+
+		}
+
 		ALLEGRO_BITMAP* Bitmap::AlPtr() const {
 
 			return _bitmap;
@@ -227,16 +238,24 @@ namespace hvn3 {
 
 		}
 
+
 		BitmapFlags Bitmap::NewBitmapFlags() {
 
 			return System::AllegroAdapter::FromBitmapFlags(al_get_new_bitmap_flags());
-			
+
 		}
 		void Bitmap::SetNewBitmapFlags(BitmapFlags flags) {
 
 			al_set_new_bitmap_flags(System::AllegroAdapter::ToBitmapFlags(flags));
 
 		}
+		void Bitmap::ConvertMemoryBitmapsToVideoBitmaps() {
+
+			al_convert_memory_bitmaps();
+
+		}
+
+
 
 		BitmapData::BitmapData() {
 
@@ -273,9 +292,9 @@ namespace hvn3 {
 
 		}
 		void Bitmap::_freeBitmap() {
-			
+
 			al_destroy_bitmap(_bitmap);
-			
+
 			_bitmap = nullptr;
 			_free = false;
 

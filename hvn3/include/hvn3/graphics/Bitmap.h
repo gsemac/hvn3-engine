@@ -56,14 +56,19 @@ namespace hvn3 {
 
 			void ConvertMaskToAlpha(const Color& color);
 
+			bool IsVideoBitmap() const;
+			void ConvertToVideoBitmap();
+			
 			ALLEGRO_BITMAP* AlPtr() const;
 
 			Bitmap& operator=(Bitmap& other);
 			Bitmap& operator=(Bitmap&& other);
 			explicit operator bool() const;
 
+
 			static BitmapFlags NewBitmapFlags();
 			static void SetNewBitmapFlags(BitmapFlags flags);
+			static void ConvertMemoryBitmapsToVideoBitmaps();
 
 		private:
 			ALLEGRO_BITMAP* _bitmap;
