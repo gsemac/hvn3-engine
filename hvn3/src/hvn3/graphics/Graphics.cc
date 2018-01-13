@@ -131,7 +131,7 @@ namespace hvn3 {
 			PrepareDrawingSurface();
 
 			// Note: 0.5 is added to each coordinate to fix the uneven corners drawn by Allegro.
-			al_draw_filled_rounded_rectangle(x + 0.5f, y + 0.5f, x + width + 0.5f, y + height + 0.5f, radius, radius, System::AllegroAdapter::ToColor(color));
+			al_draw_filled_rounded_rectangle(x, y, x + width, y + height, radius, radius, System::AllegroAdapter::ToColor(color));
 
 		}
 
@@ -383,7 +383,7 @@ namespace hvn3 {
 			_clipping_region = state.__clip;
 			_transform = state.__transform;
 
-			if (!IsActiveSurface()) {
+			if (IsActiveSurface()) {
 				ApplyClip();
 				ApplyTransform();
 			}

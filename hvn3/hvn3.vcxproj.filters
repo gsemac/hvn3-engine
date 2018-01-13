@@ -133,6 +133,12 @@
     <Filter Include="src\assets">
       <UniqueIdentifier>{6568945e-8374-43c7-9c69-b59e5a7de7ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\gui2">
+      <UniqueIdentifier>{ee673019-fb16-44a9-896e-41b8695c3ef7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gui2">
+      <UniqueIdentifier>{b4840be0-2772-4c6d-8943-dfaf201bd26e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\hvn3\allegro\AllegroAdapter.h">
@@ -693,6 +699,24 @@
     <ClInclude Include="include\hvn3\physics\PhysicsBodyMutator.h">
       <Filter>include\physics</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\IWidget.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\Button.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\WidgetBase.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\WidgetEventArgs.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\WidgetRenderer.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\IWidgetRenderer.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1082,6 +1106,18 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\physics\PhysicsBodyMutator.cc">
       <Filter>src\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui2\WidgetBase.cc">
+      <Filter>src\gui2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui2\Button.cc">
+      <Filter>src\gui2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui2\WidgetRenderer.cc">
+      <Filter>src\gui2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui2\WidgetEventArgs.cc">
+      <Filter>src\gui2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
