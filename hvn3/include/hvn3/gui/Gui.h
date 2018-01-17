@@ -1,11 +1,11 @@
 #pragma once
-#include "hvn3/gui/GuiManager.h"
+#include "hvn3/gui/_GuiManager.h"
 #include "hvn3/gui/StyleManager.h"
 #include "hvn3/gui/ControlManager.h"
 
 #include "hvn3/gui/ScrollableControl.h"
 
-#include "hvn3/gui/Button.h"
+#include "hvn3/gui/_Button.h"
 #include "hvn3/gui/Window.h"
 #include "hvn3/gui/Textbox.h"
 #include "hvn3/gui/Scrollbar.h"

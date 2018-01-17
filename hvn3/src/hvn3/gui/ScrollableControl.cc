@@ -1,6 +1,6 @@
 #include "hvn3/gui/ScrollableControl.h"
 #include "hvn3/gui/Control.h"
-#include "hvn3/gui/GuiManager.h"
+#include "hvn3/gui/_GuiManager.h"
 #include "hvn3/gui/Scrollbar.h"
 #define SCROLLBAR_DEFAULT_WIDTH 15
 

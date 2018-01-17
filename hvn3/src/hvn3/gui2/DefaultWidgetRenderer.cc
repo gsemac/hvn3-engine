@@ -1,9 +1,18 @@
+#include "hvn3/graphics/Graphics.h"
 #include "hvn3/gui2/DefaultWidgetRenderer.h"
 #include "hvn3/gui2/IWidget.h"
 #include "hvn3/allegro/AllegroExtensions.h"
 
 namespace hvn3 {
 	namespace Gui {
+
+		DefaultWidgetRenderer::DefaultWidgetRenderer(const Color& color, const Font& font) :
+			_color(color),
+			_font(font) {
+
+
+
+		}
 
 		void DefaultWidgetRenderer::DrawWidget(Graphics::Graphics& canvas, const IWidget& widget) const {
 

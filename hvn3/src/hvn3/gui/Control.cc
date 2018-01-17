@@ -1,7 +1,7 @@
 #include <limits>
 #include "hvn3/gui/Control.h"
 #include "hvn3/io/Mouse.h"
-#include "hvn3/gui/GuiManager.h"
+#include "hvn3/gui/_GuiManager.h"
 #include "hvn3/gui/ControlManager.h"
 #include "hvn3/gui/StyleManager.h"
 

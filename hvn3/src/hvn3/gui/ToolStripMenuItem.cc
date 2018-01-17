@@ -1,5 +1,5 @@
 #include "hvn3/gui/ToolStripMenuItem.h"
-#include "hvn3/gui/GuiManager.h"
+#include "hvn3/gui/_GuiManager.h"
 #include "hvn3/gui/ToolStripDropDown.h"
 #include "hvn3/io/Mouse.h"
 #include "hvn3/utility/Random.h"

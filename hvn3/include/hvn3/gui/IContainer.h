@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/gui/GuiManager.h"
+#include "hvn3/gui/_GuiManager.h"
 
 namespace hvn3 {
 

@@ -48,9 +48,15 @@ namespace hvn3 {
 		al_fclose(file);
 
 	}
+	
 	Font::Font(Font&& other) {
 
 		*this = std::move(other);
+
+	}
+	Font::Font(const Font& other) {
+
+		*this = other;
 
 	}
 
@@ -92,6 +98,14 @@ namespace hvn3 {
 		other._flags = static_cast<FontFlags>(0);
 
 		return *this;
+
+	}
+	Font& Font::operator=(const Font& other) {
+
+		_font = other._font;
+		_size = other._size;
+		_filename = other._filename;
+		_flags = other._flags;
 
 	}
 

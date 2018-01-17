@@ -1,7 +1,7 @@
 #pragma once
 #include "hvn3/gui/Control.h"
 #include "hvn3/gui/ControlManager.h"
-#include "hvn3/gui/GuiManager.h"
+#include "hvn3/gui/_GuiManager.h"
 
 /*
 This class is a replacement for the now deprecated IContainer class.

@@ -1,7 +1,5 @@
 #pragma once
 #include "hvn3/gui2/IWidget.h"
-#include "hvn3/core/ISizeable.h"
-#include "hvn3/core/IPositionable2d.h"
 #include <unordered_map>
 
 namespace hvn3 {

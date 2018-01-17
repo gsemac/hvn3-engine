@@ -1,8 +1,12 @@
 #pragma once
-#include "hvn3/graphics/Graphics.h"
 #include "hvn3/gui2/GuiTypeDefs.h"
 
 namespace hvn3 {
+
+	namespace Graphics {
+		class Graphics;
+	}
+
 	namespace Gui {
 
 		class IButton;

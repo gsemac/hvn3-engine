@@ -1,5 +1,5 @@
 #include "hvn3/gui/ControlController.h"
-#include "hvn3/gui/GuiManager.h"
+#include "hvn3/gui/_GuiManager.h"
 #include "hvn3/io/Mouse.h"
 #include "hvn3/io/Keyboard.h"
 #include <utility>

@@ -1,5 +1,5 @@
 #include "hvn3/gui/ITextable.h"
-#include "hvn3/gui/GuiManager.h"
+#include "hvn3/gui/_GuiManager.h"
 #include "hvn3/gui/Control.h"
 
 namespace hvn3 {

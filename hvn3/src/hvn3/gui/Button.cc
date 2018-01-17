@@ -1,4 +1,4 @@
-#include "hvn3/gui/Button.h"
+#include "hvn3/gui/_Button.h"
 #include <cmath>
 #include "hvn3/core/SizeableBase.h"
 #include "hvn3/utility/UTF8String.h"
@@ -6,7 +6,7 @@
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/io/Mouse.h"
 #include "hvn3/gui/ITextable.h"
-#include "hvn3/gui/GuiManager.h"
+#include "hvn3/gui/_GuiManager.h"
 
 namespace hvn3 {
 

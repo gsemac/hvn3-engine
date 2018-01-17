@@ -1,5 +1,5 @@
 #include "hvn3/gui/ImageableControl.h"
-#include "hvn3/gui/GuiManager.h"
+#include "hvn3/gui/_GuiManager.h"
 
 namespace hvn3 {
 	namespace Gui {
