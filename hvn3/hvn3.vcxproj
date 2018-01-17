@@ -93,13 +93,14 @@
     <ClInclude Include="include\hvn3\graphics\Imaging.h" />
     <ClInclude Include="include\hvn3\graphics\Transform.h" />
     <ClInclude Include="include\hvn3\gui2\Button.h" />
+    <ClInclude Include="include\hvn3\gui2\GuiManager.h" />
     <ClInclude Include="include\hvn3\gui2\GuiTypeDefs.h" />
     <ClInclude Include="include\hvn3\gui2\IWidgetRenderer.h" />
     <ClInclude Include="include\hvn3\gui2\WidgetEventArgs.h" />
     <ClInclude Include="include\hvn3\gui2\IWidget.h" />
     <ClInclude Include="include\hvn3\gui2\WidgetBase.h" />
     <ClInclude Include="include\hvn3\gui2\DefaultWidgetRenderer.h" />
-    <ClInclude Include="include\hvn3\gui\Button.h" />
+    <ClInclude Include="include\hvn3\gui\_Button.h" />
     <ClInclude Include="include\hvn3\gui\ButtonBase.h" />
     <ClInclude Include="include\hvn3\gui\Container.h" />
     <ClInclude Include="include\hvn3\gui\ContainerControl.h" />
@@ -107,7 +108,7 @@
     <ClInclude Include="include\hvn3\gui\ControlController.h" />
     <ClInclude Include="include\hvn3\gui\ControlManager.h" />
     <ClInclude Include="include\hvn3\gui\Gui.h" />
-    <ClInclude Include="include\hvn3\gui\GuiManager.h" />
+    <ClInclude Include="include\hvn3\gui\_GuiManager.h" />
     <ClInclude Include="include\hvn3\gui\Handle.h" />
     <ClInclude Include="include\hvn3\gui\IContainer.h" />
     <ClInclude Include="include\hvn3\gui\IFocusable.h" />

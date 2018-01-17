@@ -366,9 +366,6 @@
     <ClInclude Include="include\hvn3\gui\Gui.h">
       <Filter>include\gui</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\gui\GuiManager.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\gui\Handle.h">
       <Filter>include\gui</Filter>
     </ClInclude>
@@ -433,9 +430,6 @@
       <Filter>include\gui</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\gui\Window.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\Button.h">
       <Filter>include\gui</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\gui\ButtonBase.h">
@@ -719,6 +713,15 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\gui2\DefaultWidgetRenderer.h">
       <Filter>include\gui2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\GuiManager.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\_GuiManager.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\_Button.h">
+      <Filter>include\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

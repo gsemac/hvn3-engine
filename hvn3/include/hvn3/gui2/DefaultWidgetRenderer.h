@@ -7,7 +7,8 @@ namespace hvn3 {
 		class DefaultWidgetRenderer : public IWidgetRenderer {
 
 		public:
-			//ButtonRenderer(const Color& )
+			DefaultWidgetRenderer();
+
 			void DrawWidget(Graphics::Graphics& canvas, const IWidget& widget) const override;
 
 		protected:
