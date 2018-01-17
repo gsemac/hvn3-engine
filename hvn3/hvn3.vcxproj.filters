@@ -723,6 +723,9 @@
     <ClInclude Include="include\hvn3\gui\_Button.h">
       <Filter>include\gui</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\core\SystemAssets.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1124,6 +1127,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\gui2\DefaultWidgetRenderer.cc">
       <Filter>src\gui2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\SystemAssets.cc">
+      <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

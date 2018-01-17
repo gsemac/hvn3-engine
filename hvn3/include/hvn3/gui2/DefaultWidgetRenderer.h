@@ -9,7 +9,8 @@ namespace hvn3 {
 		class DefaultWidgetRenderer : public IWidgetRenderer {
 
 		public:
-			DefaultWidgetRenderer(const Color& color, const Font& font);
+			DefaultWidgetRenderer();
+			DefaultWidgetRenderer(const Color& default_fore_color, const Color& default_back_color, const Font& default_font);
 
 			void DrawWidget(Graphics::Graphics& canvas, const IWidget& widget) const override;
 
@@ -18,8 +19,9 @@ namespace hvn3 {
 			void DrawButton(Graphics::Graphics& canvas, const IWidget& widget) const;
 			
 		private:
-			Color _color;
-			Font _font;
+			Color _default_fore_color;
+			Color _default_back_color;
+			Font _default_font;
 
 		};
 

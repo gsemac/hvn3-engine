@@ -1,17 +1,29 @@
+#include "hvn3/allegro/AllegroExtensions.h"
+#include "hvn3/core/SystemAssets.h"
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/gui2/DefaultWidgetRenderer.h"
 #include "hvn3/gui2/IWidget.h"
-#include "hvn3/allegro/AllegroExtensions.h"
+#include "hvn3/io/File.h"
 
 namespace hvn3 {
 	namespace Gui {
 
-		DefaultWidgetRenderer::DefaultWidgetRenderer(const Color& color, const Font& font) :
-			_color(color),
-			_font(font) {
+		DefaultWidgetRenderer::DefaultWidgetRenderer() {
 
+			_default_fore_color = Color::White;
+			_default_back_color = Color(73, 70, 82);
 
+			std::string default_font_path = System::GetSystemAssetPath(System::SystemAssetType::Fonts) + "webly.ttf";
+			if (IO::File::Exists(default_font_path))
+				_default_font = Font(default_font_path, 11, FontFlags::Monochrome);
+			else
+				_default_font = Font::BuiltIn();
 
+		}
+		DefaultWidgetRenderer::DefaultWidgetRenderer(const Color& default_fore_color, const Color& default_back_color, const Font& default_font) :
+			_default_fore_color(default_fore_color),
+			_default_back_color(default_back_color),
+			_default_font(default_font) {
 		}
 
 		void DefaultWidgetRenderer::DrawWidget(Graphics::Graphics& canvas, const IWidget& widget) const {
@@ -39,6 +51,8 @@ namespace hvn3 {
 		void DefaultWidgetRenderer::DrawButton(Graphics::Graphics& canvas, const IWidget& widget) const {
 
 			DrawWidgetBase(canvas, widget);
+
+			canvas.DrawText(widget.Position().X(), widget.Position().Y(), "Hello, world!", _default_font, _default_fore_color);
 
 		}
 

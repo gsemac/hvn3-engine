@@ -15,10 +15,10 @@ namespace hvn3 {
 		_size = 0;
 
 	}
-	Font::Font(const char* filename, int size, FontFlags flags) {
+	Font::Font(const std::string& filename, int size, FontFlags flags) {
 
 		_flags = flags;
-		_font = font_ptr_type(al_load_font(filename, size, System::AllegroAdapter::ToFontFlags(flags)), al_destroy_font);
+		_font = font_ptr_type(al_load_font(filename.c_str(), size, System::AllegroAdapter::ToFontFlags(flags)), al_destroy_font);
 		_filename = filename;
 		_size = size;
 
@@ -52,11 +52,6 @@ namespace hvn3 {
 	Font::Font(Font&& other) {
 
 		*this = std::move(other);
-
-	}
-	Font::Font(const Font& other) {
-
-		*this = other;
 
 	}
 
@@ -98,14 +93,6 @@ namespace hvn3 {
 		other._flags = static_cast<FontFlags>(0);
 
 		return *this;
-
-	}
-	Font& Font::operator=(const Font& other) {
-
-		_font = other._font;
-		_size = other._size;
-		_filename = other._filename;
-		_flags = other._flags;
 
 	}
 

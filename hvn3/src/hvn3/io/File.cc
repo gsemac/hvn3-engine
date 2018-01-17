@@ -68,9 +68,9 @@ namespace hvn3 {
 			return file_contents;
 
 		}
-		bool File::Exists(const char* filename) {
+		bool File::Exists(const std::string& filename) {
 
-			return al_filename_exists(filename);
+			return al_filename_exists(filename.c_str());
 
 		}
 
