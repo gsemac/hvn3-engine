@@ -187,6 +187,15 @@ namespace hvn3 {
 		return Color::FromHsl(h, s, l);
 
 	}
+	Color Color::Inverse() const {
+
+		float h = Math::Mod(Hue() + 180.0f, 360.0f);
+		float s = Saturation();
+		float l = Luminance();
+
+		return Color::FromHsl(h, s, l);
+
+	}
 
 	bool Color::IsTransparent(const ALLEGRO_COLOR& color) {
 

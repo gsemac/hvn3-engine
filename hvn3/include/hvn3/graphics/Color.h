@@ -33,6 +33,7 @@ namespace hvn3 {
 
 		Color Lighter(float factor = 0.05f) const;
 		Color Darker(float factor = 0.05f) const;
+		Color Inverse() const;
 
 		static bool IsTransparent(const ALLEGRO_COLOR& color);
 		static bool IsTransparent(const Color& color);
