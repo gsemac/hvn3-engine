@@ -2,6 +2,7 @@
 #include "hvn3/utility/BitFlags.h"
 #include <string>
 #include <cstdint>
+#include <memory>
 
 struct ALLEGRO_FONT;
 
@@ -11,12 +12,12 @@ namespace hvn3 {
 		class AllegroAdapter;
 	}
 
-	enum class FontOptions {
-		None = 1,
+	enum class FontFlags {
+		// Loads the font with no anti-aliasing.
 		Monochrome = 2,
 		AutoScale = 4
 	};
-	ENABLE_BITFLAG_OPERATORS(FontOptions)
+	ENABLE_BITFLAG_OPERATORS(FontFlags)
 
 	enum class FontFormat {
 		TrueTypeFont,
@@ -26,19 +27,22 @@ namespace hvn3 {
 	class Font {
 		friend class System::AllegroAdapter;
 
+		typedef std::shared_ptr<ALLEGRO_FONT> font_ptr_type;
+
 	public:
 		Font();
-		Font(const char* filename, int size, FontOptions options = FontOptions::None);
+		// Instantiates a font from a file.
+		Font(const char* filename, int size, FontFlags flags = static_cast<FontFlags>(0));
+		// Instantiates a font from a memory buffer.
 		Font(uint8_t* buffer, size_t buffer_size, int font_size, FontFormat format);
 		Font(Font&& other);
-		~Font();
 
 		// Returns the height of the font in pixels.
 		int Height() const;
 		// Returns the font size that was passed in the constructor.
 		int Size() const;
 
-		// Creates and returns a built-in font resource.
+		// Instantiates the built-in font resource.
 		static Font BuiltIn();
 
 		Font& operator=(Font&& other);
@@ -49,11 +53,10 @@ namespace hvn3 {
 		ALLEGRO_FONT* AlPtr() const;
 
 	private:
-		ALLEGRO_FONT* _font;
-		bool _scalable;
-		int _size;
+		font_ptr_type _font;
 		std::string _filename;
-		FontOptions _flags;
+		int _size;
+		FontFlags _flags;
 
 	};
 

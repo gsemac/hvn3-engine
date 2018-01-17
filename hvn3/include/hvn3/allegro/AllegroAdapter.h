@@ -1,7 +1,8 @@
 #pragma once
+#include "hvn3/allegro/AllegroForwardDeclarations.h"
+#include "hvn3/fonts/Font.h"
 #include "hvn3/graphics/Color.h"
 #include "hvn3/graphics/Display.h"
-#include "hvn3/allegro/AllegroForwardDeclarations.h"
 #include <allegro5/allegro.h>
 
 namespace hvn3 {
@@ -20,6 +21,8 @@ namespace hvn3 {
 			static Color FromColor(const ALLEGRO_COLOR& color);
 			// Returns a pointer to the underlying ALLEGRO_FONT from a font instance.
 			static ALLEGRO_FONT* ToFont(const Font& font);
+			// Converts font flags to Allegro font flags.
+			static int ToFontFlags(FontFlags flags);
 			// Returns a pointer to the underlying ALLEGRO_BITMAP from a bitmap instance.
 			static ALLEGRO_BITMAP* ToBitmap(const Graphics::Bitmap& bitmap);
 			// Converts bitmap flags to Allegro bitmap flags.

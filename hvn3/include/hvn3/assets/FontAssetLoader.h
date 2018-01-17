@@ -8,11 +8,11 @@ namespace hvn3 {
 
 	struct FontAssetArgs {
 
-		FontAssetArgs(const std::string& path, int size, FontOptions options = FontOptions::None);
+		FontAssetArgs(const std::string& path, int size, FontFlags flags = static_cast<FontFlags>(0));
 
 		std::string path;
 		int size;
-		FontOptions options;
+		FontFlags flags;
 
 	};
 

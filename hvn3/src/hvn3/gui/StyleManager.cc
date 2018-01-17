@@ -89,7 +89,7 @@ namespace hvn3 {
 			switch (id) {
 
 			case FontResourceId::PrimaryFont:
-				_fonts.Add(resId, FontAssetArgs("data/System/Fonts/webly.ttf", 11, FontOptions::Monochrome));
+				_fonts.Add(resId, FontAssetArgs("data/System/Fonts/webly.ttf", 11, FontFlags::Monochrome));
 				break;
 			default:
 				return false;

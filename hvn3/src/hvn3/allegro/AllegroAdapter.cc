@@ -1,6 +1,7 @@
 #include "hvn3/allegro/AllegroAdapter.h"
 #include "hvn3/graphics/Color.h"
 #include "hvn3/fonts/Font.h"
+#include <allegro5/allegro_ttf.h>
 #define ALLEGRO_DEFAULT_NEW_BITMAP_FLAGS 4096
 
 namespace hvn3 {
@@ -18,7 +19,17 @@ namespace hvn3 {
 		}
 		ALLEGRO_FONT* AllegroAdapter::ToFont(const Font& font) {
 
-			return font._font;
+			return font.AlPtr();
+
+		}
+		int AllegroAdapter::ToFontFlags(FontFlags flags) {
+
+			int al_flags = 0;
+
+			if (HasFlag(flags, FontFlags::Monochrome))
+				al_flags |= ALLEGRO_TTF_MONOCHROME;
+
+			return al_flags;
 
 		}
 		ALLEGRO_BITMAP* AllegroAdapter::ToBitmap(const Graphics::Bitmap& bitmap) {

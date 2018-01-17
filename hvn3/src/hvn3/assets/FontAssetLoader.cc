@@ -5,10 +5,10 @@
 
 namespace hvn3 {
 
-	FontAssetArgs::FontAssetArgs(const std::string& path, int size, FontOptions options) :
+	FontAssetArgs::FontAssetArgs(const std::string& path, int size, FontFlags flags) :
 		path(path),
 		size(size),
-		options(options) {
+		flags(flags) {
 	}
 
 

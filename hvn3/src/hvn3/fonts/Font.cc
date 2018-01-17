@@ -1,27 +1,24 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_memfile.h>
+#include "hvn3/allegro/AllegroAdapter.h"
 #include "hvn3/fonts/Font.h"
 #include "hvn3/exceptions/Exception.h"
 #include <cassert>
 
 namespace hvn3 {
 
-	// Public methods
-
 	Font::Font() {
 
-		_flags = FontOptions::None;
-		_font = nullptr;
-		_scalable = false;
+		_flags = static_cast<FontFlags>(0);
+		_font = font_ptr_type();
 		_size = 0;
 
 	}
-	Font::Font(const char* filename, int size, FontOptions options) {
+	Font::Font(const char* filename, int size, FontFlags flags) {
 
-		_flags = options;
-		_font = al_load_font(filename, size, (HasFlag(options, FontOptions::Monochrome)) ? ALLEGRO_TTF_MONOCHROME : NULL);
-		_scalable = HasFlag(options, FontOptions::AutoScale);
+		_flags = flags;
+		_font = font_ptr_type(al_load_font(filename, size, System::AllegroAdapter::ToFontFlags(flags)), al_destroy_font);
 		_filename = filename;
 		_size = size;
 
@@ -39,7 +36,7 @@ namespace hvn3 {
 		switch (format) {
 
 		case FontFormat::TrueTypeFont:
-			_font = al_load_ttf_font_f(file, "", font_size, NULL);
+			_font = font_ptr_type(al_load_ttf_font_f(file, "", font_size, NULL), al_destroy_font);
 			break;
 
 		default:
@@ -56,19 +53,11 @@ namespace hvn3 {
 		*this = std::move(other);
 
 	}
-	Font::~Font() {
-
-		// Free the memory used by the font object.
-		if (_font)
-			al_destroy_font(_font);
-		_font = nullptr;
-
-	}
 
 	int Font::Height() const {
 
 		if (_font != nullptr)
-			return al_get_font_line_height(_font);
+			return al_get_font_line_height(AlPtr());
 		else
 			return 0;
 
@@ -83,10 +72,9 @@ namespace hvn3 {
 
 		Font font;
 
-		font._font = al_create_builtin_font();
-		font._scalable = false;
+		font._font = font_ptr_type(al_create_builtin_font(), al_destroy_font);
 		font._size = 8.0f;
-		font._flags = FontOptions::Monochrome;
+		font._flags = FontFlags::Monochrome;
 
 		return font;
 
@@ -94,44 +82,38 @@ namespace hvn3 {
 
 	Font& Font::operator=(Font&& other) {
 
-		_font = other._font;
-		_scalable = other._scalable;
+		_font = std::move(other._font);
 		_size = other._size;
 		_filename = other._filename;
 		_flags = other._flags;
 
-		other._font = nullptr;
-		other._scalable = false;
 		other._size = 0;
 		other._filename = "";
-		other._flags = FontOptions::None;
+		other._flags = static_cast<FontFlags>(0);
 
 		return *this;
 
 	}
 
-	// Protected methods
+
 
 	void Font::AdjustScale(float scale_factor) {
 
-		ALLEGRO_FONT* scaled_font = al_load_font(_filename.c_str(), _size * scale_factor, (HasFlag(_flags, FontOptions::Monochrome)) ? ALLEGRO_TTF_MONOCHROME : NULL);
+		ALLEGRO_FONT* scaled_font = al_load_font(_filename.c_str(), _size * scale_factor, System::AllegroAdapter::ToFontFlags(_flags));
 
-		if (scaled_font) {
-			ALLEGRO_FONT* old_font = _font;
-			_font = scaled_font;
-			al_destroy_font(old_font);
-		}
+		if (scaled_font != nullptr)
+			_font = font_ptr_type(scaled_font, al_destroy_font);
 
 	}
 	bool Font::AutoScaleEnabled() const {
 
-		return _scalable;
+		return HasFlag(_flags, FontFlags::Monochrome);
 
 	}
 
 	ALLEGRO_FONT* Font::AlPtr() const {
 
-		return _font;
+		return _font.get();
 
 	}
 
