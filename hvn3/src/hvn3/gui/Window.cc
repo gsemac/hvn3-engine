@@ -137,7 +137,7 @@ namespace hvn3 {
 		void Window::OnPaint(PaintEventArgs& e) {
 
 			// Draw main window area.
-			e.Graphics().DrawFilledRectangle(0, TitlebarHeight() - DEF_OUTLINE_WIDTH, Width(), Height() - TitlebarHeight(), BackColor());
+			e.Graphics().DrawSolidRectangle(0, TitlebarHeight() - DEF_OUTLINE_WIDTH, Width(), Height() - TitlebarHeight(), BackColor());
 
 			// Draw Panel containing the child Controls.
 			Controls()->InvalidateAll();
@@ -147,7 +147,7 @@ namespace hvn3 {
 			e.Graphics().DrawRectangle(0, TitlebarHeight() - 1.0f, Width(), Height() - TitlebarHeight() + 1.0f, Color(17, 17, 17), 1);
 
 			// Draw titlebar.
-			e.Graphics().DrawFilledRectangle(0, 0, Width(), TitlebarHeight(), BackColor());
+			e.Graphics().DrawSolidRectangle(0, 0, Width(), TitlebarHeight(), BackColor());
 			e.Graphics().DrawRectangle(0, 0, Width(), TitlebarHeight(), Color(17, 17, 17), 1);
 
 			// Draw titlebar text.

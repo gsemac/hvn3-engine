@@ -22,7 +22,7 @@ namespace hvn3 {
 		void TilesetPanel::OnPaint(PaintEventArgs& e) {
 
 			// Draw background color.
-			e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor());
+			e.Graphics().DrawSolidRectangle(0, 0, Width(), Height(), BackColor());
 			
 			// Draw tiles.
 			e.Graphics().DrawBitmap(-ScrollPosition().X(), -ScrollPosition().Y(), _tileset->Bitmap());

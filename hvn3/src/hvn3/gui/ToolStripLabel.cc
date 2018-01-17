@@ -12,7 +12,7 @@ namespace hvn3 {
 		void ToolStripLabel::OnPaint(PaintEventArgs& e) {
 
 			// Draw background.
-			e.Graphics().DrawFilledRectangle(0.0f, 0.0f, Width(), Height(), BackColor());
+			e.Graphics().DrawSolidRectangle(0.0f, 0.0f, Width(), Height(), BackColor());
 			
 			// Draw text.
 			if (Font()) {

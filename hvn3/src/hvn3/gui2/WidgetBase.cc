@@ -21,89 +21,40 @@ namespace hvn3 {
 			i->second(*this, ev);
 
 		}
-		void WidgetBase::SetEventHandler(GuiEvent ev, const event_handler_type& callback) {
+		void WidgetBase::SetEventHandler(GuiEvent ev, const EventHandler& callback) {
 
 			_callback_table[ev] = callback;
 
 		}
 
-		float WidgetBase::X() const {
+		const std::string& WidgetBase::Name() const {
 
-			return _position.X();
-
-		}
-		float WidgetBase::Y() const {
-
-			return _position.Y();
+			return _name;
 
 		}
-		void WidgetBase::SetX(float x) {
+		void WidgetBase::SetName(const std::string& value) {
 
-			HandleEvent(MoveEventArgs(Position(), PointF(x, Y())));
-
-			_position.SetX(x);
+			_name = value;
 
 		}
-		void WidgetBase::SetY(float y) {
-
-			HandleEvent(MoveEventArgs(Position(), PointF(X(), y)));
-
-			_position.SetY(y);
-
-		}
-		PointF WidgetBase::Position() const {
+		const PointF& WidgetBase::Position() const {
 
 			return _position;
 
 		}
-		void WidgetBase::SetPosition(const PointF& position) {
+		void WidgetBase::SetPosition(const PointF& value) {
 
-			SetPosition(position.X(), position.Y());
-
-		}
-		void WidgetBase::SetPosition(float x, float y) {
-
-			HandleEvent(MoveEventArgs(Position(), PointF(x, y)));
-
-			_position.SetX(x);
-			_position.SetY(y);
+			_position = value;
 
 		}
-
-		float WidgetBase::Width() const {
-
-			return _size.Width();
-
-		}
-		float WidgetBase::Height() const {
-
-			return _size.Height();
-
-		}
-		void WidgetBase::SetWidth(float value) {
-
-
-
-			_size.SetWidth(value);
-
-		}
-		void WidgetBase::SetHeight(float value) {
-
-
-
-			_size.SetHeight(value);
-
-		}
-		void WidgetBase::Resize(float width, float height) {
-
-
-
-			_size.Resize(width, height);
-
-		}
-		SizeF WidgetBase::Size() const {
+		const SizeF& WidgetBase::Size() const {
 
 			return _size;
+
+		}
+		float WidgetBase::SetSize(const SizeF& value) {
+
+			_size = value;
 
 		}
 

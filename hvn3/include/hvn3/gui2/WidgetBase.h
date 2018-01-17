@@ -7,33 +7,26 @@
 namespace hvn3 {
 	namespace Gui {
 
-		class WidgetBase : public IWidget, public IPositionable2d<float>, public ISizeable<float> {
+		class WidgetBase : public IWidget {
 
-			typedef std::unordered_map<GuiEvent, event_handler_type> callback_table_type;
+			typedef std::unordered_map<GuiEvent, EventHandler> callback_table_type;
 
 		public:
 			WidgetBase(float x, float y, float width, float height);
 			WidgetBase(const PointF& position, const SizeF& size);
 
 			void HandleEvent(WidgetEventArgs& ev) override;
-			void SetEventHandler(GuiEvent ev, const event_handler_type& callback) override;
+			void SetEventHandler(GuiEvent ev, const EventHandler& callback) override;
 
-			float X() const override;
-			float Y() const override;
-			void SetX(float x) override;
-			void SetY(float y) override;
-			PointF Position() const;
-			void SetPosition(const PointF& position);
-			void SetPosition(float x, float y);
-
-			virtual float Width() const override;
-			virtual float Height() const override;
-			virtual void SetWidth(float value) override;
-			virtual void SetHeight(float value) override;
-			virtual void Resize(float width, float height) override;
-			virtual SizeF Size() const override;
+			const std::string& Name() const override;
+			void SetName(const std::string& value) override;
+			const PointF& Position() const override;
+			void SetPosition(const PointF& value) override;
+			const SizeF& Size() const override;
+			float SetSize(const SizeF& value) override;
 
 		private:
+			std::string _name;
 			PointF _position;
 			SizeF _size;
 			callback_table_type _callback_table;

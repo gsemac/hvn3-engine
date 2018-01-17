@@ -42,13 +42,13 @@ namespace hvn3 {
 
 			void DrawRectangle(const RectangleF& rect, const Color& color, float thickness);
 			void DrawRectangle(float x, float y, float width, float height, const Color& color, float thickness);
-			void DrawFilledRectangle(const RectangleF& rect, const Color& color);
-			void DrawFilledRectangle(float x, float y, float width, float height, const Color& color);
+			void DrawSolidRectangle(const RectangleF& rect, const Color& color);
+			void DrawSolidRectangle(float x, float y, float width, float height, const Color& color);
 
 			void DrawRoundRectangle(const RectangleF& rect, const Color& color, float radius, float thickness);
 			void DrawRoundRectangle(float x, float y, float width, float height, const Color& color, float radius, float thickness);
-			void DrawFilledRoundRectangle(const RectangleF& rect, const Color& color, float radius);
-			void DrawFilledRoundRectangle(float x, float y, float width, float height, const Color& color, float radius);
+			void DrawSolidRoundRectangle(const RectangleF& rect, const Color& color, float radius);
+			void DrawSolidRoundRectangle(float x, float y, float width, float height, const Color& color, float radius);
 
 			void DrawLine(const LineF& line);
 			void DrawLine(const LineF& line, const Color& color, float thickness);
@@ -61,9 +61,9 @@ namespace hvn3 {
 			void DrawCircle(const PointF& point, float radius, const Color& color, float thickness);
 			void DrawCircle(float x, float y, float radius, const Color& color, float thickness);
 			void DrawCircle(const CircleF& circle, const Color& color, float thickness);
-			void DrawFilledCircle(const PointF& point, float radius, const Color& color);
-			void DrawFilledCircle(float x, float y, float radius, const Color& color);
-			void DrawFilledCircle(const CircleF& circle, const Color& color);
+			void DrawSolidCircle(const PointF& point, float radius, const Color& color);
+			void DrawSolidCircle(float x, float y, float radius, const Color& color);
+			void DrawSolidCircle(const CircleF& circle, const Color& color);
 
 			void Clear(const Color& color);
 

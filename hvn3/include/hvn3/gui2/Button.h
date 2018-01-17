@@ -12,9 +12,11 @@ namespace hvn3 {
 			Button(const hvn3::PointF& position, const String& text);
 			Button(float x, float y, float width, float height, const String& text);
 			Button(const hvn3::PointF& position, const SizeF& size, const const String& text);
-
+			
 		private:
 			Button();
+
+			void _initializeMembers();
 
 			String _text;
 			bool _auto_size;

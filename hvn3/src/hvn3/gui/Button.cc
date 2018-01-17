@@ -69,7 +69,7 @@ namespace hvn3 {
 		void Button::OnPaint(PaintEventArgs& e) {
 
 			// Draw background.
-			e.Graphics().DrawFilledRectangle(0.0f, 0.0f, Width(), Height(), BackColor());
+			e.Graphics().DrawSolidRectangle(0.0f, 0.0f, Width(), Height(), BackColor());
 
 			// Draw text.
 			std::cout << Manager()->StyleManager() << std::endl;

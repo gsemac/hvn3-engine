@@ -43,7 +43,7 @@ namespace hvn3 {
 		Color draw_color = Color::FromArgbf(_fade_to_color.Rf(), _fade_to_color.Gf(), _fade_to_color.Bf(), _alpha);
 		RectangleF region = e.Graphics().Clip();
 
-		e.Graphics().DrawFilledRectangle(0, 0, region.Width(), region.Height(), draw_color);
+		e.Graphics().DrawSolidRectangle(0, 0, region.Width(), region.Height(), draw_color);
 
 	}
 

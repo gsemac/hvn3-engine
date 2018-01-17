@@ -25,7 +25,7 @@ namespace hvn3 {
 		}
 		void GridRenderer::Draw(const Point2d<float>& position, const Grid& grid, const Color& grid_color, const Color& cell_color) {
 
-			_graphics.DrawFilledRectangle(position.X(), position.Y(), grid.Width(), grid.Height(), cell_color);
+			_graphics.DrawSolidRectangle(position.X(), position.Y(), grid.Width(), grid.Height(), cell_color);
 
 			Draw(position, grid, grid_color);
 

@@ -61,7 +61,7 @@ namespace hvn3 {
 		void ButtonBase::_renderBase(PaintEventArgs& e) {
 
 			// Draw background.
-			e.Graphics().DrawFilledRectangle(0.0f, 0.0f, Width(), Height(), BackColor());
+			e.Graphics().DrawSolidRectangle(0.0f, 0.0f, Width(), Height(), BackColor());
 
 			// Draw outline.
 			e.Graphics().DrawRectangle(0.0f, 0.0f, Width(), Height(), Color::FromArgb(17, 17, 17), 1.0f);

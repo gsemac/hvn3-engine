@@ -130,12 +130,12 @@ namespace hvn3 {
 		}
 		void Scrollbar::OnPaint(PaintEventArgs& e) {
 
-			e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor().Lighter());
+			e.Graphics().DrawSolidRectangle(0, 0, Width(), Height(), BackColor().Lighter());
 
 			if (_orientation == Orientation::Vertical)
-				e.Graphics().DrawFilledRectangle(0, _position, Width(), _slider_height, _mouseOnSlider() ? Color::LtGrey : Color::Grey);
+				e.Graphics().DrawSolidRectangle(0, _position, Width(), _slider_height, _mouseOnSlider() ? Color::LtGrey : Color::Grey);
 			else
-				e.Graphics().DrawFilledRectangle(_position, 0, _slider_height, Height(), _mouseOnSlider() ? Color::LtGrey : Color::Grey);
+				e.Graphics().DrawSolidRectangle(_position, 0, _slider_height, Height(), _mouseOnSlider() ? Color::LtGrey : Color::Grey);
 
 		}
 

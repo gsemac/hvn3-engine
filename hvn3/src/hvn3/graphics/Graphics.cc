@@ -89,12 +89,12 @@ namespace hvn3 {
 				);
 
 		}
-		void Graphics::DrawFilledRectangle(const RectangleF& rect, const Color& color) {
+		void Graphics::DrawSolidRectangle(const RectangleF& rect, const Color& color) {
 
-			DrawFilledRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color);
+			DrawSolidRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color);
 
 		}
-		void Graphics::DrawFilledRectangle(float x, float y, float width, float height, const Color& color) {
+		void Graphics::DrawSolidRectangle(float x, float y, float width, float height, const Color& color) {
 
 			PrepareDrawingSurface();
 
@@ -121,12 +121,12 @@ namespace hvn3 {
 			al_draw_rounded_rectangle(x + 0.5f, y + 0.5f, x + width + 0.5f, y + height + 0.5f, radius, radius, System::AllegroAdapter::ToColor(color), thickness);
 
 		}
-		void Graphics::DrawFilledRoundRectangle(const RectangleF& rect, const Color& color, float radius) {
+		void Graphics::DrawSolidRoundRectangle(const RectangleF& rect, const Color& color, float radius) {
 
-			DrawFilledRoundRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color, radius);
+			DrawSolidRoundRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color, radius);
 
 		}
-		void Graphics::DrawFilledRoundRectangle(float x, float y, float width, float height, const Color& color, float radius) {
+		void Graphics::DrawSolidRoundRectangle(float x, float y, float width, float height, const Color& color, float radius) {
 
 			PrepareDrawingSurface();
 
@@ -194,12 +194,12 @@ namespace hvn3 {
 			DrawCircle(circle.X(), circle.Y(), circle.Radius(), color, thickness);
 
 		}
-		void Graphics::DrawFilledCircle(const PointF& point, float radius, const Color& color) {
+		void Graphics::DrawSolidCircle(const PointF& point, float radius, const Color& color) {
 
-			DrawFilledCircle(point.X(), point.Y(), radius, color);
+			DrawSolidCircle(point.X(), point.Y(), radius, color);
 
 		}
-		void Graphics::DrawFilledCircle(float x, float y, float radius, const Color& color) {
+		void Graphics::DrawSolidCircle(float x, float y, float radius, const Color& color) {
 
 			PrepareDrawingSurface();
 
@@ -211,9 +211,9 @@ namespace hvn3 {
 				);
 
 		}
-		void Graphics::DrawFilledCircle(const CircleF& circle, const Color& color) {
+		void Graphics::DrawSolidCircle(const CircleF& circle, const Color& color) {
 
-			DrawFilledCircle(circle.X(), circle.Y(), circle.Radius(), color);
+			DrawSolidCircle(circle.X(), circle.Y(), circle.Radius(), color);
 
 		}
 

@@ -711,10 +711,13 @@
     <ClInclude Include="include\hvn3\gui2\WidgetEventArgs.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\WidgetRenderer.h">
+    <ClInclude Include="include\hvn3\gui2\GuiTypeDefs.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\gui2\IWidgetRenderer.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\DefaultWidgetRenderer.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1113,10 +1116,10 @@
     <ClCompile Include="src\hvn3\gui2\Button.cc">
       <Filter>src\gui2</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\WidgetRenderer.cc">
+    <ClCompile Include="src\hvn3\gui2\WidgetEventArgs.cc">
       <Filter>src\gui2</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\WidgetEventArgs.cc">
+    <ClCompile Include="src\hvn3\gui2\DefaultWidgetRenderer.cc">
       <Filter>src\gui2</Filter>
     </ClCompile>
   </ItemGroup>

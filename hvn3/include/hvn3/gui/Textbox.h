@@ -572,14 +572,14 @@ namespace hvn3 {
 
 				// Draw background.
 				e.Graphics().Clear(Color::Transparent);
-				e.Graphics().DrawFilledRoundRectangle(0, 0, Width() - 1.0f, Height() - 1.0f, Color::White, DEF_BORDER_RADIUS);
+				e.Graphics().DrawSolidRoundRectangle(0, 0, Width() - 1.0f, Height() - 1.0f, Color::White, DEF_BORDER_RADIUS);
 
 				// Calculate text coordinates.
 				PointF text_pos(__scroll_h_offset + __padding, __padding);
 
 				// Draw selection box.
 				if (!__sel.IsEmpty())
-					e.Graphics().DrawFilledRectangle(RectangleF(text_pos.X() + __sel_draw_pos.Start(), text_pos.Y(),
+					e.Graphics().DrawSolidRectangle(RectangleF(text_pos.X() + __sel_draw_pos.Start(), text_pos.Y(),
 						__sel_draw_pos.Length() * (__sel_draw_pos.IsAscending() ? 1 : -1), Font()->Height()), HasFocus() ? __highlight_color : Color::Silver);
 
 				// Draw text.

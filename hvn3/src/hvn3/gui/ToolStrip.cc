@@ -33,7 +33,7 @@ namespace hvn3 {
 		void ToolStrip::OnPaint(PaintEventArgs& e) {
 
 			// Draw the control's background.
-			e.Graphics().DrawFilledRectangle(0, 0, Width(), Height(), BackColor());
+			e.Graphics().DrawSolidRectangle(0, 0, Width(), Height(), BackColor());
 
 			// Draw shine.
 			e.Graphics().DrawRectangle(1, 1, Width(), Height(), Manager()->StyleManager()->SecondaryColor().Lighter(), 1);

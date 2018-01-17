@@ -9,6 +9,8 @@ namespace hvn3 {
 		Button::Button(const PointF& position, const String& text) :
 			Button(position, SizeF(0.0f, 0.0f), text) {
 
+			_initializeMembers();
+
 			_auto_size = true;
 
 		}
@@ -19,7 +21,19 @@ namespace hvn3 {
 			WidgetBase(position, size),
 			_text(text) {
 
+			_initializeMembers();
 
+			_auto_size = false;
+
+		}
+
+
+
+		void Button::_initializeMembers() {
+
+			_auto_size = false;
+
+			SetName("button");
 
 		}
 
