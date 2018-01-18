@@ -55,7 +55,7 @@ namespace hvn3 {
 			return _size;
 
 		}
-		float WidgetBase::SetSize(const SizeF& value) {
+		void WidgetBase::SetSize(const SizeF& value) {
 
 			_size = value;
 

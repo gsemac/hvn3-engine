@@ -22,7 +22,7 @@ namespace hvn3 {
 			const PointF& Position() const override;
 			void SetPosition(const PointF& value) override;
 			const SizeF& Size() const override;
-			float SetSize(const SizeF& value) override;
+			void SetSize(const SizeF& value) override;
 
 		protected:
 			WidgetManager* Manager() override;

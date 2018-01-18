@@ -27,7 +27,7 @@ namespace hvn3 {
 			virtual const PointF& Position() const = 0;
 			virtual void SetPosition(const PointF& value) = 0;
 			virtual const SizeF& Size() const = 0;
-			virtual float SetSize(const SizeF& value) = 0;
+			virtual void SetSize(const SizeF& value) = 0;
 
 		protected:
 			virtual WidgetManager* Manager() = 0;
