@@ -1,5 +1,6 @@
 #pragma once
 #include "hvn3/gui2/IWidget.h"
+#include "hvn3/gui2/WidgetManager.h"
 #include <unordered_map>
 
 namespace hvn3 {
@@ -23,10 +24,16 @@ namespace hvn3 {
 			const SizeF& Size() const override;
 			float SetSize(const SizeF& value) override;
 
+		protected:
+			WidgetManager* Manager() override;
+			void SetManager(WidgetManager* value) override;
+
 		private:
 			std::string _name;
 			PointF _position;
 			SizeF _size;
+			WidgetManager* _parent_manager;
+			WidgetManager _child_control_manager;
 			callback_table_type _callback_table;
 
 		};

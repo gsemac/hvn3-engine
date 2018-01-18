@@ -9,6 +9,7 @@ namespace hvn3 {
 
 		typedef std::function<void(IWidget&, WidgetEventArgs&)> EventHandler;
 
+
 		enum class ButtonState {
 			Default,
 			Pressed,

@@ -714,9 +714,6 @@
     <ClInclude Include="include\hvn3\gui2\DefaultWidgetRenderer.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\GuiManager.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\gui\_GuiManager.h">
       <Filter>include\gui</Filter>
     </ClInclude>
@@ -725,6 +722,9 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\core\SystemAssets.h">
       <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\WidgetManager.h">
+      <Filter>include\gui2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1130,6 +1130,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\core\SystemAssets.cc">
       <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui2\WidgetManager.cc">
+      <Filter>src\gui2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

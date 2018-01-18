@@ -9,6 +9,9 @@ namespace hvn3 {
 		WidgetBase::WidgetBase(const PointF& position, const SizeF& size) :
 			_position(position),
 			_size(size) {
+
+			_parent_manager = nullptr;
+
 		}
 
 		void WidgetBase::HandleEvent(WidgetEventArgs& ev) {
@@ -55,6 +58,22 @@ namespace hvn3 {
 		float WidgetBase::SetSize(const SizeF& value) {
 
 			_size = value;
+
+		}
+
+
+
+		WidgetManager* WidgetBase::Manager() {
+
+			return _parent_manager;
+
+		}
+		void WidgetBase::SetManager(WidgetManager* value) {
+
+			_parent_manager = value;
+
+			if (value != nullptr)
+				_child_control_manager.SetRenderer(_parent_manager->GetRenderer());
 
 		}
 

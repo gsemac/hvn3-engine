@@ -94,7 +94,7 @@
     <ClInclude Include="include\hvn3\graphics\Imaging.h" />
     <ClInclude Include="include\hvn3\graphics\Transform.h" />
     <ClInclude Include="include\hvn3\gui2\Button.h" />
-    <ClInclude Include="include\hvn3\gui2\GuiManager.h" />
+    <ClInclude Include="include\hvn3\gui2\WidgetManager.h" />
     <ClInclude Include="include\hvn3\gui2\GuiTypeDefs.h" />
     <ClInclude Include="include\hvn3\gui2\IWidgetRenderer.h" />
     <ClInclude Include="include\hvn3\gui2\WidgetEventArgs.h" />
@@ -269,6 +269,7 @@
     <ClCompile Include="src\hvn3\gui2\WidgetEventArgs.cc" />
     <ClCompile Include="src\hvn3\gui2\WidgetBase.cc" />
     <ClCompile Include="src\hvn3\gui2\DefaultWidgetRenderer.cc" />
+    <ClCompile Include="src\hvn3\gui2\WidgetManager.cc" />
     <ClCompile Include="src\hvn3\gui\Button.cc" />
     <ClCompile Include="src\hvn3\gui\ButtonBase.cc" />
     <ClCompile Include="src\hvn3\gui\Container.cc" />
