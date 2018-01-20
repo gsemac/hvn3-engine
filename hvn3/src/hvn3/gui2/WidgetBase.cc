@@ -24,7 +24,7 @@ namespace hvn3 {
 			i->second(*this, ev);
 
 		}
-		void WidgetBase::SetEventHandler(GuiEvent ev, const EventHandler& callback) {
+		void WidgetBase::SetEventHandler(WidgetEvent ev, const EventHandler& callback) {
 
 			_callback_table[ev] = callback;
 
@@ -61,8 +61,10 @@ namespace hvn3 {
 
 		}
 
+		void WidgetBase::OnMouseHover(MouseHoverEventArgs& e) {}
 
 
+		
 		WidgetManager* WidgetBase::Manager() {
 
 			return _parent_manager;

@@ -8,14 +8,14 @@ namespace hvn3 {
 
 		class WidgetBase : public IWidget {
 
-			typedef std::unordered_map<GuiEvent, EventHandler> callback_table_type;
+			typedef std::unordered_map<WidgetEvent, EventHandler> callback_table_type;
 
 		public:
 			WidgetBase(float x, float y, float width, float height);
 			WidgetBase(const PointF& position, const SizeF& size);
 
 			void HandleEvent(WidgetEventArgs& ev) override;
-			void SetEventHandler(GuiEvent ev, const EventHandler& callback) override;
+			void SetEventHandler(WidgetEvent ev, const EventHandler& callback) override;
 
 			const std::string& Name() const override;
 			void SetName(const std::string& value) override;
@@ -23,6 +23,8 @@ namespace hvn3 {
 			void SetPosition(const PointF& value) override;
 			const SizeF& Size() const override;
 			void SetSize(const SizeF& value) override;
+
+			void OnMouseHover(MouseHoverEventArgs& e) override;
 
 		protected:
 			WidgetManager* Manager() override;

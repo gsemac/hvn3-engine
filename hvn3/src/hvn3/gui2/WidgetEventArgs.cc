@@ -4,6 +4,20 @@
 namespace hvn3 {
 	namespace Gui {
 
+		MouseHoverEventArgs::MouseHoverEventArgs(MouseEventArgs& e) :
+			_position(e.Position()) {
+		}
+		const PointF& MouseHoverEventArgs::Position() const {
+
+			return _position;
+
+		}
+		WidgetEvent MouseHoverEventArgs::Type() const {
+
+			return WidgetEvent::OnMouseHover;
+
+		}
+
 		MoveEventArgs::MoveEventArgs(const PointF& old_position, const PointF& new_position) :
 			_old_position(old_position),
 			_new_position(new_position) {
@@ -18,9 +32,9 @@ namespace hvn3 {
 			return _new_position;
 
 		}
-		GuiEvent MoveEventArgs::Type() const {
+		WidgetEvent MoveEventArgs::Type() const {
 
-			return GuiEvent::OnMove;
+			return WidgetEvent::OnMove;
 
 		}
 
