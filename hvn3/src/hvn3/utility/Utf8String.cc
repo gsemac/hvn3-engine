@@ -122,25 +122,15 @@ namespace hvn3 {
 		return (ustr) ? al_ustr_length(ustr) : 0;
 
 	}
-	int String::Width(const Font& in_font) const {
+	int String::Width(const Font& font) const {
 
-		return Width(&in_font);
-
-	}
-	int String::Width(const Font* in_font) const {
-
-		return al_get_ustr_width(System::AllegroAdapter::ToFont(*in_font), ustr);
+		return al_get_ustr_width(System::AllegroAdapter::ToFont(font), ustr);
 
 	}
-	int String::Height(const Font& int_font) const {
-
-		return Height(&int_font);
-
-	}
-	int String::Height(const Font* int_font) const {
+	int String::Height(const Font& font) const {
 
 		int bbx, bby, bbw, bbh;
-		al_get_ustr_dimensions(System::AllegroAdapter::ToFont(*int_font), ustr, &bbx, &bby, &bbw, &bbh);
+		al_get_ustr_dimensions(System::AllegroAdapter::ToFont(font), ustr, &bbx, &bby, &bbw, &bbh);
 		return bby + bbh;
 
 	}

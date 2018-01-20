@@ -30,10 +30,8 @@ namespace hvn3 {
 		String RefSubString(int start_pos, int end_pos) const;
 
 		size_t Length() const;
-		int Width(const Font& in_font) const;
-		int Width(const Font* in_font) const;
-		int Height(const Font& int_font) const;
-		int Height(const Font* int_font) const;
+		int Width(const Font& font) const;
+		int Height(const Font& font) const;
 
 		int IndexOf(int32_t character) const;
 		int IndexOf(int32_t character, int start_pos) const;

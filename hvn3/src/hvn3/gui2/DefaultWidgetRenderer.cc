@@ -4,13 +4,14 @@
 #include "hvn3/gui2/DefaultWidgetRenderer.h"
 #include "hvn3/gui2/IWidget.h"
 #include "hvn3/io/File.h"
+#include "hvn3/utility/Utf8String.h"
 
 namespace hvn3 {
 	namespace Gui {
 
 		DefaultWidgetRenderer::DefaultWidgetRenderer() {
 
-			_default_fore_color = Color::White;
+			_default_fore_color = Color(224, 224, 224);
 			_default_back_color = Color(73, 70, 82);
 
 			std::string default_font_path = System::GetSystemAssetPath(System::SystemAssetType::Fonts) + "webly.ttf";
@@ -52,7 +53,14 @@ namespace hvn3 {
 
 			DrawWidgetBase(canvas, widget);
 
-			canvas.DrawText(widget.Position().X(), widget.Position().Y(), "Hello, world!", _default_font, _default_fore_color);
+			String text = "Hello, world!";
+			float text_width = text.Width(_default_font);
+			float text_height = text.Height(_default_font);
+
+			canvas.DrawText(
+				widget.Position().X() + (widget.Size().Width() / 2.0f),
+				widget.Position().Y() + (widget.Size().Height() / 2.0f) - (text_height / 2.0f),
+				"Hello, world!", _default_font, _default_fore_color, Alignment::Center);
 
 		}
 
