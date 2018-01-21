@@ -693,6 +693,9 @@
     <ClInclude Include="include\hvn3\physics\PhysicsBodyMutator.h">
       <Filter>include\physics</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\objects\CollisionObject.h">
+      <Filter>include\objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1082,6 +1085,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\physics\PhysicsBodyMutator.cc">
       <Filter>src\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\objects\CollisionObject.cc">
+      <Filter>src\objects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
