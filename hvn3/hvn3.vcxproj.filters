@@ -726,6 +726,9 @@
     <ClInclude Include="include\hvn3\gui2\WidgetManager.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\objects\CollisionObject.h">
+      <Filter>include\objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1133,6 +1136,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\gui2\WidgetManager.cc">
       <Filter>src\gui2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\objects\CollisionObject.cc">
+      <Filter>src\objects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

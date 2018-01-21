@@ -155,6 +155,7 @@
     <ClInclude Include="include\hvn3\math\Rectangle.h" />
     <ClInclude Include="include\hvn3\math\Vector2d.h" />
     <ClInclude Include="include\hvn3\net\IPAddress.h" />
+    <ClInclude Include="include\hvn3\objects\CollisionObject.h" />
     <ClInclude Include="include\hvn3\objects\IObjectManager.h" />
     <ClInclude Include="include\hvn3\objects\Object.h" />
     <ClInclude Include="include\hvn3\objects\ObjectBase.h" />
@@ -315,6 +316,7 @@
     <ClCompile Include="src\hvn3\math\MathUtils.cc" />
     <ClCompile Include="src\hvn3\math\Vector2d.cc" />
     <ClCompile Include="src\hvn3\net\IPAddress.cc" />
+    <ClCompile Include="src\hvn3\objects\CollisionObject.cc" />
     <ClCompile Include="src\hvn3\objects\Object.cc" />
     <ClCompile Include="src\hvn3\objects\ObjectBase.cc" />
     <ClCompile Include="src\hvn3\objects\ObjectManager.cc" />
