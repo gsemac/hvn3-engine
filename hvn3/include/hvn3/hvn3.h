@@ -11,6 +11,7 @@
 #include "hvn3/io/Console.h"
 #include "hvn3/io/IO.h"
 #include "hvn3/math/Vector2d.h"
+#include "hvn3/objects/CollisionObject.h"
 #include "hvn3/rooms/Room.h"
 #include "hvn3/rooms/RoomTransitionFade.h"
 #include "hvn3/sprites/SpriteRenderer.h"
