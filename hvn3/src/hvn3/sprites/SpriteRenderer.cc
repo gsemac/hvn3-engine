@@ -3,9 +3,8 @@
 namespace hvn3 {
 	namespace Graphics {
 
-		SpriteRenderer::SpriteRenderer(const hvn3::Sprite& sprite) :
-			_image_scale(1.0f),
-			_sprite(&sprite) {
+		SpriteRenderer::SpriteRenderer() :
+			_image_scale(1.0f) {
 
 			_image_index = 0;
 			_image_speed = 1.0f;
@@ -87,25 +86,15 @@ namespace hvn3 {
 			_image_scale = Scale(_image_scale.XScale(), -_image_scale.YScale());
 
 		}
-		const Sprite& SpriteRenderer::Sprite() const {
 
-			return *_sprite;
-
-		}
-		void SpriteRenderer::SetSprite(const hvn3::Sprite& sprite) {
-
-			_sprite = &sprite;
-
-		}
-
-		void SpriteRenderer::DrawSprite(DrawEventArgs& e, const PointF& position) const {
+		void SpriteRenderer::DrawSprite(Graphics& target, const Sprite& sprite, const PointF& position) const {
 
 			if (_sprite != nullptr && _sprite->Length() > 0) {
 
-				e.Graphics().DrawSprite(
+				target.DrawSprite(
 					position.X(),
 					position.Y(),
-					Sprite(),
+					sprite,
 					ImageIndex(),
 					ImageScale().XScale(),
 					ImageScale().YScale(),
@@ -132,7 +121,8 @@ namespace hvn3 {
 
 		}
 
-		// Private methods
+
+
 		void SpriteRenderer::_incrementImageIndex(float delta) {
 
 			_image_index_timer += (std::fabs)(delta);

@@ -29,7 +29,7 @@ namespace hvn3 {
 	}
 	Sprite::Sprite(Sprite&& other) {
 	
-		moveSpriteToThis(other);
+		_moveSpriteToThis(other);
 
 	}
 	Sprite::~Sprite() {
@@ -89,12 +89,12 @@ namespace hvn3 {
 		if (_frames.size() <= 0)
 			return;
 
-		_frames.erase(_frames.begin() + subImageToIndex(sub_image));
+		_frames.erase(_frames.begin() + _subImageToIndex(sub_image));
 
 	}
 	const Graphics::Bitmap& Sprite::SubImage(int sub_image) const {
 
-		return _frames[subImageToIndex(sub_image)];
+		return _frames[_subImageToIndex(sub_image)];
 
 	}
 	const Graphics::Bitmap& Sprite::operator[](int sub_image) const {
@@ -139,19 +139,19 @@ namespace hvn3 {
 
 	Sprite& Sprite::operator=(Sprite&& other) {
 
-		moveSpriteToThis(other);
+		_moveSpriteToThis(other);
 
 		return *this;
 
 	}
 			
 
-	size_t Sprite::subImageToIndex(int sub_image) const {
+	size_t Sprite::_subImageToIndex(int sub_image) const {
 
 		return Math::ModFloor(sub_image, _frames.size());
 
 	}
-	void Sprite::moveSpriteToThis(Sprite& other) {
+	void Sprite::_moveSpriteToThis(Sprite& other) {
 
 		_ox = other._ox;
 		_oy = other._oy;

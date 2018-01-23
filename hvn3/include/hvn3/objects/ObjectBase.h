@@ -8,7 +8,7 @@
 namespace hvn3 {
 
 	class ObjectBase : public virtual IUpdatable, public virtual IDrawable {
-
+		 
 	public:
 		ObjectBase();
 

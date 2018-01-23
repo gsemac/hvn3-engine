@@ -9,7 +9,7 @@ namespace hvn3 {
 		class SpriteRenderer {
 
 		public:
-			SpriteRenderer(const Sprite& sprite);
+			SpriteRenderer();
 
 			float ImageAlpha() const;
 			void SetImageAlpha(float value);
@@ -34,15 +34,11 @@ namespace hvn3 {
 			void ReflectX();
 			void ReflectY();
 
-			const Sprite& Sprite() const;
-			void SetSprite(const hvn3::Sprite& sprite);
-
-			void DrawSprite(DrawEventArgs& e, const PointF& position) const;
+			void DrawSprite(Graphics& target, const Sprite& sprite, const PointF& position) const;
 			void UpdateAnimation();
 			void UpdateAnimation(float delta);
 
 		private:
-			const hvn3::Sprite* _sprite;
 			int _image_index;
 			float _image_speed;
 			Scale _image_scale;

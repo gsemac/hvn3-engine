@@ -56,8 +56,8 @@ namespace hvn3 {
 		bool _using_sprite_sheet;
 		unsigned int _strip_length;
 
-		size_t subImageToIndex(int sub_image) const;
-		void moveSpriteToThis(Sprite& other);
+		size_t _subImageToIndex(int sub_image) const;
+		void _moveSpriteToThis(Sprite& other);
 
 	};
 
