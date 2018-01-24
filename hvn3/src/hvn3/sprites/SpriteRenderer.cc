@@ -89,7 +89,7 @@ namespace hvn3 {
 
 		void SpriteRenderer::DrawSprite(Graphics& target, const Sprite& sprite, const PointF& position) const {
 
-			if (_sprite != nullptr && _sprite->Length() > 0) {
+			if (sprite.Length() > 0) {
 
 				target.DrawSprite(
 					position.X(),

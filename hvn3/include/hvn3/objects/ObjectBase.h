@@ -11,6 +11,7 @@ namespace hvn3 {
 		 
 	public:
 		ObjectBase();
+		virtual ~ObjectBase() = default;
 
 		virtual void OnCreate(CreateEventArgs& e);
 		virtual void OnDestroy(DestroyEventArgs& e);
@@ -28,7 +29,7 @@ namespace hvn3 {
 
 	private:
 		bool _is_destroyed;
-		bool _active;
+		bool _is_active;
 		ObjectFlags _flags;
 
 	};

@@ -5,7 +5,7 @@ namespace hvn3 {
 	ObjectBase::ObjectBase() {
 
 		_is_destroyed = false;
-		_active = true;
+		_is_active = true;
 		_flags = static_cast<ObjectFlags>(0);
 
 	}
@@ -25,17 +25,17 @@ namespace hvn3 {
 	}
 	void ObjectBase::Activate() {
 
-		_active = true;
+		_is_active = true;
 
 	}
 	void ObjectBase::Deactivate() {
 
-		_active = false;
+		_is_active = false;
 
 	}
 	bool ObjectBase::IsActive() const {
 
-		return _active;
+		return _is_active;
 
 	}
 	ObjectFlags ObjectBase::Flags() const {
