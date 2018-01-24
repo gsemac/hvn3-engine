@@ -729,6 +729,15 @@
     <ClInclude Include="include\hvn3\objects\CollisionObject.h">
       <Filter>include\objects</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\objects\IObject.h">
+      <Filter>include\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\CollisionTypeDefs.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\physics\PhysicsTypeDefs.h">
+      <Filter>include\physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

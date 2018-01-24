@@ -43,6 +43,7 @@
     <ClInclude Include="include\hvn3\collision\CategoryFilter.h" />
     <ClInclude Include="include\hvn3\collision\CollisionManagerBase.h" />
     <ClInclude Include="include\hvn3\collision\CollisionManifold.h" />
+    <ClInclude Include="include\hvn3\collision\CollisionTypeDefs.h" />
     <ClInclude Include="include\hvn3\collision\CollisionUtils.h" />
     <ClInclude Include="include\hvn3\collision\IBroadPhase.h" />
     <ClInclude Include="include\hvn3\collision\ICollidable.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="include\hvn3\math\Vector2d.h" />
     <ClInclude Include="include\hvn3\net\IPAddress.h" />
     <ClInclude Include="include\hvn3\objects\CollisionObject.h" />
+    <ClInclude Include="include\hvn3\objects\IObject.h" />
     <ClInclude Include="include\hvn3\objects\IObjectManager.h" />
     <ClInclude Include="include\hvn3\objects\Object.h" />
     <ClInclude Include="include\hvn3\objects\ObjectBase.h" />
@@ -170,6 +172,7 @@
     <ClInclude Include="include\hvn3\physics\Material.h" />
     <ClInclude Include="include\hvn3\physics\PhysicsBodyMutator.h" />
     <ClInclude Include="include\hvn3\physics\PhysicsManagerBase.h" />
+    <ClInclude Include="include\hvn3\physics\PhysicsTypeDefs.h" />
     <ClInclude Include="include\hvn3\physics\PhysicsUtils.h" />
     <ClInclude Include="include\hvn3\rooms\IRoom.h" />
     <ClInclude Include="include\hvn3\rooms\IRoomManager.h" />
