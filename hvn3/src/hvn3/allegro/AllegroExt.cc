@@ -1,5 +1,6 @@
-#include "hvn3/allegro/AllegroExtensions.h"
+#include "hvn3/allegro/AllegroExt.h"
 #include "hvn3/exceptions/Exception.h"
+#include <allegro5/allegro_image.h>
 
 namespace hvn3 {
 
@@ -41,6 +42,15 @@ namespace hvn3 {
 			{ x + width, y + height, 0, 0, 0, color_right }
 		};
 		al_draw_prim(v, NULL, NULL, 0, 4, ALLEGRO_PRIM_TRIANGLE_STRIP);
+
+	}
+
+	ALLEGRO_BITMAP* al_clone_sub_bitmap(ALLEGRO_BITMAP* bitmap) {
+
+		int w = al_get_bitmap_width(bitmap);
+		int h = al_get_bitmap_height(bitmap);
+
+		return al_create_sub_bitmap(bitmap, 0, 0, w, h);
 
 	}
 

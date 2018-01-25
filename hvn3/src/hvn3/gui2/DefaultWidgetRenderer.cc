@@ -1,4 +1,4 @@
-#include "hvn3/allegro/AllegroExtensions.h"
+#include "hvn3/allegro/AllegroExt.h"
 #include "hvn3/core/SystemAssets.h"
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/gui2/DefaultWidgetRenderer.h"

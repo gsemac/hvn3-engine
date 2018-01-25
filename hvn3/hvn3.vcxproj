@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\hvn3\allegro\AllegroAdapter.h" />
-    <ClInclude Include="include\hvn3\allegro\AllegroExtensions.h" />
+    <ClInclude Include="include\hvn3\allegro\AllegroExt.h" />
     <ClInclude Include="include\hvn3\allegro\AllegroForwardDeclarations.h" />
     <ClInclude Include="include\hvn3\assets\AssetHandle.h" />
     <ClInclude Include="include\hvn3\assets\AssetLoaderEventArgs.h" />
@@ -86,6 +86,7 @@
     <ClInclude Include="include\hvn3\fonts\Font.h" />
     <ClInclude Include="include\hvn3\graphics\Bitmap.h" />
     <ClInclude Include="include\hvn3\graphics\Color.h" />
+    <ClInclude Include="include\hvn3\graphics\CopyOnWriteBitmap.h" />
     <ClInclude Include="include\hvn3\graphics\Display.h" />
     <ClInclude Include="include\hvn3\graphics\DisplayController.h" />
     <ClInclude Include="include\hvn3\graphics\DisplaySizeChangedEventArgs.h" />
@@ -225,7 +226,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\hvn3\allegro\AllegroAdapter.cc" />
-    <ClCompile Include="src\hvn3\allegro\AllegroExtensions.cc" />
+    <ClCompile Include="src\hvn3\allegro\AllegroExt.cc" />
     <ClCompile Include="src\hvn3\assets\AssetLoaderEventArgs.cc" />
     <ClCompile Include="src\hvn3\assets\BitmapAssetLoader.cc" />
     <ClCompile Include="src\hvn3\assets\FileAssetLoader.cc" />
@@ -261,6 +262,7 @@
     <ClCompile Include="src\hvn3\fonts\Font.cc" />
     <ClCompile Include="src\hvn3\graphics\Bitmap.cc" />
     <ClCompile Include="src\hvn3\graphics\Color.cc" />
+    <ClCompile Include="src\hvn3\graphics\CopyOnWriteBitmap.cc" />
     <ClCompile Include="src\hvn3\graphics\Display.cc" />
     <ClCompile Include="src\hvn3\graphics\DisplayController.cc" />
     <ClCompile Include="src\hvn3\graphics\DisplaySizeChangedEventArgs.cc" />

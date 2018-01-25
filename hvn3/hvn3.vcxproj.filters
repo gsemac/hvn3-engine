@@ -144,9 +144,6 @@
     <ClInclude Include="include\hvn3\allegro\AllegroAdapter.h">
       <Filter>include\allegro</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\allegro\AllegroExtensions.h">
-      <Filter>include\allegro</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\allegro\AllegroForwardDeclarations.h">
       <Filter>include\allegro</Filter>
     </ClInclude>
@@ -738,6 +735,12 @@
     <ClInclude Include="include\hvn3\physics\PhysicsTypeDefs.h">
       <Filter>include\physics</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\graphics\CopyOnWriteBitmap.h">
+      <Filter>include\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\allegro\AllegroExt.h">
+      <Filter>include\allegro</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -745,9 +748,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\hvn3\allegro\AllegroAdapter.cc">
-      <Filter>src\allegro</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\allegro\AllegroExtensions.cc">
       <Filter>src\allegro</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\assets\AssetLoaderEventArgs.cc">
@@ -1148,6 +1148,12 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\objects\CollisionObject.cc">
       <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\CopyOnWriteBitmap.cc">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\allegro\AllegroExt.cc">
+      <Filter>src\allegro</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

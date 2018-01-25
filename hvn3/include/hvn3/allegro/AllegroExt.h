@@ -3,6 +3,8 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
 
+struct ALLEGRO_BITMAP;
+
 namespace hvn3 {
 
 	void al_draw_wrapped_text(const ALLEGRO_FONT*, ALLEGRO_COLOR, float, float, float, float, int, char const*);
@@ -11,4 +13,6 @@ namespace hvn3 {
 	void al_draw_gradient_rectangle(float x, float y, float width, float height, ALLEGRO_COLOR color_top, ALLEGRO_COLOR color_bottom);
 	void al_draw_horizontal_gradient_rectangle(float x, float y, float width, float height, ALLEGRO_COLOR color_left, ALLEGRO_COLOR color_right);
 
+	ALLEGRO_BITMAP* al_clone_sub_bitmap(ALLEGRO_BITMAP* bitmap);
+		
 }
