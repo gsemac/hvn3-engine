@@ -13,9 +13,9 @@ namespace hvn3 {
 	
 	void PhysicsObject::OnCreate(CreateEventArgs& e) {
 
-		e.Physics().AddBody(_physics_body);
+		CollisionObject::OnCreate(e);
 
-		Object::OnCreate(e);
+		e.Physics().AddBody(_physics_body);
 
 	}
 
