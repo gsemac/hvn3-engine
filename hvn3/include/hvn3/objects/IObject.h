@@ -36,7 +36,6 @@ namespace hvn3 {
 		virtual PhysicsBodyPtr& PhysicsBody() = 0;
 		virtual const PhysicsBodyPtr& PhysicsBody() const = 0;
 
-		virtual hvn3::Sprite& Sprite() = 0;
 		virtual const hvn3::Sprite& Sprite() const = 0;
 		virtual Graphics::SpriteRenderer& Renderer() = 0;
 		virtual const Graphics::SpriteRenderer& Renderer() const = 0;

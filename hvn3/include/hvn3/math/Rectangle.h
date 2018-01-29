@@ -24,6 +24,9 @@ namespace hvn3 {
 		Rectangle(const Point2d<T>& top_left, const Point2d<T>& bottom_right) :
 			Rectangle<T>(top_left.X(), top_left.Y(), bottom_right.X() - top_left.X(), bottom_right.Y() - top_left.Y()) {
 		}
+		Rectangle(const Point2d<T>& position, const hvn3::Size<T>& size) :
+			Rectangle(position.X(), position.Y(), size.Width(), size.Height()) {
+		}
 
 		T X2() const {
 

@@ -8,14 +8,13 @@ namespace hvn3 {
 
 		class WidgetBase : public IWidget {
 
-			typedef std::unordered_map<WidgetEvent, EventHandler> callback_table_type;
+			typedef std::unordered_map<WidgetEventType, std::function<void(WidgetEventArgs&)>> callback_table_type;
 
 		public:
 			WidgetBase(float x, float y, float width, float height);
 			WidgetBase(const PointF& position, const SizeF& size);
 
 			void HandleEvent(WidgetEventArgs& ev) override;
-			void SetEventHandler(WidgetEvent ev, const EventHandler& callback) override;
 
 			const std::string& Name() const override;
 			void SetName(const std::string& value) override;
@@ -24,11 +23,20 @@ namespace hvn3 {
 			const SizeF& Size() const override;
 			void SetSize(const SizeF& value) override;
 
-			void OnMouseHover(MouseHoverEventArgs& e) override;
+			void OnMouseHover(WidgetMouseHoverEventArgs& e) override;
+
+			template <WidgetEventType WIDGET_EVENT_TYPE>
+			void SetEventHandler(const std::function<void(typename GetWidgetEventType<WIDGET_EVENT_TYPE>::type&)>& callback) {
+				_callbacks.emplace(WIDGET_EVENT_TYPE, [=](WidgetEventArgs& x) {
+					callback(reinterpret_cast<typename GetWidgetEventType<WIDGET_EVENT_TYPE>::type&>(x));
+				});
+			}
 
 		protected:
 			WidgetManager* Manager() override;
 			void SetManager(WidgetManager* value) override;
+
+			void DoEventHandler(WidgetEventType ev, WidgetEventArgs& args);
 
 		private:
 			std::string _name;
@@ -36,7 +44,7 @@ namespace hvn3 {
 			SizeF _size;
 			WidgetManager* _parent_manager;
 			WidgetManager _child_control_manager;
-			callback_table_type _callback_table;
+			callback_table_type _callbacks;
 
 		};
 

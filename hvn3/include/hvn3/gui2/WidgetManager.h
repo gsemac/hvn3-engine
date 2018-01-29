@@ -46,10 +46,15 @@ namespace hvn3 {
 			renderer_ptr_type _renderer;
 			widget_collection_type _widgets;
 
+			IWidget* _widget_hovered;
+			PointF _last_mouse_position;
+
+			void _initialize();
+
 			// Returns a pointer to the widget renderer assigned to this manager. 
 			// IF no renderer has been assigned, assigns and returns the default renderer.
 			renderer_ptr_type& _getRenderer();
-
+			
 		};
 
 	}

@@ -4,37 +4,50 @@
 namespace hvn3 {
 	namespace Gui {
 
-		MouseHoverEventArgs::MouseHoverEventArgs(MouseEventArgs& e) :
-			_position(e.Position()) {
+		WidgetEventArgs::WidgetEventArgs(IWidget* sender) {
+
+			_sender = sender;
+
 		}
-		const PointF& MouseHoverEventArgs::Position() const {
+		IWidget* WidgetEventArgs::Sender() const {
+
+			return _sender;
+
+		}
+
+		WidgetMouseHoverEventArgs::WidgetMouseHoverEventArgs(IWidget* sender, const PointF& position) :
+			WidgetEventArgs(sender),
+			_position(position) {
+		}
+		const PointF& WidgetMouseHoverEventArgs::Position() const {
 
 			return _position;
 
 		}
-		WidgetEvent MouseHoverEventArgs::Type() const {
+		WidgetEventType WidgetMouseHoverEventArgs::Type() const {
 
-			return WidgetEvent::OnMouseHover;
+			return WidgetEventType::OnMouseHover;
 
 		}
 
-		MoveEventArgs::MoveEventArgs(const PointF& old_position, const PointF& new_position) :
+		WidgetMoveEventArgs::WidgetMoveEventArgs(IWidget* sender, const PointF& old_position, const PointF& new_position) :
+			WidgetEventArgs(sender),
 			_old_position(old_position),
 			_new_position(new_position) {
 		}
-		const PointF& MoveEventArgs::OldPosition() const {
+		const PointF& WidgetMoveEventArgs::OldPosition() const {
 
 			return _old_position;
 
 		}
-		const PointF& MoveEventArgs::NewPosition() const {
+		const PointF& WidgetMoveEventArgs::NewPosition() const {
 
 			return _new_position;
 
 		}
-		WidgetEvent MoveEventArgs::Type() const {
+		WidgetEventType WidgetMoveEventArgs::Type() const {
 
-			return WidgetEvent::OnMove;
+			return WidgetEventType::OnMove;
 
 		}
 

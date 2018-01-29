@@ -16,17 +16,16 @@ namespace hvn3 {
 
 		void WidgetBase::HandleEvent(WidgetEventArgs& ev) {
 
-			auto i = _callback_table.find(ev.Type());
+			DoEventHandler(ev.Type(), ev);
 
-			if (i == _callback_table.end())
+			if (ev.Handled())
 				return;
 
-			i->second(*this, ev);
-
-		}
-		void WidgetBase::SetEventHandler(WidgetEvent ev, const EventHandler& callback) {
-
-			_callback_table[ev] = callback;
+			switch (ev.Type()) {
+			case WidgetEventType::OnMouseHover:
+				OnMouseHover(reinterpret_cast<WidgetMouseHoverEventArgs&>(ev));
+				break;
+			}
 
 		}
 
@@ -61,10 +60,10 @@ namespace hvn3 {
 
 		}
 
-		void WidgetBase::OnMouseHover(MouseHoverEventArgs& e) {}
+		void WidgetBase::OnMouseHover(WidgetMouseHoverEventArgs& e) {}
 
 
-		
+
 		WidgetManager* WidgetBase::Manager() {
 
 			return _parent_manager;
@@ -76,6 +75,17 @@ namespace hvn3 {
 
 			if (value != nullptr)
 				_child_control_manager.SetRenderer(_parent_manager->GetRenderer());
+
+		}
+
+		void WidgetBase::DoEventHandler(WidgetEventType ev, WidgetEventArgs& args) {
+
+			auto iter = _callbacks.find(ev);
+
+			if (iter == _callbacks.end())
+				return;
+
+			iter->second(args);
 
 		}
 

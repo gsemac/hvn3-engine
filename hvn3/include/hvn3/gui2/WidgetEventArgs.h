@@ -7,7 +7,9 @@ namespace hvn3 {
 
 	namespace Gui {
 
-		enum class WidgetEvent {
+		class IWidget;
+
+		enum class WidgetEventType {
 			// Generated when the widget is clicked.
 			OnClick,
 			OnMouseHover,
@@ -19,31 +21,37 @@ namespace hvn3 {
 		class WidgetEventArgs : public System::EventArgs {
 
 		public:
-			virtual WidgetEvent Type() const = 0;
+			WidgetEventArgs(IWidget* sender);
+
+			virtual IWidget* Sender() const;
+			virtual WidgetEventType Type() const = 0;
+
+		private:
+			IWidget* _sender;
 
 		};
 
-		class MouseHoverEventArgs : public WidgetEventArgs {
+		class WidgetMouseHoverEventArgs : public WidgetEventArgs {
 
 		public:
-			MouseHoverEventArgs(MouseEventArgs& e);
+			WidgetMouseHoverEventArgs(IWidget* sender, const PointF& position);
 
 			const PointF& Position() const;
-			WidgetEvent Type() const;
+			WidgetEventType Type() const override;
 
 		private:
 			PointF _position;
 
 		};
 
-		class MoveEventArgs : public WidgetEventArgs {
+		class WidgetMoveEventArgs : public WidgetEventArgs {
 
 		public:
-			MoveEventArgs(const PointF& old_position, const PointF& new_position);
+			WidgetMoveEventArgs(IWidget* sender, const PointF& old_position, const PointF& new_position);
 
 			const PointF& OldPosition() const;
 			const PointF& NewPosition() const;
-			WidgetEvent Type() const;
+			WidgetEventType Type() const override;
 
 		private:
 			PointF _old_position;
@@ -51,5 +59,19 @@ namespace hvn3 {
 
 		};
 
+		template <WidgetEventType WIDGET_EVENT_TYPE>
+		struct GetWidgetEventType {
+			typedef WidgetEventArgs type;
+		};
+		template <>
+		struct GetWidgetEventType<WidgetEventType::OnMouseHover> {
+			typedef WidgetMouseHoverEventArgs type;
+		};
+		template <>
+		struct GetWidgetEventType<WidgetEventType::OnMove> {
+			typedef WidgetMoveEventArgs type;
+		};
+
+		
 	}
 }

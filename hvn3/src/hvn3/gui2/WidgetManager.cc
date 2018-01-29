@@ -8,9 +8,15 @@ namespace hvn3 {
 	namespace Gui {
 
 		WidgetManager::WidgetManager() {
+
+			_initialize();
+
 		}
 		WidgetManager::WidgetManager(renderer_ptr_type& renderer) :
 			_renderer(std::move(renderer)) {
+
+			_initialize();
+
 		}
 
 		void WidgetManager::Add(IWidget* widget) {
@@ -49,8 +55,9 @@ namespace hvn3 {
 
 		}
 		void WidgetManager::OnUpdate(UpdateEventArgs& e) {
-
-
+			
+			if (_widget_hovered != nullptr)
+				_widget_hovered->OnMouseHover(WidgetMouseHoverEventArgs(_widget_hovered, _last_mouse_position));
 
 		}
 
@@ -62,11 +69,36 @@ namespace hvn3 {
 		void WidgetManager::OnMouseDown(MouseDownEventArgs& e) {}
 		void WidgetManager::OnMousePressed(MousePressedEventArgs& e) {}
 		void WidgetManager::OnMouseReleased(MouseReleasedEventArgs& e) {}
-		void WidgetManager::OnMouseMove(MouseMoveEventArgs& e) {}
+		void WidgetManager::OnMouseMove(MouseMoveEventArgs& e) {
+
+			// Find the widget that the mouse is currently hovering over, if any.
+			// Assume the widgets are ordered such that topmost widgets are first.
+
+			IWidget* widget_hovered = nullptr;
+
+			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
+
+				IWidget* widget = i->get();
+
+				if (Math::Geometry::PointIn(e.Position(), RectangleF(widget->Position(), widget->Size()))) {
+					widget_hovered = widget;
+					break;
+				}
+
+			}
+
+			_last_mouse_position = e.Position();
+			_widget_hovered = widget_hovered;
+
+		}
 		void WidgetManager::OnMouseScroll(MouseScrollEventArgs& e) {}
 
 
+		void WidgetManager::_initialize() {
 
+			_widget_hovered = nullptr;
+
+		}
 		WidgetManager::renderer_ptr_type& WidgetManager::_getRenderer() {
 
 			if (!_renderer)
