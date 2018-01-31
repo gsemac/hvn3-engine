@@ -32,7 +32,7 @@ namespace hvn3 {
 		FullscreenWindow = 512, // ALLEGRO_FULLSCREEN_WINDOW
 		AntiAlias = 1024
 	};
-	ENABLE_BITFLAG_OPERATORS(DisplayFlags);
+	ENABLE_BITFLAG_OPERATORS(DisplayFlags)
 
 	enum class DisplayOption {
 		VsyncEnabled
@@ -57,9 +57,6 @@ namespace hvn3 {
 
 		void SetTitle(const char* value);
 		void SetIcon(const Graphics::Bitmap& icon);
-		void SetIcon(const Sprite& icon);
-		void SetIcon(const Sprite* icon);
-		void SetIcon(ALLEGRO_BITMAP* icon);
 
 		void Resize(int width, int height) override;
 		// Returns the current scale factor relative to the size at which the display was initialized.
@@ -71,7 +68,7 @@ namespace hvn3 {
 		void SetFullscreen(bool value);
 		bool HasFocus() const;
 
-		Graphics::Bitmap BackBuffer() const;
+		Graphics::Bitmap& BackBuffer();
 
 		void Refresh();
 
@@ -85,21 +82,15 @@ namespace hvn3 {
 		static void SetNewDisplayOption(DisplayOption option, int value);
 
 	private:
-		// Pointer to the underlying framework object.
-		ALLEGRO_DISPLAY* _display;
-		// Whether or not the display is the active window.
-		bool _has_focus;
-		// Whether or not the display is currently full-screen.
-		bool _fullscreen;
-		// The size that the display was created with. Used to calculate scale factor when the display is resized.
-		SizeI _original_size;
-		// The size of the window prior to being full-screen. Used to restore original size.
-		SizeI _size_before_fullscreen;
-		// The position of the window prior to being full-screen. Used to restore original position.
-		PointI _position_before_fullscreen;
-
-		// Pointer to the currently-active display.
-		static Display* _active_display;
+		ALLEGRO_DISPLAY* _display; // Pointer to the underlying framework object.
+		Graphics::Bitmap _back_buffer; // Non-owning bitmap representing the back-buffer
+		Graphics::Bitmap _icon; // The icon associated with the window
+		bool _has_focus; // Whether or not the display is the active window.
+		bool _fullscreen; // Whether or not the display is currently full-screen.
+		SizeI _original_size; // The size that the display was created with. Used to calculate scale factor when the display is resized.
+		SizeI _size_before_fullscreen; // The size of the window prior to being full-screen. Used to restore original size.		
+		PointI _position_before_fullscreen; // The position of the window prior to being full-screen. Used to restore original position.		
+		static Display* _active_display; // Pointer to the currently-active display.
 
 		// Sets a flag indicating whether or not the display currently has focus.
 		void _setFocus(bool value);

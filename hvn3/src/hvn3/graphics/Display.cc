@@ -55,13 +55,15 @@ namespace hvn3 {
 		_fullscreen = false;
 		_has_focus = true;
 
+		if (_display != nullptr)
+			_back_buffer = Graphics::Bitmap(al_get_backbuffer(_display), false);
+
 		// Set this display as the active display.
 		_active_display = this;
 
 		// Restore display settings.
 		al_set_new_display_flags(new_display_flags);
 
-		// Assert that the display could be created.
 		assert(_display);
 
 	}
@@ -85,23 +87,12 @@ namespace hvn3 {
 	}
 	void Display::SetIcon(const Graphics::Bitmap& icon) {
 
-		SetIcon(icon.AlPtr());
+		_icon = icon;
 
-	}
-	void Display::SetIcon(const Sprite& icon) {
+		if (!_display)
+			return;
 
-		SetIcon(icon.SubImage(0).AlPtr());
-
-	}
-	void Display::SetIcon(const Sprite* icon) {
-
-		SetIcon(icon->SubImage(0).AlPtr());
-
-	}
-	void Display::SetIcon(ALLEGRO_BITMAP* icon) {
-		if (!_display) return;
-
-		al_set_display_icon(_display, icon);
+		al_set_display_icon(_display, System::AllegroAdapter::ToBitmap(_icon));
 
 	}
 	void Display::Resize(int width, int height) {
@@ -198,9 +189,9 @@ namespace hvn3 {
 		return System::EventSource(al_get_display_event_source(_display));
 
 	}
-	Graphics::Bitmap Display::BackBuffer() const {
+	Graphics::Bitmap& Display::BackBuffer() {
 
-		return Graphics::Bitmap(al_get_backbuffer(_display), false);
+		return _back_buffer;
 
 	}
 	void Display::Refresh() {

@@ -250,7 +250,7 @@ namespace hvn3 {
 			PrepareDrawingSurface();
 
 			al_draw_bitmap(
-				(sprite)[subimage].AlPtr(),
+				System::AllegroAdapter::ToBitmap((sprite)[subimage]),
 				x + sprite.Origin().X(),
 				y + sprite.Origin().Y(),
 				NULL
@@ -262,7 +262,7 @@ namespace hvn3 {
 			PrepareDrawingSurface();
 
 			al_draw_tinted_scaled_rotated_bitmap(
-				(sprite)[subimage].AlPtr(),
+				System::AllegroAdapter::ToBitmap((sprite)[subimage]),
 				al_map_rgba_f(blend.Rf() * blend.Alphaf(), blend.Gf() * blend.Alphaf(), blend.Bf() * blend.Alphaf(), blend.Alphaf()),
 				sprite.Origin().X(),
 				sprite.Origin().Y(),
@@ -444,7 +444,7 @@ namespace hvn3 {
 			int op = ConvertBlendOperation(operation);
 			int src = ConvertBlendMode(source);
 			int dest = ConvertBlendMode(destination);
-			
+
 			al_set_blender(op, src, dest);
 
 		}
@@ -458,12 +458,14 @@ namespace hvn3 {
 			SetBlendMode(BlendOperation::Normal);
 
 		}
-		 
+
 		void Graphics::PrepareDrawingSurface() {
+
+			_surface._perform_pre_write_operations();
 
 			// If this Object's drawing surface is not set as the current drawing surface, set it.
 			if (!IsActiveSurface()) {
-				al_set_target_bitmap(_surface.AlPtr());
+				al_set_target_bitmap(System::AllegroAdapter::ToBitmap(_surface));
 				ApplyClip();
 				ApplyTransform();
 				_last_to_draw = this;

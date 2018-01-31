@@ -84,9 +84,8 @@
     <ClInclude Include="include\hvn3\events\Timer.h" />
     <ClInclude Include="include\hvn3\exceptions\Exception.h" />
     <ClInclude Include="include\hvn3\fonts\Font.h" />
-    <ClInclude Include="include\hvn3\graphics\Bitmap.h" />
     <ClInclude Include="include\hvn3\graphics\Color.h" />
-    <ClInclude Include="include\hvn3\graphics\CopyOnWriteBitmap.h" />
+    <ClInclude Include="include\hvn3\graphics\Bitmap.h" />
     <ClInclude Include="include\hvn3\graphics\Display.h" />
     <ClInclude Include="include\hvn3\graphics\DisplayController.h" />
     <ClInclude Include="include\hvn3\graphics\DisplaySizeChangedEventArgs.h" />
@@ -260,9 +259,8 @@
     <ClCompile Include="src\hvn3\events\Timer.cc" />
     <ClCompile Include="src\hvn3\exceptions\Exception.cc" />
     <ClCompile Include="src\hvn3\fonts\Font.cc" />
-    <ClCompile Include="src\hvn3\graphics\Bitmap.cc" />
     <ClCompile Include="src\hvn3\graphics\Color.cc" />
-    <ClCompile Include="src\hvn3\graphics\CopyOnWriteBitmap.cc" />
+    <ClCompile Include="src\hvn3\graphics\Bitmap.cc" />
     <ClCompile Include="src\hvn3\graphics\Display.cc" />
     <ClCompile Include="src\hvn3\graphics\DisplayController.cc" />
     <ClCompile Include="src\hvn3\graphics\DisplaySizeChangedEventArgs.cc" />

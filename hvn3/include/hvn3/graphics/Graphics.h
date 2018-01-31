@@ -1,6 +1,8 @@
 #pragma once
 #include "hvn3/graphics/GraphicsState.h"
 #include "hvn3/graphics/Bitmap.h"
+#include "hvn3/math/Circle.h"
+#include "hvn3/math/Line.h"
 #include "hvn3/math/Rectangle.h"
 #include "hvn3/fonts/Font.h"
 
@@ -101,7 +103,7 @@ namespace hvn3 {
 			void Restore(const GraphicsState& state);
 
 		private:
-			Bitmap _surface;
+			Bitmap& _surface;
 			Transform _transform;
 			RectangleF _clipping_region;
 			bool _state_changed;

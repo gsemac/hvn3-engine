@@ -1,144 +1,164 @@
+#include "hvn3/allegro/AllegroAdapter.h"
+#include "hvn3/allegro/AllegroExt.h"
 #include "hvn3/graphics/Bitmap.h"
 #include "hvn3/graphics/Graphics.h"
-#include "hvn3/allegro/AllegroAdapter.h"
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_image.h>
 #include <allegro5/allegro_memfile.h>
 
-
 namespace hvn3 {
-
 	namespace Graphics {
+
+		static int to_lock_flag(IO::FileAccess flag) {
+
+			switch (flag) {
+			case IO::FileAccess::Read:
+				return ALLEGRO_LOCK_READONLY;
+			case IO::FileAccess::Write:
+				return ALLEGRO_LOCK_WRITEONLY;
+			case IO::FileAccess::ReadWrite:
+			default:
+				return ALLEGRO_LOCK_READWRITE;
+			}
+
+		}
+
+
 
 		Bitmap::Bitmap() {
 
-			_bitmap = nullptr;
-			_free = false;
+			_sub_bitmap = nullptr;
+			_managed = true;
 
 		}
 		Bitmap::Bitmap(int width, int height) :
 			Bitmap() {
 
-			// If either the width or height is 0, do not allocate any memory for the bitmap.
-			if (width == 0 || height == 0) {
-				_bitmap = nullptr;
-				_free = false;
+			if (width <= 0 || height <= 0)
 				return;
+
+			_src_bitmap = bitmap_ptr_type(al_create_bitmap(width, height), al_destroy_bitmap);
+
+		}
+		Bitmap::Bitmap(ALLEGRO_BITMAP* bitmap, bool managed) :
+			Bitmap() {
+
+			if (bitmap == nullptr)
+				return;
+
+			if (managed)
+				_src_bitmap = bitmap_ptr_type(bitmap, al_destroy_bitmap);
+			else {
+				// Uses the aliasing constructor to avoid both freeing the data and allocating a control block.
+				_src_bitmap = bitmap_ptr_type(bitmap_ptr_type{}, bitmap);
+				_managed = false;
 			}
 
-			// Otherwise, allocate memory for the bitmap.
-			_bitmap = al_create_bitmap(width, height);
-			_free = true;
-
 		}
-		Bitmap::Bitmap(const char* filename) :
-			Bitmap() {
 
-			_bitmap = al_load_bitmap(filename);
-			_free = true;
-
-		}
-		Bitmap::Bitmap(const char* filename, const Color& alpha) :
-			Bitmap(filename) {
-
-			ConvertMaskToAlpha(alpha);
-
-		}
-		Bitmap::Bitmap(ALLEGRO_BITMAP* bitmap, bool free) :
-			Bitmap() {
-
-			_bitmap = bitmap;
-			_free = free;
-
-		}
-		Bitmap::Bitmap(uint8_t* buffer, size_t buffer_size, Imaging::ImageFormat format) :
-			Bitmap() {
-
-			if (buffer == nullptr || buffer_size <= 0)
-				return;
-
-			ALLEGRO_FILE* file = al_open_memfile(buffer, buffer_size, "r");
-
-			_bitmap = al_load_bitmap_f(file, ImageFormatToFileExtension(format).c_str());
-			_free = true;
-
-			al_fclose(file);
-
-		}
-		// Creates a sub-bitmap from the given region of the parent bitmap that shares data with the parent bitmap.
 		Bitmap::Bitmap(const Bitmap& other, const RectangleI& region) :
 			Bitmap() {
 
-			// Create a sub-bitmap of the given bitmap. The new bitmap will share memory with the existing one.
-			_bitmap = al_create_sub_bitmap(other.AlPtr(), region.X(), region.Y(), region.Width(), region.Height());
+			// Sub-bitmaps will not copy-on-write, and will simply refer to a region of the source bitmap.
+			// Use the Copy method to explicitly copy a region of a bitmap.
 
-			// Sub-bitmaps still need to be freed (this will not affect the parent bitmap).
-			_free = true;
+			_src_bitmap = other._src_bitmap;
+
+			ALLEGRO_BITMAP* parent = _src_bitmap.get();
+
+			if (other._sub_bitmap != nullptr)
+				parent = other._sub_bitmap;
+
+			// Even if we create a sub-bitmap of a sub-bitmap, the parent will still be bitmap it was sourced from.
+			// Therefore, it's okay if the source sub-bitmap gets destroyed before the child does.
+			_sub_bitmap = al_create_sub_bitmap(parent, region.X(), region.Y(), region.Width(), region.Height());
 
 		}
 		Bitmap::Bitmap(const Bitmap& other) :
 			Bitmap() {
 
-			// Create a shallow copy of the source Bitmap. Both Bitmaps will share the same pixel data.
-			_shallowCopy(other);
+			_copy_assign(other);
 
 		}
 		Bitmap::Bitmap(Bitmap&& other) :
 			Bitmap() {
 
-			_moveCopy(other);
+			_move_assign(other);
 
 		}
+
 		Bitmap::~Bitmap() {
 
-			if (_bitmap != nullptr && _free)
-				_freeBitmap();
+			if (_sub_bitmap != nullptr)
+				al_destroy_bitmap(_sub_bitmap);
+
+			_managed = false;
+			_sub_bitmap = nullptr;
 
 		}
 
-		Bitmap Bitmap::Clone() const {
+		Bitmap Bitmap::Copy() const {
 
-			return Bitmap(al_clone_bitmap(_bitmap), true);
+			if (_sub_bitmap != nullptr)
+				return Copy(RectangleI(0, 0, Width(), Height()));
 
-		}
-		Bitmap Bitmap::Clone(const RectangleF& region) const {
+			Bitmap copy;
+			copy._src_bitmap = bitmap_ptr_type(al_clone_bitmap(_src_bitmap.get()), al_destroy_bitmap);
 
-			// Create a new bitmap.
-			Bitmap bmp(al_create_bitmap(region.Width(), region.Height()), true);
-
-			// Copy the given bitmap onto the new bitmap.
-			Graphics::Graphics(bmp).DrawBitmap(0, 0, *this, region);
-
-			// Return the result.
-			return bmp;
+			return copy;
 
 		}
+		Bitmap Bitmap::Copy(const RectangleI& region) const {
 
-		unsigned int Bitmap::Width() const {
+			Bitmap copy;
+			copy._src_bitmap = bitmap_ptr_type(al_create_bitmap(region.Width(), region.Height()), al_destroy_bitmap);
 
-			if (_bitmap == nullptr)
-				return 0U;
+			// #todo
+			//Graphics(copy).DrawBitmap(0, 0, *this, region);
 
-			return static_cast<unsigned int>(al_get_bitmap_width(_bitmap));
+			return copy;
 
 		}
-		unsigned int Bitmap::Height() const {
 
-			if (_bitmap == nullptr)
-				return 0U;
+		int Bitmap::Width() const {
 
-			return static_cast<unsigned int>(al_get_bitmap_height(_bitmap));
+			if (_sub_bitmap != nullptr)
+				return al_get_bitmap_width(_sub_bitmap);
+
+			if (_src_bitmap)
+				return al_get_bitmap_width(_src_bitmap.get());
+
+			return 0;
+
+		}
+		int Bitmap::Height() const {
+
+			if (_sub_bitmap != nullptr)
+				return al_get_bitmap_height(_sub_bitmap);
+
+			if (_src_bitmap)
+				return al_get_bitmap_height(_src_bitmap.get());
+
+			return 0;
+
+		}
+
+		bool Bitmap::IsVideoBitmap() const {
+
+			return al_get_bitmap_flags(_get_bitmap_ptr()) & ALLEGRO_VIDEO_BITMAP;
+
+		}
+		void Bitmap::ConvertToVideoBitmap() {
+
+			al_convert_bitmap(_get_bitmap_ptr());
 
 		}
 
 		BitmapData Bitmap::Lock(IO::FileAccess access) {
 
-			int flags;
-			switch (access) {
-			case IO::FileAccess::Read: flags = ALLEGRO_LOCK_READONLY; break;
-			case IO::FileAccess::Write: flags = ALLEGRO_LOCK_WRITEONLY; break;
-			case IO::FileAccess::ReadWrite: flags = ALLEGRO_LOCK_READWRITE; break;
-			}
+			_perform_pre_write_operations();
 
-			ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap(_bitmap, al_get_bitmap_format(_bitmap), flags);
+			ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap(_get_bitmap_ptr(), al_get_bitmap_format(_get_bitmap_ptr()), to_lock_flag(access));
 
 			BitmapData bmpdata;
 			bmpdata.Scan0 = (unsigned char*)lr->data;
@@ -151,14 +171,9 @@ namespace hvn3 {
 		}
 		BitmapData Bitmap::LockRegion(const RectangleI& region, IO::FileAccess access) {
 
-			int flags;
-			switch (access) {
-			case IO::FileAccess::Read: flags = ALLEGRO_LOCK_READONLY; break;
-			case IO::FileAccess::Write: flags = ALLEGRO_LOCK_WRITEONLY; break;
-			case IO::FileAccess::ReadWrite: flags = ALLEGRO_LOCK_READWRITE; break;
-			}
+			_perform_pre_write_operations();
 
-			ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap_region(_bitmap, region.X(), region.Y(), region.Width(), region.Height(), al_get_bitmap_format(_bitmap), flags);
+			ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap_region(_get_bitmap_ptr(), region.X(), region.Y(), region.Width(), region.Height(), al_get_bitmap_format(_get_bitmap_ptr()), to_lock_flag(access));
 
 			BitmapData bmpdata;
 			bmpdata.Scan0 = (unsigned char*)lr->data;
@@ -170,24 +185,32 @@ namespace hvn3 {
 
 		}
 		void Bitmap::Unlock() {
-			if (!IsLocked()) return;
 
-			al_unlock_bitmap(_bitmap);
+			if (!IsLocked())
+				return;
+
+			_perform_pre_write_operations();
+
+			al_unlock_bitmap(_get_bitmap_ptr());
 
 		}
 		bool Bitmap::IsLocked() const {
 
-			return al_is_bitmap_locked(_bitmap);
+			return al_is_bitmap_locked(_get_bitmap_ptr());
 
 		}
+
 		void Bitmap::SetPixel(int x, int y, const Color& color) {
 
-			Graphics::Graphics(*this).DrawPoint(x, y, color);
+			_perform_pre_write_operations();
+
+			// #todo
+			//Graphics(*this).DrawPoint(x, y, color);
 
 		}
 		Color Bitmap::GetPixel(int x, int y) const {
 
-			ALLEGRO_COLOR px = al_get_pixel(_bitmap, x, y);
+			ALLEGRO_COLOR px = al_get_pixel(_get_bitmap_ptr(), x, y);
 
 			return Color::FromArgbf(px.r, px.g, px.b, px.a);
 
@@ -195,49 +218,66 @@ namespace hvn3 {
 
 		void Bitmap::ConvertMaskToAlpha(const Color& color) {
 
-			ALLEGRO_COLOR al_color = al_map_rgba(color.R(), color.G(), color.B(), color.Alpha());
+			ALLEGRO_COLOR al_color = System::AllegroAdapter::ToColor(color);
 
-			al_convert_mask_to_alpha(_bitmap, al_color);
-
-		}
-
-		bool Bitmap::IsVideoBitmap() const {
-
-			return al_get_bitmap_flags(_bitmap) & ALLEGRO_VIDEO_BITMAP;
-
-		}
-		void Bitmap::ConvertToVideoBitmap() {
-
-			al_convert_bitmap(_bitmap);
+			al_convert_mask_to_alpha(_src_bitmap.get(), al_color);
 
 		}
 
-		ALLEGRO_BITMAP* Bitmap::AlPtr() const {
+		Bitmap& Bitmap::operator=(const Bitmap& other) {
 
-			return _bitmap;
-
-		}
-
-		Bitmap& Bitmap::operator=(Bitmap& other) {
-
-			_shallowCopy(other);
+			_copy_assign(other);
 
 			return *this;
 
 		}
 		Bitmap& Bitmap::operator=(Bitmap&& other) {
 
-			_moveCopy(other);
+			_move_assign(other);
 
 			return *this;
 
 		}
 		Bitmap::operator bool() const {
 
-			return (_bitmap != nullptr);
+			return static_cast<bool>(_src_bitmap);
 
 		}
 
+		Bitmap Bitmap::FromBuffer(uint8_t* buffer, size_t buffer_size, Imaging::ImageFormat format) {
+
+			Bitmap bmp;
+
+			if (buffer == nullptr || buffer_size <= 0)
+				return bmp;
+
+			ALLEGRO_FILE* file = al_open_memfile(buffer, buffer_size, "r");
+
+			bmp._src_bitmap = bitmap_ptr_type(al_load_bitmap_f(file, Imaging::ImageFormatToFileExtension(format).c_str()), al_destroy_bitmap);
+
+			al_fclose(file);
+
+			return bmp;
+
+		}
+		Bitmap Bitmap::FromFile(const std::string& file) {
+
+			Bitmap bmp;
+
+			bmp._src_bitmap = bitmap_ptr_type(al_load_bitmap(file.c_str()), al_destroy_bitmap);
+
+			return bmp;
+
+		}
+		Bitmap Bitmap::FromFile(const std::string& file, const Color& alpha_color) {
+
+			Bitmap bmp = FromFile(file);
+
+			bmp.ConvertMaskToAlpha(alpha_color);
+
+			return bmp;
+
+		}
 
 		BitmapFlags Bitmap::NewBitmapFlags() {
 
@@ -256,6 +296,63 @@ namespace hvn3 {
 		}
 
 
+		bool Bitmap::_copy_required() const {
+
+			// Managed bitmaps are always copied when assigned to new objects, so unmanaged bitmaps can always write without making a copy.
+
+			return _managed && _src_bitmap && _src_bitmap.use_count() > 1;
+
+		}
+		ALLEGRO_BITMAP* Bitmap::_get_bitmap_ptr() const {
+
+			if (_sub_bitmap != nullptr)
+				return _sub_bitmap;
+
+			return _src_bitmap.get();
+
+		}
+		void Bitmap::_perform_pre_write_operations() {
+
+			if (_copy_required())
+				if (_sub_bitmap != nullptr)
+					*this = std::move(Copy(RectangleI(0, 0, Width(), Height())));
+				else
+					*this = std::move(Copy());
+
+		}
+
+		void Bitmap::_copy_assign(const Bitmap& other) {
+
+			// Free existing sub-bitmap.
+			if (_sub_bitmap != nullptr)
+				al_destroy_bitmap(_sub_bitmap);
+
+			// If the other bitmap is managed, we can share memory with it. Otherwise, it must be copied.
+			if (other._managed)
+				_src_bitmap = other._src_bitmap;
+			else
+				_src_bitmap = bitmap_ptr_type(al_clone_bitmap(other._src_bitmap.get()), al_destroy_bitmap);
+
+			// Copy the other bitmap's sub-bitmap.
+			if (other._sub_bitmap != nullptr)
+				_sub_bitmap = al_clone_sub_bitmap(other._sub_bitmap);
+
+		}
+		void Bitmap::_move_assign(Bitmap& other) {
+
+			if (_sub_bitmap != nullptr)
+				al_destroy_bitmap(_sub_bitmap);
+
+			_src_bitmap = std::move(other._src_bitmap);
+			_sub_bitmap = other._sub_bitmap;
+			_managed = other._managed;
+
+			other._managed = false;
+			other._sub_bitmap = nullptr;
+
+		}
+
+
 
 		BitmapData::BitmapData() {
 
@@ -266,40 +363,5 @@ namespace hvn3 {
 
 		}
 
-
-
-		void Bitmap::_shallowCopy(const Bitmap& other) {
-
-			// Free any bitmap data we may have previously created.
-			if (_free && _bitmap != nullptr)
-				_freeBitmap();
-
-			_bitmap = other._bitmap;
-
-			// Do not free, since the original bitmap owns the bitmap data.
-			_free = false;
-
-		}
-		void Bitmap::_moveCopy(Bitmap& other) {
-
-			_shallowCopy(other);
-
-			// Set free to true, since we have taken ownership of the bitmap data.
-			_free = other._free;
-
-			other._bitmap = nullptr;
-			other._free = false;
-
-		}
-		void Bitmap::_freeBitmap() {
-
-			al_destroy_bitmap(_bitmap);
-
-			_bitmap = nullptr;
-			_free = false;
-
-		}
-
 	}
-
 }

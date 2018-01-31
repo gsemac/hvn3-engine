@@ -34,7 +34,7 @@ namespace hvn3 {
 		}
 		ALLEGRO_BITMAP* AllegroAdapter::ToBitmap(const Graphics::Bitmap& bitmap) {
 
-			return bitmap.AlPtr();
+			return bitmap._get_bitmap_ptr();
 
 		}
 		int AllegroAdapter::ToBitmapFlags(Graphics::BitmapFlags flags) {

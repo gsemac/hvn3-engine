@@ -32,7 +32,7 @@ namespace hvn3 {
 
 		// Create a new asset from that data.
 		Imaging::ImageFormat format = Imaging::FileExtensionToImageFormat(IO::Path::GetExtension(args.path));
-		Graphics::Bitmap asset(binary_data.data, binary_data.size, format);
+		Graphics::Bitmap asset = Graphics::Bitmap::FromBuffer(binary_data.data, binary_data.size, format);
 
 		// We don't need the data buffer anymore, so it can be freed.
 		_loader->FreeData(binary_data);

@@ -315,9 +315,6 @@
     <ClInclude Include="include\hvn3\fonts\Font.h">
       <Filter>include\fonts</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\graphics\Bitmap.h">
-      <Filter>include\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\graphics\Color.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
@@ -735,11 +732,11 @@
     <ClInclude Include="include\hvn3\physics\PhysicsTypeDefs.h">
       <Filter>include\physics</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\graphics\CopyOnWriteBitmap.h">
-      <Filter>include\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\allegro\AllegroExt.h">
       <Filter>include\allegro</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\graphics\Bitmap.h">
+      <Filter>include\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -862,9 +859,6 @@
       <Filter>src\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\graphics\Transform.cc">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\graphics\Bitmap.cc">
       <Filter>src\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\graphics\Color.cc">
@@ -1149,11 +1143,11 @@
     <ClCompile Include="src\hvn3\objects\CollisionObject.cc">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\graphics\CopyOnWriteBitmap.cc">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\allegro\AllegroExt.cc">
       <Filter>src\allegro</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\Bitmap.cc">
+      <Filter>src\graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

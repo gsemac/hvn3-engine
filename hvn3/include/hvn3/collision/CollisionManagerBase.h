@@ -3,6 +3,7 @@
 #include "hvn3/collision/CollisionBodyMutator.h"
 #include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/collision/IBroadPhase.h"
+#include "hvn3/math/GeometryUtils.h"
 #include <vector>
 
 namespace hvn3 {

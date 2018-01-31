@@ -15,7 +15,7 @@ namespace hvn3 {
 	Sprite::Sprite(const Graphics::Bitmap& bitmap) :
 		Sprite() {
 
-		AddSubImage(Graphics::Bitmap(bitmap));
+		AddSubImage(bitmap);
 
 	}
 	Sprite::Sprite(const Graphics::Bitmap& bitmap, const PointI& origin) :
@@ -81,7 +81,7 @@ namespace hvn3 {
 
 	void Sprite::AddSubImage(const Graphics::Bitmap& sub_image) {
 
-		_frames.push_back(Graphics::Bitmap(sub_image));
+		_frames.push_back(sub_image);
 
 	}
 	void Sprite::RemoveSubImage(int sub_image) {
@@ -125,7 +125,7 @@ namespace hvn3 {
 		// Create sub-images from the sheet.
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < columns; j++)
-				sprite._frames.push_back(std::move(Graphics::Bitmap(bitmap, RectangleI(frame_width * j, frame_height * i, frame_width, frame_height))));
+				sprite._frames.emplace_back(Graphics::Bitmap(bitmap, RectangleI(frame_width * j, frame_height * i, frame_width, frame_height)));
 
 		// Return the new sprite.
 		return sprite;
