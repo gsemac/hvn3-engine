@@ -5,7 +5,7 @@ namespace hvn3 {
 	class ICollidable {
 
 	public:
-		virtual void OnCollision(CollisionEventArgs& e) = 0;
+		virtual void OnCollide(CollisionEventArgs& e) = 0;
 
 	};
 }

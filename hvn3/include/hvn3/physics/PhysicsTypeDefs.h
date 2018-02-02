@@ -3,8 +3,10 @@
 
 namespace hvn3 {
 
-	class IPhysicsBody;
+	namespace Physics {
+		class IPhysicsBody;
+	}
 
-	typedef std::shared_ptr<IPhysicsBody> PhysicsBodyPtr;
+	typedef std::shared_ptr<Physics::IPhysicsBody> PhysicsBodyPtr;
 
 }

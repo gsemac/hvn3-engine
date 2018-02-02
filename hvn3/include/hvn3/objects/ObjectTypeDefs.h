@@ -19,8 +19,8 @@ namespace hvn3 {
 
 	enum class ObjectFlags {
 		Solid = 1,
-		NoCollision = 2,
-		NoPhysics = 4
+		DisableCollisions = 2,
+		EnablePhysics = 4
 	};
 	ENABLE_BITFLAG_OPERATORS(ObjectFlags)
 

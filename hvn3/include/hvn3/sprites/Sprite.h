@@ -48,6 +48,7 @@ namespace hvn3 {
 		static Sprite FromSpriteSheet(const Graphics::Bitmap& bitmap, int frame_width, int frame_height, int origin_x, int origin_y);
 		static Sprite FromSpriteSheet(const Graphics::Bitmap& bitmap, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y);
 		
+		Sprite& operator=(const Sprite& other);
 		Sprite& operator=(Sprite&& other);
 
 	private:
@@ -58,6 +59,7 @@ namespace hvn3 {
 
 		size_t _subImageToIndex(int sub_image) const;
 		void _moveSpriteToThis(Sprite& other);
+		void _copySpriteToThis(const Sprite& other);
 
 	};
 

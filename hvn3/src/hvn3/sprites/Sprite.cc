@@ -137,6 +137,13 @@ namespace hvn3 {
 
 	}
 
+	Sprite& Sprite::operator=(const Sprite& other) {
+
+		_copySpriteToThis(other);
+
+		return *this;
+
+	}
 	Sprite& Sprite::operator=(Sprite&& other) {
 
 		_moveSpriteToThis(other);
@@ -158,6 +165,15 @@ namespace hvn3 {
 		_using_sprite_sheet = other._using_sprite_sheet;
 		_strip_length = other._strip_length;
 		_frames = std::move(other._frames);
+
+	}
+	void Sprite::_copySpriteToThis(const Sprite& other) {
+
+		_ox = other._ox;
+		_oy = other._oy;
+		_using_sprite_sheet = other._using_sprite_sheet;
+		_strip_length = other._strip_length;
+		_frames = other._frames;
 
 	}
 

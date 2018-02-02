@@ -1,35 +1,53 @@
 #pragma once
+#include "hvn3/collision/CollisionTypeDefs.h"
+#include "hvn3/math/Vector2d.h"
 #include "hvn3/objects/ObjectBase.h"
-#include "hvn3/core/SharedCreatableBase.h"
-#include "hvn3/core/Positionable2dBase.h"
-#include "hvn3/collision/ICollidable.h"
+#include "hvn3/physics/PhysicsTypeDefs.h"
+#include "hvn3/sprites/Sprite.h"
+#include "hvn3/sprites/SpriteRenderer.h"
 
 namespace hvn3 {
 
-	class Object : 
-		public ICollidable, 
-		public ObjectBase, 
-		public Positionable2dBase<float> {
+	class Object : public ObjectBase {
+
+		typedef Sprite sprite_type;
 
 	public:
 		Object(ObjectId id);
 		Object(ObjectId id, const PointF& position);
 		Object(ObjectId id, float x, float y);
+		Object(ObjectId id, ObjectFlags flags);
+		Object(ObjectId id, const PointF& position, ObjectFlags flags);
+		Object(ObjectId id, float x, float y, ObjectFlags flags);
 
-		ObjectId Id() const;
+		void OnCreate(CreateEventArgs& e) override;
+		void OnDraw(DrawEventArgs& e) override;
+		void OnUpdate(UpdateEventArgs& e) override;
 
-		int Depth() const;
-		void SetDepth(int depth);
-		
-		virtual void OnCreate(CreateEventArgs& e) override;
-		virtual void OnDestroy(DestroyEventArgs& e) override;
-		virtual void OnUpdate(UpdateEventArgs& e) override;
-		virtual void OnDraw(DrawEventArgs& e) override;
-		virtual void OnCollision(CollisionEventArgs& e) override;
-
+	protected:
+		const sprite_type& Sprite() const;
+		sprite_type& GetSprite();
+		void SetSprite(const sprite_type& other);
+		void SetSprite(sprite_type&& other);
+		const Graphics::SpriteRenderer& Renderer() const;
+		Graphics::SpriteRenderer& GetRenderer();
+		void SetRenderer(const Graphics::SpriteRenderer& other);
+		const Vector2d& Velocity() const;
+		void SetVelocity(const Vector2d& other);
+		void SetVelocity(float x, float y);
+		void AddVelocity(const Vector2d& other);
+		void AddVelocity(float x, float y);
+		CollisionBodyPtr& GetCollisionBody();
+		const CollisionBodyPtr& CollisionBody() const;
+		PhysicsBodyPtr& GetPhysicsBody();
+		const PhysicsBodyPtr& PhysicsBody() const;
+	
 	private:
-		ObjectId _id;
-		int _depth;
+		sprite_type _sprite;
+		Graphics::SpriteRenderer _renderer;
+		Vector2d _velocity;
+		CollisionBodyPtr _collision_body;
+		PhysicsBodyPtr _physics_body;
 
 	};
 
