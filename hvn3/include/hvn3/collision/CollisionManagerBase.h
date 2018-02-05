@@ -35,16 +35,21 @@ namespace hvn3 {
 
 		}
 
-		void AddBody(ICollisionBody& body) override {
+		void AddBody(CollisionBodyPtr& body) override {
 
-			System::CollisionBodyMutator(body).SetManager(this);
+			System::CollisionBodyMutator(body.get()).SetManager(this);
 
 			_broad_phase.AddBody(body);
 
 		}
-		void RemoveBody(ICollisionBody& body) override {
+		void RemoveBody(CollisionBodyPtr& body) override {
 
-			System::CollisionBodyMutator(body).SetManager(nullptr);
+			System::CollisionBodyMutator(body.get()).SetManager(nullptr);
+
+			_broad_phase.RemoveBody(body);
+
+		}
+		void RemoveBody(ICollisionBody* body) override {
 
 			_broad_phase.RemoveBody(body);
 
@@ -96,47 +101,47 @@ namespace hvn3 {
 
 		}
 
-		bool PlaceFree(ICollisionBody& body) override {
+		bool PlaceFree(CollisionBodyPtr& body) override {
 
-			return PlaceFree(body, body.Position());
+			return PlaceFree(body, body->Position());
 
 		}
-		bool PlaceFree(ICollisionBody& body, const PointF& position) override {
+		bool PlaceFree(CollisionBodyPtr& body, const PointF& position) override {
 
 			return PlaceFreeIf(body, position, [](ICollisionBody*) { return true; });
 
 		}
-		bool PlaceFree(ICollisionBody& body, float x, float y) override {
+		bool PlaceFree(CollisionBodyPtr& body, float x, float y) override {
 
 			return PlaceFree(body, PointF(x, y));
 
 		}
-		bool PlaceFree(ICollisionBody& body, const PointF& position, CollisionManifold& manifold) override {
+		bool PlaceFree(CollisionBodyPtr& body, const PointF& position, CollisionManifold& manifold) override {
 
 			return PlaceFreeIf(body, position, manifold, [](ICollisionBody*) { return true; });
 
 		}
-		bool PlaceFreeIf(ICollisionBody& body, const PointF& position, const std::function<bool(ICollisionBody*)>& condition) override {
+		bool PlaceFreeIf(CollisionBodyPtr& body, const PointF& position, const condition_lambda_type& condition) override {
 
 			CollisionManifold m;
 
 			return PlaceFreeIf(body, position, m, condition);
 
 		}
-		bool PlaceFreeIf(ICollisionBody& body, const PointF& position, CollisionManifold& manifold, const std::function<bool(ICollisionBody*)>& condition) override {
+		bool PlaceFreeIf(CollisionBodyPtr& body, const PointF& position, CollisionManifold& manifold, const condition_lambda_type& condition) override {
 
 			// If the object does not have a collision mask, return true immediately (no collisions are possible).
-			if (body.HitMask() == nullptr)
+			if (body->HitMask() == nullptr)
 				return true;
 
 			// Create a vector to store the results.
 			IBroadPhase::collider_vector_type hits;
 
 			// Get a list of all colliders that could potentially collide with the collider.
-			RectangleF aabb = body.AABB();
-			aabb.Translate(-body.X(), -body.Y());
+			RectangleF aabb = body->AABB();
+			aabb.Translate(-body->X(), -body->Y());
 			aabb.Translate(position.X(), position.Y());
-			BroadPhase().QueryRegion(aabb, hits, body.Category().MaskBits());
+			BroadPhase().QueryRegion(aabb, hits, body->Category().MaskBits());
 
 			// If the list is empty, the place is free.
 			if (hits.size() == 0)
@@ -145,12 +150,12 @@ namespace hvn3 {
 			for (size_t i = 0; i < hits.size(); ++i) {
 
 				// Ignore self and objects that don't meet the given condition.
-				if (hits[i] == &body || !condition(hits[i]))
+				if (hits[i] == body.get() || !condition(hits[i]))
 					continue;
 
 				// Check for a collision.
-				if (NarrowPhase().TestCollision(body, position, *hits[i], hits[i]->Position(), manifold)) {
-					manifold.bodyA = &body;
+				if (NarrowPhase().TestCollision(body.get(), position, hits[i], hits[i]->Position(), manifold)) {
+					manifold.bodyA = body.get();
 					manifold.bodyB = hits[i];
 					return false;
 				}
@@ -161,19 +166,19 @@ namespace hvn3 {
 			return true;
 
 		}
-		bool MoveContact(ICollisionBody& body, float direction, float distance) override {
+		bool MoveContact(CollisionBodyPtr& body, float direction, float distance) override {
 
 			return MoveContactIf(body, direction, distance, [](ICollisionBody*) { return true; });
 
 		}
-		bool MoveContactIf(ICollisionBody& body, float direction, float distance, const std::function<bool(ICollisionBody*)>& condition) override {
+		bool MoveContactIf(CollisionBodyPtr& body, float direction, float distance, const condition_lambda_type& condition) override {
 
 			CollisionManifold manifold;
 
 			return MoveContactIf(body, direction, distance, manifold, condition);
 
 		}
-		bool MoveContactIf(ICollisionBody& body, float direction, float distance, CollisionManifold& manifold, const std::function<bool(ICollisionBody*)>& condition) override {
+		bool MoveContactIf(CollisionBodyPtr& body, float direction, float distance, CollisionManifold& manifold, const condition_lambda_type& condition) override {
 
 			// If the distance is negative, reverse the direction and then make it positive.
 			if (distance < 0.0f) {
@@ -183,18 +188,18 @@ namespace hvn3 {
 
 			// If the distance is 0, just return if the current position is free.
 			if (Math::IsZero(distance, _precision))
-				return !PlaceFreeIf(body, body.Position(), manifold, condition);
+				return !PlaceFreeIf(body, body->Position(), manifold, condition);
 
-			float distance_per_step = Math::Min(body.AABB().Width(), body.AABB().Height(), distance);
+			float distance_per_step = Math::Min(body->AABB().Width(), body->AABB().Height(), distance);
 
 			if (distance_per_step <= 0.0f) {
 				// The body doesn't have a valid AABB, and thus will never collide with anything. Just move to the position and return false to indicate no collisions occurred.
-				body.SetPosition(Math::Geometry::PointInDirection(body.Position(), direction, distance));
+				body->SetPosition(Math::Geometry::PointInDirection(body->Position(), direction, distance));
 				return false;
 			}
 
 			float distance_total = 0.0f;
-			PointF new_position = body.Position();
+			PointF new_position = body->Position();
 			bool place_free;
 			bool contact_made = false;
 
@@ -227,14 +232,14 @@ namespace hvn3 {
 
 			}
 
-			body.SetPosition(new_position);
+			body->SetPosition(new_position);
 
 			return contact_made;
 
 		}
-		bool MoveOutside(ICollisionBody& body, float direction, float max_distance) override {
+		bool MoveOutside(CollisionBodyPtr& body, float direction, float max_distance) override {
 
-			PointF pos = body.Position();
+			PointF pos = body->Position();
 			float dist = 0.0f;
 			float distance_per_step = Math::Min(1.0f, max_distance);
 			bool place_free;
@@ -248,12 +253,12 @@ namespace hvn3 {
 
 			}
 
-			body.SetPosition(pos);
+			body->SetPosition(pos);
 
 			return place_free;
 
 		}
-		bool MoveOutsideBody(ICollisionBody& body, ICollisionBody& other, float direction, float max_distance) override {
+		bool MoveOutsideBody(CollisionBodyPtr& body, CollisionBodyPtr& other, float direction, float max_distance) override {
 
 			float dist = 0.0f;
 			float distance_per_step = Math::Min(1.0f, max_distance);
@@ -261,9 +266,9 @@ namespace hvn3 {
 			CollisionManifold m;
 
 			// It's important that we check if the place is free before doing the distance check (what if the user passes in a distance of 0?).
-			while ((place_free = NarrowPhase().TestCollision(body, other, m), place_free) && dist < (std::abs)(max_distance)) {
+			while ((place_free = NarrowPhase().TestCollision(body.get(), other.get(), m), place_free) && dist < (std::abs)(max_distance)) {
 
-				body.SetPosition(Math::Geometry::PointInDirection(body.Position(), direction, distance_per_step));
+				body->SetPosition(Math::Geometry::PointInDirection(body->Position(), direction, distance_per_step));
 
 				dist += distance_per_step;
 

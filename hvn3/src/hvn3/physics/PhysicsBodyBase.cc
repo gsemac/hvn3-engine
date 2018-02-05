@@ -6,12 +6,12 @@
 namespace hvn3 {
 	namespace Physics {
 
-		PhysicsBodyBase::PhysicsBodyBase(ICollisionBody& collision_body) :
+		PhysicsBodyBase::PhysicsBodyBase(CollisionBodyPtr& collision_body) :
 			_material(),
 			_linear_velocity(0.0f, 0.0f) {
 
 			_type = BodyType::Dynamic;
-			_collision_body = &collision_body;
+			_collision_body = collision_body;
 			_manager = nullptr;
 
 		}
@@ -122,14 +122,14 @@ namespace hvn3 {
 			_type = type;
 
 		}
-		ICollisionBody& PhysicsBodyBase::CollisionBody() {
+		CollisionBodyPtr& PhysicsBodyBase::CollisionBody() {
 
-			return *_collision_body;
+			return _collision_body;
 
 		}
-		ICollisionBody& PhysicsBodyBase::CollisionBody() const {
+		const CollisionBodyPtr& PhysicsBodyBase::CollisionBody() const {
 
-			return *_collision_body;
+			return _collision_body;
 
 		}
 		CategoryFilter& PhysicsBodyBase::Category() {

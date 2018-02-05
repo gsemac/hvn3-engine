@@ -18,7 +18,7 @@ namespace hvn3 {
 	CollisionBodyBase::~CollisionBodyBase() {
 
 		if (_manager != nullptr)
-			_manager->RemoveBody(*this);
+			_manager->RemoveBody(this);
 
 	}
 

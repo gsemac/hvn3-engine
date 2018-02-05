@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/collision/CollisionTypeDefs.h"
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/math/Point2d.h"
 #include <vector>
@@ -14,12 +15,16 @@ namespace hvn3 {
 	class ICollisionManager : public IUpdatable {
 
 	public:
+		typedef std::function<bool(ICollisionBody*)> condition_lambda_type;
+
 		virtual ~ICollisionManager() = default;
 
 		// Adds a new body to the collision manager.
-		virtual void AddBody(ICollisionBody& body) = 0;
+		virtual void AddBody(CollisionBodyPtr& body) = 0;
 		// Marks a body for removal from the collision manager.
-		virtual void RemoveBody(ICollisionBody& body) = 0;
+		virtual void RemoveBody(CollisionBodyPtr& body) = 0;
+		// Marks a body for removal from the collision manager.
+		virtual void RemoveBody(ICollisionBody* body) = 0;
 		// Returns the broad phase collision manager used by the manager.
 		virtual IBroadPhase& BroadPhase() = 0;
 		// Returns the narrow phase collision manager used by the manager.
@@ -37,27 +42,27 @@ namespace hvn3 {
 		virtual void SetPrecision(float value) = 0;
 
 		// Returns true if the body collides with any other body at its current position.
-		virtual bool PlaceFree(ICollisionBody& body) = 0;
+		virtual bool PlaceFree(CollisionBodyPtr& body) = 0;
 		// Returns true if the body collides with any other body at the given position.
-		virtual bool PlaceFree(ICollisionBody& body, const PointF& position) = 0;
+		virtual bool PlaceFree(CollisionBodyPtr& body, const PointF& position) = 0;
 		// Returns true if the body collides with any other body at the given position.
-		virtual bool PlaceFree(ICollisionBody& body, float x, float y) = 0;
+		virtual bool PlaceFree(CollisionBodyPtr& body, float x, float y) = 0;
 		// Returns true if the body collides with any other body at the given position.
-		virtual bool PlaceFree(ICollisionBody& body, const PointF& position, CollisionManifold& manifold) = 0;
+		virtual bool PlaceFree(CollisionBodyPtr& body, const PointF& position, CollisionManifold& manifold) = 0;
 		// Returns true if the body collides with any other body at the given position for which the given condition is true.
-		virtual bool PlaceFreeIf(ICollisionBody& body, const PointF& position, const std::function<bool(ICollisionBody*)>& condition) = 0;
+		virtual bool PlaceFreeIf(CollisionBodyPtr& body, const PointF& position, const condition_lambda_type& condition) = 0;
 		// Returns true if the body collides with any other body at the given position for which the given condition is true, and stores collision information.
-		virtual bool PlaceFreeIf(ICollisionBody& body, const PointF& position, CollisionManifold& manifold, const std::function<bool(ICollisionBody*)>& condition) = 0;
+		virtual bool PlaceFreeIf(CollisionBodyPtr& body, const PointF& position, CollisionManifold& manifold, const condition_lambda_type& condition) = 0;
 		// Moves the body a set distance in a given direction (in degrees) until it collides with another body.
-		virtual bool MoveContact(ICollisionBody& body, float direction, float distance) = 0;
+		virtual bool MoveContact(CollisionBodyPtr& body, float direction, float distance) = 0;
 		// Moves the body a set distance in a given direction (in degrees) until it collides with another body for which the given condition is true.
-		virtual bool MoveContactIf(ICollisionBody& body, float direction, float distance, const std::function<bool(ICollisionBody*)>& condition) = 0;
+		virtual bool MoveContactIf(CollisionBodyPtr& body, float direction, float distance, const condition_lambda_type& condition) = 0;
 		// Moves the body a set distance in a given direction (in degrees) until it collides with another body for which the given condition is true, and stores collision information.
-		virtual bool MoveContactIf(ICollisionBody& body, float direction, float distance, CollisionManifold& manifold, const std::function<bool(ICollisionBody*)>& condition) = 0;
+		virtual bool MoveContactIf(CollisionBodyPtr& body, float direction, float distance, CollisionManifold& manifold, const condition_lambda_type& condition) = 0;
 		// Moves the body in a given direction (in degrees) until it is no longer colliding with any other bodies.
-		virtual bool MoveOutside(ICollisionBody& body, float direction, float max_distance) = 0;
+		virtual bool MoveOutside(CollisionBodyPtr& body, float direction, float max_distance) = 0;
 		// Moves the body in a given direction (in degrees) until it is no longer colliding with the given body.
-		virtual bool MoveOutsideBody(ICollisionBody& body, ICollisionBody& other, float direction, float max_distance) = 0;
+		virtual bool MoveOutsideBody(CollisionBodyPtr& body, CollisionBodyPtr& other, float direction, float max_distance) = 0;
 
 	};
 

@@ -98,11 +98,6 @@ namespace hvn3 {
 		_renderer = other;
 
 	}
-	const Graphics::SpriteRenderer& Object::Renderer() const {
-
-		return _renderer;
-
-	}
 	const Vector2d& Object::Velocity() const {
 
 		if (_physics_body)

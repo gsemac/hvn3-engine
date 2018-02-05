@@ -19,14 +19,14 @@ namespace hvn3 {
 
 			PhysicsManagerBase::AddBody(body);
 
-			_body_lookup_table[&body.CollisionBody()] = &body;
+			_body_lookup_table[body.CollisionBody().get()] = &body;
 
 		}
 		void BasicPhysicsManager::RemoveBody(IPhysicsBody& body) {
 
 			PhysicsManagerBase::RemoveBody(body);
 
-			_body_lookup_table.erase(&body.CollisionBody());
+			_body_lookup_table.erase(body.CollisionBody().get());
 
 		}
 
@@ -40,7 +40,7 @@ namespace hvn3 {
 
 				// Get the physics and collision bodies associated with this body.
 				IPhysicsBody& this_body = *(*i);
-				ICollisionBody& collision_body = (*i)->CollisionBody();
+				CollisionBodyPtr& collision_body = (*i)->CollisionBody();
 
 				// If the body is static, we do not need to apply physics to it.
 				if (this_body.Type() == BodyType::Static)
@@ -65,8 +65,8 @@ namespace hvn3 {
 				// If the current position isn't free, move until it is.
 				// #todo Need to check condition as below
 				CollisionManifold manifold;
-				if (!e.Collisions().PlaceFreeIf(collision_body, collision_body.Position(), manifold, body_filter)) {
-					e.Collisions().MoveOutside(collision_body, Math::Geometry::PointDirection(manifold.bodyB->AABB().Midpoint(), collision_body.AABB().Midpoint()), Math::Max(2.0f, manifold.penetrationDepth / 2.0f));
+				if (!e.Collisions().PlaceFreeIf(collision_body, collision_body->Position(), manifold, body_filter)) {
+					e.Collisions().MoveOutside(collision_body, Math::Geometry::PointDirection(manifold.bodyB->AABB().Midpoint(), collision_body->AABB().Midpoint()), Math::Max(2.0f, manifold.penetrationDepth / 2.0f));
 				}
 
 				// Move the body towards its new position until it hits something.

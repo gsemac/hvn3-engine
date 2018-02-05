@@ -4,12 +4,12 @@
 namespace hvn3 {
 	namespace System {
 
-		CollisionBodyMutator::CollisionBodyMutator(ICollisionBody& body) : 
+		CollisionBodyMutator::CollisionBodyMutator(ICollisionBody* body) : 
 			_body(body) {}
 
 		void CollisionBodyMutator::SetManager(ICollisionManager* manager) {
 
-			_body._setManager(manager);
+			_body->_setManager(manager);
 
 		}
 

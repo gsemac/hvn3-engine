@@ -10,12 +10,12 @@ namespace hvn3 {
 		class CollisionBodyMutator {
 
 		public:
-			CollisionBodyMutator(ICollisionBody& body);
+			CollisionBodyMutator(ICollisionBody* body);
 
 			void SetManager(ICollisionManager* manager);
 			
 		private:
-			ICollisionBody& _body;
+			ICollisionBody* _body;
 
 
 		};
