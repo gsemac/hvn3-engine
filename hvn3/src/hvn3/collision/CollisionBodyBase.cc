@@ -1,25 +1,10 @@
 #include "hvn3/collision/CollisionBodyBase.h"
-#include "hvn3/collision/IBroadPhase.h"
-#include "hvn3/collision/INarrowPhase.h"
-#include "hvn3/collision/CollisionManifold.h"
-#include "hvn3/collision/ICollisionManager.h"
-#include "hvn3/math/GeometryUtils.h"
+#define DEFAULT_COLLISION_BODY_FLAGS static_cast<hvn3::CollisionBodyFlags>(0)
 
 namespace hvn3 {
 
-	CollisionBodyBase::CollisionBodyBase() {
-
-		_manager = nullptr;
-
-		_is_solid = false;
-		_is_destroyed = false;
-
-	}
-	CollisionBodyBase::~CollisionBodyBase() {
-
-		if (_manager != nullptr)
-			_manager->RemoveBody(this);
-
+	CollisionBodyBase::CollisionBodyBase() :
+		_flags(DEFAULT_COLLISION_BODY_FLAGS) {
 	}
 
 	PointF CollisionBodyBase::Position() const {
@@ -50,7 +35,7 @@ namespace hvn3 {
 		return aabb;
 
 	}
-	CategoryFilter& CollisionBodyBase::Category() {
+	CategoryFilter& CollisionBodyBase::GetCategory() {
 
 		return _filter;
 
@@ -60,7 +45,7 @@ namespace hvn3 {
 		return _filter;
 
 	}
-	HitMaskPtr& CollisionBodyBase::HitMask() {
+	HitMaskPtr& CollisionBodyBase::GetHitMask() {
 
 		return _mask;
 
@@ -75,48 +60,22 @@ namespace hvn3 {
 		_mask = std::move(mask);
 
 	}
-	bool CollisionBodyBase::IsSolid() const {
 
-		return _is_solid;
+	CollisionBodyFlags CollisionBodyBase::Flags() const {
+
+		return _flags;
 
 	}
-	void CollisionBodyBase::SetSolid(bool value) {
-
-		_is_solid = value;
-
+	void CollisionBodyBase::SetFlags(CollisionBodyFlags flags) {
+		_flags = flags;
 	}
 
 	void CollisionBodyBase::Destroy() {
-
 		_is_destroyed = true;
-
 	}
 	bool CollisionBodyBase::IsDestroyed() const {
-
 		return _is_destroyed;
-
 	}
 	void CollisionBodyBase::OnDestroy(DestroyEventArgs& e) {}
-		
-
-
-	ICollisionManager* CollisionBodyBase::Manager() {
-
-		return _manager;
-
-	}
-
-
-
-	bool CollisionBodyBase::_managerIsSet() const {
-
-		return (_manager != nullptr);
-
-	}
-	void CollisionBodyBase::_setManager(ICollisionManager* manager) {
-
-		_manager = manager;
-
-	}
 
 }

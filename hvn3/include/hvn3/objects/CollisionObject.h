@@ -1,5 +1,5 @@
 //#pragma once
-//#include "hvn3/collision/ObjectCollisionBody.h"
+//#include "hvn3/collision/CollisionBody.h"
 //#include "hvn3/objects/Object.h"
 //#include "hvn3/objects/ObjectTypeDefs.h"
 //

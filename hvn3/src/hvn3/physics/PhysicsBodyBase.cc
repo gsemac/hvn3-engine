@@ -6,7 +6,7 @@
 namespace hvn3 {
 	namespace Physics {
 
-		PhysicsBodyBase::PhysicsBodyBase(CollisionBodyPtr& collision_body) :
+		PhysicsBodyBase::PhysicsBodyBase(ICollisionBody* collision_body) :
 			_material(),
 			_linear_velocity(0.0f, 0.0f) {
 
@@ -122,12 +122,12 @@ namespace hvn3 {
 			_type = type;
 
 		}
-		CollisionBodyPtr& PhysicsBodyBase::CollisionBody() {
+		ICollisionBody* PhysicsBodyBase::CollisionBody() {
 
 			return _collision_body;
 
 		}
-		const CollisionBodyPtr& PhysicsBodyBase::CollisionBody() const {
+		const ICollisionBody* PhysicsBodyBase::CollisionBody() const {
 
 			return _collision_body;
 

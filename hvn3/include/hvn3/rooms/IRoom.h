@@ -17,7 +17,7 @@ namespace hvn3 {
 	class IObjectManager;
 	class IBackgroundManager;
 	class IViewManager;
-	class Object;
+	class IObject;
 
 	namespace System {
 		class RoomController;
@@ -39,13 +39,13 @@ namespace hvn3 {
 		virtual IObjectManager& Objects() = 0;
 		virtual IBackgroundManager& Backgrounds() = 0;
 		virtual IViewManager& Views() = 0;
-		virtual ICollisionManager& Collisions() = 0;
+		virtual ICollisionManager<IObject>& Collisions() = 0;
 		virtual Physics::IPhysicsManager& Physics() = 0;
 
 		virtual const IObjectManager& Objects() const = 0;
 		virtual const IBackgroundManager& Backgrounds() const = 0;
 		virtual const IViewManager& Views() const = 0;
-		virtual const ICollisionManager& Collisions() const = 0;
+		virtual const ICollisionManager<IObject>& Collisions() const = 0;
 		virtual const Physics::IPhysicsManager& Physics() const = 0;
 
 		virtual RoomId Id() const = 0;

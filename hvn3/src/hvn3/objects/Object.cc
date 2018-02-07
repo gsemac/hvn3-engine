@@ -1,3 +1,4 @@
+#include "hvn3/collision/ICollisionBody.h"
 #include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/core/DrawEventArgs.h"
 #include "hvn3/core/UpdateEventArgs.h"
@@ -25,20 +26,23 @@ namespace hvn3 {
 	}
 	Object::Object(ObjectId id, float x, float y, ObjectFlags flags) :
 		ObjectBase(id, x, y, flags) {
-
-		if (!HasFlag(flags, ObjectFlags::DisableCollisions)) {
-			// Create collision body
-			if (HasFlag(flags, ObjectFlags::EnablePhysics)) {
-				// Create physics body
-			}
-		}
-
+	}
+	Object::~Object() {
+		_destroyCollisionBody();
 	}
 
 	void Object::OnCreate(CreateEventArgs& e) {
 
-		//if (CollisionBody())
-		//	e.Collisions().AddBody(CollisionBody());
+		if (!HasFlag(Flags(), ObjectFlags::DisableCollisions)) {
+
+			// Create a collision body for this object.
+			_collision_body = e.Collisions().CreateBody(this);
+
+			if (HasFlag(Flags(), ObjectFlags::EnablePhysics)) {
+				// Create physics body
+			}
+
+		}
 
 		//if (PhysicsBody())
 		//	e.Physics().AddBody(PhysicsBody());
@@ -60,9 +64,10 @@ namespace hvn3 {
 		_renderer.DrawSprite(e.Graphics(), Sprite(), Position());
 
 	}
-
-
-
+	void Object::OnDestroy(DestroyEventArgs& e) {
+		_destroyCollisionBody();
+	}
+	
 	const Object::sprite_type& Object::Sprite() const {
 
 		return _sprite;
@@ -132,12 +137,12 @@ namespace hvn3 {
 		AddVelocity(Vector2d(x, y));
 
 	}
-	CollisionBodyPtr& Object::GetCollisionBody() {
+	ICollisionBody* Object::GetCollisionBody() {
 
 		return _collision_body;
 
 	}
-	const CollisionBodyPtr& Object::CollisionBody() const {
+	const ICollisionBody* Object::CollisionBody() const {
 
 		return _collision_body;
 
@@ -151,6 +156,14 @@ namespace hvn3 {
 
 		return _physics_body;
 
+	}
+
+
+
+	void Object::_destroyCollisionBody() {
+		if (_collision_body != nullptr)
+			_collision_body->Destroy();
+		_collision_body = nullptr;
 	}
 
 }

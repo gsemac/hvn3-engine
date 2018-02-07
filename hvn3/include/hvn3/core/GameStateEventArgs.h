@@ -3,8 +3,10 @@
 
 namespace hvn3 {
 
+	template<typename T>
 	class ICollisionManager;
 	class IGameManager;
+	class IObject;
 	class IObjectManager;
 	class IRoom;
 
@@ -13,7 +15,7 @@ namespace hvn3 {
 	}
 
 	namespace System {
-		
+
 		class GameStateEventArgs : public EventArgs {
 
 		public:
@@ -22,7 +24,7 @@ namespace hvn3 {
 			IGameManager& Game();
 			IObjectManager& Objects();
 			IRoom& Room();
-			ICollisionManager& Collisions();
+			ICollisionManager<IObject>& Collisions();
 			Physics::IPhysicsManager& Physics();
 
 		private:

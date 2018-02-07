@@ -195,9 +195,6 @@
     <ClInclude Include="include\hvn3\collision\CollisionBodyBase.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\collision\CollisionBodyMutator.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\collision\CollisionEventArgs.h">
       <Filter>include\collision</Filter>
     </ClInclude>
@@ -229,12 +226,6 @@
       <Filter>include\collision</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\collision\NarrowPhase.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\collision\ObjectCollisionBody.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\collision\ObjectCollisionManager.h">
       <Filter>include\collision</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\collision\RectangleHitMask.h">
@@ -726,9 +717,6 @@
     <ClInclude Include="include\hvn3\objects\IObject.h">
       <Filter>include\objects</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\collision\CollisionTypeDefs.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\physics\PhysicsTypeDefs.h">
       <Filter>include\physics</Filter>
     </ClInclude>
@@ -737,6 +725,15 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\graphics\Bitmap.h">
       <Filter>include\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\CollisionBody.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\CollisionManager.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\CollisionBodyPtr.h">
+      <Filter>include\collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -771,25 +768,16 @@
     <ClCompile Include="src\hvn3\collision\CollisionBodyBase.cc">
       <Filter>src\collision</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\collision\CollisionBodyMutator.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\collision\CollisionEventArgs.cc">
       <Filter>src\collision</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\collision\CollisionFilter.cc">
       <Filter>src\collision</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\collision\CollisionManager.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\collision\CollisionManifold.cc">
       <Filter>src\collision</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\collision\NarrowPhase.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\collision\ObjectCollisionBody.cc">
       <Filter>src\collision</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\collision\RectangleHitMask.cc">
@@ -1148,6 +1136,12 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\graphics\Bitmap.cc">
       <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\CollisionBody.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\CollisionBodyPtr.cc">
+      <Filter>src\collision</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -3,13 +3,13 @@
 
 namespace hvn3 {
 
-	class Object;
+	class IObject;
 
-	class ObjectCollisionBody final : public CollisionBodyBase {
+	class CollisionBody : public CollisionBodyBase {
 
 	public:
-		ObjectCollisionBody(Object* object);
-		ObjectCollisionBody(ObjectCollisionBody&& other);
+		CollisionBody(IObject* object);
+		CollisionBody(CollisionBody&& other);
 
 		float X() const override;
 		float Y() const override;
@@ -18,11 +18,10 @@ namespace hvn3 {
 		void SetY(float y) override;
 		void SetPosition(const PointF& position) override;
 
-		Object* GetObject();
-		const Object* GetObject() const;
+		IObject* GetObject();
 
 	private:
-		Object* _object;
+		IObject* _object;
 
 	};
 

@@ -2,29 +2,22 @@
 
 namespace hvn3 {
 
-	CollisionEventArgs::CollisionEventArgs(hvn3::Object* other, ICollisionBody* body) :
+	CollisionEventArgs::CollisionEventArgs(IObject* other, ICollisionBody* other_body) :
 		_other(other),
-		_body(body) {}
-
-	Object* CollisionEventArgs::Object() {
-
-		return _other;
-
+		_other_body(other_body) {
 	}
-	const hvn3::Object* CollisionEventArgs::Object() const {
 
-		return _other;
-
-	}
-	ICollisionBody* CollisionEventArgs::Body() {
-
-		return _body;
-
-	}
 	ICollisionBody* CollisionEventArgs::Body() const {
-
-		return _body;
-
+		return _other_body;
+	}
+	const IObject* CollisionEventArgs::Object() const {
+		return _other;
+	}
+	IObject* CollisionEventArgs::GetObject() {
+		return _other;
+	}
+	ICollisionBody* CollisionEventArgs::GetBody() {
+		return _other_body;
 	}
 
 }

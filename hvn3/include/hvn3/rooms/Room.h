@@ -1,6 +1,6 @@
 #pragma once
 #include "hvn3/rooms/RoomBase.h"
-#include "hvn3/collision/ObjectCollisionManager.h"
+#include "hvn3/collision/CollisionManager.h"
 #include "hvn3/collision/SpacialPartitioningGrid.h"
 #include "hvn3/collision/NarrowPhase.h"
 #include "hvn3/backgrounds/BackgroundManager.h"

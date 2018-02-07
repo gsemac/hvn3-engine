@@ -3,22 +3,22 @@
 
 namespace hvn3 {
 
-	class Object;
+	class IObject;
 	class ICollisionBody;
 
 	class CollisionEventArgs : public System::EventArgs {
 
 	public:
-		CollisionEventArgs(Object* other, ICollisionBody* body);
+		CollisionEventArgs(IObject* other, ICollisionBody* other_body);
 
-		Object* Object();
-		const hvn3::Object* Object() const;
-		ICollisionBody* Body();
 		ICollisionBody* Body() const;
-
+		const IObject* Object() const;
+		IObject* GetObject();
+		ICollisionBody* GetBody();
+		
 	private:
-		hvn3::Object* _other;
-		ICollisionBody* _body;
+		IObject* _other;
+		ICollisionBody* _other_body;
 
 	};
 

@@ -24,7 +24,7 @@ namespace hvn3 {
 			return *Game().Rooms().CurrentRoom();
 
 		}
-		ICollisionManager& GameStateEventArgs::Collisions() {
+		ICollisionManager<IObject>& GameStateEventArgs::Collisions() {
 
 			return Room().Collisions();
 

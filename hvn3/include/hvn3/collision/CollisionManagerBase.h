@@ -1,57 +1,42 @@
 #pragma once
 #include "hvn3/collision/CollisionManifold.h"
-#include "hvn3/collision/CollisionBodyMutator.h"
 #include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/collision/IBroadPhase.h"
 #include "hvn3/math/GeometryUtils.h"
 #include <vector>
+#include <list>
 
 namespace hvn3 {
 
 	class ICollisionBody;
 
-	template <typename broadphase_type, typename narrowphase_type, typename body_type>
-	class CollisionManagerBase : public ICollisionManager {
+	template <typename collidable_type, typename collider_type_, typename broadphase_type, typename narrowphase_type>
+	class CollisionManagerBase : public ICollisionManager<collidable_type> {
 
 	public:
+		typedef collider_type_ collider_type;
+		typedef collider_type_* collider_ptr_type;
+
 		typedef broadphase_type broadphase_type;
 		typedef narrowphase_type narrowphase_type;
-		typedef body_type body_type;
 
 		CollisionManagerBase() {
 
-			_precision = 0.4f; // Precise to 2/5th of a pixel
+			// Use default precision of 0.4, precise to 2/5ths of a pixel. Anything less may produce visually-noticeable inaccuracies.
+			_precision = 0.4f;
 
 		}
 		~CollisionManagerBase() {
 
-			// Clear all bodies from the broad phase manager, which will clear each one's manager pointer.
 			_broad_phase.Clear();
 
-			//// Remove self as the manager for all collision bodies.
-			//// This is so that, when the bodies fall out of scope, they do not try to remove themselves from the manager.
-			//for (auto i = Bodies().begin(); i != Bodies().end(); ++i)
-			//	System::CollisionBodyMutator(*i).SetManager(nullptr);
-
 		}
 
-		void AddBody(CollisionBodyPtr& body) override {
+		collider_handle_type CreateBody(collidable_ptr_type collidable) override {
 
-			System::CollisionBodyMutator(body.get()).SetManager(this);
+			_colliders.emplace_back(collider_type(collidable));
 
-			_broad_phase.AddBody(body);
-
-		}
-		void RemoveBody(CollisionBodyPtr& body) override {
-
-			System::CollisionBodyMutator(body.get()).SetManager(nullptr);
-
-			_broad_phase.RemoveBody(body);
-
-		}
-		void RemoveBody(ICollisionBody* body) override {
-
-			_broad_phase.RemoveBody(body);
+			return &_colliders.back();
 
 		}
 		broadphase_type& BroadPhase() override {
@@ -71,11 +56,12 @@ namespace hvn3 {
 		}
 		size_t Count() const override {
 
-			return _broad_phase.Count();
+			return _colliders.size();
 
 		}
 		void Clear() override {
 
+			_colliders.clear();
 			_broad_phase.Clear();
 
 		}
@@ -93,42 +79,49 @@ namespace hvn3 {
 
 		void OnUpdate(UpdateEventArgs& e) override {
 
+			// Store the current number of bodies in the broadphase manager so we can see if any are destroyed later.
+			size_t body_count = _broad_phase.Count();
+
 			// Update the state of the collision detection method.
 			_broad_phase.OnUpdate(e);
+
+			// Check if any bodies have been destroyed-- If so, clear the destroyed bodies from this manager.
+			if (_broad_phase.Count() < body_count)
+				ClearDestroyedBodies();
 
 			// Get a vector containing all potentially-colliding pairs from the broadphase method, and check all collisions.
 			CheckPairs(_broad_phase.FindCandidatePairs());
 
 		}
 
-		bool PlaceFree(CollisionBodyPtr& body) override {
+		bool PlaceFree(collider_handle_type body) override {
 
 			return PlaceFree(body, body->Position());
 
 		}
-		bool PlaceFree(CollisionBodyPtr& body, const PointF& position) override {
+		bool PlaceFree(collider_handle_type body, const PointF& position) override {
 
-			return PlaceFreeIf(body, position, [](ICollisionBody*) { return true; });
+			return PlaceFreeIf(body, position, [](collider_handle_type) { return true; });
 
 		}
-		bool PlaceFree(CollisionBodyPtr& body, float x, float y) override {
+		bool PlaceFree(collider_handle_type body, float x, float y) override {
 
 			return PlaceFree(body, PointF(x, y));
 
 		}
-		bool PlaceFree(CollisionBodyPtr& body, const PointF& position, CollisionManifold& manifold) override {
+		bool PlaceFree(collider_handle_type body, const PointF& position, CollisionManifold& manifold) override {
 
-			return PlaceFreeIf(body, position, manifold, [](ICollisionBody*) { return true; });
+			return PlaceFreeIf(body, position, manifold, [](collider_handle_type) { return true; });
 
 		}
-		bool PlaceFreeIf(CollisionBodyPtr& body, const PointF& position, const condition_lambda_type& condition) override {
+		bool PlaceFreeIf(collider_handle_type body, const PointF& position, const condition_lambda_type& condition) override {
 
 			CollisionManifold m;
 
 			return PlaceFreeIf(body, position, m, condition);
 
 		}
-		bool PlaceFreeIf(CollisionBodyPtr& body, const PointF& position, CollisionManifold& manifold, const condition_lambda_type& condition) override {
+		bool PlaceFreeIf(collider_handle_type body, const PointF& position, CollisionManifold& manifold, const condition_lambda_type& condition) override {
 
 			// If the object does not have a collision mask, return true immediately (no collisions are possible).
 			if (body->HitMask() == nullptr)
@@ -150,12 +143,12 @@ namespace hvn3 {
 			for (size_t i = 0; i < hits.size(); ++i) {
 
 				// Ignore self and objects that don't meet the given condition.
-				if (hits[i] == body.get() || !condition(hits[i]))
+				if (hits[i] == body || !condition(hits[i]))
 					continue;
 
 				// Check for a collision.
-				if (NarrowPhase().TestCollision(body.get(), position, hits[i], hits[i]->Position(), manifold)) {
-					manifold.bodyA = body.get();
+				if (NarrowPhase().TestCollision(body, position, hits[i], hits[i]->Position(), manifold)) {
+					manifold.bodyA = body;
 					manifold.bodyB = hits[i];
 					return false;
 				}
@@ -166,19 +159,19 @@ namespace hvn3 {
 			return true;
 
 		}
-		bool MoveContact(CollisionBodyPtr& body, float direction, float distance) override {
+		bool MoveContact(collider_handle_type body, float direction, float distance) override {
 
-			return MoveContactIf(body, direction, distance, [](ICollisionBody*) { return true; });
+			return MoveContactIf(body, direction, distance, [](collider_handle_type) { return true; });
 
 		}
-		bool MoveContactIf(CollisionBodyPtr& body, float direction, float distance, const condition_lambda_type& condition) override {
+		bool MoveContactIf(collider_handle_type body, float direction, float distance, const condition_lambda_type& condition) override {
 
 			CollisionManifold manifold;
 
 			return MoveContactIf(body, direction, distance, manifold, condition);
 
 		}
-		bool MoveContactIf(CollisionBodyPtr& body, float direction, float distance, CollisionManifold& manifold, const condition_lambda_type& condition) override {
+		bool MoveContactIf(collider_handle_type body, float direction, float distance, CollisionManifold& manifold, const condition_lambda_type& condition) override {
 
 			// If the distance is negative, reverse the direction and then make it positive.
 			if (distance < 0.0f) {
@@ -237,7 +230,7 @@ namespace hvn3 {
 			return contact_made;
 
 		}
-		bool MoveOutside(CollisionBodyPtr& body, float direction, float max_distance) override {
+		bool MoveOutside(collider_handle_type body, float direction, float max_distance) override {
 
 			PointF pos = body->Position();
 			float dist = 0.0f;
@@ -258,7 +251,7 @@ namespace hvn3 {
 			return place_free;
 
 		}
-		bool MoveOutsideBody(CollisionBodyPtr& body, CollisionBodyPtr& other, float direction, float max_distance) override {
+		bool MoveOutsideBody(collider_handle_type body, collider_handle_type other, float direction, float max_distance) override {
 
 			float dist = 0.0f;
 			float distance_per_step = Math::Min(1.0f, max_distance);
@@ -266,7 +259,7 @@ namespace hvn3 {
 			CollisionManifold m;
 
 			// It's important that we check if the place is free before doing the distance check (what if the user passes in a distance of 0?).
-			while ((place_free = NarrowPhase().TestCollision(body.get(), other.get(), m), place_free) && dist < (std::abs)(max_distance)) {
+			while ((place_free = NarrowPhase().TestCollision(body, other, m), place_free) && dist < (std::abs)(max_distance)) {
 
 				body->SetPosition(Math::Geometry::PointInDirection(body->Position(), direction, distance_per_step));
 
@@ -280,7 +273,7 @@ namespace hvn3 {
 
 	protected:
 		// Returns the vector of colliding pairs from the last update.
-		std::vector<CollisionManifold>& Pairs() {
+		std::vector<CollisionManifold>& GetPairs() {
 
 			return _pairs;
 
@@ -293,9 +286,15 @@ namespace hvn3 {
 		}
 		// Checks all potentially-colliding pairs and triggers events as needed.
 		virtual void CheckPairs(const typename broadphase_type::collider_pair_vector_type& pairs) = 0;
+		
+		// Removes all destroyed bodies from the manager. Destroyed bodies are freed and cannot be accessed after this point.
+		void ClearDestroyedBodies() {
+			_colliders.remove_if([](const collider_type& body) { return body.IsDestroyed(); });
+		}
 
 	private:
 		std::vector<CollisionManifold> _pairs;
+		std::list<collider_type> _colliders;
 		broadphase_type _broad_phase;
 		narrowphase_type _narrow_phase;
 		float _precision;

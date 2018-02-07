@@ -1,3 +1,4 @@
+#include "hvn3/collision/CategoryFilter.h"
 #include "hvn3/collision/CollisionManifold.h"
 #include "hvn3/collision/ICollisionBody.h"
 #include "hvn3/collision/ICollisionManager.h"
@@ -19,14 +20,14 @@ namespace hvn3 {
 
 			PhysicsManagerBase::AddBody(body);
 
-			_body_lookup_table[body.CollisionBody().get()] = &body;
+			_body_lookup_table[body.CollisionBody()] = &body;
 
 		}
 		void BasicPhysicsManager::RemoveBody(IPhysicsBody& body) {
 
 			PhysicsManagerBase::RemoveBody(body);
 
-			_body_lookup_table.erase(body.CollisionBody().get());
+			_body_lookup_table.erase(body.CollisionBody());
 
 		}
 
@@ -40,7 +41,7 @@ namespace hvn3 {
 
 				// Get the physics and collision bodies associated with this body.
 				IPhysicsBody& this_body = *(*i);
-				CollisionBodyPtr& collision_body = (*i)->CollisionBody();
+				ICollisionBody* collision_body = (*i)->CollisionBody();
 
 				// If the body is static, we do not need to apply physics to it.
 				if (this_body.Type() == BodyType::Static)

@@ -72,7 +72,7 @@ namespace hvn3 {
 			throw System::NotImplementedException();
 
 		}
-		virtual ICollisionManager& Collisions() override {
+		virtual ICollisionManager<IObject>& Collisions() override {
 
 			throw System::NotImplementedException();
 
@@ -98,7 +98,7 @@ namespace hvn3 {
 			throw System::NotImplementedException();
 
 		}
-		virtual const ICollisionManager& Collisions() const override {
+		virtual const ICollisionManager<IObject>& Collisions() const override {
 
 			throw System::NotImplementedException();
 
