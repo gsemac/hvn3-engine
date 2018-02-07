@@ -12,15 +12,10 @@ namespace hvn3 {
 
 			_type = BodyType::Dynamic;
 			_collision_body = collision_body;
-			_manager = nullptr;
+			_is_destroyed = false;
 
 		}
-		PhysicsBodyBase::~PhysicsBodyBase() {
-
-			if (_manager != nullptr)
-				_manager->RemoveBody(*this);
-
-		}
+		PhysicsBodyBase::~PhysicsBodyBase() {}
 
 		const PointF PhysicsBodyBase::Position() const {
 
@@ -122,7 +117,7 @@ namespace hvn3 {
 			_type = type;
 
 		}
-		ICollisionBody* PhysicsBodyBase::CollisionBody() {
+		ICollisionBody* PhysicsBodyBase::GetCollisionBody() {
 
 			return _collision_body;
 
@@ -132,7 +127,7 @@ namespace hvn3 {
 			return _collision_body;
 
 		}
-		CategoryFilter& PhysicsBodyBase::Category() {
+		CategoryFilter& PhysicsBodyBase::GetCategory() {
 
 			return _filter;
 
@@ -143,26 +138,13 @@ namespace hvn3 {
 
 		}
 
-
-
-		IPhysicsManager* PhysicsBodyBase::Manager() {
-
-			return _manager;
-
+		void PhysicsBodyBase::Destroy() {
+			_is_destroyed = true;
 		}
-
-
-
-		bool PhysicsBodyBase::_managerIsSet() const {
-
-			return _manager != nullptr;
-
+		bool PhysicsBodyBase::IsDestroyed() const {
+			return _is_destroyed;
 		}
-		void PhysicsBodyBase::_setManager(IPhysicsManager* manager) {
-
-			_manager = manager;
-
-		}
+		void PhysicsBodyBase::OnDestroy(DestroyEventArgs& e) {}
 
 	}
 }

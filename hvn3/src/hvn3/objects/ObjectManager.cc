@@ -190,8 +190,10 @@ namespace hvn3 {
 	void ObjectManager::OnDraw(DrawEventArgs& e) {
 
 		// Draw all objects.
+
 		for (auto it = _objects.begin(); it != _objects.end(); ++it)
-			if (it->object->IsActive())
+			// Don't draw any objects that haven't had their create event called yet, or inactive objects.
+			if (!it->callOnCreateEvent && it->object->IsActive())
 				it->object->OnDraw(e);
 
 	}

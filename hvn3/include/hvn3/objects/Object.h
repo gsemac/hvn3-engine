@@ -1,12 +1,16 @@
 #pragma once
-#include "hvn3/collision/CollisionBodyPtr.h"
 #include "hvn3/math/Vector2d.h"
 #include "hvn3/objects/ObjectBase.h"
-#include "hvn3/physics/PhysicsTypeDefs.h"
 #include "hvn3/sprites/Sprite.h"
 #include "hvn3/sprites/SpriteRenderer.h"
 
 namespace hvn3 {
+
+	class ICollisionBody;
+
+	namespace Physics {
+		class IPhysicsBody;
+	}
 
 	class Object : public ObjectBase {
 
@@ -26,7 +30,6 @@ namespace hvn3 {
 		void OnUpdate(UpdateEventArgs& e) override;
 		void OnDestroy(DestroyEventArgs& e) override;
 
-	protected:
 		const sprite_type& Sprite() const;
 		sprite_type& GetSprite();
 		void SetSprite(const sprite_type& other);
@@ -41,17 +44,18 @@ namespace hvn3 {
 		void AddVelocity(float x, float y);
 		ICollisionBody* GetCollisionBody();
 		const ICollisionBody* CollisionBody() const;
-		PhysicsBodyPtr& GetPhysicsBody();
-		const PhysicsBodyPtr& PhysicsBody() const;
-	
+		Physics::IPhysicsBody* GetPhysicsBody();
+		const Physics::IPhysicsBody* PhysicsBody() const;
+
 	private:
 		sprite_type _sprite;
 		Graphics::SpriteRenderer _renderer;
 		Vector2d _velocity;
 		ICollisionBody* _collision_body;
-		PhysicsBodyPtr _physics_body;
+		Physics::IPhysicsBody* _physics_body;
 
 		void _destroyCollisionBody();
+		void _destroyPhysicsBody();
 
 	};
 

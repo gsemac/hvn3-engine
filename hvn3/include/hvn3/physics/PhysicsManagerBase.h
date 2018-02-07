@@ -1,36 +1,61 @@
 #pragma once
 #include "hvn3/core/UpdateEventArgs.h"
 #include "hvn3/physics/IPhysicsManager.h"
-#include <vector>
+#include "hvn3/physics/PhysicsUtils.h"
+#include <list>
 
 namespace hvn3 {
 	namespace Physics {
 
+		template <typename physics_body_type>
 		class PhysicsManagerBase : public IPhysicsManager {
 
 		public:
-			PhysicsManagerBase();
+			typedef physics_body_type physics_body_type;
 
-			void AddBody(IPhysicsBody& body) override;
-			void RemoveBody(IPhysicsBody& body) override;
-			const Vector2d& Gravity() const override;
-			void SetGravity(const Vector2d& value) override;
-			float PixelsToMetersScale() const override;
-			void SetPixelsToMetersScale(float value) override;
-			size_t Count() const override;
-			void Clear() override;
+			PhysicsManagerBase() :
+				_gravity(0.0f, Physics::StandardGravity()) {
+				SetPixelsToMetersScale(1.0f / 32.0f);
+			}
 
-			void OnUpdate(UpdateEventArgs& e) override;
+			IPhysicsBody* CreateBody(ICollisionBody* body) override {
+				_bodies.emplace_back(physics_body_type(body));
+				return &_bodies.back();
+			}
+
+			const Vector2d& Gravity() const override {
+				return _gravity;
+			}
+			void SetGravity(const Vector2d& value) override {
+				_gravity = value;
+			}
+			float PixelsToMetersScale() const override {
+				return _pixels_to_meters_scale;
+			}
+			void SetPixelsToMetersScale(float value) override {
+				_pixels_to_meters_scale = value;
+			}
+			size_t Count() const override {
+				return _bodies.size();
+			}
+			void Clear() override {
+				_bodies.clear();
+			}
+
+			void OnUpdate(UpdateEventArgs& e) override {}
 
 		protected:
-			typedef std::vector<IPhysicsBody*> bodies_list_type;
+			typedef std::list<physics_body_type> physics_body_list_type;
 
-			bodies_list_type& Bodies();
-			const bodies_list_type& Bodies() const;
+			physics_body_list_type& GetBodies() {
+				return _bodies;
+			}
+			const physics_body_list_type& Bodies() const {
+				return _bodies;
+			}
 
 		private:
-			bodies_list_type _bodies;
-			bodies_list_type _pending_removal;
+			physics_body_list_type _bodies;
 			Vector2d _gravity;
 			float _pixels_to_meters_scale;
 

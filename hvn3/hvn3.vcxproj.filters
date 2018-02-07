@@ -675,9 +675,6 @@
     <ClInclude Include="include\hvn3\objects\PhysicsObject.h">
       <Filter>include\objects</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\physics\PhysicsBodyMutator.h">
-      <Filter>include\physics</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\gui2\IWidget.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
@@ -716,9 +713,6 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\objects\IObject.h">
       <Filter>include\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\physics\PhysicsTypeDefs.h">
-      <Filter>include\physics</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\allegro\AllegroExt.h">
       <Filter>include\allegro</Filter>
@@ -1095,9 +1089,6 @@
     <ClCompile Include="src\hvn3\core\GameStateEventArgs.cc">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\physics\PhysicsManagerBase.cc">
-      <Filter>src\physics</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\physics\PhysicsBodyBase.cc">
       <Filter>src\physics</Filter>
     </ClCompile>
@@ -1106,9 +1097,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\objects\PhysicsObject.cc">
       <Filter>src\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\physics\PhysicsBodyMutator.cc">
-      <Filter>src\physics</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\gui2\WidgetBase.cc">
       <Filter>src\gui2</Filter>

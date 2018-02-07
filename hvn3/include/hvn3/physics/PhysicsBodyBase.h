@@ -30,15 +30,17 @@ namespace hvn3 {
 			void SetMaterial(const Physics::Material& material) override;
 			BodyType Type() const override;
 			void SetType(BodyType type) override;
-			ICollisionBody* CollisionBody() override;
+			ICollisionBody* GetCollisionBody() override;
 			const ICollisionBody* CollisionBody() const override;
-			CategoryFilter& Category() override;
+			CategoryFilter& GetCategory() override;
 			const CategoryFilter& Category() const override;
 
-		protected:
-			IPhysicsManager* Manager();
+			void Destroy() override;
+			bool IsDestroyed() const override;
+			void OnDestroy(DestroyEventArgs& e) override;
 
 		private:
+			bool _is_destroyed;
 			Physics::MassData _mass_data;
 			Vector2d _linear_velocity;
 			BodyType _type;
@@ -46,10 +48,6 @@ namespace hvn3 {
 			Physics::Material _material;
 			ICollisionBody* _collision_body;
 			CategoryFilter _filter;
-			IPhysicsManager* _manager;
-
-			bool _managerIsSet() const;
-			void _setManager(IPhysicsManager* manager) override;
 
 		};
 

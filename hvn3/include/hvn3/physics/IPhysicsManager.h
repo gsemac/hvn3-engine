@@ -4,6 +4,9 @@
 #include <cstdint>
 
 namespace hvn3 {
+
+	class ICollisionBody;
+
 	namespace Physics {
 
 		class IPhysicsBody;
@@ -13,10 +16,9 @@ namespace hvn3 {
 		public:
 			virtual ~IPhysicsManager() = default;
 
-			// Adds a new body to the physics manager.
-			virtual void AddBody(IPhysicsBody& body) = 0;
-			// Marks a body for removal from the physics manager.
-			virtual void RemoveBody(IPhysicsBody& body) = 0;
+			// Creates and adds a new body to the system, and returns a pointer to it. The body is owned by the physics manager.
+			virtual IPhysicsBody* CreateBody(ICollisionBody* body) = 0;
+
 			virtual const Vector2d& Gravity() const = 0;
 			virtual void SetGravity(const Vector2d& value) = 0;
 			virtual float PixelsToMetersScale() const = 0;

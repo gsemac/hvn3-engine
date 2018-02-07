@@ -5,6 +5,7 @@ namespace hvn3 {
 
 	CollisionBodyBase::CollisionBodyBase() :
 		_flags(DEFAULT_COLLISION_BODY_FLAGS) {
+		_is_destroyed = false;
 	}
 
 	PointF CollisionBodyBase::Position() const {

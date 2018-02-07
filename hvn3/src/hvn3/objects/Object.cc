@@ -4,6 +4,7 @@
 #include "hvn3/core/UpdateEventArgs.h"
 #include "hvn3/objects/Object.h"
 #include "hvn3/physics/IPhysicsBody.h"
+#include "hvn3/physics/IPhysicsManager.h"
 #include "hvn3/sprites/Sprite.h"
 #define DEFAULT_OBJECTBASE_FLAGS static_cast<hvn3::ObjectFlags>(0)
 
@@ -26,48 +27,46 @@ namespace hvn3 {
 	}
 	Object::Object(ObjectId id, float x, float y, ObjectFlags flags) :
 		ObjectBase(id, x, y, flags) {
+		_collision_body = nullptr;
+		_physics_body = nullptr;
 	}
 	Object::~Object() {
 		_destroyCollisionBody();
+		_destroyPhysicsBody();
 	}
 
 	void Object::OnCreate(CreateEventArgs& e) {
-
-		if (!HasFlag(Flags(), ObjectFlags::DisableCollisions)) {
-
+		if (!HasFlag(Flags(), ObjectFlags::NoCollisions)) {
 			// Create a collision body for this object.
 			_collision_body = e.Collisions().CreateBody(this);
-
-			if (HasFlag(Flags(), ObjectFlags::EnablePhysics)) {
-				// Create physics body
+			// Create a physics body for this object.
+			if (HasFlag(Flags(), ObjectFlags::EnablePhysics) && _collision_body != nullptr) {
+				_physics_body = e.Physics().CreateBody(_collision_body);
+				// Apply the current velocity to the physics object (it may have been set before create event).
+				_physics_body->SetLinearVelocity(_velocity);
 			}
-
 		}
-
-		//if (PhysicsBody())
-		//	e.Physics().AddBody(PhysicsBody());
-
 	}
 	void Object::OnUpdate(UpdateEventArgs& e) {
-
-		if (!HasFlag(Flags(), ObjectFlags::EnablePhysics))
-			if (HasFlag(Flags(), ObjectFlags::Solid) && _collision_body)
+		// We will only manually adjust the object's velocity if it isn't governed by the physics manager.
+		if (!HasFlag(Flags(), ObjectFlags::EnablePhysics) || _physics_body == nullptr) {
+			if (HasFlag(Flags(), ObjectFlags::Solid) && _collision_body != nullptr)
+				// The object is solid, so don't let it intersect any objects it can collide with.
 				e.Collisions().MoveContact(_collision_body, Velocity().Direction(), Velocity().Length());
 			else
+				// The object is not solid, so simply move it to its next position.
 				SetPosition(Position() + Velocity() * e.Delta());
-
+		}
 		_renderer.UpdateAnimation(e.Delta());
-
 	}
 	void Object::OnDraw(DrawEventArgs& e) {
-
 		_renderer.DrawSprite(e.Graphics(), Sprite(), Position());
-
 	}
 	void Object::OnDestroy(DestroyEventArgs& e) {
 		_destroyCollisionBody();
+		_destroyPhysicsBody();
 	}
-	
+
 	const Object::sprite_type& Object::Sprite() const {
 
 		return _sprite;
@@ -104,38 +103,25 @@ namespace hvn3 {
 
 	}
 	const Vector2d& Object::Velocity() const {
-
-		if (_physics_body)
+		if (_physics_body != nullptr)
 			return _physics_body->LinearVelocity();
 		else
 			return _velocity;
-
 	}
 	void Object::SetVelocity(const Vector2d& other) {
-
-		if (_physics_body)
+		if (_physics_body != nullptr)
 			_physics_body->SetLinearVelocity(other);
 		else
 			_velocity = other;
-
 	}
 	void Object::SetVelocity(float x, float y) {
-
 		SetVelocity(Vector2d(x, y));
-
 	}
 	void Object::AddVelocity(const Vector2d& other) {
-
-		if (_physics_body)
-			_physics_body->SetLinearVelocity(Vector2d(_physics_body->LinearVelocity().X() + other.X(), _physics_body->LinearVelocity().Y() + other.Y()));
-		else
-			_velocity = Vector2d(_velocity.X() + other.X(), _velocity.Y() + other.Y());
-
+		SetVelocity(Velocity() + other);
 	}
 	void Object::AddVelocity(float x, float y) {
-
 		AddVelocity(Vector2d(x, y));
-
 	}
 	ICollisionBody* Object::GetCollisionBody() {
 
@@ -147,12 +133,12 @@ namespace hvn3 {
 		return _collision_body;
 
 	}
-	PhysicsBodyPtr& Object::GetPhysicsBody() {
+	Physics::IPhysicsBody* Object::GetPhysicsBody() {
 
 		return _physics_body;
 
 	}
-	const PhysicsBodyPtr& Object::PhysicsBody() const {
+	const Physics::IPhysicsBody* Object::PhysicsBody() const {
 
 		return _physics_body;
 
@@ -164,6 +150,11 @@ namespace hvn3 {
 		if (_collision_body != nullptr)
 			_collision_body->Destroy();
 		_collision_body = nullptr;
+	}
+	void Object::_destroyPhysicsBody() {
+		if (_physics_body != nullptr)
+			_physics_body->Destroy();
+		_physics_body = nullptr;
 	}
 
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/physics/PhysicsBodyBase.h"
 #include "hvn3/physics/PhysicsManagerBase.h"
 #include <unordered_map>
 #include <vector>
@@ -6,7 +7,7 @@
 namespace hvn3 {
 	namespace Physics {
 
-		class BasicPhysicsManager : public PhysicsManagerBase {
+		class BasicPhysicsManager : public PhysicsManagerBase<PhysicsBodyBase> {
 
 			struct Contact {
 				IPhysicsBody* body;
@@ -14,9 +15,8 @@ namespace hvn3 {
 			};
 
 		public:
-			void AddBody(IPhysicsBody& body) override;
-			void RemoveBody(IPhysicsBody& body) override;
-			
+			IPhysicsBody* CreateBody(ICollisionBody* body) override;
+
 			void OnUpdate(UpdateEventArgs& e) override;
 
 		private:

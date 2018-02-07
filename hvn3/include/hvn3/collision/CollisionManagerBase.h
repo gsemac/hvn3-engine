@@ -33,11 +33,10 @@ namespace hvn3 {
 		}
 
 		collider_handle_type CreateBody(collidable_ptr_type collidable) override {
-
-			_colliders.emplace_back(collider_type(collidable));
-
-			return &_colliders.back();
-
+			_colliders.emplace_back(collider_type(collidable));			 
+			collider_handle_type body = &_colliders.back();		
+			_broad_phase.AddBody(body);
+			return body;
 		}
 		broadphase_type& BroadPhase() override {
 
