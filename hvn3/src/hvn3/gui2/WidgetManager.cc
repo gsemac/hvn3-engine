@@ -55,9 +55,9 @@ namespace hvn3 {
 
 		}
 		void WidgetManager::OnUpdate(UpdateEventArgs& e) {
-			
+
 			if (_widget_hovered != nullptr)
-				_widget_hovered->OnMouseHover(WidgetMouseHoverEventArgs(_widget_hovered, _last_mouse_position));
+				_widget_hovered->HandleEvent(WidgetMouseHoverEventArgs(_widget_hovered, _last_mouse_position));
 
 		}
 
@@ -77,14 +77,11 @@ namespace hvn3 {
 			IWidget* widget_hovered = nullptr;
 
 			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
-
 				IWidget* widget = i->get();
-
 				if (Math::Geometry::PointIn(e.Position(), RectangleF(widget->Position(), widget->Size()))) {
 					widget_hovered = widget;
 					break;
 				}
-
 			}
 
 			_last_mouse_position = e.Position();
