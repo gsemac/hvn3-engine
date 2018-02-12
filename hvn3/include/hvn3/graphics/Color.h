@@ -40,6 +40,7 @@ namespace hvn3 {
 		static bool IsTranluscent(const Color& color);
 		static Color Merge(const Color& color_1, const Color& color_2, float amount);
 
+		// Correspond to .NET framework colors
 		static const Color AliceBlue;
 		static const Color AntiqueWhite;
 		static const Color Aqua;
@@ -60,12 +61,15 @@ namespace hvn3 {
 		static const Color CornFlowerBlue;
 		static const Color CornSilk;
 		static const Color DarkGrey;
+		static const Color DarkOrange;
 		static const Color DimGrey;
 		static const Color DodgerBlue;
 		static const Color Fuchsia;
 		static const Color Gainsboro;
 		static const Color Green;
 		static const Color Grey;
+		static const Color Orange;
+		static const Color OrangeRed;
 		static const Color Red;
 		static const Color Silver;
 		static const Color SlateGrey;
