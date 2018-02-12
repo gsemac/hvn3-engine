@@ -16,6 +16,7 @@ namespace hvn3 {
 		public:
 			virtual ~IWidgetRenderer() = default;
 
+			virtual void ApplyStyleToWidget(IWidget& widget) = 0;
 			virtual void DrawWidget(Graphics::Graphics& canvas, const IWidget& widget) const = 0;
 
 		};

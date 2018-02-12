@@ -59,6 +59,21 @@ namespace hvn3 {
 			_size = value;
 
 		}
+		const String& WidgetBase::Text() const {
+			return _text;
+		}
+		void WidgetBase::SetText(const String& text) {
+			_text = text;
+		}
+		const WidgetStyle& WidgetBase::Style() const {
+			return _style;
+		}
+		WidgetStyle& WidgetBase::GetStyle() {
+			return _style;
+		}
+		void WidgetBase::SetStyle(const WidgetStyle& value) {
+			_style = WidgetStyle(value);
+		}
 
 		void WidgetBase::OnMouseHover(WidgetMouseHoverEventArgs& e) {}
 

@@ -82,9 +82,6 @@
     <Filter Include="src\events">
       <UniqueIdentifier>{47a1d5f9-2b37-4069-817f-8cca2b969b98}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\exceptions">
-      <UniqueIdentifier>{1a6ceb05-7a19-4f02-aeaa-88a3e8cd6d49}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\fonts">
       <UniqueIdentifier>{bf59e07c-8472-4467-b1ff-f49b46ffad64}</UniqueIdentifier>
     </Filter>
@@ -138,6 +135,9 @@
     </Filter>
     <Filter Include="src\gui2">
       <UniqueIdentifier>{b4840be0-2772-4c6d-8943-dfaf201bd26e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\exceptions">
+      <UniqueIdentifier>{1a6ceb05-7a19-4f02-aeaa-88a3e8cd6d49}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -729,6 +729,9 @@
     <ClInclude Include="include\hvn3\collision\CollisionBodyPtr.h">
       <Filter>include\collision</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\WidgetStyle.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1130,6 +1133,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\collision\CollisionBodyPtr.cc">
       <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui2\WidgetStyle.cc">
+      <Filter>src\gui2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

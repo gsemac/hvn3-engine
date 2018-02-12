@@ -1,6 +1,7 @@
 #pragma once
 #include "hvn3/gui2/IWidget.h"
 #include "hvn3/gui2/WidgetManager.h"
+#include "hvn3/gui2/WidgetStyle.h"
 #include <unordered_map>
 
 namespace hvn3 {
@@ -22,6 +23,11 @@ namespace hvn3 {
 			void SetPosition(const PointF& value) override;
 			const SizeF& Size() const override;
 			void SetSize(const SizeF& value) override;
+			const String& Text() const override;
+			void SetText(const String& text) override;
+			const WidgetStyle& Style() const override;
+			WidgetStyle& GetStyle() override;
+			void SetStyle(const WidgetStyle& value) override;
 
 			void OnMouseHover(WidgetMouseHoverEventArgs& e) override;
 
@@ -42,6 +48,8 @@ namespace hvn3 {
 			std::string _name;
 			PointF _position;
 			SizeF _size;
+			String _text;
+			WidgetStyle _style;
 			WidgetManager* _parent_manager;
 			WidgetManager _child_control_manager;
 			callback_table_type _callbacks;

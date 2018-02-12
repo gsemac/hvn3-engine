@@ -49,6 +49,8 @@ namespace hvn3 {
 
 		Font& operator=(Font&& other);
 
+		explicit operator bool() const;
+
 	protected:
 		void AdjustScale(float scale_factor);
 		bool AutoScaleEnabled() const;

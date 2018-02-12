@@ -10,28 +10,20 @@ namespace hvn3 {
 	namespace Gui {
 
 		DefaultWidgetRenderer::DefaultWidgetRenderer() {
-
-			_default_fore_color = Color(224, 224, 224);
-			_default_back_color = Color(73, 70, 82);
-
-			std::string default_font_path = System::GetSystemAssetPath(System::SystemAssetType::Fonts) + "webly.ttf";
-			if (IO::File::Exists(default_font_path))
-				_default_font = Font(default_font_path, 11, FontFlags::Monochrome);
-			else
-				_default_font = Font::BuiltIn();
-
+			_initializeBaseStyle();
 		}
-		DefaultWidgetRenderer::DefaultWidgetRenderer(const Color& default_fore_color, const Color& default_back_color, const Font& default_font) :
-			_default_fore_color(default_fore_color),
-			_default_back_color(default_back_color),
-			_default_font(default_font) {
+		DefaultWidgetRenderer::DefaultWidgetRenderer(const WidgetStyle& base_style) :
+			_base_style(base_style) {
+			if (!_base_style.font)
+				_initializeBaseStyleFont();
 		}
 
-		void DefaultWidgetRenderer::DrawWidget(Graphics::Graphics& canvas, const IWidget& widget) const {
-
+		void DefaultWidgetRenderer::ApplyStyleToWidget(IWidget& widget) {
 			if (widget.Name() == "button")
-				DrawButton(canvas, widget);
-
+				widget.SetStyle(_base_style);
+		}
+		void DefaultWidgetRenderer::DrawWidget(Graphics::Graphics& canvas, const IWidget& widget) const {
+			DrawButton(canvas, widget);
 		}
 
 
@@ -53,15 +45,33 @@ namespace hvn3 {
 
 			DrawWidgetBase(canvas, widget);
 
-			String text = "Hello, world!";
-			float text_width = text.Width(_default_font);
-			float text_height = text.Height(_default_font);
+			if (widget.Style().font) {
+				float text_width = widget.Text().Width(widget.Style().font);
+				float text_height = widget.Text().Height(widget.Style().font);
 
-			canvas.DrawText(
-				widget.Position().X() + (widget.Size().Width() / 2.0f),
-				widget.Position().Y() + (widget.Size().Height() / 2.0f) - (text_height / 2.0f),
-				"Hello, world!", _default_font, _default_fore_color, Alignment::Center);
+				canvas.DrawText(
+					widget.Position().X() + (widget.Size().Width() / 2.0f),
+					widget.Position().Y() + (widget.Size().Height() / 2.0f) - (text_height / 2.0f),
+					widget.Text(), widget.Style().font, widget.Style().foreColor, Alignment::Center);
+			}
 
+		}
+
+
+
+		void DefaultWidgetRenderer::_initializeBaseStyle() {
+			_base_style.foreColor = Color(224, 224, 224);
+			_base_style.backColor = Color(73, 70, 82);
+			_initializeBaseStyleFont();
+		}
+		void DefaultWidgetRenderer::_initializeBaseStyleFont() {
+			if (!_base_style.font) {
+				std::string default_font_path = System::GetSystemAssetPath(System::SystemAssetType::Fonts) + "webly.ttf";
+				if (IO::File::Exists(default_font_path))
+					_base_style.font = Font(default_font_path, 11, FontFlags::Monochrome);
+				else
+					_base_style.font = Font::BuiltIn();
+			}
 		}
 
 	}

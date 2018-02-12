@@ -96,6 +96,10 @@ namespace hvn3 {
 
 	}
 
+	Font::operator bool() const {
+		return static_cast<bool>(_font);
+	}
+
 
 
 	void Font::AdjustScale(float scale_factor) {

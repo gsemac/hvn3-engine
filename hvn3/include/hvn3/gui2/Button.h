@@ -1,6 +1,5 @@
 #pragma once
 #include "hvn3/gui2/WidgetBase.h"
-#include "hvn3/utility/Utf8String.h"
 
 namespace hvn3 {
 	namespace Gui {
@@ -18,7 +17,6 @@ namespace hvn3 {
 
 			void _initializeMembers();
 
-			String _text;
 			bool _auto_size;
 
 		};
