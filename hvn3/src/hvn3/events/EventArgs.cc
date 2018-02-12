@@ -6,9 +6,8 @@ namespace hvn3 {
 	namespace System {
 
 		EventArgs::EventArgs() {
-
 			_timestamp = al_get_time();
-
+			_handled = false;
 		}
 		EventArgs::EventArgs(const EventSource& source) : EventArgs() {
 

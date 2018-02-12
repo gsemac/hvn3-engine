@@ -30,6 +30,7 @@ namespace hvn3 {
 			void SetStyle(const WidgetStyle& value) override;
 
 			void OnMouseHover(WidgetMouseHoverEventArgs& e) override;
+			void OnUpdate(WidgetUpdateEventArgs& e) override;
 
 			template <WidgetEventType WIDGET_EVENT_TYPE>
 			void SetEventHandler(const std::function<void(typename GetWidgetEventType<WIDGET_EVENT_TYPE>::type&)>& callback) {

@@ -15,8 +15,21 @@ namespace hvn3 {
 
 		}
 
-		WidgetMouseHoverEventArgs::WidgetMouseHoverEventArgs(IWidget* sender, const PointF& position) :
+
+		WidgetUpdateEventArgs::WidgetUpdateEventArgs(IWidget* sender, float dt) :
 			WidgetEventArgs(sender),
+			_dt(dt) {
+		}
+		float WidgetUpdateEventArgs::Delta() const {
+			return _dt;
+		}
+		WidgetEventType WidgetUpdateEventArgs::Type() const {
+			return WidgetEventType::OnUpdate;
+		}
+
+
+		WidgetMouseHoverEventArgs::WidgetMouseHoverEventArgs(IWidget* sender, const PointF& position, float dt) :
+			WidgetUpdateEventArgs(sender, dt),
 			_position(position) {
 		}
 		const PointF& WidgetMouseHoverEventArgs::Position() const {
@@ -25,9 +38,7 @@ namespace hvn3 {
 
 		}
 		WidgetEventType WidgetMouseHoverEventArgs::Type() const {
-
 			return WidgetEventType::OnMouseHover;
-
 		}
 
 		WidgetMoveEventArgs::WidgetMoveEventArgs(IWidget* sender, const PointF& old_position, const PointF& new_position) :

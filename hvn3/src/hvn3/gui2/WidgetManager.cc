@@ -1,4 +1,5 @@
 #include "hvn3/core/DrawEventArgs.h"
+#include "hvn3/core/UpdateEventArgs.h"
 #include "hvn3/gui2/DefaultWidgetRenderer.h"
 #include "hvn3/gui2/IWidget.h"
 #include "hvn3/gui2/IWidgetRenderer.h"
@@ -57,9 +58,12 @@ namespace hvn3 {
 
 		}
 		void WidgetManager::OnUpdate(UpdateEventArgs& e) {
-
+		
 			if (_widget_hovered != nullptr)
-				_widget_hovered->HandleEvent(WidgetMouseHoverEventArgs(_widget_hovered, _last_mouse_position));
+				_widget_hovered->HandleEvent(WidgetMouseHoverEventArgs(_widget_hovered, _last_mouse_position, e.Delta()));
+
+			for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
+				(*i)->HandleEvent(WidgetUpdateEventArgs((*i).get(), e.Delta()));
 
 		}
 

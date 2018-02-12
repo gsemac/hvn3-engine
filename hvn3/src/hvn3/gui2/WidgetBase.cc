@@ -1,4 +1,9 @@
 #include "hvn3/gui2/WidgetBase.h"
+#define CAST_TO_EVENT_TYPE(TYPE, EV) reinterpret_cast<hvn3::Gui::GetWidgetEventType<TYPE>::type&>(EV)
+#define EVENT_HANDLER_CASE(TYPE, CALLBACK, EV)\
+case TYPE:\
+	CALLBACK(CAST_TO_EVENT_TYPE(TYPE, EV));\
+	break;
 
 namespace hvn3 {
 	namespace Gui {
@@ -22,9 +27,8 @@ namespace hvn3 {
 				return;
 
 			switch (ev.Type()) {
-			case WidgetEventType::OnMouseHover:
-				OnMouseHover(reinterpret_cast<WidgetMouseHoverEventArgs&>(ev));
-				break;
+				EVENT_HANDLER_CASE(WidgetEventType::OnUpdate, OnUpdate, ev);
+				EVENT_HANDLER_CASE(WidgetEventType::OnMouseHover, OnMouseHover, ev);
 			}
 
 		}
@@ -76,7 +80,7 @@ namespace hvn3 {
 		}
 
 		void WidgetBase::OnMouseHover(WidgetMouseHoverEventArgs& e) {}
-
+		void WidgetBase::OnUpdate(WidgetUpdateEventArgs& e) {}
 
 
 		WidgetManager* WidgetBase::Manager() {

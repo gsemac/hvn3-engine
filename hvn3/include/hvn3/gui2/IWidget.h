@@ -35,6 +35,7 @@ namespace hvn3 {
 			virtual void SetStyle(const WidgetStyle& value) = 0;
 
 			virtual void OnMouseHover(WidgetMouseHoverEventArgs& e) = 0;
+			virtual void OnUpdate(WidgetUpdateEventArgs& e) = 0;
 
 		protected:
 			virtual WidgetManager* Manager() = 0;

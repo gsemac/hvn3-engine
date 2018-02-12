@@ -2,6 +2,11 @@
 #include "hvn3/events/EventArgs.h"
 #include "hvn3/io/MouseEventArgs.h"
 #include "hvn3/math/Point2d.h"
+#define HVN3_DECLARE_WIDGET_EVENT_TYPE(ID, TYPE)\
+template <>\
+struct hvn3::Gui::GetWidgetEventType<ID> {\
+	typedef TYPE type;\
+};\
 
 namespace hvn3 {
 
@@ -14,7 +19,8 @@ namespace hvn3 {
 			OnClick,
 			OnMouseHover,
 			// Generated when the widget changes position.
-			OnMove
+			OnMove,
+			OnUpdate
 		};
 
 
@@ -31,10 +37,21 @@ namespace hvn3 {
 
 		};
 
-		class WidgetMouseHoverEventArgs : public WidgetEventArgs {
+
+		class WidgetUpdateEventArgs : public WidgetEventArgs {
+		public:
+			WidgetUpdateEventArgs(IWidget* sender, float dt);
+			float Delta() const;
+			WidgetEventType Type() const override;
+		private:
+			float _dt;
+		};
+
+
+		class WidgetMouseHoverEventArgs : public WidgetUpdateEventArgs {
 
 		public:
-			WidgetMouseHoverEventArgs(IWidget* sender, const PointF& position);
+			WidgetMouseHoverEventArgs(IWidget* sender, const PointF& position, float dt);
 
 			const PointF& Position() const;
 			WidgetEventType Type() const override;
@@ -63,15 +80,10 @@ namespace hvn3 {
 		struct GetWidgetEventType {
 			typedef WidgetEventArgs type;
 		};
-		template <>
-		struct GetWidgetEventType<WidgetEventType::OnMouseHover> {
-			typedef WidgetMouseHoverEventArgs type;
-		};
-		template <>
-		struct GetWidgetEventType<WidgetEventType::OnMove> {
-			typedef WidgetMoveEventArgs type;
-		};
 
-		
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnUpdate, WidgetUpdateEventArgs);
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseHover, WidgetMouseHoverEventArgs);
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMove, WidgetMoveEventArgs);
+
 	}
 }
