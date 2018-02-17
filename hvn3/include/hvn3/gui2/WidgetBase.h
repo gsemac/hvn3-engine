@@ -17,19 +17,20 @@ namespace hvn3 {
 
 			void HandleEvent(WidgetEventArgs& ev) override;
 
-			const std::string& Name() const override;
-			void SetName(const std::string& value) override;
+			const std::string& Identifier() const override;
+			void SetIdentifier(const std::string& value) override;
 			const PointF& Position() const override;
 			void SetPosition(const PointF& value) override;
 			const SizeF& Size() const override;
 			void SetSize(const SizeF& value) override;
 			const String& Text() const override;
 			void SetText(const String& text) override;
-			const WidgetStyle& Style() const override;
-			WidgetStyle& GetStyle() override;
-			void SetStyle(const WidgetStyle& value) override;
+			virtual WidgetState State() const override;
+			virtual void SetState(WidgetState state, bool value) override;
 
+			void OnMouseDown(WidgetMouseEventArgs& e) override;
 			void OnMouseHover(WidgetMouseHoverEventArgs& e) override;
+			void OnMouseUp(WidgetMouseEventArgs& e) override;
 			void OnUpdate(WidgetUpdateEventArgs& e) override;
 
 			template <WidgetEventType WIDGET_EVENT_TYPE>
@@ -50,7 +51,7 @@ namespace hvn3 {
 			PointF _position;
 			SizeF _size;
 			String _text;
-			WidgetStyle _style;
+			WidgetState _state;
 			WidgetManager* _parent_manager;
 			WidgetManager _child_control_manager;
 			callback_table_type _callbacks;

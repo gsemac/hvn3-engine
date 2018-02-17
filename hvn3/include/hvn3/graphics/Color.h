@@ -1,5 +1,6 @@
 #pragma once
 #include "hvn3/utility/Utility.h"
+#include <string>
 
 struct ALLEGRO_COLOR;
 
@@ -16,6 +17,7 @@ namespace hvn3 {
 		static Color FromArgbf(float r, float g, float b, float a = 1.0f);
 		static Color FromHsl(float h, float s, float l, float a = 1.0f);
 		static Color FromHex(unsigned long hex);
+		static Color FromHex(const std::string& hex);
 		static Color FromRgbInt(unsigned int integer);
 
 		unsigned char R() const;

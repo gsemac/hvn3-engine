@@ -27,6 +27,20 @@ namespace hvn3 {
 			return WidgetEventType::OnUpdate;
 		}
 
+		WidgetMouseEventArgs::WidgetMouseEventArgs(IWidget* sender, WidgetEventType type, MouseEventArgs& e) :
+			WidgetEventArgs(sender),
+			_args(e),
+			_type(type) {
+		}
+		MouseButton WidgetMouseEventArgs::Button() const {
+			return _args.Button();
+		}
+		const PointF& WidgetMouseEventArgs::Position() const {
+			return _args.Position();
+		}
+		WidgetEventType WidgetMouseEventArgs::Type() const {
+			return _type;
+		}
 
 		WidgetMouseHoverEventArgs::WidgetMouseHoverEventArgs(IWidget* sender, const PointF& position, float dt) :
 			WidgetUpdateEventArgs(sender, dt),

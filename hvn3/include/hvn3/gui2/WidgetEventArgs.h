@@ -16,8 +16,12 @@ namespace hvn3 {
 
 		enum class WidgetEventType {
 			// Generated when the widget is clicked.
-			OnClick,
+			OnMouseClick,
+			OnMouseDown,
+			OnMouseEnter,
 			OnMouseHover,
+			OnMouseLeave,
+			OnMouseUp,
 			// Generated when the widget changes position.
 			OnMove,
 			OnUpdate
@@ -48,32 +52,34 @@ namespace hvn3 {
 		};
 
 
-		class WidgetMouseHoverEventArgs : public WidgetUpdateEventArgs {
-
+		class WidgetMouseEventArgs : public WidgetEventArgs {
 		public:
-			WidgetMouseHoverEventArgs(IWidget* sender, const PointF& position, float dt);
-
+			WidgetMouseEventArgs(IWidget* sender, WidgetEventType type, MouseEventArgs& e);
+			MouseButton Button() const;
 			const PointF& Position() const;
 			WidgetEventType Type() const override;
-
+		private:
+			MouseEventArgs _args;
+			WidgetEventType _type;
+		};
+		class WidgetMouseHoverEventArgs : public WidgetUpdateEventArgs {
+		public:
+			WidgetMouseHoverEventArgs(IWidget* sender, const PointF& position, float dt);
+			const PointF& Position() const;
+			WidgetEventType Type() const override;
 		private:
 			PointF _position;
-
 		};
 
 		class WidgetMoveEventArgs : public WidgetEventArgs {
-
 		public:
 			WidgetMoveEventArgs(IWidget* sender, const PointF& old_position, const PointF& new_position);
-
 			const PointF& OldPosition() const;
 			const PointF& NewPosition() const;
 			WidgetEventType Type() const override;
-
 		private:
 			PointF _old_position;
 			PointF _new_position;
-
 		};
 
 		template <WidgetEventType WIDGET_EVENT_TYPE>
@@ -82,7 +88,9 @@ namespace hvn3 {
 		};
 
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnUpdate, WidgetUpdateEventArgs);
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseDown, WidgetMouseEventArgs);
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseHover, WidgetMouseHoverEventArgs);
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseUp, WidgetMouseEventArgs);
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMove, WidgetMoveEventArgs);
 
 	}

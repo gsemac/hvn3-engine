@@ -47,6 +47,7 @@ namespace hvn3 {
 			widget_collection_type _widgets;
 
 			IWidget* _widget_hovered;
+			IWidget* _widget_held;
 			PointF _last_mouse_position;
 
 			void _initialize();

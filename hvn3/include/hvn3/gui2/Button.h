@@ -12,8 +12,10 @@ namespace hvn3 {
 			Button(float x, float y, float width, float height, const String& text);
 			Button(const PointF& position, const SizeF& size, const const String& text);
 			
-			void OnMouseHover(WidgetMouseHoverEventArgs& e) override;
 			void OnUpdate(WidgetUpdateEventArgs& e) override;
+			void OnMouseDown(WidgetMouseEventArgs& e) override;
+			void OnMouseHover(WidgetMouseHoverEventArgs& e) override;
+			void OnMouseUp(WidgetMouseEventArgs& e) override;
 
 		private:
 			Button();
@@ -21,8 +23,6 @@ namespace hvn3 {
 			void _initializeMembers();
 
 			bool _auto_size;
-			bool _mouse_is_hovering;
-			int _mouse_hover_hightlight_amount;
 
 		};
 

@@ -27,7 +27,7 @@ namespace hvn3 {
 	class Font {
 		friend class System::AllegroAdapter;
 
-		typedef std::shared_ptr<ALLEGRO_FONT> font_ptr_type;
+		typedef std::shared_ptr<ALLEGRO_FONT> font_shared_ptr_type;
 
 	public:
 		Font();
@@ -48,7 +48,7 @@ namespace hvn3 {
 		static Font BuiltIn();
 
 		Font& operator=(Font&& other);
-
+		Font& operator=(const Font& other);
 		explicit operator bool() const;
 
 	protected:
@@ -57,7 +57,7 @@ namespace hvn3 {
 		ALLEGRO_FONT* AlPtr() const;
 
 	private:
-		font_ptr_type _font; 
+		font_shared_ptr_type _font;
 		std::string _filename;
 		int _size;
 		FontFlags _flags;

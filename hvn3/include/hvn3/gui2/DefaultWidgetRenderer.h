@@ -3,6 +3,8 @@
 #include "hvn3/fonts/Font.h"
 #include "hvn3/gui2/IWidgetRenderer.h"
 #include "hvn3/gui2/WidgetStyle.h"
+#include <string>
+#include <unordered_map>
 
 namespace hvn3 {
 	namespace Gui {
@@ -11,9 +13,7 @@ namespace hvn3 {
 
 		public:
 			DefaultWidgetRenderer();
-			DefaultWidgetRenderer(const WidgetStyle& base_style);
 
-			void ApplyStyleToWidget(IWidget& widget) override;
 			void DrawWidget(Graphics::Graphics& canvas, const IWidget& widget) const override;
 
 		protected:
@@ -21,11 +21,12 @@ namespace hvn3 {
 			void DrawButton(Graphics::Graphics& canvas, const IWidget& widget) const;
 
 		private:
-			void _initializeBaseStyle();
-			void _initializeBaseStyleFont();
+			void _initializeStyles();
+			Font _createBaseStyleFont();
+			const WidgetStyle& _getStyleFromWidget(const IWidget& widget);
 
 		private:
-			WidgetStyle _base_style;
+			std::unordered_map<std::string, WidgetStyle> _style_map;
 
 		};
 

@@ -1,8 +1,10 @@
 #include <allegro5/allegro.h>
-#include <algorithm>
-#include <cmath>
 #include "hvn3/graphics/Color.h"
-#include <iostream>
+#include "hvn3/utility/StringUtils.h"
+#include <algorithm>
+#include <cctype>
+#include <cmath>
+#include <cstdlib>
 
 namespace hvn3 {
 
@@ -50,6 +52,9 @@ namespace hvn3 {
 		float b = hex & 0xFF;
 		return Color(r, g, b);
 
+	}
+	Color Color::FromHex(const std::string& hex) {
+		return Color::FromHex(StringUtils::ParseHex(hex));
 	}
 	Color Color::FromRgbInt(unsigned int integer) {
 

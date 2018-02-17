@@ -9,52 +9,39 @@ namespace hvn3 {
 
 	public:
 		Point2d() :
-			Point2d(0, 0) {}
-		Point2d(T x, T y) {
-
-			_x = x;
-			_y = y;
-
+			Point2d(0, 0) {
+		}
+		Point2d(T x, T y) :
+			x(x),
+			y(y) {
 		}
 
 		T X() const {
-
-			return _x;
-
+			return x;
 		}
 		T Y() const {
-
-			return _y;
-
+			return y;
 		}
 
 		void SetX(T x) {
-
-			_x = x;
-
+			this->x = x;
 		}
 		void SetY(T y) {
-
-			_y = y;
-
+			this->y = y;
 		}
 
 		void Offset(T x, T y) {
-
-			_x += x;
-			_y += y;
-
+			this->x += x;
+			this->y += y;
 		}
 		void Offset(const Point2d<T>& offset) {
-
-			_x += offset.X();
-			_y += offset.Y();
-
+			this->x += offset.x;
+			this->y += offset.y;
 		}
 
 		bool IsEmpty() const {
 
-			return (!_x && !_y);
+			return (x == 0 && y == 0);
 
 		}
 
@@ -78,7 +65,7 @@ namespace hvn3 {
 			return Point2d<T>(std::trunc(point.X()), std::trunc(point.Y()));
 
 		}
-		
+
 		friend bool operator==(const Point2d<T>& a, const Point2d<T>& b) {
 
 			return (a.X() == b.X()) && (a.Y() == b.Y());
@@ -120,26 +107,26 @@ namespace hvn3 {
 		}
 		friend Point2d<T> operator*(const Point2d<T>& rhs, const T other) {
 
-			return Point2d<T>(_x * other, _y * other);
+			return Point2d<T>(x * other, y * other);
 
 		}
 		Point2d<T>& operator*=(const T other) {
 
-			_x *= other;
-			_y *= other;
+			x *= other;
+			y *= other;
 
 			return *this;
 
 		}
 		friend Point2d<T> operator/(const Point2d<T>& lhs, const T other) {
 
-			return Point2d<T>(_x / other, _y / other);
+			return Point2d<T>(x / other, y / other);
 
 		}
 		Point2d<T>& operator/=(const T other) {
 
-			_x /= other;
-			_y /= other;
+			x /= other;
+			y /= other;
 
 			return *this;
 
@@ -147,14 +134,13 @@ namespace hvn3 {
 
 		template<typename U>
 		operator Point2d<U>() {
-			
-			return Point2d<U>(static_cast<U>(_x), static_cast<U>(_y));
+
+			return Point2d<U>(static_cast<U>(x), static_cast<U>(y));
 
 		}
 
-	private:
-		T _x;
-		T _y;
+		T x;
+		T y;
 
 	};
 

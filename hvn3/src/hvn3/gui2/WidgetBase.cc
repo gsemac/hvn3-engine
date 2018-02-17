@@ -28,20 +28,18 @@ namespace hvn3 {
 
 			switch (ev.Type()) {
 				EVENT_HANDLER_CASE(WidgetEventType::OnUpdate, OnUpdate, ev);
+				EVENT_HANDLER_CASE(WidgetEventType::OnMouseDown, OnMouseDown, ev);
 				EVENT_HANDLER_CASE(WidgetEventType::OnMouseHover, OnMouseHover, ev);
+				EVENT_HANDLER_CASE(WidgetEventType::OnMouseUp, OnMouseUp, ev);
 			}
 
 		}
 
-		const std::string& WidgetBase::Name() const {
-
+		const std::string& WidgetBase::Identifier() const {
 			return _name;
-
 		}
-		void WidgetBase::SetName(const std::string& value) {
-
+		void WidgetBase::SetIdentifier(const std::string& value) {
 			_name = value;
-
 		}
 		const PointF& WidgetBase::Position() const {
 
@@ -69,17 +67,19 @@ namespace hvn3 {
 		void WidgetBase::SetText(const String& text) {
 			_text = text;
 		}
-		const WidgetStyle& WidgetBase::Style() const {
-			return _style;
+		WidgetState WidgetBase::State() const {
+			return _state;
 		}
-		WidgetStyle& WidgetBase::GetStyle() {
-			return _style;
-		}
-		void WidgetBase::SetStyle(const WidgetStyle& value) {
-			_style = WidgetStyle(value);
+		void WidgetBase::SetState(WidgetState state, bool value) {
+			if (value)
+				_state |= state;
+			else
+				_state &= ~state;
 		}
 
+		void WidgetBase::OnMouseDown(WidgetMouseEventArgs& e) {}
 		void WidgetBase::OnMouseHover(WidgetMouseHoverEventArgs& e) {}
+		void WidgetBase::OnMouseUp(WidgetMouseEventArgs& e) {}
 		void WidgetBase::OnUpdate(WidgetUpdateEventArgs& e) {}
 
 

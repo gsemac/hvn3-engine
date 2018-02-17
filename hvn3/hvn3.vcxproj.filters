@@ -732,6 +732,12 @@
     <ClInclude Include="include\hvn3\gui2\WidgetStyle.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\WidgetIdentifier.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\WidgetStyleSheetReader.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1135,6 +1141,12 @@
       <Filter>src\collision</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\gui2\WidgetStyle.cc">
+      <Filter>src\gui2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui2\WidgetIdentifier.cc">
+      <Filter>src\gui2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui2\WidgetStyleSheetReader.cc">
       <Filter>src\gui2</Filter>
     </ClCompile>
   </ItemGroup>
