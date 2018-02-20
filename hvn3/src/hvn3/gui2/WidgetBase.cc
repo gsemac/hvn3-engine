@@ -29,7 +29,9 @@ namespace hvn3 {
 			switch (ev.Type()) {
 				EVENT_HANDLER_CASE(WidgetEventType::OnUpdate, OnUpdate, ev);
 				EVENT_HANDLER_CASE(WidgetEventType::OnMouseDown, OnMouseDown, ev);
+				EVENT_HANDLER_CASE(WidgetEventType::OnMouseEnter, OnMouseEnter, ev);
 				EVENT_HANDLER_CASE(WidgetEventType::OnMouseHover, OnMouseHover, ev);
+				EVENT_HANDLER_CASE(WidgetEventType::OnMouseLeave, OnMouseLeave, ev);
 				EVENT_HANDLER_CASE(WidgetEventType::OnMouseUp, OnMouseUp, ev);
 			}
 
@@ -77,9 +79,19 @@ namespace hvn3 {
 				_state &= ~state;
 		}
 
-		void WidgetBase::OnMouseDown(WidgetMouseEventArgs& e) {}
+		void WidgetBase::OnMouseDown(WidgetMouseEventArgs& e) {
+			SetState(WidgetState::Active, true);
+		}
+		void WidgetBase::OnMouseEnter(WidgetMouseEventArgs& e) {
+			SetState(WidgetState::Hover, true);
+		}
 		void WidgetBase::OnMouseHover(WidgetMouseHoverEventArgs& e) {}
-		void WidgetBase::OnMouseUp(WidgetMouseEventArgs& e) {}
+		void WidgetBase::OnMouseLeave(WidgetMouseEventArgs& e) {
+			SetState(WidgetState::Hover, false);
+		}
+		void WidgetBase::OnMouseUp(WidgetMouseEventArgs& e) {
+			SetState(WidgetState::Active, false);
+		}
 		void WidgetBase::OnUpdate(WidgetUpdateEventArgs& e) {}
 
 

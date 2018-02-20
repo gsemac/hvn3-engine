@@ -35,8 +35,8 @@ namespace hvn3 {
 			void ReflectY();
 
 			void DrawSprite(Graphics& target, const Sprite& sprite, const PointF& position) const;
-			void UpdateAnimation();
-			void UpdateAnimation(float delta);
+			void StepAnimation();
+			void StepAnimation(float delta);
 
 		private:
 			int _image_index;

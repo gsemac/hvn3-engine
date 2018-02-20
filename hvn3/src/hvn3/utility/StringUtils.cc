@@ -89,6 +89,15 @@ namespace hvn3 {
 			return (ch >= 'a' && ch <= 'f') || (ch >= '0' && ch <= '9');
 		}
 
+		bool StartsWith(const std::string& str, const std::string& prefix) {
+			if (prefix.length() > str.length())
+				return false;
+			for (size_t i = 0; i < prefix.length(); ++i)
+				if (str[i] != prefix[i])
+					return false;
+			return true;
+		}
+
 		std::string Trim(const std::string& input_string) {
 
 			auto front = std::find_if_not(input_string.begin(), input_string.end(), std::isspace);
@@ -214,7 +223,7 @@ namespace hvn3 {
 			return in.substr(beg, pos - beg);
 		}
 
-		unsigned long ParseHex(const std::string hex) {
+		uint64_t ParseHex(const std::string hex) {
 
 			if (hex.length() <= 0)
 				throw System::ArgumentException();

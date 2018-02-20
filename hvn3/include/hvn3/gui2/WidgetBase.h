@@ -1,7 +1,6 @@
 #pragma once
 #include "hvn3/gui2/IWidget.h"
 #include "hvn3/gui2/WidgetManager.h"
-#include "hvn3/gui2/WidgetStyle.h"
 #include <unordered_map>
 
 namespace hvn3 {
@@ -29,7 +28,9 @@ namespace hvn3 {
 			virtual void SetState(WidgetState state, bool value) override;
 
 			void OnMouseDown(WidgetMouseEventArgs& e) override;
+			void OnMouseEnter(WidgetMouseEventArgs& e) override;
 			void OnMouseHover(WidgetMouseHoverEventArgs& e) override;
+			void OnMouseLeave(WidgetMouseEventArgs& e) override;
 			void OnMouseUp(WidgetMouseEventArgs& e) override;
 			void OnUpdate(WidgetUpdateEventArgs& e) override;
 

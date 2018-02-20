@@ -70,6 +70,15 @@ namespace hvn3 {
 		private:
 			PointF _position;
 		};
+		class WidgetMouseMoveEventArgs : public WidgetEventArgs {
+		public:
+			WidgetMouseMoveEventArgs(IWidget* sender, WidgetEventType type, MouseMoveEventArgs& e);
+			const PointF& Position() const;
+			WidgetEventType Type() const override;
+		private:
+			PointF _position;
+			WidgetEventType _type;
+		};
 
 		class WidgetMoveEventArgs : public WidgetEventArgs {
 		public:
@@ -89,7 +98,9 @@ namespace hvn3 {
 
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnUpdate, WidgetUpdateEventArgs);
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseDown, WidgetMouseEventArgs);
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseEnter, WidgetMouseEventArgs);
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseHover, WidgetMouseHoverEventArgs);
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseLeave, WidgetMouseEventArgs);
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseUp, WidgetMouseEventArgs);
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMove, WidgetMoveEventArgs);
 

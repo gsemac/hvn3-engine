@@ -14,7 +14,7 @@ namespace hvn3 {
 			try {
 				return Color::FromHex(value);
 			}
-			catch (const System::ArgumentException& ex) {
+			catch (const System::ArgumentException&) {
 				return COLOR_INVALID;
 			}
 		}

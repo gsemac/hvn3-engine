@@ -1,10 +1,12 @@
 #pragma once
 #include "hvn3/core/IDrawable.h"
 #include "hvn3/core/IUpdatable.h"
+#include "hvn3/gui2/WidgetRendererRenderArgs.h"
 #include "hvn3/io/KeyboardListener.h"
 #include "hvn3/io/MouseListener.h"
 #include <memory>
 #include <list>
+#include <unordered_map>
 
 namespace hvn3 {
 	namespace Gui {
@@ -14,8 +16,15 @@ namespace hvn3 {
 
 		class WidgetManager : public IDrawable, public IUpdatable, public KeyboardListener, public MouseListener {
 
+			struct WidgetCollectionItem {
+				WidgetCollectionItem(std::unique_ptr<IWidget>& widget);
+				IWidget& GetRef();
+				std::unique_ptr<IWidget> widget;
+				WidgetRendererRenderArgs rendererArgs;
+			};
+			
 			typedef std::shared_ptr<IWidgetRenderer> renderer_ptr_type;
-			typedef std::list<std::unique_ptr<IWidget>> widget_collection_type;
+			typedef std::list<WidgetCollectionItem> widget_collection_type;
 
 		public:
 			WidgetManager();

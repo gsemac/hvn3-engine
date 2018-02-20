@@ -28,7 +28,7 @@ namespace hvn3 {
 					out.value.setColors[out.value.TOP] = true;
 					return true;
 				}
-				catch (const System::ArgumentException& ex) {
+				catch (const System::ArgumentException&) {
 					return false;
 				}
 			}
@@ -48,7 +48,7 @@ namespace hvn3 {
 					out.value.setColors[out.value.TOP] = true;
 					out.value.setColors[out.value.BOTTOM] = true;
 				}
-				catch (const System::ArgumentException& ex) {
+				catch (const System::ArgumentException&) {
 					return false;
 				}
 			}

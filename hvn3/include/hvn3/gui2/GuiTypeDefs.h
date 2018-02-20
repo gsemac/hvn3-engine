@@ -25,5 +25,11 @@ namespace hvn3 {
 		};
 		ENABLE_BITFLAG_OPERATORS(WidgetState)
 
+		enum class WidgetProperty {
+			BackgroundColor,
+			Color,
+			WIDGET_PROPERTY_MAX
+		};
+
 	}
 }

@@ -55,6 +55,16 @@ namespace hvn3 {
 			return WidgetEventType::OnMouseHover;
 		}
 
+		WidgetMouseMoveEventArgs::WidgetMouseMoveEventArgs(IWidget* sender, WidgetEventType type, MouseMoveEventArgs& e) :
+			WidgetEventArgs(sender), _type(type), _position(e.Position()) {
+		}
+		const PointF& WidgetMouseMoveEventArgs::Position() const {
+			return _position;
+		}
+		WidgetEventType WidgetMouseMoveEventArgs::Type() const {
+			return _type;
+		}
+
 		WidgetMoveEventArgs::WidgetMoveEventArgs(IWidget* sender, const PointF& old_position, const PointF& new_position) :
 			WidgetEventArgs(sender),
 			_old_position(old_position),

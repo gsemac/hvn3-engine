@@ -85,12 +85,14 @@ namespace hvn3 {
 		_filename = std::move(other._filename);
 		_size = other._size;
 		_flags = other._flags;
+		return *this;
 	}
 	Font& Font::operator=(const Font& other) {
 		_font = other._font;
 		_filename = other._filename;
 		_size = other._size;
 		_flags = other._flags;
+		return *this;
 	}
 	Font::operator bool() const {
 		return static_cast<bool>(_font);

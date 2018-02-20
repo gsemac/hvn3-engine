@@ -15,24 +15,33 @@ namespace hvn3 {
 		struct WidgetStyleProperty {
 			typedef T type;
 			WidgetStyleProperty() {
-				inherit = false;
-				transitionDuration = 0.0f;
+				_initMembers();
 			}
-			WidgetStyleProperty(bool inherit) :
-				WidgetStyleProperty(), inherit(inherit) {
+			WidgetStyleProperty(bool inherit) {
+				_initMembers();
+				this->inherit = inherit;
 			}
 			WidgetStyleProperty(const T& value) :
-				WidgetStyleProperty(), value(value) {
+				value(value) {
+				_initMembers();
 			}
 			WidgetStyleProperty(T&& value) :
-				WidgetStyleProperty(), value(std::move(value)) {
+				value(std::move(value)) {
+				_initMembers() :
 			}
 			WidgetStyleProperty(T value, bool inherit) :
-				WidgetStyleProperty(), value(value), inherit(inherit) {
+				value(value) {
+				_initMembers();
+				this->inherit = inherit;
 			}
 			T value;
 			bool inherit;
 			float transitionDuration;
+		private:
+			void _initMembers() {
+				inherit = false;
+				transitionDuration = 0.0f;
+			}
 		};
 
 		class WidgetStyle {

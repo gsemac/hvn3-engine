@@ -57,7 +57,7 @@ namespace hvn3 {
 				// The object is not solid, so simply move it to its next position.
 				SetPosition(Position() + Velocity() * e.Delta());
 		}
-		_renderer.UpdateAnimation(e.Delta());
+		_renderer.StepAnimation(e.Delta());
 	}
 	void Object::OnDraw(DrawEventArgs& e) {
 		_renderer.DrawSprite(e.Graphics(), Sprite(), Position());

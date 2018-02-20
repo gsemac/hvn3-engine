@@ -2,7 +2,7 @@
 #include "hvn3/graphics/Color.h"
 #include "hvn3/fonts/Font.h"
 #include "hvn3/gui2/IWidgetRenderer.h"
-#include "hvn3/gui2/WidgetStyle.h"
+#include "hvn3/gui2/GuiTypeDefs.h"
 #include <string>
 #include <unordered_map>
 
@@ -14,19 +14,20 @@ namespace hvn3 {
 		public:
 			DefaultWidgetRenderer();
 
-			void DrawWidget(Graphics::Graphics& canvas, const IWidget& widget) const override;
+			void DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRendererRenderArgs& args) const override;
 
 		protected:
-			void DrawWidgetBase(Graphics::Graphics& canvas, const IWidget& widget) const;
-			void DrawButton(Graphics::Graphics& canvas, const IWidget& widget) const;
+			void DrawWidgetBase(Graphics::Graphics& canvas, const IWidget& widget, const Color& gradient_top, const Color& gradient_bottom) const;
+			void DrawButton(Graphics::Graphics& canvas, const IWidget& widget, WidgetRendererRenderArgs& args) const;
+			void InitRenderArgs(const IWidget& widget, WidgetRendererRenderArgs& args) const;
 
 		private:
-			void _initializeStyles();
-			Font _createBaseStyleFont();
-			const WidgetStyle& _getStyleFromWidget(const IWidget& widget);
+			Font _default_font;
 
-		private:
-			std::unordered_map<std::string, WidgetStyle> _style_map;
+			Font _createDefaultFont();
+			Color _getTransitionedColor(const WidgetRendererRenderArgs& args, const std::string& id, WidgetState state, WidgetProperty prop) const;
+			float _getInitialTransitionDuration(const std::string& identifier, WidgetState state) const;
+
 
 		};
 

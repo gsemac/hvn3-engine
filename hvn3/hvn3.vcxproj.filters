@@ -729,13 +729,7 @@
     <ClInclude Include="include\hvn3\collision\CollisionBodyPtr.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\WidgetStyle.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\WidgetIdentifier.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\WidgetStyleSheetReader.h">
+    <ClInclude Include="include\hvn3\gui2\WidgetRendererRenderArgs.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1140,13 +1134,7 @@
     <ClCompile Include="src\hvn3\collision\CollisionBodyPtr.cc">
       <Filter>src\collision</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\WidgetStyle.cc">
-      <Filter>src\gui2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\WidgetIdentifier.cc">
-      <Filter>src\gui2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\WidgetStyleSheetReader.cc">
+    <ClCompile Include="src\hvn3\gui2\WidgetRendererRenderArgs.cc">
       <Filter>src\gui2</Filter>
     </ClCompile>
   </ItemGroup>

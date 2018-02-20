@@ -30,14 +30,7 @@ namespace hvn3 {
 		bool IsAlphanumeric(int ch);
 		bool IsHexDigit(int ch);
 
-		bool StartsWith(const std::string& str, const std::string& prefix) {
-			if (prefix.length() > str.length())
-				return false;
-			for (size_t i = 0; i < prefix.length(); ++i)
-				if (str[i] != prefix[i])
-					return false;
-			return true;
-		}
+		bool StartsWith(const std::string& str, const std::string& prefix);
 
 		std::string Trim(const std::string& input_string);
 		std::string LTrim(const std::string& input_string);
@@ -61,7 +54,7 @@ namespace hvn3 {
 		std::string GetNextWord(const std::string& in, size_t pos);
 		std::string GetNextIf(const std::string& in, const std::function<bool(int)>& condition, size_t pos);
 
-		unsigned long ParseHex(const std::string hex);
+		uint64_t ParseHex(const std::string hex);
 
 		bool IEquals(const std::string& lhs, const std::string& rhs);
 		bool Equals(const std::string& lhs, const std::string& rhs, bool ignore_case = false);

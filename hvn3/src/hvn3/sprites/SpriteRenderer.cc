@@ -110,12 +110,12 @@ namespace hvn3 {
 			}
 
 		}
-		void SpriteRenderer::UpdateAnimation() {
+		void SpriteRenderer::StepAnimation() {
 
 			_incrementImageIndex(_image_speed);
 
 		}
-		void SpriteRenderer::UpdateAnimation(float delta) {
+		void SpriteRenderer::StepAnimation(float delta) {
 
 			_incrementImageIndex(_image_speed * delta);
 

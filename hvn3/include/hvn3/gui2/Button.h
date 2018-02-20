@@ -11,11 +11,6 @@ namespace hvn3 {
 			Button(const PointF& position, const String& text);
 			Button(float x, float y, float width, float height, const String& text);
 			Button(const PointF& position, const SizeF& size, const const String& text);
-			
-			void OnUpdate(WidgetUpdateEventArgs& e) override;
-			void OnMouseDown(WidgetMouseEventArgs& e) override;
-			void OnMouseHover(WidgetMouseHoverEventArgs& e) override;
-			void OnMouseUp(WidgetMouseEventArgs& e) override;
 
 		private:
 			Button();

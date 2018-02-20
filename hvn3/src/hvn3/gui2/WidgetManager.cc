@@ -8,6 +8,14 @@
 namespace hvn3 {
 	namespace Gui {
 
+		WidgetManager::WidgetCollectionItem::WidgetCollectionItem(std::unique_ptr<IWidget>& widget) :
+			widget(std::move(widget)) {
+		}
+		IWidget& WidgetManager::WidgetCollectionItem::GetRef() {
+			return *widget;
+		}
+
+
 		WidgetManager::WidgetManager() {
 
 			_initialize();
@@ -29,9 +37,7 @@ namespace hvn3 {
 
 			widget->SetManager(this);
 
-			_getRenderer()->ApplyStyleToWidget(*widget);
-
-			_widgets.emplace_back(std::move(widget));
+			_widgets.emplace_back(WidgetCollectionItem(widget));
 
 		}
 
@@ -54,7 +60,7 @@ namespace hvn3 {
 		void WidgetManager::OnDraw(DrawEventArgs& e) {
 
 			for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
-				_getRenderer()->DrawWidget(e.Graphics(), *(*i));
+				_getRenderer()->DrawWidget(e.Graphics(), i->GetRef(), i->rendererArgs);
 
 		}
 		void WidgetManager::OnUpdate(UpdateEventArgs& e) {
@@ -62,8 +68,10 @@ namespace hvn3 {
 			if (_widget_hovered != nullptr)
 				_widget_hovered->HandleEvent(WidgetMouseHoverEventArgs(_widget_hovered, _last_mouse_position, e.Delta()));
 
-			for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
-				(*i)->HandleEvent(WidgetUpdateEventArgs((*i).get(), e.Delta()));
+			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
+				i->widget->HandleEvent(WidgetUpdateEventArgs(i->widget.get(), e.Delta()));
+				i->rendererArgs.UpdateTransitionData(e.Delta());
+			}
 
 		}
 
@@ -98,11 +106,18 @@ namespace hvn3 {
 			IWidget* widget_hovered = nullptr;
 
 			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
-				IWidget* widget = i->get();
+				IWidget* widget = i->widget.get();
 				if (Math::Geometry::PointIn(e.Position(), RectangleF(widget->Position(), widget->Size()))) {
 					widget_hovered = widget;
 					break;
 				}
+			}
+
+			if (widget_hovered != _widget_hovered) {
+				if (_widget_hovered != nullptr)
+					_widget_hovered->HandleEvent(WidgetMouseMoveEventArgs(_widget_hovered, WidgetEventType::OnMouseLeave, e));
+				if (widget_hovered != nullptr)
+					widget_hovered->HandleEvent(WidgetMouseMoveEventArgs(widget_hovered, WidgetEventType::OnMouseEnter, e));
 			}
 
 			_last_mouse_position = e.Position();
@@ -110,6 +125,7 @@ namespace hvn3 {
 
 		}
 		void WidgetManager::OnMouseScroll(MouseScrollEventArgs& e) {}
+
 
 
 		void WidgetManager::_initialize() {
