@@ -21,61 +21,12 @@ namespace hvn3 {
 			return _initialized;
 		}
 
-		const WidgetRendererRenderArgs::TransitionData<Color>* WidgetRendererRenderArgs::GetColorTransitionData(WidgetProperty prop) const {
-			auto it = _color_transitions.find(prop);
-			if (it == _color_transitions.end())
-				return nullptr;
-			return &(it->second);
-		}
-		const WidgetRendererRenderArgs::TransitionData<float>* WidgetRendererRenderArgs::GetFloatTransitionData(WidgetProperty prop) const {
-			auto it = _float_transitions.find(prop);
-			if (it == _float_transitions.end())
-				return nullptr;
-			return &(it->second);
-		}
-		void WidgetRendererRenderArgs::SetColorTransitionData(WidgetProperty prop, const Color& to, float duration) {
-			auto it = _color_transitions.find(prop);
-			if (it == _color_transitions.end())
-				it = _color_transitions.insert(std::make_pair(prop, TransitionData<Color>())).first;
-			it->second.from = it->second.to;
-			it->second.to = to;
-			it->second.progress = 0.0f;
-			it->second.duration = duration;
-			_initialized = true;
-		}
-		void WidgetRendererRenderArgs::SetColorTransitionData(WidgetProperty prop, const Color& to, const Color& from, float duration) {
-			auto it = _color_transitions.find(prop);
-			if (it == _color_transitions.end())
-				it = _color_transitions.insert(std::make_pair(prop, TransitionData<Color>())).first;
-			it->second.to = to;
-			it->second.from = from;
-			it->second.progress = 0.0f;
-			it->second.duration = duration;
-			_initialized = true;
-		}
-		void WidgetRendererRenderArgs::SetFloatTransitionData(WidgetProperty prop, float to, float duration) {
-			auto it = _float_transitions.find(prop);
-			if (it == _float_transitions.end())
-				it = _float_transitions.insert(std::make_pair(prop, TransitionData<float>())).first;
-			it->second.to = to;
-			it->second.progress = 0.0f;
-			it->second.duration = duration;
-			_initialized = true;
-		}
-		void WidgetRendererRenderArgs::SetFloatTransitionData(WidgetProperty prop, float to, float from, float duration) {
-			auto it = _float_transitions.find(prop);
-			if (it == _float_transitions.end())
-				it = _float_transitions.insert(std::make_pair(prop, TransitionData<float>())).first;
-			it->second.to = to;
-			it->second.from = from;
-			it->second.progress = 0.0f;
-			it->second.duration = duration;
-			_initialized = true;
-		}
 		void WidgetRendererRenderArgs::UpdateTransitionData(float delta) {
 			for (auto i = _color_transitions.begin(); i != _color_transitions.end(); ++i)
 				i->second.progress = Math::Min(i->second.progress + delta, i->second.duration);
 			for (auto i = _float_transitions.begin(); i != _float_transitions.end(); ++i)
+				i->second.progress = Math::Min(i->second.progress + delta, i->second.duration);
+			for (auto i = _point_transitions.begin(); i != _point_transitions.end(); ++i)
 				i->second.progress = Math::Min(i->second.progress + delta, i->second.duration);
 		}
 

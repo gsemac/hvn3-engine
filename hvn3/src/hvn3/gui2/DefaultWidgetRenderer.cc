@@ -11,6 +11,12 @@
 namespace hvn3 {
 	namespace Gui {
 
+		PointF getEasedPoint(const WidgetRendererRenderArgs::TransitionData<PointF>* data) {
+			return PointF(data->from.x + (data->to.x - data->from.x) * data->Percentage(), data->from.y + (data->to.y - data->from.y) * data->Percentage());
+		}
+
+
+
 		DefaultWidgetRenderer::DefaultWidgetRenderer() :
 			_default_font(_createDefaultFont()) {
 		}
@@ -48,18 +54,25 @@ namespace hvn3 {
 
 			Color background_top_color(73, 70, 82);
 			Color background_bottom_color = _getTransitionedColor(args, widget.Identifier(), widget.State(), WidgetProperty::BackgroundColor);
+			auto text_offset_d = args.GetTransitionData<PointF>(WidgetProperty::TextOffset);
 
 			DrawWidgetBase(canvas, widget, background_top_color, background_bottom_color);
 
 			if (_default_font) {
-				float text_width = widget.Text().Width(_default_font);
-				float text_height = widget.Text().Height(_default_font);
 
-				canvas.DrawText(
-					widget.Position().X() + (widget.Size().Width() / 2.0f),
-					widget.Position().Y() + (widget.Size().Height() / 2.0f) - (text_height / 2.0f),
-					widget.Text(), _default_font, Color(224, 224, 224), Alignment::Center
-					);
+				float text_w = widget.Text().Width(_default_font);
+				float text_h = widget.Text().Height(_default_font);
+				float text_x = widget.Position().X() + (widget.Size().Width() / 2.0f);
+				float text_y = widget.Position().Y() + (widget.Size().Height() / 2.0f) - (text_h / 2.0f);
+
+				if (text_offset_d != nullptr) {
+					PointF text_offset = getEasedPoint(text_offset_d);
+					text_x += text_offset.x;
+					text_y += text_offset.y;
+				}
+
+				canvas.DrawText(text_x, text_y, widget.Text(), _default_font, Color(224, 224, 224), Alignment::Center);
+
 			}
 
 		}
@@ -70,21 +83,27 @@ namespace hvn3 {
 
 			Color default_background_color(68, 64, 78);
 
-			if (!args.Initialized())
-				args.SetColorTransitionData(WidgetProperty::BackgroundColor, default_background_color, default_background_color, 0.0f);
-
-			args.SetLastState(widget.State());
-
-			if (widget.Identifier() == "button") {
-				if (HasFlag(widget.State(), WidgetState::Hover)) {
-					args.SetColorTransitionData(WidgetProperty::BackgroundColor, Color::Merge(Color::Orange, default_background_color, 0.7f), 0.3f);
-					std::cout << args.GetColorTransitionData(WidgetProperty::BackgroundColor)->duration;
-				}
-				else
-					args.SetColorTransitionData(WidgetProperty::BackgroundColor, default_background_color, 0.2f);
+			// Initialize the transition data for this widget to give it a starting point.
+			if (!args.Initialized()) {
+				args.SetTransitionData<Color>(WidgetProperty::BackgroundColor, default_background_color, default_background_color, 0.0f);
+				args.SetTransitionData<PointF>(WidgetProperty::TextOffset, PointF(0.0f, 0.0f), PointF(0.0f, 0.0f), 0.0f);
 			}
 
+			// Update the state of the args object to reflect the state of the widget.
+			args.SetLastState(widget.State());
 
+			// Update the transition data to reflect the widget's current (new) state.
+			if (widget.Identifier() == "button") {
+				if (HasFlag(widget.State(), WidgetState::Hover)) {
+					args.SetTransitionData<Color>(WidgetProperty::BackgroundColor, Color::Merge(Color::Orange, default_background_color, 0.7f), 0.3f);
+					args.SetTransitionData<PointF>(WidgetProperty::TextOffset, PointF(0.0f, 4.0f), 3.0f);
+				}
+				else {
+					// This is the transition data when the widget changes back to its default state.
+					args.SetTransitionData<Color>(WidgetProperty::BackgroundColor, default_background_color, 0.2f);
+					args.SetTransitionData<PointF>(WidgetProperty::TextOffset, PointF(0.0f, 0.0f), 3.0f);
+				}
+			}
 
 		}
 
@@ -97,18 +116,12 @@ namespace hvn3 {
 			else
 				return Font::BuiltIn();
 		}
-		Color DefaultWidgetRenderer::_getTransitionedColor(const WidgetRendererRenderArgs& args, const std::string& id, WidgetState state, WidgetProperty prop) const {
-			auto td_ptr = args.GetColorTransitionData(prop);
+		Color DefaultWidgetRenderer::_getTransitionedColor(WidgetRendererRenderArgs& args, const std::string& id, WidgetState state, WidgetProperty prop) const {
+			auto td_ptr = args.GetTransitionData<Color>(prop);
 			if (td_ptr != nullptr)
 				return Color::Merge(td_ptr->from, td_ptr->to, td_ptr->Percentage());
-			return Color(68, 64, 78);
+			return Color(68, 64, 78); // Return the default background color if we don't have one to return.
 		}
-		float DefaultWidgetRenderer::_getInitialTransitionDuration(const std::string& identifier, WidgetState state) const {
-			if (HasFlag(state, WidgetState::Hover))
-				return 0.2f;
-			return 0.1f;
-		}
-
 
 	}
 }

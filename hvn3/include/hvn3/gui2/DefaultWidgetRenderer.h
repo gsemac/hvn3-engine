@@ -25,9 +25,7 @@ namespace hvn3 {
 			Font _default_font;
 
 			Font _createDefaultFont();
-			Color _getTransitionedColor(const WidgetRendererRenderArgs& args, const std::string& id, WidgetState state, WidgetProperty prop) const;
-			float _getInitialTransitionDuration(const std::string& identifier, WidgetState state) const;
-
+			Color _getTransitionedColor(WidgetRendererRenderArgs& args, const std::string& id, WidgetState state, WidgetProperty prop) const;
 
 		};
 

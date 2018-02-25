@@ -28,6 +28,7 @@ namespace hvn3 {
 		enum class WidgetProperty {
 			BackgroundColor,
 			Color,
+			TextOffset,
 			WIDGET_PROPERTY_MAX
 		};
 
