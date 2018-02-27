@@ -23,7 +23,7 @@ namespace hvn3 {
 	}
 	bool RoomTransitionFade::ExitStep(UpdateEventArgs& e) {
 
-		_alpha = Math::Min(_alpha + e.Delta(), 1.0f);
+		_alpha = Math::Min(_alpha + e.Delta(), 1.0);
 
 		return _alpha >= 1.0f;
 
@@ -32,7 +32,7 @@ namespace hvn3 {
 
 	bool RoomTransitionFade::EnterStep(UpdateEventArgs& e) {
 
-		_alpha = Math::Max(_alpha - e.Delta(), 0.0f);
+		_alpha = Math::Max(_alpha - e.Delta(), 0.0);
 
 		return _alpha <= 0.0f;
 

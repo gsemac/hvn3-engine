@@ -44,11 +44,11 @@ namespace hvn3 {
 
 		class WidgetUpdateEventArgs : public WidgetEventArgs {
 		public:
-			WidgetUpdateEventArgs(IWidget* sender, float dt);
-			float Delta() const;
+			WidgetUpdateEventArgs(IWidget* sender, double dt);
+			double Delta() const;
 			WidgetEventType Type() const override;
 		private:
-			float _dt;
+			double _dt;
 		};
 
 
@@ -64,7 +64,7 @@ namespace hvn3 {
 		};
 		class WidgetMouseHoverEventArgs : public WidgetUpdateEventArgs {
 		public:
-			WidgetMouseHoverEventArgs(IWidget* sender, const PointF& position, float dt);
+			WidgetMouseHoverEventArgs(IWidget* sender, const PointF& position, double dt);
 			const PointF& Position() const;
 			WidgetEventType Type() const override;
 		private:

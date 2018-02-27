@@ -66,7 +66,7 @@ namespace hvn3 {
 				float text_y = widget.Position().Y() + (widget.Size().Height() / 2.0f) - (text_h / 2.0f);
 
 				if (text_offset_d != nullptr) {
-					PointF text_offset = getEasedPoint(text_offset_d);
+					PointF text_offset = System::Graphics::TweenTraits<PointF>::Interpolate(text_offset_d->from, text_offset_d->to, text_offset_d->Percentage(), hvn3::Graphics::TweenFunction::Linear);
 					text_x += text_offset.x;
 					text_y += text_offset.y;
 				}
@@ -96,12 +96,12 @@ namespace hvn3 {
 			if (widget.Identifier() == "button") {
 				if (HasFlag(widget.State(), WidgetState::Hover)) {
 					args.SetTransitionData<Color>(WidgetProperty::BackgroundColor, Color::Merge(Color::Orange, default_background_color, 0.7f), 0.3f);
-					args.SetTransitionData<PointF>(WidgetProperty::TextOffset, PointF(0.0f, 4.0f), 3.0f);
+					args.SetTransitionData<PointF>(WidgetProperty::TextOffset, PointF(0.0f, 2.0f), 0.1f);
 				}
 				else {
 					// This is the transition data when the widget changes back to its default state.
 					args.SetTransitionData<Color>(WidgetProperty::BackgroundColor, default_background_color, 0.2f);
-					args.SetTransitionData<PointF>(WidgetProperty::TextOffset, PointF(0.0f, 0.0f), 3.0f);
+					args.SetTransitionData<PointF>(WidgetProperty::TextOffset, PointF(0.0f, 0.0f), 0.1f);
 				}
 			}
 

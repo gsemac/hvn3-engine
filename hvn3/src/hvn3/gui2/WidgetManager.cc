@@ -70,7 +70,7 @@ namespace hvn3 {
 
 			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
 				i->widget->HandleEvent(WidgetUpdateEventArgs(i->widget.get(), e.Delta()));
-				i->rendererArgs.UpdateTransitionData(e.Delta());
+				i->rendererArgs.UpdateTransitionData(static_cast<float>(e.Delta()));
 			}
 
 		}

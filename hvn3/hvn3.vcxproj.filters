@@ -732,6 +732,9 @@
     <ClInclude Include="include\hvn3\gui2\WidgetRendererRenderArgs.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\graphics\Tween.h">
+      <Filter>include\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

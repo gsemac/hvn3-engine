@@ -66,6 +66,44 @@ namespace hvn3 {
 
 		}
 
+		
+		Point2d<T>& operator+=(const Point2d<T>& other) {
+
+			Offset(other);
+
+			return *this;
+
+		}
+		Point2d<T>& operator-=(const Point2d<T>& other) {
+
+			Offset(-other);
+
+			return *this;
+
+		}
+		Point2d<T>& operator*=(const T other) {
+
+			x *= other;
+			y *= other;
+
+			return *this;
+
+		}
+		Point2d<T>& operator/=(const T other) {
+
+			x /= other;
+			y /= other;
+
+			return *this;
+
+		}
+		Point2d<T> operator*(T other) const {
+			return Point2d<T>(x * other, y * other);
+		}
+		Point2d<T> operator/(T other) const {
+			return Point2d<T>(x / other, y / other);
+		}
+
 		friend bool operator==(const Point2d<T>& a, const Point2d<T>& b) {
 
 			return (a.X() == b.X()) && (a.Y() == b.Y());
@@ -91,44 +129,14 @@ namespace hvn3 {
 			return Point2d<T>(-a.X(), -a.Y());
 
 		}
-		Point2d<T>& operator+=(const Point2d<T>& other) {
+		friend Point2d<T> operator*(const T other, const Point2d<T>& rhs) {
 
-			Offset(other);
-
-			return *this;
+			return Point2d<T>(rhs.x * other, rhs.y * other);
 
 		}
-		Point2d<T>& operator-=(const Point2d<T>& other) {
+		friend Point2d<T> operator/(const T other, const Point2d<T>& rhs) {
 
-			Offset(-other);
-
-			return *this;
-
-		}
-		friend Point2d<T> operator*(const Point2d<T>& rhs, const T other) {
-
-			return Point2d<T>(x * other, y * other);
-
-		}
-		Point2d<T>& operator*=(const T other) {
-
-			x *= other;
-			y *= other;
-
-			return *this;
-
-		}
-		friend Point2d<T> operator/(const Point2d<T>& lhs, const T other) {
-
-			return Point2d<T>(x / other, y / other);
-
-		}
-		Point2d<T>& operator/=(const T other) {
-
-			x /= other;
-			y /= other;
-
-			return *this;
+			return Point2d<T>(rhs.x / other, rhs.y / other);
 
 		}
 

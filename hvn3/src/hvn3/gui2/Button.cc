@@ -17,7 +17,7 @@ namespace hvn3 {
 		Button::Button(float x, float y, float width, float height, const String& text) :
 			Button(PointF(x, y), SizeF(width, height), text) {
 		}
-		Button::Button(const PointF& position, const SizeF& size, const const String& text) :
+		Button::Button(const PointF& position, const SizeF& size, const String& text) :
 			WidgetBase(position, size) {
 
 			_initializeMembers();

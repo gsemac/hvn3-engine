@@ -110,14 +110,14 @@ namespace hvn3 {
 			}
 
 		}
-		void SpriteRenderer::StepAnimation() {
+		void SpriteRenderer::Step() {
 
 			_incrementImageIndex(_image_speed);
 
 		}
-		void SpriteRenderer::StepAnimation(float delta) {
+		void SpriteRenderer::Step(double delta) {
 
-			_incrementImageIndex(_image_speed * delta);
+			_incrementImageIndex(_image_speed * static_cast<float>(delta));
 
 		}
 
@@ -125,7 +125,7 @@ namespace hvn3 {
 
 		void SpriteRenderer::_incrementImageIndex(float delta) {
 
-			_image_index_timer += (std::fabs)(delta);
+			_image_index_timer += (std::abs)(delta);
 			if (_image_index_timer >= 1.0f) {
 				switch (static_cast<int>(Math::Sign(ImageSpeed()))) {
 				case -1:

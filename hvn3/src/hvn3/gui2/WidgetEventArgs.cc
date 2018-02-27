@@ -16,11 +16,11 @@ namespace hvn3 {
 		}
 
 
-		WidgetUpdateEventArgs::WidgetUpdateEventArgs(IWidget* sender, float dt) :
+		WidgetUpdateEventArgs::WidgetUpdateEventArgs(IWidget* sender, double dt) :
 			WidgetEventArgs(sender),
 			_dt(dt) {
 		}
-		float WidgetUpdateEventArgs::Delta() const {
+		double WidgetUpdateEventArgs::Delta() const {
 			return _dt;
 		}
 		WidgetEventType WidgetUpdateEventArgs::Type() const {
@@ -42,7 +42,7 @@ namespace hvn3 {
 			return _type;
 		}
 
-		WidgetMouseHoverEventArgs::WidgetMouseHoverEventArgs(IWidget* sender, const PointF& position, float dt) :
+		WidgetMouseHoverEventArgs::WidgetMouseHoverEventArgs(IWidget* sender, const PointF& position, double dt) :
 			WidgetUpdateEventArgs(sender, dt),
 			_position(position) {
 		}
