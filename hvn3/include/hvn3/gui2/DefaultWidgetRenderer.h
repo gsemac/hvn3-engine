@@ -14,18 +14,18 @@ namespace hvn3 {
 		public:
 			DefaultWidgetRenderer();
 
-			void DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRendererRenderArgs& args) const override;
+			void DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const override;
 
 		protected:
 			void DrawWidgetBase(Graphics::Graphics& canvas, const IWidget& widget, const Color& gradient_top, const Color& gradient_bottom) const;
-			void DrawButton(Graphics::Graphics& canvas, const IWidget& widget, WidgetRendererRenderArgs& args) const;
-			void InitRenderArgs(const IWidget& widget, WidgetRendererRenderArgs& args) const;
+			void DrawButton(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
+			void InitRenderArgs(const IWidget& widget, WidgetRenderArgs& args) const;
 
 		private:
 			Font _default_font;
 
 			Font _createDefaultFont();
-			Color _getTransitionedColor(WidgetRendererRenderArgs& args, const std::string& id, WidgetState state, WidgetProperty prop) const;
+			Color _getTransitionedColor(WidgetRenderArgs& args, const std::string& id, WidgetState state, WidgetProperty prop) const;
 
 		};
 

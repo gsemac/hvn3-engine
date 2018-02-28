@@ -1,7 +1,7 @@
 #pragma once
 #include "hvn3/core/IDrawable.h"
 #include "hvn3/core/IUpdatable.h"
-#include "hvn3/gui2/WidgetRendererRenderArgs.h"
+#include "hvn3/gui2/WidgetRenderArgs.h"
 #include "hvn3/io/KeyboardListener.h"
 #include "hvn3/io/MouseListener.h"
 #include <memory>
@@ -20,7 +20,7 @@ namespace hvn3 {
 				WidgetCollectionItem(std::unique_ptr<IWidget>& widget);
 				IWidget& GetRef();
 				std::unique_ptr<IWidget> widget;
-				WidgetRendererRenderArgs rendererArgs;
+				WidgetRenderArgs rendererArgs;
 			};
 			
 			typedef std::shared_ptr<IWidgetRenderer> renderer_ptr_type;

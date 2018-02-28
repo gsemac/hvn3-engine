@@ -4,14 +4,14 @@
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/gui2/DefaultWidgetRenderer.h"
 #include "hvn3/gui2/IWidget.h"
-#include "hvn3/gui2/WidgetRendererRenderArgs.h"
+#include "hvn3/gui2/WidgetRenderArgs.h"
 #include "hvn3/io/File.h"
 #include "hvn3/utility/Utf8String.h"
 
 namespace hvn3 {
 	namespace Gui {
 
-		PointF getEasedPoint(const WidgetRendererRenderArgs::TransitionData<PointF>* data) {
+		PointF getEasedPoint(const WidgetRenderArgs::TransitionData<PointF>* data) {
 			return PointF(data->from.x + (data->to.x - data->from.x) * data->Percentage(), data->from.y + (data->to.y - data->from.y) * data->Percentage());
 		}
 
@@ -21,7 +21,7 @@ namespace hvn3 {
 			_default_font(_createDefaultFont()) {
 		}
 
-		void DefaultWidgetRenderer::DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRendererRenderArgs& args) const {
+		void DefaultWidgetRenderer::DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
 
 			InitRenderArgs(widget, args);
 
@@ -50,7 +50,7 @@ namespace hvn3 {
 			canvas.DrawRoundRectangle(x, y, w - 1.0f, h - 1.0f, light_outline_color, 1.0f, 1.0f); // light outline
 
 		}
-		void DefaultWidgetRenderer::DrawButton(Graphics::Graphics& canvas, const IWidget& widget, WidgetRendererRenderArgs& args) const {
+		void DefaultWidgetRenderer::DrawButton(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
 
 			Color background_top_color(73, 70, 82);
 			Color background_bottom_color = _getTransitionedColor(args, widget.Identifier(), widget.State(), WidgetProperty::BackgroundColor);
@@ -76,7 +76,7 @@ namespace hvn3 {
 			}
 
 		}
-		void DefaultWidgetRenderer::InitRenderArgs(const IWidget& widget, WidgetRendererRenderArgs& args) const {
+		void DefaultWidgetRenderer::InitRenderArgs(const IWidget& widget, WidgetRenderArgs& args) const {
 
 			if (args.Initialized() && args.LastState() == widget.State())
 				return;
@@ -116,7 +116,7 @@ namespace hvn3 {
 			else
 				return Font::BuiltIn();
 		}
-		Color DefaultWidgetRenderer::_getTransitionedColor(WidgetRendererRenderArgs& args, const std::string& id, WidgetState state, WidgetProperty prop) const {
+		Color DefaultWidgetRenderer::_getTransitionedColor(WidgetRenderArgs& args, const std::string& id, WidgetState state, WidgetProperty prop) const {
 			auto td_ptr = args.GetTransitionData<Color>(prop);
 			if (td_ptr != nullptr)
 				return Color::Merge(td_ptr->from, td_ptr->to, td_ptr->Percentage());

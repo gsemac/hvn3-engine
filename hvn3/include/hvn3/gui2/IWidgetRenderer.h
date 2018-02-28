@@ -9,14 +9,14 @@ namespace hvn3 {
 	namespace Gui {
 
 		class IWidget;
-		class WidgetRendererRenderArgs;
+		class WidgetRenderArgs;
 
 		class IWidgetRenderer {
 
 		public:
 			virtual ~IWidgetRenderer() = default;
 
-			virtual void DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRendererRenderArgs& args) const = 0;
+			virtual void DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const = 0;
 
 		};
 

@@ -621,11 +621,14 @@
     <ClInclude Include="include\hvn3\collision\CollisionBodyPtr.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\WidgetRendererRenderArgs.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\graphics\Tween.h">
       <Filter>include\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\Window.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\WidgetRenderArgs.h">
+      <Filter>include\gui2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

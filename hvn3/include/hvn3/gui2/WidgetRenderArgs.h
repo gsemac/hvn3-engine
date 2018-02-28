@@ -9,7 +9,7 @@
 namespace hvn3 {
 	namespace Gui {
 
-		class WidgetRendererRenderArgs {
+		class WidgetRenderArgs {
 
 		public:
 			template <typename T>
@@ -46,7 +46,7 @@ namespace hvn3 {
 
 		public:
 
-			WidgetRendererRenderArgs();
+			WidgetRenderArgs();
 
 			WidgetState LastState() const;
 			void SetLastState(WidgetState value);
