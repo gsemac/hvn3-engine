@@ -1,6 +1,6 @@
 #pragma once
 #include "hvn3/tilesets/Tileset.h"
-#include "hvn3/gui/ScrollableControl.h"
+#include "hvn3/deprecated/ScrollableControl.h"
 
 namespace hvn3 {
 	namespace Gui {

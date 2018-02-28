@@ -31,9 +31,6 @@
     <Filter Include="include\graphics">
       <UniqueIdentifier>{866ca3bf-4372-4b3f-b837-3201f5fd4aad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\gui">
-      <UniqueIdentifier>{7efa2db9-8ef3-480b-a7e0-6c0e97d3c18c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include\io">
       <UniqueIdentifier>{8755feb2-63d3-4db0-a554-588a7243ce9f}</UniqueIdentifier>
     </Filter>
@@ -87,9 +84,6 @@
     </Filter>
     <Filter Include="src\graphics">
       <UniqueIdentifier>{91d78e07-1284-4d1f-b641-ea48a3a764a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\gui">
-      <UniqueIdentifier>{ed82978e-74ab-40a9-b4c8-0cf4a9af9bfe}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\io">
       <UniqueIdentifier>{8f7217b0-f24d-4e67-8373-48749a35fb58}</UniqueIdentifier>
@@ -333,93 +327,6 @@
     <ClInclude Include="include\hvn3\graphics\Transform.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\gui\Container.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\ContainerControl.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\Control.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\ControlController.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\ControlManager.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\Gui.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\Handle.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\IContainer.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\IFocusable.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\ImageableControl.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\IScrollable.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\ITextable.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\Panel.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\ScrollableControl.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\Scrollbar.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\ScrollEventArgs.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\SmoothScrollbar.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\StyleManager.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\TextableControl.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\Textbox.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\ToolStrip.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\ToolStripButton.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\ToolStripDropDown.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\ToolStripItem.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\ToolStripLabel.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\ToolStripMenuItem.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\ToolStripSeparator.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\Window.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\ButtonBase.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\io\Clipboard.h">
       <Filter>include\io</Filter>
     </ClInclude>
@@ -544,9 +451,6 @@
       <Filter>include\sprites</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\tilesets\Tileset.h">
-      <Filter>include\tilesets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\tilesets\TilesetPanel.h">
       <Filter>include\tilesets</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\utility\BitFlags.h">
@@ -695,12 +599,6 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\gui2\DefaultWidgetRenderer.h">
       <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\_GuiManager.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\_Button.h">
-      <Filter>include\gui</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\core\SystemAssets.h">
       <Filter>include\core</Filter>
@@ -855,90 +753,6 @@
     <ClCompile Include="src\hvn3\graphics\Display.cc">
       <Filter>src\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\gui\ContainerControl.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\Control.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\ControlController.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\ControlManager.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\GuiManager.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\IContainer.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\IFocusable.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\ImageableControl.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\IScrollable.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\ITextable.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\Panel.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\ScrollableControl.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\Scrollbar.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\ScrollEventArgs.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\SmoothScrollbar.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\StyleManager.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\TextableControl.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\ToolStrip.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\ToolStripButton.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\ToolStripDropDown.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\ToolStripItem.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\ToolStripLabel.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\ToolStripMenuItem.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\ToolStripSeparator.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\Window.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\Button.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\ButtonBase.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\Container.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\io\Clipboard.cc">
       <Filter>src\io</Filter>
     </ClCompile>
@@ -1031,9 +845,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\sprites\SpriteRenderer.cc">
       <Filter>src\sprites</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\tilesets\TilesetPanel.cc">
-      <Filter>src\tilesets</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\tilesets\Tileset.cc">
       <Filter>src\tilesets</Filter>
