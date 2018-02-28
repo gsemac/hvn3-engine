@@ -126,7 +126,6 @@
     <ClInclude Include="include\hvn3\math\Rectangle.h" />
     <ClInclude Include="include\hvn3\math\Vector2d.h" />
     <ClInclude Include="include\hvn3\net\IPAddress.h" />
-    <ClInclude Include="include\hvn3\objects\CollisionObject.h" />
     <ClInclude Include="include\hvn3\objects\IObject.h" />
     <ClInclude Include="include\hvn3\objects\IObjectManager.h" />
     <ClInclude Include="include\hvn3\objects\Object.h" />
@@ -134,7 +133,6 @@
     <ClInclude Include="include\hvn3\objects\ObjectEventArgs.h" />
     <ClInclude Include="include\hvn3\objects\ObjectManager.h" />
     <ClInclude Include="include\hvn3\objects\ObjectTypeDefs.h" />
-    <ClInclude Include="include\hvn3\objects\PhysicsObject.h" />
     <ClInclude Include="include\hvn3\physics\BasicPhysicsManager.h" />
     <ClInclude Include="include\hvn3\physics\PhysicsBodyBase.h" />
     <ClInclude Include="include\hvn3\physics\IPhysicsBody.h" />
@@ -258,11 +256,9 @@
     <ClCompile Include="src\hvn3\math\MathUtils.cc" />
     <ClCompile Include="src\hvn3\math\Vector2d.cc" />
     <ClCompile Include="src\hvn3\net\IPAddress.cc" />
-    <ClCompile Include="src\hvn3\objects\CollisionObject.cc" />
     <ClCompile Include="src\hvn3\objects\Object.cc" />
     <ClCompile Include="src\hvn3\objects\ObjectBase.cc" />
     <ClCompile Include="src\hvn3\objects\ObjectManager.cc" />
-    <ClCompile Include="src\hvn3\objects\PhysicsObject.cc" />
     <ClCompile Include="src\hvn3\physics\BasicPhysicsManager.cc" />
     <ClCompile Include="src\hvn3\physics\PhysicsBodyBase.cc" />
     <ClCompile Include="src\hvn3\physics\Material.cc" />

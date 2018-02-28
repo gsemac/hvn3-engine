@@ -576,9 +576,6 @@
     <ClInclude Include="include\hvn3\collision\CategoryFilter.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\objects\PhysicsObject.h">
-      <Filter>include\objects</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\gui2\IWidget.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
@@ -605,9 +602,6 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\gui2\WidgetManager.h">
       <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\objects\CollisionObject.h">
-      <Filter>include\objects</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\objects\IObject.h">
       <Filter>include\objects</Filter>
@@ -912,9 +906,6 @@
     <ClCompile Include="src\hvn3\physics\BasicPhysicsManager.cc">
       <Filter>src\physics</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\objects\PhysicsObject.cc">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\gui2\WidgetBase.cc">
       <Filter>src\gui2</Filter>
     </ClCompile>
@@ -932,9 +923,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\gui2\WidgetManager.cc">
       <Filter>src\gui2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\objects\CollisionObject.cc">
-      <Filter>src\objects</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\allegro\AllegroExt.cc">
       <Filter>src\allegro</Filter>
