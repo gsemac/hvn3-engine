@@ -10,7 +10,7 @@ namespace hvn3 {
 
 	}
 	MouseListener::~MouseListener() {
-
+	
 		/*
 		Be careful! Because the registry is static, in some scenarios, it's possible for it to be deinitialized before all instances of the listener class.
 		If this happens, we need to make sure that they do not attempt to erase themselves from the deinitalized collection.

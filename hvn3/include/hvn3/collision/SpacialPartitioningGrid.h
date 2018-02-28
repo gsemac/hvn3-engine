@@ -41,7 +41,7 @@ namespace hvn3 {
 		}
 
 		void OnUpdate(UpdateEventArgs& e) override {
-
+		
 			// If there are any colliders pending removal, remove them now.
 			if (_pending_removal.size() > 0) {
 				_colliders.erase(RemoveSame(_colliders.begin(), _colliders.end(), _pending_removal.begin(), _pending_removal.end()).first, _colliders.end());

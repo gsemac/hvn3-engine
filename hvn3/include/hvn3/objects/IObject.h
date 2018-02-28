@@ -15,7 +15,7 @@ namespace hvn3 {
 		public IPositionable2d<float> {
 
 	public:
-		~IObject() = default;
+		virtual ~IObject() = default;
 
 		virtual void OnCreate(CreateEventArgs& e) = 0;
 		virtual void OnDestroy(DestroyEventArgs& e) = 0;

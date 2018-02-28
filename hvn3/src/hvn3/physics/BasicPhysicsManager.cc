@@ -21,7 +21,6 @@ namespace hvn3 {
 			_body_lookup_table[body] = physics_body;
 			return physics_body;
 		}
-
 		void BasicPhysicsManager::OnUpdate(UpdateEventArgs& e) {
 
 			PhysicsManagerBase::OnUpdate(e);
@@ -102,7 +101,11 @@ namespace hvn3 {
 			}
 
 		}
-
+		void BasicPhysicsManager::Clear() {
+			PhysicsManagerBase::Clear();
+			_body_lookup_table.clear();
+			_contacts.clear();
+		}
 
 
 		IPhysicsBody* BasicPhysicsManager::_lookupBody(ICollisionBody* key) {

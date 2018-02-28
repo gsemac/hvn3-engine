@@ -124,7 +124,7 @@ namespace hvn3 {
 
 		}
 		void MouseMutator::DispatchEvent(MouseReleasedEventArgs& e) const {
-
+		
 			for (auto i = MouseListener::_listeners().begin(); i != MouseListener::_listeners().end(); ++i)
 				(*i)->OnMouseReleased(e);
 

@@ -33,8 +33,8 @@ namespace hvn3 {
 		}
 
 		collider_handle_type CreateBody(collidable_ptr_type collidable) override {
-			_colliders.emplace_back(collider_type(collidable));			 
-			collider_handle_type body = &_colliders.back();		
+			_colliders.emplace_back(collider_type(collidable));
+			collider_handle_type body = &_colliders.back();
 			_broad_phase.AddBody(body);
 			return body;
 		}
@@ -285,7 +285,7 @@ namespace hvn3 {
 		}
 		// Checks all potentially-colliding pairs and triggers events as needed.
 		virtual void CheckPairs(const typename broadphase_type::collider_pair_vector_type& pairs) = 0;
-		
+
 		// Removes all destroyed bodies from the manager. Destroyed bodies are freed and cannot be accessed after this point.
 		void ClearDestroyedBodies() {
 			_colliders.remove_if([](const collider_type& body) { return body.IsDestroyed(); });

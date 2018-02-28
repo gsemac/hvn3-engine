@@ -12,6 +12,16 @@ namespace hvn3 {
 	}
 
 	void Room::OnUpdate(UpdateEventArgs& e) {
+		
+		// Pending restarts should be processed before anything else, so it doesn't do an extra update when resets are initiated outside of it.
+		if (_restart_pending) {
+			// Reset the state of the room.
+			OnReset();
+			// Set-up the room again.
+			OnSetUp();
+			// Disable the restarting pending flag.
+			_restart_pending = false;
+		}
 
 		// Update objects (begin).
 		Objects().OnBeginUpdate(e);
@@ -33,19 +43,6 @@ namespace hvn3 {
 
 		// Update backgrounds.
 		_background_manager.Update(e);
-
-		if (_restart_pending) {
-
-			// Reset the state of the room.
-			OnReset();
-
-			// Set-up the room again.
-			OnSetUp();
-
-			// Disable the restarting pending flag.
-			_restart_pending = false;
-
-		}
 
 	}
 	void Room::OnDraw(DrawEventArgs& e) {
@@ -188,8 +185,10 @@ namespace hvn3 {
 	void Room::OnReset() {
 
 		// Reset base (clears all objects).
-		// Objects are cleared before collision bodies so that their collision body handles fall out of scope.
 		RoomBase::OnReset();
+
+		// Clear the physics manager first, as it may hold references to the collision manager.
+		_physics_manager.Clear();
 
 		// Clear all bodies from the collision manager.
 		_collision_manager.Clear();
@@ -219,5 +218,3 @@ namespace hvn3 {
 	}
 
 }
-
-#pragma warning(pop)

@@ -16,8 +16,8 @@ namespace hvn3 {
 
 		public:
 			IPhysicsBody* CreateBody(ICollisionBody* body) override;
-
 			void OnUpdate(UpdateEventArgs& e) override;
+			void Clear() override;
 
 		private:
 			std::unordered_map<ICollisionBody*, IPhysicsBody*> _body_lookup_table;
