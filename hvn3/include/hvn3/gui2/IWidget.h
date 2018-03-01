@@ -33,14 +33,15 @@ namespace hvn3 {
 			virtual void SetState(WidgetState state, bool value) = 0;
 
 			virtual void OnMouseDown(WidgetMouseEventArgs& e) = 0;
-			virtual void OnMouseEnter(WidgetMouseEventArgs& e) = 0;
+			virtual void OnMouseEnter(WidgetMouseMoveEventArgs& e) = 0;
 			virtual void OnMouseHover(WidgetMouseHoverEventArgs& e) = 0;
-			virtual void OnMouseLeave(WidgetMouseEventArgs& e) = 0;
+			virtual void OnMouseLeave(WidgetMouseMoveEventArgs& e) = 0;
+			virtual void OnMouseMove(WidgetMouseMoveEventArgs& e) = 0;
 			virtual void OnMouseUp(WidgetMouseEventArgs& e) = 0;
 			virtual void OnUpdate(WidgetUpdateEventArgs& e) = 0;
 
 		protected:
-			virtual WidgetManager* Manager() = 0;
+			virtual WidgetManager* GetManager() const = 0;
 			virtual void SetManager(WidgetManager* value) = 0;
 
 		};

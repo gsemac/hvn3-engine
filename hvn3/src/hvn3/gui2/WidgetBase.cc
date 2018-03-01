@@ -32,6 +32,7 @@ namespace hvn3 {
 				EVENT_HANDLER_CASE(WidgetEventType::OnMouseEnter, OnMouseEnter, ev);
 				EVENT_HANDLER_CASE(WidgetEventType::OnMouseHover, OnMouseHover, ev);
 				EVENT_HANDLER_CASE(WidgetEventType::OnMouseLeave, OnMouseLeave, ev);
+				EVENT_HANDLER_CASE(WidgetEventType::OnMouseMove, OnMouseMove, ev);
 				EVENT_HANDLER_CASE(WidgetEventType::OnMouseUp, OnMouseUp, ev);
 			}
 
@@ -82,23 +83,23 @@ namespace hvn3 {
 		void WidgetBase::OnMouseDown(WidgetMouseEventArgs& e) {
 			SetState(WidgetState::Active, true);
 		}
-		void WidgetBase::OnMouseEnter(WidgetMouseEventArgs& e) {
+		void WidgetBase::OnMouseEnter(WidgetMouseMoveEventArgs& e) {
 			SetState(WidgetState::Hover, true);
 		}
 		void WidgetBase::OnMouseHover(WidgetMouseHoverEventArgs& e) {}
-		void WidgetBase::OnMouseLeave(WidgetMouseEventArgs& e) {
+		void WidgetBase::OnMouseLeave(WidgetMouseMoveEventArgs& e) {
 			SetState(WidgetState::Hover, false);
 		}
+		void WidgetBase::OnMouseMove(WidgetMouseMoveEventArgs& e) {}
 		void WidgetBase::OnMouseUp(WidgetMouseEventArgs& e) {
 			SetState(WidgetState::Active, false);
 		}
 		void WidgetBase::OnUpdate(WidgetUpdateEventArgs& e) {}
 
 
-		WidgetManager* WidgetBase::Manager() {
 
+		WidgetManager* WidgetBase::GetManager() const {
 			return _parent_manager;
-
 		}
 		void WidgetBase::SetManager(WidgetManager* value) {
 

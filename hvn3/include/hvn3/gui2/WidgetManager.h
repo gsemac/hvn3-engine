@@ -4,6 +4,7 @@
 #include "hvn3/gui2/WidgetRenderArgs.h"
 #include "hvn3/io/KeyboardListener.h"
 #include "hvn3/io/MouseListener.h"
+#include <cstdint>
 #include <memory>
 #include <list>
 #include <unordered_map>
@@ -16,15 +17,16 @@ namespace hvn3 {
 
 		class WidgetManager : public IDrawable, public IUpdatable, public KeyboardListener, public MouseListener {
 
-			struct WidgetCollectionItem {
-				WidgetCollectionItem(std::unique_ptr<IWidget>& widget);
+			struct WidgetData {
+				WidgetData(std::unique_ptr<IWidget>& widget);
 				IWidget& GetRef();
 				std::unique_ptr<IWidget> widget;
 				WidgetRenderArgs rendererArgs;
+				size_t z;
 			};
 			
 			typedef std::shared_ptr<IWidgetRenderer> renderer_ptr_type;
-			typedef std::list<WidgetCollectionItem> widget_collection_type;
+			typedef std::list<WidgetData> widget_collection_type;
 
 		public:
 			WidgetManager();
@@ -32,6 +34,8 @@ namespace hvn3 {
 			
 			void Add(IWidget* widget);
 			void Add(std::unique_ptr<IWidget>& widget);
+			void BringToFront(IWidget* widget);
+			void SendToBack(IWidget* widget);
 
 			void SetRenderer(renderer_ptr_type& renderer);
 			const IWidgetRenderer& Renderer();
@@ -58,8 +62,10 @@ namespace hvn3 {
 			IWidget* _widget_hovered;
 			IWidget* _widget_held;
 			PointF _last_mouse_position;
+			bool _resort_required;
 
 			void _initialize();
+			widget_collection_type::iterator _findWidget(IWidget* widget);
 
 			// Returns a pointer to the widget renderer assigned to this manager. 
 			// IF no renderer has been assigned, assigns and returns the default renderer.

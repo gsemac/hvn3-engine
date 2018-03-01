@@ -28,9 +28,10 @@ namespace hvn3 {
 			virtual void SetState(WidgetState state, bool value) override;
 
 			void OnMouseDown(WidgetMouseEventArgs& e) override;
-			void OnMouseEnter(WidgetMouseEventArgs& e) override;
+			void OnMouseEnter(WidgetMouseMoveEventArgs& e) override;
 			void OnMouseHover(WidgetMouseHoverEventArgs& e) override;
-			void OnMouseLeave(WidgetMouseEventArgs& e) override;
+			void OnMouseLeave(WidgetMouseMoveEventArgs& e) override;
+			void OnMouseMove(WidgetMouseMoveEventArgs& e) override;
 			void OnMouseUp(WidgetMouseEventArgs& e) override;
 			void OnUpdate(WidgetUpdateEventArgs& e) override;
 
@@ -42,7 +43,7 @@ namespace hvn3 {
 			}
 
 		protected:
-			WidgetManager* Manager() override;
+			WidgetManager* GetManager() const override;
 			void SetManager(WidgetManager* value) override;
 
 			void DoEventHandler(WidgetEventType ev, WidgetEventArgs& args);

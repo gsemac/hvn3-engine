@@ -4,14 +4,16 @@
 #include "hvn3/gui2/IWidget.h"
 #include "hvn3/gui2/IWidgetRenderer.h"
 #include "hvn3/gui2/WidgetManager.h"
+#define HVN3_DEFAULT_WIDGET_Z 1
 
 namespace hvn3 {
 	namespace Gui {
 
-		WidgetManager::WidgetCollectionItem::WidgetCollectionItem(std::unique_ptr<IWidget>& widget) :
+		WidgetManager::WidgetData::WidgetData(std::unique_ptr<IWidget>& widget) :
 			widget(std::move(widget)) {
+			z = HVN3_DEFAULT_WIDGET_Z;
 		}
-		IWidget& WidgetManager::WidgetCollectionItem::GetRef() {
+		IWidget& WidgetManager::WidgetData::GetRef() {
 			return *widget;
 		}
 
@@ -37,8 +39,22 @@ namespace hvn3 {
 
 			widget->SetManager(this);
 
-			_widgets.emplace_back(WidgetCollectionItem(widget));
+			_widgets.emplace_back(WidgetData(widget));
 
+		}
+		void WidgetManager::BringToFront(IWidget* widget) {
+			auto iter = _findWidget(widget);
+			if (iter == _widgets.end())
+				return;
+			iter->z = 0;
+			_resort_required = true;
+		}
+		void WidgetManager::SendToBack(IWidget* widget) {
+			auto iter = _findWidget(widget);
+			if (iter == _widgets.end())
+				return;
+			iter->z = _widgets.front().z + 1;
+			_resort_required = true;
 		}
 
 		void WidgetManager::SetRenderer(renderer_ptr_type& renderer) {
@@ -72,6 +88,17 @@ namespace hvn3 {
 				i->widget->HandleEvent(WidgetUpdateEventArgs(i->widget.get(), e.Delta()));
 				i->rendererArgs.UpdateTransitionData(static_cast<float>(e.Delta()));
 			}
+			
+			// If sorting is required, sort the list of widgets, and then reset their z values.
+			if (_resort_required) {
+				_widgets.sort([](const WidgetData& lhs, const WidgetData& rhs) {
+					return lhs.z > rhs.z;
+				});
+				// Reset the z values after sorting so that BringToFront/SendToBack continue to work.
+				for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
+					i->z = HVN3_DEFAULT_WIDGET_Z;
+				_resort_required = false;
+			}
 
 		}
 
@@ -100,17 +127,13 @@ namespace hvn3 {
 		}
 		void WidgetManager::OnMouseMove(MouseMoveEventArgs& e) {
 
-			// Find the widget that the mouse is currently hovering over, if any.
-			// Assume the widgets are ordered such that topmost widgets are first.
-
 			IWidget* widget_hovered = nullptr;
 
-			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
+			for (auto i = _widgets.rbegin(); i != _widgets.rend(); ++i) {
 				IWidget* widget = i->widget.get();
-				if (Math::Geometry::PointIn(e.Position(), RectangleF(widget->Position(), widget->Size()))) {
+				widget->HandleEvent(WidgetMouseMoveEventArgs(widget, WidgetEventType::OnMouseMove, e));
+				if (widget_hovered == nullptr && Math::Geometry::PointIn(e.Position(), RectangleF(widget->Position(), widget->Size())))
 					widget_hovered = widget;
-					break;
-				}
 			}
 
 			if (widget_hovered != _widget_hovered) {
@@ -131,6 +154,10 @@ namespace hvn3 {
 		void WidgetManager::_initialize() {
 			_widget_hovered = nullptr;
 			_widget_held = nullptr;
+			_resort_required = false;
+		}
+		WidgetManager::widget_collection_type::iterator WidgetManager::_findWidget(IWidget* widget) {
+			return std::find_if(_widgets.begin(), _widgets.end(), [=](const WidgetData& x) { return x.widget.get() == widget; });
 		}
 		WidgetManager::renderer_ptr_type& WidgetManager::_getRenderer() {
 

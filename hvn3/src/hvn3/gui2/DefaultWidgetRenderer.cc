@@ -22,11 +22,11 @@ namespace hvn3 {
 		}
 
 		void DefaultWidgetRenderer::DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
-
 			InitRenderArgs(widget, args);
-
-			DrawButton(canvas, widget, args);
-
+			if (widget.Identifier() == "button")
+				DrawButton(canvas, widget, args);
+			else if (widget.Identifier() == "window")
+				DrawWindow(canvas, widget, args);
 		}
 
 
@@ -64,6 +64,32 @@ namespace hvn3 {
 				float text_h = widget.Text().Height(_default_font);
 				float text_x = widget.Position().X() + (widget.Size().Width() / 2.0f);
 				float text_y = widget.Position().Y() + (widget.Size().Height() / 2.0f) - (text_h / 2.0f);
+
+				if (text_offset_d != nullptr) {
+					PointF text_offset = System::Graphics::TweenTraits<PointF>::Interpolate(text_offset_d->from, text_offset_d->to, text_offset_d->Percentage(), hvn3::Graphics::TweenFunction::Linear);
+					text_x += text_offset.x;
+					text_y += text_offset.y;
+				}
+
+				canvas.DrawText(text_x, text_y, widget.Text(), _default_font, Color(224, 224, 224), Alignment::Center);
+
+			}
+
+		}
+		void DefaultWidgetRenderer::DrawWindow(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
+
+			Color background_top_color(73, 70, 82);
+			Color background_bottom_color = _getTransitionedColor(args, widget.Identifier(), widget.State(), WidgetProperty::BackgroundColor);
+			auto text_offset_d = args.GetTransitionData<PointF>(WidgetProperty::TextOffset);
+
+			DrawWidgetBase(canvas, widget, background_top_color, background_bottom_color);
+
+			if (_default_font) {
+
+				float text_w = widget.Text().Width(_default_font);
+				float text_h = widget.Text().Height(_default_font);
+				float text_x = widget.Position().X() + (widget.Size().Width() / 2.0f);
+				float text_y = widget.Position().Y(); // +(widget.Size().Height() / 2.0f) - (text_h / 2.0f);
 
 				if (text_offset_d != nullptr) {
 					PointF text_offset = System::Graphics::TweenTraits<PointF>::Interpolate(text_offset_d->from, text_offset_d->to, text_offset_d->Percentage(), hvn3::Graphics::TweenFunction::Linear);

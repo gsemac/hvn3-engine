@@ -21,6 +21,7 @@ namespace hvn3 {
 			OnMouseEnter,
 			OnMouseHover,
 			OnMouseLeave,
+			OnMouseMove,
 			OnMouseUp,
 			// Generated when the widget changes position.
 			OnMove,
@@ -98,10 +99,11 @@ namespace hvn3 {
 
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnUpdate, WidgetUpdateEventArgs);
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseDown, WidgetMouseEventArgs);
-		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseEnter, WidgetMouseEventArgs);
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseEnter, WidgetMouseMoveEventArgs);
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseHover, WidgetMouseHoverEventArgs);
-		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseLeave, WidgetMouseEventArgs);
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseLeave, WidgetMouseMoveEventArgs);
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseUp, WidgetMouseEventArgs);
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseMove, WidgetMouseMoveEventArgs);
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMove, WidgetMoveEventArgs);
 
 	}

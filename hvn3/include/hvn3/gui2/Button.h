@@ -13,8 +13,6 @@ namespace hvn3 {
 			Button(const PointF& position, const SizeF& size, const String& text);
 
 		private:
-			Button();
-
 			void _initializeMembers();
 
 			bool _auto_size;
