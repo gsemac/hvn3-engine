@@ -1,13 +1,14 @@
 #pragma once
-#include <vector>
-#include <memory>
-#include "hvn3/rooms/Room.h"
-#include "hvn3/core/UpdateEventArgs.h"
+#include "hvn3/core/Context.h"
 #include "hvn3/core/DrawEventArgs.h"
+#include "hvn3/core/UpdateEventArgs.h"
 #include "hvn3/rooms/IRoomManager.h"
+#include "hvn3/rooms/Room.h"
 #include "hvn3/rooms/RoomTransitionNone.h"
 #include "hvn3/rooms/RoomTransitionFade.h"
 #include "hvn3/rooms/RoomController.h"
+#include <vector>
+#include <memory>
 
 namespace hvn3 {
 
@@ -26,12 +27,13 @@ namespace hvn3 {
 	public:
 		typedef room_type room_type;
 
-		RoomManager() : 
-			_transition(nullptr) {
+		RoomManager(Context context) :
+			_transition(nullptr),
+			_context(context) {
 
 			_current_room = 0;
 			_next_room = 0;
-			_room_transition_state = NO_TRANSITION_PENDING; 
+			_room_transition_state = NO_TRANSITION_PENDING;
 
 		}
 		~RoomManager() {
@@ -225,7 +227,7 @@ namespace hvn3 {
 
 	protected:
 		void LoadRoom(size_t room_index) {
-			
+
 			// Create room controllers for the current room and the next room.
 			System::RoomController current_room_controller(CurrentRoom());
 			System::RoomController next_room_controller(_rooms[room_index].get());
@@ -284,7 +286,7 @@ namespace hvn3 {
 		}
 
 		bool RoomTransitionInProgress() const {
-			
+
 			return _room_transition_state != NO_TRANSITION_PENDING;
 
 		}
@@ -301,6 +303,7 @@ namespace hvn3 {
 		std::vector<std::unique_ptr<IRoom>> _rooms;
 		ROOM_TRANSITION_STATE _room_transition_state;
 		std::unique_ptr<IRoomTransition> _transition;
+		Context _context;
 
 	};
 

@@ -15,10 +15,12 @@ namespace hvn3 {
 		void Initialize(int argc, char* argv[]) override;
 		void Loop() override;
 		void Shutdown() override;
+		hvn3::Context Context() override;
+		System::Properties& GetProperties();
+		System::Runner& GetRunner();
 
-		System::Properties& Properties() override;
-		System::Runner& Runner() override;
-		RoomManager& Rooms() override;
+	protected:
+		RoomManager& GetRoomManager() override;
 
 	private:
 		System::Properties _properties;

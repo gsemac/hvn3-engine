@@ -55,7 +55,9 @@
     <ClInclude Include="include\hvn3\collision\CollisionManager.h" />
     <ClInclude Include="include\hvn3\collision\RectangleHitMask.h" />
     <ClInclude Include="include\hvn3\collision\SpacialPartitioningGrid.h" />
+    <ClInclude Include="include\hvn3\core\Context.h" />
     <ClInclude Include="include\hvn3\core\DrawEventArgs.h" />
+    <ClInclude Include="include\hvn3\core\IContextProvider.h" />
     <ClInclude Include="include\hvn3\core\SystemAssets.h" />
     <ClInclude Include="include\hvn3\core\Framework.h" />
     <ClInclude Include="include\hvn3\core\GameStateEventArgs.h" />
@@ -208,6 +210,7 @@
     <ClCompile Include="src\hvn3\collision\NarrowPhase.cc" />
     <ClCompile Include="src\hvn3\collision\CollisionBody.cc" />
     <ClCompile Include="src\hvn3\collision\RectangleHitMask.cc" />
+    <ClCompile Include="src\hvn3\core\Context.cc" />
     <ClCompile Include="src\hvn3\core\DrawEventArgs.cc" />
     <ClCompile Include="src\hvn3\core\SystemAssets.cc" />
     <ClCompile Include="src\hvn3\core\Framework.cc" />

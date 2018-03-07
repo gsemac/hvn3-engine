@@ -6,7 +6,8 @@
 
 namespace hvn3 {
 
-	GameManager::GameManager() {
+	GameManager::GameManager() :
+		_room_manager(Context()) {
 
 		// Initialize the underlying framework.
 		System::Framework::Initialize();
@@ -48,21 +49,20 @@ namespace hvn3 {
 		_onShutdown();
 
 	}
-
-	System::Properties& GameManager::Properties() {
-
+	hvn3::Context GameManager::Context() {
+		return hvn3::Context(this);
+	}
+	System::Properties& GameManager::GetProperties() {
 		return _properties;
-
 	}
-	System::Runner& GameManager::Runner() {
-
+	System::Runner& GameManager::GetRunner() {
 		return *_runner;
-
 	}
-	RoomManager& GameManager::Rooms() {
 
+
+
+	RoomManager& GameManager::GetRoomManager() {
 		return _room_manager;
-
 	}
 
 
