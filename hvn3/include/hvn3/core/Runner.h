@@ -20,7 +20,7 @@ namespace hvn3 {
 		class Runner {
 
 		public:
-			Runner(IGameManager& game_manager);
+			Runner(Context context);
 			virtual ~Runner();
 
 			// Processes the main game loop.
@@ -65,14 +65,13 @@ namespace hvn3 {
 			bool _track_mouse_outside_display;
 			System::FpsCounter _fps_counter;
 
-			IGameManager* _game_manager;
+			Context _context;
 			Display _display;
 			Font* _default_font;
 			Graphics::Graphics _graphics;
 
 			void _applyScalingMode();
 			void _recalculateMousePosition();
-			IRoom* _currentRoom();
 			Properties& _properties();
 
 		};

@@ -21,7 +21,7 @@ namespace hvn3 {
 		typedef std::vector<ObjectListItem> object_list_type;
 
 	public:
-		ObjectManager();
+		ObjectManager(Context context);
 
 		virtual void AddInstance(ObjectPtr& object) override;
 		virtual void AddInstance(Object* object) override;
@@ -47,6 +47,7 @@ namespace hvn3 {
 		std::vector<IObjectManagerListener*> _listeners;
 		ObjectId _last_found_id;
 		size_t _last_found_index;
+		Context _context;
 
 		void _removeDestroyedObjects(object_list_type::iterator begin, object_list_type::iterator end);
 		// Updates the state of the given object, and calls the OnCreate or OnDestroy event where applicable. Returns true if the object should have its OnUpdate events called; returns false otherwise.

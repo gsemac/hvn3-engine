@@ -122,4 +122,11 @@ namespace hvn3 {
 
 	}
 
+	hvn3::Context ObjectBase::Context() {
+		return _context;
+	}
+	void ObjectBase::SetContext(hvn3::Context context) {
+		_context = context;
+	}
+
 }

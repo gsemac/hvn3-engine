@@ -12,7 +12,7 @@ namespace hvn3 {
 	}
 
 	void Room::OnUpdate(UpdateEventArgs& e) {
-		
+
 		// Pending restarts should be processed before anything else, so it doesn't do an extra update when resets are initiated outside of it.
 		if (_restart_pending) {
 			// Reset the state of the room.
@@ -121,10 +121,10 @@ namespace hvn3 {
 	}
 	Physics::IPhysicsManager& Room::Physics() {
 
-		return _physics_manager;
+		return *_physics_manager;
 
 	}
-	
+
 	const IBackgroundManager& Room::Backgrounds() const {
 
 		return _background_manager;
@@ -142,7 +142,7 @@ namespace hvn3 {
 	}
 	const Physics::IPhysicsManager& Room::Physics() const {
 
-		return _physics_manager;
+		return *_physics_manager;
 
 	}
 
@@ -180,6 +180,12 @@ namespace hvn3 {
 
 	}
 
+	void Room::SetContext(hvn3::Context context) {
+		RoomBase::SetContext(context);
+		if (!_physics_manager)
+			_physics_manager = std::make_unique<hvn3::Physics::BasicPhysicsManager>(Context());
+	}
+
 	// Protected methods
 
 	void Room::OnReset() {
@@ -188,7 +194,7 @@ namespace hvn3 {
 		RoomBase::OnReset();
 
 		// Clear the physics manager first, as it may hold references to the collision manager.
-		_physics_manager.Clear();
+		_physics_manager->Clear();
 
 		// Clear all bodies from the collision manager.
 		_collision_manager.Clear();

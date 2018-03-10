@@ -3,10 +3,6 @@
 namespace hvn3 {
 
 	UpdateEventArgs::UpdateEventArgs(double dt) :
-		UpdateEventArgs(dt, nullptr) {
-	}
-	UpdateEventArgs::UpdateEventArgs(double dt, IGameManager* manager) :
-		GameStateEventArgs(manager),
 		_delta_time(dt) {
 	}
 

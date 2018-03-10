@@ -19,8 +19,8 @@ namespace hvn3 {
 		virtual void Loop() = 0;
 		virtual void Shutdown() = 0;
 
-		// Returns an object representing the current game state.
-		virtual hvn3::Context Context() = 0;
+		virtual System::Properties& GetGameProperties() = 0;
+		virtual System::Runner& GetRunner() = 0;
 
 	};
 

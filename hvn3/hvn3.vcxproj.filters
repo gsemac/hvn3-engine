@@ -552,9 +552,6 @@
     <ClInclude Include="include\hvn3\objects\ObjectEventArgs.h">
       <Filter>include\objects</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\core\GameStateEventArgs.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\objects\ObjectTypeDefs.h">
       <Filter>include\objects</Filter>
     </ClInclude>
@@ -905,9 +902,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\io\MouseMutator.cc">
       <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\core\GameStateEventArgs.cc">
-      <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\physics\PhysicsBodyBase.cc">
       <Filter>src\physics</Filter>

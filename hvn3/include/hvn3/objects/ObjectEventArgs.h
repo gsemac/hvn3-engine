@@ -1,20 +1,12 @@
 #pragma once
-#include "hvn3/core/GameStateEventArgs.h"
+#include "hvn3/events/EventArgs.h"
 
 namespace hvn3 {
 
-	class CreateEventArgs : public System::GameStateEventArgs {
-
-	public:
-		using GameStateEventArgs::GameStateEventArgs;
-
+	class CreateEventArgs : public System::EventArgs {
 	};
 
-	class DestroyEventArgs : public System::GameStateEventArgs {
-
-	public:
-		using GameStateEventArgs::GameStateEventArgs;
-
+	class DestroyEventArgs : public System::EventArgs {
 	};
 
 }

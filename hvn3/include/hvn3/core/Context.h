@@ -4,6 +4,7 @@ namespace hvn3 {
 
 	namespace System {
 		class IContextProvider;
+		struct Properties;
 	}
 
 	template<typename T>
@@ -20,6 +21,7 @@ namespace hvn3 {
 	class Context {
 
 	public:
+		Context();
 		Context(System::IContextProvider* context_provider);
 
 		IObjectManager& GetObjects();
@@ -27,6 +29,8 @@ namespace hvn3 {
 		RoomManager& GetRooms();
 		ICollisionManager<IObject>& GetCollisions();
 		Physics::IPhysicsManager& GetPhysics();
+		System::IContextProvider& GetContextProvider();
+		System::Properties& GetGameProperties();
 
 	private:
 		System::IContextProvider* _context_provider;

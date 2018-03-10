@@ -19,7 +19,7 @@ namespace hvn3 {
 			}
 
 			IPhysicsBody* CreateBody(ICollisionBody* body) override {
-				_bodies.emplace_back(physics_body_type(body));
+				_bodies.push_back(physics_body_type(body));
 				return &_bodies.back();
 			}
 

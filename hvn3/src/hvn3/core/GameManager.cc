@@ -38,7 +38,7 @@ namespace hvn3 {
 		// Create a new runner for handling the game loop.
 		// The runner will automatically create the display upon construction.
 		if (_runner == nullptr)
-			_runner = new System::Runner(*this);
+			_runner = new System::Runner(Context());
 
 		// Execute the main game loop.
 		_runner->Loop();
@@ -49,18 +49,23 @@ namespace hvn3 {
 		_onShutdown();
 
 	}
-	hvn3::Context GameManager::Context() {
-		return hvn3::Context(this);
-	}
-	System::Properties& GameManager::GetProperties() {
+
+	System::Properties& GameManager::GetGameProperties() {
 		return _properties;
 	}
 	System::Runner& GameManager::GetRunner() {
 		return *_runner;
 	}
 
+	hvn3::Context GameManager::Context() {
+		return hvn3::Context(this);
+	}
 
 
+
+	IGameManager& GameManager::GetGameManager() {
+		return *this;
+	}
 	RoomManager& GameManager::GetRoomManager() {
 		return _room_manager;
 	}

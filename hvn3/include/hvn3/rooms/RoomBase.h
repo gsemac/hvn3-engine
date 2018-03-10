@@ -30,9 +30,9 @@ namespace hvn3 {
 
 		virtual void OnUpdate(UpdateEventArgs& e) override {
 
-			_obj_manager.OnBeginUpdate(e);
-			_obj_manager.OnUpdate(e);
-			_obj_manager.OnEndUpdate(e);
+			_obj_manager->OnBeginUpdate(e);
+			_obj_manager->OnUpdate(e);
+			_obj_manager->OnEndUpdate(e);
 
 		}
 		virtual void OnDraw(DrawEventArgs& e) override {
@@ -59,7 +59,7 @@ namespace hvn3 {
 
 		virtual IObjectManager& Objects() override {
 
-			return _obj_manager;
+			return *_obj_manager;
 
 		}
 		virtual IBackgroundManager& Backgrounds() override {
@@ -85,7 +85,7 @@ namespace hvn3 {
 
 		const IObjectManager& Objects() const override {
 
-			return _obj_manager;
+			return *_obj_manager;
 
 		}
 		virtual const IBackgroundManager& Backgrounds() const override {
@@ -147,6 +147,18 @@ namespace hvn3 {
 
 		}
 
+		hvn3::Context Context() override {
+			return _context;
+		}
+		void SetContext(hvn3::Context context) override {
+
+			_context = context;
+			
+			if (!_obj_manager)
+				_obj_manager = std::make_unique<object_manager_type>(_context);
+		
+		}
+
 	protected:
 		virtual void OnRoomEnter(RoomEnterEventArgs& e) override {}
 		virtual void OnRoomExit(RoomExitEventArgs& e) override {}
@@ -163,7 +175,7 @@ namespace hvn3 {
 		virtual void OnReset() override {
 
 			// Clear all objects, but don't bother calling their destroy events.
-			_obj_manager.ClearAll();
+			_obj_manager->ClearAll();
 
 			// Reset members to default values.
 			_background_color = Color::Silver;
@@ -177,16 +189,17 @@ namespace hvn3 {
 			e.Graphics().Clear(_background_color);
 
 			// Draw all objects.
-			_obj_manager.OnDraw(e);
+			_obj_manager->OnDraw(e);
 
 		}
 
 	private:
-		object_manager_type _obj_manager;
+		std::unique_ptr<object_manager_type> _obj_manager;
 		RoomId _id;
 		Color _background_color;
 		bool _set_up;
 		bool _persistent;
+		hvn3::Context _context;
 
 	};
 

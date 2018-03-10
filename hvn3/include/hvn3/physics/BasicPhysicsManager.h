@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/core/Context.h"
 #include "hvn3/physics/PhysicsBodyBase.h"
 #include "hvn3/physics/PhysicsManagerBase.h"
 #include <unordered_map>
@@ -15,6 +16,8 @@ namespace hvn3 {
 			};
 
 		public:
+			BasicPhysicsManager(Context context);
+
 			IPhysicsBody* CreateBody(ICollisionBody* body) override;
 			void OnUpdate(UpdateEventArgs& e) override;
 			void Clear() override;
@@ -22,6 +25,7 @@ namespace hvn3 {
 		private:
 			std::unordered_map<ICollisionBody*, IPhysicsBody*> _body_lookup_table;
 			std::vector<Contact> _contacts;
+			Context _context;
 
 			IPhysicsBody* _lookupBody(ICollisionBody* key);
 

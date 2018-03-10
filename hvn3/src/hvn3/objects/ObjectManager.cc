@@ -18,7 +18,8 @@ namespace hvn3 {
 
 
 
-	ObjectManager::ObjectManager() {
+	ObjectManager::ObjectManager(Context context) :
+		_context(context) {
 
 		_last_found_id = NoOne;
 		_last_found_index = 0;
@@ -27,6 +28,8 @@ namespace hvn3 {
 
 
 	void ObjectManager::AddInstance(ObjectPtr& object) {
+
+		object->SetContext(_context);
 
 		//// Trigger all listeners.
 		//for (size_t i = 0; i < _listeners.size(); ++i)
@@ -151,10 +154,10 @@ namespace hvn3 {
 
 		if (removed)
 			_removeDestroyedObjects(_objects.begin(), _objects.end());
-		
+
 	}
 	void ObjectManager::OnUpdate(UpdateEventArgs& e) {
-
+		
 		bool removed = false;
 
 		for (size_t i = 0; i < _objects.size(); ++i) {
@@ -223,13 +226,13 @@ namespace hvn3 {
 
 		// Call the OnCreate event for the Object if it hasn't been called yet.
 		if (item.callOnCreateEvent) {
-			item.object->OnCreate(CreateEventArgs(&e.Game()));
+			item.object->OnCreate(CreateEventArgs());
 			item.callOnCreateEvent = false;
 		}
 
 		if (item.object->IsDestroyed()) {
 			if (item.callOnDestroyEvent) {
-				item.object->OnDestroy(DestroyEventArgs(&e.Game()));
+				item.object->OnDestroy(DestroyEventArgs());
 				item.callOnDestroyEvent = false;
 			}
 		}

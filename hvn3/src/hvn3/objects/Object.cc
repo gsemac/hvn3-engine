@@ -38,10 +38,10 @@ namespace hvn3 {
 	void Object::OnCreate(CreateEventArgs& e) {
 		if (!HasFlag(Flags(), ObjectFlags::NoCollisions)) {
 			// Create a collision body for this object.
-			_collision_body = e.Collisions().CreateBody(this);
+			_collision_body = Context().GetCollisions().CreateBody(this);
 			// Create a physics body for this object.
 			if (HasFlag(Flags(), ObjectFlags::EnablePhysics) && _collision_body != nullptr) {
-				_physics_body = e.Physics().CreateBody(_collision_body);
+				_physics_body = Context().GetPhysics().CreateBody(_collision_body);
 				// Apply the current velocity to the physics object (it may have been set before create event).
 				_physics_body->SetLinearVelocity(_velocity);
 			}
@@ -52,7 +52,7 @@ namespace hvn3 {
 		if (!HasFlag(Flags(), ObjectFlags::EnablePhysics) || _physics_body == nullptr) {
 			if (HasFlag(Flags(), ObjectFlags::Solid) && _collision_body != nullptr)
 				// The object is solid, so don't let it intersect any objects it can collide with.
-				e.Collisions().MoveContact(_collision_body, Velocity().Direction(), Velocity().Length());
+				Context().GetCollisions().MoveContact(_collision_body, Velocity().Direction(), Velocity().Length());
 			else
 				// The object is not solid, so simply move it to its next position.
 				SetPosition(Position() + Velocity() * e.Delta());

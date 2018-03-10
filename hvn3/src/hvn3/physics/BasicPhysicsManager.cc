@@ -16,6 +16,10 @@ namespace hvn3 {
 		//	VelocityAfterCollisionResult result;
 		//};
 
+		BasicPhysicsManager::BasicPhysicsManager(Context context) :
+			_context(context) {
+		}
+
 		IPhysicsBody* BasicPhysicsManager::CreateBody(ICollisionBody* body) {
 			IPhysicsBody* physics_body = PhysicsManagerBase::CreateBody(body);
 			_body_lookup_table[body] = physics_body;
@@ -63,13 +67,13 @@ namespace hvn3 {
 				// If the current position isn't free, move until it is.
 				// #todo Need to check condition as below
 				CollisionManifold manifold;
-				if (!e.Collisions().PlaceFreeIf(collision_body, collision_body->Position(), manifold, body_filter)) {
-					e.Collisions().MoveOutside(collision_body, Math::Geometry::PointDirection(manifold.bodyB->AABB().Midpoint(), collision_body->AABB().Midpoint()), Math::Max(2.0f, manifold.penetrationDepth / 2.0f));
+				if (!_context.GetCollisions().PlaceFreeIf(collision_body, collision_body->Position(), manifold, body_filter)) {
+					_context.GetCollisions().MoveOutside(collision_body, Math::Geometry::PointDirection(manifold.bodyB->AABB().Midpoint(), collision_body->AABB().Midpoint()), Math::Max(2.0f, manifold.penetrationDepth / 2.0f));
 				}
 
 				// Move the body towards its new position until it hits something.
 				Vector2d movement_vector = Vector2d(this_body->Position(), integration_result.position);
-				if (e.Collisions().MoveContactIf(collision_body, movement_vector.Direction(), movement_vector.Length(), manifold, body_filter)) {
+				if (_context.GetCollisions().MoveContactIf(collision_body, movement_vector.Direction(), movement_vector.Length(), manifold, body_filter)) {
 
 					// Resolve the collision with the other body.
 					IPhysicsBody* other_body = _lookupBody(manifold.bodyB);

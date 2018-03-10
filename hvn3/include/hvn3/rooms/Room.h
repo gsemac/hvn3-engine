@@ -8,6 +8,7 @@
 #include "hvn3/physics/BasicPhysicsManager.h"
 #include "hvn3/core/UniqueCreateableBase.h"
 #include "hvn3/objects/ObjectManager.h"
+#include <memory>
 
 #pragma warning(push)
 #pragma warning(disable:4250)
@@ -40,6 +41,8 @@ namespace hvn3 {
 
 		virtual void Restart() override;
 
+		void SetContext(hvn3::Context context) override;
+
 	protected:
 		virtual void OnReset() override;
 		virtual void OnRender(DrawEventArgs& e) override;
@@ -48,7 +51,7 @@ namespace hvn3 {
 		collision_manager_type  _collision_manager;
 		hvn3::BackgroundManager _background_manager;
 		hvn3::ViewManager _view_manager;
-		hvn3::Physics::BasicPhysicsManager _physics_manager;
+		std::unique_ptr<hvn3::Physics::BasicPhysicsManager> _physics_manager;
 
 		size_t _rendering_view;
 		bool _restart_pending;

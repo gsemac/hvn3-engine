@@ -60,7 +60,6 @@
     <ClInclude Include="include\hvn3\core\IContextProvider.h" />
     <ClInclude Include="include\hvn3\core\SystemAssets.h" />
     <ClInclude Include="include\hvn3\core\Framework.h" />
-    <ClInclude Include="include\hvn3\core\GameStateEventArgs.h" />
     <ClInclude Include="include\hvn3\core\GameManager.h" />
     <ClInclude Include="include\hvn3\core\IDestroyable.h" />
     <ClInclude Include="include\hvn3\core\IDrawable.h" />
@@ -214,7 +213,6 @@
     <ClCompile Include="src\hvn3\core\DrawEventArgs.cc" />
     <ClCompile Include="src\hvn3\core\SystemAssets.cc" />
     <ClCompile Include="src\hvn3\core\Framework.cc" />
-    <ClCompile Include="src\hvn3\core\GameStateEventArgs.cc" />
     <ClCompile Include="src\hvn3\core\GameManager.cc" />
     <ClCompile Include="src\hvn3\core\IUpdatable.cc" />
     <ClCompile Include="src\hvn3\core\Properties.cc" />

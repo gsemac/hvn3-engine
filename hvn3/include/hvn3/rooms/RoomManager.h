@@ -51,6 +51,8 @@ namespace hvn3 {
 
 		void AddRoom(RoomPtr& room) {
 
+			room->SetContext(_context);
+
 			// Add the new room.
 			_rooms.push_back(std::move(room));
 
@@ -303,7 +305,7 @@ namespace hvn3 {
 		std::vector<std::unique_ptr<IRoom>> _rooms;
 		ROOM_TRANSITION_STATE _room_transition_state;
 		std::unique_ptr<IRoomTransition> _transition;
-		Context _context;
+		hvn3::Context _context;
 
 	};
 
