@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <iterator>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 namespace hvn3 {
@@ -38,7 +39,6 @@ namespace hvn3 {
 	}
 
 	// Moves matching elements to the ends of both containers and returns a pair of iterators one past the last elements. Not guaranteed to preserve element ordering.
-	
 	template<typename Iter1, typename Iter2>
 	std::pair<Iter1, Iter2> RemoveSame(Iter1 begin_1, Iter1 end_1, Iter2 begin_2, Iter2 end_2) {
 
@@ -46,5 +46,28 @@ namespace hvn3 {
 		
 	}
 
+	// Sorts a collection according to the order of elements in the second collection.
+	template <typename IterBegin, typename IterEnd, typename IterOrderBegin, typename IterOrderEnd>
+	void RelativeSort(IterBegin in_begin, IterEnd in_end, IterOrderBegin order_begin, IterOrderEnd order_end) {
+
+		using key_type = typename IterBegin::value_type;
+
+		std::unordered_map<key_type, size_t> order_map;
+		size_t i = 0;
+
+		for (auto it = order_begin; it != order_end; ++it, ++i)
+			order_map[*it] = i;
+
+		std::sort(in_begin, in_end, [&](key_type lhs, key_type rhs) {
+			auto it_lhs = order_map.find(lhs);
+			if (it_lhs == order_map.end())
+				it_lhs = order_map.emplace(std::make_pair(lhs, ++i)).first;
+			auto it_rhs = order_map.find(rhs);
+			if (it_rhs == order_map.end())
+				it_rhs = order_map.emplace(std::make_pair(rhs, ++i)).first;
+			return it_lhs->second < it_rhs->second;
+		});
+
+	}
 	
 }
