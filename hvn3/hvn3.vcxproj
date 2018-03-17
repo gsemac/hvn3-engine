@@ -108,6 +108,7 @@
     <ClInclude Include="include\hvn3\hvn3.h" />
     <ClInclude Include="include\hvn3\io\Clipboard.h" />
     <ClInclude Include="include\hvn3\io\Console.h" />
+    <ClInclude Include="include\hvn3\io\DirectionalKeyboardController.h" />
     <ClInclude Include="include\hvn3\io\Directory.h" />
     <ClInclude Include="include\hvn3\io\File.h" />
     <ClInclude Include="include\hvn3\io\IO.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="src\hvn3\gui2\Window.cc" />
     <ClCompile Include="src\hvn3\io\Clipboard.cc" />
     <ClCompile Include="src\hvn3\io\Console.cc" />
+    <ClCompile Include="src\hvn3\io\DirectionalKeyboardController.cc" />
     <ClCompile Include="src\hvn3\io\Directory.cc" />
     <ClCompile Include="src\hvn3\io\File.cc" />
     <ClCompile Include="src\hvn3\io\Keyboard.cc" />

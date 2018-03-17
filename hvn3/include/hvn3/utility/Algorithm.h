@@ -43,7 +43,7 @@ namespace hvn3 {
 	std::pair<Iter1, Iter2> RemoveSame(Iter1 begin_1, Iter1 end_1, Iter2 begin_2, Iter2 end_2) {
 
 		return RemoveSame(begin_1, end_1, begin_2, end_2, [](typename const Iter1::value_type& x, typename const Iter2::value_type& y) {return x == y; });
-		
+
 	}
 
 	// Sorts a collection according to the order of elements in the second collection.
@@ -69,5 +69,5 @@ namespace hvn3 {
 		});
 
 	}
-	
+
 }
