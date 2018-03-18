@@ -5,10 +5,10 @@
 
 namespace hvn3 {
 
-	class DirectionalKeyboardController : public KeyboardListener {
+	class DirectionalControls : public KeyboardListener {
 
 	public:
-		DirectionalKeyboardController(int directions, float speed);
+		DirectionalControls(int directions, float speed);
 
 		void OnKeyDown(KeyDownEventArgs& e) override;
 		void OnKeyPressed(KeyPressedEventArgs& e) override;
@@ -21,7 +21,7 @@ namespace hvn3 {
 		float MaxSpeed() const;
 		void SetMaxSpeed(float value);
 		const Vector2d& Velocity() const;
-		void SetKeys(Key left, Key right, Key up, Key down);
+		void SetKeys(Key up, Key left, Key down, Key right);
 
 		void Step();
 		void Clear();

@@ -1,21 +1,21 @@
 #include "hvn3/math/MathUtils.h"
-#include "hvn3/io/DirectionalKeyboardController.h"
+#include "hvn3/io/DirectionalControls.h"
 #define KEY_COUNT (sizeof(_keys) / sizeof(_keys[0]))
 
 namespace hvn3 {
 
-	DirectionalKeyboardController::DirectionalKeyboardController(int directions, float speed) {
+	DirectionalControls::DirectionalControls(int directions, float speed) {
 		_max_speed = speed;
 		_acceleration = speed;
 		_friction = speed;
 		_directions = directions;
 		_last_hdir = DIRECTION_NONE;
 		_last_vdir = DIRECTION_NONE;
-		SetKeys(Key::Left, Key::Right, Key::Up, Key::Down);
+		SetKeys(Key::Up, Key::Left, Key::Down, Key::Right);
 	}
 
-	void DirectionalKeyboardController::OnKeyDown(KeyDownEventArgs& e) {}
-	void DirectionalKeyboardController::OnKeyPressed(KeyPressedEventArgs& e) {
+	void DirectionalControls::OnKeyDown(KeyDownEventArgs& e) {}
+	void DirectionalControls::OnKeyPressed(KeyPressedEventArgs& e) {
 
 		if (_directions <= 0)
 			return;
@@ -48,7 +48,7 @@ namespace hvn3 {
 		}
 
 	}
-	void DirectionalKeyboardController::OnKeyUp(KeyUpEventArgs& e) {
+	void DirectionalControls::OnKeyUp(KeyUpEventArgs& e) {
 
 		if (e.Key() == _keys[KEYDIR_LEFT].key) {
 			_keys[KEYDIR_LEFT].pressed = false;
@@ -81,28 +81,28 @@ namespace hvn3 {
 
 	}
 
-	float DirectionalKeyboardController::Acceleration() const {
+	float DirectionalControls::Acceleration() const {
 		return _acceleration;
 	}
-	void DirectionalKeyboardController::SetAcceleration(float value) {
+	void DirectionalControls::SetAcceleration(float value) {
 		_acceleration = value;
 	}
-	float DirectionalKeyboardController::Friction() const {
+	float DirectionalControls::Friction() const {
 		return _friction;
 	}
-	void DirectionalKeyboardController::SetFriction(float value) {
+	void DirectionalControls::SetFriction(float value) {
 		_friction = value;
 	}
-	float DirectionalKeyboardController::MaxSpeed() const {
+	float DirectionalControls::MaxSpeed() const {
 		return _max_speed;
 	}
-	void DirectionalKeyboardController::SetMaxSpeed(float value) {
+	void DirectionalControls::SetMaxSpeed(float value) {
 		_max_speed = value;
 	}
-	const Vector2d& DirectionalKeyboardController::Velocity() const {
+	const Vector2d& DirectionalControls::Velocity() const {
 		return _velocity;
 	}
-	void DirectionalKeyboardController::SetKeys(Key left, Key right, Key up, Key down) {
+	void DirectionalControls::SetKeys(Key up, Key left, Key down, Key right) {
 
 		_keys[KEYDIR_UP].key = up;
 		_keys[KEYDIR_DOWN].key = down;
@@ -113,7 +113,7 @@ namespace hvn3 {
 
 	}
 
-	void DirectionalKeyboardController::Step() {
+	void DirectionalControls::Step() {
 	
 		// If no keys are pressed, reset the direction and keystates.
 		// This is done just in case the key release event is missed (e.g., released while display is unfocused).
@@ -161,23 +161,23 @@ namespace hvn3 {
 		}
 
 	}
-	void DirectionalKeyboardController::Clear() {
+	void DirectionalControls::Clear() {
 		_velocity.SetX(0.0f);
 		_velocity.SetY(0.0f);
 	}
 
 
 
-	DirectionalKeyboardController::KeyData DirectionalKeyboardController::GetKeyData(KEYDIR keydir) {
+	DirectionalControls::KeyData DirectionalControls::GetKeyData(KEYDIR keydir) {
 		return _keys[keydir];
 	}
-	void DirectionalKeyboardController::SetVelocity(const Vector2d& value) {
+	void DirectionalControls::SetVelocity(const Vector2d& value) {
 		_velocity = value;
 	}
 
 
 
-	void DirectionalKeyboardController::_resetKeyStates() {
+	void DirectionalControls::_resetKeyStates() {
 		_keys[KEYDIR_UP].pressed = false;
 		_keys[KEYDIR_DOWN].pressed = false;
 		_keys[KEYDIR_LEFT].pressed = false;

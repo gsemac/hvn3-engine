@@ -1,14 +1,14 @@
 #include "hvn3/collision/CategoryFilter.h"
 #include "hvn3/collision/ICollisionBody.h"
 #include "hvn3/collision/ICollisionManager.h"
-#include "hvn3/io/PlatformerKeyboardController.h"
+#include "hvn3/io/PlatformerControls.h"
 #include "hvn3/math/GeometryUtils.h"
 #include "hvn3/objects/Object.h"
 
 namespace hvn3 {
 
-	PlatformerKeyboardController::PlatformerKeyboardController(Object* object, float speed, int platform_category_bits) :
-		DirectionalKeyboardController(2, speed),
+	PlatformerControls::PlatformerControls(Object* object, float speed, int platform_category_bits) :
+		DirectionalControls(2, speed),
 		_gravity(0.0f, 16.0f) {
 
 		_object = object;
@@ -25,53 +25,54 @@ namespace hvn3 {
 
 	}
 
-	float PlatformerKeyboardController::Friction() const {
+	float PlatformerControls::Friction() const {
 		return _friction;
 	}
-	void PlatformerKeyboardController::SetFriction(float value) {
+	void PlatformerControls::SetFriction(float value) {
 		_friction = value;
 	}
-	float PlatformerKeyboardController::JumpHeight() const {
+	float PlatformerControls::JumpHeight() const {
 		return _jump_height;
 	}
-	void PlatformerKeyboardController::SetJumpHeight(float value) {
+	void PlatformerControls::SetJumpHeight(float value) {
 		_jump_height = value;
 	}
-	float PlatformerKeyboardController::StepHeight() const {
+	float PlatformerControls::StepHeight() const {
 		return _step_height;
 	}
-	void PlatformerKeyboardController::SetStepHeight(float value) {
+	void PlatformerControls::SetStepHeight(float value) {
 		_step_height = value;
 	}
-	float PlatformerKeyboardController::ClimbHeight() const {
+	float PlatformerControls::ClimbHeight() const {
 		return _climb_height;
 	}
-	void PlatformerKeyboardController::SetClimbHeight(float value) {
+	void PlatformerControls::SetClimbHeight(float value) {
 		_climb_height = value;
 	}
-	const Vector2d& PlatformerKeyboardController::Gravity() const {
+	const Vector2d& PlatformerControls::Gravity() const {
 		return _gravity;
 	}
-	void PlatformerKeyboardController::SetGravity(const Vector2d& value) {
+	void PlatformerControls::SetGravity(const Vector2d& value) {
 		_gravity = value;
 	}
 
-	void PlatformerKeyboardController::Step() {
+	void PlatformerControls::Step() {
 		Step(1.0f);
 	}
-	void PlatformerKeyboardController::Step(double delta) {
+	void PlatformerControls::Step(double delta) {
 
-		DirectionalKeyboardController::Step();
+		DirectionalControls::Step();
 
 		SetVelocity(Velocity() + _gravity);
 
 		float deltaf = static_cast<float>(delta);
+		auto body = _object->GetCollisionBody();
 
+		float xvelf = Velocity().X() * deltaf;
 		Vector2d xvel(Velocity().X() * deltaf, 0.0f);
-		Vector2d yvel(0.0f, Velocity().Y() * deltaf);
 		PointF pstart = _object->Position();
 
-		if (xvel.X() != 0.0f && _object->Context().GetCollisions().MoveContact(_object->GetCollisionBody(), xvel.Direction(), xvel.Length(), _platform_category_bits)) {
+		if (xvel.X() != 0.0f && _object->Context().GetCollisions().MoveContact(body, xvel.Direction(), xvel.Length(), _platform_category_bits)) {
 			// We have hit an obstacle.
 			// Calculate the total horizontal distance traveled, and subtract it from the current velocity.
 			float xdist = _object->X() - pstart.x;
@@ -82,7 +83,7 @@ namespace hvn3 {
 				// Otherwise, see if there is a slope we can climb.
 				xvel.SetY(-try_height);
 				PointF new_pos = _object->Position() + xvel;
-				if (_object->Context().GetCollisions().PlaceFree(_object->GetCollisionBody(), new_pos, _platform_category_bits)) {
+				if (_object->Context().GetCollisions().PlaceFree(body, new_pos, _platform_category_bits)) {
 					_object->SetPosition(new_pos);
 					slope_success = true;
 					break;
@@ -90,7 +91,7 @@ namespace hvn3 {
 			}
 			// If we weren't able to walk up a slope, try going straight up vertically. This is necessary for steeper slopes.
 			if (!slope_success && _climb_height > 0.0f) {
-				if (_object->Context().GetCollisions().PlaceFree(_object->GetCollisionBody(), _object->Position() + Vector2d(xvel.X(), -_climb_height), _platform_category_bits)) {
+				if (_object->Context().GetCollisions().PlaceFree(body, _object->Position() + Vector2d(xvel.X(), -_climb_height), _platform_category_bits)) {
 					_object->SetPosition(_object->Position() + Vector2d(0.0f, -Math::Abs(xvel.X())));
 					slope_success = true;
 					SetVelocity(Velocity() - _gravity);
@@ -101,7 +102,14 @@ namespace hvn3 {
 				SetVelocity(Vector2d(0.0f, Velocity().Y()));
 		}
 
-		if (yvel.Y() != 0.0f && _object->Context().GetCollisions().MoveContact(_object->GetCollisionBody(), yvel.Direction(), yvel.Length(), _platform_category_bits)) {
+		Vector2d yvel(0.0f, Velocity().Y() * deltaf);
+
+		// Moving down slopes can appear jumpy if the horizontal velocity is greater than the force of gravity.
+		// For insignificant horizontal velocity, "snap" to the floor.
+		if (_step_height > 0.0f && _is_grounded && !_object->Context().GetCollisions().PlaceFree(body, _object->Position() + Vector2d(yvel.X(), yvel.Y() + _step_height), _platform_category_bits))
+			yvel.SetY(yvel.Y() + _step_height);
+
+		if (yvel.Y() != 0.0f && _object->Context().GetCollisions().MoveContact(body, yvel.Direction(), yvel.Length(), _platform_category_bits)) {
 			if (Velocity().Y() >= 0.0f)
 				_setGrounded(true);
 			else
@@ -111,9 +119,9 @@ namespace hvn3 {
 
 	}
 
-	void PlatformerKeyboardController::OnKeyPressed(KeyPressedEventArgs& e) {
+	void PlatformerControls::OnKeyPressed(KeyPressedEventArgs& e) {
 
-		DirectionalKeyboardController::OnKeyPressed(e);
+		DirectionalControls::OnKeyPressed(e);
 
 		if (e.Key() == GetKeyData(KEYDIR_UP).key && _is_grounded) {
 			SetVelocity(Vector2d(Velocity().X(), -(_gravity.Y() + _jump_height) * 6.0f));
@@ -124,12 +132,12 @@ namespace hvn3 {
 
 
 
-	void PlatformerKeyboardController::_setGrounded(bool value) {
+	void PlatformerControls::_setGrounded(bool value) {
 		_is_grounded = value;
 		if (!_is_grounded)
-			DirectionalKeyboardController::SetFriction(0.0f);
+			DirectionalControls::SetFriction(0.0f);
 		else
-			DirectionalKeyboardController::SetFriction(_friction);
+			DirectionalControls::SetFriction(_friction);
 	}
 
 }

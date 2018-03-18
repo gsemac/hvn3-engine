@@ -1,14 +1,14 @@
 #pragma once
-#include "hvn3/io/DirectionalKeyboardController.h"
+#include "hvn3/io/DirectionalControls.h"
 
 namespace hvn3 {
 
 	class Object;
 
-	class PlatformerKeyboardController : public DirectionalKeyboardController {
+	class PlatformerControls : public DirectionalControls {
 
 	public:
-		PlatformerKeyboardController(Object* object, float speed, int platform_category_bits);
+		PlatformerControls(Object* object, float speed, int platform_category_bits);
 
 		float Friction() const;
 		void SetFriction(float value);

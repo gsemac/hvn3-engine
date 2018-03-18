@@ -633,10 +633,10 @@
     <ClInclude Include="include\hvn3\core\IContextProvider.h">
       <Filter>include\core</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\io\DirectionalKeyboardController.h">
+    <ClInclude Include="include\hvn3\io\DirectionalControls.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\io\PlatformerKeyboardController.h">
+    <ClInclude Include="include\hvn3\io\PlatformerControls.h">
       <Filter>include\io</Filter>
     </ClInclude>
   </ItemGroup>
@@ -954,10 +954,10 @@
     <ClCompile Include="src\hvn3\core\Context.cc">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\io\DirectionalKeyboardController.cc">
+    <ClCompile Include="src\hvn3\io\DirectionalControls.cc">
       <Filter>src\io</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\io\PlatformerKeyboardController.cc">
+    <ClCompile Include="src\hvn3\io\PlatformerControls.cc">
       <Filter>src\io</Filter>
     </ClCompile>
   </ItemGroup>
