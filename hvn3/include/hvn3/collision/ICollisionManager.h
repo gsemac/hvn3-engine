@@ -50,6 +50,8 @@ namespace hvn3 {
 		virtual bool PlaceFree(collider_handle_type body, const PointF& position) = 0;
 		// Returns true if the body collides with any other body at the given position.
 		virtual bool PlaceFree(collider_handle_type body, float x, float y) = 0;
+		// Returns true if the body collides with a body with the given category at the given position.
+		virtual bool PlaceFree(collider_handle_type body, const PointF& position, int category) = 0;
 		// Returns true if the body collides with any other body at the given position.
 		virtual bool PlaceFree(collider_handle_type body, const PointF& position, CollisionManifold& manifold) = 0;
 		// Returns true if the body collides with any other body at the given position for which the given condition is true.
@@ -58,6 +60,8 @@ namespace hvn3 {
 		virtual bool PlaceFreeIf(collider_handle_type body, const PointF& position, CollisionManifold& manifold, const condition_lambda_type& condition) = 0;
 		// Moves the body a set distance in a given direction (in degrees) until it collides with another body.
 		virtual bool MoveContact(collider_handle_type body, float direction, float distance) = 0;
+		// Moves the body a set distance in a given direction (in degrees) until it collides with a body with the given category.
+		virtual bool MoveContact(collider_handle_type body, float direction, float distance, int category) = 0;
 		// Moves the body a set distance in a given direction (in degrees) until it collides with another body for which the given condition is true.
 		virtual bool MoveContactIf(collider_handle_type body, float direction, float distance, const condition_lambda_type& condition) = 0;
 		// Moves the body a set distance in a given direction (in degrees) until it collides with another body for which the given condition is true, and stores collision information.

@@ -108,6 +108,11 @@ namespace hvn3 {
 			return PlaceFree(body, PointF(x, y));
 
 		}
+		bool PlaceFree(collider_handle_type body, const PointF& position, int category) override {
+
+			return PlaceFreeIf(body, position, [=](collider_handle_type body) { return (body->Category().CategoryBits() & category) != 0; });
+
+		}
 		bool PlaceFree(collider_handle_type body, const PointF& position, CollisionManifold& manifold) override {
 
 			return PlaceFreeIf(body, position, manifold, [](collider_handle_type) { return true; });
@@ -161,6 +166,11 @@ namespace hvn3 {
 		bool MoveContact(collider_handle_type body, float direction, float distance) override {
 
 			return MoveContactIf(body, direction, distance, [](collider_handle_type) { return true; });
+
+		}
+		bool MoveContact(collider_handle_type body, float direction, float distance, int category) override {
+
+			return MoveContactIf(body, direction, distance, [=](collider_handle_type body) { return (body->Category().CategoryBits() & category) != 0; });
 
 		}
 		bool MoveContactIf(collider_handle_type body, float direction, float distance, const condition_lambda_type& condition) override {

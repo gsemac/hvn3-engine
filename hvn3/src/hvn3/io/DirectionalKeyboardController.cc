@@ -4,10 +4,7 @@
 
 namespace hvn3 {
 
-	DirectionalKeyboardController::DirectionalKeyboardController(float speed) :
-		DirectionalKeyboardController(speed, 8) {
-	}
-	DirectionalKeyboardController::DirectionalKeyboardController(float speed, int directions) {
+	DirectionalKeyboardController::DirectionalKeyboardController(int directions, float speed) {
 		_max_speed = speed;
 		_acceleration = speed;
 		_friction = speed;
@@ -117,10 +114,7 @@ namespace hvn3 {
 	}
 
 	void DirectionalKeyboardController::Step() {
-		Step(1.0f);
-	}
-	void DirectionalKeyboardController::Step(double delta) {
-
+	
 		// If no keys are pressed, reset the direction and keystates.
 		// This is done just in case the key release event is missed (e.g., released while display is unfocused).
 		for (int i = 0; i < KEY_COUNT; ++i) {
@@ -130,42 +124,55 @@ namespace hvn3 {
 				_resetKeyStates();
 		}
 
-		float deltaf = static_cast<float>(delta);
+		if (_directions <= 0)
+			return;
 
 		if (_last_hdir == DIRECTION_LEFT) {
 			if (_velocity.X() > -_max_speed)
-				_velocity.SetX(Math::Max(_velocity.X() - _acceleration * deltaf, -_max_speed));
+				_velocity.SetX(Math::Max(_velocity.X() - _acceleration, -_max_speed));
 		}
 		else if (_last_hdir == DIRECTION_RIGHT) {
 			if (_velocity.X() < _max_speed)
-				_velocity.SetX(Math::Min(_velocity.X() + _acceleration * deltaf, _max_speed));
+				_velocity.SetX(Math::Min(_velocity.X() + _acceleration, _max_speed));
 		}
 		else if (_last_hdir == DIRECTION_NONE && _velocity.X() != 0.0f) {
 			if (_velocity.X() < 0.0f)
-				_velocity.SetX(Math::Min(_velocity.X() + _friction * deltaf, 0.0f));
+				_velocity.SetX(Math::Min(_velocity.X() + _friction, 0.0f));
 			else if (_velocity.X() > 0.0f)
-				_velocity.SetX(Math::Max(_velocity.X() - _friction * deltaf, 0.0f));
+				_velocity.SetX(Math::Max(_velocity.X() - _friction, 0.0f));
 		}
+
+		if (_directions <= 2)
+			return;
 
 		if (_last_vdir == DIRECTION_UP) {
 			if (_velocity.Y() > -_max_speed)
-				_velocity.SetY(Math::Max(_velocity.Y() - _acceleration * deltaf, -_max_speed));
+				_velocity.SetY(Math::Max(_velocity.Y() - _acceleration, -_max_speed));
 		}
 		else if (_last_vdir == DIRECTION_DOWN) {
 			if (_velocity.Y() < _max_speed)
-				_velocity.SetY(Math::Min(_velocity.Y() + _acceleration * deltaf, _max_speed));
+				_velocity.SetY(Math::Min(_velocity.Y() + _acceleration, _max_speed));
 		}
 		else if (_last_vdir == DIRECTION_NONE && _velocity.Y() != 0.0f) {
 			if (_velocity.Y() < 0.0f)
-				_velocity.SetY(Math::Min(_velocity.Y() + _friction * deltaf, 0.0f));
+				_velocity.SetY(Math::Min(_velocity.Y() + _friction, 0.0f));
 			else if (_velocity.Y() > 0.0f)
-				_velocity.SetY(Math::Max(_velocity.Y() - _friction * deltaf, 0.0f));
+				_velocity.SetY(Math::Max(_velocity.Y() - _friction, 0.0f));
 		}
 
 	}
 	void DirectionalKeyboardController::Clear() {
 		_velocity.SetX(0.0f);
 		_velocity.SetY(0.0f);
+	}
+
+
+
+	DirectionalKeyboardController::KeyData DirectionalKeyboardController::GetKeyData(KEYDIR keydir) {
+		return _keys[keydir];
+	}
+	void DirectionalKeyboardController::SetVelocity(const Vector2d& value) {
+		_velocity = value;
 	}
 
 

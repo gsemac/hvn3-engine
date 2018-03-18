@@ -3,6 +3,7 @@
 #include "hvn3/collision/IHitMask.h"
 #include "hvn3/core/IPositionable2d.h"
 #include "hvn3/core/IDestroyable.h"
+#include "hvn3/utility/BitFlags.h"
 
 namespace hvn3 {
 
@@ -10,8 +11,10 @@ namespace hvn3 {
 	class IObject;
 
 	enum class CollisionBodyFlags {
-		Static
+		Static,
+		Solid
 	};
+	ENABLE_BITFLAG_OPERATORS(CollisionBodyFlags)
 
 	class ICollisionBody :
 		public IPositionable2d<float>,

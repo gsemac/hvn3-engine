@@ -106,6 +106,7 @@
     <ClInclude Include="include\hvn3\gui2\WidgetRenderArgs.h" />
     <ClInclude Include="include\hvn3\gui2\Window.h" />
     <ClInclude Include="include\hvn3\hvn3.h" />
+    <ClInclude Include="include\hvn3\io\PlatformerKeyboardController.h" />
     <ClInclude Include="include\hvn3\io\Clipboard.h" />
     <ClInclude Include="include\hvn3\io\Console.h" />
     <ClInclude Include="include\hvn3\io\DirectionalKeyboardController.h" />
@@ -243,6 +244,7 @@
     <ClCompile Include="src\hvn3\gui2\WidgetManager.cc" />
     <ClCompile Include="src\hvn3\gui2\WidgetRendererRenderArgs.cc" />
     <ClCompile Include="src\hvn3\gui2\Window.cc" />
+    <ClCompile Include="src\hvn3\io\PlatformerKeyboardController.cc" />
     <ClCompile Include="src\hvn3\io\Clipboard.cc" />
     <ClCompile Include="src\hvn3\io\Console.cc" />
     <ClCompile Include="src\hvn3\io\DirectionalKeyboardController.cc" />

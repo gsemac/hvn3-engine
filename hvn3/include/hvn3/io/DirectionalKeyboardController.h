@@ -7,16 +7,8 @@ namespace hvn3 {
 
 	class DirectionalKeyboardController : public KeyboardListener {
 
-		enum KEYDIR {
-			KEYDIR_UP,
-			KEYDIR_DOWN,
-			KEYDIR_LEFT,
-			KEYDIR_RIGHT
-		};
-
 	public:
-		DirectionalKeyboardController(float speed);
-		DirectionalKeyboardController(float speed, int directions);
+		DirectionalKeyboardController(int directions, float speed);
 
 		void OnKeyDown(KeyDownEventArgs& e) override;
 		void OnKeyPressed(KeyPressedEventArgs& e) override;
@@ -32,8 +24,23 @@ namespace hvn3 {
 		void SetKeys(Key left, Key right, Key up, Key down);
 
 		void Step();
-		void Step(double delta);
 		void Clear();
+
+	protected:
+		enum KEYDIR {
+			KEYDIR_UP,
+			KEYDIR_DOWN,
+			KEYDIR_LEFT,
+			KEYDIR_RIGHT
+		};
+		struct KeyData {
+			Key key;
+			bool pressed;
+		};
+
+
+		KeyData GetKeyData(KEYDIR keydir);
+		void SetVelocity(const Vector2d& value);
 
 	private:
 		void _resetKeyStates();
@@ -45,10 +52,7 @@ namespace hvn3 {
 		Vector2d _velocity;
 		DIRECTION _last_hdir;
 		DIRECTION _last_vdir;
-		struct {
-			Key key;
-			bool pressed;
-		} _keys[4];
+		KeyData _keys[4];
 
 	};
 

@@ -636,6 +636,9 @@
     <ClInclude Include="include\hvn3\io\DirectionalKeyboardController.h">
       <Filter>include\io</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\io\PlatformerKeyboardController.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -952,6 +955,9 @@
       <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\io\DirectionalKeyboardController.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\PlatformerKeyboardController.cc">
       <Filter>src\io</Filter>
     </ClCompile>
   </ItemGroup>
