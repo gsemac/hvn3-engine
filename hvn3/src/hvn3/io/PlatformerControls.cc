@@ -18,7 +18,7 @@ namespace hvn3 {
 		_step_height = 0.0f;
 		_climb_height = 0.0f;
 		_is_grounded = false;
-		_friction = speed / 15.0f; // Friction is stored separately from the base class so it can be applied only when grounded.
+		_friction = speed / 10.0f; // Friction is stored separately from the base class so it can be applied only when grounded.
 
 		SetAcceleration(speed / 10.0f);
 		SetFriction(_friction);
@@ -73,33 +73,40 @@ namespace hvn3 {
 		PointF pstart = _object->Position();
 
 		if (xvel.X() != 0.0f && _object->Context().GetCollisions().MoveContact(body, xvel.Direction(), xvel.Length(), _platform_category_bits)) {
+
 			// We have hit an obstacle.
 			// Calculate the total horizontal distance traveled, and subtract it from the current velocity.
 			float xdist = _object->X() - pstart.x;
 			xvel.SetX(xvel.X() - xdist);
-			// If a step height has been set and we can still move horizontally, attempt to move up the slope.
-			bool slope_success = false;
-			for (float try_height = 0; try_height <= _step_height; try_height += 1.0f) {
-				// Otherwise, see if there is a slope we can climb.
-				xvel.SetY(-try_height);
-				PointF new_pos = _object->Position() + xvel;
-				if (_object->Context().GetCollisions().PlaceFree(body, new_pos, _platform_category_bits)) {
-					_object->SetPosition(new_pos);
-					slope_success = true;
-					break;
+
+			// Attempt to move up the obstacle if possible (i.e. slope movement).
+			// Only attempt to move up a slope if we're grounded.
+			bool able_to_move = false;
+			if (_is_grounded) {
+				for (float try_height = 0; try_height <= _step_height; try_height += 1.0f) {
+					// Otherwise, see if there is a slope we can climb.
+					xvel.SetY(-try_height);
+					PointF new_pos = _object->Position() + xvel;
+					if (_object->Context().GetCollisions().PlaceFree(body, new_pos, _platform_category_bits)) {
+						_object->SetPosition(new_pos);
+						able_to_move = true;
+						break;
+					}
+				}
+				// If we weren't able to walk up a slope, try going straight up vertically. This is necessary for steeper slopes.
+				if (!able_to_move && _climb_height > 0.0f) {
+					if (_object->Context().GetCollisions().PlaceFree(body, _object->Position() + Vector2d(xvel.X(), -_climb_height), _platform_category_bits)) {
+						_object->SetPosition(_object->Position() + Vector2d(0.0f, -Math::Abs(xvel.X())));
+						able_to_move = true;
+						SetVelocity(Velocity() - _gravity);
+					}
 				}
 			}
-			// If we weren't able to walk up a slope, try going straight up vertically. This is necessary for steeper slopes.
-			if (!slope_success && _climb_height > 0.0f) {
-				if (_object->Context().GetCollisions().PlaceFree(body, _object->Position() + Vector2d(xvel.X(), -_climb_height), _platform_category_bits)) {
-					_object->SetPosition(_object->Position() + Vector2d(0.0f, -Math::Abs(xvel.X())));
-					slope_success = true;
-					SetVelocity(Velocity() - _gravity);
-				}
-			}
+
 			// We can't move any further, so clear the horizontal velocity.
-			if (!slope_success)
+			if (!able_to_move)
 				SetVelocity(Vector2d(0.0f, Velocity().Y()));
+
 		}
 
 		Vector2d yvel(0.0f, Velocity().Y() * deltaf);
