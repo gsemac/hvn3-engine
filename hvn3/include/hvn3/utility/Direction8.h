@@ -21,6 +21,7 @@ namespace hvn3 {
 	public:
 		Direction8();
 		Direction8(DIRECTION direction);
+		Direction8(DIRECTION horizontal, DIRECTION vertical);
 		Direction8(const Vector2d& vector);
 
 		bool IsFacingLeft() const;
@@ -31,6 +32,8 @@ namespace hvn3 {
 		bool IsHorizontal() const;
 		bool IsDiagonal() const;
 		DIRECTION Value() const;
+		DIRECTION HorizontalDirection() const;
+		DIRECTION VerticalDirection() const;
 
 		bool operator==(const DIRECTION& other);
 		Direction8& operator=(const DIRECTION& other);

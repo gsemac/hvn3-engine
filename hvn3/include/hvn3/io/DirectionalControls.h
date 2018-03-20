@@ -22,6 +22,8 @@ namespace hvn3 {
 		void SetMaxSpeed(float value);
 		const Vector2d& Velocity() const;
 		void SetKeys(Key up, Key left, Key down, Key right);
+		Direction8 Direction() const;
+		Direction8 LastDirection() const;
 
 		void Step();
 		void Clear();
@@ -52,6 +54,7 @@ namespace hvn3 {
 		Vector2d _velocity;
 		DIRECTION _last_hdir;
 		DIRECTION _last_vdir;
+		Direction8 _last_dir;
 		KeyData _keys[4];
 
 	};

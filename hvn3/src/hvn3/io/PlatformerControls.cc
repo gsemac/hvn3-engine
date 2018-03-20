@@ -55,6 +55,9 @@ namespace hvn3 {
 	void PlatformerControls::SetGravity(const Vector2d& value) {
 		_gravity = value;
 	}
+	bool PlatformerControls::IsGrounded() const {
+		return _is_grounded;
+	}
 
 	void PlatformerControls::Step() {
 		Step(1.0f);

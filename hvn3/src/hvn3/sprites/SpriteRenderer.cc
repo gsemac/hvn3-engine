@@ -1,4 +1,5 @@
 #include "hvn3/sprites/SpriteRenderer.h"
+#include <limits>
 
 namespace hvn3 {
 	namespace Graphics {
@@ -104,8 +105,8 @@ namespace hvn3 {
 						ImageBlend().Gf() * ImageAlpha(),
 						ImageBlend().Bf() * ImageAlpha(),
 						ImageAlpha()
-						)
-					);
+					)
+				);
 
 			}
 
@@ -126,20 +127,27 @@ namespace hvn3 {
 		void SpriteRenderer::_incrementImageIndex(float delta) {
 
 			_image_index_timer += (std::abs)(delta);
-			if (_image_index_timer >= 1.0f) {
-				switch (static_cast<int>(Math::Sign(ImageSpeed()))) {
+			int increment_dir = static_cast<int>(Math::Sign(ImageSpeed()));
+
+			while(_image_index_timer >= 1.0f) {
+
+				switch (increment_dir) {
 				case -1:
 					if (ImageIndex() == 0)
-						SetImageIndex(INT_MAX);
+						SetImageIndex(std::numeric_limits<int>::max());
 					else
 						SetImageIndex(ImageIndex() - 1);
+					break;
 				case 1:
-					if (ImageIndex() == INT_MAX)
+					if (ImageIndex() == std::numeric_limits<int>::max())
 						SetImageIndex(0);
 					else
 						SetImageIndex(ImageIndex() + 1);
+					break;
 				}
+
 				_image_index_timer -= 1.0f;
+
 			}
 
 		}

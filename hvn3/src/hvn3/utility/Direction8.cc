@@ -12,6 +12,12 @@ namespace hvn3 {
 		_direction = direction;
 
 	}
+	Direction8::Direction8(DIRECTION horizontal, DIRECTION vertical) :
+		Direction8(horizontal) {
+
+		*this += vertical;
+
+	}
 	Direction8::Direction8(const Vector2d& vector) {
 
 		if (vector.Y() < 0.0f) {
@@ -79,6 +85,38 @@ namespace hvn3 {
 	DIRECTION Direction8::Value() const {
 
 		return _direction;
+
+	}
+	DIRECTION Direction8::HorizontalDirection() const {
+
+		switch (_direction) {
+		case DIRECTION_RIGHT:
+		case DIRECTION_UP_RIGHT:
+		case DIRECTION_DOWN_RIGHT:
+			return DIRECTION_RIGHT;
+		case DIRECTION_LEFT:
+		case DIRECTION_UP_LEFT:
+		case DIRECTION_DOWN_LEFT:
+			return DIRECTION_LEFT;
+		default:
+			return DIRECTION_NONE;
+		}
+
+	}
+	DIRECTION Direction8::VerticalDirection() const {
+
+		switch (_direction) {
+		case DIRECTION_UP:
+		case DIRECTION_UP_RIGHT:
+		case DIRECTION_UP_LEFT:
+			return DIRECTION_UP;
+		case DIRECTION_DOWN:
+		case DIRECTION_DOWN_RIGHT:
+		case DIRECTION_DOWN_LEFT:
+			return DIRECTION_DOWN;
+		default:
+			return DIRECTION_NONE;
+		}
 
 	}
 

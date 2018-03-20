@@ -20,6 +20,7 @@ namespace hvn3 {
 		void SetClimbHeight(float value);
 		const Vector2d& Gravity() const;
 		void SetGravity(const Vector2d& value);
+		bool IsGrounded() const;
 
 		void Step();
 		void Step(double delta);

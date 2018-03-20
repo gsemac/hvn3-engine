@@ -47,6 +47,10 @@ namespace hvn3 {
 			}
 		}
 
+		DIRECTION last_hdir = _last_hdir != DIRECTION_NONE ? _last_hdir : _last_dir.HorizontalDirection();
+		DIRECTION last_vdir = _last_vdir != DIRECTION_NONE ? _last_vdir : _last_dir.VerticalDirection();
+		_last_dir = Direction8(last_hdir, last_vdir);
+
 	}
 	void DirectionalControls::OnKeyUp(KeyUpEventArgs& e) {
 
@@ -110,6 +114,16 @@ namespace hvn3 {
 		_keys[KEYDIR_RIGHT].key = right;
 
 		_resetKeyStates();
+
+	}
+	Direction8 DirectionalControls::Direction() const {
+
+		return Direction8(_last_hdir, _last_vdir);
+
+	}
+	Direction8 DirectionalControls::LastDirection() const {
+
+		return _last_dir;
 
 	}
 
