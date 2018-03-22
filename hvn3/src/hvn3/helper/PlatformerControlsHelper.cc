@@ -1,14 +1,14 @@
 #include "hvn3/collision/CategoryFilter.h"
 #include "hvn3/collision/ICollisionBody.h"
 #include "hvn3/collision/ICollisionManager.h"
-#include "hvn3/helper/PlatformerControls.h"
+#include "hvn3/helper/PlatformerControlsHelper.h"
 #include "hvn3/math/GeometryUtils.h"
 #include "hvn3/objects/Object.h"
 
 namespace hvn3 {
 
-	PlatformerControls::PlatformerControls(Object* object, float speed, int platform_category_bits) :
-		DirectionalControls(2, speed),
+	PlatformerControlsHelper::PlatformerControlsHelper(Object* object, float speed, int platform_category_bits) :
+		DirectionalControlsHelper(2, speed),
 		_gravity(0.0f, 16.0f) {
 
 		_object = object;
@@ -26,51 +26,51 @@ namespace hvn3 {
 
 	}
 
-	float PlatformerControls::Friction() const {
+	float PlatformerControlsHelper::Friction() const {
 		return _friction;
 	}
-	void PlatformerControls::SetFriction(float value) {
+	void PlatformerControlsHelper::SetFriction(float value) {
 		_friction = value;
 	}
-	float PlatformerControls::JumpHeight() const {
+	float PlatformerControlsHelper::JumpHeight() const {
 		return _jump_height;
 	}
-	void PlatformerControls::SetJumpHeight(float value) {
+	void PlatformerControlsHelper::SetJumpHeight(float value) {
 		_jump_height = value;
 	}
-	float PlatformerControls::StepHeight() const {
+	float PlatformerControlsHelper::StepHeight() const {
 		return _step_height;
 	}
-	void PlatformerControls::SetStepHeight(float value) {
+	void PlatformerControlsHelper::SetStepHeight(float value) {
 		_step_height = value;
 	}
-	float PlatformerControls::ClimbHeight() const {
+	float PlatformerControlsHelper::ClimbHeight() const {
 		return _climb_height;
 	}
-	void PlatformerControls::SetClimbHeight(float value) {
+	void PlatformerControlsHelper::SetClimbHeight(float value) {
 		_climb_height = value;
 	}
-	const Vector2d& PlatformerControls::Gravity() const {
+	const Vector2d& PlatformerControlsHelper::Gravity() const {
 		return _gravity;
 	}
-	void PlatformerControls::SetGravity(const Vector2d& value) {
+	void PlatformerControlsHelper::SetGravity(const Vector2d& value) {
 		_gravity = value;
 	}
-	bool PlatformerControls::IsGrounded() const {
+	bool PlatformerControlsHelper::IsGrounded() const {
 		return _is_grounded;
 	}
-	PlatformerControlsFlags PlatformerControls::Flags() const {
+	PlatformerControlsFlags PlatformerControlsHelper::Flags() const {
 		return _flags;
 	}
-	void PlatformerControls::SetFlags(PlatformerControlsFlags value) {
+	void PlatformerControlsHelper::SetFlags(PlatformerControlsFlags value) {
 		_flags = value;
 	}
 
-	void PlatformerControls::Step() {
+	void PlatformerControlsHelper::Step() {
 		Step(1.0f);
 	}
-	void PlatformerControls::Step(double delta) {
-		DirectionalControls::Step();
+	void PlatformerControlsHelper::Step(double delta) {
+		DirectionalControlsHelper::Step();
 
 		// Update the vertical velocity according to the gravity.
 		SetVelocity(Velocity() + _gravity);
@@ -139,9 +139,9 @@ namespace hvn3 {
 
 	}
 
-	void PlatformerControls::OnKeyPressed(KeyPressedEventArgs& e) {
+	void PlatformerControlsHelper::OnKeyPressed(KeyPressedEventArgs& e) {
 
-		DirectionalControls::OnKeyPressed(e);
+		DirectionalControlsHelper::OnKeyPressed(e);
 
 		if (e.Key() == GetKeyData(KEYDIR_UP).key && _is_grounded) {
 			SetVelocity(Vector2d(Velocity().X(), -(_gravity.Y() + _jump_height) * 6.0f));
@@ -152,12 +152,12 @@ namespace hvn3 {
 
 
 
-	void PlatformerControls::_setGrounded(bool value) {
+	void PlatformerControlsHelper::_setGrounded(bool value) {
 		_is_grounded = value;
 		if (!_is_grounded)
-			DirectionalControls::SetFriction(0.0f);
+			DirectionalControlsHelper::SetFriction(0.0f);
 		else
-			DirectionalControls::SetFriction(_friction);
+			DirectionalControlsHelper::SetFriction(_friction);
 	}
 
 }

@@ -1,10 +1,10 @@
 #include "hvn3/math/MathUtils.h"
-#include "hvn3/helper/DirectionalControls.h"
+#include "hvn3/helper/DirectionalControlsHelper.h"
 #define KEY_COUNT (sizeof(_keys) / sizeof(_keys[0]))
 
 namespace hvn3 {
 
-	DirectionalControls::DirectionalControls(int directions, float speed) {
+	DirectionalControlsHelper::DirectionalControlsHelper(int directions, float speed) {
 		_max_speed = speed;
 		_acceleration = speed;
 		_friction = speed;
@@ -14,8 +14,8 @@ namespace hvn3 {
 		SetKeys(Key::Up, Key::Left, Key::Down, Key::Right);
 	}
 
-	void DirectionalControls::OnKeyDown(KeyDownEventArgs& e) {}
-	void DirectionalControls::OnKeyPressed(KeyPressedEventArgs& e) {
+	void DirectionalControlsHelper::OnKeyDown(KeyDownEventArgs& e) {}
+	void DirectionalControlsHelper::OnKeyPressed(KeyPressedEventArgs& e) {
 
 		if (_directions <= 0)
 			return;
@@ -50,7 +50,7 @@ namespace hvn3 {
 		_updateLastDirection();
 
 	}
-	void DirectionalControls::OnKeyUp(KeyUpEventArgs& e) {
+	void DirectionalControlsHelper::OnKeyUp(KeyUpEventArgs& e) {
 
 		if (e.Key() == _keys[KEYDIR_LEFT].key) {
 			_keys[KEYDIR_LEFT].pressed = false;
@@ -85,28 +85,28 @@ namespace hvn3 {
 
 	}
 
-	float DirectionalControls::Acceleration() const {
+	float DirectionalControlsHelper::Acceleration() const {
 		return _acceleration;
 	}
-	void DirectionalControls::SetAcceleration(float value) {
+	void DirectionalControlsHelper::SetAcceleration(float value) {
 		_acceleration = value;
 	}
-	float DirectionalControls::Friction() const {
+	float DirectionalControlsHelper::Friction() const {
 		return _friction;
 	}
-	void DirectionalControls::SetFriction(float value) {
+	void DirectionalControlsHelper::SetFriction(float value) {
 		_friction = value;
 	}
-	float DirectionalControls::MaxSpeed() const {
+	float DirectionalControlsHelper::MaxSpeed() const {
 		return _max_speed;
 	}
-	void DirectionalControls::SetMaxSpeed(float value) {
+	void DirectionalControlsHelper::SetMaxSpeed(float value) {
 		_max_speed = value;
 	}
-	const Vector2d& DirectionalControls::Velocity() const {
+	const Vector2d& DirectionalControlsHelper::Velocity() const {
 		return _velocity;
 	}
-	void DirectionalControls::SetKeys(Key up, Key left, Key down, Key right) {
+	void DirectionalControlsHelper::SetKeys(Key up, Key left, Key down, Key right) {
 
 		_keys[KEYDIR_UP].key = up;
 		_keys[KEYDIR_DOWN].key = down;
@@ -116,18 +116,18 @@ namespace hvn3 {
 		_resetKeyStates();
 
 	}
-	Direction8 DirectionalControls::Direction() const {
+	Direction8 DirectionalControlsHelper::Direction() const {
 
 		return Direction8(_last_hdir, _last_vdir);
 
 	}
-	Direction8 DirectionalControls::LastDirection() const {
+	Direction8 DirectionalControlsHelper::LastDirection() const {
 
 		return _last_dir;
 
 	}
 
-	void DirectionalControls::Step() {
+	void DirectionalControlsHelper::Step() {
 	
 		// If no keys are pressed, reset the direction and keystates.
 		// This is done just in case the key release event is missed (e.g., released while display is unfocused).
@@ -175,23 +175,23 @@ namespace hvn3 {
 		}
 
 	}
-	void DirectionalControls::Clear() {
+	void DirectionalControlsHelper::Clear() {
 		_velocity.SetX(0.0f);
 		_velocity.SetY(0.0f);
 	}
 
 
 
-	DirectionalControls::KeyData DirectionalControls::GetKeyData(KEYDIR keydir) {
+	DirectionalControlsHelper::KeyData DirectionalControlsHelper::GetKeyData(KEYDIR keydir) {
 		return _keys[keydir];
 	}
-	void DirectionalControls::SetVelocity(const Vector2d& value) {
+	void DirectionalControlsHelper::SetVelocity(const Vector2d& value) {
 		_velocity = value;
 	}
 
 
 
-	void DirectionalControls::_resetKeyStates() {
+	void DirectionalControlsHelper::_resetKeyStates() {
 		_keys[KEYDIR_UP].pressed = false;
 		_keys[KEYDIR_DOWN].pressed = false;
 		_keys[KEYDIR_LEFT].pressed = false;
@@ -199,7 +199,7 @@ namespace hvn3 {
 		_last_hdir = DIRECTION_NONE;
 		_last_vdir = DIRECTION_NONE;
 	}
-	void DirectionalControls::_updateLastDirection() {
+	void DirectionalControlsHelper::_updateLastDirection() {
 		DIRECTION last_hdir = _last_hdir != DIRECTION_NONE ? _last_hdir : _last_dir.HorizontalDirection();
 		DIRECTION last_vdir = _last_vdir != DIRECTION_NONE ? _last_vdir : _last_dir.VerticalDirection();
 		_last_dir = Direction8(last_hdir, last_vdir);

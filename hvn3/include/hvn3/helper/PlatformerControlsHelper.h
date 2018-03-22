@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/helper/DirectionalControls.h"
+#include "hvn3/helper/DirectionalControlsHelper.h"
 #include "hvn3/utility/BitFlags.h"
 
 namespace hvn3 {
@@ -12,10 +12,10 @@ namespace hvn3 {
 	};
 	ENABLE_BITFLAG_OPERATORS(PlatformerControlsFlags)
 
-	class PlatformerControls : public DirectionalControls {
+	class PlatformerControlsHelper : public DirectionalControlsHelper {
 
 	public:
-		PlatformerControls(Object* object, float speed, int platform_category_bits);
+		PlatformerControlsHelper(Object* object, float speed, int platform_category_bits);
 
 		float Friction() const;
 		void SetFriction(float value);

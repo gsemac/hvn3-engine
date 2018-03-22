@@ -5,10 +5,10 @@
 
 namespace hvn3 {
 
-	class DirectionalControls : public KeyboardListener {
+	class DirectionalControlsHelper : public KeyboardListener {
 
 	public:
-		DirectionalControls(int directions, float speed);
+		DirectionalControlsHelper(int directions, float speed);
 
 		void OnKeyDown(KeyDownEventArgs& e) override;
 		void OnKeyPressed(KeyPressedEventArgs& e) override;
