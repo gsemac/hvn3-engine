@@ -72,7 +72,7 @@ namespace hvn3 {
 		auto body = _object->GetCollisionBody();
 
 		float xvelf = Velocity().X() * deltaf;
-		Vector2d xvel(Velocity().X() * deltaf, 0.0f);
+		Vector2d xvel(xvelf, 0.0f);
 		PointF pstart = _object->Position();
 		bool moving_up_slope = false;
 
@@ -86,10 +86,9 @@ namespace hvn3 {
 			// Attempt to move up the obstacle if possible (i.e. slope movement).
 			// Only attempt to move up a slope if we're grounded.
 			if (Velocity().Y() >= 0.0f) {
-				for (float try_height = 0; try_height <= _step_height; try_height += 1.0f) {
+				for (float try_height = 1.0f; try_height <= _step_height; try_height += 1.0f) {
 					// Otherwise, see if there is a slope we can climb.
-					xvel.SetY(-try_height);
-					PointF new_pos = pstart + xvel;
+					PointF new_pos = pstart + Vector2d(xvelf, -try_height);
 					if (_object->Context().GetCollisions().PlaceFree(body, new_pos, _platform_category_bits)) {
 						_object->SetPosition(new_pos);
 						moving_up_slope = true;
@@ -116,7 +115,7 @@ namespace hvn3 {
 
 		// Moving down slopes can appear jumpy if the horizontal velocity is greater than the force of gravity.
 		// For insignificant horizontal velocity, "snap" to the floor.
-		if (_step_height > 0.0f && _is_grounded && !_object->Context().GetCollisions().PlaceFree(body, _object->Position() + Vector2d(yvel.X(), yvel.Y() + _step_height), _platform_category_bits))
+		if (_step_height > 0.0f && _is_grounded && !_object->Context().GetCollisions().PlaceFree(body, pstart + Vector2d(Math::Sign(yvel.X()) * 1.0f, 1.0f), _platform_category_bits))
 			yvel.SetY(yvel.Y() + _step_height);
 
 		if (yvel.Y() != 0.0f && _object->Context().GetCollisions().MoveContact(body, yvel.Direction(), yvel.Length(), _platform_category_bits)) {
