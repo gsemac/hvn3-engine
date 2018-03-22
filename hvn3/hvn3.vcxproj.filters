@@ -133,6 +133,12 @@
     <Filter Include="src\exceptions">
       <UniqueIdentifier>{1a6ceb05-7a19-4f02-aeaa-88a3e8cd6d49}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\helper">
+      <UniqueIdentifier>{a024f5e7-494f-4809-ae27-776102ea1941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\helper">
+      <UniqueIdentifier>{39b2deaf-d22c-449a-8fdd-4d567c2dcec4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\hvn3\allegro\AllegroAdapter.h">
@@ -633,11 +639,11 @@
     <ClInclude Include="include\hvn3\core\IContextProvider.h">
       <Filter>include\core</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\io\DirectionalControls.h">
-      <Filter>include\io</Filter>
+    <ClInclude Include="include\hvn3\helper\DirectionalControls.h">
+      <Filter>include\helper</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\io\PlatformerControls.h">
-      <Filter>include\io</Filter>
+    <ClInclude Include="include\hvn3\helper\PlatformerControls.h">
+      <Filter>include\helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -954,11 +960,11 @@
     <ClCompile Include="src\hvn3\core\Context.cc">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\io\DirectionalControls.cc">
-      <Filter>src\io</Filter>
+    <ClCompile Include="src\hvn3\helper\DirectionalControls.cc">
+      <Filter>src\helper</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\io\PlatformerControls.cc">
-      <Filter>src\io</Filter>
+    <ClCompile Include="src\hvn3\helper\PlatformerControls.cc">
+      <Filter>src\helper</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

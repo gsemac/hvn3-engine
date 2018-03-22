@@ -1,5 +1,5 @@
 #include "hvn3/math/MathUtils.h"
-#include "hvn3/io/DirectionalControls.h"
+#include "hvn3/helper/DirectionalControls.h"
 #define KEY_COUNT (sizeof(_keys) / sizeof(_keys[0]))
 
 namespace hvn3 {

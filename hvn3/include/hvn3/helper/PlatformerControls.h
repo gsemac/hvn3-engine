@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/io/DirectionalControls.h"
+#include "hvn3/helper/DirectionalControls.h"
 #include "hvn3/utility/BitFlags.h"
 
 namespace hvn3 {
