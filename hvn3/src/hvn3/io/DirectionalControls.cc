@@ -47,9 +47,7 @@ namespace hvn3 {
 			}
 		}
 
-		DIRECTION last_hdir = _last_hdir != DIRECTION_NONE ? _last_hdir : _last_dir.HorizontalDirection();
-		DIRECTION last_vdir = _last_vdir != DIRECTION_NONE ? _last_vdir : _last_dir.VerticalDirection();
-		_last_dir = Direction8(last_hdir, last_vdir);
+		_updateLastDirection();
 
 	}
 	void DirectionalControls::OnKeyUp(KeyUpEventArgs& e) {
@@ -82,6 +80,8 @@ namespace hvn3 {
 			else
 				_last_vdir = DIRECTION_NONE;
 		}
+
+		_updateLastDirection();
 
 	}
 
@@ -198,6 +198,11 @@ namespace hvn3 {
 		_keys[KEYDIR_RIGHT].pressed = false;
 		_last_hdir = DIRECTION_NONE;
 		_last_vdir = DIRECTION_NONE;
+	}
+	void DirectionalControls::_updateLastDirection() {
+		DIRECTION last_hdir = _last_hdir != DIRECTION_NONE ? _last_hdir : _last_dir.HorizontalDirection();
+		DIRECTION last_vdir = _last_vdir != DIRECTION_NONE ? _last_vdir : _last_dir.VerticalDirection();
+		_last_dir = Direction8(last_hdir, last_vdir);
 	}
 
 }

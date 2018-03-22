@@ -46,6 +46,7 @@ namespace hvn3 {
 
 	private:
 		void _resetKeyStates();
+		void _updateLastDirection();
 
 		int _directions;
 		float _acceleration;
