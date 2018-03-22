@@ -74,6 +74,7 @@ namespace hvn3 {
 		float xvelf = Velocity().X() * deltaf;
 		Vector2d xvel(Velocity().X() * deltaf, 0.0f);
 		PointF pstart = _object->Position();
+		bool moving_up_slope = false;
 
 		if (xvel.X() != 0.0f && _object->Context().GetCollisions().MoveContact(body, xvel.Direction(), xvel.Length(), _platform_category_bits)) {
 
@@ -84,30 +85,29 @@ namespace hvn3 {
 
 			// Attempt to move up the obstacle if possible (i.e. slope movement).
 			// Only attempt to move up a slope if we're grounded.
-			bool able_to_move = false;
-			if (_is_grounded) {
+			if (Velocity().Y() >= 0.0f) {
 				for (float try_height = 0; try_height <= _step_height; try_height += 1.0f) {
 					// Otherwise, see if there is a slope we can climb.
 					xvel.SetY(-try_height);
-					PointF new_pos = _object->Position() + xvel;
+					PointF new_pos = pstart + xvel;
 					if (_object->Context().GetCollisions().PlaceFree(body, new_pos, _platform_category_bits)) {
 						_object->SetPosition(new_pos);
-						able_to_move = true;
+						moving_up_slope = true;
 						break;
 					}
 				}
 				// If we weren't able to walk up a slope, try going straight up vertically. This is necessary for steeper slopes.
-				if (!able_to_move && _climb_height > 0.0f) {
-					if (_object->Context().GetCollisions().PlaceFree(body, _object->Position() + Vector2d(xvel.X(), -_climb_height), _platform_category_bits)) {
-						_object->SetPosition(_object->Position() + Vector2d(0.0f, -Math::Abs(xvel.X())));
-						able_to_move = true;
+				if (!moving_up_slope && _climb_height > 0.0f) {
+					if (_object->Context().GetCollisions().PlaceFree(body, pstart + Vector2d(xvel.X(), -_climb_height), _platform_category_bits)) {
+						_object->SetPosition(pstart + Vector2d(0.0f, -Math::Abs(xvel.X())));
+						moving_up_slope = true;
 						SetVelocity(Velocity() - _gravity);
 					}
 				}
 			}
 
 			// We can't move any further, so clear the horizontal velocity.
-			if (!able_to_move)
+			if (!moving_up_slope)
 				SetVelocity(Vector2d(0.0f, Velocity().Y()));
 
 		}
