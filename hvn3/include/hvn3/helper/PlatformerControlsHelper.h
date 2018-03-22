@@ -6,11 +6,11 @@ namespace hvn3 {
 
 	class Object;
 
-	enum class PlatformerControlsFlags {
+	enum class PlatformerControlsHelperFlags {
 		SnapOnDownslope = 1,
 		EasySlopes = SnapOnDownslope | 2
 	};
-	ENABLE_BITFLAG_OPERATORS(PlatformerControlsFlags)
+	ENABLE_BITFLAG_OPERATORS(PlatformerControlsHelperFlags)
 
 	class PlatformerControlsHelper : public DirectionalControlsHelper {
 
@@ -28,8 +28,8 @@ namespace hvn3 {
 		const Vector2d& Gravity() const;
 		void SetGravity(const Vector2d& value);
 		bool IsGrounded() const;
-		PlatformerControlsFlags Flags() const;
-		void SetFlags(PlatformerControlsFlags value);
+		PlatformerControlsHelperFlags Flags() const;
+		void SetFlags(PlatformerControlsHelperFlags value);
 
 		void Step();
 		void Step(double delta);
@@ -45,7 +45,7 @@ namespace hvn3 {
 		float _friction;
 		Vector2d _gravity;
 		bool _is_grounded;
-		PlatformerControlsFlags _flags;
+		PlatformerControlsHelperFlags _flags;
 
 	};
 

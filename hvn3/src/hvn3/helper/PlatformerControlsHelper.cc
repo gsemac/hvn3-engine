@@ -13,7 +13,7 @@ namespace hvn3 {
 
 		_object = object;
 		_platform_category_bits = platform_category_bits;
-		_flags = static_cast<PlatformerControlsFlags>(0);
+		_flags = static_cast<PlatformerControlsHelperFlags>(0);
 
 		_jump_height = 32.0f;
 		_step_height = 0.0f;
@@ -59,10 +59,10 @@ namespace hvn3 {
 	bool PlatformerControlsHelper::IsGrounded() const {
 		return _is_grounded;
 	}
-	PlatformerControlsFlags PlatformerControlsHelper::Flags() const {
+	PlatformerControlsHelperFlags PlatformerControlsHelper::Flags() const {
 		return _flags;
 	}
-	void PlatformerControlsHelper::SetFlags(PlatformerControlsFlags value) {
+	void PlatformerControlsHelper::SetFlags(PlatformerControlsHelperFlags value) {
 		_flags = value;
 	}
 
@@ -86,7 +86,7 @@ namespace hvn3 {
 		// Apply horizontal velocity. If this puts us in contact with a wall, stop all horizontal velocity.
 		if (xvel.X() != 0.0f && _object->Context().GetCollisions().MoveContact(body, xvel.Direction(), xvel.Length(), _platform_category_bits)) {
 
-			if (HasFlag(_flags, PlatformerControlsFlags::EasySlopes)) {
+			if (HasFlag(_flags, PlatformerControlsHelperFlags::EasySlopes)) {
 
 				// If we've hit an obstacle and slopes are enabled, this is a chance to check for possible movement. Start by adjusting the horizontal velocity to store the remainder.
 				xvel.SetX(xvel.X() - (_object->X() - pstart.x));
@@ -123,7 +123,7 @@ namespace hvn3 {
 		}
 
 		// Moving down slopes can appear jumpy if the horizontal velocity is greater than the force of gravity. For insignificant horizontal velocity, "snap" to the floor.
-		if (HasFlag(_flags, PlatformerControlsFlags::EasySlopes) && HasFlag(_flags, PlatformerControlsFlags::SnapOnDownslope)) {
+		if (HasFlag(_flags, PlatformerControlsHelperFlags::EasySlopes) && HasFlag(_flags, PlatformerControlsHelperFlags::SnapOnDownslope)) {
 			if (_step_height > 0.0f && _is_grounded && !_object->Context().GetCollisions().PlaceFree(body, pstart + Vector2d(Math::Sign(yvel.X()) * 1.0f, 1.0f), _platform_category_bits))
 				yvel.SetY(yvel.Y() + _step_height);
 		}
