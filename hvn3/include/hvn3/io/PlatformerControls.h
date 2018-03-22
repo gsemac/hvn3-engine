@@ -1,9 +1,16 @@
 #pragma once
 #include "hvn3/io/DirectionalControls.h"
+#include "hvn3/utility/BitFlags.h"
 
 namespace hvn3 {
 
 	class Object;
+
+	enum class PlatformerControlsFlags {
+		SnapOnDownslope = 1,
+		EasySlopes = SnapOnDownslope | 2
+	};
+	ENABLE_BITFLAG_OPERATORS(PlatformerControlsFlags)
 
 	class PlatformerControls : public DirectionalControls {
 
@@ -21,6 +28,8 @@ namespace hvn3 {
 		const Vector2d& Gravity() const;
 		void SetGravity(const Vector2d& value);
 		bool IsGrounded() const;
+		PlatformerControlsFlags Flags() const;
+		void SetFlags(PlatformerControlsFlags value);
 
 		void Step();
 		void Step(double delta);
@@ -32,11 +41,11 @@ namespace hvn3 {
 
 		Object* _object;
 		int _platform_category_bits;
-		float _jump_height;
-		float _step_height, _climb_height;
+		float _jump_height, _step_height, _climb_height;
 		float _friction;
 		Vector2d _gravity;
 		bool _is_grounded;
+		PlatformerControlsFlags _flags;
 
 	};
 

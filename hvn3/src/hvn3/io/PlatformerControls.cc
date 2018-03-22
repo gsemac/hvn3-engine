@@ -13,6 +13,7 @@ namespace hvn3 {
 
 		_object = object;
 		_platform_category_bits = platform_category_bits;
+		_flags = static_cast<PlatformerControlsFlags>(0);
 
 		_jump_height = 32.0f;
 		_step_height = 0.0f;
@@ -58,66 +59,76 @@ namespace hvn3 {
 	bool PlatformerControls::IsGrounded() const {
 		return _is_grounded;
 	}
+	PlatformerControlsFlags PlatformerControls::Flags() const {
+		return _flags;
+	}
+	void PlatformerControls::SetFlags(PlatformerControlsFlags value) {
+		_flags = value;
+	}
 
 	void PlatformerControls::Step() {
 		Step(1.0f);
 	}
 	void PlatformerControls::Step(double delta) {
-
 		DirectionalControls::Step();
 
+		// Update the vertical velocity according to the gravity.
 		SetVelocity(Velocity() + _gravity);
 
+		// Initialize some helper variables.
 		float deltaf = static_cast<float>(delta);
 		auto body = _object->GetCollisionBody();
-
-		float xvelf = Velocity().X() * deltaf;
-		Vector2d xvel(xvelf, 0.0f);
+		Vector2d xvel(Velocity().X() * deltaf, 0.0f);
+		Vector2d yvel(0.0f, Velocity().Y() * deltaf);
 		PointF pstart = _object->Position();
 		bool moving_up_slope = false;
 
+		// Apply horizontal velocity. If this puts us in contact with a wall, stop all horizontal velocity.
 		if (xvel.X() != 0.0f && _object->Context().GetCollisions().MoveContact(body, xvel.Direction(), xvel.Length(), _platform_category_bits)) {
 
-			// We have hit an obstacle.
-			// Calculate the total horizontal distance traveled, and subtract it from the current velocity.
-			float xdist = _object->X() - pstart.x;
-			xvel.SetX(xvel.X() - xdist);
+			if (HasFlag(_flags, PlatformerControlsFlags::EasySlopes)) {
 
-			// Attempt to move up the obstacle if possible (i.e. slope movement).
-			// Only attempt to move up a slope if we're grounded.
-			if (Velocity().Y() >= 0.0f) {
-				for (float try_height = 1.0f; try_height <= _step_height; try_height += 1.0f) {
-					// Otherwise, see if there is a slope we can climb.
-					PointF new_pos = pstart + Vector2d(xvelf, -try_height);
-					if (_object->Context().GetCollisions().PlaceFree(body, new_pos, _platform_category_bits)) {
-						_object->SetPosition(new_pos);
-						moving_up_slope = true;
-						break;
+				// If we've hit an obstacle and slopes are enabled, this is a chance to check for possible movement. Start by adjusting the horizontal velocity to store the remainder.
+				xvel.SetX(xvel.X() - (_object->X() - pstart.x));
+
+				if (Velocity().Y() >= 0.0f) {
+
+					// The first option is to attempt to climb the slope according to the maximum step height. If it's possible to climb the slope, the object's position is updated.
+					for (float try_height = 1.0f; try_height <= _step_height; try_height += 1.0f) {
+						PointF new_pos = pstart + Vector2d(xvel.X(), -try_height);
+						if (_object->Context().GetCollisions().PlaceFree(body, new_pos, _platform_category_bits)) {
+							_object->SetPosition(new_pos);
+							moving_up_slope = true;
+							break;
+						}
 					}
-				}
-				// If we weren't able to walk up a slope, try going straight up vertically. This is necessary for steeper slopes.
-				if (!moving_up_slope && _climb_height > 0.0f) {
-					if (_object->Context().GetCollisions().PlaceFree(body, pstart + Vector2d(xvel.X(), -_climb_height), _platform_category_bits)) {
-						_object->SetPosition(pstart + Vector2d(0.0f, -Math::Abs(xvel.X())));
-						moving_up_slope = true;
-						SetVelocity(Velocity() - _gravity);
+
+					// For steeper slopes, we can try "climbing" them, which involves gradual vertical movement until the barrier has been overcome.
+					if (!moving_up_slope && _climb_height > 0.0f) {
+						if (_object->Context().GetCollisions().PlaceFree(body, pstart + Vector2d(xvel.X(), -_climb_height), _platform_category_bits)) {
+							_object->SetPosition(pstart + Vector2d(0.0f, -Math::Abs(xvel.X())));
+							SetVelocity(Velocity() - _gravity);
+							moving_up_slope = true;
+						}
 					}
+
 				}
+
 			}
 
-			// We can't move any further, so clear the horizontal velocity.
+			// If we've hit a wall and weren't able to move up the slope, stop all horizontal velocity.
 			if (!moving_up_slope)
 				SetVelocity(Vector2d(0.0f, Velocity().Y()));
 
 		}
 
-		Vector2d yvel(0.0f, Velocity().Y() * deltaf);
+		// Moving down slopes can appear jumpy if the horizontal velocity is greater than the force of gravity. For insignificant horizontal velocity, "snap" to the floor.
+		if (HasFlag(_flags, PlatformerControlsFlags::EasySlopes) && HasFlag(_flags, PlatformerControlsFlags::SnapOnDownslope)) {
+			if (_step_height > 0.0f && _is_grounded && !_object->Context().GetCollisions().PlaceFree(body, pstart + Vector2d(Math::Sign(yvel.X()) * 1.0f, 1.0f), _platform_category_bits))
+				yvel.SetY(yvel.Y() + _step_height);
+		}
 
-		// Moving down slopes can appear jumpy if the horizontal velocity is greater than the force of gravity.
-		// For insignificant horizontal velocity, "snap" to the floor.
-		if (_step_height > 0.0f && _is_grounded && !_object->Context().GetCollisions().PlaceFree(body, pstart + Vector2d(Math::Sign(yvel.X()) * 1.0f, 1.0f), _platform_category_bits))
-			yvel.SetY(yvel.Y() + _step_height);
-
+		// Apply vertical velocity. If this puts us in contact with the ground, set the 'grounded' flag to true, and stop all vertical velocity.
 		if (yvel.Y() != 0.0f && _object->Context().GetCollisions().MoveContact(body, yvel.Direction(), yvel.Length(), _platform_category_bits)) {
 			if (Velocity().Y() >= 0.0f)
 				_setGrounded(true);
