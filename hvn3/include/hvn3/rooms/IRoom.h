@@ -2,7 +2,6 @@
 #include "hvn3/core/Context.h"
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/core/IDrawable.h"
-#include "hvn3/core/UniqueCreateableBase.h"
 #include "hvn3/graphics/DisplaySizeChangedEventArgs.h"
 #include "hvn3/graphics/Color.h"
 #include "hvn3/physics/IPhysicsManager.h"

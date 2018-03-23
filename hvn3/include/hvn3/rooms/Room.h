@@ -6,7 +6,6 @@
 #include "hvn3/backgrounds/BackgroundManager.h"
 #include "hvn3/views/ViewManager.h"
 #include "hvn3/physics/BasicPhysicsManager.h"
-#include "hvn3/core/UniqueCreateableBase.h"
 #include "hvn3/objects/ObjectManager.h"
 #include <memory>
 

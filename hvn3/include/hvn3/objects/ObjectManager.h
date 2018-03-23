@@ -23,28 +23,24 @@ namespace hvn3 {
 	public:
 		ObjectManager(Context context);
 
-		virtual void AddInstance(ObjectPtr& object) override;
-		virtual void AddInstance(Object* object) override;
-		virtual void ClearAll() override;
+		virtual IObject* Add(ObjectPtr& object) override;
+		virtual IObject* Add(IObject* object) override;
+		virtual void Clear() override;
 		virtual void DestroyAll() override;
 
-		virtual Object* FindInstance(ObjectId id) override;
-		virtual Object* FindNextInstance(ObjectId id) override;
-		virtual size_t InstanceCount() const override;
-		virtual size_t InstanceCount(ObjectId id) const override;
-		virtual bool InstanceExists(ObjectId id) const override;
+		virtual IObject* Find(ObjectId id) override;
+		virtual IObject* FindNext(ObjectId id) override;
+		virtual size_t Count() const override;
+		virtual size_t Count(ObjectId id) const override;
+		virtual bool Exists(ObjectId id) const override;
 
 		virtual void OnBeginUpdate(UpdateEventArgs& e) override;
 		virtual void OnUpdate(UpdateEventArgs& e) override;
 		virtual void OnEndUpdate(UpdateEventArgs& e) override;
 		virtual void OnDraw(DrawEventArgs& e) override;
 
-		virtual void AddListener(IObjectManagerListener* listener) override;
-		virtual void RemoveListener(IObjectManagerListener* listener) override;
-
 	private:
 		object_list_type _objects;
-		std::vector<IObjectManagerListener*> _listeners;
 		ObjectId _last_found_id;
 		size_t _last_found_index;
 		Context _context;

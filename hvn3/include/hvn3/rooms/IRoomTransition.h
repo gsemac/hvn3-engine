@@ -1,7 +1,7 @@
 #pragma once
 #include "hvn3/core/UpdateEventArgs.h"
 #include "hvn3/core/IDrawable.h"
-#include "hvn3/core/UniquePolymorphicCreateableBase.h"
+#include <memory>
 
 namespace hvn3 {
 

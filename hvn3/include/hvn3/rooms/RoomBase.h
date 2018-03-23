@@ -1,6 +1,5 @@
 #pragma once
 #include "hvn3/rooms/IRoom.h"
-#include "hvn3/core/UniquePolymorphicCreateableBase.h"
 
 #pragma warning(push)
 #pragma warning(disable:4250)
@@ -175,7 +174,7 @@ namespace hvn3 {
 		virtual void OnReset() override {
 
 			// Clear all objects, but don't bother calling their destroy events.
-			_obj_manager->ClearAll();
+			_obj_manager->Clear();
 
 			// Reset members to default values.
 			_background_color = Color::Silver;

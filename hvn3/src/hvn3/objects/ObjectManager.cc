@@ -27,7 +27,7 @@ namespace hvn3 {
 	}
 
 
-	void ObjectManager::AddInstance(ObjectPtr& object) {
+	IObject* ObjectManager::Add(ObjectPtr& object) {
 
 		object->SetContext(_context);
 
@@ -37,6 +37,8 @@ namespace hvn3 {
 
 		// Add the object to our object collection.
 		_objects.emplace_back(ObjectListItem(object));
+
+		return _objects.back().object.get();
 
 		//// If there are no objects in the list, just insert the new object.
 		//if (_objects.size() == 0) {
@@ -68,12 +70,12 @@ namespace hvn3 {
 		//}
 
 	}
-	void ObjectManager::AddInstance(Object* object) {
+	IObject* ObjectManager::Add(IObject* object) {
 
-		AddInstance(ObjectPtr(object));
+		return Add(ObjectPtr(object));
 
 	}
-	void ObjectManager::ClearAll() {
+	void ObjectManager::Clear() {
 
 		// Clear all Objects from the Object Manager without calling any events.
 		_objects.clear();
@@ -87,7 +89,7 @@ namespace hvn3 {
 				it->object->Destroy();
 
 	}
-	Object* ObjectManager::FindInstance(ObjectId id) {
+	IObject* ObjectManager::Find(ObjectId id) {
 
 		for (size_t i = 0; i < _objects.size(); ++i)
 			if (_objects[i].object->Id() == id)
@@ -96,7 +98,7 @@ namespace hvn3 {
 		return nullptr;
 
 	}
-	Object* ObjectManager::FindNextInstance(ObjectId id) {
+	IObject* ObjectManager::FindNext(ObjectId id) {
 
 		// If the object id we're looking for differs from the last one, reset the found index.
 		if (_last_found_id != id)
@@ -110,15 +112,16 @@ namespace hvn3 {
 
 		// If we didn't find any more instances, reset the last found index and return nullptr.
 		_last_found_index = 0;
+
 		return nullptr;
 
 	}
-	size_t ObjectManager::InstanceCount() const {
+	size_t ObjectManager::Count() const {
 
 		return _objects.size();
 
 	}
-	size_t ObjectManager::InstanceCount(ObjectId id) const {
+	size_t ObjectManager::Count(ObjectId id) const {
 
 		size_t count = 0;
 
@@ -129,7 +132,7 @@ namespace hvn3 {
 		return count;
 
 	}
-	bool ObjectManager::InstanceExists(ObjectId id) const {
+	bool ObjectManager::Exists(ObjectId id) const {
 
 		for (size_t i = 0; i < _objects.size(); ++i)
 			if (_objects[i].object->Id() == id)
@@ -157,7 +160,7 @@ namespace hvn3 {
 
 	}
 	void ObjectManager::OnUpdate(UpdateEventArgs& e) {
-		
+
 		bool removed = false;
 
 		for (size_t i = 0; i < _objects.size(); ++i) {
@@ -198,20 +201,6 @@ namespace hvn3 {
 			// Don't draw any objects that haven't had their create event called yet, or inactive objects.
 			if (!it->callOnCreateEvent && it->object->IsActive())
 				it->object->OnDraw(e);
-
-	}
-
-	void ObjectManager::AddListener(IObjectManagerListener* listener) {
-
-		_listeners.push_back(listener);
-
-	}
-	void ObjectManager::RemoveListener(IObjectManagerListener* listener) {
-
-		auto position = std::find(_listeners.begin(), _listeners.end(), listener);
-
-		if (position != _listeners.end())
-			_listeners.erase(position);
 
 	}
 
