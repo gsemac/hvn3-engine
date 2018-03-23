@@ -54,6 +54,8 @@ namespace hvn3 {
 		ICollisionBody* _collision_body;
 		Physics::IPhysicsBody* _physics_body;
 
+		void _createCollisionBody();
+		void _createPhysicsBody();
 		void _destroyCollisionBody();
 		void _destroyPhysicsBody();
 

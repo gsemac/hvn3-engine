@@ -35,18 +35,7 @@ namespace hvn3 {
 		_destroyPhysicsBody();
 	}
 
-	void Object::OnCreate(CreateEventArgs& e) {
-		if (!HasFlag(Flags(), ObjectFlags::NoCollisions)) {
-			// Create a collision body for this object.
-			_collision_body = Context().GetCollisions().CreateBody(this);
-			// Create a physics body for this object.
-			if (HasFlag(Flags(), ObjectFlags::EnablePhysics) && _collision_body != nullptr) {
-				_physics_body = Context().GetPhysics().CreateBody(_collision_body);
-				// Apply the current velocity to the physics object (it may have been set before create event).
-				_physics_body->SetLinearVelocity(_velocity);
-			}
-		}
-	}
+	void Object::OnCreate(CreateEventArgs& e) {}
 	void Object::OnUpdate(UpdateEventArgs& e) {
 		// We will only manually adjust the object's velocity if it isn't governed by the physics manager.
 		if (!HasFlag(Flags(), ObjectFlags::EnablePhysics) || _physics_body == nullptr) {
@@ -125,6 +114,9 @@ namespace hvn3 {
 	}
 	ICollisionBody* Object::GetCollisionBody() {
 
+		if (_collision_body == nullptr)
+			_createCollisionBody();
+
 		return _collision_body;
 
 	}
@@ -134,6 +126,9 @@ namespace hvn3 {
 
 	}
 	Physics::IPhysicsBody* Object::GetPhysicsBody() {
+
+		if (_physics_body == nullptr)
+			_createPhysicsBody();
 
 		return _physics_body;
 
@@ -146,6 +141,23 @@ namespace hvn3 {
 
 
 
+	void Object::_createCollisionBody() {
+
+		// Create a collision body for this object.
+		_collision_body = Context().GetCollisions().CreateBody(this);
+
+	}
+	void Object::_createPhysicsBody() {
+
+		auto collision_body = GetCollisionBody();
+
+		if (collision_body != nullptr) {
+			_physics_body = Context().GetPhysics().CreateBody(GetCollisionBody());
+			// Apply the current velocity to the physics object.
+			_physics_body->SetLinearVelocity(_velocity);
+		}
+
+	}
 	void Object::_destroyCollisionBody() {
 		if (_collision_body != nullptr)
 			_collision_body->Destroy();
