@@ -10,6 +10,9 @@
 
 namespace hvn3 {
 
+	Object::Object() :
+		Object(NoOne) {
+	}
 	Object::Object(ObjectId id) :
 		Object(id, 0.0f, 0.0f) {
 	}
