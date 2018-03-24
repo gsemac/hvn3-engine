@@ -16,6 +16,8 @@ namespace hvn3 {
 			// The speed of the animation in frames-per-update.
 			float ImageSpeed() const;
 			const Scale& ImageScale() const;
+			float ImageXScale() const;
+			float ImageYScale() const;
 			float ImageAngle() const;
 			const Color& ImageBlend() const;
 

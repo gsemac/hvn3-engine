@@ -40,6 +40,12 @@ namespace hvn3 {
 			return _image_scale;
 
 		}
+		float SpriteRenderer::ImageXScale() const {
+			return _image_scale.XScale();
+		}
+		float SpriteRenderer::ImageYScale() const {
+			_image_scale.YScale();
+		}
 		float SpriteRenderer::ImageAngle() const {
 
 			return Math::RadiansToDegrees(_image_angle);
