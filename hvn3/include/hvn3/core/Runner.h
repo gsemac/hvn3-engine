@@ -70,6 +70,7 @@ namespace hvn3 {
 			Font* _default_font;
 			Graphics::Graphics _graphics;
 
+			bool _isFrozen();
 			void _applyScalingMode();
 			void _recalculateMousePosition();
 			Properties& _properties();

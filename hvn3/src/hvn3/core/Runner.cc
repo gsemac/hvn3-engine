@@ -81,7 +81,7 @@ namespace hvn3 {
 		}
 		void Runner::OnUpdate(UpdateEventArgs& e) {
 
-			if (_context.GetRooms().RoomCount() > 0 && (!_properties().FreezeWhenLostFocus || _display.HasFocus()) && _frames_skipped++ <= _properties().MaxFrameSkip) {
+			if (_context.GetRooms().RoomCount() > 0 && !_isFrozen() && _frames_skipped++ <= _properties().MaxFrameSkip) {
 
 				// Reset the delta timer.
 				_delta_timer.Reset();
@@ -362,7 +362,7 @@ namespace hvn3 {
 		}
 		void Runner::OnMouseAxes(Event& ev) {
 
-			if (!_properties().FreezeWhenLostFocus || _display.HasFocus()) {
+			if (!_isFrozen()) {
 
 				MouseMutator con;
 
@@ -464,6 +464,9 @@ namespace hvn3 {
 
 		
 
+		bool Runner::_isFrozen() {
+			return !_display.HasFocus() && _properties().FreezeWhenLostFocus;
+		}
 		void Runner::_applyScalingMode() {
 
 			// If no scene has been loaded, do nothing.

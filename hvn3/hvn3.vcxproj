@@ -74,8 +74,6 @@
     <ClInclude Include="include\hvn3\core\Runner.h" />
     <ClInclude Include="include\hvn3\core\SharedCreatableBase.h" />
     <ClInclude Include="include\hvn3\core\SizeableBase.h" />
-    <ClInclude Include="include\hvn3\core\UniqueCreateableBase.h" />
-    <ClInclude Include="include\hvn3\core\UniquePolymorphicCreateableBase.h" />
     <ClInclude Include="include\hvn3\core\UpdateEventArgs.h" />
     <ClInclude Include="include\hvn3\events\Event.h" />
     <ClInclude Include="include\hvn3\events\EventArgs.h" />

@@ -276,12 +276,6 @@
     <ClInclude Include="include\hvn3\core\SizeableBase.h">
       <Filter>include\core</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\core\UniqueCreateableBase.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\core\UniquePolymorphicCreateableBase.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\core\UpdateEventArgs.h">
       <Filter>include\core</Filter>
     </ClInclude>
