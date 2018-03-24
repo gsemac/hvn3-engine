@@ -12,23 +12,19 @@ namespace hvn3 {
 			SpriteRenderer();
 
 			float ImageAlpha() const;
-			void SetImageAlpha(float value);
-
 			int ImageIndex() const;
-			void SetImageIndex(int value);
-
 			// The speed of the animation in frames-per-update.
 			float ImageSpeed() const;
+			const Scale& ImageScale() const;
+			float ImageAngle() const;
+			const Color& ImageBlend() const;
+
+			void SetImageAlpha(float value);
+			void SetImageIndex(int value);
 			// Sets the speed of the animation in frames-per-update.
 			void SetImageSpeed(float value);
-
-			const Scale& ImageScale() const;
 			void SetImageScale(const Scale& scale);
-
-			float ImageAngle() const;
 			void SetImageAngle(float value);
-
-			const Color& ImageBlend() const;
 			void SetImageBlend(const Color& value);
 
 			void ReflectX();

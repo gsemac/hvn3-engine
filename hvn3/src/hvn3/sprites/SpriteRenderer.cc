@@ -1,3 +1,4 @@
+#include "hvn3/math/MathUtils.h"
 #include "hvn3/sprites/SpriteRenderer.h"
 #include <limits>
 
@@ -22,29 +23,16 @@ namespace hvn3 {
 			return _image_alpha;
 
 		}
-		void SpriteRenderer::SetImageAlpha(float value) {
 
-			_image_alpha = value;
-
-		}
 		int SpriteRenderer::ImageIndex() const {
 
 			return _image_index;
 
 		}
-		void SpriteRenderer::SetImageIndex(int value) {
 
-			_image_index = value;
-
-		}
 		float SpriteRenderer::ImageSpeed() const {
 
 			return _image_speed;
-
-		}
-		void SpriteRenderer::SetImageSpeed(float value) {
-
-			_image_speed = value;
 
 		}
 		const Scale& SpriteRenderer::ImageScale() const {
@@ -52,19 +40,9 @@ namespace hvn3 {
 			return _image_scale;
 
 		}
-		void SpriteRenderer::SetImageScale(const Scale& value) {
-
-			_image_scale = value;
-
-		}
 		float SpriteRenderer::ImageAngle() const {
 
-			return _image_angle;
-
-		}
-		void SpriteRenderer::SetImageAngle(float value) {
-
-			_image_angle = value;
+			return Math::RadiansToDegrees(_image_angle);
 
 		}
 		const Color& SpriteRenderer::ImageBlend() const {
@@ -72,11 +50,38 @@ namespace hvn3 {
 			return _image_blend;
 
 		}
+
+		void SpriteRenderer::SetImageAlpha(float value) {
+
+			_image_alpha = value;
+
+		}
+		void SpriteRenderer::SetImageIndex(int value) {
+
+			_image_index = value;
+
+		}
+		void SpriteRenderer::SetImageSpeed(float value) {
+
+			_image_speed = value;
+
+		}
+		void SpriteRenderer::SetImageScale(const Scale& value) {
+
+			_image_scale = value;
+
+		}
+		void SpriteRenderer::SetImageAngle(float value) {
+
+			_image_angle = Math::DegreesToRadians(value);
+
+		}
 		void SpriteRenderer::SetImageBlend(const Color& value) {
 
 			_image_blend = value;
 
 		}
+
 		void SpriteRenderer::ReflectX() {
 
 			_image_scale = Scale(-_image_scale.XScale(), _image_scale.YScale());
@@ -99,7 +104,7 @@ namespace hvn3 {
 					ImageIndex(),
 					ImageScale().XScale(),
 					ImageScale().YScale(),
-					ImageAngle(),
+					_image_angle, // Make sure that the angle passed in is in radians.
 					Color::FromArgbf(
 						ImageBlend().Rf() * ImageAlpha(),
 						ImageBlend().Gf() * ImageAlpha(),
