@@ -252,7 +252,6 @@ namespace hvn3 {
 				return bmp;
 
 			ALLEGRO_FILE* file = al_open_memfile(buffer, buffer_size, "r");
-
 			bmp._src_bitmap = bitmap_ptr_type(al_load_bitmap_f(file, Imaging::ImageFormatToFileExtension(format).c_str()), al_destroy_bitmap);
 
 			al_fclose(file);

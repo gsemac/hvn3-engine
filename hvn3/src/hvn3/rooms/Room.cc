@@ -24,19 +24,19 @@ namespace hvn3 {
 		}
 
 		// Update objects (begin).
-		Objects().OnBeginUpdate(e);
+		GetObjects().OnBeginUpdate(e);
 
 		// Update objects (primary).
-		Objects().OnUpdate(e);
+		GetObjects().OnUpdate(e);
 
 		// Update collision manager.
-		Collisions().OnUpdate(e);
+		GetCollisions().OnUpdate(e);
 
 		// Update physics manager.
-		Physics().OnUpdate(e);
+		GetPhysics().OnUpdate(e);
 
 		// Update objects (end).
-		Objects().OnEndUpdate(e);
+		GetObjects().OnEndUpdate(e);
 
 		// Update views.
 		_view_manager.Update(ViewUpdateEventArgs(e.Delta(), hvn3::SizeI(Width(), Height())));
@@ -60,19 +60,19 @@ namespace hvn3 {
 				_rendering_view = i;
 
 				// If the current view isn't enabled, we don't need to draw it.
-				if (!CurrentView()->Enabled())
+				if (!CurrentView().Enabled())
 					continue;
 
 				// Set the clipping region according to the view port.
-				PointF p1 = CurrentView()->Port().TopLeft();
-				PointF p2 = CurrentView()->Port().BottomRight();
+				PointF p1 = CurrentView().Port().TopLeft();
+				PointF p2 = CurrentView().Port().BottomRight();
 				original_tranform.TransformPoint(p1);
 				original_tranform.TransformPoint(p2);
 				RectangleF clip(p1, p2);
 				e.Graphics().SetClip(clip);
 
 				// Set transform according to view state.		
-				Graphics::Transform transform = CurrentView()->GetTransform();
+				Graphics::Transform transform = CurrentView().GetTransform();
 				transform.Compose(original_tranform);
 				e.Graphics().SetTransform(transform);
 
@@ -95,31 +95,22 @@ namespace hvn3 {
 
 	}
 
-	const View* Room::CurrentView() const {
-
-		if (_view_manager.ViewCount() == 0)
-			return nullptr;
-
-		return &_view_manager.ViewAt(_rendering_view);
-
-	}
-
-	IBackgroundManager& Room::Backgrounds() {
+	IBackgroundManager& Room::GetBackgrounds() {
 
 		return _background_manager;
 
 	}
-	IViewManager& Room::Views() {
+	IViewManager& Room::GetViews() {
 
 		return _view_manager;
 
 	}
-	Room::collision_manager_type& Room::Collisions() {
+	Room::collision_manager_type& Room::GetCollisions() {
 
 		return _collision_manager;
 
 	}
-	Physics::IPhysicsManager& Room::Physics() {
+	Physics::IPhysicsManager& Room::GetPhysics() {
 
 		return *_physics_manager;
 
@@ -146,9 +137,14 @@ namespace hvn3 {
 
 	}
 
+	const View& Room::CurrentView() const {
 
+		if (_view_manager.ViewCount() == 0)
+			throw System::NullReferenceException();
 
+		return _view_manager.ViewAt(_rendering_view);
 
+	}
 	RectangleF Room::GetVisibleRegion() {
 
 		// Return the rectangle representing the largest view.
@@ -173,6 +169,11 @@ namespace hvn3 {
 		return largest->Port();
 
 	}
+	void Room::SetContext(hvn3::Context context) {
+		RoomBase::SetContext(context);
+		if (!_physics_manager)
+			_physics_manager = std::make_unique<hvn3::Physics::BasicPhysicsManager>(Context());
+	}
 
 	void Room::Restart() {
 
@@ -180,13 +181,7 @@ namespace hvn3 {
 
 	}
 
-	void Room::SetContext(hvn3::Context context) {
-		RoomBase::SetContext(context);
-		if (!_physics_manager)
-			_physics_manager = std::make_unique<hvn3::Physics::BasicPhysicsManager>(Context());
-	}
 
-	// Protected methods
 
 	void Room::OnReset() {
 
@@ -213,13 +208,14 @@ namespace hvn3 {
 		e.Graphics().Clear(BackgroundColor());
 
 		// Draw all backgrounds.
-		Backgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView(), false));
+		const View* current_view = GetViews().ViewCount() > 0 ? &CurrentView() : nullptr;
+		GetBackgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), current_view, false));
 
 		// Draw all objects.
-		Objects().OnDraw(e);
+		GetObjects().OnDraw(e);
 
 		// Draw all foregrounds.
-		Backgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), CurrentView(), true));
+		GetBackgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), current_view, true));
 
 	}
 

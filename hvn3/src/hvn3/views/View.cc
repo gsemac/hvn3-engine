@@ -7,71 +7,87 @@
 
 namespace hvn3 {
 
-	View::View(const Point2d<float>& view_position, const Size<float>& view_size, const Point2d<float>& port_position, const Size<float>& port_size, Object* follow_obj, float horizontal_border, float vertical_border) :
-		__view_size(view_size), 
-		__port_size(port_size) {
+	View::View(float x, float y, float width, float height) :
+		View(x, y, width, height, 0.0f, 0.0f, width, height) {
+	}
+	View::View(float x, float y, float width, float height, float port_x, float port_y, float port_width, float port_height) :
+		View(PointF(x, y), SizeF(width, height), PointF(port_x, port_y), SizeF(port_width, port_height)) {
+	}
+	View::View(const PointF& position, const SizeF& size) :
+		View(position, size, PointF(0.0f, 0.0f), size) {
+	}
+	View::View(const PointF& position, const SizeF& size, const PointF& port_position, const SizeF& port_size) :
+		_size(size),
+		_port_size(port_size) {
 
-		__view_pos = view_position;
-		__port_pos = port_position;
+		_position = position;
+		_port_position = port_position;
 
-		__follow_obj = follow_obj;
-		__hbor = (std::min)(horizontal_border, view_size.Width() / 2.0f);
-		__vbor = (std::min)(vertical_border, view_size.Height() / 2.0f);
-		__vspd = 0.0f;
-		__hspd = 0.0f;
-		__angle = 0.0f;
-		__enabled = false;
-		__tracks_mouse = true;
+		_horizontal_border = 0.0f;
+		_vertical_border = 0.0f;
+
+		_vspeed = 0.0f;
+		_hspeed = 0.0f;
+		_angle = 0.0f;
+		_enabled = true;
+		_tracks_mouse = true;
 
 	}
-	View::View(const Point2d<float>& view_position, const Size<float>& view_size, const Point2d<float>& port_position, const Size<float>& port_size) :
-		View(view_position, view_size, port_position, port_size, nullptr, 0, 0) {}
+	View::View(const PointF& position, const SizeF& size, const PointF& port_position, const SizeF& port_size, IObject* following, const SizeF& border) :
+		View(position, size, port_position, port_size) {
 
-	void View::SetFollowing(Object* obj) {
-
-		__follow_obj = obj;
-
-	}
-	Object* View::GetFollowing() {
-
-		return __follow_obj;
+		_following = following;
+		_horizontal_border = (std::min)(border.Width(), size.Width() / 2.0f);
+		_vertical_border = (std::min)(border.Height(), size.Height() / 2.0f);
 
 	}
 
-	Rectangle<float> View::Region() const {
+	void View::SetFollowing(IObject* following, float border_width, float border_height) {
+		_following = following;
+		_horizontal_border = border_width;
+		_vertical_border = border_height;
+	}
+	void View::SetFollowing(IObject* following, const SizeF& border) {
+		SetFollowing(following, border.Width(), border.Height());
+	}
+	IObject* View::GetFollowing() {
+		return _following;
+	}
 
-		return Rectangle<float>(__view_pos.X(), __view_pos.Y(), __view_size.Width(), __view_size.Height());
+	RectangleF View::Region() const {
+
+		return RectangleF(_position.X(), _position.Y(), _size.Width(), _size.Height());
 
 	}
-	Rectangle<float> View::Port() const {
+	RectangleF View::Port() const {
 
-		return Rectangle<float>(__port_pos.X(), __port_pos.Y(), __port_size.Width(), __port_size.Height());
+		return RectangleF(_port_position.X(), _port_position.Y(), _port_size.Width(), _port_size.Height());
 
 	}
-	const Point2d<float>& View::Position() const {
+	const PointF& View::Position() const {
 
-		return __view_pos;
+		return _position;
 
 	}
 	void View::SetPosition(float x, float y) {
 
-		__view_pos.SetX(x);
-		__view_pos.SetY(y);
+		_position.SetX(x);
+		_position.SetY(y);
 
 	}
-	void View::SetPosition(const Point2d<float>& position) {
+	void View::SetPosition(const PointF& position) {
 
-		__view_pos = position;
-
-	}
-	float View::ViewX() const {
-
-		return __view_pos.X();
+		_position = position;
 
 	}
-	float View::ViewY() const {
+	float View::X() const {
 
-		return __view_pos.Y();
+		return _position.X();
+
+	}
+	float View::Y() const {
+
+		return _position.Y();
 
 	}
 	Scale View::Scale() const {
@@ -82,56 +98,43 @@ namespace hvn3 {
 
 	float View::HorizontalBorder() const {
 
-		return __hbor;
+		return _horizontal_border;
 
 	}
 	float View::VerticalBorder() const {
 
-		return __vbor;
+		return _vertical_border;
 
 	}
 
 	float View::Angle() const {
 
-		return __angle;
+		return _angle;
 
 	}
 	void View::SetAngle(float angle) {
 
-		__angle = std::fmod(angle, 360.0f);
+		_angle = std::fmod(angle, 360.0f);
 
 	}
 
-	void View::Enable() {
-
-		__enabled = true;
-
-	}
-	void View::Disable() {
-
-		__enabled = false;
-
+	void View::SetEnabled(bool value) {
+		_enabled = value;
 	}
 	bool View::Enabled() const {
-
-		return __enabled;
-
+		return _enabled;
 	}
 
-	bool View::TracksMouse() const {
-
-		return __tracks_mouse;
-
+	void View::SetMouseTrackingEnabled(bool value) {
+		_tracks_mouse = value;
 	}
-	void View::TracksMouse(bool tracks) {
-
-		__tracks_mouse = tracks;
-
+	bool View::MouseTrackingEnabled() const {
+		return _tracks_mouse;
 	}
 
 	Graphics::Transform View::GetTransform() const {
 
-		Point2d<float> offset(ViewX(), ViewY());
+		PointF offset(X(), Y());
 		Graphics::Transform transform;
 		transform.Translate(-offset.X() + Port().X(), -offset.Y() + Port().Y());
 		transform.Rotate(Port().Midpoint(), Angle());

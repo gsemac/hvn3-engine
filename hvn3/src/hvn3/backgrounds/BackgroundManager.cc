@@ -56,9 +56,11 @@ namespace hvn3 {
 		if (held = Count() > 1 && !e.Graphics().BitmapDrawingHeld())
 			e.Graphics().HoldBitmapDrawing(true);
 
-		for (size_t i = 0; i < _backgrounds.size(); ++i)
-			if (((e.DrawForegrounds() && _backgrounds[i].IsForeground()) || !_backgrounds[i].IsForeground()) && _backgrounds[i].Visible())
-				_drawBackground(e, _backgrounds[i]);
+		for (size_t i = 0; i < _backgrounds.size(); ++i) {
+			if ((_backgrounds[i].IsForeground() != e.DrawForegrounds()) || !_backgrounds[i].Visible())
+				continue;
+			_drawBackground(e, _backgrounds[i]);
+		}
 
 		if (held)
 			e.Graphics().HoldBitmapDrawing(false);

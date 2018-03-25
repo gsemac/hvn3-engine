@@ -69,6 +69,12 @@ namespace hvn3 {
 			NullPointerException();
 		};
 
+		class NullReferenceException : public Exception {
+		public:
+			using Exception::Exception;
+			NullReferenceException();
+		};
+
 		namespace IO {
 
 			class IOException : public Exception {

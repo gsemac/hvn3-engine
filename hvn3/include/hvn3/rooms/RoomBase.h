@@ -1,12 +1,12 @@
 #pragma once
+#include "hvn3/exceptions/Exception.h"
 #include "hvn3/rooms/IRoom.h"
 
 #pragma warning(push)
-#pragma warning(disable:4250)
+// Disables warning about SizeableBase providing implementation for ISizeable.
+#pragma warning(disable:4250) 
 
 namespace hvn3 {
-
-	typedef int RoomId;
 
 	template <typename object_manager_type>
 	class RoomBase : public IRoom, public SizeableBase<int> {
@@ -25,16 +25,15 @@ namespace hvn3 {
 			_set_up = false;
 
 		}
-		virtual ~RoomBase() = default;
 
-		virtual void OnUpdate(UpdateEventArgs& e) override {
+		void OnUpdate(UpdateEventArgs& e) override {
 
 			_obj_manager->OnBeginUpdate(e);
 			_obj_manager->OnUpdate(e);
 			_obj_manager->OnEndUpdate(e);
 
 		}
-		virtual void OnDraw(DrawEventArgs& e) override {
+		void OnDraw(DrawEventArgs& e) override {
 
 			// Save the current graphics state.
 			Graphics::Transform original_tranform(e.Graphics().GetTransform());
@@ -48,80 +47,39 @@ namespace hvn3 {
 			e.Graphics().SetClip(original_clip);
 
 		}
-		virtual void OnDisplaySizeChanged(DisplaySizeChangedEventArgs& e) override {}
 
-		virtual const View* CurrentView() const override {
-
-			return nullptr;
-
-		}
-
-		virtual IObjectManager& Objects() override {
+		IObjectManager& GetObjects() override {
 
 			return *_obj_manager;
 
 		}
-		virtual IBackgroundManager& Backgrounds() override {
-
+		IBackgroundManager& GetBackgrounds() override {
 			throw System::NotImplementedException();
-
 		}
-		virtual IViewManager& Views() override {
-
+		IViewManager& GetViews() override {
 			throw System::NotImplementedException();
-
 		}
-		virtual ICollisionManager<IObject>& Collisions() override {
-
+		ICollisionManager<IObject>& GetCollisions() override {
 			throw System::NotImplementedException();
-
 		}
-		virtual Physics::IPhysicsManager& Physics() override {
-
+		Physics::IPhysicsManager& GetPhysics() override {
 			throw System::NotImplementedException();
-
 		}
 
 		const IObjectManager& Objects() const override {
-
 			return *_obj_manager;
-
 		}
-		virtual const IBackgroundManager& Backgrounds() const override {
-
+		const IBackgroundManager& Backgrounds() const override {
 			throw System::NotImplementedException();
-
 		}
-		virtual const IViewManager& Views() const override {
-
+		const IViewManager& Views() const override {
 			throw System::NotImplementedException();
-
 		}
-		virtual const ICollisionManager<IObject>& Collisions() const override {
-
+		const ICollisionManager<IObject>& Collisions() const override {
 			throw System::NotImplementedException();
-
 		}
-		virtual const Physics::IPhysicsManager& Physics() const override {
-
+		const Physics::IPhysicsManager& Physics() const override {
 			throw System::NotImplementedException();
-
-		}
-
-		RoomId Id() const override {
-
-			return _id;
-
-		}
-		virtual RectangleF GetVisibleRegion() override {
-
-			return RectangleF(0.0f, 0.0f, static_cast<float>(Width()), static_cast<float>(Height()));
-
-		}
-		virtual RectangleF Bounds() const override {
-
-			return RectangleF(0.0f, 0.0f, static_cast<float>(Width()), static_cast<float>(Height()));
-
 		}
 
 		void SetBackgroundColor(const Color& color) override {
@@ -134,7 +92,24 @@ namespace hvn3 {
 			return _background_color;
 
 		}
+		void SetBackground(const Background& value) override {
+			throw System::NotImplementedException();
+		}
 
+		const View& CurrentView() const override {
+			throw System::NullReferenceException();
+		}
+		RoomId Id() const override {
+
+			return _id;
+
+		}
+		RectangleF GetVisibleRegion() override {
+			return RectangleF(0.0f, 0.0f, static_cast<float>(Width()), static_cast<float>(Height()));
+		}
+		RectangleF Bounds() const override {
+			return RectangleF(0.0f, 0.0f, static_cast<float>(Width()), static_cast<float>(Height()));
+		}
 		bool Persistent() const override {
 
 			return _persistent;
@@ -145,23 +120,22 @@ namespace hvn3 {
 			_persistent = value;
 
 		}
-
 		hvn3::Context Context() override {
 			return _context;
 		}
 		void SetContext(hvn3::Context context) override {
 
 			_context = context;
-			
+
 			if (!_obj_manager)
 				_obj_manager = std::make_unique<object_manager_type>(_context);
-		
+
 		}
 
 	protected:
-		virtual void OnRoomEnter(RoomEnterEventArgs& e) override {}
-		virtual void OnRoomExit(RoomExitEventArgs& e) override {}
-		virtual void OnSetUp() override {
+		void OnRoomEnter(RoomEnterEventArgs& e) override {}
+		void OnRoomExit(RoomExitEventArgs& e) override {}
+		void OnSetUp() override {
 
 			_set_up = true;
 
@@ -171,7 +145,7 @@ namespace hvn3 {
 			return _set_up;
 
 		}
-		virtual void OnReset() override {
+		void OnReset() override {
 
 			// Clear all objects, but don't bother calling their destroy events.
 			_obj_manager->Clear();
@@ -182,7 +156,7 @@ namespace hvn3 {
 			_set_up = false;
 
 		}
-		virtual void OnRender(DrawEventArgs& e) override {
+		void OnRender(DrawEventArgs& e) override {
 
 			// Clear to background color.
 			e.Graphics().Clear(_background_color);

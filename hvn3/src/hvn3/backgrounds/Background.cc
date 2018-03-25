@@ -12,7 +12,7 @@ namespace hvn3 {
 		_tile_v = false;
 		_visible = true;
 		_fixed = false;
-
+		
 	}
 
 	unsigned int Background::Width() const {

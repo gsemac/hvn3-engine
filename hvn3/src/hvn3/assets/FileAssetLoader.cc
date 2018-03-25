@@ -5,7 +5,7 @@ namespace hvn3 {
 
 	AssetLoaderResult<FileAssetLoader::asset_type> FileAssetLoader::LoadData(const asset_args_type& path) {
 
-		asset_type data;
+		asset_type data = nullptr;
 
 		// Seek to the end of the file immediately so we can get the file size.
 		std::ifstream file(path, std::ios::binary | std::ios::ate);
@@ -16,7 +16,7 @@ namespace hvn3 {
 
 		// If the file was empty or couldn't be read, return null data.
 		if (size <= 0)
-			return AssetLoaderResult<asset_type>(data, static_cast<unsigned int>(size), false);
+			return AssetLoaderResult<asset_type>(data, 0, false);
 
 		// Otherwise, allocate a buffer for storing the data from the file.
 		data = new uint8_t[static_cast<unsigned int>(size)];

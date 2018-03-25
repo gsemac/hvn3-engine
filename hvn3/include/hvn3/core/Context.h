@@ -30,7 +30,7 @@ namespace hvn3 {
 		ICollisionManager<IObject>& GetCollisions();
 		Physics::IPhysicsManager& GetPhysics();
 		System::IContextProvider& GetContextProvider();
-		System::Properties& GetGameProperties();
+		System::Properties& GetProperties();
 
 	private:
 		System::IContextProvider* _context_provider;

@@ -15,7 +15,7 @@ namespace hvn3 {
 	}
 
 	IObjectManager& Context::GetObjects() {
-		return GetRoom().Objects();
+		return GetRoom().GetObjects();
 	}
 	IRoom& Context::GetRoom() {
 		return *GetRooms().CurrentRoom();
@@ -24,16 +24,16 @@ namespace hvn3 {
 		return GetContextProvider().GetRoomManager();
 	}
 	ICollisionManager<IObject>& Context::GetCollisions() {
-		return GetRoom().Collisions();
+		return GetRoom().GetCollisions();
 	}
 	Physics::IPhysicsManager& Context::GetPhysics() {
-		return GetRoom().Physics();
+		return GetRoom().GetPhysics();
 	}
 	System::IContextProvider& Context::GetContextProvider() {
 		return *_context_provider;
 	}
-	System::Properties& Context::GetGameProperties() {
-		return GetContextProvider().GetGameManager().GetGameProperties();
+	System::Properties& Context::GetProperties() {
+		return GetContextProvider().GetGameManager().GetProperties();
 	}
 
 

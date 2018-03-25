@@ -16,7 +16,7 @@ namespace hvn3 {
 		void Loop() override;
 		void Shutdown() override;
 
-		System::Properties& GetGameProperties() override;
+		System::Properties& GetProperties() override;
 		System::Runner& GetRunner();
 
 		hvn3::Context Context() override;

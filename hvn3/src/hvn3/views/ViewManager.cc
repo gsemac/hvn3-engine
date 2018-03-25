@@ -41,15 +41,15 @@ namespace hvn3 {
 
 			// Initialize variables.	
 			hvn3::View& view = ViewAt(i);
-			Object* obj = view.GetFollowing();
+			IObject* obj = view.GetFollowing();
 
 			// If the View isn't following an Object, or is disabled, there's nothing to do.
 			if (!obj || !view.Enabled())
 				continue;
 
 			// Calculate the distance of the Object from the center of the view (to compare with borders).
-			float diff_x = (view.ViewX() + view.Region().Width() / 2.0f) - obj->X();
-			float diff_y = (view.ViewY() + view.Region().Height() / 2.0f) - obj->Y();
+			float diff_x = (view.X() + view.Region().Width() / 2.0f) - obj->X();
+			float diff_y = (view.Y() + view.Region().Height() / 2.0f) - obj->Y();
 
 			// Check for overlap in view horizonal view border.
 			if ((std::abs)(diff_x) > (view.Region().Width() / 2.0f - view.HorizontalBorder())) {
@@ -61,7 +61,7 @@ namespace hvn3 {
 				diff = Math::Clamp(diff, -(e.RoomSize().Width() - view.Region().Width() - view.Position().X()), view.Position().X());
 
 				// Adjust View position.
-				view.SetPosition(view.ViewX() - diff, view.ViewY());
+				view.SetPosition(view.X() - diff, view.Y());
 
 			}
 
@@ -75,7 +75,7 @@ namespace hvn3 {
 				diff = Math::Clamp(diff, -(e.RoomSize().Height() - view.Region().Height() - view.Position().Y()), view.Position().Y());
 
 				// Adjust View/mouse position.
-				view.SetPosition(view.ViewX(), view.ViewY() - diff);
+				view.SetPosition(view.X(), view.Y() - diff);
 
 			}
 

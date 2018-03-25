@@ -19,7 +19,7 @@ namespace hvn3 {
 		virtual void Loop() = 0;
 		virtual void Shutdown() = 0;
 
-		virtual System::Properties& GetGameProperties() = 0;
+		virtual System::Properties& GetProperties() = 0;
 		virtual System::Runner& GetRunner() = 0;
 
 	};

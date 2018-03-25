@@ -29,8 +29,8 @@ namespace hvn3 {
 
 		Runner::Runner(Context context) :
 			_context(context),
-			_timer(1.0 / context.GetGameProperties().FrameRate),
-			_display(context.GetGameProperties().DisplaySize, context.GetGameProperties().DisplayTitle.c_str(), context.GetGameProperties().DisplayFlags),
+			_timer(1.0 / context.GetProperties().FrameRate),
+			_display(context.GetProperties().DisplaySize, context.GetProperties().DisplayTitle.c_str(), context.GetProperties().DisplayFlags),
 			_graphics(_display.BackBuffer()),
 			_fps_counter(0.25) {
 		
@@ -38,6 +38,9 @@ namespace hvn3 {
 			if (_properties().StartFullscreen)
 				_display.SetFullscreen(true);
 			_display_was_fullscreen = _display.IsFullscreen();
+
+			// In case any bitmaps were created before the display, convert all memory bitmaps to video bitmaps.
+			Graphics::Bitmap::ConvertMemoryBitmapsToVideoBitmaps();
 
 			// Initialize the event queue.
 			_event_queue.AddEventSource(_display.EventSource());
@@ -98,7 +101,7 @@ namespace hvn3 {
 
 				// If the fullscreen state of the display has changed, emit a DisplaySizeChanged event.
 				if (_display_was_fullscreen != _display.IsFullscreen()) {
-					_context.GetRooms().CurrentRoom()->OnDisplaySizeChanged(DisplaySizeChangedEventArgs(_properties().DisplaySize, _display.Size(), &_display));
+					//_context.GetRooms().CurrentRoom()->OnDisplaySizeChanged(DisplaySizeChangedEventArgs(_properties().DisplaySize, _display.Size(), &_display));
 					_display_was_fullscreen = _display.IsFullscreen();
 				}
 
@@ -409,10 +412,10 @@ namespace hvn3 {
 			_display.Resize(ev.AlPtr()->display.width, ev.AlPtr()->display.height);
 
 			// Trigger the "OnDisplaySizeChanged" event for the current room.
-			if (_context.GetRooms().RoomCount() > 0)
-				_context.GetRooms().CurrentRoom()->OnDisplaySizeChanged(
-					DisplaySizeChangedEventArgs(old_size, SizeI(_display.Width(), _display.Height()), &_display)
-				);
+			//if (_context.GetRooms().RoomCount() > 0)
+			//	_context.GetRooms().CurrentRoom()->OnDisplaySizeChanged(
+			//		DisplaySizeChangedEventArgs(old_size, SizeI(_display.Width(), _display.Height()), &_display)
+			//	);
 
 		}
 		void Runner::OnDisplaySwitchOut(Event& ev) {
@@ -542,10 +545,10 @@ namespace hvn3 {
 				for (int i = room.Views().ViewCount() - 1; i >= 0; --i) {
 
 					// Get a reference to the view so it's easy to access.
-					View& view = room.Views().ViewAt(i);
+					View& view = room.GetViews().ViewAt(i);
 
 					// If the View is disabled or doesn't track the mouse position, do nothing.
-					if (!view.TracksMouse() || !view.Enabled())
+					if (!view.MouseTrackingEnabled() || !view.Enabled())
 						continue;
 
 					// If the mouse is not inside of the View's viewport, do nothing.
@@ -603,7 +606,7 @@ namespace hvn3 {
 		}
 		Properties& Runner::_properties() {
 
-			return _context.GetGameProperties();
+			return _context.GetProperties();
 
 		}
 

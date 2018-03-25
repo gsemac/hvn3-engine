@@ -10,6 +10,7 @@ namespace hvn3 {
 		FrameworkException::FrameworkException() : Exception("An error was thrown by the engine framework.") {}
 		KeyNotFoundException::KeyNotFoundException() : Exception("The given key could not be found in the collection.") {}
 		NullPointerException::NullPointerException() : Exception("An attempt was made to read a null pointer.") {}
+		NullReferenceException::NullReferenceException() : Exception("Attempted to access a null reference.") {}
 
 		IO::IOException::IOException() : Exception("I/O error occurred.") {}
 		IO::FileNotFoundException::FileNotFoundException() : IOException("Unable to find the specified file.") {}

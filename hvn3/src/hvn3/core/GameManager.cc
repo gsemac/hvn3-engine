@@ -50,7 +50,7 @@ namespace hvn3 {
 
 	}
 
-	System::Properties& GameManager::GetGameProperties() {
+	System::Properties& GameManager::GetProperties() {
 		return _properties;
 	}
 	System::Runner& GameManager::GetRunner() {

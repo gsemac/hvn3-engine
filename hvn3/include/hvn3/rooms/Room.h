@@ -25,26 +25,29 @@ namespace hvn3 {
 		virtual void OnUpdate(UpdateEventArgs& e) override;
 		virtual void OnDraw(DrawEventArgs& e) override;
 
-		const View* CurrentView() const override;
-
+		IBackgroundManager& GetBackgrounds() override;
+		IViewManager& GetViews() override;
+		collision_manager_type& GetCollisions() override;
+		Physics::IPhysicsManager& GetPhysics() override;
 		const IBackgroundManager& Backgrounds() const override;
-		IBackgroundManager& Backgrounds() override;
 		const IViewManager& Views() const override;
-		IViewManager& Views() override;
 		const collision_manager_type& Collisions() const override;
-		collision_manager_type& Collisions() override;
-		virtual const Physics::IPhysicsManager& Physics() const override;
-		virtual Physics::IPhysicsManager& Physics() override;
+		const Physics::IPhysicsManager& Physics() const override;
 
-		virtual RectangleF GetVisibleRegion() override;
+		void SetBackground(const Background& value) override {
+			GetBackgrounds().Clear();
+			GetBackgrounds().Add(value);
+		}
 
-		virtual void Restart() override;
-
+		const View& CurrentView() const override;
+		RectangleF GetVisibleRegion() override;
 		void SetContext(hvn3::Context context) override;
 
+		void Restart() override;
+
 	protected:
-		virtual void OnReset() override;
-		virtual void OnRender(DrawEventArgs& e) override;
+		void OnReset() override;
+		void OnRender(DrawEventArgs& e) override;
 
 	private:
 		collision_manager_type  _collision_manager;
