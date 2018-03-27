@@ -1,6 +1,7 @@
 #include "hvn3/allegro/AllegroAdapter.h"
 #include "hvn3/allegro/AllegroExt.h"
 #include "hvn3/graphics/Bitmap.h"
+#include "hvn3/graphics/BitmapUtils.h"
 #include "hvn3/graphics/Graphics.h"
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
@@ -207,8 +208,7 @@ namespace hvn3 {
 
 			_perform_pre_write_operations();
 
-			// #todo
-			//Graphics(*this).DrawPoint(x, y, color);
+			Graphics(*this).DrawPoint(x, y, color);
 
 		}
 		Color Bitmap::GetPixel(int x, int y) const {
@@ -216,14 +216,6 @@ namespace hvn3 {
 			ALLEGRO_COLOR px = al_get_pixel(_get_bitmap_ptr(), x, y);
 
 			return Color::FromArgbf(px.r, px.g, px.b, px.a);
-
-		}
-
-		void Bitmap::ConvertMaskToAlpha(const Color& color) {
-
-			ALLEGRO_COLOR al_color = System::AllegroAdapter::ToColor(color);
-
-			al_convert_mask_to_alpha(_src_bitmap.get(), al_color);
 
 		}
 
@@ -240,6 +232,12 @@ namespace hvn3 {
 
 			return *this;
 
+		}
+		bool Bitmap::operator==(const Bitmap& other) {
+			return _src_bitmap.get() == other._src_bitmap.get();
+		}
+		bool Bitmap::operator!=(const Bitmap& other) {
+			return !(*this == other);
 		}
 		Bitmap::operator bool() const {
 
@@ -275,7 +273,7 @@ namespace hvn3 {
 
 			Bitmap bmp = FromFile(file);
 
-			bmp.ConvertMaskToAlpha(alpha_color);
+			ConvertMaskToAlpha(bmp, alpha_color);
 
 			return bmp;
 

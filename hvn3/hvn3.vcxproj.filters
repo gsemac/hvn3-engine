@@ -651,6 +651,9 @@
     <ClInclude Include="include\hvn3\graphics\BasicLightingRenderer.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\graphics\BitmapUtils.h">
+      <Filter>include\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -976,6 +979,9 @@
       <Filter>src\rooms</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\graphics\BasicLightingRenderer.cc">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\BitmapUtils.cc">
       <Filter>src\graphics</Filter>
     </ClCompile>
   </ItemGroup>

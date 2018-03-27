@@ -151,7 +151,7 @@ namespace hvn3 {
 		float l = Luminance();
 
 		// Calculate the min and max of the RGB values.
-		float max = (std::max)({ _r, _g, _b });
+		float max = Brightness();
 		float min = (std::min)({ _r, _g, _b });
 
 		// Get the denominator to be used in the calculation.
@@ -167,6 +167,11 @@ namespace hvn3 {
 
 		// Calculate saturation.
 		return (max - min) / d;
+
+	}
+	float Color::Brightness() const {
+
+		return (std::max)({ _r, _g, _b });
 
 	}
 

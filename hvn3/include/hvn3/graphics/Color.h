@@ -32,6 +32,7 @@ namespace hvn3 {
 		float Luminance() const;
 		float Hue() const;
 		float Saturation() const;
+		float Brightness() const;
 
 		Color Lighter(float factor = 0.05f) const;
 		Color Darker(float factor = 0.05f) const;

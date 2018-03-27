@@ -68,10 +68,10 @@ namespace hvn3 {
 			void SetPixel(int x, int y, const Color& color);
 			Color GetPixel(int x, int y) const;
 
-			void ConvertMaskToAlpha(const Color& color);
-
 			Bitmap& operator=(const Bitmap& other);
 			Bitmap& operator=(Bitmap&& other);
+			bool operator==(const Bitmap& other);
+			bool operator!=(const Bitmap& other);
 			explicit operator bool() const;
 
 			static Bitmap FromBuffer(uint8_t* buffer, size_t buffer_size, Imaging::ImageFormat format);
