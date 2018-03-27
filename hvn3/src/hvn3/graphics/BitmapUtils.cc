@@ -19,8 +19,8 @@ namespace hvn3 {
 			// The value of the source bitmap is multiplied with the alpha of the destination bitmap.
 			// Ideally, the source bitmap is greyscale. White corresponds to opaque, and black corresponds to transparent.
 
-			for (int i = 0; i < Math::Min(dest.Height(), src.Height()); ++i)
-				for (int j = 0; j < Math::Min(dest.Width(), src.Width()); ++j) {
+			for (int j = 0; j < Math::Min(dest.Height(), src.Height()); ++j)
+				for (int i = 0; i < Math::Min(dest.Width(), src.Width()); ++i) {
 
 					Color dest_color = dest.GetPixel(i, j);
 					Color src_color = src.GetPixel(i, j);
@@ -44,8 +44,8 @@ namespace hvn3 {
 
 			bitmap.Lock();
 
-			for (int i = 0; i < bitmap.Height(); ++i)
-				for (int j = 0; j < bitmap.Width(); ++j) {
+			for (int j = 0; j < bitmap.Height(); ++j)
+				for (int i = 0; i < bitmap.Width(); ++i) {
 
 					Color old_color = bitmap.GetPixel(i, j);
 					unsigned char greyscale = static_cast<unsigned char>(old_color.R() * 0.299f + old_color.G() * 0.587f + old_color.B() * 0.114f);
