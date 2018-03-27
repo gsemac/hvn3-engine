@@ -175,6 +175,17 @@ namespace hvn3 {
 			_physics_manager = std::make_unique<hvn3::Physics::BasicPhysicsManager>(Context());
 	}
 
+	System::ManagerBase& Room::GetManagerById(System::ManagerId id) {
+
+		auto iter = _registered_managers.find(id);
+
+		if (iter == _registered_managers.end())
+			throw System::NullReferenceException();
+
+		return *iter->second;
+
+	}
+
 	void Room::Restart() {
 
 		_restart_pending = true;
@@ -216,6 +227,19 @@ namespace hvn3 {
 
 		// Draw all foregrounds.
 		GetBackgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), current_view, true));
+
+	}
+
+
+
+	void Room::_addManager(System::ManagerId id, System::ManagerBase* manager) {
+
+		auto iter = _registered_managers.find(id);
+
+		if (iter != _registered_managers.end())
+			throw System::ArgumentException("A manager with this ID already exists.");
+
+		_registered_managers[id] = manager;
 
 	}
 

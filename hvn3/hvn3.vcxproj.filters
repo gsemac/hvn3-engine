@@ -639,6 +639,18 @@
     <ClInclude Include="include\hvn3\helper\PlatformerControlsHelper.h">
       <Filter>include\helper</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\rooms\BasicLightingManager.h">
+      <Filter>include\rooms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\ManagerBase.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\IContextReceiver.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\graphics\BasicLightingRenderer.h">
+      <Filter>include\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -959,6 +971,12 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\helper\PlatformerControlsHelper.cc">
       <Filter>src\helper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\BasicLightingManager.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\BasicLightingRenderer.cc">
+      <Filter>src\graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

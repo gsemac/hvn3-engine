@@ -58,6 +58,8 @@
     <ClInclude Include="include\hvn3\core\Context.h" />
     <ClInclude Include="include\hvn3\core\DrawEventArgs.h" />
     <ClInclude Include="include\hvn3\core\IContextProvider.h" />
+    <ClInclude Include="include\hvn3\core\IContextReceiver.h" />
+    <ClInclude Include="include\hvn3\core\ManagerBase.h" />
     <ClInclude Include="include\hvn3\core\SystemAssets.h" />
     <ClInclude Include="include\hvn3\core\Framework.h" />
     <ClInclude Include="include\hvn3\core\GameManager.h" />
@@ -82,6 +84,7 @@
     <ClInclude Include="include\hvn3\events\Timer.h" />
     <ClInclude Include="include\hvn3\exceptions\Exception.h" />
     <ClInclude Include="include\hvn3\fonts\Font.h" />
+    <ClInclude Include="include\hvn3\graphics\BasicLightingRenderer.h" />
     <ClInclude Include="include\hvn3\graphics\Color.h" />
     <ClInclude Include="include\hvn3\graphics\Bitmap.h" />
     <ClInclude Include="include\hvn3\graphics\Display.h" />
@@ -142,6 +145,7 @@
     <ClInclude Include="include\hvn3\physics\Material.h" />
     <ClInclude Include="include\hvn3\physics\PhysicsManagerBase.h" />
     <ClInclude Include="include\hvn3\physics\PhysicsUtils.h" />
+    <ClInclude Include="include\hvn3\rooms\BasicLightingManager.h" />
     <ClInclude Include="include\hvn3\rooms\IRoom.h" />
     <ClInclude Include="include\hvn3\rooms\IRoomManager.h" />
     <ClInclude Include="include\hvn3\rooms\IRoomTransition.h" />
@@ -225,6 +229,7 @@
     <ClCompile Include="src\hvn3\events\Timer.cc" />
     <ClCompile Include="src\hvn3\exceptions\Exception.cc" />
     <ClCompile Include="src\hvn3\fonts\Font.cc" />
+    <ClCompile Include="src\hvn3\graphics\BasicLightingRenderer.cc" />
     <ClCompile Include="src\hvn3\graphics\Color.cc" />
     <ClCompile Include="src\hvn3\graphics\Bitmap.cc" />
     <ClCompile Include="src\hvn3\graphics\Display.cc" />
@@ -268,6 +273,7 @@
     <ClCompile Include="src\hvn3\physics\PhysicsBodyBase.cc" />
     <ClCompile Include="src\hvn3\physics\Material.cc" />
     <ClCompile Include="src\hvn3\physics\PhysicsUtils.cc" />
+    <ClCompile Include="src\hvn3\rooms\BasicLightingManager.cc" />
     <ClCompile Include="src\hvn3\rooms\IRoomTransition.cc" />
     <ClCompile Include="src\hvn3\rooms\Room.cc" />
     <ClCompile Include="src\hvn3\rooms\RoomController.cc" />

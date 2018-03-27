@@ -22,8 +22,9 @@ namespace hvn3 {
 		hvn3::Context Context() override;
 
 	protected:
-		hvn3::IGameManager& GetGameManager() override;
-		hvn3::RoomManager& GetRoomManager() override;
+		IGameManager& GetGameManager() override;
+		RoomManager& GetRoomManager() override;
+		System::ManagerBase& GetManagerById(System::ManagerId id) override;
 
 	private:
 		System::Properties _properties;

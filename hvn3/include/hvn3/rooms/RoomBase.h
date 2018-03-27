@@ -7,7 +7,7 @@
 #pragma warning(disable:4250) 
 
 namespace hvn3 {
-
+	//typedef ObjectManager object_manager_type;
 	template <typename object_manager_type>
 	class RoomBase : public IRoom, public SizeableBase<int> {
 
@@ -120,9 +120,7 @@ namespace hvn3 {
 			_persistent = value;
 
 		}
-		hvn3::Context Context() override {
-			return _context;
-		}
+
 		void SetContext(hvn3::Context context) override {
 
 			_context = context;
@@ -130,6 +128,10 @@ namespace hvn3 {
 			if (!_obj_manager)
 				_obj_manager = std::make_unique<object_manager_type>(_context);
 
+		}
+
+		System::ManagerBase& GetManagerById(System::ManagerId id) override {
+			throw System::NotImplementedException();
 		}
 
 	protected:
@@ -166,7 +168,15 @@ namespace hvn3 {
 
 		}
 
+		hvn3::Context Context() override {
+			return _context;
+		}
+
 	private:
+		void _addManager(System::ManagerId id, System::ManagerBase* manager) override {
+			throw System::NotImplementedException();
+		}
+
 		std::unique_ptr<object_manager_type> _obj_manager;
 		RoomId _id;
 		Color _background_color;

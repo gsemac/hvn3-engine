@@ -1,5 +1,6 @@
 #pragma once
-#include "hvn3/core/Context.h"
+#include "hvn3/core/IContextProvider.h"
+#include "hvn3/core/IContextReceiver.h"
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/core/IDrawable.h"
 #include "hvn3/graphics/Color.h"
@@ -26,7 +27,11 @@ namespace hvn3 {
 		class IPhysicsManager;
 	}
 
-	class IRoom : public IUpdatable, public IDrawable, public virtual ISizeable<int> {
+	class IRoom :
+		public IUpdatable, public IDrawable,
+		public System::IContextReceiver,
+		public virtual ISizeable<int> {
+
 		friend class System::RoomController;
 
 	public:
@@ -69,17 +74,31 @@ namespace hvn3 {
 		virtual void SetPersistent(bool value) = 0;
 		virtual RectangleF GetVisibleRegion() = 0;
 		virtual RectangleF Bounds() const = 0;
-		virtual hvn3::Context Context() = 0;
-		virtual void SetContext(hvn3::Context context) = 0;
-
-		virtual void Restart() = 0;
 		
+		virtual System::ManagerBase& GetManagerById(System::ManagerId id) = 0;
+		
+		virtual void Restart() = 0;
+
+	protected:
 		virtual void OnRoomEnter(RoomEnterEventArgs& e) = 0;
 		virtual void OnRoomExit(RoomExitEventArgs& e) = 0;
 		virtual void OnSetUp() = 0;
 		virtual bool IsSetUp() const = 0;
 		virtual void OnReset() = 0;
 		virtual void OnRender(DrawEventArgs& e) = 0;
+
+		// Returns the current context assigned to the room.
+		virtual hvn3::Context Context() = 0;
+
+		// Registers a manager so it can be accessed through the current context.
+		template <typename manager_type>
+		void RegisterManager(manager_type& manager) {
+			_addManager(manager_type::Id(), &manager);
+		}
+
+	private:
+		// Adds a new manager to the room, mapped to the given ID.
+		virtual void _addManager(System::ManagerId id, System::ManagerBase* manager) = 0;
 
 	};
 

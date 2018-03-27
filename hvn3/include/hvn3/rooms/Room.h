@@ -8,6 +8,7 @@
 #include "hvn3/physics/BasicPhysicsManager.h"
 #include "hvn3/objects/ObjectManager.h"
 #include <memory>
+#include <unordered_map>
 
 #pragma warning(push)
 #pragma warning(disable:4250)
@@ -41,7 +42,10 @@ namespace hvn3 {
 
 		const View& CurrentView() const override;
 		RectangleF GetVisibleRegion() override;
+
 		void SetContext(hvn3::Context context) override;
+
+		System::ManagerBase& GetManagerById(System::ManagerId id) override;
 
 		void Restart() override;
 
@@ -50,10 +54,13 @@ namespace hvn3 {
 		void OnRender(DrawEventArgs& e) override;
 
 	private:
+		void _addManager(System::ManagerId id, System::ManagerBase* manager) override;
+
 		collision_manager_type  _collision_manager;
 		hvn3::BackgroundManager _background_manager;
 		hvn3::ViewManager _view_manager;
 		std::unique_ptr<hvn3::Physics::BasicPhysicsManager> _physics_manager;
+		std::unordered_map<System::ManagerId, System::ManagerBase*> _registered_managers;
 
 		size_t _rendering_view;
 		bool _restart_pending;

@@ -30,7 +30,12 @@ namespace hvn3 {
 		return GetRoom().GetPhysics();
 	}
 	System::IContextProvider& Context::GetContextProvider() {
+		
+		if (_context_provider == nullptr)
+			throw System::NullReferenceException("Context has not yet been initialized.");
+		
 		return *_context_provider;
+
 	}
 	System::Properties& Context::GetProperties() {
 		return GetContextProvider().GetGameManager().GetProperties();

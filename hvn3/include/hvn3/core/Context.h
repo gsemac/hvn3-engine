@@ -32,6 +32,11 @@ namespace hvn3 {
 		System::IContextProvider& GetContextProvider();
 		System::Properties& GetProperties();
 
+		template <typename manager_type>
+		manager_type& Get() {
+			return static_cast<manager_type&>(_context_provider->GetManagerById(manager_type::Id()));
+		}
+
 	private:
 		System::IContextProvider* _context_provider;
 

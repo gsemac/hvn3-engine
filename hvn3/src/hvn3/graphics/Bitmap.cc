@@ -31,6 +31,9 @@ namespace hvn3 {
 			_managed = true;
 
 		}
+		Bitmap::Bitmap(const SizeI& size) :
+			Bitmap(size.Width(), size.Height()) {
+		}
 		Bitmap::Bitmap(int width, int height) :
 			Bitmap() {
 

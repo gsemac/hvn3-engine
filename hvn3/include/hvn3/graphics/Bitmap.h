@@ -3,6 +3,7 @@
 #include "hvn3/graphics/Imaging.h"
 #include "hvn3/io/File.h"
 #include "hvn3/math/Rectangle.h"
+#include "hvn3/utility/Size.h"
 #include <memory>
 #include <string>
 
@@ -40,6 +41,7 @@ namespace hvn3 {
 
 		public:
 			Bitmap();
+			Bitmap(const SizeI& size);
 			Bitmap(int width, int height);
 			Bitmap(ALLEGRO_BITMAP* bitmap, bool managed = true);
 
