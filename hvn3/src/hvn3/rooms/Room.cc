@@ -145,28 +145,40 @@ namespace hvn3 {
 		return _view_manager.ViewAt(_rendering_view);
 
 	}
-	RectangleF Room::GetVisibleRegion() {
+	RectangleF Room::VisiblePort() const {
 
-		// Return the rectangle representing the largest view.
-		View* largest = nullptr;
+		// Find the largest viewport, or the size of the room if no views are enabled.
+		const View* largest = nullptr;
 		for (size_t i = 0; i < _view_manager.ViewCount(); ++i) {
-
-			View* view = &_view_manager.ViewAt(i);
-
+			const View* view = &_view_manager.ViewAt(i);
 			if (!view->Enabled())
 				continue;
-
 			if (largest == nullptr || view->Port().Size() > largest->Port().Size())
 				largest = view;
-
 		}
 
-		// If we couldn't find a largest view, return the rectangle representing the full size of the room.
 		if (largest == nullptr)
-			return RoomBase::GetVisibleRegion();
+			return RoomBase::VisiblePort();
 
-		// Otherwise, return the viewport.
 		return largest->Port();
+
+	}
+	RectangleF Room::VisibleRegion() const {
+
+		// Find the largest view, or the size of the room if no views are enabled.
+		const View* largest = nullptr;
+		for (size_t i = 0; i < _view_manager.ViewCount(); ++i) {
+			const View* view = &_view_manager.ViewAt(i);
+			if (!view->Enabled())
+				continue;
+			if (largest == nullptr || view->Region().Size() > largest->Region().Size())
+				largest = view;
+		}
+
+		if (largest == nullptr)
+			return RoomBase::VisibleRegion();
+
+		return largest->Region();
 
 	}
 	void Room::SetContext(hvn3::Context context) {

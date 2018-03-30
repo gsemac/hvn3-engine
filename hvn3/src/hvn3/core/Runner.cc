@@ -480,7 +480,7 @@ namespace hvn3 {
 			IRoom& room = _context.GetRoom();
 
 			// For scaling, we need to consider the largest view, or the size of the room if no views are enabled.
-			RectangleF room_region = room.GetVisibleRegion();
+			RectangleF room_region = room.VisiblePort();
 
 			// Set the Transform according to the scaling mode.
 			Graphics::Transform scaling_transform;

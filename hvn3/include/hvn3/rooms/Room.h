@@ -41,7 +41,8 @@ namespace hvn3 {
 		}
 
 		const View& CurrentView() const override;
-		RectangleF GetVisibleRegion() override;
+		RectangleF VisiblePort() const override;
+		RectangleF VisibleRegion() const override;
 
 		void SetContext(hvn3::Context context) override;
 

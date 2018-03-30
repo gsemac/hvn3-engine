@@ -72,7 +72,8 @@ namespace hvn3 {
 		virtual RoomId Id() const = 0;
 		virtual bool Persistent() const = 0;
 		virtual void SetPersistent(bool value) = 0;
-		virtual RectangleF GetVisibleRegion() = 0;
+		virtual RectangleF VisiblePort() const = 0;
+		virtual RectangleF VisibleRegion() const = 0;
 		virtual RectangleF Bounds() const = 0;
 		
 		virtual System::ManagerBase& GetManagerById(System::ManagerId id) = 0;

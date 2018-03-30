@@ -104,8 +104,11 @@ namespace hvn3 {
 			return _id;
 
 		}
-		RectangleF GetVisibleRegion() override {
-			return RectangleF(0.0f, 0.0f, static_cast<float>(Width()), static_cast<float>(Height()));
+		RectangleF VisiblePort() const override {
+			return Bounds();
+		}
+		RectangleF VisibleRegion() const override {
+			return Bounds();
 		}
 		RectangleF Bounds() const override {
 			return RectangleF(0.0f, 0.0f, static_cast<float>(Width()), static_cast<float>(Height()));
