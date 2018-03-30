@@ -425,7 +425,7 @@ namespace hvn3 {
 				break;
 
 			case BlendOperation::Subtract:
-				SetBlendMode(BlendOperation::Subtract, BlendMode::Zero, BlendMode::InverseSourceColor);
+				SetBlendMode(BlendOperation::Add, BlendMode::Zero, BlendMode::InverseSourceColor);
 				break;
 
 			case BlendOperation::Max:
@@ -450,7 +450,7 @@ namespace hvn3 {
 		}
 		void Graphics::SetBlendMode(BlendOperation operation, const Color& source, const Color& destination) {
 
-
+			throw System::NotImplementedException();
 
 		}
 		void Graphics::ResetBlendMode() {

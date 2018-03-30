@@ -84,7 +84,6 @@
     <ClInclude Include="include\hvn3\events\Timer.h" />
     <ClInclude Include="include\hvn3\exceptions\Exception.h" />
     <ClInclude Include="include\hvn3\fonts\Font.h" />
-    <ClInclude Include="include\hvn3\graphics\BasicLightingRenderer.h" />
     <ClInclude Include="include\hvn3\graphics\BitmapUtils.h" />
     <ClInclude Include="include\hvn3\graphics\Color.h" />
     <ClInclude Include="include\hvn3\graphics\Bitmap.h" />
@@ -230,7 +229,6 @@
     <ClCompile Include="src\hvn3\events\Timer.cc" />
     <ClCompile Include="src\hvn3\exceptions\Exception.cc" />
     <ClCompile Include="src\hvn3\fonts\Font.cc" />
-    <ClCompile Include="src\hvn3\graphics\BasicLightingRenderer.cc" />
     <ClCompile Include="src\hvn3\graphics\BitmapUtils.cc" />
     <ClCompile Include="src\hvn3\graphics\Color.cc" />
     <ClCompile Include="src\hvn3\graphics\Bitmap.cc" />

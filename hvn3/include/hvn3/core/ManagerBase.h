@@ -14,6 +14,8 @@ namespace hvn3 {
 			COLLISION_MANAGER,
 			PHYSICS_MANAGER,
 
+			BASIC_LIGHTING_MANAGER,
+
 			MINIMUM_USER_MANAGER_ID
 
 		};
@@ -23,7 +25,7 @@ namespace hvn3 {
 			static ManagerId Id() {
 				// Child classes MUST provide their own version of this function and return a unique ID.
 				// If this version is being called, you've done something wrong.
-				throw System::NotImplementedException();
+				throw System::NotImplementedException("Each manager must return a unique ID by hiding the static Id method.");
 			}
 
 		};
