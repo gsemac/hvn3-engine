@@ -64,6 +64,9 @@ namespace hvn3 {
 		return RectangleF(_port_position.X(), _port_position.Y(), _port_size.Width(), _port_size.Height());
 
 	}
+	SizeF View::Size() const {
+		return Region().Size();
+	}
 	const PointF& View::Position() const {
 
 		return _position;

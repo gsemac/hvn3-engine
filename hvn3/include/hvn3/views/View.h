@@ -20,6 +20,7 @@ namespace hvn3 {
 
 		RectangleF Region() const;
 		RectangleF Port() const;
+		SizeF Size() const;
 		float X() const;
 		float Y() const;
 		const PointF& Position() const;
