@@ -10,10 +10,15 @@ namespace hvn3 {
 		}
 		void SetAlphaFromBitmap(Bitmap& dest, Bitmap& src) {
 
-			dest.Lock();
+			// Lock both the destination and source bitmaps. Keep in mind that they might refer to the same bitmap.
+			// By checking if the source is locked after locking the destination, we can make sure we don't lock the same bitmap twice.
 
-			// Keep in mind that the destination and source bitmaps could be the same bitmap.
-			if (dest != src)
+			bool dest_already_locked = dest.IsLocked();
+			if (!dest_already_locked)
+				dest.Lock();
+
+			bool src_already_locked = src.IsLocked();
+			if (!src_already_locked)
 				src.Lock();
 
 			// The value of the source bitmap is multiplied with the alpha of the destination bitmap.
@@ -34,15 +39,18 @@ namespace hvn3 {
 
 				}
 
-			dest.Unlock();
+			if (!dest_already_locked)
+				dest.Unlock();
 
-			if (dest != src)
+			if (!src_already_locked && src.IsLocked())
 				src.Unlock();
 
 		}
 		void ConvertToGreyscale(Bitmap& bitmap) {
 
-			bitmap.Lock();
+			bool already_locked = bitmap.IsLocked();
+			if (!already_locked)
+				bitmap.Lock();
 
 			for (int j = 0; j < bitmap.Height(); ++j)
 				for (int i = 0; i < bitmap.Width(); ++i) {
@@ -54,7 +62,8 @@ namespace hvn3 {
 
 				}
 
-			bitmap.Unlock();
+			if (!already_locked)
+				bitmap.Unlock();
 
 		}
 
