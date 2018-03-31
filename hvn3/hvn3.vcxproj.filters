@@ -651,6 +651,9 @@
     <ClInclude Include="include\hvn3\graphics\BitmapUtils.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\io\IoUtils.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -977,6 +980,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\graphics\BitmapUtils.cc">
       <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\IoUtils.cc">
+      <Filter>src\io</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -114,6 +114,7 @@
     <ClInclude Include="include\hvn3\io\Directory.h" />
     <ClInclude Include="include\hvn3\io\File.h" />
     <ClInclude Include="include\hvn3\io\IO.h" />
+    <ClInclude Include="include\hvn3\io\IoUtils.h" />
     <ClInclude Include="include\hvn3\io\Keyboard.h" />
     <ClInclude Include="include\hvn3\io\KeyboardMutator.h" />
     <ClInclude Include="include\hvn3\io\KeyboardEventArgs.h" />
@@ -253,6 +254,7 @@
     <ClCompile Include="src\hvn3\io\Console.cc" />
     <ClCompile Include="src\hvn3\io\Directory.cc" />
     <ClCompile Include="src\hvn3\io\File.cc" />
+    <ClCompile Include="src\hvn3\io\IoUtils.cc" />
     <ClCompile Include="src\hvn3\io\Keyboard.cc" />
     <ClCompile Include="src\hvn3\io\KeyboardMutator.cc" />
     <ClCompile Include="src\hvn3\io\KeyboardEventArgs.cc" />
