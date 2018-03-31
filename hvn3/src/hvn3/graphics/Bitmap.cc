@@ -1,5 +1,6 @@
 #include "hvn3/allegro/AllegroAdapter.h"
 #include "hvn3/allegro/AllegroExt.h"
+#include "hvn3/exceptions/Exception.h"
 #include "hvn3/graphics/Bitmap.h"
 #include "hvn3/graphics/BitmapUtils.h"
 #include "hvn3/graphics/Graphics.h"
@@ -173,9 +174,14 @@ namespace hvn3 {
 
 		BitmapData Bitmap::Lock(IO::FileAccess access) {
 
+			ALLEGRO_BITMAP* ptr = _get_bitmap_ptr();
+			
+			if (ptr == nullptr)
+				throw System::NotSupportedException("Cannot lock a null bitmap.");
+
 			_perform_pre_write_operations();
 
-			ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap(_get_bitmap_ptr(), al_get_bitmap_format(_get_bitmap_ptr()), to_lock_flag(access));
+			ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap(ptr, al_get_bitmap_format(ptr), to_lock_flag(access));
 
 			BitmapData bmpdata;
 			bmpdata.Scan0 = (unsigned char*)lr->data;
@@ -213,7 +219,12 @@ namespace hvn3 {
 		}
 		bool Bitmap::IsLocked() const {
 
-			return al_is_bitmap_locked(_get_bitmap_ptr());
+			ALLEGRO_BITMAP* ptr = _get_bitmap_ptr();
+
+			if (ptr == nullptr)
+				return false;
+
+			return al_is_bitmap_locked(ptr);
 
 		}
 
