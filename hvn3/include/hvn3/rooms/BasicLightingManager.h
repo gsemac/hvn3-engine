@@ -30,8 +30,14 @@ namespace hvn3 {
 
 	class BasicLightingManager : public System::ManagerBase, public IDrawable {
 
+		struct LightMapData {
+			Graphics::Bitmap bitmap;
+			PointF origin;
+		};
+
 	public:
 		BasicLightingManager(System::IContextProvider& context_provider);
+		~BasicLightingManager();
 
 		LightSourceId Create(const PointF& position, LightSourceType type);
 		LightSource* GetLightSourceById(LightSourceId id);
@@ -43,7 +49,7 @@ namespace hvn3 {
 		bool Enabled() const;
 		void SetEnabled(bool value);
 
-		void AddLightMap(LightSourceType type, const Graphics::Bitmap& light_map, bool set_alpha = true);
+		void AddLightMap(const Graphics::Bitmap& light_map, LightSourceType type, const PointF& origin, bool set_alpha = true);
 
 		void OnDraw(DrawEventArgs& e) override;
 
@@ -51,8 +57,6 @@ namespace hvn3 {
 
 	private:
 		LightSourceId _getNextLightSourceId();
-		PointF _getSurfacePosition();
-		SizeI _getSurfaceSize();
 
 		System::IContextProvider* _context_provider;
 		std::unordered_map<LightSourceId, LightSource> _light_sources;
@@ -63,7 +67,11 @@ namespace hvn3 {
 
 		// Default light maps are shared across all instances (there is no reason to duplicate them).
 		// When the last instance of the class is deinitialized, the light maps are cleared.
-		static std::unordered_map<LightSourceType, Graphics::Bitmap> _light_maps;
+		static std::unordered_map<LightSourceType, LightMapData> _light_maps;
+		static int _instance_count;
+
+		static void _loadDefaultLightMaps();
+		static void _freeDefaultLightMaps();
 
 	};
 

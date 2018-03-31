@@ -35,6 +35,9 @@ namespace hvn3 {
 		Bitmap::Bitmap(const SizeI& size) :
 			Bitmap(size.Width(), size.Height()) {
 		}
+		Bitmap::Bitmap(const SizeI& size, BitmapFlags flags) :
+			Bitmap(size.Width(), size.Height(), flags) {
+		}
 		Bitmap::Bitmap(int width, int height) :
 			Bitmap() {
 
@@ -42,6 +45,16 @@ namespace hvn3 {
 				return;
 
 			_src_bitmap = bitmap_ptr_type(al_create_bitmap(width, height), al_destroy_bitmap);
+
+		}
+		Bitmap::Bitmap(int width, int height, BitmapFlags flags) {
+			
+			BitmapFlags old_flags = NewBitmapFlags();
+			SetNewBitmapFlags(flags);
+			
+			*this = Bitmap(width, height);
+			
+			SetNewBitmapFlags(old_flags);
 
 		}
 		Bitmap::Bitmap(ALLEGRO_BITMAP* bitmap, bool managed) :

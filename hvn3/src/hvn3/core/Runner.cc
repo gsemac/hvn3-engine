@@ -539,13 +539,13 @@ namespace hvn3 {
 
 			IRoom& room = *_context.GetRooms().CurrentRoom();
 
-			if (room.Views().ViewCount()) {
+			if (room.Views().Count()) {
 
 				// If the mouse is inside of a View, position it relative to the View (where 0, 0 is the top left of the View).
-				for (int i = room.Views().ViewCount() - 1; i >= 0; --i) {
+				for (int i = room.Views().Count() - 1; i >= 0; --i) {
 
 					// Get a reference to the view so it's easy to access.
-					View& view = room.GetViews().ViewAt(i);
+					View& view = room.GetViews().At(i);
 
 					// If the View is disabled or doesn't track the mouse position, do nothing.
 					if (!view.MouseTrackingEnabled() || !view.Enabled())
@@ -572,7 +572,7 @@ namespace hvn3 {
 					(view_scale * port_scale).Inverse().ScalePoint(pos);
 
 					// Rotate it against the view's angle.
-					pos = Math::Geometry::PointRotate(pos, view.Port().Midpoint(), -view.Angle());
+					pos = Math::Geometry::PointRotate(pos, view.Region().Midpoint() - view.Position(), -view.Angle());
 
 					// Translate it according to the view's offset.
 					pos += view.Position();

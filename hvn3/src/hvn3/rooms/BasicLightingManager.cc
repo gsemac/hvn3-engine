@@ -18,9 +18,20 @@ namespace hvn3 {
 
 
 	BasicLightingManager::BasicLightingManager(System::IContextProvider& context_provider) {
+
 		_context_provider = &context_provider;
 		SetAmbientLightLevel(0.0f);
 		_enabled = true;
+
+		if (_instance_count++ == 0)
+			_loadDefaultLightMaps();
+
+	}
+	BasicLightingManager::~BasicLightingManager() {
+
+		if (--_instance_count == 0)
+			_freeDefaultLightMaps();
+
 	}
 	LightSourceId BasicLightingManager::Create(const PointF& position, LightSourceType type) {
 
@@ -47,6 +58,7 @@ namespace hvn3 {
 	}
 	void BasicLightingManager::Clear() {
 		_light_sources.clear();
+		_next_id = 0;
 	}
 	const Graphics::Bitmap& BasicLightingManager::Surface() const {
 		return _surface;
@@ -63,70 +75,80 @@ namespace hvn3 {
 	void BasicLightingManager::SetEnabled(bool value) {
 		_enabled = value;
 	}
-	void BasicLightingManager::AddLightMap(LightSourceType type, const Graphics::Bitmap& light_map, bool set_alpha) {
+	void BasicLightingManager::AddLightMap(const Graphics::Bitmap& light_map, LightSourceType type, const PointF& origin, bool set_alpha) {
 
-		_light_maps[type] = light_map;
+		LightMapData map;
+		map.bitmap = light_map;
+		map.origin = origin;
+
+		_light_maps[type] = map;
 
 		if (set_alpha)
-			Graphics::SetAlphaFromBitmap(_light_maps[type], _light_maps[type]);
+			Graphics::SetAlphaFromBitmap(map.bitmap, map.bitmap);
 
 	}
 	void BasicLightingManager::OnDraw(DrawEventArgs& e) {
 
-		SizeI surface_size = _getSurfaceSize();
+		RectangleF visible_region = _context_provider->Context().GetRoom().VisibleRegion();
+		SizeI visible_size = static_cast<SizeI>(visible_region.Size());
 
-		if (!_surface || _surface.Width() != surface_size.Width() || _surface.Height() != surface_size.Height())
-			_surface = Graphics::Bitmap(surface_size);
+		// If the visible region has changed in size, resize the lighting surface.
+		if (!_surface || _surface.Width() != visible_size.Width() || _surface.Height() != visible_size.Height())
+			_surface = Graphics::Bitmap(visible_size);
+
+		PointF origin;
+		float angle = 0.0f;
+
+		// If there is an active view, we need to rotate the lights and lighting surface accordingly.
+		if (_context_provider->Context().GetRoom().Views().Count() > 0) {
+			const View& view = _context_provider->Context().GetRoom().CurrentView();
+			origin = view.Region().Midpoint() - view.Position();
+			angle = view.Angle();
+		}
+
+		// Draw each light on the lighting surface.
 
 		Graphics::Graphics g(_surface);
-
 		Graphics::Transform transform;
-		Graphics::Transform view_transform;
-		transform.Translate(-view_transform.GetOffset().x, -view_transform.GetOffset().y);
-		transform.Rotate(view_transform.GetAngle());
+
+		transform.Translate(-visible_region.X(), -visible_region.Y());
+		transform.Rotate(origin, angle);
 
 		g.Clear(Color::FromArgbf(0.0f, 0.0f, 0.0f, _ambient_light_level));
 		g.SetBlendMode(Graphics::BlendOperation::Subtract);
 		g.SetTransform(transform);
 
-		for (auto i = _light_sources.begin(); i != _light_sources.end(); ++i)
-			g.DrawBitmap(i->second.position.x, i->second.position.y, _light_maps[i->second.type]);
+		for (auto i = _light_sources.begin(); i != _light_sources.end(); ++i) {
+			LightMapData& lm = _light_maps[i->second.type];
+			g.DrawBitmap(i->second.position.x, i->second.position.y, lm.bitmap, 1.0f, 1.0f, lm.origin, i->second.direction);
+		}
 
 		g.ResetBlendMode();
 
-		PointF draw_pos = _getSurfacePosition();
-		e.Graphics().DrawBitmap(draw_pos.x, draw_pos.y, _surface);
+		// Draw the lighting surface.
+
+		PointF draw_pos = visible_region.Position() + origin;
+		e.Graphics().DrawBitmap(draw_pos.x, draw_pos.y, _surface, 1.0f, 1.0f, origin, -angle);
 
 	}
 	System::ManagerId BasicLightingManager::Id() {
 		return System::BASIC_LIGHTING_MANAGER;
 	}
 
-	std::unordered_map<LightSourceType, Graphics::Bitmap> BasicLightingManager::_light_maps;
-
 
 	LightSourceId BasicLightingManager::_getNextLightSourceId() {
 		return _next_id++;
 	}
-	PointF BasicLightingManager::_getSurfacePosition() {
 
-		if (_context_provider->Context().GetRoom().Views().ViewCount() > 0)
-			return _context_provider->Context().GetRoom().CurrentView().Position();
+	std::unordered_map<LightSourceType, BasicLightingManager::LightMapData> BasicLightingManager::_light_maps;
+	int BasicLightingManager::_instance_count = 0;
 
-		return PointF(0.0f, 0.0f);
-
+	void BasicLightingManager::_loadDefaultLightMaps() {
+		// #todo Load default light maps
+		throw System::NotImplementedException();
 	}
-	SizeI BasicLightingManager::_getSurfaceSize() {
-
-		SizeI surface_size = _context_provider->Context().GetRoom().Size();
-
-		if (_context_provider->Context().GetRoom().Views().ViewCount() > 0) {
-			const View& current_view = _context_provider->Context().GetRoom().CurrentView();
-			surface_size = SizeI(static_cast<int>(current_view.Region().Width()), static_cast<int>(current_view.Region().Height()));
-		}
-
-		return surface_size;
-
+	void BasicLightingManager::_freeDefaultLightMaps() {
+		_light_maps.clear();
 	}
 
 }

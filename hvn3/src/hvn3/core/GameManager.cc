@@ -70,6 +70,7 @@ namespace hvn3 {
 		return _room_manager;
 	}
 	System::ManagerBase& GameManager::GetManagerById(System::ManagerId id) {
+		return GetRoomManager().CurrentRoom()->GetManagerById(id);
 		// #todo Implement for access to "global" managers.
 		throw System::NotImplementedException();
 	}

@@ -8,11 +8,11 @@ namespace hvn3 {
 
 	public:
 		// Inherited via IViewManager
-		virtual size_t AddView(const View & view) override;
-		virtual void RemoveView(size_t index) override;
-		virtual View& ViewAt(size_t index) override;
-		virtual const View& ViewAt(size_t index) const override;
-		virtual size_t ViewCount() const override;
+		virtual size_t Add(const View & view) override;
+		virtual void RemoveAt(size_t index) override;
+		virtual View& At(size_t index) override;
+		virtual const View& At(size_t index) const override;
+		virtual size_t Count() const override;
 		virtual void Clear() override;
 		virtual void Update(ViewUpdateEventArgs & e) override;
 

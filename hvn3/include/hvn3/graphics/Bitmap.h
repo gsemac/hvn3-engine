@@ -20,7 +20,8 @@ namespace hvn3 {
 		enum class BitmapFlags {
 			AllegroDefault = 1,
 			MinLinear = 64,
-			MagLinear = 128
+			MagLinear = 128,
+			AntiAlias = MinLinear | MagLinear
 		};
 		ENABLE_BITFLAG_OPERATORS(BitmapFlags)
 
@@ -33,7 +34,7 @@ namespace hvn3 {
 		};
 
 		class Bitmap {
-			
+
 			friend class Graphics;
 			friend class System::AllegroAdapter;
 
@@ -42,7 +43,9 @@ namespace hvn3 {
 		public:
 			Bitmap();
 			Bitmap(const SizeI& size);
+			Bitmap(const SizeI& size, BitmapFlags flags);
 			Bitmap(int width, int height);
+			Bitmap(int width, int height, BitmapFlags flags);
 			Bitmap(ALLEGRO_BITMAP* bitmap, bool managed = true);
 
 			Bitmap(const Bitmap& other);

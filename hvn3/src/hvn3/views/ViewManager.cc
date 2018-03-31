@@ -3,29 +3,29 @@
 
 namespace hvn3 {
 
-	size_t ViewManager::AddView(const View & view) {
+	size_t ViewManager::Add(const View & view) {
 
 		_views.push_back(view);
 
-		return ViewCount() - 1;
+		return Count() - 1;
 
 	}
-	void ViewManager::RemoveView(size_t index) {
+	void ViewManager::RemoveAt(size_t index) {
 
 		_views.erase(_views.begin() + index);
 
 	}
-	View& ViewManager::ViewAt(size_t index) {
+	View& ViewManager::At(size_t index) {
 
 		return _views[index];
 
 	}
-	const View& ViewManager::ViewAt(size_t index) const {
+	const View& ViewManager::At(size_t index) const {
 
 		return _views[index];
 
 	}
-	size_t ViewManager::ViewCount() const {
+	size_t ViewManager::Count() const {
 
 		return _views.size();
 
@@ -37,10 +37,10 @@ namespace hvn3 {
 	}
 	void ViewManager::Update(ViewUpdateEventArgs & e) {
 
-		for (int i = ViewCount() - 1; i >= 0; --i) {
+		for (int i = Count() - 1; i >= 0; --i) {
 
 			// Initialize variables.	
-			hvn3::View& view = ViewAt(i);
+			hvn3::View& view = At(i);
 			IObject* obj = view.GetFollowing();
 
 			// If the View isn't following an Object, or is disabled, there's nothing to do.

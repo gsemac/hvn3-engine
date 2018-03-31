@@ -52,9 +52,9 @@ namespace hvn3 {
 		RectangleF original_clip(e.Graphics().Clip());
 
 		// Each View needs to be drawn separately.
-		if (_view_manager.ViewCount() > 0) {
+		if (_view_manager.Count() > 0) {
 
-			for (size_t i = 0; i < _view_manager.ViewCount(); ++i) {
+			for (size_t i = 0; i < _view_manager.Count(); ++i) {
 
 				// Set current view index.
 				_rendering_view = i;
@@ -139,18 +139,18 @@ namespace hvn3 {
 
 	const View& Room::CurrentView() const {
 
-		if (_view_manager.ViewCount() == 0)
+		if (_view_manager.Count() == 0)
 			throw System::NullReferenceException();
 
-		return _view_manager.ViewAt(_rendering_view);
+		return _view_manager.At(_rendering_view);
 
 	}
 	RectangleF Room::VisiblePort() const {
 
 		// Find the largest viewport, or the size of the room if no views are enabled.
 		const View* largest = nullptr;
-		for (size_t i = 0; i < _view_manager.ViewCount(); ++i) {
-			const View* view = &_view_manager.ViewAt(i);
+		for (size_t i = 0; i < _view_manager.Count(); ++i) {
+			const View* view = &_view_manager.At(i);
 			if (!view->Enabled())
 				continue;
 			if (largest == nullptr || view->Port().Size() > largest->Port().Size())
@@ -165,20 +165,12 @@ namespace hvn3 {
 	}
 	RectangleF Room::VisibleRegion() const {
 
-		// Find the largest view, or the size of the room if no views are enabled.
-		const View* largest = nullptr;
-		for (size_t i = 0; i < _view_manager.ViewCount(); ++i) {
-			const View* view = &_view_manager.ViewAt(i);
-			if (!view->Enabled())
-				continue;
-			if (largest == nullptr || view->Region().Size() > largest->Region().Size())
-				largest = view;
-		}
+		// Return the visible region given by the current view (if views are enabled).
+		if (_view_manager.Count() > 0)
+			return CurrentView().Region();
 
-		if (largest == nullptr)
-			return RoomBase::VisibleRegion();
-
-		return largest->Region();
+		// Otherwise, return a region corresponding to the entire room size.
+		return RoomBase::VisibleRegion();
 
 	}
 	void Room::SetContext(hvn3::Context context) {
@@ -231,7 +223,7 @@ namespace hvn3 {
 		e.Graphics().Clear(BackgroundColor());
 
 		// Draw all backgrounds.
-		const View* current_view = GetViews().ViewCount() > 0 ? &CurrentView() : nullptr;
+		const View* current_view = GetViews().Count() > 0 ? &CurrentView() : nullptr;
 		GetBackgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), current_view, false));
 
 		// Draw all objects.

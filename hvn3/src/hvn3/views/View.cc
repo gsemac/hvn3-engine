@@ -140,7 +140,7 @@ namespace hvn3 {
 		PointF offset(X(), Y());
 		Graphics::Transform transform;
 		transform.Translate(-offset.X() + Port().X(), -offset.Y() + Port().Y());
-		transform.Rotate(Port().Midpoint(), Angle());
+		transform.Rotate(Region().Midpoint() - offset, Angle());
 		transform.Scale(Scale());
 
 		return transform;

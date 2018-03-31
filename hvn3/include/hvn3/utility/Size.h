@@ -30,7 +30,7 @@ namespace hvn3 {
 
 		}
 		void SetHeight(T value) {
-			
+
 			Resize(_width, value);
 
 		}
@@ -39,6 +39,11 @@ namespace hvn3 {
 			_width = width;
 			_height = height;
 
+		}
+
+		template <typename U>
+		explicit operator Size<U>() {
+			return Size<U>(static_cast<U>(Width()), static_cast<U>(Height()));
 		}
 
 	private:
