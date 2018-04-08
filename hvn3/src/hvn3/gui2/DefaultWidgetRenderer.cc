@@ -1,6 +1,6 @@
 #include "hvn3/allegro/AllegroAdapter.h"
 #include "hvn3/allegro/AllegroExt.h"
-#include "hvn3/core/SystemAssets.h"
+#include "hvn3/assets/SystemAssets.h"
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/gui2/DefaultWidgetRenderer.h"
 #include "hvn3/gui2/IWidget.h"

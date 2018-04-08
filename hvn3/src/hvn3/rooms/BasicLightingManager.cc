@@ -1,4 +1,6 @@
+#include "hvn3/assets/SystemAssets.h"
 #include "hvn3/core/DrawEventArgs.h"
+#include "hvn3/io/Path.h"
 #include "hvn3/graphics/BitmapUtils.h"
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/math/MathUtils.h"
@@ -84,7 +86,7 @@ namespace hvn3 {
 		_light_maps[type] = map;
 
 		if (set_alpha)
-			Graphics::SetAlphaFromBitmap(map.bitmap, map.bitmap);
+			Graphics::SetAlphaFromBitmap(_light_maps[type].bitmap, _light_maps[type].bitmap);
 
 	}
 	void BasicLightingManager::OnDraw(DrawEventArgs& e) {
@@ -119,8 +121,14 @@ namespace hvn3 {
 		g.SetTransform(transform);
 
 		for (auto i = _light_sources.begin(); i != _light_sources.end(); ++i) {
-			LightMapData& lm = _light_maps[i->second.type];
-			g.DrawBitmap(i->second.position.x, i->second.position.y, lm.bitmap, 1.0f, 1.0f, lm.origin, i->second.direction);
+
+			LightMapData* lm = _findLightMapData(i->second.type);
+
+			if (lm == nullptr)
+				continue;
+
+			g.DrawBitmap(i->second.position.x, i->second.position.y, lm->bitmap, 1.0f, 1.0f, lm->origin, i->second.direction);
+
 		}
 
 		g.ResetBlendMode();
@@ -139,13 +147,39 @@ namespace hvn3 {
 	LightSourceId BasicLightingManager::_getNextLightSourceId() {
 		return _next_id++;
 	}
+	BasicLightingManager::LightMapData* BasicLightingManager::_findLightMapData(LightSourceType type) {
+
+		auto it = _light_maps.find(type);
+
+		if (it == _light_maps.end())
+			return nullptr;
+
+		return &it->second;
+
+	}
 
 	std::unordered_map<LightSourceType, BasicLightingManager::LightMapData> BasicLightingManager::_light_maps;
 	int BasicLightingManager::_instance_count = 0;
 
 	void BasicLightingManager::_loadDefaultLightMaps() {
-		// #todo Load default light maps
-		throw System::NotImplementedException();
+
+		// Store the existing bitmap flags, and enable the AntiAlias flag (so the light maps can be stretched without pixellation).
+		Graphics::BitmapFlags old_flags = Graphics::Bitmap::NewBitmapFlags();
+		Graphics::Bitmap::SetNewBitmapFlags(Graphics::BitmapFlags::AllegroDefault | Graphics::BitmapFlags::AntiAlias);
+		
+		// Attempt to load the system light maps. Do not throw an exception if this fails, because the user can still add their own light maps if they choose not to use the system ones.
+		// #todo Store these assets in code, not on the file system.
+		Graphics::Bitmap lm_radial = Graphics::Bitmap::FromFile(System::GetSystemAssetPath(System::SystemAssetType::Graphics) + "lm_radial.png");
+		Graphics::Bitmap lm_spotlight = Graphics::Bitmap::FromFile(System::GetSystemAssetPath(System::SystemAssetType::Graphics) + "lm_spotlight.png");
+
+		if (lm_radial)
+			AddLightMap(lm_radial, LightSourceType::Radial, hvn3::PointF(lm_radial.Width() / 2.0f, lm_radial.Height() / 2.0f), true);
+		if (lm_spotlight)
+			AddLightMap(lm_spotlight, LightSourceType::Spotlight, hvn3::PointF(lm_spotlight.Width() / 2.0f, 3.0f), true);
+
+		// Restore the previous bitmap flags.
+		Graphics::Bitmap::SetNewBitmapFlags(old_flags);
+
 	}
 	void BasicLightingManager::_freeDefaultLightMaps() {
 		_light_maps.clear();

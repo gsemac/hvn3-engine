@@ -49,7 +49,7 @@ namespace hvn3 {
 		bool Enabled() const;
 		void SetEnabled(bool value);
 
-		void AddLightMap(const Graphics::Bitmap& light_map, LightSourceType type, const PointF& origin, bool set_alpha = true);
+		static void AddLightMap(const Graphics::Bitmap& light_map, LightSourceType type, const PointF& origin, bool set_alpha = true);
 
 		void OnDraw(DrawEventArgs& e) override;
 
@@ -57,6 +57,7 @@ namespace hvn3 {
 
 	private:
 		LightSourceId _getNextLightSourceId();
+		LightMapData* _findLightMapData(LightSourceType type);
 
 		System::IContextProvider* _context_provider;
 		std::unordered_map<LightSourceId, LightSource> _light_sources;

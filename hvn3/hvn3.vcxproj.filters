@@ -594,9 +594,6 @@
     <ClInclude Include="include\hvn3\gui2\DefaultWidgetRenderer.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\core\SystemAssets.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\gui2\WidgetManager.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
@@ -653,6 +650,9 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\io\IoUtils.h">
       <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\assets\SystemAssets.h">
+      <Filter>include\assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -942,9 +942,6 @@
     <ClCompile Include="src\hvn3\gui2\DefaultWidgetRenderer.cc">
       <Filter>src\gui2</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\core\SystemAssets.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\gui2\WidgetManager.cc">
       <Filter>src\gui2</Filter>
     </ClCompile>
@@ -983,6 +980,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\io\IoUtils.cc">
       <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\assets\SystemAssets.cc">
+      <Filter>src\assets</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

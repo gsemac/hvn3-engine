@@ -32,6 +32,7 @@
     <ClInclude Include="include\hvn3\assets\FontAssetLoader.h" />
     <ClInclude Include="include\hvn3\assets\IAssetLoader.h" />
     <ClInclude Include="include\hvn3\assets\IBinaryAssetLoader.h" />
+    <ClInclude Include="include\hvn3\assets\SystemAssets.h" />
     <ClInclude Include="include\hvn3\backgrounds\Background.h" />
     <ClInclude Include="include\hvn3\backgrounds\BackgroundDrawEventArgs.h" />
     <ClInclude Include="include\hvn3\backgrounds\BackgroundManager.h" />
@@ -60,7 +61,6 @@
     <ClInclude Include="include\hvn3\core\IContextProvider.h" />
     <ClInclude Include="include\hvn3\core\IContextReceiver.h" />
     <ClInclude Include="include\hvn3\core\ManagerBase.h" />
-    <ClInclude Include="include\hvn3\core\SystemAssets.h" />
     <ClInclude Include="include\hvn3\core\Framework.h" />
     <ClInclude Include="include\hvn3\core\GameManager.h" />
     <ClInclude Include="include\hvn3\core\IDestroyable.h" />
@@ -202,6 +202,7 @@
     <ClCompile Include="src\hvn3\assets\BitmapAssetLoader.cc" />
     <ClCompile Include="src\hvn3\assets\FileAssetLoader.cc" />
     <ClCompile Include="src\hvn3\assets\FontAssetLoader.cc" />
+    <ClCompile Include="src\hvn3\assets\SystemAssets.cc" />
     <ClCompile Include="src\hvn3\backgrounds\Background.cc" />
     <ClCompile Include="src\hvn3\backgrounds\BackgroundDrawEventArgs.cc" />
     <ClCompile Include="src\hvn3\backgrounds\BackgroundManager.cc" />
@@ -216,7 +217,6 @@
     <ClCompile Include="src\hvn3\collision\RectangleHitMask.cc" />
     <ClCompile Include="src\hvn3\core\Context.cc" />
     <ClCompile Include="src\hvn3\core\DrawEventArgs.cc" />
-    <ClCompile Include="src\hvn3\core\SystemAssets.cc" />
     <ClCompile Include="src\hvn3\core\Framework.cc" />
     <ClCompile Include="src\hvn3\core\GameManager.cc" />
     <ClCompile Include="src\hvn3\core\IUpdatable.cc" />

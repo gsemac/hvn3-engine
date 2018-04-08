@@ -1,4 +1,4 @@
-#include "hvn3/core/SystemAssets.h"
+#include "hvn3/assets/SystemAssets.h"
 
 namespace hvn3 {
 	namespace System {
@@ -12,7 +12,9 @@ namespace hvn3 {
 
 			switch (type) {
 			case SystemAssetType::Fonts:
-				return GetSystemAssetPath() + "Fonts/";
+				return GetSystemAssetPath() + "fonts/";
+			case SystemAssetType::Graphics:
+				return GetSystemAssetPath() + "graphics/";
 			default:
 				return GetSystemAssetPath();
 			}

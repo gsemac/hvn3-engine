@@ -5,10 +5,11 @@ namespace hvn3 {
 	namespace System {
 
 		enum class SystemAssetType {
-			Fonts
+			Fonts,
+			Graphics
 		};
 
-		static const char* HVN3_SYSTEM_ASSET_PATH = "data/System/";
+		static const char* HVN3_SYSTEM_ASSET_PATH = "bin/system/";
 		
 		std::string GetSystemAssetPath();
 		std::string GetSystemAssetPath(SystemAssetType type);

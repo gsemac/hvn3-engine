@@ -184,7 +184,7 @@ namespace hvn3 {
 		auto iter = _registered_managers.find(id);
 
 		if (iter == _registered_managers.end())
-			throw System::NullReferenceException();
+			throw System::NullReferenceException("No manager exists with the given ID.");
 
 		return *iter->second;
 
