@@ -1,6 +1,7 @@
 #include "hvn3/allegro/AllegroAdapter.h"
 #include "hvn3/graphics/Color.h"
 #include "hvn3/fonts/Font.h"
+#include "hvn3/sound/Sound.h"
 #include <allegro5/allegro_ttf.h>
 #define ALLEGRO_DEFAULT_NEW_BITMAP_FLAGS 4096
 
@@ -101,6 +102,9 @@ namespace hvn3 {
 
 			return 0;
 
+		}
+		ALLEGRO_SAMPLE* AllegroAdapter::ToSample(const Sound& sound) {
+			return sound._getPtr();
 		}
 
 	}

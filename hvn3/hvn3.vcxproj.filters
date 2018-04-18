@@ -441,9 +441,6 @@
     <ClInclude Include="include\hvn3\rooms\RoomTransitionNone.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\sound\Sound.h">
-      <Filter>include\sound</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\sprites\Sprite.h">
       <Filter>include\sprites</Filter>
     </ClInclude>
@@ -654,6 +651,21 @@
     <ClInclude Include="include\hvn3\assets\SystemAssets.h">
       <Filter>include\assets</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\sound\SoundManager.h">
+      <Filter>include\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\sound\Sound.h">
+      <Filter>include\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\sound\SoundListener.h">
+      <Filter>include\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\sound\SoundEmitter.h">
+      <Filter>include\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\Handle.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -858,9 +870,6 @@
     <ClCompile Include="src\hvn3\rooms\RoomTransitionNone.cc">
       <Filter>src\rooms</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\sound\Sound.cc">
-      <Filter>src\sound</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\sprites\Sprite.cc">
       <Filter>src\sprites</Filter>
     </ClCompile>
@@ -983,6 +992,18 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\assets\SystemAssets.cc">
       <Filter>src\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\sound\Sound.cc">
+      <Filter>src\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\sound\SoundListener.cc">
+      <Filter>src\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\sound\SoundEmitter.cc">
+      <Filter>src\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\sound\SoundManager.cc">
+      <Filter>src\sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

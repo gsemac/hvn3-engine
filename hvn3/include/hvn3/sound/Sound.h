@@ -1,24 +1,37 @@
 #pragma once
-
-struct ALLEGRO_SAMPLE;
-struct ALLEGRO_SAMPLE_ID;
+#include "hvn3/allegro/AllegroForwardDeclarations.h"
+#include <memory>
+#include <string>
 
 namespace hvn3 {
 
+	namespace System {
+		class AllegroAdapter;
+	}
+	
 	class Sound {
-
-	private:
-		ALLEGRO_SAMPLE* __sample;
+		friend class System::AllegroAdapter;
 
 	public:
-		Sound(const char* filename);
+		Sound();
+		Sound(const Sound& other);
 		Sound(Sound&& other);
-		~Sound();
 
-		ALLEGRO_SAMPLE_ID* Play();
-		ALLEGRO_SAMPLE_ID* Loop();
+		// Returns the frequency of the sample in Hz.
+		unsigned int Frequency() const;
+		// Returns the number of sample values in the sample.
+		unsigned int Samples() const;
+		// Returns the length of the sample in seconds.
+		unsigned int Length() const;
 
-		ALLEGRO_SAMPLE* AlPtr();
+		static Sound FromFile(const std::string& filename);
+
+	private:
+		std::shared_ptr<ALLEGRO_SAMPLE> _sample;
+
+		void _moveCopy(Sound&& other);
+		void _copyCopy(const Sound& other);
+		ALLEGRO_SAMPLE* _getPtr() const;
 
 	};
 

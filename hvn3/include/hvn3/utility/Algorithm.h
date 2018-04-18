@@ -70,4 +70,50 @@ namespace hvn3 {
 
 	}
 
+	// Increments the given value, wrapping around to a minimal value if enabled, and returns the result.
+	template <typename T>
+	T NextIncrement(T value, bool wrap) {
+
+		if (value < std::numeric_limits<T>::max())
+			// If we haven't reached the maximum value yet, increment.
+			return ++value;
+		else if (wrap)
+			// If wrapping is allowed, wrap back to the minimum value.
+			return std::numeric_limits<T>::min();
+		else
+			// Otherwise, the value cannot be incremented.
+			return value;
+
+	}
+
+	// Increments the given value until the condition returns true, wrapping around to a minimal value if enabled, and returns the result. If the condition cannot be satisfied, returns the starting value.
+	template <typename T, typename ConditionialFunc>
+	T NextIncrementIf(T value, bool wrap, const ConditionialFunc& condition) {
+
+		// Get the next value.
+		T out = NextIncrement(value, wrap);
+
+		// If the new value meets the condition, exit here.
+		if (condition(out))
+			return out;
+
+		// Otherwise, continue incrementing the value until it meets the condition or maxes out.
+		while (++out <= std::numeric_limits<T>::max())
+			if (condition(out))
+				return out;
+
+		// If wrapping is allowed, we can wrap around and test all values < out to see if any meet the condition.
+		if (wrap) {
+			T max = out;
+			out = std::numeric_limits<T>::min();
+			while (out++ < max)
+				if (condition(out))
+					return out;
+		}
+
+		// The condition could not be satisfied, so return the input value.
+		return value;
+
+	}
+
 }

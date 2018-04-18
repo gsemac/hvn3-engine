@@ -9,6 +9,7 @@ namespace hvn3 {
 
 	class Color;
 	class Font;
+	class Sound;
 
 	namespace System {
 
@@ -33,6 +34,7 @@ namespace hvn3 {
 			static int ToDisplayFlags(DisplayFlags flags);
 			// Converts display option to Allegro display option.
 			static int ToDisplayOption(DisplayOption option);
+			static ALLEGRO_SAMPLE* ToSample(const Sound& sound);
 
 		private:
 			// It should not be possible to instantiate this class.

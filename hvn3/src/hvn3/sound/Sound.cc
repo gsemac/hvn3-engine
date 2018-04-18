@@ -3,45 +3,50 @@
 
 namespace hvn3 {
 
-	Sound::Sound(const char* filename) {
-
-		__sample = al_load_sample(filename);
-
+	Sound::Sound() {}
+	Sound::Sound(const Sound& other) {
+		_copyCopy(other);
 	}
 	Sound::Sound(Sound&& other) {
-
-		__sample = other.__sample;
-
-		other.__sample = nullptr;
-
+		_moveCopy(std::move(other));
 	}
-	Sound::~Sound() {
-
-		if (__sample)
-			al_destroy_sample(__sample);
-
-		__sample = nullptr;
-
+	unsigned int Sound::Frequency() const {
+		if (!_sample)
+			return 0;
+		al_get_sample_frequency(_getPtr());
 	}
-
-	ALLEGRO_SAMPLE_ID* Sound::Play() {
-
-		ALLEGRO_SAMPLE_ID* sample_id = nullptr;
-		al_play_sample(__sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, sample_id);
-		return sample_id;
-
+	unsigned int Sound::Samples() const {
+		if (!_sample)
+			return 0;
+		al_get_sample_length(_getPtr());
 	}
-	ALLEGRO_SAMPLE_ID* Sound::Loop() {
+	unsigned int Sound::Length() const {
+		if (!_sample)
+			return 0;
+		return Frequency() / Samples();
+	}
+	
+	Sound Sound::FromFile(const std::string& filename) {
 
-		ALLEGRO_SAMPLE_ID* sample_id = nullptr;
-		al_play_sample(__sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, sample_id);
-		return sample_id;
+		Sound sample;
+		sample._sample = std::shared_ptr<ALLEGRO_SAMPLE>(al_load_sample(filename.c_str()), al_destroy_sample);
+
+		return sample;
 
 	}
 
-	ALLEGRO_SAMPLE* Sound::AlPtr() {
 
-		return __sample;
+
+	void Sound::_moveCopy(Sound&& other) {
+		_sample = other._sample;
+		other._sample = nullptr;
+	}
+	void Sound::_copyCopy(const Sound& other) {
+		_sample = other._sample;
+	}
+	ALLEGRO_SAMPLE* Sound::_getPtr() const {
+
+		return _sample.get();
 
 	}
 
