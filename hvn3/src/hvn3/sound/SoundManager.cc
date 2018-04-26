@@ -142,11 +142,11 @@ namespace hvn3 {
 		bool is_unique = true;
 
 		if (_internal) {
-			next_key = NextIncrementIf(_next_internal_emitter_key, true, [this](emitter_key_type x) { return _internal_emitters.count(x) == 0; });
+			next_key = NextIncrementIf(_next_internal_emitter_key, true, [this](emitter_key_type x) { return x != NULL_EMITTER_KEY && _internal_emitters.count(x) == 0; });
 			is_unique = !(next_key == _next_internal_emitter_key);
 		}
 		else {
-			next_key = NextIncrementIf(_next_emitter_key, true, [this](emitter_key_type x) { return _emitters.count(x) == 0; });
+			next_key = NextIncrementIf(_next_emitter_key, true, [this](emitter_key_type x) { return x != NULL_EMITTER_KEY && _emitters.count(x) == 0; });
 			is_unique = !(next_key == _next_emitter_key);
 		}
 
