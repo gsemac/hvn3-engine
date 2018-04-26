@@ -12,20 +12,24 @@ namespace hvn3 {
 		public Positionable2dBase<float> {
 
 	public:
-		SoundEmitter(SoundManager* manager);
-
-		Handle<SoundInstance> Play(const Sound& sound, bool loop = false);
+		SoundEmitter();
+		SoundEmitter(const PointF& position);
+		SoundEmitter(float x, float y);
 
 		float Volume();
 		void SetVolume(float value);
-		void SetFallOff(float max_dist);
-		void SetFallOff(float min_dist, float max_dist, float factor = 1.0f);
 		const Vector2d& Velocity() const;
 		void SetVelocity(const Vector2d& value);
 		Vector2d& GetVelocity();
+		void SetFallOff(float max_dist);
+		void SetFallOff(float dist, float max_dist, float factor = 1.0f);
+		// Returns the distance at which fall-off begins.
+		float FallOffDistance() const;
+		// Returns the distance at which the emitter is inaudible.
+		float MaximumDistance() const;
+		float FallOffFactor() const;
 
 	private:
-		SoundManager* _manager;
 		Vector2d _velocity;
 		float _volume;
 		float _falloff_min, _falloff_max, _falloff_factor;

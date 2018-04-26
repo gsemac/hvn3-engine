@@ -1,99 +1,66 @@
 #include "hvn3/allegro/AllegroAdapter.h"
 #include "hvn3/exceptions/Exception.h"
+#include "hvn3/math/GeometryUtils.h"
 #include "hvn3/sound/SoundManager.h"
 #include "hvn3/utility/Algorithm.h"
 #include <allegro5/allegro_audio.h>
+#include <algorithm>
 #include <limits>
+#include <memory>
+#define NULL_EMITTER_KEY 0
 
 namespace hvn3 {
-
-	SoundManager::SoundInstance::SoundInstance() {
-		_instance = nullptr;
-	}
-	void SoundManager::SoundInstance::Resume() {
-		al_set_sample_instance_playing(_instance, true);
-	}
-	void SoundManager::SoundInstance::Pause() {
-		al_set_sample_instance_playing(_instance, false);
-	}
-	bool SoundManager::SoundInstance::Looping() {
-		return al_get_sample_instance_playmode(_instance) == ALLEGRO_PLAYMODE_LOOP;
-	}
-	void SoundManager::SoundInstance::SetLooping(bool value) {
-		al_set_sample_instance_playmode(_instance, value ? ALLEGRO_PLAYMODE_LOOP : ALLEGRO_PLAYMODE_ONCE);
-	}
-	float SoundManager::SoundInstance::Volume() {
-		return al_get_sample_instance_gain(_instance);
-	}
-	void SoundManager::SoundInstance::SetVolume(float value) {
-		al_set_sample_instance_gain(_instance, value);
-	}
-	float SoundManager::SoundInstance::Pan() {
-		return al_get_sample_instance_pan(_instance);
-	}
-	void SoundManager::SoundInstance::SetPan(float value) {
-		al_set_sample_instance_pan(_instance, value);
-	}
-	float SoundManager::SoundInstance::Speed() {
-		al_get_sample_instance_speed(_instance);
-	}
-	void SoundManager::SoundInstance::SetSpeed(float value) {
-		al_set_sample_instance_speed(_instance, value);
-	}
-	SoundManager::SoundInstance::operator bool() {
-		return _instance != nullptr;
-	}
-
-	SoundManager::SoundInstance::SoundInstance(ALLEGRO_SAMPLE_INSTANCE* sample_instance) {
-		_instance = sample_instance;
-	}
-	ALLEGRO_SAMPLE_INSTANCE* SoundManager::SoundInstance::_getPtr() {
-		return _instance;
-	}
-
-
 
 	SoundManager::SoundManager() :
 		_listener(PointF(0.0f, 0.0f)) {
 
 		_volume = 1.0f;
-		_next_emitter_id = 0;
-		_next_sound_id = 0;
-		
+		_next_emitter_key = NULL_EMITTER_KEY;
+		_next_internal_emitter_key = NULL_EMITTER_KEY;
+
 	}
-	Handle<SoundManager::SoundInstance> SoundManager::Play(const Sound& sound, bool loop) {
+	SoundInstance SoundManager::Play(const Sound& sound, bool loop) {
 		return Play(sound, loop, 1.0f, 0.0f, 1.0f);
 	}
-	Handle<SoundManager::SoundInstance> SoundManager::Play(const Sound& sound, bool loop, float volume, float pan, float speed) {
+	SoundInstance SoundManager::Play(const Sound& sound, bool loop, float volume, float pan, float speed) {
 
-		SoundInstanceData data;
-		data.emitterId = -1;
-		data.soundInstance = _playSound(sound, loop, volume, pan, speed);
-
-
-
-		return Handle<SoundInstance> data.soundInstance;
+		return _playSound(sound, true, loop, volume, pan, speed)->instance;
 
 	}
-	Handle<SoundManager::SoundInstance> SoundManager::PlayAt(const Sound& sound, SoundEmitter* emitter, bool loop) {
+	SoundInstance SoundManager::PlayAt(const Sound& sound, const PointF& position, bool loop) {
 
-		SoundInstanceData data;
-		data.emitterId = id;
-		data.soundInstance = _playSoundOnEmitter(sound, id, loop);
+		// Create a new internal emitter.
+		SoundEmitterData data;
+		data.emitter.SetPosition(position);
 
-		_sounds.push_back(data);
+		// Add the new emitter.
+		emitter_key_type key = _getNextEmitterKey(true);
+		_internal_emitters[key] = data;
 
-		return data.soundInstance;
+		// Create a sound instance, set its state with respect to the emitter, and play it.
+		// The sound will be updated continually in the future when the manager is updated.
+		SoundInstanceData* instance = _playSound(sound, false, loop, 1.0f, 0.0f, 1.0f);
+
+		instance->usesInternalEmitter = true;
+		instance->emitterKey = key;
+
+		_updateSound(*instance);
+		instance->instance.Play();
+
+		return instance->instance;
 
 	}
 	void SoundManager::StopAll() {
 
-		// Stop all samples that belong to this manager.
-		for (auto i = _sounds.begin(); )
+		// Stop all sound instances that belong to this manager.
+		for (auto i = _sounds.begin(); i != _sounds.end(); ++i)
+			i->instance.Stop();
 
 	}
 	void SoundManager::Clear() {
 
+		// Stops all sound instances and frees the data associated with them.
+		// No existing sound instances should be accessed after this point.
 		StopAll();
 
 	}
@@ -106,58 +73,189 @@ namespace hvn3 {
 	SoundListener& SoundManager::GetListener() {
 		return _listener;
 	}
-	Handle<SoundEmitter> SoundManager::CreateEmitter() {
+	SoundManager::emitter_key_type SoundManager::AddEmitter(const SoundEmitter& emitter) {
+
+		SoundEmitterData data;
+		data.emitter = emitter;
+
+		emitter_key_type key = _getNextEmitterKey(false);
+		_emitters[key] = data;
+
+		return key;
 
 	}
-	void SoundManager::DestroyEmitter(SoundEmitter* handle) {
+	SoundEmitter& SoundManager::EmitterAt(emitter_key_type key) {
 
+		auto it = _emitters.find(key);
+
+		if (it == _emitters.end())
+			throw System::NullReferenceException("No sound emitter exists with this key.");
+
+		return it->second.emitter;
+
+	}
+	void SoundManager::RemoveEmitter(emitter_key_type key) {
+		_emitters.erase(key);
 	}
 	void SoundManager::OnUpdate(UpdateEventArgs& e) {
+
+		bool pending_removals = false;
+
+		// Update the parameters of all sounds.
+		for (auto i = _sounds.begin(); i != _sounds.end(); ++i) {
+
+			_updateSound(*i);
+
+			if (i->pendingRemoval)
+				pending_removals = true;
+
+		}
+
+		// If any sounds are pending removal, remove them now.
+		if (pending_removals) {
+			_sounds.erase(std::remove_if(_sounds.begin(), _sounds.end(), [](const SoundInstanceData& data) {
+				return data.pendingRemoval;
+			}), _sounds.end());
+		}
 
 	}
 	void SoundManager::SetNumberOfSamples(int samples) {
 		al_reserve_samples(samples);
 	}
 
-	SoundManager::SoundInstance SoundManager::_playSound(const Sound& sound, bool loop, float volume, float pan, float speed) {
+	SoundManager::emitter_key_type SoundManager::_getNextEmitterKey(bool _internal) {
 
-		// Scale the volume of the sound according to the volume of the manager.
-		volume *= _volume;
+		emitter_key_type next_key;
+		bool is_unique = true;
 
-		SoundInstance sample(al_create_sample_instance(System::AllegroAdapter::ToSample(sound)));
+		if (_internal) {
+			next_key = NextIncrementIf(_next_internal_emitter_key, true, [this](emitter_key_type x) { return _internal_emitters.count(x) == 0; });
+			is_unique = !(next_key == _next_internal_emitter_key);
+		}
+		else {
+			next_key = NextIncrementIf(_next_emitter_key, true, [this](emitter_key_type x) { return _emitters.count(x) == 0; });
+			is_unique = !(next_key == _next_emitter_key);
+		}
 
-		if (sample) {
+		// If a unique key could not be generated, throw an exception.
+		if (!is_unique)
+			throw System::Exception("The maximum number of sound emitters has been reached.");
 
-			al_attach_sample_instance_to_mixer(sample._getPtr(), al_get_default_mixer());
+		// Update the value used for generating the next key.
+		if (_internal)
+			_next_internal_emitter_key = next_key;
+		else
+			_next_emitter_key = next_key;
 
-			sample.SetLooping(loop);
-			sample.SetVolume(volume);
-			sample.SetPan(pan);
-			sample.SetSpeed(speed);
+		return next_key;
 
-			al_set_sample_instance_playing(sample._getPtr(), true);
+	}
+	SoundManager::SoundEmitterData* SoundManager::_getEmitterData(SoundInstanceData& sound_data) {
+
+		SoundEmitterData* emitter_data = nullptr;
+
+		if (sound_data.usesInternalEmitter) {
+
+			auto it = _internal_emitters.find(sound_data.emitterKey);
+
+			if (it != _internal_emitters.end())
+				emitter_data = &it->second;
+
+		}
+		else {
+
+			auto it = _emitters.find(sound_data.emitterKey);
+
+			if (it != _emitters.end())
+				emitter_data = &it->second;
 
 		}
 
-		return sample;
+		return emitter_data;
 
 	}
-	SoundManager::SoundInstance SoundManager::_playSoundAtEmitter(const Sound& sound, SoundEmitter* emitter, bool loop) {
+	void SoundManager::_updateSound(SoundInstanceData& sound_data) {
 
+		if (sound_data.emitterKey == NULL_EMITTER_KEY) {
 
+			// If the sound is not linked to an emitter, no longer playing, and doesn't have any other references, tag it for removal.
+			if (!sound_data.instance.IsPlaying() && sound_data.instance._instance.use_count() <= 1)
+				sound_data.pendingRemoval = true;
+
+			return;
+
+		}
+
+		// Find the emitter associated with this sound.
+		SoundEmitterData* emitter_data = _getEmitterData(sound_data);
+
+		// If the emitter the sound is associated with no longer exists, it should be stopped and removed.
+		if (emitter_data == nullptr) {
+
+			sound_data.instance.Stop();
+			sound_data.pendingRemoval = true;
+
+			return;
+
+		}
+
+		// Update the sound according to the state of the emitter.
+		_updateSound(sound_data, *emitter_data);
 
 	}
-	SoundManager::EmitterId SoundManager::_getNextEmitterId() {
-	
-		EmitterId next = NextIncrementIf(_next_emitter_id, [this](EmitterId x) {return _emitters.count(x) == 0; }, true);
+	void SoundManager::_updateSound(SoundInstanceData& sound_data, SoundEmitterData& emitter_data) {
 
-		if(next == _next_emitter_id)
+		// Update the state of the sound according to the emitter (currently uses linear model).
+		// A description of some different models can be found here:
+		//	https://docs.yoyogames.com/source/dadiospice/002_reference/game%20assets/sounds/audio_falloff_set_model.html
 
+		float actual_distance = Math::Geometry::PointDistance(emitter_data.emitter.Position(), GetListener().Position());
 
-		while(_emm)
+		float distance = (std::min)(actual_distance, emitter_data.emitter.MaximumDistance());
+		float ref_distance = emitter_data.emitter.FallOffDistance();
+		float max_distance = emitter_data.emitter.MaximumDistance();
+
+		float gain = 1.0f - emitter_data.emitter.FallOffFactor() * (distance - ref_distance) / (max_distance - ref_distance);
+
+		sound_data.instance.SetVolume(gain);
 
 	}
-	SoundManager::SoundInstanceId SoundManager::_getNextSoundId() {
+	SoundManager::SoundInstanceData* SoundManager::_playSound(const Sound& sound, bool play, bool loop, float volume, float pan, float speed) {
+
+		// Scale the volume according to that of the manager.
+		volume *= Volume();
+
+		// Create a new sample instance, and attach it to the default mixer so it can be played.
+		SoundInstance instance(sound);
+
+		if (!instance)
+			throw System::Exception("The sound instance could not be created.");
+
+		al_attach_sample_instance_to_mixer(instance.get(), al_get_default_mixer());
+
+		instance.SetLooping(loop);
+		instance.SetVolume(volume);
+		instance.SetPan(pan);
+		instance.SetSpeed(speed);
+
+		if (play)
+			instance.Play();
+
+		// Add the new instance to the collection of sound instances.
+		_sounds.push_back(SoundInstanceData());
+		_sounds.back().instance = instance;
+
+		return &_sounds.back();
+
+	}
+
+
+
+	SoundManager::SoundInstanceData::SoundInstanceData() {
+
+		emitterKey = NULL_EMITTER_KEY;
+		usesInternalEmitter = false;
+		pendingRemoval = false;
 
 	}
 

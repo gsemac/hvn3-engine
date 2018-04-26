@@ -11,21 +11,29 @@ namespace hvn3 {
 		_moveCopy(std::move(other));
 	}
 	unsigned int Sound::Frequency() const {
+
 		if (!_sample)
 			return 0;
+
 		al_get_sample_frequency(_getPtr());
+
 	}
 	unsigned int Sound::Samples() const {
+
 		if (!_sample)
 			return 0;
+
 		al_get_sample_length(_getPtr());
+
 	}
-	unsigned int Sound::Length() const {
+	float Sound::Length() const {
+
 		if (!_sample)
-			return 0;
-		return Frequency() / Samples();
+			return 0.0f;
+
+		return static_cast<float>(Frequency()) / Samples();
+
 	}
-	
 	Sound Sound::FromFile(const std::string& filename) {
 
 		Sound sample;
@@ -34,12 +42,23 @@ namespace hvn3 {
 		return sample;
 
 	}
+	Sound& Sound::operator=(Sound&& other) {
+		
+		_moveCopy(std::move(other));
 
+		return *this;
 
+	}
+	Sound& Sound::operator=(const Sound& other) {
+		
+		_copyCopy(other);
 
+		return *this;
+
+	}
+	
 	void Sound::_moveCopy(Sound&& other) {
-		_sample = other._sample;
-		other._sample = nullptr;
+		_sample = std::move(other._sample);
 	}
 	void Sound::_copyCopy(const Sound& other) {
 		_sample = other._sample;

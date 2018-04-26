@@ -663,8 +663,8 @@
     <ClInclude Include="include\hvn3\sound\SoundEmitter.h">
       <Filter>include\sound</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\core\Handle.h">
-      <Filter>include\core</Filter>
+    <ClInclude Include="include\hvn3\sound\SoundInstance.h">
+      <Filter>include\sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1003,6 +1003,9 @@
       <Filter>src\sound</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\sound\SoundManager.cc">
+      <Filter>src\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\sound\SoundInstance.cc">
       <Filter>src\sound</Filter>
     </ClCompile>
   </ItemGroup>

@@ -22,9 +22,12 @@ namespace hvn3 {
 		// Returns the number of sample values in the sample.
 		unsigned int Samples() const;
 		// Returns the length of the sample in seconds.
-		unsigned int Length() const;
+		float Length() const;
 
 		static Sound FromFile(const std::string& filename);
+
+		Sound& operator=(Sound&& other);
+		Sound& operator=(const Sound& other);
 
 	private:
 		std::shared_ptr<ALLEGRO_SAMPLE> _sample;
