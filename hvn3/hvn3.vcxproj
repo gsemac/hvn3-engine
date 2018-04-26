@@ -168,6 +168,7 @@
     <ClInclude Include="include\hvn3\sprites\SpriteRenderer.h" />
     <ClInclude Include="include\hvn3\tilesets\Tileset.h" />
     <ClInclude Include="include\hvn3\utility\Algorithm.h" />
+    <ClInclude Include="include\hvn3\utility\Base64.h" />
     <ClInclude Include="include\hvn3\utility\BitFlags.h" />
     <ClInclude Include="include\hvn3\utility\DataGrid.h" />
     <ClInclude Include="include\hvn3\utility\Direction8.h" />
@@ -296,6 +297,7 @@
     <ClCompile Include="src\hvn3\sprites\Sprite.cc" />
     <ClCompile Include="src\hvn3\sprites\SpriteRenderer.cc" />
     <ClCompile Include="src\hvn3\tilesets\Tileset.cc" />
+    <ClCompile Include="src\hvn3\utility\Base64.cc" />
     <ClCompile Include="src\hvn3\utility\Direction8.cc" />
     <ClCompile Include="src\hvn3\utility\Environment.cc" />
     <ClCompile Include="src\hvn3\utility\FpsCounter.cc" />

@@ -666,6 +666,9 @@
     <ClInclude Include="include\hvn3\sound\SoundInstance.h">
       <Filter>include\sound</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Base64.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1007,6 +1010,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\sound\SoundInstance.cc">
       <Filter>src\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\Base64.cc">
+      <Filter>src\utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
