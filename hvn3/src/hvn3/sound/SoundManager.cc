@@ -27,6 +27,19 @@ namespace hvn3 {
 		return _playSound(sound, true, loop, volume, pan, speed)->instance;
 
 	}
+	SoundInstance SoundManager::PlayAt(const Sound& sound, int emitter_key, bool loop) {
+
+		SoundEmitter& emitter = EmitterAt(emitter_key);
+
+		SoundInstanceData* instance = _playSound(sound, false, loop, 1.0f, 0.0f, 1.0f);
+		instance->emitterKey = emitter_key;
+
+		_updateSound(*instance);
+		instance->instance.Play();
+
+		return instance->instance;
+
+	}
 	SoundInstance SoundManager::PlayAt(const Sound& sound, const PointF& position, bool loop) {
 
 		// Create a new internal emitter.
@@ -151,12 +164,15 @@ namespace hvn3 {
 
 	}
 	SoundManager::SoundEmitterData* SoundManager::_getEmitterData(SoundInstanceData& sound_data) {
+		return _getEmitterData(sound_data.emitterKey, sound_data.usesInternalEmitter);
+	}
+	SoundManager::SoundEmitterData* SoundManager::_getEmitterData(emitter_key_type key, bool _internal) {
 
 		SoundEmitterData* emitter_data = nullptr;
 
-		if (sound_data.usesInternalEmitter) {
+		if (_internal) {
 
-			auto it = _internal_emitters.find(sound_data.emitterKey);
+			auto it = _internal_emitters.find(key);
 
 			if (it != _internal_emitters.end())
 				emitter_data = &it->second;
@@ -164,7 +180,7 @@ namespace hvn3 {
 		}
 		else {
 
-			auto it = _emitters.find(sound_data.emitterKey);
+			auto it = _emitters.find(key);
 
 			if (it != _emitters.end())
 				emitter_data = &it->second;

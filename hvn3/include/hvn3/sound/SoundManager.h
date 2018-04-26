@@ -37,7 +37,7 @@ namespace hvn3 {
 
 		SoundInstance Play(const Sound& sound, bool loop = false);
 		SoundInstance Play(const Sound& sound, bool loop, float volume, float pan, float speed);
-		//SoundInstance PlayAt(const Sound& sound, int emitter, bool loop);
+		SoundInstance PlayAt(const Sound& sound, int emitter_key, bool loop);
 		SoundInstance PlayAt(const Sound& sound, const PointF& position, bool loop);
 
 		void StopAll();
@@ -66,6 +66,7 @@ namespace hvn3 {
 
 		emitter_key_type _getNextEmitterKey(bool _internal);
 		SoundEmitterData* _getEmitterData(SoundInstanceData& sound_data);
+		SoundEmitterData* _getEmitterData(emitter_key_type key, bool _internal);
 		void _updateSound(SoundInstanceData& sound_data);
 		void _updateSound(SoundInstanceData& sound_data, SoundEmitterData& emitter_data);
 		SoundManager::SoundInstanceData* _playSound(const Sound& sound, bool play, bool loop, float volume, float pan, float speed);
