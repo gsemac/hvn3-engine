@@ -10,6 +10,15 @@ namespace hvn3 {
 		_restart_pending = false;
 
 	}
+	Room::Room(RoomId id, int width, int height) :
+		Room(id, SizeI(width, height)) {
+	}
+	Room::Room(const SizeI& size) :
+		Room(NULL_ROOM_ID, size) {
+	}
+	Room::Room(int width, int height) :
+		Room(NULL_ROOM_ID, width, height) {
+	}
 
 	void Room::OnUpdate(UpdateEventArgs& e) {
 
@@ -135,6 +144,11 @@ namespace hvn3 {
 
 		return *_physics_manager;
 
+	}
+
+	void Room::SetBackground(const Background& value) {
+		GetBackgrounds().Clear();
+		GetBackgrounds().Add(value);
 	}
 
 	const View& Room::CurrentView() const {

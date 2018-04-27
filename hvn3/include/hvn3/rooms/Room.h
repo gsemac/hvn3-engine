@@ -21,6 +21,10 @@ namespace hvn3 {
 		typedef ObjectCollisionManager<SpacialPartitioningGrid<32, 32>, NarrowPhase> collision_manager_type;
 
 		Room(RoomId id, const SizeI& size);
+		Room(RoomId id, int width, int height);
+		Room(const SizeI& size);
+		Room(int width, int height);
+
 		virtual ~Room() = default;
 
 		virtual void OnUpdate(UpdateEventArgs& e) override;
@@ -35,10 +39,7 @@ namespace hvn3 {
 		const collision_manager_type& Collisions() const override;
 		const Physics::IPhysicsManager& Physics() const override;
 
-		void SetBackground(const Background& value) override {
-			GetBackgrounds().Clear();
-			GetBackgrounds().Add(value);
-		}
+		void SetBackground(const Background& value) override;
 
 		const View& CurrentView() const override;
 		RectangleF VisiblePort() const override;

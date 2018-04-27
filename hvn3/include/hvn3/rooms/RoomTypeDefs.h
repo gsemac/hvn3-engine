@@ -8,4 +8,8 @@ namespace hvn3 {
 	typedef int RoomId;
 	typedef std::unique_ptr<IRoom> RoomPtr;
 
+	enum : RoomId {
+		NULL_ROOM_ID = -1
+	};
+
 }
