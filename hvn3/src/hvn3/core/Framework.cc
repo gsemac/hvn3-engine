@@ -56,6 +56,29 @@ namespace hvn3 {
 			Environment::argv = argv;
 
 		}
+		void Framework::Initialize(FrameworkComponent component) {
+
+			// If all components have already been initialized, there is nothing to do.
+			if (IsInitialized())
+				return;
+
+			switch (component) {
+			case FrameworkComponent::Full:
+				Initialize();
+				break;
+			case FrameworkComponent::Core:
+				if (!al_is_system_installed())
+					al_init();
+				break;
+			case FrameworkComponent::IO:
+				if (!al_is_keyboard_installed())
+					al_install_keyboard();
+				if (!al_is_mouse_installed())
+					al_install_mouse();
+				break;
+			}
+
+		}
 		void Framework::Shutdown() {
 
 			// If the framework has not been initialized, do nothing.
@@ -69,7 +92,7 @@ namespace hvn3 {
 			_initialized = false;
 
 		}
-		bool Framework::Initialized() {
+		bool Framework::IsInitialized() {
 
 			return _initialized;
 
@@ -78,11 +101,14 @@ namespace hvn3 {
 		void Framework::_initializeUnderlyingFramework() {
 
 			// Initialize Allegro.
-			al_init();
+			if (!al_is_system_installed())
+				al_init();
 
 			// Install I/O add-ons.
-			al_install_keyboard();
-			al_install_mouse();
+			if (!al_is_keyboard_installed())
+				al_install_keyboard();
+			if (!al_is_mouse_installed())
+				al_install_mouse();
 
 			// Install audio add-ons.
 			al_install_audio();
@@ -102,7 +128,7 @@ namespace hvn3 {
 
 		}
 		void Framework::_shutdownUnderlyingFramework() {
-			
+
 			// Shut down IO add-ons.
 			al_uninstall_keyboard();
 			al_uninstall_mouse();

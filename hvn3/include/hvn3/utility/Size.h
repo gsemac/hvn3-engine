@@ -4,41 +4,33 @@
 namespace hvn3 {
 
 	template <typename T>
-	struct Size {
+	class Size {
 
 	public:
 		Size(T width, T height) {
-
-			_width = width;
-			_height = height;
-
+			SetSize(width, height);
 		}
 
 		T Width() const {
-
-			return _width;
-
+			return width;
 		}
 		T Height() const {
-
-			return _height;
-
+			return height;
 		}
 		void SetWidth(T value) {
-
-			Resize(value, _height);
-
+			Resize(value, height);
 		}
 		void SetHeight(T value) {
+			Resize(width, value);
+		}
+		void SetSize(T width, T height) {
 
-			Resize(_width, value);
+			this->width = width;
+			this->height = height;
 
 		}
-		void Resize(T width, T height) {
-
-			_width = width;
-			_height = height;
-
+		void SetSize(const Size<T>& value) {
+			SetSize(value.width, value.height);
 		}
 
 		template <typename U>
@@ -46,9 +38,8 @@ namespace hvn3 {
 			return Size<U>(static_cast<U>(Width()), static_cast<U>(Height()));
 		}
 
-	private:
-		T _width;
-		T _height;
+		T width;
+		T height;
 
 	};
 

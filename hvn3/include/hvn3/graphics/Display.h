@@ -1,88 +1,60 @@
 #pragma once
-#include <string>
+#include "hvn3/allegro/AllegroForwardDeclarations.h"
 #include "hvn3/core/SizeableBase.h"
-#include "hvn3/utility/BitFlags.h"
+#include "hvn3/events/EventSource.h"
+#include "hvn3/graphics/Bitmap.h"
+#include "hvn3/graphics/DisplayTypeDefs.h"
+#include "hvn3/graphics/Resolution.h"
 #include "hvn3/utility/Size.h"
 #include "hvn3/utility/Scale.h"
-#include "hvn3/graphics/Bitmap.h"
-#include "hvn3/sprites/Sprite.h"
-#include "hvn3/events/EventSource.h"
-
-struct ALLEGRO_DISPLAY;
+#include <memory>
+#include <string>
 
 namespace hvn3 {
 
-	enum class DisplayResolution {
-		XGA,
-		WXGA,
-		WXGAPlus,
-		VGA,
-		HD,
-		FHD,
-		Fullscreen
-	};
-
-	enum class DisplayFlags {
-		OpenGL = 4, // ALLEGRO_OPENGL
-		Direct3D = 8, // ALLEGRO_DIRECT3D_INTERNAL
-		Resizable = 16, // ALLEGRO_RESIZABLE
-		NoBorder = 32, // ALLEGRO_NOFRAME
-		OpenGL3 = 128, // ALLEGRO_OPENGL_3_0
-		OpenGLForwardCompatible = 256, // ALLEGRO_OPENGL_FORWARD_COMPATIBLE
-		FullscreenWindow = 512, // ALLEGRO_FULLSCREEN_WINDOW
-		AntiAlias = 1024
-	};
-	ENABLE_BITFLAG_OPERATORS(DisplayFlags)
-
-	enum class DisplayOption {
-		VsyncEnabled
-	};
-
 	namespace System {
-		class DisplayController;
+		class Runner;
 	}
 
 	class Display : public SizeableBase<int> {
-		friend class System::DisplayController;
+		friend class System::Runner;
 
 	public:
 		Display(int width, int height);
-		Display(int width, int height, const char* title);
-		Display(int width, int height, const char* title, DisplayFlags flags);
-		Display(const SizeI& size, const char* title, DisplayFlags flags);
+		Display(int width, int height, const std::string& title);
+		Display(int width, int height, const std::string& title, DisplayFlags flags);
+		Display(const SizeI& size);
+		Display(const SizeI& size, const std::string& title, DisplayFlags flags);
 		Display(int x, int y, int width, int height);
-		Display(int x, int y, int width, int height, const char* title);
-		Display(int x, int y, int width, int height, const char* title, DisplayFlags flags);
+		Display(int x, int y, int width, int height, const std::string& title);
+		Display(int x, int y, int width, int height, const std::string& title, DisplayFlags flags);
+		Display(Graphics::Resolution resolution);
 		~Display();
 
-		void SetTitle(const char* value);
+		void SetTitle(const std::string& value);
 		void SetIcon(const Graphics::Bitmap& icon);
 
-		void Resize(int width, int height) override;
+		void SetSize(int width, int height) override;
 		// Returns the current scale factor relative to the size at which the display was initialized.
 		Scale Scale() const;
 		PointI Position() const;
 		void SetPosition(int x, int y);
-		void SetPosition(const Point2d<int>& position);
+		void SetPosition(const PointI& position);
 		bool IsFullscreen() const;
 		void SetFullscreen(bool value);
-		bool HasFocus() const;
-
+		bool IsFocused() const;
+		void SetCursorVisible(bool value);
 		Graphics::Bitmap& BackBuffer();
-
 		void Refresh();
-
 		System::EventSource EventSource() const;
-		ALLEGRO_DISPLAY* AlPtr() const;
-
-		Display& Display::operator=(Display&& other);
+		ALLEGRO_DISPLAY* get() const;
 
 		static Display* ActiveDisplay();
-		static int GetNewDisplayOption(DisplayOption option);
-		static void SetNewDisplayOption(DisplayOption option, int value);
+		static int GetDefaultDisplayOption(DisplayOption option);
+		static void SetDefaultDisplayOption(DisplayOption option, int value);
 
 	private:
-		ALLEGRO_DISPLAY* _display; // Pointer to the underlying framework object.
+		std::shared_ptr<ALLEGRO_DISPLAY> _display; // Pointer to the underlying Allegro object.
 		Graphics::Bitmap _back_buffer; // Non-owning bitmap representing the back-buffer
 		Graphics::Bitmap _icon; // The icon associated with the window
 		bool _has_focus; // Whether or not the display is the active window.
@@ -96,8 +68,5 @@ namespace hvn3 {
 		void _setFocus(bool value);
 
 	};
-
-	// Returns a set of dimensions according to the given resolution.
-	SizeI ResolutionToSize(DisplayResolution resolution);
 
 }

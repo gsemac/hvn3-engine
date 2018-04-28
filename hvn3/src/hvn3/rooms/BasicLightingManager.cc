@@ -164,8 +164,8 @@ namespace hvn3 {
 	void BasicLightingManager::_loadDefaultLightMaps() {
 
 		// Store the existing bitmap flags, and enable the AntiAlias flag (so the light maps can be stretched without pixellation).
-		Graphics::BitmapFlags old_flags = Graphics::Bitmap::NewBitmapFlags();
-		Graphics::Bitmap::SetNewBitmapFlags(Graphics::BitmapFlags::AllegroDefault | Graphics::BitmapFlags::AntiAlias);
+		Graphics::BitmapFlags old_flags = Graphics::Bitmap::DefaultBitmapFlags();
+		Graphics::Bitmap::SetDefaultBitmapFlags(Graphics::BitmapFlags::Default | Graphics::BitmapFlags::AntiAlias);
 		
 		// Attempt to load the system light maps. Do not throw an exception if this fails, because the user can still add their own light maps if they choose not to use the system ones.
 		// #todo Store these assets in code, not on the file system.
@@ -178,7 +178,7 @@ namespace hvn3 {
 			AddLightMap(lm_spotlight, LightSourceType::Spotlight, hvn3::PointF(lm_spotlight.Width() / 2.0f, 3.0f), true);
 
 		// Restore the previous bitmap flags.
-		Graphics::Bitmap::SetNewBitmapFlags(old_flags);
+		Graphics::Bitmap::SetDefaultBitmapFlags(old_flags);
 
 	}
 	void BasicLightingManager::_freeDefaultLightMaps() {

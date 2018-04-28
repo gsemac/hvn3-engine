@@ -49,13 +49,13 @@ namespace hvn3 {
 
 		}
 		Bitmap::Bitmap(int width, int height, BitmapFlags flags) {
-			
-			BitmapFlags old_flags = NewBitmapFlags();
-			SetNewBitmapFlags(flags);
-			
+
+			BitmapFlags old_flags = DefaultBitmapFlags();
+			SetDefaultBitmapFlags(flags);
+
 			*this = Bitmap(width, height);
-			
-			SetNewBitmapFlags(old_flags);
+
+			SetDefaultBitmapFlags(old_flags);
 
 		}
 		Bitmap::Bitmap(ALLEGRO_BITMAP* bitmap, bool managed) :
@@ -175,7 +175,7 @@ namespace hvn3 {
 		BitmapData Bitmap::Lock(IO::FileAccess access) {
 
 			ALLEGRO_BITMAP* ptr = _get_bitmap_ptr();
-			
+
 			if (ptr == nullptr)
 				throw System::NotSupportedException("Cannot lock a null bitmap.");
 
@@ -303,15 +303,18 @@ namespace hvn3 {
 
 		}
 
-		BitmapFlags Bitmap::NewBitmapFlags() {
+		BitmapFlags Bitmap::DefaultBitmapFlags() {
 
 			return System::AllegroAdapter::FromBitmapFlags(al_get_new_bitmap_flags());
 
 		}
-		void Bitmap::SetNewBitmapFlags(BitmapFlags flags) {
+		void Bitmap::SetDefaultBitmapFlags(BitmapFlags flags) {
 
 			al_set_new_bitmap_flags(System::AllegroAdapter::ToBitmapFlags(flags));
 
+		}
+		void Bitmap::AddDefaultBitmapFlags(BitmapFlags flags) {
+			SetDefaultBitmapFlags(DefaultBitmapFlags() | flags);
 		}
 		void Bitmap::ConvertMemoryBitmapsToVideoBitmaps() {
 
@@ -354,7 +357,8 @@ namespace hvn3 {
 			// Note that al_clone_bitmap will call al_create_bitmap for the new bitmap.
 			// For them to have the same flags, we need to set the new bitmap flags.
 			int old_flags = al_get_new_bitmap_flags();
-			al_set_new_bitmap_flags(al_get_bitmap_flags(other._get_bitmap_ptr()));
+			if (other)
+				al_set_new_bitmap_flags(al_get_bitmap_flags(other._get_bitmap_ptr()));
 
 			// If the other bitmap is managed, we can share memory with it. Otherwise, it must be copied.
 			if (other._managed)

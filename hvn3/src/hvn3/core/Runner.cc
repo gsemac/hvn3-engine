@@ -14,10 +14,10 @@
 #include "hvn3/io/Mouse.h"
 #include "hvn3/io/Keyboard.h"
 #include "hvn3/core/DrawEventArgs.h"
+#include "hvn3/core/Framework.h"
 #include "hvn3/core/UpdateEventArgs.h"
 #include "hvn3/rooms/RoomController.h"
 #include "hvn3/events/Event.h"
-#include "hvn3/graphics/DisplayController.h"
 #include "hvn3/io/KeyboardMutator.h"
 #include "hvn3/io/MouseMutator.h"
 #ifdef HVN3_DEBUG 
@@ -30,29 +30,26 @@ namespace hvn3 {
 		Runner::Runner(Context context) :
 			_context(context),
 			_timer(1.0 / context.GetProperties().FrameRate),
-			_display(context.GetProperties().DisplaySize, context.GetProperties().DisplayTitle.c_str(), context.GetProperties().DisplayFlags),
-			_graphics(_display.BackBuffer()),
+			_graphics(context.GetDisplay().BackBuffer()),
 			_fps_counter(0.25) {
-		
-			// Create the display, and initialize its parameters.
-			if (_properties().StartFullscreen)
-				_display.SetFullscreen(true);
-			_display_was_fullscreen = _display.IsFullscreen();
 
-			// In case any bitmaps were created before the display, convert all memory bitmaps to video bitmaps.
+			// Make sure that the required framework components have been initialized.
+			System::Framework::Initialize(System::FrameworkComponent::Core);
+			System::Framework::Initialize(System::FrameworkComponent::IO);
+
+			// Take note of the full-screen state of the display (used for listening to full-screen changes).
+			_display_was_fullscreen = context.GetDisplay().IsFullscreen();
+
+			// In case any bitmaps were created before the display, tie them to the current display.
 			Graphics::Bitmap::ConvertMemoryBitmapsToVideoBitmaps();
 
 			// Initialize the event queue.
-			_event_queue.AddEventSource(_display.EventSource());
+			_event_queue.AddEventSource(context.GetDisplay().EventSource());
 			_event_queue.AddEventSource(_timer.EventSource());
 			_event_queue.AddEventSource(MouseMutator().GetEventSource());
 			_event_queue.AddEventSource(KeyboardMutator().GetEventSource());
 
-			// Initialize mouse parameters.
-			if (!_properties().DisplayCursor)
-				Mouse::HideCursor();
-
-			// Initialize other member variables.
+			// Initialize other members.
 			_allow_redraw = true;
 			_exit_loop = false;
 			_default_font = nullptr;
@@ -73,9 +70,13 @@ namespace hvn3 {
 				// Render the active Scene.
 				_context.GetRooms().OnDraw(e);
 
-			else
+			else {
+			
 				// Draw placeholder graphics.
-				e.Graphics().DrawText(Math::Round(_display.Width() / 2.0f), Math::Round(_display.Height() / 2.0f), _properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);
+				SizeI size = _context.GetDisplay().Size();
+				e.Graphics().DrawText(Math::Round(size.width / 2.0f), Math::Round(size.height / 2.0f), _properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);
+			
+			}
 
 			// If running in debug mode, draw the FPS counter.
 			if (_properties().DebugMode)
@@ -100,9 +101,9 @@ namespace hvn3 {
 				MouseMutator().DispatchAllMouseDownEvents();
 
 				// If the fullscreen state of the display has changed, emit a DisplaySizeChanged event.
-				if (_display_was_fullscreen != _display.IsFullscreen()) {
+				if (_display_was_fullscreen != _context.GetDisplay().IsFullscreen()) {
 					//_context.GetRooms().CurrentRoom()->OnDisplaySizeChanged(DisplaySizeChangedEventArgs(_properties().DisplaySize, _display.Size(), &_display));
-					_display_was_fullscreen = _display.IsFullscreen();
+					_display_was_fullscreen = _context.GetDisplay().IsFullscreen();
 				}
 
 #if defined(HVN3_DEBUG) && defined(HVN3_DEBUG_CONSOLE)
@@ -206,7 +207,7 @@ namespace hvn3 {
 			if (_allow_redraw && _event_queue.IsEmpty())
 				OnRedraw();
 
-		}
+				}
 		void Runner::Loop() {
 
 			// Render once before starting the loop so there's something to see if the framerate is low.
@@ -279,7 +280,7 @@ namespace hvn3 {
 
 			// Toggle fullscreen if F11 is pressed.
 			if (ev.AlPtr()->keyboard.keycode == ALLEGRO_KEY_F11)
-				_display.SetFullscreen(!_display.IsFullscreen());
+				_context.GetDisplay().SetFullscreen(!_context.GetDisplay().IsFullscreen());
 
 			// Exit the loop if the escape key has been pressed.
 			if (ev.AlPtr()->keyboard.keycode == ALLEGRO_KEY_ESCAPE && _properties().ExitWithEscapeKey)
@@ -403,13 +404,13 @@ namespace hvn3 {
 		void Runner::OnDisplayResize(Event& ev) {
 
 			// Store the old size so that we can include it in the event args.
-			SizeI old_size(_display.Width(), _display.Height());
+			SizeI old_size = _context.GetDisplay().Size();
 
 			// Acknowledge the resize.
-			al_acknowledge_resize(_display.AlPtr());
+			al_acknowledge_resize(_context.GetDisplay().get());
 
 			// Resize the display.
-			_display.Resize(ev.AlPtr()->display.width, ev.AlPtr()->display.height);
+			_context.GetDisplay().SetSize(ev.AlPtr()->display.width, ev.AlPtr()->display.height);
 
 			// Trigger the "OnDisplaySizeChanged" event for the current room.
 			//if (_context.GetRooms().RoomCount() > 0)
@@ -420,7 +421,7 @@ namespace hvn3 {
 		}
 		void Runner::OnDisplaySwitchOut(Event& ev) {
 
-			System::DisplayController(&_display).SetFocus(false);
+			_context.GetDisplay()._setFocus(false);
 			KeyboardMutator().ResetKeyStates();
 
 			if (_properties().FreezeWhenLostFocus)
@@ -429,7 +430,7 @@ namespace hvn3 {
 		}
 		void Runner::OnDisplaySwitchIn(Event& ev) {
 
-			System::DisplayController(&_display).SetFocus(true);
+			_context.GetDisplay()._setFocus(true);
 
 			_delta_timer.Start();
 
@@ -446,7 +447,7 @@ namespace hvn3 {
 			OnDraw(DrawEventArgs(_graphics));
 
 			// Swap out the backbuffer.
-			_display.Refresh();
+			_context.GetDisplay().Refresh();
 
 			// Redrawing will be disabled until the event queue is cleared.
 			_allow_redraw = false;
@@ -465,10 +466,10 @@ namespace hvn3 {
 
 		}
 
-		
+
 
 		bool Runner::_isFrozen() {
-			return !_display.HasFocus() && _properties().FreezeWhenLostFocus;
+			return !_context.GetDisplay().IsFocused() && _properties().FreezeWhenLostFocus;
 		}
 		void Runner::_applyScalingMode() {
 
@@ -486,24 +487,27 @@ namespace hvn3 {
 			Graphics::Transform scaling_transform;
 			RectangleF clipping_rectangle(0.0f, 0.0f, room_region.Width(), room_region.Height());
 
+			SizeI display_size = _context.GetDisplay().Size();
+			Scale display_scale = _context.GetDisplay().Scale();
+
 			switch (_properties().ScalingMode) {
 
 			case ScalingMode::Full:
 
 				// Stretch drawing to fill up the display.
-				scaling_transform.Scale(_display.Scale());
-				clipping_rectangle = RectangleF(0.0f, 0.0f, room_region.Width() * _display.Scale().XScale(), room_region.Height() * _display.Scale().YScale());
+				scaling_transform.Scale(display_scale);
+				clipping_rectangle = RectangleF(0.0f, 0.0f, room_region.Width() * display_scale.XScale(), room_region.Height() * display_scale.YScale());
 
 				break;
 
 			case ScalingMode::Fixed: {
 
 				// Maintain the original scale. If the room is smaller than the display, center it.
-				float pos_x = (room_region.Width() < _display.Width()) ? (_display.Width() / 2.0f - room_region.Width() / 2.0f) : 0.0f;
-				float pos_y = (room_region.Height() < _display.Height()) ? (_display.Height() / 2.0f - room_region.Height() / 2.0f) : 0.0f;
+				float pos_x = (room_region.Width() < display_size.Width()) ? (display_size.Width() / 2.0f - room_region.Width() / 2.0f) : 0.0f;
+				float pos_y = (room_region.Height() < display_size.Height()) ? (display_size.Height() / 2.0f - room_region.Height() / 2.0f) : 0.0f;
 
 				scaling_transform.Translate(pos_x, pos_y);
-				clipping_rectangle = RectangleF(pos_x, pos_y, Math::Min(room_region.Width(), (float)_display.Width()), Math::Min(room_region.Height(), (float)_display.Height()));
+				clipping_rectangle = RectangleF(pos_x, pos_y, Math::Min(room_region.Width(), (float)display_size.Width()), Math::Min(room_region.Height(), (float)display_size.Height()));
 
 				break;
 
@@ -511,15 +515,15 @@ namespace hvn3 {
 			case ScalingMode::MaintainAspectRatio: {
 
 				// Stretch drawing as much as possible while maintaining the aspect ratio.
-				float scale_factor = Math::Min(_display.Scale().XScale(), _display.Scale().YScale());
+				float scale_factor = Math::Min(display_scale.XScale(), display_scale.YScale());
 				float room_width = room_region.Width() * scale_factor;
 				float room_height = room_region.Height() * scale_factor;
-				float pos_x = (room_width < _display.Width()) ? (_display.Width() / 2.0f - room_width / 2.0f) : 0.0f;
-				float pos_y = (room_height < _display.Height()) ? (_display.Height() / 2.0f - room_height / 2.0f) : 0.0f;
+				float pos_x = (room_width < display_size.Width()) ? (display_size.Width() / 2.0f - room_width / 2.0f) : 0.0f;
+				float pos_y = (room_height < display_size.Height()) ? (display_size.Height() / 2.0f - room_height / 2.0f) : 0.0f;
 
 				scaling_transform.Scale(scale_factor, scale_factor);
 				scaling_transform.Translate(pos_x, pos_y);
-				clipping_rectangle = RectangleF(pos_x, pos_y, Math::Min(room_width, (float)_display.Width()), Math::Min(room_height, (float)_display.Height()));
+				clipping_rectangle = RectangleF(pos_x, pos_y, Math::Min(room_width, (float)display_size.Width()), Math::Min(room_height, (float)display_size.Height()));
 
 				break;
 			}
@@ -610,5 +614,5 @@ namespace hvn3 {
 
 		}
 
-	}
-}
+			}
+		}

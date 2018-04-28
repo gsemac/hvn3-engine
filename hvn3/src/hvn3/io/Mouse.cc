@@ -115,17 +115,17 @@ namespace hvn3 {
 	}
 	void Mouse::ShowCursor() {
 
-		al_show_mouse_cursor(Display::ActiveDisplay()->AlPtr());
+		al_show_mouse_cursor(Display::ActiveDisplay()->get());
 
 	}
 	void Mouse::HideCursor() {
 
-		al_hide_mouse_cursor(Display::ActiveDisplay()->AlPtr());
+		al_hide_mouse_cursor(Display::ActiveDisplay()->get());
 
 	}
 	void Mouse::SetCursor(SystemCursor cursor) {
 
-		al_set_system_mouse_cursor(Display::ActiveDisplay()->AlPtr(), (ALLEGRO_SYSTEM_MOUSE_CURSOR)cursor);
+		al_set_system_mouse_cursor(Display::ActiveDisplay()->get(), (ALLEGRO_SYSTEM_MOUSE_CURSOR)cursor);
 
 	}
 

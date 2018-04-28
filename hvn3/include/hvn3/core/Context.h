@@ -7,11 +7,13 @@ namespace hvn3 {
 		struct Properties;
 	}
 
+	class Display;
 	template<typename T>
 	class ICollisionManager;
 	class IObject;
 	class IObjectManager;
 	class IRoom;
+	class IViewManager;
 	class RoomManager;
 
 	namespace Physics {
@@ -29,13 +31,17 @@ namespace hvn3 {
 		RoomManager& GetRooms();
 		ICollisionManager<IObject>& GetCollisions();
 		Physics::IPhysicsManager& GetPhysics();
+		IViewManager& GetViews();
 		System::IContextProvider& GetContextProvider();
 		System::Properties& GetProperties();
+		Display& GetDisplay();
 
 		template <typename manager_type>
 		manager_type& Get() {
 			return static_cast<manager_type&>(_context_provider->GetManagerById(manager_type::Id()));
 		}
+
+		explicit operator bool() const;
 
 	private:
 		System::IContextProvider* _context_provider;

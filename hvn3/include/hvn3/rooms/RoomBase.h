@@ -132,6 +132,7 @@ namespace hvn3 {
 				_obj_manager = std::make_unique<object_manager_type>(_context);
 
 		}
+		void OnContextChanged(ContextChangedEventArgs& e) override {}
 
 		System::ManagerBase& GetManagerById(System::ManagerId id) override {
 			throw System::NotImplementedException();

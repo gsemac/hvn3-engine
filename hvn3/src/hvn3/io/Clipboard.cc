@@ -9,21 +9,21 @@ namespace hvn3 {
 
 		Display* active_display = Display::ActiveDisplay();
 		if (active_display)
-			al_set_clipboard_text(active_display->AlPtr(), text);
+			al_set_clipboard_text(active_display->get(), text);
 
 	}
 	void Clipboard::SetText(const std::string& text) {
 
 		Display* active_display = Display::ActiveDisplay();
 		if (active_display)
-			al_set_clipboard_text(active_display->AlPtr(), text.c_str());
+			al_set_clipboard_text(active_display->get(), text.c_str());
 
 	}
 	void Clipboard::SetText(const String& text) {
 
 		Display* active_display = Display::ActiveDisplay();
 		if (active_display)
-			al_set_clipboard_text(active_display->AlPtr(), text.c_str());
+			al_set_clipboard_text(active_display->get(), text.c_str());
 
 	}
 	std::string Clipboard::GetText() {
@@ -34,7 +34,7 @@ namespace hvn3 {
 		// Get text from the clipboard if there is an active Display.
 		char* text = nullptr;
 		if (active_display)
-			text = al_get_clipboard_text(active_display->AlPtr());
+			text = al_get_clipboard_text(active_display->get());
 
 		if (text) {
 
@@ -51,7 +51,7 @@ namespace hvn3 {
 
 		Display* active_display = Display::ActiveDisplay();
 		if (active_display)
-			return  al_clipboard_has_text(active_display->AlPtr());
+			return  al_clipboard_has_text(active_display->get());
 		else
 			return false;
 

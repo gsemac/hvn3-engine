@@ -7,19 +7,17 @@
 namespace hvn3 {
 
 	GameManager::GameManager() :
-		_room_manager(Context()) {
-
-		// Initialize the underlying framework.
-		System::Framework::Initialize();
-
-		// Set new bitmap flags.
-		Graphics::Bitmap::SetNewBitmapFlags(Graphics::BitmapFlags::AllegroDefault | Graphics::BitmapFlags::MagLinear | Graphics::BitmapFlags::MinLinear);
-
+		GameManager(System::Properties()) {
 	}
 	GameManager::GameManager(int argc, char* argv[]) : GameManager() {
-
 		Initialize(argc, argv);
-
+	}
+	GameManager::GameManager(const System::Properties& properties) :
+		_properties(properties),
+		_display(properties.DisplaySize, properties.DisplayTitle, properties.DisplayFlags),
+		_room_manager(Context()),
+		_runner(Context()) {
+		_onInit();
 	}
 	GameManager::~GameManager() {
 
@@ -35,13 +33,8 @@ namespace hvn3 {
 	}
 	void GameManager::Loop() {
 
-		// Create a new runner for handling the game loop.
-		// The runner will automatically create the display upon construction.
-		if (_runner == nullptr)
-			_runner = new System::Runner(Context());
-
 		// Execute the main game loop.
-		_runner->Loop();
+		_runner.Loop();
 
 	}
 	void GameManager::Shutdown() {
@@ -54,7 +47,10 @@ namespace hvn3 {
 		return _properties;
 	}
 	System::Runner& GameManager::GetRunner() {
-		return *_runner;
+		return _runner;
+	}
+	Display& GameManager::GetDisplay() {
+		return _display;
 	}
 
 	hvn3::Context GameManager::Context() {
@@ -77,15 +73,29 @@ namespace hvn3 {
 
 
 
+	void GameManager::_onInit() {
+
+		System::Framework::Initialize();
+
+		// Enable smooth scaling of bitmaps by default.
+		// Graphics::Bitmap::SetNewBitmapFlags(Graphics::BitmapFlags::AllegroDefault | Graphics::BitmapFlags::MagLinear | Graphics::BitmapFlags::MinLinear);
+
+		// Full-screen the display if this was set in the game properties.
+		if (_properties.StartFullscreen)
+			_display.SetFullscreen(true);
+
+		// Hide the cursor if this was set in the game properties.
+		if (!_properties.DisplayCursor)
+			_display.SetCursorVisible(false);
+
+	}
 	void GameManager::_onShutdown() {
 
-		// Delete the runner if one was created.
-		if (_runner != nullptr)
-			delete _runner;
-		_runner = nullptr;
-
-		// Call the destructor for the room manager so all of its resources are freed before shutting down the framework.
+		// Call the destructors for all members that could possibly be hanging onto to framework objects.
+		// There should be a better way of dealing with this (reference counting?).
 		_room_manager.~RoomManager();
+		_display.~Display();
+		_runner.~Runner();
 
 		// Shutdown the framework. At this point, all other framework objects should be deinitialized (bitmaps, etc.).
 		System::Framework::Shutdown();

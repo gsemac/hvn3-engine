@@ -38,17 +38,17 @@ namespace hvn3 {
 		// Sets the width of the object.
 		void SetWidth(T value) override {
 
-			Resize(value, _height);
+			SetSize(value, _height);
 
 		}
 		// Sets the height of the object.
 		void SetHeight(T value) override {
 
-			Resize(_width, value);
+			SetSize(_width, value);
 
 		}
-		// Resizes the object to the specified dimensions.
-		void Resize(T width, T height) override {
+		// Sets the size of the object according to the given dimensions.
+		void SetSize(T width, T height) override {
 
 			_width = width;
 			_height = height;

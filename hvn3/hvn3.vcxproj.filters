@@ -306,9 +306,6 @@
     <ClInclude Include="include\hvn3\graphics\Display.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\graphics\DisplayController.h">
-      <Filter>include\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\graphics\DisplaySizeChangedEventArgs.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
@@ -669,6 +666,12 @@
     <ClInclude Include="include\hvn3\utility\Base64.h">
       <Filter>include\utility</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\graphics\Resolution.h">
+      <Filter>include\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\graphics\DisplayTypeDefs.h">
+      <Filter>include\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -761,9 +764,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\fonts\Font.cc">
       <Filter>src\fonts</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\graphics\DisplayController.cc">
-      <Filter>src\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\graphics\DisplaySizeChangedEventArgs.cc">
       <Filter>src\graphics</Filter>
@@ -1013,6 +1013,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\utility\Base64.cc">
       <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\Resolution.cc">
+      <Filter>src\graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

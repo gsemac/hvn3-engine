@@ -6,6 +6,12 @@
 namespace hvn3 {
 	namespace System {
 
+		enum class FrameworkComponent {
+			Full,
+			Core,
+			IO
+		};
+
 		class Framework {
 
 		public:
@@ -15,21 +21,24 @@ namespace hvn3 {
 			Framework(int argc, char *argv[]);
 			// The engine framework is deinitialized on destruction of the object.
 			~Framework();
-			
+
 			// Initializes the engine framework if it hasn't already been initialized. Otherwise, does nothing.
 			// This should be called before interacting with most other engine components.
 			static void Initialize();
-			
+
 			// Initializes the engine framework if it hasn't already been initialized and sets global argument variables. Otherwise, does nothing.
 			// This should be called before interacting with most other engine components.
 			static void Initialize(int argc, char *argv[]);
-			
+
+			// Initializes a specific component of the engine framework if it has not already been initialized.
+			static void Initialize(FrameworkComponent component);
+
 			// Deinitializes the engine framework. It is not required that the engine framework be deinitialized.
 			// This should only be called after all objects and assets have been freed.
 			static void Shutdown();
 
 			// Returns true if the engine framework has been initialized, false otherwise.
-			static bool Initialized();
+			static bool IsInitialized();
 
 		protected:
 			// Initializes the underlying framework/library (Allegro 5).

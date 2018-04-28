@@ -18,6 +18,7 @@ namespace hvn3 {
 	namespace Graphics {
 
 		enum class BitmapFlags {
+			Default = 1,
 			AllegroDefault = 1,
 			MinLinear = 64,
 			MagLinear = 128,
@@ -81,8 +82,9 @@ namespace hvn3 {
 			static Bitmap FromFile(const std::string& file);
 			static Bitmap FromFile(const std::string& file, const Color& alpha_color);
 
-			static BitmapFlags NewBitmapFlags();
-			static void SetNewBitmapFlags(BitmapFlags flags);
+			static BitmapFlags DefaultBitmapFlags();
+			static void SetDefaultBitmapFlags(BitmapFlags flags);
+			static void AddDefaultBitmapFlags(BitmapFlags flags);
 			static void ConvertMemoryBitmapsToVideoBitmaps();
 
 		private:

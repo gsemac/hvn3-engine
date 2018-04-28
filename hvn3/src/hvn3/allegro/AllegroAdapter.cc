@@ -42,7 +42,7 @@ namespace hvn3 {
 
 			int al_flags = 0;
 
-			if (HasFlag(flags, Graphics::BitmapFlags::AllegroDefault))
+			if (HasFlag(flags, Graphics::BitmapFlags::AllegroDefault) || HasFlag(flags, Graphics::BitmapFlags::Default))
 				al_flags |= ALLEGRO_DEFAULT_NEW_BITMAP_FLAGS;
 
 			if (HasFlag(flags, Graphics::BitmapFlags::MinLinear))

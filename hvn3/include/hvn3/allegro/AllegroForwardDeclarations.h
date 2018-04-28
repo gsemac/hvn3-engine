@@ -9,6 +9,10 @@ Use this file instead of including Allegro header files in engine header files.
 
 struct ALLEGRO_FONT;
 
+// Display.h
+
+struct ALLEGRO_DISPLAY;
+
 // EventSource.h
 
 struct ALLEGRO_EVENT_SOURCE;

@@ -29,17 +29,25 @@ namespace hvn3 {
 	Physics::IPhysicsManager& Context::GetPhysics() {
 		return GetRoom().GetPhysics();
 	}
+	IViewManager& Context::GetViews() {
+		return GetRoom().GetViews();
+	}
 	System::IContextProvider& Context::GetContextProvider() {
-		
+
 		if (_context_provider == nullptr)
 			throw System::NullReferenceException("Context has not yet been initialized.");
-		
+
 		return *_context_provider;
 
 	}
 	System::Properties& Context::GetProperties() {
 		return GetContextProvider().GetGameManager().GetProperties();
 	}
-
+	Display& Context::GetDisplay() {
+		return GetContextProvider().GetGameManager().GetDisplay();
+	}
+	Context::operator bool() const {
+		return _context_provider != nullptr;
+	}
 
 }

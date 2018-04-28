@@ -66,7 +66,6 @@ namespace hvn3 {
 			System::FpsCounter _fps_counter;
 
 			Context _context;
-			Display _display;
 			Font* _default_font;
 			Graphics::Graphics _graphics;
 
