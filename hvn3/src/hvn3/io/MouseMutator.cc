@@ -84,8 +84,8 @@ namespace hvn3 {
 		}
 		void MouseMutator::MouseMutator::SetPosition(float x, float y) const {
 
-			Mouse::X = x;
-			Mouse::Y = y;
+			Mouse::x = x;
+			Mouse::y = y;
 
 		}
 		void MouseMutator::MouseMutator::SetDisplayPosition(int x, int y) const {

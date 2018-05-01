@@ -52,7 +52,7 @@ namespace hvn3 {
 		friend class System::MouseMutator;
 
 	public:
-		static float X, Y;
+		static float x, y;
 
 		static bool ButtonDown(MouseButton button);
 		static bool ButtonPressed(MouseButton button);

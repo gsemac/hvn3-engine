@@ -5,8 +5,8 @@
 
 namespace hvn3 {
 
-	float Mouse::X = 0.0f;
-	float Mouse::Y = 0.0f;
+	float Mouse::x = 0.0f;
+	float Mouse::y = 0.0f;
 	Mouse::MouseButton Mouse::_left = Mouse::MouseButton();
 	Mouse::MouseButton Mouse::_middle = Mouse::MouseButton();
 	Mouse::MouseButton Mouse::_right = Mouse::MouseButton();
@@ -15,7 +15,7 @@ namespace hvn3 {
 	bool Mouse::_scrolled_left = false;
 	bool Mouse::_scrolled_right = false;
 	PointF Mouse::_last_click_position = PointF(-1.0f, -1.0f);
-	PointF Mouse::_display_position = PointF(Mouse::X, Mouse::Y);
+	PointF Mouse::_display_position = PointF(Mouse::x, Mouse::y);
 
 	bool Mouse::ButtonDown(hvn3::MouseButton mouse_button) {
 
@@ -92,12 +92,12 @@ namespace hvn3 {
 	}
 	bool Mouse::InRegion(float x1, float y1, float x2, float y2) {
 
-		return Mouse::X >= x1 && Mouse::X < x2 && Mouse::Y >= y1 && Mouse::Y < y2;
+		return Mouse::x >= x1 && Mouse::x < x2 && Mouse::y >= y1 && Mouse::y < y2;
 
 	}
 	PointF Mouse::Position() {
 
-		return PointF(X, Y);
+		return PointF(x, y);
 
 	}
 	PointF Mouse::GlobalPosition() {
