@@ -15,7 +15,7 @@ namespace hvn3 {
 			RoomController(IRoom* room);
 
 			void SetUp();
-			bool IsSetUp() const;
+			bool IsReady() const;
 			void Reset();
 
 			void CallRoomEnterEvent(RoomEnterEventArgs& e);

@@ -81,10 +81,10 @@ namespace hvn3 {
 		virtual void Restart() = 0;
 
 	protected:
-		virtual void OnRoomEnter(RoomEnterEventArgs& e) = 0;
-		virtual void OnRoomExit(RoomExitEventArgs& e) = 0;
-		virtual void OnSetUp() = 0;
-		virtual bool IsSetUp() const = 0;
+		virtual void OnEnter(RoomEnterEventArgs& e) = 0;
+		virtual void OnExit(RoomExitEventArgs& e) = 0;
+		virtual void OnCreate() = 0;
+		virtual bool IsReady() const = 0;
 		virtual void OnReset() = 0;
 		virtual void OnRender(DrawEventArgs& e) = 0;
 

@@ -27,7 +27,7 @@ namespace hvn3 {
 			// Reset the state of the room.
 			OnReset();
 			// Set-up the room again.
-			OnSetUp();
+			OnCreate();
 			// Disable the restarting pending flag.
 			_restart_pending = false;
 		}

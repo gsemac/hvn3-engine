@@ -8,12 +8,12 @@ namespace hvn3 {
 
 		void RoomController::SetUp() {
 
-			_room->OnSetUp();
+			_room->OnCreate();
 
 		}
-		bool RoomController::IsSetUp() const {
+		bool RoomController::IsReady() const {
 
-			return _room->IsSetUp();
+			return _room->IsReady();
 
 		}
 		void RoomController::Reset() {
@@ -24,12 +24,12 @@ namespace hvn3 {
 
 		void RoomController::CallRoomEnterEvent(RoomEnterEventArgs& e) {
 
-			_room->OnRoomEnter(e);
+			_room->OnEnter(e);
 
 		}
 		void RoomController::CallRoomExitEvent(RoomExitEventArgs& e) {
 
-			_room->OnRoomExit(e);
+			_room->OnExit(e);
 
 		}
 

@@ -131,6 +131,8 @@ namespace hvn3 {
 			if (!_obj_manager)
 				_obj_manager = std::make_unique<object_manager_type>(_context);
 
+			OnContextChanged(ContextChangedEventArgs(context));
+
 		}
 		void OnContextChanged(ContextChangedEventArgs& e) override {}
 
@@ -139,14 +141,14 @@ namespace hvn3 {
 		}
 
 	protected:
-		void OnRoomEnter(RoomEnterEventArgs& e) override {}
-		void OnRoomExit(RoomExitEventArgs& e) override {}
-		void OnSetUp() override {
+		void OnEnter(RoomEnterEventArgs& e) override {}
+		void OnExit(RoomExitEventArgs& e) override {}
+		void OnCreate() override {
 
 			_set_up = true;
 
 		}
-		bool IsSetUp() const {
+		bool IsReady() const {
 
 			return _set_up;
 

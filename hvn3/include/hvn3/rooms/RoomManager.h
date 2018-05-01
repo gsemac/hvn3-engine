@@ -60,7 +60,7 @@ namespace hvn3 {
 			if (_rooms.size() == 1) {
 				System::RoomController controller(CurrentRoom());
 				controller.CallRoomEnterEvent(RoomEnterEventArgs());
-				if (!controller.IsSetUp())
+				if (!controller.IsReady())
 					controller.SetUp();
 			}
 
@@ -235,7 +235,7 @@ namespace hvn3 {
 			System::RoomController next_room_controller(_rooms[room_index].get());
 
 			// If the current room has been set up and isn't persistent, reset it.
-			if (current_room_controller.IsSetUp() && !CurrentRoom()->Persistent())
+			if (current_room_controller.IsReady() && !CurrentRoom()->Persistent())
 				current_room_controller.Reset();
 
 			// Call the on exit event for the current room.
@@ -245,7 +245,7 @@ namespace hvn3 {
 			next_room_controller.CallRoomEnterEvent(RoomEnterEventArgs());
 
 			// If the next room hasn't been set up yet, set it up.
-			if (!next_room_controller.IsSetUp())
+			if (!next_room_controller.IsReady())
 				next_room_controller.SetUp();
 
 			// Update current room index.
