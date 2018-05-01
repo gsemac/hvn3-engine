@@ -1,6 +1,8 @@
 #pragma once
-#include "hvn3/graphics/GraphicsState.h"
 #include "hvn3/graphics/Bitmap.h"
+#include "hvn3/graphics/GraphicsState.h"
+#include "hvn3/graphics/GraphicsTypeDefs.h"
+#include "hvn3/graphics/Pen.h"
 #include "hvn3/math/Circle.h"
 #include "hvn3/math/Line.h"
 #include "hvn3/math/Rectangle.h"
@@ -12,29 +14,6 @@ namespace hvn3 {
 	class String;
 
 	namespace Graphics {
-
-		enum class BlendOperation {
-			Normal,
-			Add,
-			Subtract,
-			Max,
-			Invert,
-			SourceMinusDestination,
-			DestinationMinusSource
-		};
-
-		enum class BlendMode {
-			Zero,
-			One,
-			Alpha,
-			InverseAlpha,
-			SourceColor,
-			DestinationColor,
-			InverseSourceColor,
-			InverseDestinationColor,
-			ConstColor,
-			InverseConstColor
-		};
 
 		class Graphics {
 
@@ -56,6 +35,7 @@ namespace hvn3 {
 			void DrawLine(const LineF& line, const Color& color, float thickness);
 			void DrawLine(const PointF& p1, const PointF& p2, const Color& color, float thickness);
 			void DrawLine(float x1, float y1, float x2, float y2, const Color& color, float thickness);
+			void DrawLine(float x1, float y1, float x2, float y2, const Pen& pen);
 
 			void DrawPoint(const PointF& point, const Color& color);
 			void DrawPoint(float x, float y, const Color& color);

@@ -59,6 +59,12 @@ namespace hvn3 {
 				return PointF(point.X() + std::cos(rad) * distance, point.Y() - std::sin(rad) * distance);
 
 			}
+			PointF PointInDirection(const PointF& p1, const PointF& p2, float distance) {
+
+				float deg = PointDirection(p1, p2);
+				return PointInDirection(p1, deg, distance);
+
+			}
 
 			float PointDirection(float x1, float y1, float x2, float y2) {
 

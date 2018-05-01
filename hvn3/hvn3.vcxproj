@@ -89,11 +89,12 @@
     <ClInclude Include="include\hvn3\graphics\Bitmap.h" />
     <ClInclude Include="include\hvn3\graphics\Display.h" />
     <ClInclude Include="include\hvn3\graphics\DisplaySizeChangedEventArgs.h" />
-    <ClInclude Include="include\hvn3\graphics\DisplayTypeDefs.h" />
     <ClInclude Include="include\hvn3\graphics\Graphics.h" />
     <ClInclude Include="include\hvn3\graphics\GraphicsState.h" />
+    <ClInclude Include="include\hvn3\graphics\GraphicsTypeDefs.h" />
     <ClInclude Include="include\hvn3\graphics\GridRenderer.h" />
     <ClInclude Include="include\hvn3\graphics\Imaging.h" />
+    <ClInclude Include="include\hvn3\graphics\Pen.h" />
     <ClInclude Include="include\hvn3\graphics\Resolution.h" />
     <ClInclude Include="include\hvn3\graphics\Transform.h" />
     <ClInclude Include="include\hvn3\graphics\Tween.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="src\hvn3\graphics\GraphicsState.cc" />
     <ClCompile Include="src\hvn3\graphics\GridRenderer.cc" />
     <ClCompile Include="src\hvn3\graphics\Imaging.cc" />
+    <ClCompile Include="src\hvn3\graphics\Pen.cc" />
     <ClCompile Include="src\hvn3\graphics\Resolution.cc" />
     <ClCompile Include="src\hvn3\graphics\Transform.cc" />
     <ClCompile Include="src\hvn3\gui2\Button.cc" />

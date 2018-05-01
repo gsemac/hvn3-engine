@@ -1,8 +1,9 @@
-#include "hvn3/graphics/Graphics.h"
-#include "hvn3/exceptions/Exception.h"
 #include "hvn3/allegro/AllegroAdapter.h"
-#include "hvn3/utility/UTF8String.h"
+#include "hvn3/exceptions/Exception.h"
+#include "hvn3/graphics/Graphics.h"
+#include "hvn3/math/GeometryUtils.h"
 #include "hvn3/sprites/Sprite.h"
+#include "hvn3/utility/UTF8String.h"
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 
@@ -155,6 +156,65 @@ namespace hvn3 {
 			PrepareDrawingSurface();
 
 			al_draw_line(x1, y1, x2, y2, System::AllegroAdapter::ToColor(color), thickness);
+
+		}
+		void Graphics::DrawLine(float x1, float y1, float x2, float y2, const Pen& pen) {
+
+			PrepareDrawingSurface();
+
+			if (Math::IsZero(pen.Width()))
+				return;
+
+			if (pen.DashStyle() == DashStyle::Solid) {
+
+				DrawLine(x1, y1, x2, y2, pen.Color(), pen.Width());
+
+			}
+			else if (pen.DashStyle() == DashStyle::Dash) {
+
+				bool dash = true;
+				bool exit = false;
+				size_t pattern_index = 0;
+
+				PointF p_begin(x1, y1);
+				PointF p_end(x2, y2);
+				PointF p_next_begin = p_begin;
+
+				if (Math::IsZero(Math::Geometry::PointDistance(p_begin, p_end)))
+					return;
+
+				while (!exit) {
+
+					float gap_size = pen.Width();
+
+					// If the user has specified a dash pattern, use that to determine the gap size.
+					if (pen.DashPattern().size() > 0) {
+						gap_size = pen.DashPattern()[pattern_index];
+						if (++pattern_index >= pen.DashPattern().size())
+							pattern_index = 0;
+					}
+					else
+						// By default, have the dash length twice that of the space length.
+						if (dash)
+							gap_size *= 2.0f;
+
+					PointF p_next_end = Math::Geometry::PointInDirection(p_next_begin, p_end, gap_size);
+		
+					// If we have surpassed the ending point, we can stop drawing the line after the next point.
+					if ((Math::Abs(p_next_end.x) > Math::Abs(p_end.x)) || (Math::Abs(p_next_end.y) > Math::Abs(p_end.y))) {
+						p_next_end = p_end;
+						exit = true;
+					}
+
+					if (dash)
+						DrawLine(p_next_begin.x, p_next_begin.y, p_next_end.x, p_next_end.y, pen.Color(), pen.Width());
+
+					p_next_begin = p_next_end;
+					dash = !dash;
+
+				}
+
+			}
 
 		}
 

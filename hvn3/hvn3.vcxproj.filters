@@ -669,7 +669,10 @@
     <ClInclude Include="include\hvn3\graphics\Resolution.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\graphics\DisplayTypeDefs.h">
+    <ClInclude Include="include\hvn3\graphics\Pen.h">
+      <Filter>include\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\graphics\GraphicsTypeDefs.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1015,6 +1018,9 @@
       <Filter>src\utility</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\graphics\Resolution.cc">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\Pen.cc">
       <Filter>src\graphics</Filter>
     </ClCompile>
   </ItemGroup>

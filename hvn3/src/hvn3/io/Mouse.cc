@@ -5,8 +5,8 @@
 
 namespace hvn3 {
 
-	float Mouse::X = -std::numeric_limits<float>::max();
-	float Mouse::Y = -std::numeric_limits<float>::max();
+	float Mouse::X = 0.0f;
+	float Mouse::Y = 0.0f;
 	Mouse::MouseButton Mouse::_left = Mouse::MouseButton();
 	Mouse::MouseButton Mouse::_middle = Mouse::MouseButton();
 	Mouse::MouseButton Mouse::_right = Mouse::MouseButton();

@@ -2,7 +2,7 @@
 #include "hvn3/utility/BitFlags.h"
 
 namespace hvn3 {
-
+	
 	enum class DisplayFlags {
 		OpenGL = 4, // ALLEGRO_OPENGL
 		Direct3D = 8, // ALLEGRO_DIRECT3D_INTERNAL
@@ -18,5 +18,36 @@ namespace hvn3 {
 	enum class DisplayOption {
 		VsyncEnabled
 	};
+	
+	namespace Graphics {
 
+		enum class BlendOperation {
+			Normal,
+			Add,
+			Subtract,
+			Max,
+			Invert,
+			SourceMinusDestination,
+			DestinationMinusSource
+		};
+
+		enum class BlendMode {
+			Zero,
+			One,
+			Alpha,
+			InverseAlpha,
+			SourceColor,
+			DestinationColor,
+			InverseSourceColor,
+			InverseDestinationColor,
+			ConstColor,
+			InverseConstColor
+		};
+
+		enum class DashStyle {
+			Dash,
+			Solid
+		};
+
+	}
 }
