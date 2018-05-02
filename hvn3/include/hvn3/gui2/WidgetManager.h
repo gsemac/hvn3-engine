@@ -1,9 +1,10 @@
 #pragma once
 #include "hvn3/core/IDrawable.h"
 #include "hvn3/core/IUpdatable.h"
+#include "hvn3/gui2/IWidget.h"
 #include "hvn3/gui2/WidgetRenderArgs.h"
-#include "hvn3/io/KeyboardListener.h"
-#include "hvn3/io/MouseListener.h"
+#include "hvn3/io/IKeyboardListener.h"
+#include "hvn3/io/IMouseListener.h"
 #include <cstdint>
 #include <memory>
 #include <list>
@@ -15,7 +16,11 @@ namespace hvn3 {
 		class IWidget;
 		class IWidgetRenderer;
 
-		class WidgetManager : public IDrawable, public IUpdatable, public KeyboardListener, public MouseListener {
+		class WidgetManager :
+			public IDrawable,
+			public IUpdatable,
+			public virtual IKeyboardListener,
+			public virtual IMouseListener {
 
 			struct WidgetData {
 				WidgetData(std::unique_ptr<IWidget>& widget);
@@ -24,14 +29,14 @@ namespace hvn3 {
 				WidgetRenderArgs rendererArgs;
 				size_t z;
 			};
-			
+
 			typedef std::shared_ptr<IWidgetRenderer> renderer_ptr_type;
 			typedef std::list<WidgetData> widget_collection_type;
 
 		public:
 			WidgetManager();
 			WidgetManager(renderer_ptr_type& renderer);
-			
+
 			void Add(IWidget* widget);
 			void Add(std::unique_ptr<IWidget>& widget);
 			void BringToFront(IWidget* widget);
@@ -70,7 +75,7 @@ namespace hvn3 {
 			// Returns a pointer to the widget renderer assigned to this manager. 
 			// IF no renderer has been assigned, assigns and returns the default renderer.
 			renderer_ptr_type& _getRenderer();
-			
+
 		};
 
 	}

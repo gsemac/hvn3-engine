@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/io/KeyboardEventArgs.h"
+#include "hvn3/io/IKeyboardListener.h"
 #include <unordered_set>
 
 namespace hvn3 {
@@ -8,7 +8,7 @@ namespace hvn3 {
 		class KeyboardMutator;
 	}
 
-	class KeyboardListener {
+	class KeyboardListener : public virtual IKeyboardListener {
 
 		friend class System::KeyboardMutator;
 		friend struct ListenerRegistry;
@@ -24,10 +24,10 @@ namespace hvn3 {
 		KeyboardListener();
 		virtual ~KeyboardListener();
 
-		virtual void OnKeyDown(KeyDownEventArgs& e);
-		virtual void OnKeyPressed(KeyPressedEventArgs& e);
-		virtual void OnKeyUp(KeyUpEventArgs& e);
-		virtual void OnKeyChar(KeyCharEventArgs& e);
+		void OnKeyDown(KeyDownEventArgs& e) override;
+		void OnKeyPressed(KeyPressedEventArgs& e) override;
+		void OnKeyUp(KeyUpEventArgs& e) override;
+		void OnKeyChar(KeyCharEventArgs& e) override;
 
 	protected:
 		static listener_collection_type& _listeners();

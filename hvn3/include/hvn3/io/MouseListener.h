@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/io/MouseEventArgs.h"
+#include "hvn3/io/IMouseListener.h"
 #include <unordered_set>
 
 namespace hvn3 {
@@ -8,7 +8,7 @@ namespace hvn3 {
 		class MouseMutator;
 	}
 
-	class MouseListener {
+	class MouseListener : public virtual IMouseListener {
 		friend class System::MouseMutator;
 		friend struct ListenerRegistry;
 
@@ -23,11 +23,11 @@ namespace hvn3 {
 		MouseListener();
 		virtual ~MouseListener();
 
-		virtual void OnMouseDown(MouseDownEventArgs& e);
-		virtual void OnMousePressed(MousePressedEventArgs& e);
-		virtual void OnMouseReleased(MouseReleasedEventArgs& e);
-		virtual void OnMouseMove(MouseMoveEventArgs& e);
-		virtual void OnMouseScroll(MouseScrollEventArgs& e);
+		void OnMouseDown(MouseDownEventArgs& e) override;
+		void OnMousePressed(MousePressedEventArgs& e) override;
+		void OnMouseReleased(MouseReleasedEventArgs& e) override;
+		void OnMouseMove(MouseMoveEventArgs& e) override;
+		void OnMouseScroll(MouseScrollEventArgs& e) override;
 
 	protected:
 		static listener_collection_type& _listeners();

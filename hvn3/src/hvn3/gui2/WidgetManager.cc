@@ -108,27 +108,35 @@ namespace hvn3 {
 		void WidgetManager::OnKeyChar(KeyCharEventArgs& e) {}
 
 		void WidgetManager::OnMouseDown(MouseDownEventArgs& e) {
+			
 			// Call the mouse-down event for the currently-hovered widget.
 			if (_widget_hovered != nullptr && _widget_held == nullptr) {
 				_widget_hovered->HandleEvent(WidgetMouseEventArgs(_widget_hovered, WidgetEventType::OnMouseDown, e));
 				_widget_held = _widget_hovered;
 			}
+
 		}
 		void WidgetManager::OnMousePressed(MousePressedEventArgs& e) {}
 		void WidgetManager::OnMouseReleased(MouseReleasedEventArgs& e) {
+			
 			// Only call the mouse-up event for a widget we've previously called the mouse-down event for.
 			if (_widget_held != nullptr) {
+				
 				_widget_held->HandleEvent(WidgetMouseEventArgs(_widget_held, WidgetEventType::OnMouseUp, e));
+			
 				// If the mouse was released on the same widget that it went down on, consider it a click.
 				if (_widget_hovered == _widget_held)
 					_widget_held->HandleEvent(WidgetMouseEventArgs(_widget_held, WidgetEventType::OnMouseClick, e));
 				_widget_held = nullptr;
+			
 			}
+
 		}
 		void WidgetManager::OnMouseMove(MouseMoveEventArgs& e) {
 
 			IWidget* widget_hovered = nullptr;
 
+			// Find the widget that the mouse is currently hovering over.
 			for (auto i = _widgets.rbegin(); i != _widgets.rend(); ++i) {
 				IWidget* widget = i->widget.get();
 				widget->HandleEvent(WidgetMouseMoveEventArgs(widget, WidgetEventType::OnMouseMove, e));
@@ -136,6 +144,7 @@ namespace hvn3 {
 					widget_hovered = widget;
 			}
 
+			// Dispatch the appropriate events if the hovered widget has changed.
 			if (widget_hovered != _widget_hovered) {
 				if (_widget_hovered != nullptr)
 					_widget_hovered->HandleEvent(WidgetMouseMoveEventArgs(_widget_hovered, WidgetEventType::OnMouseLeave, e));
@@ -143,6 +152,7 @@ namespace hvn3 {
 					widget_hovered->HandleEvent(WidgetMouseMoveEventArgs(widget_hovered, WidgetEventType::OnMouseEnter, e));
 			}
 
+			// Update the hovered widget.
 			_last_mouse_position = e.Position();
 			_widget_hovered = widget_hovered;
 
