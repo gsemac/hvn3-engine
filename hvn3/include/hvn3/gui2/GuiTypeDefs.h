@@ -8,6 +8,29 @@ namespace hvn3 {
 		class IWidget;
 		class WidgetEventArgs;
 
+		enum class Anchor {
+			Left,
+			Right,
+			Top,
+			Bottom
+		};
+		ENABLE_BITFLAG_OPERATORS(Anchor)
+
+		enum class DockStyle {
+			Left,
+			Right,
+			Top,
+			Bottom,
+			Fill
+		};
+
+		enum class WidgetProperty {
+			BackgroundColor,
+			Color,
+			TextOffset,
+			WIDGET_PROPERTY_MAX
+		};
+
 		enum class WidgetState {
 			Active = 1,
 			Checked = 2,
@@ -24,13 +47,6 @@ namespace hvn3 {
 			Valid = 4096
 		};
 		ENABLE_BITFLAG_OPERATORS(WidgetState)
-
-		enum class WidgetProperty {
-			BackgroundColor,
-			Color,
-			TextOffset,
-			WIDGET_PROPERTY_MAX
-		};
 
 	}
 }

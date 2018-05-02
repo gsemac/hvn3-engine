@@ -31,6 +31,10 @@ namespace hvn3 {
 			virtual void SetText(const String& text) = 0;
 			virtual WidgetState State() const = 0;
 			virtual void SetState(WidgetState state, bool value) = 0;
+			virtual Anchor Anchor() const = 0;
+			virtual void SetAnchor(Gui::Anchor value) = 0;
+			virtual Gui::DockStyle DockStyle() const = 0;
+			virtual void SetDockStyle(Gui::DockStyle value) = 0;
 
 			virtual void OnMouseDown(WidgetMouseEventArgs& e) = 0;
 			virtual void OnMouseEnter(WidgetMouseMoveEventArgs& e) = 0;

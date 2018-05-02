@@ -11,6 +11,7 @@ namespace hvn3 {
 			typedef std::unordered_map<WidgetEventType, std::function<void(WidgetEventArgs&)>> callback_table_type;
 
 		public:
+			WidgetBase();
 			WidgetBase(float x, float y, float width, float height);
 			WidgetBase(const PointF& position, const SizeF& size);
 
@@ -24,8 +25,12 @@ namespace hvn3 {
 			void SetSize(const SizeF& value) override;
 			const String& Text() const override;
 			void SetText(const String& text) override;
-			virtual WidgetState State() const override;
-			virtual void SetState(WidgetState state, bool value) override;
+			WidgetState State() const override;
+			void SetState(WidgetState state, bool value) override;
+			Gui::Anchor Anchor() const override;
+			void SetAnchor(Gui::Anchor value) override;
+			Gui::DockStyle DockStyle() const override;
+			void SetDockStyle(Gui::DockStyle value) override;
 
 			void OnMouseDown(WidgetMouseEventArgs& e) override;
 			void OnMouseEnter(WidgetMouseMoveEventArgs& e) override;
@@ -54,6 +59,8 @@ namespace hvn3 {
 			SizeF _size;
 			String _text;
 			WidgetState _state;
+			Gui::Anchor _anchor;
+			Gui::DockStyle _dock_style;
 			WidgetManager* _parent_manager;
 			WidgetManager _child_control_manager;
 			callback_table_type _callbacks;

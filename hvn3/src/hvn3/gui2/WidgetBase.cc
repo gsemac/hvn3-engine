@@ -8,6 +8,9 @@ case TYPE:\
 namespace hvn3 {
 	namespace Gui {
 
+		WidgetBase::WidgetBase() :
+			WidgetBase(0.0f, 0.0f, 0.0f, 0.0f) {
+		}
 		WidgetBase::WidgetBase(float x, float y, float width, float height) :
 			WidgetBase(PointF(x, y), SizeF(width, height)) {
 		}
@@ -15,6 +18,8 @@ namespace hvn3 {
 			_position(position),
 			_size(size) {
 
+			_anchor = static_cast<Gui::Anchor>(0);
+			_dock_style = static_cast<Gui::DockStyle>(0);
 			_parent_manager = nullptr;
 
 		}
@@ -78,6 +83,18 @@ namespace hvn3 {
 				_state |= state;
 			else
 				_state &= ~state;
+		}
+		Gui::Anchor WidgetBase::Anchor() const {
+			return _anchor;
+		}
+		void WidgetBase::SetAnchor(Gui::Anchor value) {
+			_anchor = value;
+		}
+		Gui::DockStyle WidgetBase::DockStyle() const {
+			return _dock_style;
+		}
+		void WidgetBase::SetDockStyle(Gui::DockStyle value) {
+			_dock_style = value;
 		}
 
 		void WidgetBase::OnMouseDown(WidgetMouseEventArgs& e) {

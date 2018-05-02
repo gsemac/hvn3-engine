@@ -7,7 +7,12 @@ namespace hvn3 {
 		class MenuStrip : public WidgetBase {
 
 		public:
+			MenuStrip() {
+				
+				SetIdentifier("menustrip");
+				SetDockStyle(DockStyle::Top);
 
+			}
 
 		private:
 
