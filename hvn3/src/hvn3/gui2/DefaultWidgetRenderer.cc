@@ -7,6 +7,7 @@
 #include "hvn3/gui2/WidgetRenderArgs.h"
 #include "hvn3/io/File.h"
 #include "hvn3/utility/Utf8String.h"
+#define DEFAULT_UPPER_GRADIENT_COLOR hvn3::Color(73, 70, 82)
 
 namespace hvn3 {
 	namespace Gui {
@@ -22,11 +23,16 @@ namespace hvn3 {
 		}
 
 		void DefaultWidgetRenderer::DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
+			
 			InitRenderArgs(widget, args);
+			
 			if (widget.Identifier() == "button")
 				DrawButton(canvas, widget, args);
 			else if (widget.Identifier() == "window")
 				DrawWindow(canvas, widget, args);
+			else if (widget.Identifier() == "menustrip")
+				DrawWidgetBase(canvas, widget, DEFAULT_UPPER_GRADIENT_COLOR, DEFAULT_UPPER_GRADIENT_COLOR);
+
 		}
 
 
@@ -52,7 +58,7 @@ namespace hvn3 {
 		}
 		void DefaultWidgetRenderer::DrawButton(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
 
-			Color background_top_color(73, 70, 82);
+			Color background_top_color(DEFAULT_UPPER_GRADIENT_COLOR);
 			Color background_bottom_color = _getTransitionedColor(args, widget.Identifier(), widget.State(), WidgetProperty::BackgroundColor);
 			auto text_offset_d = args.GetTransitionData<PointF>(WidgetProperty::TextOffset);
 
@@ -78,7 +84,7 @@ namespace hvn3 {
 		}
 		void DefaultWidgetRenderer::DrawWindow(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
 
-			Color background_top_color(73, 70, 82);
+			Color background_top_color(DEFAULT_UPPER_GRADIENT_COLOR);
 			Color background_bottom_color = _getTransitionedColor(args, widget.Identifier(), widget.State(), WidgetProperty::BackgroundColor);
 			auto text_offset_d = args.GetTransitionData<PointF>(WidgetProperty::TextOffset);
 

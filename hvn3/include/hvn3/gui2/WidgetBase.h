@@ -21,8 +21,14 @@ namespace hvn3 {
 			void SetIdentifier(const std::string& value) override;
 			const PointF& Position() const override;
 			void SetPosition(const PointF& value) override;
+			void SetPosition(float x, float y) override;
 			const SizeF& Size() const override;
 			void SetSize(const SizeF& value) override;
+			void SetSize(float width, float height) override;
+			float Width() const override;
+			float Height() const override;
+			void SetWidth(float value) override;
+			void SetHeight(float value) override;
 			const String& Text() const override;
 			void SetText(const String& text) override;
 			WidgetState State() const override;

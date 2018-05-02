@@ -46,6 +46,9 @@ namespace hvn3 {
 			const IWidgetRenderer& Renderer();
 			renderer_ptr_type& GetRenderer();
 
+			const RectangleF& DockableRegion() const;
+			void SetDockableRegion(const RectangleF& value);
+			
 			void OnDraw(DrawEventArgs& e) override;
 			void OnUpdate(UpdateEventArgs& e) override;
 
@@ -68,9 +71,11 @@ namespace hvn3 {
 			IWidget* _widget_held;
 			PointF _last_mouse_position;
 			bool _resort_required;
+			RectangleF _dockable_region;
 
 			void _initialize();
 			widget_collection_type::iterator _findWidget(IWidget* widget);
+			void _applyDockStyle(IWidget* widget);
 
 			// Returns a pointer to the widget renderer assigned to this manager. 
 			// IF no renderer has been assigned, assigns and returns the default renderer.

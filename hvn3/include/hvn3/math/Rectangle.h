@@ -18,6 +18,9 @@ namespace hvn3 {
 		Rectangle(T width, T height) :
 			Rectangle<T>(0, 0, width, height) {
 		}
+		Rectangle(hvn3::Size<T> size) :
+			Rectangle(size.width, size.height) {
+		}
 		Rectangle(T x, T y, T width, T height) :
 			Positionable2dBase<T>(x, y),
 			SizeableBase<T>(width, height) {}

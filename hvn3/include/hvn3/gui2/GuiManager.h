@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/core/IContextReceiver.h"
 #include "hvn3/gui2/WidgetManager.h"
 #include "hvn3/io/KeyboardListener.h"
 #include "hvn3/io/MouseListener.h"
@@ -10,13 +11,17 @@ namespace hvn3 {
 		class GuiManager :
 			public WidgetManager,
 			public KeyboardListener,
-			public MouseListener {
+			public MouseListener,
+			public System::IContextReceiver {
 
 		public:
 			GuiManager();
 
 			void AddChildWidgetManager(WidgetManager* manger);
 			void RemoveChildWidgetManager(WidgetManager* manager);
+
+			void SetContext(Context context) override;
+			void OnContextChanged(ContextChangedEventArgs& e) override;
 
 			void OnDraw(DrawEventArgs& e) override;
 			void OnUpdate(UpdateEventArgs& e) override;

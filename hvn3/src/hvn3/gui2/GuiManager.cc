@@ -1,3 +1,4 @@
+#include "hvn3/graphics/Display.h"
 #include "hvn3/gui2/GuiManager.h"
 
 namespace hvn3 {
@@ -10,6 +11,14 @@ namespace hvn3 {
 		void GuiManager::RemoveChildWidgetManager(WidgetManager* manager) {
 
 		}
+		void GuiManager::SetContext(Context context) {
+
+			// Update the dockable region according to the display size.
+			RectangleF region(static_cast<SizeF>(context.GetDisplay().Size()));
+			SetDockableRegion(region);
+
+		}
+		void GuiManager::OnContextChanged(ContextChangedEventArgs& e) {}
 		void GuiManager::OnDraw(DrawEventArgs& e) {
 
 			WidgetManager::OnDraw(e);

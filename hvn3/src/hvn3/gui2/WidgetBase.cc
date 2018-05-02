@@ -59,6 +59,9 @@ namespace hvn3 {
 			_position = value;
 
 		}
+		void WidgetBase::SetPosition(float x, float y) {
+			SetPosition(PointF(x, y));
+		}
 		const SizeF& WidgetBase::Size() const {
 
 			return _size;
@@ -68,6 +71,21 @@ namespace hvn3 {
 
 			_size = value;
 
+		}
+		void WidgetBase::SetSize(float width, float height) {
+			SetSize(SizeF(width, height));
+		}
+		float WidgetBase::Width() const {
+			return Size().width;
+		}
+		float WidgetBase::Height() const {
+			return Size().height;
+		}
+		void WidgetBase::SetWidth(float value) {
+			SetSize(SizeF(value, Size().height));
+		}
+		void WidgetBase::SetHeight(float value) {
+			SetSize(SizeF(Size().width, value));
 		}
 		const String& WidgetBase::Text() const {
 			return _text;

@@ -25,8 +25,14 @@ namespace hvn3 {
 			virtual void SetIdentifier(const std::string& value) = 0;
 			virtual const PointF& Position() const = 0;
 			virtual void SetPosition(const PointF& value) = 0;
+			virtual void SetPosition(float x, float y) = 0;
 			virtual const SizeF& Size() const = 0;
 			virtual void SetSize(const SizeF& value) = 0;
+			virtual void SetSize(float width, float height) = 0;
+			virtual float Width() const = 0;
+			virtual float Height() const = 0;
+			virtual void SetWidth(float value) = 0;
+			virtual void SetHeight(float value) = 0;
 			virtual const String& Text() const = 0;
 			virtual void SetText(const String& text) = 0;
 			virtual WidgetState State() const = 0;

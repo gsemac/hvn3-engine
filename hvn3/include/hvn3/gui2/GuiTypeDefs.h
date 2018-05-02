@@ -9,15 +9,15 @@ namespace hvn3 {
 		class WidgetEventArgs;
 
 		enum class Anchor {
-			Left,
-			Right,
-			Top,
-			Bottom
+			Left = 1,
+			Right = 2,
+			Top = 4,
+			Bottom = 8
 		};
 		ENABLE_BITFLAG_OPERATORS(Anchor)
 
 		enum class DockStyle {
-			Left,
+			Left = 1,
 			Right,
 			Top,
 			Bottom,
