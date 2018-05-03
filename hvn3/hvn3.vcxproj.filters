@@ -687,6 +687,18 @@
     <ClInclude Include="include\hvn3\io\IMouseListener.h">
       <Filter>include\io</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\io\DisplayListener.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\IDisplayListener.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\DisplayEventArgs.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\Listener.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

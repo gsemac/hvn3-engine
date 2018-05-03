@@ -54,6 +54,9 @@ namespace hvn3 {
 			_height = height;
 
 		}
+		void SetSize(const hvn3::Size<T>& value) override {
+			SetSize(value.width, value.height);
+		}
 		// Returns the size of the object.
 		hvn3::Size<T> Size() const override {
 

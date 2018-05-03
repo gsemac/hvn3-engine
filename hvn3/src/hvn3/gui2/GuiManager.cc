@@ -5,14 +5,14 @@ namespace hvn3 {
 	namespace Gui {
 
 		GuiManager::GuiManager() {}
-		void GuiManager::SetContext(Context context) {
+		//void GuiManager::SetContext(Context context) {
 
-			// Update the dockable region according to the display size.
-			RectangleF region(static_cast<SizeF>(context.GetDisplay().Size()));
-			SetDockableRegion(region);
+		//	// Update the dockable region according to the display size.
+		//	RectangleF region(static_cast<SizeF>(context.GetDisplay().Size()));
+		//	SetDockableRegion(region);
 
-		}
-		void GuiManager::OnContextChanged(ContextChangedEventArgs& e) {}
+		//}
+		//void GuiManager::OnContextChanged(ContextChangedEventArgs& e) {}
 		void GuiManager::OnDraw(DrawEventArgs& e) {
 
 			WidgetManager::OnDraw(e);

@@ -10,14 +10,15 @@ namespace hvn3 {
 		class GuiManager :
 			public WidgetManager,
 			public KeyboardListener,
-			public MouseListener,
-			public System::IContextReceiver {
+			public MouseListener
+			//public System::IContextReceiver 
+		{
 
 		public:
 			GuiManager();
 
-			void SetContext(Context context) override;
-			void OnContextChanged(ContextChangedEventArgs& e) override;
+			//void SetContext(Context context) override;
+			//void OnContextChanged(ContextChangedEventArgs& e) override;
 
 			void OnDraw(DrawEventArgs& e) override;
 			void OnUpdate(UpdateEventArgs& e) override;

@@ -116,7 +116,10 @@
     <ClInclude Include="include\hvn3\io\Clipboard.h" />
     <ClInclude Include="include\hvn3\io\Console.h" />
     <ClInclude Include="include\hvn3\io\Directory.h" />
+    <ClInclude Include="include\hvn3\io\DisplayEventArgs.h" />
+    <ClInclude Include="include\hvn3\io\DisplayListener.h" />
     <ClInclude Include="include\hvn3\io\File.h" />
+    <ClInclude Include="include\hvn3\io\IDisplayListener.h" />
     <ClInclude Include="include\hvn3\io\IKeyboardListener.h" />
     <ClInclude Include="include\hvn3\io\IMouseListener.h" />
     <ClInclude Include="include\hvn3\io\IO.h" />
@@ -125,6 +128,7 @@
     <ClInclude Include="include\hvn3\io\KeyboardMutator.h" />
     <ClInclude Include="include\hvn3\io\KeyboardEventArgs.h" />
     <ClInclude Include="include\hvn3\io\KeyboardListener.h" />
+    <ClInclude Include="include\hvn3\io\Listener.h" />
     <ClInclude Include="include\hvn3\io\Mouse.h" />
     <ClInclude Include="include\hvn3\io\MouseMutator.h" />
     <ClInclude Include="include\hvn3\io\MouseEventArgs.h" />

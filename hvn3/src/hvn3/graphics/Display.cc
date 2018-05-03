@@ -1,7 +1,8 @@
+#include "hvn3/allegro/AllegroAdapter.h"
 #include "hvn3/core/Framework.h"
 #include "hvn3/graphics/Display.h"
 #include "hvn3/graphics/Graphics.h"
-#include "hvn3/allegro/AllegroAdapter.h"
+#include "hvn3/io/DisplayListener.h"
 #include <allegro5/allegro.h>
 #include <cassert>
 #include <limits>
@@ -114,6 +115,12 @@ namespace hvn3 {
 		// Update the size values of the underlying sizeable class.
 		SizeableBase::SetSize(width, height);
 
+		// Notify all listeners of the size change.
+		auto listeners = DisplayListener::GetListeners();
+		DisplaySizeChangedEventArgs args(this);
+		for (auto i = listeners.begin(); i != listeners.end(); ++i)
+			(*i)->OnDisplaySizeChanged(args);
+
 		// If the Display's actual size is the same as the sizes provided, just update width/height values. 
 		// This can occur when the Display is resized manually.
 		if (al_get_display_width(get()) == width && al_get_display_height(get()) == height)
@@ -179,7 +186,7 @@ namespace hvn3 {
 
 			if (_fullscreen)
 				// If we've gone fullscreen, update the size values to match the new window size.
-				SizeableBase::SetSize(al_get_display_width(get()), al_get_display_height(get()));
+				SetSize(al_get_display_width(get()), al_get_display_height(get()));
 			else {
 				// If we've left fullscreen, restore the original size and position.
 				SetSize(_size_before_fullscreen.Width(), _size_before_fullscreen.Height());

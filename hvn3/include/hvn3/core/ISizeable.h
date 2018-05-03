@@ -17,13 +17,10 @@ namespace hvn3 {
 		virtual void SetHeight(T value) = 0;
 		// Sets the size of the object according to the given dimensions.
 		virtual void SetSize(T width, T height) = 0;
+		// Sets the size of the object according to the given dimensions.
+		virtual void SetSize(const hvn3::Size<T>& value) = 0;
 		// Returns the size of the object.
 		virtual Size<T> Size() const = 0;
-
-		// Sets the size of the object according to the given dimensions.
-		void SetSize(const hvn3::Size<T>& value) {
-			SetSize(value.Width(), value.Height());
-		}
 
 	};
 
