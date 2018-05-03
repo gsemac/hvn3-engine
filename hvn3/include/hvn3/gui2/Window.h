@@ -7,6 +7,7 @@ namespace hvn3 {
 		class Window : public WidgetBase {
 
 		public:
+			Window(const String& text);
 			Window(float x, float y, float width, float height, const String& text);
 
 			void OnMouseDown(WidgetMouseEventArgs& e) override;

@@ -83,7 +83,7 @@ namespace hvn3 {
 
 			widget_collection_type::iterator _findWidget(IWidget* widget);
 			void _renderChildWidgets(DrawEventArgs& e, IWidget* widget);
-			void _applyDockStyle(IWidget* widget);
+			void _applyDockStyle(IWidget* widget, RectangleF& region);
 
 			// Returns a pointer to the widget renderer assigned to this manager. 
 			// IF no renderer has been assigned, assigns and returns the default renderer.

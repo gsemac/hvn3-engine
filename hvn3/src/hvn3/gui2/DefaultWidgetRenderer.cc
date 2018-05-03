@@ -21,7 +21,6 @@ namespace hvn3 {
 		DefaultWidgetRenderer::DefaultWidgetRenderer() :
 			_default_font(_createDefaultFont()) {
 		}
-
 		void DefaultWidgetRenderer::DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
 
 			InitRenderArgs(widget, args);
@@ -38,9 +37,7 @@ namespace hvn3 {
 		}
 		SizeF DefaultWidgetRenderer::MeasureString(const String& string) const {
 			return SizeF(string.Width(_default_font), string.Height(_default_font));
-		}
-
-
+		}	
 
 		void DefaultWidgetRenderer::DrawWidgetBase(Graphics::Graphics& canvas, const IWidget& widget, const Color& gradient_top, const Color& gradient_bottom) const {
 
@@ -157,9 +154,7 @@ namespace hvn3 {
 			}
 
 		}
-
-
-
+		
 		Font DefaultWidgetRenderer::_createDefaultFont() {
 			std::string default_font_path = System::GetSystemAssetPath(System::SystemAssetType::Fonts) + "webly.ttf";
 			if (IO::File::Exists(default_font_path))

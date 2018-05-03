@@ -117,10 +117,12 @@ namespace hvn3 {
 			if (_widget_hovered != nullptr)
 				_widget_hovered->HandleEvent(WidgetMouseHoverEventArgs(_widget_hovered, _last_mouse_position, e.Delta()));
 
+			RectangleF current_dockable_region = DockableRegion();
+
 			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
 
 				// If the widget is docked, adjust its size and position accordingly.
-				_applyDockStyle(i->widget.get());
+				_applyDockStyle(i->widget.get(), current_dockable_region);
 
 				// Call the update event for the widget.
 				i->widget->HandleEvent(WidgetUpdateEventArgs(i->widget.get(), e.Delta()));
@@ -226,33 +228,37 @@ namespace hvn3 {
 			e.Graphics().Restore(state);
 
 		}
-		void WidgetManager::_applyDockStyle(IWidget* widget) {
+		void WidgetManager::_applyDockStyle(IWidget* widget, RectangleF& region) {
 
 			switch (widget->DockStyle()) {
 
 			case DockStyle::Top:
-				widget->SetPosition(0.0f, 0.0f);
-				widget->SetWidth(DockableRegion().Width());
+				widget->SetPosition(region.Position());
+				widget->SetWidth(region.Width());
+				region = RectangleF::Crop(region, hvn3::CropSide::Top, widget->Height());
 				break;
 
 			case DockStyle::Bottom:
-				widget->SetPosition(0.0f, DockableRegion().Height() - widget->Height());
-				widget->SetWidth(DockableRegion().Width());
+				widget->SetPosition(region.X(), region.Height() - widget->Height());
+				widget->SetWidth(region.Width());
+				region = RectangleF::Crop(region, hvn3::CropSide::Bottom, widget->Height());
 				break;
 
 			case DockStyle::Left:
-				widget->SetPosition(0.0f, 0.0f);
-				widget->SetHeight(DockableRegion().Height());
+				widget->SetPosition(region.Position());
+				widget->SetHeight(region.Height());
+				region = RectangleF::Crop(region, hvn3::CropSide::Left, widget->Width());
 				break;
 
 			case DockStyle::Right:
-				widget->SetPosition(DockableRegion().Width() - widget->Width(), 0.0f);
-				widget->SetHeight(DockableRegion().Height());
+				widget->SetPosition(region.Width() - widget->Width(), region.Y());
+				widget->SetHeight(region.Height());
+				region = RectangleF::Crop(region, hvn3::CropSide::Right, widget->Width());
 				break;
 
 			case DockStyle::Fill:
-				widget->SetPosition(0.0f, 0.0f);
-				widget->SetSize(DockableRegion().Size());
+				widget->SetPosition(region.Position());
+				widget->SetSize(region.Size());
 				break;
 
 			default:
