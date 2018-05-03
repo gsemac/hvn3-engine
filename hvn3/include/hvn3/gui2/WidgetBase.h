@@ -37,6 +37,8 @@ namespace hvn3 {
 			void SetAnchor(Gui::Anchor value) override;
 			Gui::DockStyle DockStyle() const override;
 			void SetDockStyle(Gui::DockStyle value) override;
+			WidgetManager& GetChildren() override;
+			bool HasChildren() override;
 
 			void OnMouseDown(WidgetMouseEventArgs& e) override;
 			void OnMouseEnter(WidgetMouseMoveEventArgs& e) override;
@@ -45,6 +47,8 @@ namespace hvn3 {
 			void OnMouseMove(WidgetMouseMoveEventArgs& e) override;
 			void OnMouseUp(WidgetMouseEventArgs& e) override;
 			void OnUpdate(WidgetUpdateEventArgs& e) override;
+			void OnManagerChanged(WidgetManagerChangedEventArgs& e) override;
+			void OnRendererChanged(WidgetRendererChangedEventArgs& e) override;
 
 			template <WidgetEventType WIDGET_EVENT_TYPE>
 			void SetEventHandler(const std::function<void(typename GetWidgetEventType<WIDGET_EVENT_TYPE>::type&)>& callback) {
@@ -68,7 +72,6 @@ namespace hvn3 {
 			Gui::Anchor _anchor;
 			Gui::DockStyle _dock_style;
 			WidgetManager* _parent_manager;
-			WidgetManager _child_control_manager;
 			callback_table_type _callbacks;
 
 		};

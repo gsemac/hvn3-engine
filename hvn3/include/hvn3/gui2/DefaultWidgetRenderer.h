@@ -15,11 +15,13 @@ namespace hvn3 {
 			DefaultWidgetRenderer();
 
 			void DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const override;
+			SizeF MeasureString(const String& string) const override;
 
 		protected:
 			void DrawWidgetBase(Graphics::Graphics& canvas, const IWidget& widget, const Color& gradient_top, const Color& gradient_bottom) const;
 			void DrawButton(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
 			void DrawWindow(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
+			void DrawMenuStripItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
 			void InitRenderArgs(const IWidget& widget, WidgetRenderArgs& args) const;
 
 		private:

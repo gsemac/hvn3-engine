@@ -32,6 +32,19 @@ namespace hvn3 {
 
 		}
 
+		void WidgetManager::AddChildManager(IWidget* parent, WidgetManager* manager) {
+			_child_managers[parent] = manager;
+		}
+		void WidgetManager::RemoveChildManager(IWidget* parent) {
+
+			auto it = _child_managers.find(parent);
+
+			if (it == _child_managers.end())
+				return;
+
+			_child_managers.erase(it);
+
+		}
 		void WidgetManager::Add(IWidget* widget) {
 
 			Add(std::unique_ptr<IWidget>(widget));
@@ -43,6 +56,9 @@ namespace hvn3 {
 
 			_widgets.emplace_back(WidgetData(widget));
 
+		}
+		WidgetManager::widget_collection_type::size_type WidgetManager::Count() const {
+			return _widgets.size();
 		}
 		void WidgetManager::BringToFront(IWidget* widget) {
 			auto iter = _findWidget(widget);
@@ -60,14 +76,16 @@ namespace hvn3 {
 		}
 
 		void WidgetManager::SetRenderer(renderer_ptr_type& renderer) {
-
+			
 			_renderer = renderer;
+
+			// Let all child widgets know that the renderer has changed.
+			for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
+				i->widget->OnRendererChanged(WidgetRendererChangedEventArgs(i->widget.get()));
 
 		}
 		const IWidgetRenderer& WidgetManager::Renderer() {
-
 			return *_getRenderer();
-
 		}
 		WidgetManager::renderer_ptr_type& WidgetManager::GetRenderer() {
 
@@ -83,8 +101,15 @@ namespace hvn3 {
 
 		void WidgetManager::OnDraw(DrawEventArgs& e) {
 
-			for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
+			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
+
+				// Render the widget.
 				_getRenderer()->DrawWidget(e.Graphics(), i->GetRef(), i->rendererArgs);
+
+				// Render the widget's child widgets.
+				_renderChildWidgets(e, i->widget.get());
+
+			}
 
 		}
 		void WidgetManager::OnUpdate(UpdateEventArgs& e) {
@@ -182,8 +207,24 @@ namespace hvn3 {
 			_widget_held = nullptr;
 			_resort_required = false;
 		}
+
 		WidgetManager::widget_collection_type::iterator WidgetManager::_findWidget(IWidget* widget) {
 			return std::find_if(_widgets.begin(), _widgets.end(), [=](const WidgetData& x) { return x.widget.get() == widget; });
+		}
+		void WidgetManager::_renderChildWidgets(DrawEventArgs& e, IWidget* widget) {
+
+			if (!widget->HasChildren())
+				return;
+
+			Graphics::GraphicsState state = e.Graphics().Save();
+
+			Graphics::Transform t = e.Graphics().GetTransform();
+			t.Translate(widget->Position().x, widget->Position().y);
+
+			widget->GetChildren().OnDraw(e);
+
+			e.Graphics().Restore(state);
+
 		}
 		void WidgetManager::_applyDockStyle(IWidget* widget) {
 
@@ -223,7 +264,7 @@ namespace hvn3 {
 		WidgetManager::renderer_ptr_type& WidgetManager::_getRenderer() {
 
 			if (!_renderer)
-				_renderer = renderer_ptr_type(new DefaultWidgetRenderer);
+				SetRenderer(renderer_ptr_type(new DefaultWidgetRenderer));
 
 			return _renderer;
 

@@ -5,12 +5,6 @@ namespace hvn3 {
 	namespace Gui {
 
 		GuiManager::GuiManager() {}
-		void GuiManager::AddChildWidgetManager(WidgetManager* manger) {
-
-		}
-		void GuiManager::RemoveChildWidgetManager(WidgetManager* manager) {
-
-		}
 		void GuiManager::SetContext(Context context) {
 
 			// Update the dockable region according to the display size.

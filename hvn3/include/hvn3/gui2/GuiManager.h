@@ -3,7 +3,6 @@
 #include "hvn3/gui2/WidgetManager.h"
 #include "hvn3/io/KeyboardListener.h"
 #include "hvn3/io/MouseListener.h"
-#include <list>
 
 namespace hvn3 {
 	namespace Gui {
@@ -16,9 +15,6 @@ namespace hvn3 {
 
 		public:
 			GuiManager();
-
-			void AddChildWidgetManager(WidgetManager* manger);
-			void RemoveChildWidgetManager(WidgetManager* manager);
 
 			void SetContext(Context context) override;
 			void OnContextChanged(ContextChangedEventArgs& e) override;
@@ -36,9 +32,6 @@ namespace hvn3 {
 			void OnMouseReleased(MouseReleasedEventArgs& e) override;
 			void OnMouseMove(MouseMoveEventArgs& e) override;
 			void OnMouseScroll(MouseScrollEventArgs& e) override;
-
-		private:
-			std::list<WidgetManager*> _child_managers;
 
 		};
 

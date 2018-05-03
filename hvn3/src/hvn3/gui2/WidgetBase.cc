@@ -114,6 +114,12 @@ namespace hvn3 {
 		void WidgetBase::SetDockStyle(Gui::DockStyle value) {
 			_dock_style = value;
 		}
+		WidgetManager& WidgetBase::GetChildren() {
+			throw System::NotSupportedException("This widget does not support child widgets.");
+		}
+		bool WidgetBase::HasChildren() {
+			return false;
+		}
 
 		void WidgetBase::OnMouseDown(WidgetMouseEventArgs& e) {
 			SetState(WidgetState::Active, true);
@@ -130,6 +136,8 @@ namespace hvn3 {
 			SetState(WidgetState::Active, false);
 		}
 		void WidgetBase::OnUpdate(WidgetUpdateEventArgs& e) {}
+		void WidgetBase::OnManagerChanged(WidgetManagerChangedEventArgs& e) {}
+		void WidgetBase::OnRendererChanged(WidgetRendererChangedEventArgs& e) {}
 
 
 
@@ -140,8 +148,11 @@ namespace hvn3 {
 
 			_parent_manager = value;
 
-			if (value != nullptr)
-				_child_control_manager.SetRenderer(_parent_manager->GetRenderer());
+			OnManagerChanged(WidgetManagerChangedEventArgs(this));
+			OnRendererChanged(WidgetRendererChangedEventArgs(this));
+
+			//if (value != nullptr)
+			//	_child_control_manager.SetRenderer(_parent_manager->GetRenderer());
 
 		}
 

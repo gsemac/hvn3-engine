@@ -25,7 +25,9 @@ namespace hvn3 {
 			OnMouseUp,
 			// Generated when the widget changes position.
 			OnMove,
-			OnUpdate
+			OnUpdate,
+			OnManagerChanged,
+			OnRendererChanged
 		};
 
 
@@ -90,6 +92,16 @@ namespace hvn3 {
 		private:
 			PointF _old_position;
 			PointF _new_position;
+		};
+		class WidgetManagerChangedEventArgs : public WidgetEventArgs {
+		public:
+			WidgetManagerChangedEventArgs(IWidget* sender) : WidgetEventArgs(sender) {}
+			WidgetEventType Type() const override { return WidgetEventType::OnManagerChanged; }
+		};
+		class WidgetRendererChangedEventArgs : public WidgetEventArgs {
+		public:
+			WidgetRendererChangedEventArgs(IWidget* sender) : WidgetEventArgs(sender) {}
+			WidgetEventType Type() const override { return WidgetEventType::OnRendererChanged; }
 		};
 
 		template <WidgetEventType WIDGET_EVENT_TYPE>

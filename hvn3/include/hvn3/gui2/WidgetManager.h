@@ -37,8 +37,12 @@ namespace hvn3 {
 			WidgetManager();
 			WidgetManager(renderer_ptr_type& renderer);
 
+			void AddChildManager(IWidget* parent, WidgetManager* manager);
+			void RemoveChildManager(IWidget* parent);
+
 			void Add(IWidget* widget);
 			void Add(std::unique_ptr<IWidget>& widget);
+			widget_collection_type::size_type Count() const;
 			void BringToFront(IWidget* widget);
 			void SendToBack(IWidget* widget);
 
@@ -48,7 +52,7 @@ namespace hvn3 {
 
 			const RectangleF& DockableRegion() const;
 			void SetDockableRegion(const RectangleF& value);
-			
+
 			void OnDraw(DrawEventArgs& e) override;
 			void OnUpdate(UpdateEventArgs& e) override;
 
@@ -73,8 +77,12 @@ namespace hvn3 {
 			bool _resort_required;
 			RectangleF _dockable_region;
 
+			std::unordered_map<IWidget*, WidgetManager*> _child_managers;
+
 			void _initialize();
+
 			widget_collection_type::iterator _findWidget(IWidget* widget);
+			void _renderChildWidgets(DrawEventArgs& e, IWidget* widget);
 			void _applyDockStyle(IWidget* widget);
 
 			// Returns a pointer to the widget renderer assigned to this manager. 

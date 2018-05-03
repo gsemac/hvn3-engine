@@ -9,6 +9,7 @@
 namespace hvn3 {
 	namespace Gui {
 
+		class GuiManager;
 		class WidgetManager;
 
 		class IWidget {
@@ -41,6 +42,8 @@ namespace hvn3 {
 			virtual void SetAnchor(Gui::Anchor value) = 0;
 			virtual Gui::DockStyle DockStyle() const = 0;
 			virtual void SetDockStyle(Gui::DockStyle value) = 0;
+			virtual WidgetManager& GetChildren() = 0;
+			virtual bool HasChildren() = 0;
 
 			virtual void OnMouseDown(WidgetMouseEventArgs& e) = 0;
 			virtual void OnMouseEnter(WidgetMouseMoveEventArgs& e) = 0;
@@ -49,6 +52,8 @@ namespace hvn3 {
 			virtual void OnMouseMove(WidgetMouseMoveEventArgs& e) = 0;
 			virtual void OnMouseUp(WidgetMouseEventArgs& e) = 0;
 			virtual void OnUpdate(WidgetUpdateEventArgs& e) = 0;
+			virtual void OnManagerChanged(WidgetManagerChangedEventArgs& e) = 0;
+			virtual void OnRendererChanged(WidgetRendererChangedEventArgs& e) = 0;
 
 		protected:
 			virtual WidgetManager* GetManager() const = 0;

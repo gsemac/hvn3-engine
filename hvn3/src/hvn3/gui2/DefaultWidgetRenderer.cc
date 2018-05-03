@@ -23,16 +23,21 @@ namespace hvn3 {
 		}
 
 		void DefaultWidgetRenderer::DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
-			
+
 			InitRenderArgs(widget, args);
-			
+
 			if (widget.Identifier() == "button")
 				DrawButton(canvas, widget, args);
 			else if (widget.Identifier() == "window")
 				DrawWindow(canvas, widget, args);
 			else if (widget.Identifier() == "menustrip")
 				DrawWidgetBase(canvas, widget, DEFAULT_UPPER_GRADIENT_COLOR, DEFAULT_UPPER_GRADIENT_COLOR);
+			else if (widget.Identifier() == "menustripitem")
+				DrawMenuStripItem(canvas, widget, args);
 
+		}
+		SizeF DefaultWidgetRenderer::MeasureString(const String& string) const {
+			return SizeF(string.Width(_default_font), string.Height(_default_font));
 		}
 
 
@@ -108,6 +113,20 @@ namespace hvn3 {
 			}
 
 		}
+		void DefaultWidgetRenderer::DrawMenuStripItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
+
+			if (_default_font) {
+
+				float text_w = widget.Text().Width(_default_font);
+				float text_h = widget.Text().Height(_default_font);
+				float text_x = widget.Position().X() + (widget.Size().Width() / 2.0f);
+				float text_y = widget.Position().Y() + (widget.Size().Height() / 2.0f) - (text_h / 2.0f);
+
+				canvas.DrawText(text_x, text_y, widget.Text(), _default_font, Color(224, 224, 224), Alignment::Center);
+
+			}
+
+		}
 		void DefaultWidgetRenderer::InitRenderArgs(const IWidget& widget, WidgetRenderArgs& args) const {
 
 			if (args.Initialized() && args.LastState() == widget.State())
@@ -144,7 +163,7 @@ namespace hvn3 {
 		Font DefaultWidgetRenderer::_createDefaultFont() {
 			std::string default_font_path = System::GetSystemAssetPath(System::SystemAssetType::Fonts) + "webly.ttf";
 			if (IO::File::Exists(default_font_path))
-				return Font(default_font_path, 11, FontFlags::Monochrome);
+				return Font(default_font_path, 12);
 			else
 				return Font::BuiltIn();
 		}
