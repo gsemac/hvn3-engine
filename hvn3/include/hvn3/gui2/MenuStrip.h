@@ -39,6 +39,12 @@ namespace hvn3 {
 				AddItem(std::unique_ptr<IWidget>(item));
 			}
 
+			void OnMouseEnter(WidgetMouseMoveEventArgs& e) override {
+				std::cout << "OnMouseEnter\n";
+			}
+			void OnMouseLeave(WidgetMouseMoveEventArgs& e) override {
+				std::cout << "OnMouseLeave\n";
+			}
 			WidgetManager& GetChildren() override {
 				return _child_manager;
 			}

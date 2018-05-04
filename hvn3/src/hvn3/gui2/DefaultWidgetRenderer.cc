@@ -40,7 +40,7 @@ namespace hvn3 {
 		}
 		SizeF DefaultWidgetRenderer::MeasureString(const String& string) const {
 			return SizeF(string.Width(_default_font), string.Height(_default_font));
-		}	
+		}
 
 		void DefaultWidgetRenderer::DrawWidgetBase(Graphics::Graphics& canvas, const IWidget& widget, const Color& gradient_top, const Color& gradient_bottom) const {
 
@@ -120,6 +120,11 @@ namespace hvn3 {
 				float text_x = widget.Position().X() + (widget.Size().Width() / 2.0f);
 				float text_y = widget.Position().Y() + (widget.Size().Height() / 2.0f);
 
+				if (HasFlag(widget.State(), WidgetState::Hover)) {
+					canvas.DrawSolidRectangle(RectangleF(widget.Position(), widget.Size()), Color(DEFAULT_HIGHLIGHT_COLOR, 64));
+					canvas.DrawRectangle(RectangleF(widget.Position(), widget.Size()), Color(DEFAULT_HIGHLIGHT_COLOR, 128), 1.0f);
+				}
+
 				canvas.DrawText(text_x, text_y, widget.Text(), _default_font, Color(224, 224, 224), Alignment::Both);
 
 			}
@@ -155,7 +160,7 @@ namespace hvn3 {
 			}
 
 		}
-		
+
 		Font DefaultWidgetRenderer::_createDefaultFont() {
 			std::string default_font_path = System::GetSystemAssetPath(System::SystemAssetType::Fonts) + "webly.ttf";
 			if (IO::File::Exists(default_font_path))

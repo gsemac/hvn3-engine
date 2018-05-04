@@ -76,7 +76,7 @@ namespace hvn3 {
 		}
 
 		void WidgetManager::SetRenderer(renderer_ptr_type& renderer) {
-			
+
 			_renderer = renderer;
 
 			// Let all child widgets know that the renderer has changed.
@@ -180,20 +180,37 @@ namespace hvn3 {
 			IWidget* widget_hovered = nullptr;
 
 			// Find the widget that the mouse is currently hovering over.
-			for (auto i = _widgets.rbegin(); i != _widgets.rend(); ++i) {
-				IWidget* widget = i->widget.get();
-				widget->HandleEvent(WidgetMouseMoveEventArgs(widget, WidgetEventType::OnMouseMove, e));
-				if (widget_hovered == nullptr && Math::Geometry::PointIn(e.Position(), RectangleF(widget->Position(), widget->Size())))
-					widget_hovered = widget;
+
+			if (Math::Geometry::PointIn(e.Position(), DockableRegion())) {
+				for (auto i = _widgets.rbegin(); i != _widgets.rend(); ++i) {
+
+					IWidget* widget = i->widget.get();
+
+					widget->HandleEvent(WidgetMouseMoveEventArgs(widget, WidgetEventType::OnMouseMove, e));
+
+					if (widget_hovered == nullptr && Math::Geometry::PointIn(e.Position(), RectangleF(widget->Position(), widget->Size()))) {
+						// Assign the new hovered widget.
+						widget_hovered = widget;
+						break;
+					}
+				}
 			}
 
 			// Dispatch the appropriate events if the hovered widget has changed.
 			if (widget_hovered != _widget_hovered) {
+
 				if (_widget_hovered != nullptr)
 					_widget_hovered->HandleEvent(WidgetMouseMoveEventArgs(_widget_hovered, WidgetEventType::OnMouseLeave, e));
+
 				if (widget_hovered != nullptr)
 					widget_hovered->HandleEvent(WidgetMouseMoveEventArgs(widget_hovered, WidgetEventType::OnMouseEnter, e));
+
 			}
+
+			if (_widget_hovered != nullptr && _widget_hovered->HasChildren())
+				_widget_hovered->GetChildren().OnMouseMove(e);
+			else if (widget_hovered != nullptr && widget_hovered->HasChildren())
+				widget_hovered->GetChildren().OnMouseMove(e);
 
 			// Update the hovered widget.
 			_last_mouse_position = e.Position();
