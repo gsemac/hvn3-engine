@@ -42,13 +42,14 @@ namespace hvn3 {
 	float SecondsToFrames(float fps, float sec);
 
 	enum class Alignment {
-		Left,
-		Center,
-		Right,
-		Top,
-		Bottom
+		Left = 1,
+		Center = 2,
+		Right = 4,
+		Top = 8,
+		Bottom = 16,
+		Both = 32
 	};
-	ENABLE_BITFLAG_OPERATORS(Alignment);
+	ENABLE_BITFLAG_OPERATORS(Alignment)
 
 	enum class SizeMode {
 		Normal,

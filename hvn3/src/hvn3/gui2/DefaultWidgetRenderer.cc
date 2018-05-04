@@ -7,10 +7,13 @@
 #include "hvn3/gui2/WidgetRenderArgs.h"
 #include "hvn3/io/File.h"
 #include "hvn3/utility/Utf8String.h"
-#define DEFAULT_UPPER_GRADIENT_COLOR hvn3::Color(73, 70, 82)
 
 namespace hvn3 {
 	namespace Gui {
+
+		static const Color DEFAULT_UPPER_GRADIENT_COLOR(73, 70, 82);
+		static const Color DEFAULT_LOWER_GRADIENT_COLOR(68, 64, 78);
+		static const Color DEFAULT_HIGHLIGHT_COLOR = Color::Merge(Color::Orange, DEFAULT_LOWER_GRADIENT_COLOR, 0.7f);
 
 		PointF getEasedPoint(const WidgetRenderArgs::TransitionData<PointF>* data) {
 			return PointF(data->from.x + (data->to.x - data->from.x) * data->Percentage(), data->from.y + (data->to.y - data->from.y) * data->Percentage());
@@ -114,12 +117,10 @@ namespace hvn3 {
 
 			if (_default_font) {
 
-				float text_w = widget.Text().Width(_default_font);
-				float text_h = widget.Text().Height(_default_font);
 				float text_x = widget.Position().X() + (widget.Size().Width() / 2.0f);
-				float text_y = widget.Position().Y() + (widget.Size().Height() / 2.0f) - (text_h / 2.0f);
+				float text_y = widget.Position().Y() + (widget.Size().Height() / 2.0f);
 
-				canvas.DrawText(text_x, text_y, widget.Text(), _default_font, Color(224, 224, 224), Alignment::Center);
+				canvas.DrawText(text_x, text_y, widget.Text(), _default_font, Color(224, 224, 224), Alignment::Both);
 
 			}
 
@@ -129,7 +130,7 @@ namespace hvn3 {
 			if (args.Initialized() && args.LastState() == widget.State())
 				return;
 
-			Color default_background_color(68, 64, 78);
+			Color default_background_color = DEFAULT_LOWER_GRADIENT_COLOR;
 
 			// Initialize the transition data for this widget to give it a starting point.
 			if (!args.Initialized()) {

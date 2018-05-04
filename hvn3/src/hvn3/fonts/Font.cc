@@ -56,10 +56,26 @@ namespace hvn3 {
 
 	int Font::Height() const {
 
-		if (_font != nullptr)
-			return al_get_font_line_height(AlPtr());
-		else
+		if (!_font)
 			return 0;
+
+		return al_get_font_line_height(AlPtr());
+
+	}
+	int Font::Ascent() const {
+
+		if (!_font)
+			return 0;
+
+		return al_get_font_ascent(AlPtr());
+
+	}
+	int Font::Descent() const {
+
+		if (!_font)
+			return 0;
+
+		return al_get_font_ascent(AlPtr());
 
 	}
 	int Font::Size() const {
@@ -79,7 +95,7 @@ namespace hvn3 {
 		return font;
 
 	}
-	
+
 	Font& Font::operator=(Font&& other) {
 		_font = std::move(other._font);
 		_filename = std::move(other._filename);

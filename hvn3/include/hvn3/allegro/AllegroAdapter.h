@@ -34,6 +34,7 @@ namespace hvn3 {
 			static int ToDisplayFlags(DisplayFlags flags);
 			// Converts display option to Allegro display option.
 			static int ToDisplayOption(DisplayOption option);
+			static int ToAlignmentFlags(Alignment flags);
 			static ALLEGRO_SAMPLE* ToSample(const Sound& sound);
 
 		private:

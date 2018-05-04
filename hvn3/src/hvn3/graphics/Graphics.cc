@@ -289,7 +289,10 @@ namespace hvn3 {
 
 			PrepareDrawingSurface();
 
-			al_draw_text(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text);
+			if (HasFlag(alignment, Alignment::Both))
+				y -= font.Ascent() / 2.0f;
+
+			al_draw_text(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, System::AllegroAdapter::ToAlignmentFlags(alignment), text);
 
 		}
 		void Graphics::DrawText(float x, float y, const std::string& text, const Font& font, const Color& color) {
@@ -301,7 +304,10 @@ namespace hvn3 {
 
 			PrepareDrawingSurface();
 
-			al_draw_ustr(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, GetAllegroFlags(alignment), text.AlPtr());
+			if (HasFlag(alignment, Alignment::Both))
+				y -= font.Ascent() / 2.0f;
+
+			al_draw_ustr(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, System::AllegroAdapter::ToAlignmentFlags(alignment), text.AlPtr());
 
 		}
 
@@ -546,25 +552,6 @@ namespace hvn3 {
 		bool Graphics::IsActiveSurface() const {
 
 			return (_last_to_draw == this);
-
-		}
-		int Graphics::GetAllegroFlags(Alignment value) const {
-
-			int flags = 0;
-
-			switch (value) {
-			case Alignment::Left:
-				flags |= ALLEGRO_ALIGN_LEFT;
-				break;
-			case Alignment::Center:
-				flags |= ALLEGRO_ALIGN_CENTER;
-				break;
-			case Alignment::Right:
-				flags |= ALLEGRO_ALIGN_RIGHT;
-				break;
-			}
-
-			return flags;
 
 		}
 

@@ -103,6 +103,21 @@ namespace hvn3 {
 			return 0;
 
 		}
+		int AllegroAdapter::ToAlignmentFlags(Alignment flags) {
+
+			int al_flags = 0;
+
+			if (HasFlag(flags, Alignment::Left))
+				al_flags |= ALLEGRO_ALIGN_LEFT;
+			if (HasFlag(flags, Alignment::Right))
+				al_flags |= ALLEGRO_ALIGN_RIGHT;
+			if (HasFlag(flags, Alignment::Center) || HasFlag(flags, Alignment::Both))
+				al_flags |= ALLEGRO_ALIGN_CENTER;
+
+			return al_flags;
+
+
+		}
 		ALLEGRO_SAMPLE* AllegroAdapter::ToSample(const Sound& sound) {
 			return sound._getPtr();
 		}

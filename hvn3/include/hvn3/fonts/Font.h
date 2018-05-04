@@ -41,6 +41,8 @@ namespace hvn3 {
 
 		// Returns the height of the font in pixels.
 		int Height() const;
+		int Ascent() const;
+		int Descent() const;
 		// Returns the font size that was passed in the constructor.
 		int Size() const;
 

@@ -95,8 +95,6 @@ namespace hvn3 {
 			void ApplyClip();
 			bool IsActiveSurface() const;
 
-			int GetAllegroFlags(Alignment value) const;
-
 		};
 
 	}
