@@ -61,6 +61,13 @@ namespace hvn3 {
 			_widgets.emplace_back(WidgetData(widget));
 
 		}
+		void WidgetManager::Remove(IWidget* widget) {
+
+			// #todo mark a widget for removal and remove it after the next update
+
+			throw System::NotImplementedException();
+
+		}
 		const WidgetManager::widget_collection_type& WidgetManager::Widgets() const {
 			return _widgets;
 		}

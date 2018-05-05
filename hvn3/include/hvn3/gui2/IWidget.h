@@ -48,6 +48,8 @@ namespace hvn3 {
 			virtual IWidget* GetParent() = 0;
 			virtual void SetParent(IWidget* value) = 0;
 			virtual RectangleF Bounds() const = 0;
+			virtual bool Visible() const = 0;
+			virtual void SetVisible(bool value) = 0;
 
 			virtual void OnMouseDown(WidgetMouseEventArgs& e) = 0;
 			virtual void OnMouseEnter(WidgetMouseMoveEventArgs& e) = 0;

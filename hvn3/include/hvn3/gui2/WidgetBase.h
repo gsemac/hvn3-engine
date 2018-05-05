@@ -43,6 +43,8 @@ namespace hvn3 {
 			IWidget* GetParent() override;
 			void SetParent(IWidget* value) override;
 			RectangleF Bounds() const override;
+			bool Visible() const override;
+			void SetVisible(bool value) override;
 
 			void OnMouseDown(WidgetMouseEventArgs& e) override;
 			void OnMouseEnter(WidgetMouseMoveEventArgs& e) override;
@@ -76,6 +78,7 @@ namespace hvn3 {
 			Gui::Anchor _anchor;
 			Gui::DockStyle _dock_style;
 			IWidget* _parent;
+			bool _visible;
 			WidgetManager* _parent_manager;
 			callback_table_type _callbacks;
 

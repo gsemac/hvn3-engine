@@ -43,6 +43,7 @@ namespace hvn3 {
 
 			void Add(IWidget* widget);
 			void Add(std::unique_ptr<IWidget>& widget);
+			void Remove(IWidget* widget);
 			const widget_collection_type& Widgets() const;
 			widget_collection_type& GetWidgets();
 			widget_collection_type::size_type Count() const;

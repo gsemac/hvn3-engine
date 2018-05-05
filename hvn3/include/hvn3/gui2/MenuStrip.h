@@ -21,11 +21,12 @@ namespace hvn3 {
 		protected:
 			void ShowContextMenu();
 			void HideContextMenu();
+			void DestroyContextMenu();
 
 		private:
 			MenuStrip* _parent;
 			ContextMenu* _context_menu;
-			bool _context_menu_visible;
+			bool _context_menu_managed;
 
 		};
 
@@ -49,8 +50,6 @@ namespace hvn3 {
 		private:
 			WidgetManager _child_manager;
 			MenuStripItem* _active_item;
-
-			void _showContextMenu(ContextMenu* cm);
 
 		};
 

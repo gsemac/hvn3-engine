@@ -3,28 +3,73 @@
 namespace hvn3 {
 	namespace Gui {
 
-		MenuStripItem::MenuStripItem(const std::string& text) {
+		MenuStripItem::MenuStripItem(MenuStrip* parent, const String& text) {
 
 			SetIdentifier("menustripitem");
 			SetText(text);
 
+			_parent = parent;
+			_context_menu = nullptr;
+			_context_menu_managed = false;
+
+		}
+		void MenuStripItem::SetContextMenu(ContextMenu* context_menu) {
+
+			DestroyContextMenu();
+
+			if (context_menu == nullptr)
+				return;
+
+			_context_menu = context_menu;
+			_context_menu->SetVisible(false);
+
+			_context_menu_managed = false;
+
 		}
 		void MenuStripItem::OnMouseUp(WidgetMouseEventArgs& e) {
-
-			ContextMenu* cm = new ContextMenu();
-			cm->SetPosition(Position().x, Position().y + Height());
-			cm->AddItem("Context Menu Item 1");
-			cm->AddItem("Context Menu Item 2");
-			cm->AddItem("Context Menu Item 3");
-
-			_owner->_showContextMenu(cm);
-
+			ShowContextMenu();
 		}
 
-		void MenuStripItem::_setOwner(MenuStrip* ms) {
-			_owner = ms;
-		}
+		void MenuStripItem::ShowContextMenu() {
 
+			if (!_context_menu_managed && _context_menu != nullptr && _parent != nullptr && _parent->GetManager() != nullptr) {
+				_parent->GetManager()->Add(_context_menu);
+				_context_menu_managed = true;
+			}
+
+			if (_context_menu != nullptr) {
+				_context_menu->SetPosition(Position().x, Position().y + Height());
+				_context_menu->SetVisible(true);
+			}
+
+		}
+		void MenuStripItem::HideContextMenu() {
+
+			if (_context_menu == nullptr)
+				return;
+
+			_context_menu->SetVisible(false);
+
+		}
+		void MenuStripItem::DestroyContextMenu() {
+
+			if (_context_menu == nullptr)
+				return;
+
+			// If the context menu isn't currently managed, just delete it.
+			if (!_context_menu_managed) {
+				delete _context_menu;
+				_context_menu = nullptr;
+			}
+
+			if (_parent == nullptr || _parent->GetManager() == nullptr)
+				return;
+
+			_parent->GetManager()->Remove(_context_menu);
+
+			_context_menu = nullptr;
+
+		}
 
 
 
@@ -45,10 +90,14 @@ namespace hvn3 {
 			_child_manager.Add(item);
 		}
 		void MenuStrip::AddItem(MenuStripItem* item) {
-
-			item->_setOwner(this);
-
 			AddItem(std::unique_ptr<IWidget>(item));
+		}
+		MenuStripItem* MenuStrip::AddItem(const String& text) {
+			
+			MenuStripItem* item = new MenuStripItem(this, text);
+			AddItem(item);
+			
+			return item;
 
 		}
 		WidgetManager& MenuStrip::GetChildren() {
@@ -89,15 +138,6 @@ namespace hvn3 {
 				x += margin_x + i->widget->Width();
 
 			}
-
-		}
-
-		void MenuStrip::_showContextMenu(ContextMenu* cm) {
-
-			if (GetManager() == nullptr)
-				return;
-			std::cout << "added context menu\n";
-			GetManager()->Add(cm);
 
 		}
 

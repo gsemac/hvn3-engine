@@ -22,6 +22,7 @@ namespace hvn3 {
 			_dock_style = static_cast<Gui::DockStyle>(0);
 			_parent_manager = nullptr;
 			_parent = nullptr;
+			_visible = true;
 
 		}
 
@@ -139,6 +140,12 @@ namespace hvn3 {
 		}
 		RectangleF WidgetBase::Bounds() const {
 			return RectangleF(FixedPosition(), Size());
+		}
+		bool WidgetBase::Visible() const {
+			return _visible;
+		}
+		void WidgetBase::SetVisible(bool value) {
+			_visible = value;
 		}
 
 		void WidgetBase::OnMouseDown(WidgetMouseEventArgs& e) {
