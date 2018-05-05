@@ -98,6 +98,7 @@
     <ClInclude Include="include\hvn3\graphics\Transform.h" />
     <ClInclude Include="include\hvn3\graphics\Tween.h" />
     <ClInclude Include="include\hvn3\gui2\Button.h" />
+    <ClInclude Include="include\hvn3\gui2\ContextMenu.h" />
     <ClInclude Include="include\hvn3\gui2\GuiManager.h" />
     <ClInclude Include="include\hvn3\gui2\MenuStrip.h" />
     <ClInclude Include="include\hvn3\gui2\WidgetManager.h" />
@@ -257,6 +258,7 @@
     <ClCompile Include="src\hvn3\graphics\Transform.cc" />
     <ClCompile Include="src\hvn3\gui2\Button.cc" />
     <ClCompile Include="src\hvn3\gui2\GuiManager.cc" />
+    <ClCompile Include="src\hvn3\gui2\MenuStrip.cc" />
     <ClCompile Include="src\hvn3\gui2\WidgetEventArgs.cc" />
     <ClCompile Include="src\hvn3\gui2\WidgetBase.cc" />
     <ClCompile Include="src\hvn3\gui2\DefaultWidgetRenderer.cc" />

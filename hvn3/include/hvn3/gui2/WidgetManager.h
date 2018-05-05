@@ -35,6 +35,7 @@ namespace hvn3 {
 
 		public:
 			WidgetManager();
+			WidgetManager(IWidget* owner);
 			WidgetManager(renderer_ptr_type& renderer);
 
 			void AddChildManager(IWidget* parent, WidgetManager* manager);
@@ -42,6 +43,8 @@ namespace hvn3 {
 
 			void Add(IWidget* widget);
 			void Add(std::unique_ptr<IWidget>& widget);
+			const widget_collection_type& Widgets() const;
+			widget_collection_type& GetWidgets();
 			widget_collection_type::size_type Count() const;
 			void BringToFront(IWidget* widget);
 			void SendToBack(IWidget* widget);
@@ -76,6 +79,7 @@ namespace hvn3 {
 			PointF _last_mouse_position;
 			bool _resort_required;
 			RectangleF _dockable_region;
+			IWidget* _owner;
 
 			std::unordered_map<IWidget*, WidgetManager*> _child_managers;
 

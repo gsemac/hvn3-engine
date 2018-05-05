@@ -21,6 +21,7 @@ namespace hvn3 {
 			_anchor = static_cast<Gui::Anchor>(0);
 			_dock_style = static_cast<Gui::DockStyle>(0);
 			_parent_manager = nullptr;
+			_parent = nullptr;
 
 		}
 
@@ -61,6 +62,16 @@ namespace hvn3 {
 		}
 		void WidgetBase::SetPosition(float x, float y) {
 			SetPosition(PointF(x, y));
+		}
+		PointF WidgetBase::FixedPosition() const {
+
+			PointF position = Position();
+
+			if (_parent != nullptr)
+				position += _parent->FixedPosition();
+
+			return position;
+
 		}
 		const SizeF& WidgetBase::Size() const {
 
@@ -119,6 +130,15 @@ namespace hvn3 {
 		}
 		bool WidgetBase::HasChildren() {
 			return false;
+		}
+		IWidget* WidgetBase::GetParent() {
+			return _parent;
+		}
+		void WidgetBase::SetParent(IWidget* value) {
+			_parent = value;
+		}
+		RectangleF WidgetBase::Bounds() const {
+			return RectangleF(FixedPosition(), Size());
 		}
 
 		void WidgetBase::OnMouseDown(WidgetMouseEventArgs& e) {

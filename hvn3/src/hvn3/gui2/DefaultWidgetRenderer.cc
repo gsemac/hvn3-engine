@@ -36,6 +36,10 @@ namespace hvn3 {
 				DrawWidgetBase(canvas, widget, DEFAULT_UPPER_GRADIENT_COLOR, DEFAULT_UPPER_GRADIENT_COLOR);
 			else if (widget.Identifier() == "menustripitem")
 				DrawMenuStripItem(canvas, widget, args);
+			else if (widget.Identifier() == "contextmenu")
+				DrawContextMenu(canvas, widget, args);
+			else if (widget.Identifier() == "contextmenuitem")
+				DrawMenuStripItem(canvas, widget, args);
 
 		}
 		SizeF DefaultWidgetRenderer::MeasureString(const String& string) const {
@@ -121,7 +125,7 @@ namespace hvn3 {
 				float text_y = widget.Position().Y() + (widget.Size().Height() / 2.0f);
 
 				if (HasFlag(widget.State(), WidgetState::Hover)) {
-					canvas.DrawSolidRectangle(RectangleF(widget.Position(), widget.Size()), Color(DEFAULT_HIGHLIGHT_COLOR, 64));
+					canvas.DrawSolidRectangle(RectangleF(widget.Position(), widget.Size()), Color(DEFAULT_HIGHLIGHT_COLOR, 128));
 					canvas.DrawRectangle(RectangleF(widget.Position(), widget.Size()), Color(DEFAULT_HIGHLIGHT_COLOR, 128), 1.0f);
 				}
 
@@ -130,6 +134,16 @@ namespace hvn3 {
 			}
 
 		}
+		void DefaultWidgetRenderer::DrawContextMenu(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
+
+			canvas.DrawSolidRectangle(RectangleF(widget.Position(), widget.Size()), DEFAULT_UPPER_GRADIENT_COLOR);
+			canvas.DrawRectangle(RectangleF(widget.Position(), widget.Size()), Color::Black, 1.0f);
+
+		}
+		void DefaultWidgetRenderer::DrawContextMenuItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
+			DrawMenuStripItem(canvas, widget, args);
+		}
+
 		void DefaultWidgetRenderer::InitRenderArgs(const IWidget& widget, WidgetRenderArgs& args) const {
 
 			if (args.Initialized() && args.LastState() == widget.State())

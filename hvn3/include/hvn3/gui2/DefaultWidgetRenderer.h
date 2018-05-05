@@ -22,6 +22,8 @@ namespace hvn3 {
 			void DrawButton(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
 			void DrawWindow(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
 			void DrawMenuStripItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
+			void DrawContextMenu(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
+			void DrawContextMenuItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
 			void InitRenderArgs(const IWidget& widget, WidgetRenderArgs& args) const;
 
 		private:

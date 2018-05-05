@@ -93,6 +93,9 @@ namespace hvn3 {
 			SetPosition(X() + x_offset, Y() + y_offset);
 
 		}
+		void Translate(const Point2d<T>& offset) {
+			Translate(offset.x, offset.y);
+		}
 		void Scale(T x_scale, T y_scale) {
 
 			throw NotImplementedException();

@@ -24,6 +24,10 @@ namespace hvn3 {
 			_initialize();
 
 		}
+		WidgetManager::WidgetManager(IWidget* owner) :
+			WidgetManager() {
+			_owner = owner;
+		}
 		WidgetManager::WidgetManager(renderer_ptr_type& renderer) :
 			_renderer(std::move(renderer)),
 			_dockable_region(0.0f, 0.0f) {
@@ -57,9 +61,16 @@ namespace hvn3 {
 			_widgets.emplace_back(WidgetData(widget));
 
 		}
+		const WidgetManager::widget_collection_type& WidgetManager::Widgets() const {
+			return _widgets;
+		}
+		WidgetManager::widget_collection_type& WidgetManager::GetWidgets() {
+			return _widgets;
+		}
 		WidgetManager::widget_collection_type::size_type WidgetManager::Count() const {
 			return _widgets.size();
 		}
+
 		void WidgetManager::BringToFront(IWidget* widget) {
 			auto iter = _findWidget(widget);
 			if (iter == _widgets.end())
@@ -154,8 +165,14 @@ namespace hvn3 {
 
 			// Call the mouse-down event for the currently-hovered widget.
 			if (_widget_hovered != nullptr && _widget_held == nullptr) {
+
 				_widget_hovered->HandleEvent(WidgetMouseEventArgs(_widget_hovered, WidgetEventType::OnMouseDown, e));
+
+				if (_widget_hovered->HasChildren())
+					_widget_hovered->GetChildren().OnMouseDown(e);
+
 				_widget_held = _widget_hovered;
+
 			}
 
 		}
@@ -166,6 +183,9 @@ namespace hvn3 {
 			if (_widget_held != nullptr) {
 
 				_widget_held->HandleEvent(WidgetMouseEventArgs(_widget_held, WidgetEventType::OnMouseUp, e));
+
+				if (_widget_held->HasChildren())
+					_widget_held->GetChildren().OnMouseReleased(e);
 
 				// If the mouse was released on the same widget that it went down on, consider it a click.
 				if (_widget_hovered == _widget_held)
@@ -179,16 +199,18 @@ namespace hvn3 {
 
 			IWidget* widget_hovered = nullptr;
 
+			RectangleF fixed_region = (_owner == nullptr) ? DockableRegion() : _owner->Bounds();
+
 			// Find the widget that the mouse is currently hovering over.
 
-			if (Math::Geometry::PointIn(e.Position(), DockableRegion())) {
+			if (!e.Handled() && Math::Geometry::PointIn(e.Position(), fixed_region)) {
 				for (auto i = _widgets.rbegin(); i != _widgets.rend(); ++i) {
 
 					IWidget* widget = i->widget.get();
 
 					widget->HandleEvent(WidgetMouseMoveEventArgs(widget, WidgetEventType::OnMouseMove, e));
 
-					if (widget_hovered == nullptr && Math::Geometry::PointIn(e.Position(), RectangleF(widget->Position(), widget->Size()))) {
+					if (widget_hovered == nullptr && Math::Geometry::PointIn(e.Position(), RectangleF(widget->FixedPosition(), widget->Size()))) {
 						// Assign the new hovered widget.
 						widget_hovered = widget;
 						break;
@@ -204,6 +226,9 @@ namespace hvn3 {
 
 				if (widget_hovered != nullptr)
 					widget_hovered->HandleEvent(WidgetMouseMoveEventArgs(widget_hovered, WidgetEventType::OnMouseEnter, e));
+
+				if (widget_hovered != nullptr)
+					e.SetHandled(true);
 
 			}
 
@@ -222,9 +247,12 @@ namespace hvn3 {
 
 
 		void WidgetManager::_initialize() {
+
 			_widget_hovered = nullptr;
 			_widget_held = nullptr;
 			_resort_required = false;
+			_owner = nullptr;
+
 		}
 
 		WidgetManager::widget_collection_type::iterator WidgetManager::_findWidget(IWidget* widget) {
@@ -239,6 +267,8 @@ namespace hvn3 {
 
 			Graphics::Transform t = e.Graphics().GetTransform();
 			t.Translate(widget->Position().x, widget->Position().y);
+
+			e.Graphics().SetTransform(t);
 
 			widget->GetChildren().OnDraw(e);
 

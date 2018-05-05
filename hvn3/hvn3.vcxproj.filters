@@ -696,6 +696,9 @@
     <ClInclude Include="include\hvn3\io\Listener.h">
       <Filter>include\io</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\ContextMenu.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1042,6 +1045,9 @@
       <Filter>src\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\gui2\GuiManager.cc">
+      <Filter>src\gui2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui2\MenuStrip.cc">
       <Filter>src\gui2</Filter>
     </ClCompile>
   </ItemGroup>

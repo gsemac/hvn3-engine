@@ -22,6 +22,7 @@ namespace hvn3 {
 			const PointF& Position() const override;
 			void SetPosition(const PointF& value) override;
 			void SetPosition(float x, float y) override;
+			PointF FixedPosition() const override;
 			const SizeF& Size() const override;
 			void SetSize(const SizeF& value) override;
 			void SetSize(float width, float height) override;
@@ -39,6 +40,9 @@ namespace hvn3 {
 			void SetDockStyle(Gui::DockStyle value) override;
 			WidgetManager& GetChildren() override;
 			bool HasChildren() override;
+			IWidget* GetParent() override;
+			void SetParent(IWidget* value) override;
+			RectangleF Bounds() const override;
 
 			void OnMouseDown(WidgetMouseEventArgs& e) override;
 			void OnMouseEnter(WidgetMouseMoveEventArgs& e) override;
@@ -71,6 +75,7 @@ namespace hvn3 {
 			WidgetState _state;
 			Gui::Anchor _anchor;
 			Gui::DockStyle _dock_style;
+			IWidget* _parent;
 			WidgetManager* _parent_manager;
 			callback_table_type _callbacks;
 
