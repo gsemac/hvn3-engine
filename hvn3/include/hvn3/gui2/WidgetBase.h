@@ -8,14 +8,14 @@ namespace hvn3 {
 
 		class WidgetBase : public IWidget {
 
-			typedef std::unordered_map<WidgetEventType, std::function<void(WidgetEventArgs&)>> callback_table_type;
+			typedef std::unordered_map<WidgetEventType, std::function<void(IWidgetEventArgs&)>> callback_table_type;
 
 		public:
 			WidgetBase();
 			WidgetBase(float x, float y, float width, float height);
 			WidgetBase(const PointF& position, const SizeF& size);
 
-			void HandleEvent(WidgetEventArgs& ev) override;
+			void HandleEvent(IWidgetEventArgs& ev) override;
 
 			const std::string& Identifier() const override;
 			void SetIdentifier(const std::string& value) override;
@@ -46,20 +46,21 @@ namespace hvn3 {
 			bool Visible() const override;
 			void SetVisible(bool value) override;
 
-			void OnMouseDown(WidgetMouseEventArgs& e) override;
-			void OnMouseEnter(WidgetMouseMoveEventArgs& e) override;
+			void OnMouseDown(WidgetMouseDownEventArgs& e) override;
+			void OnMouseEnter(WidgetMouseEnterEventArgs& e) override;
 			void OnMouseHover(WidgetMouseHoverEventArgs& e) override;
-			void OnMouseLeave(WidgetMouseMoveEventArgs& e) override;
+			void OnMouseLeave(WidgetMouseLeaveEventArgs& e) override;
 			void OnMouseMove(WidgetMouseMoveEventArgs& e) override;
-			void OnMouseUp(WidgetMouseEventArgs& e) override;
+			void OnMouseUp(WidgetMouseUpEventArgs& e) override;
 			void OnUpdate(WidgetUpdateEventArgs& e) override;
 			void OnManagerChanged(WidgetManagerChangedEventArgs& e) override;
 			void OnRendererChanged(WidgetRendererChangedEventArgs& e) override;
+			void OnFocusLost(WidgetFocusLostEventArgs& e) override;
 
 			template <WidgetEventType WIDGET_EVENT_TYPE>
-			void SetEventHandler(const std::function<void(typename GetWidgetEventType<WIDGET_EVENT_TYPE>::type&)>& callback) {
-				_callbacks.emplace(WIDGET_EVENT_TYPE, [=](WidgetEventArgs& x) {
-					callback(reinterpret_cast<typename GetWidgetEventType<WIDGET_EVENT_TYPE>::type&>(x));
+			void SetEventHandler(const std::function<void(typename WidgetEventTypeTraits<WIDGET_EVENT_TYPE>::type&)>& callback) {
+				_callbacks.emplace(WIDGET_EVENT_TYPE, [=](IWidgetEventArgs& x) {
+					callback(reinterpret_cast<typename WidgetEventTypeTraits<WIDGET_EVENT_TYPE>::type&>(x));
 				});
 			}
 
@@ -67,7 +68,7 @@ namespace hvn3 {
 			WidgetManager* GetManager() const override;
 			void SetManager(WidgetManager* value) override;
 
-			void DoEventHandler(WidgetEventType ev, WidgetEventArgs& args);
+			void DoEventHandler(WidgetEventType ev, IWidgetEventArgs& args);
 
 		private:
 			std::string _name;

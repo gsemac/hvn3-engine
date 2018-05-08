@@ -10,8 +10,8 @@ namespace hvn3 {
 			Window(const String& text);
 			Window(float x, float y, float width, float height, const String& text);
 
-			void OnMouseDown(WidgetMouseEventArgs& e) override;
-			void OnMouseUp(WidgetMouseEventArgs& e) override;
+			void OnMouseDown(WidgetMouseDownEventArgs& e) override;
+			void OnMouseUp(WidgetMouseUpEventArgs& e) override;
 			void OnMouseMove(WidgetMouseMoveEventArgs& e) override;
 
 		private:

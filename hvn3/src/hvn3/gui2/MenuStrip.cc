@@ -26,7 +26,7 @@ namespace hvn3 {
 			_context_menu_managed = false;
 
 		}
-		void MenuStripItem::OnMouseUp(WidgetMouseEventArgs& e) {
+		void MenuStripItem::OnMouseUp(WidgetMouseUpEventArgs& e) {
 			ShowContextMenu();
 		}
 

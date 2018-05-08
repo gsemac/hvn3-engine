@@ -259,7 +259,6 @@
     <ClCompile Include="src\hvn3\gui2\Button.cc" />
     <ClCompile Include="src\hvn3\gui2\GuiManager.cc" />
     <ClCompile Include="src\hvn3\gui2\MenuStrip.cc" />
-    <ClCompile Include="src\hvn3\gui2\WidgetEventArgs.cc" />
     <ClCompile Include="src\hvn3\gui2\WidgetBase.cc" />
     <ClCompile Include="src\hvn3\gui2\DefaultWidgetRenderer.cc" />
     <ClCompile Include="src\hvn3\gui2\WidgetManager.cc" />

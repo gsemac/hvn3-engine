@@ -1,12 +1,11 @@
 #pragma once
 #include "hvn3/events/EventArgs.h"
+#include "hvn3/gui2/GuiTypeDefs.h"
 #include "hvn3/io/MouseEventArgs.h"
 #include "hvn3/math/Point2d.h"
-#define HVN3_DECLARE_WIDGET_EVENT_TYPE(ID, TYPE)\
-template <>\
-struct hvn3::Gui::GetWidgetEventType<ID> {\
-	typedef TYPE type;\
-};\
+
+// Specializes the widget event type traits class for accessing a widget event type from a widget event ID.
+#define HVN3_DECLARE_WIDGET_EVENT_TYPE(ID, TYPE) template <> struct hvn3::Gui::WidgetEventTypeTraits<ID> { typedef TYPE type; };
 
 namespace hvn3 {
 
@@ -14,109 +13,132 @@ namespace hvn3 {
 
 		class IWidget;
 
-		enum class WidgetEventType {
-			// Generated when the widget is clicked.
-			OnMouseClick,
-			OnMouseDown,
-			OnMouseEnter,
-			OnMouseHover,
-			OnMouseLeave,
-			OnMouseMove,
-			OnMouseUp,
-			// Generated when the widget changes position.
-			OnMove,
-			OnUpdate,
-			OnManagerChanged,
-			OnRendererChanged
+		// Base class for widget event args classes. The Type() method must be overridden to return the event ID.
+		class IWidgetEventArgs : public System::EventArgs {
+		public:
+			virtual IWidget* Sender() const = 0;
+			virtual WidgetEventType Type() const = 0;
 		};
 
-
-		class WidgetEventArgs : public System::EventArgs {
-
+		template <WidgetEventType EVENT_TYPE>
+		class WidgetEventArgsBase : public IWidgetEventArgs {
 		public:
-			WidgetEventArgs(IWidget* sender);
-
-			virtual IWidget* Sender() const;
-			virtual WidgetEventType Type() const = 0;
-
+			WidgetEventArgsBase(IWidget* sender) :
+				_sender(sender) {
+			}
+			IWidget* Sender() const override {
+				return _sender;
+			}
+			WidgetEventType Type() const override {
+				return EVENT_TYPE;
+			}
 		private:
 			IWidget* _sender;
-
 		};
 
-
-		class WidgetUpdateEventArgs : public WidgetEventArgs {
+		class WidgetUpdateEventArgs : public WidgetEventArgsBase<WidgetEventType::OnUpdate> {
 		public:
-			WidgetUpdateEventArgs(IWidget* sender, double dt);
-			double Delta() const;
-			WidgetEventType Type() const override;
+			WidgetUpdateEventArgs(IWidget* sender, double dt) :
+				WidgetEventArgsBase(sender),
+				_dt(dt) {
+			}
+			double Delta() const {
+				return _dt;
+			}
 		private:
 			double _dt;
 		};
 
-
-		class WidgetMouseEventArgs : public WidgetEventArgs {
+		template <WidgetEventType EVENT_TYPE>
+		class WidgetMouseEventArgsBase : public WidgetEventArgsBase<EVENT_TYPE> {
 		public:
-			WidgetMouseEventArgs(IWidget* sender, WidgetEventType type, MouseEventArgs& e);
-			MouseButton Button() const;
-			const PointF& Position() const;
-			WidgetEventType Type() const override;
+			WidgetMouseEventArgsBase(IWidget* sender, MouseEventArgs& e) :
+				WidgetEventArgsBase(sender),
+				_args(e) {
+			}
+			MouseButton Button() const {
+				return _args.Button();
+			}
+			const PointF& Position() const {
+				return _args.Position();
+			}
 		private:
 			MouseEventArgs _args;
-			WidgetEventType _type;
-		};
-		class WidgetMouseHoverEventArgs : public WidgetUpdateEventArgs {
-		public:
-			WidgetMouseHoverEventArgs(IWidget* sender, const PointF& position, double dt);
-			const PointF& Position() const;
-			WidgetEventType Type() const override;
-		private:
-			PointF _position;
-		};
-		class WidgetMouseMoveEventArgs : public WidgetEventArgs {
-		public:
-			WidgetMouseMoveEventArgs(IWidget* sender, WidgetEventType type, MouseMoveEventArgs& e);
-			const PointF& Position() const;
-			WidgetEventType Type() const override;
-		private:
-			PointF _position;
-			WidgetEventType _type;
 		};
 
-		class WidgetMoveEventArgs : public WidgetEventArgs {
+		class WidgetMouseHoverEventArgs : public WidgetUpdateEventArgs {
 		public:
-			WidgetMoveEventArgs(IWidget* sender, const PointF& old_position, const PointF& new_position);
-			const PointF& OldPosition() const;
-			const PointF& NewPosition() const;
-			WidgetEventType Type() const override;
+			WidgetMouseHoverEventArgs(IWidget* sender, const PointF& position, double dt) :
+				WidgetUpdateEventArgs(sender, dt),
+				_position(position) {
+			}
+			const PointF& Position() const {
+				return _position;
+			}
+			WidgetEventType Type() const override {
+				return WidgetEventType::OnMouseHover;
+			}
+		private:
+			PointF _position;
+		};
+
+		template <WidgetEventType EVENT_TYPE>
+		class WidgetMouseMoveEventArgsBase : public WidgetEventArgsBase<EVENT_TYPE> {
+		public:
+			WidgetMouseMoveEventArgsBase(IWidget* sender, MouseMoveEventArgs& e) :
+				WidgetEventArgsBase(sender),
+				_position(e.Position()) {
+			}
+			const PointF& Position() const {
+				return _position;
+			}
+		private:
+			PointF _position;
+		};
+
+		class WidgetMoveEventArgs : public WidgetEventArgsBase<WidgetEventType::OnMove> {
+		public:
+			WidgetMoveEventArgs(IWidget* sender, const PointF& old_position, const PointF& new_position) :
+				WidgetEventArgsBase(sender),
+				_old_position(old_position),
+				_new_position(new_position) {
+			}
+			const PointF& OldPosition() const {
+				return _old_position;
+			}
+			const PointF& NewPosition() const {
+				return _new_position;
+			}
 		private:
 			PointF _old_position;
 			PointF _new_position;
 		};
-		class WidgetManagerChangedEventArgs : public WidgetEventArgs {
-		public:
-			WidgetManagerChangedEventArgs(IWidget* sender) : WidgetEventArgs(sender) {}
-			WidgetEventType Type() const override { return WidgetEventType::OnManagerChanged; }
-		};
-		class WidgetRendererChangedEventArgs : public WidgetEventArgs {
-		public:
-			WidgetRendererChangedEventArgs(IWidget* sender) : WidgetEventArgs(sender) {}
-			WidgetEventType Type() const override { return WidgetEventType::OnRendererChanged; }
-		};
+
+		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseDown> WidgetMouseDownEventArgs;
+		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseUp> WidgetMouseUpEventArgs;
+		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseClick> WidgetMouseClickEventArgs;
+		typedef WidgetMouseMoveEventArgsBase<WidgetEventType::OnMouseMove> WidgetMouseMoveEventArgs;
+		typedef WidgetMouseMoveEventArgsBase<WidgetEventType::OnMouseEnter> WidgetMouseEnterEventArgs;
+		typedef WidgetMouseMoveEventArgsBase<WidgetEventType::OnMouseLeave> WidgetMouseLeaveEventArgs;
+		typedef WidgetEventArgsBase<WidgetEventType::OnManagerChanged> WidgetManagerChangedEventArgs;
+		typedef WidgetEventArgsBase<WidgetEventType::OnRendererChanged> WidgetRendererChangedEventArgs;
+		typedef WidgetEventArgsBase<WidgetEventType::OnFocusLost> WidgetFocusLostEventArgs;
 
 		template <WidgetEventType WIDGET_EVENT_TYPE>
-		struct GetWidgetEventType {
-			typedef WidgetEventArgs type;
+		struct WidgetEventTypeTraits {
+			typedef IWidgetEventArgs type;
 		};
 
-		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnUpdate, WidgetUpdateEventArgs);
-		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseDown, WidgetMouseEventArgs);
-		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseEnter, WidgetMouseMoveEventArgs);
-		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseHover, WidgetMouseHoverEventArgs);
-		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseLeave, WidgetMouseMoveEventArgs);
-		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseUp, WidgetMouseEventArgs);
-		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseMove, WidgetMouseMoveEventArgs);
-		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMove, WidgetMoveEventArgs);
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnUpdate, WidgetUpdateEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseClick, WidgetMouseClickEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseDown, WidgetMouseDownEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseEnter, WidgetMouseEnterEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseHover, WidgetMouseHoverEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseLeave, WidgetMouseLeaveEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseUp, WidgetMouseUpEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseMove, WidgetMouseMoveEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMove, WidgetMoveEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnFocusLost, WidgetFocusLostEventArgs)
 
 	}
 }

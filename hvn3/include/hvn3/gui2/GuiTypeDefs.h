@@ -6,7 +6,7 @@ namespace hvn3 {
 	namespace Gui {
 
 		class IWidget;
-		class WidgetEventArgs;
+		class IWidgetEventArgs;
 
 		enum class Anchor {
 			Left = 1,
@@ -29,6 +29,23 @@ namespace hvn3 {
 			Color,
 			TextOffset,
 			WIDGET_PROPERTY_MAX
+		};
+
+		enum class WidgetEventType {
+			OnFocusLost,
+			// Generated when the widget is clicked.
+			OnMouseClick,
+			OnMouseDown,
+			OnMouseEnter,
+			OnMouseHover,
+			OnMouseLeave,
+			OnMouseMove,
+			OnMouseUp,
+			// Generated when the widget changes position.
+			OnMove,
+			OnUpdate,
+			OnManagerChanged,
+			OnRendererChanged
 		};
 
 		enum class WidgetState {

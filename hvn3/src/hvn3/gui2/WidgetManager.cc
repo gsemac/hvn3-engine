@@ -173,7 +173,7 @@ namespace hvn3 {
 			// Call the mouse-down event for the currently-hovered widget.
 			if (_widget_hovered != nullptr && _widget_held == nullptr) {
 
-				_widget_hovered->HandleEvent(WidgetMouseEventArgs(_widget_hovered, WidgetEventType::OnMouseDown, e));
+				_widget_hovered->HandleEvent(WidgetMouseDownEventArgs(_widget_hovered, e));
 
 				if (_widget_hovered->HasChildren())
 					_widget_hovered->GetChildren().OnMouseDown(e);
@@ -185,18 +185,18 @@ namespace hvn3 {
 		}
 		void WidgetManager::OnMousePressed(MousePressedEventArgs& e) {}
 		void WidgetManager::OnMouseReleased(MouseReleasedEventArgs& e) {
-
+			
 			// Only call the mouse-up event for a widget we've previously called the mouse-down event for.
 			if (_widget_held != nullptr) {
 
-				_widget_held->HandleEvent(WidgetMouseEventArgs(_widget_held, WidgetEventType::OnMouseUp, e));
+				_widget_held->HandleEvent(WidgetMouseUpEventArgs(_widget_held, e));
 
 				if (_widget_held->HasChildren())
 					_widget_held->GetChildren().OnMouseReleased(e);
 
 				// If the mouse was released on the same widget that it went down on, consider it a click.
 				if (_widget_hovered == _widget_held)
-					_widget_held->HandleEvent(WidgetMouseEventArgs(_widget_held, WidgetEventType::OnMouseClick, e));
+					_widget_held->HandleEvent(WidgetMouseClickEventArgs(_widget_held, e));
 				_widget_held = nullptr;
 
 			}
@@ -215,7 +215,7 @@ namespace hvn3 {
 
 					IWidget* widget = i->widget.get();
 
-					widget->HandleEvent(WidgetMouseMoveEventArgs(widget, WidgetEventType::OnMouseMove, e));
+					widget->HandleEvent(WidgetMouseMoveEventArgs(widget, e));
 
 					if (widget_hovered == nullptr && Math::Geometry::PointIn(e.Position(), RectangleF(widget->FixedPosition(), widget->Size()))) {
 						// Assign the new hovered widget.
@@ -229,10 +229,10 @@ namespace hvn3 {
 			if (widget_hovered != _widget_hovered) {
 
 				if (_widget_hovered != nullptr)
-					_widget_hovered->HandleEvent(WidgetMouseMoveEventArgs(_widget_hovered, WidgetEventType::OnMouseLeave, e));
+					_widget_hovered->HandleEvent(WidgetMouseLeaveEventArgs(_widget_hovered, e));
 
 				if (widget_hovered != nullptr)
-					widget_hovered->HandleEvent(WidgetMouseMoveEventArgs(widget_hovered, WidgetEventType::OnMouseEnter, e));
+					widget_hovered->HandleEvent(WidgetMouseEnterEventArgs(widget_hovered, e));
 
 				if (widget_hovered != nullptr)
 					e.SetHandled(true);

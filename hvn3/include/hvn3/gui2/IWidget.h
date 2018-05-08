@@ -19,7 +19,7 @@ namespace hvn3 {
 			virtual ~IWidget() = default;
 
 			// Dispatches the given event to the appropriate event handler.
-			virtual void HandleEvent(WidgetEventArgs& ev) = 0;
+			virtual void HandleEvent(IWidgetEventArgs& ev) = 0;
 
 			// Returns a string representing the widget's styling class hierarchy.
 			virtual const std::string& Identifier() const = 0;
@@ -51,15 +51,16 @@ namespace hvn3 {
 			virtual bool Visible() const = 0;
 			virtual void SetVisible(bool value) = 0;
 
-			virtual void OnMouseDown(WidgetMouseEventArgs& e) = 0;
-			virtual void OnMouseEnter(WidgetMouseMoveEventArgs& e) = 0;
+			virtual void OnMouseDown(WidgetMouseDownEventArgs& e) = 0;
+			virtual void OnMouseEnter(WidgetMouseEnterEventArgs& e) = 0;
 			virtual void OnMouseHover(WidgetMouseHoverEventArgs& e) = 0;
-			virtual void OnMouseLeave(WidgetMouseMoveEventArgs& e) = 0;
+			virtual void OnMouseLeave(WidgetMouseLeaveEventArgs& e) = 0;
 			virtual void OnMouseMove(WidgetMouseMoveEventArgs& e) = 0;
-			virtual void OnMouseUp(WidgetMouseEventArgs& e) = 0;
+			virtual void OnMouseUp(WidgetMouseUpEventArgs& e) = 0;
 			virtual void OnUpdate(WidgetUpdateEventArgs& e) = 0;
 			virtual void OnManagerChanged(WidgetManagerChangedEventArgs& e) = 0;
 			virtual void OnRendererChanged(WidgetRendererChangedEventArgs& e) = 0;
+			virtual void OnFocusLost(WidgetFocusLostEventArgs& e) = 0;
 
 		protected:
 			virtual WidgetManager* GetManager() const = 0;

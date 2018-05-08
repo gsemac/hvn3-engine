@@ -12,7 +12,7 @@ namespace hvn3 {
 			SetText(text);
 		}
 
-		void Window::OnMouseDown(WidgetMouseEventArgs& e) {
+		void Window::OnMouseDown(WidgetMouseDownEventArgs& e) {
 
 			WidgetBase::OnMouseDown(e);
 
@@ -23,7 +23,7 @@ namespace hvn3 {
 				GetManager()->BringToFront(this);
 
 		}
-		void Window::OnMouseUp(WidgetMouseEventArgs& e) {
+		void Window::OnMouseUp(WidgetMouseUpEventArgs& e) {
 			WidgetBase::OnMouseUp(e);
 			_is_mouse_dragging = false;
 		}

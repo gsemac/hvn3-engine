@@ -1,5 +1,5 @@
 #include "hvn3/gui2/WidgetBase.h"
-#define CAST_TO_EVENT_TYPE(TYPE, EV) reinterpret_cast<hvn3::Gui::GetWidgetEventType<TYPE>::type&>(EV)
+#define CAST_TO_EVENT_TYPE(TYPE, EV) reinterpret_cast<hvn3::Gui::WidgetEventTypeTraits<TYPE>::type&>(EV)
 #define EVENT_HANDLER_CASE(TYPE, CALLBACK, EV)\
 case TYPE:\
 	CALLBACK(CAST_TO_EVENT_TYPE(TYPE, EV));\
@@ -26,7 +26,7 @@ namespace hvn3 {
 
 		}
 
-		void WidgetBase::HandleEvent(WidgetEventArgs& ev) {
+		void WidgetBase::HandleEvent(IWidgetEventArgs& ev) {
 
 			DoEventHandler(ev.Type(), ev);
 
@@ -148,23 +148,24 @@ namespace hvn3 {
 			_visible = value;
 		}
 
-		void WidgetBase::OnMouseDown(WidgetMouseEventArgs& e) {
+		void WidgetBase::OnMouseDown(WidgetMouseDownEventArgs& e) {
 			SetState(WidgetState::Active, true);
 		}
-		void WidgetBase::OnMouseEnter(WidgetMouseMoveEventArgs& e) {
+		void WidgetBase::OnMouseEnter(WidgetMouseEnterEventArgs& e) {
 			SetState(WidgetState::Hover, true);
 		}
 		void WidgetBase::OnMouseHover(WidgetMouseHoverEventArgs& e) {}
-		void WidgetBase::OnMouseLeave(WidgetMouseMoveEventArgs& e) {
+		void WidgetBase::OnMouseLeave(WidgetMouseLeaveEventArgs& e) {
 			SetState(WidgetState::Hover, false);
 		}
 		void WidgetBase::OnMouseMove(WidgetMouseMoveEventArgs& e) {}
-		void WidgetBase::OnMouseUp(WidgetMouseEventArgs& e) {
+		void WidgetBase::OnMouseUp(WidgetMouseUpEventArgs& e) {
 			SetState(WidgetState::Active, false);
 		}
 		void WidgetBase::OnUpdate(WidgetUpdateEventArgs& e) {}
 		void WidgetBase::OnManagerChanged(WidgetManagerChangedEventArgs& e) {}
 		void WidgetBase::OnRendererChanged(WidgetRendererChangedEventArgs& e) {}
+		void WidgetBase::OnFocusLost(WidgetFocusLostEventArgs& e) {}
 
 
 
@@ -183,7 +184,7 @@ namespace hvn3 {
 
 		}
 
-		void WidgetBase::DoEventHandler(WidgetEventType ev, WidgetEventArgs& args) {
+		void WidgetBase::DoEventHandler(WidgetEventType ev, IWidgetEventArgs& args) {
 
 			auto iter = _callbacks.find(ev);
 

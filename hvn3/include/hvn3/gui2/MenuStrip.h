@@ -16,7 +16,7 @@ namespace hvn3 {
 
 			void SetContextMenu(ContextMenu* context_menu);
 
-			void OnMouseUp(WidgetMouseEventArgs& e) override;
+			void OnMouseUp(WidgetMouseUpEventArgs& e) override;
 
 		protected:
 			void ShowContextMenu();
