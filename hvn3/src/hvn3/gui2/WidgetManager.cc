@@ -121,6 +121,9 @@ namespace hvn3 {
 
 			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
 
+				if (!i->widget->Visible())
+					continue;
+
 				// Render the widget.
 				_getRenderer()->DrawWidget(e.Graphics(), i->GetRef(), i->rendererArgs);
 
@@ -138,6 +141,9 @@ namespace hvn3 {
 			RectangleF current_dockable_region = DockableRegion();
 
 			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
+
+				if (!i->widget->Visible())
+					continue;
 
 				// If the widget is docked, adjust its size and position accordingly.
 				_applyDockStyle(i->widget.get(), current_dockable_region);
@@ -221,6 +227,9 @@ namespace hvn3 {
 
 			if (!e.Handled() && Math::Geometry::PointIn(e.Position(), fixed_region)) {
 				for (auto i = _widgets.rbegin(); i != _widgets.rend(); ++i) {
+
+					if (!i->widget->Visible())
+						continue;
 
 					IWidget* widget = i->widget.get();
 

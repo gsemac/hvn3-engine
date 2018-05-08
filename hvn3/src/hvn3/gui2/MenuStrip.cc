@@ -30,7 +30,7 @@ namespace hvn3 {
 			ShowContextMenu();
 		}
 		void MenuStripItem::OnFocusLost(WidgetFocusLostEventArgs& e) {
-			std::cout << "focus lost\n";
+			HideContextMenu();
 		}
 
 		void MenuStripItem::ShowContextMenu() {
