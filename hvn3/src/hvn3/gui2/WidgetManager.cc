@@ -119,10 +119,15 @@ namespace hvn3 {
 
 		void WidgetManager::OnDraw(DrawEventArgs& e) {
 
+			// Save the current graphics state so we can modify it for each widget.
+			Graphics::GraphicsState state = e.Graphics().Save();
+
 			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
 
 				if (!i->widget->Visible())
 					continue;
+
+				e.Graphics().SetClip(i->widget->Bounds());
 
 				// Render the widget.
 				_getRenderer()->DrawWidget(e.Graphics(), i->GetRef(), i->rendererArgs);
@@ -131,6 +136,9 @@ namespace hvn3 {
 				_renderChildWidgets(e, i->widget.get());
 
 			}
+
+			// Restore the former graphics state.
+			e.Graphics().Restore(state);
 
 		}
 		void WidgetManager::OnUpdate(UpdateEventArgs& e) {
@@ -295,6 +303,7 @@ namespace hvn3 {
 			t.Translate(widget->Position().x, widget->Position().y);
 
 			e.Graphics().SetTransform(t);
+			e.Graphics().SetClip(widget->Bounds());
 
 			widget->GetChildren().OnDraw(e);
 
