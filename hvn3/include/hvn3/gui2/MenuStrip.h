@@ -16,7 +16,11 @@ namespace hvn3 {
 
 			void SetContextMenu(ContextMenu* context_menu);
 
-			void OnMouseUp(WidgetMouseUpEventArgs& e) override;
+			void OnMouseReleased(WidgetMouseReleasedEventArgs& e) override;
+			void OnFocus(WidgetFocusEventArgs& e) override {
+				std::cout << "got focus\n";
+			}
+			void OnFocusLost(WidgetFocusLostEventArgs& e) override;
 
 		protected:
 			void ShowContextMenu();

@@ -56,10 +56,12 @@ namespace hvn3 {
 			virtual void OnMouseHover(WidgetMouseHoverEventArgs& e) = 0;
 			virtual void OnMouseLeave(WidgetMouseLeaveEventArgs& e) = 0;
 			virtual void OnMouseMove(WidgetMouseMoveEventArgs& e) = 0;
-			virtual void OnMouseUp(WidgetMouseUpEventArgs& e) = 0;
+			virtual void OnMousePressed(WidgetMousePressedEventArgs& e) = 0;
+			virtual void OnMouseReleased(WidgetMouseReleasedEventArgs& e) = 0;
 			virtual void OnUpdate(WidgetUpdateEventArgs& e) = 0;
 			virtual void OnManagerChanged(WidgetManagerChangedEventArgs& e) = 0;
 			virtual void OnRendererChanged(WidgetRendererChangedEventArgs& e) = 0;
+			virtual void OnFocus(WidgetFocusEventArgs& e) = 0;
 			virtual void OnFocusLost(WidgetFocusLostEventArgs& e) = 0;
 
 		protected:

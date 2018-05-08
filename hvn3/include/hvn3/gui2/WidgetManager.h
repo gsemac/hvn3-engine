@@ -74,21 +74,21 @@ namespace hvn3 {
 		private:
 			renderer_ptr_type _renderer;
 			widget_collection_type _widgets;
-
 			IWidget* _widget_hovered;
 			IWidget* _widget_held;
 			PointF _last_mouse_position;
 			bool _resort_required;
 			RectangleF _dockable_region;
 			IWidget* _owner;
-
 			std::unordered_map<IWidget*, WidgetManager*> _child_managers;
 
-			void _initialize();
+			static IWidget* _widget_focused; // Only one widget can be focused at a time among all managers.
 
+			void _initialize();
 			widget_collection_type::iterator _findWidget(IWidget* widget);
 			void _renderChildWidgets(DrawEventArgs& e, IWidget* widget);
 			void _applyDockStyle(IWidget* widget, RectangleF& region);
+			void _setFocused(IWidget* widget);
 
 			// Returns a pointer to the widget renderer assigned to this manager. 
 			// IF no renderer has been assigned, assigns and returns the default renderer.

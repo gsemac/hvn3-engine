@@ -168,28 +168,37 @@ namespace hvn3 {
 		void WidgetManager::OnKeyUp(KeyUpEventArgs& e) {}
 		void WidgetManager::OnKeyChar(KeyCharEventArgs& e) {}
 
-		void WidgetManager::OnMouseDown(MouseDownEventArgs& e) {
+		void WidgetManager::OnMouseDown(MouseDownEventArgs& e) {}
+		void WidgetManager::OnMousePressed(MousePressedEventArgs& e) {
 
-			// Call the mouse-down event for the currently-hovered widget.
+			// If no widget is hovered over, clear the focused widget.
+			if (_widget_hovered == nullptr)
+				_setFocused(nullptr);
+
+			// Call the mouse-down event for the currently-hovered widget if the mouse was not held over a different widget.
 			if (_widget_hovered != nullptr && _widget_held == nullptr) {
 
 				_widget_hovered->HandleEvent(WidgetMouseDownEventArgs(_widget_hovered, e));
 
 				if (_widget_hovered->HasChildren())
-					_widget_hovered->GetChildren().OnMouseDown(e);
+					_widget_hovered->GetChildren().OnMousePressed(e);
 
 				_widget_held = _widget_hovered;
+
+				if (!e.Handled())
+					_setFocused(_widget_held);
+
+				e.SetHandled(true);
 
 			}
 
 		}
-		void WidgetManager::OnMousePressed(MousePressedEventArgs& e) {}
 		void WidgetManager::OnMouseReleased(MouseReleasedEventArgs& e) {
-			
+
 			// Only call the mouse-up event for a widget we've previously called the mouse-down event for.
 			if (_widget_held != nullptr) {
 
-				_widget_held->HandleEvent(WidgetMouseUpEventArgs(_widget_held, e));
+				_widget_held->HandleEvent(WidgetMouseReleasedEventArgs(_widget_held, e));
 
 				if (_widget_held->HasChildren())
 					_widget_held->GetChildren().OnMouseReleased(e);
@@ -253,6 +262,8 @@ namespace hvn3 {
 
 
 
+		IWidget* WidgetManager::_widget_focused = nullptr;
+
 		void WidgetManager::_initialize() {
 
 			_widget_hovered = nullptr;
@@ -261,7 +272,6 @@ namespace hvn3 {
 			_owner = nullptr;
 
 		}
-
 		WidgetManager::widget_collection_type::iterator WidgetManager::_findWidget(IWidget* widget) {
 			return std::find_if(_widgets.begin(), _widgets.end(), [=](const WidgetData& x) { return x.widget.get() == widget; });
 		}
@@ -319,6 +329,20 @@ namespace hvn3 {
 				break;
 
 			}
+
+		}
+		void WidgetManager::_setFocused(IWidget* widget) {
+
+			if (_widget_focused == widget)
+				return;
+
+			if (_widget_focused != nullptr)
+				_widget_focused->HandleEvent(WidgetFocusLostEventArgs(_widget_focused));
+
+			if (widget != nullptr)
+				widget->HandleEvent(WidgetFocusEventArgs(widget));
+
+			_widget_focused = widget;
 
 		}
 		WidgetManager::renderer_ptr_type& WidgetManager::_getRenderer() {

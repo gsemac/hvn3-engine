@@ -40,7 +40,10 @@ namespace hvn3 {
 				EVENT_HANDLER_CASE(WidgetEventType::OnMouseHover, OnMouseHover, ev);
 				EVENT_HANDLER_CASE(WidgetEventType::OnMouseLeave, OnMouseLeave, ev);
 				EVENT_HANDLER_CASE(WidgetEventType::OnMouseMove, OnMouseMove, ev);
-				EVENT_HANDLER_CASE(WidgetEventType::OnMouseUp, OnMouseUp, ev);
+				EVENT_HANDLER_CASE(WidgetEventType::OnMouseReleased, OnMouseReleased, ev);
+				EVENT_HANDLER_CASE(WidgetEventType::OnMousePressed, OnMousePressed, ev);
+				EVENT_HANDLER_CASE(WidgetEventType::OnFocus, OnFocus, ev);
+				EVENT_HANDLER_CASE(WidgetEventType::OnFocusLost, OnFocusLost, ev);
 			}
 
 		}
@@ -149,7 +152,7 @@ namespace hvn3 {
 		}
 
 		void WidgetBase::OnMouseDown(WidgetMouseDownEventArgs& e) {
-			SetState(WidgetState::Active, true);
+			//SetState(WidgetState::Active, true);
 		}
 		void WidgetBase::OnMouseEnter(WidgetMouseEnterEventArgs& e) {
 			SetState(WidgetState::Hover, true);
@@ -159,12 +162,16 @@ namespace hvn3 {
 			SetState(WidgetState::Hover, false);
 		}
 		void WidgetBase::OnMouseMove(WidgetMouseMoveEventArgs& e) {}
-		void WidgetBase::OnMouseUp(WidgetMouseUpEventArgs& e) {
+		void WidgetBase::OnMouseReleased(WidgetMouseReleasedEventArgs& e) {
 			SetState(WidgetState::Active, false);
+		}
+		void WidgetBase::OnMousePressed(WidgetMousePressedEventArgs& e) {
+			SetState(WidgetState::Active, true);
 		}
 		void WidgetBase::OnUpdate(WidgetUpdateEventArgs& e) {}
 		void WidgetBase::OnManagerChanged(WidgetManagerChangedEventArgs& e) {}
 		void WidgetBase::OnRendererChanged(WidgetRendererChangedEventArgs& e) {}
+		void WidgetBase::OnFocus(WidgetFocusEventArgs& e) {}
 		void WidgetBase::OnFocusLost(WidgetFocusLostEventArgs& e) {}
 
 

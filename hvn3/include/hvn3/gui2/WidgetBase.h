@@ -51,10 +51,12 @@ namespace hvn3 {
 			void OnMouseHover(WidgetMouseHoverEventArgs& e) override;
 			void OnMouseLeave(WidgetMouseLeaveEventArgs& e) override;
 			void OnMouseMove(WidgetMouseMoveEventArgs& e) override;
-			void OnMouseUp(WidgetMouseUpEventArgs& e) override;
+			void OnMouseReleased(WidgetMouseReleasedEventArgs& e) override;
+			void OnMousePressed(WidgetMousePressedEventArgs& e) override;
 			void OnUpdate(WidgetUpdateEventArgs& e) override;
 			void OnManagerChanged(WidgetManagerChangedEventArgs& e) override;
 			void OnRendererChanged(WidgetRendererChangedEventArgs& e) override;
+			void OnFocus(WidgetFocusEventArgs& e) override;
 			void OnFocusLost(WidgetFocusLostEventArgs& e) override;
 
 			template <WidgetEventType WIDGET_EVENT_TYPE>

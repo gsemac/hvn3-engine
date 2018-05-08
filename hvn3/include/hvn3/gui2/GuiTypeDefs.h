@@ -32,6 +32,7 @@ namespace hvn3 {
 		};
 
 		enum class WidgetEventType {
+			OnFocus,
 			OnFocusLost,
 			// Generated when the widget is clicked.
 			OnMouseClick,
@@ -40,7 +41,8 @@ namespace hvn3 {
 			OnMouseHover,
 			OnMouseLeave,
 			OnMouseMove,
-			OnMouseUp,
+			OnMousePressed,
+			OnMouseReleased,
 			// Generated when the widget changes position.
 			OnMove,
 			OnUpdate,

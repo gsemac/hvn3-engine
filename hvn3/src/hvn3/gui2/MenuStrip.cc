@@ -26,8 +26,11 @@ namespace hvn3 {
 			_context_menu_managed = false;
 
 		}
-		void MenuStripItem::OnMouseUp(WidgetMouseUpEventArgs& e) {
+		void MenuStripItem::OnMouseReleased(WidgetMouseReleasedEventArgs& e) {
 			ShowContextMenu();
+		}
+		void MenuStripItem::OnFocusLost(WidgetFocusLostEventArgs& e) {
+			std::cout << "focus lost\n";
 		}
 
 		void MenuStripItem::ShowContextMenu() {
@@ -93,10 +96,10 @@ namespace hvn3 {
 			AddItem(std::unique_ptr<IWidget>(item));
 		}
 		MenuStripItem* MenuStrip::AddItem(const String& text) {
-			
+
 			MenuStripItem* item = new MenuStripItem(this, text);
 			AddItem(item);
-			
+
 			return item;
 
 		}

@@ -114,14 +114,16 @@ namespace hvn3 {
 			PointF _new_position;
 		};
 
+		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseReleased> WidgetMouseReleasedEventArgs;
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseDown> WidgetMouseDownEventArgs;
-		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseUp> WidgetMouseUpEventArgs;
+		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMousePressed> WidgetMousePressedEventArgs;
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseClick> WidgetMouseClickEventArgs;
 		typedef WidgetMouseMoveEventArgsBase<WidgetEventType::OnMouseMove> WidgetMouseMoveEventArgs;
 		typedef WidgetMouseMoveEventArgsBase<WidgetEventType::OnMouseEnter> WidgetMouseEnterEventArgs;
 		typedef WidgetMouseMoveEventArgsBase<WidgetEventType::OnMouseLeave> WidgetMouseLeaveEventArgs;
 		typedef WidgetEventArgsBase<WidgetEventType::OnManagerChanged> WidgetManagerChangedEventArgs;
 		typedef WidgetEventArgsBase<WidgetEventType::OnRendererChanged> WidgetRendererChangedEventArgs;
+		typedef WidgetEventArgsBase<WidgetEventType::OnFocus> WidgetFocusEventArgs;
 		typedef WidgetEventArgsBase<WidgetEventType::OnFocusLost> WidgetFocusLostEventArgs;
 
 		template <WidgetEventType WIDGET_EVENT_TYPE>
@@ -135,9 +137,11 @@ namespace hvn3 {
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseEnter, WidgetMouseEnterEventArgs)
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseHover, WidgetMouseHoverEventArgs)
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseLeave, WidgetMouseLeaveEventArgs)
-			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseUp, WidgetMouseUpEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseReleased, WidgetMouseReleasedEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMousePressed, WidgetMousePressedEventArgs)
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseMove, WidgetMouseMoveEventArgs)
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMove, WidgetMoveEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnFocus, WidgetFocusEventArgs)
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnFocusLost, WidgetFocusLostEventArgs)
 
 	}
