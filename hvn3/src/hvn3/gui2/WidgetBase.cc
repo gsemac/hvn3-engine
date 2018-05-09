@@ -23,6 +23,7 @@ namespace hvn3 {
 			_parent_manager = nullptr;
 			_parent = nullptr;
 			_visible = true;
+			_cursor = SystemCursor::Default;
 
 		}
 
@@ -66,6 +67,18 @@ namespace hvn3 {
 		}
 		void WidgetBase::SetPosition(float x, float y) {
 			SetPosition(PointF(x, y));
+		}
+		float WidgetBase::X() const {
+			return Position().x;
+		}
+		float WidgetBase::Y() const {
+			return Position().y;
+		}
+		void WidgetBase::SetX(float value) {
+			SetPosition(value, Y());
+		}
+		void WidgetBase::SetY(float value) {
+			SetPosition(X(), value);
 		}
 		PointF WidgetBase::FixedPosition() const {
 
@@ -127,7 +140,20 @@ namespace hvn3 {
 			return _dock_style;
 		}
 		void WidgetBase::SetDockStyle(Gui::DockStyle value) {
+			
 			_dock_style = value;
+
+			if (value == Gui::DockStyle::Top)
+				SetAnchor(Gui::Anchor::Top | Gui::Anchor::Right | Gui::Anchor::Left);
+			else if (value == Gui::DockStyle::Bottom)
+				SetAnchor(Gui::Anchor::Bottom | Gui::Anchor::Right | Gui::Anchor::Left);
+			else if (value == Gui::DockStyle::Left)
+				SetAnchor(Gui::Anchor::Left | Gui::Anchor::Top | Gui::Anchor::Bottom);
+			else if (value == Gui::DockStyle::Right)
+				SetAnchor(Gui::Anchor::Right | Gui::Anchor::Top | Gui::Anchor::Bottom);
+			else if (value == Gui::DockStyle::Fill)
+				SetAnchor(Gui::Anchor::Right | Gui::Anchor::Left | Gui::Anchor::Top | Gui::Anchor::Bottom);
+
 		}
 		WidgetManager& WidgetBase::GetChildren() {
 			throw System::NotSupportedException("This widget does not support child widgets.");
@@ -149,6 +175,12 @@ namespace hvn3 {
 		}
 		void WidgetBase::SetVisible(bool value) {
 			_visible = value;
+		}
+		SystemCursor WidgetBase::Cursor() const {
+			return _cursor;
+		}
+		void WidgetBase::SetCursor(SystemCursor cursor) {
+			_cursor = cursor;
 		}
 
 		void WidgetBase::OnMouseDown(WidgetMouseDownEventArgs& e) {

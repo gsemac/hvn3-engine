@@ -192,7 +192,7 @@ namespace hvn3 {
 			// Call the mouse-down event for the currently-hovered widget if the mouse was not held over a different widget.
 			if (_widget_hovered != nullptr && _widget_held == nullptr) {
 
-				_widget_hovered->HandleEvent(WidgetMouseDownEventArgs(_widget_hovered, e));
+				_widget_hovered->HandleEvent(WidgetMousePressedEventArgs(_widget_hovered, e));
 
 				if (_widget_hovered->HasChildren())
 					_widget_hovered->GetChildren().OnMousePressed(e);
@@ -249,6 +249,14 @@ namespace hvn3 {
 						break;
 					}
 				}
+			}
+
+			// Update the cursor according to the widget currently hovered over (if it hasn't already been set by a child widget).
+			if (!e.Handled()) {
+				if (widget_hovered == nullptr)
+					Mouse::SetCursor(SystemCursor::Default);
+				else
+					Mouse::SetCursor(widget_hovered->Cursor());
 			}
 
 			// Dispatch the appropriate events if the hovered widget has changed.

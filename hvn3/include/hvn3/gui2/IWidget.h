@@ -27,6 +27,10 @@ namespace hvn3 {
 			virtual const PointF& Position() const = 0;
 			virtual void SetPosition(const PointF& value) = 0;
 			virtual void SetPosition(float x, float y) = 0;
+			virtual float X() const = 0;
+			virtual float Y() const = 0;
+			virtual void SetX(float value) = 0;
+			virtual void SetY(float value) = 0;
 			virtual PointF FixedPosition() const = 0;
 			virtual const SizeF& Size() const = 0;
 			virtual void SetSize(const SizeF& value) = 0;
@@ -50,6 +54,8 @@ namespace hvn3 {
 			virtual RectangleF Bounds() const = 0;
 			virtual bool Visible() const = 0;
 			virtual void SetVisible(bool value) = 0;
+			virtual SystemCursor Cursor() const = 0;
+			virtual void SetCursor(SystemCursor cursor) = 0;
 
 			virtual void OnMouseDown(WidgetMouseDownEventArgs& e) = 0;
 			virtual void OnMouseEnter(WidgetMouseEnterEventArgs& e) = 0;
