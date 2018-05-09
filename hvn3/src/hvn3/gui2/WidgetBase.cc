@@ -1,4 +1,6 @@
 #include "hvn3/gui2/WidgetBase.h"
+#include "hvn3/gui2/IWidgetRenderer.h"
+
 #define CAST_TO_EVENT_TYPE(TYPE, EV) reinterpret_cast<hvn3::Gui::WidgetEventTypeTraits<TYPE>::type&>(EV)
 #define EVENT_HANDLER_CASE(TYPE, CALLBACK, EV)\
 case TYPE:\
@@ -205,6 +207,7 @@ namespace hvn3 {
 		void WidgetBase::OnRendererChanged(WidgetRendererChangedEventArgs& e) {}
 		void WidgetBase::OnFocus(WidgetFocusEventArgs& e) {}
 		void WidgetBase::OnFocusLost(WidgetFocusLostEventArgs& e) {}
+		void WidgetBase::OnDraw(WidgetDrawEventArgs& e) {}
 
 
 

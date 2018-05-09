@@ -131,6 +131,7 @@ namespace hvn3 {
 
 				// Render the widget.
 				_getRenderer()->DrawWidget(e.Graphics(), i->GetRef(), i->rendererArgs);
+				i->widget->OnDraw(WidgetDrawEventArgs(i->widget.get(), e));
 
 				// Render the widget's child widgets.
 				_renderChildWidgets(e, i->widget.get());

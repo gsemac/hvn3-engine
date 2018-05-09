@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/core/DrawEventArgs.h"
 #include "hvn3/events/EventArgs.h"
 #include "hvn3/gui2/GuiTypeDefs.h"
 #include "hvn3/io/MouseEventArgs.h"
@@ -114,6 +115,19 @@ namespace hvn3 {
 			PointF _new_position;
 		};
 
+		class WidgetDrawEventArgs : public WidgetEventArgsBase<WidgetEventType::OnDraw> {
+		public:
+			WidgetDrawEventArgs(IWidget* sender, DrawEventArgs& e) :
+				WidgetEventArgsBase(sender),
+				_args(e) {
+			}
+			Graphics::Graphics& Graphics() {
+				return _args.Graphics();
+			}
+		private:
+			DrawEventArgs _args;
+		};
+
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseReleased> WidgetMouseReleasedEventArgs;
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseDown> WidgetMouseDownEventArgs;
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMousePressed> WidgetMousePressedEventArgs;
@@ -143,6 +157,7 @@ namespace hvn3 {
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMove, WidgetMoveEventArgs)
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnFocus, WidgetFocusEventArgs)
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnFocusLost, WidgetFocusLostEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnDraw, WidgetDrawEventArgs)
 
 	}
 }

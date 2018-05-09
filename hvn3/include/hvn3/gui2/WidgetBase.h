@@ -64,6 +64,7 @@ namespace hvn3 {
 			void OnRendererChanged(WidgetRendererChangedEventArgs& e) override;
 			void OnFocus(WidgetFocusEventArgs& e) override;
 			void OnFocusLost(WidgetFocusLostEventArgs& e) override;
+			void OnDraw(WidgetDrawEventArgs& e) override;
 
 			template <WidgetEventType WIDGET_EVENT_TYPE>
 			void SetEventHandler(const std::function<void(typename WidgetEventTypeTraits<WIDGET_EVENT_TYPE>::type&)>& callback) {

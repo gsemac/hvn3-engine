@@ -32,6 +32,7 @@ namespace hvn3 {
 		};
 
 		enum class WidgetEventType {
+			OnDraw,
 			OnFocus,
 			OnFocusLost,
 			// Generated when the widget is clicked.

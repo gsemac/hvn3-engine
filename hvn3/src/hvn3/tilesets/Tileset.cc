@@ -13,14 +13,14 @@ namespace hvn3 {
 		_rows = 0;
 
 		// Get width/height as unsigned integers.
-		unsigned int w = static_cast<unsigned int>(tile_size.Width());
-		unsigned int h = static_cast<unsigned int>(tile_size.Height());
+		int w = tile_size.Width();
+		int h = tile_size.Height();
 
 		// Generate a vector of sub-bitmaps to represent each tile.
-		for (unsigned int y = offset.Y(); y < _bitmap.Height(); y += h + separation.Y()) {
+		for (int y = offset.Y(); y < _bitmap.Height(); y += h + separation.Y()) {
 
 			// Insert the next row of tiles.
-			for (unsigned int x = offset.X(); x < _bitmap.Width(); x += w + separation.X())
+			for (int x = offset.X(); x < _bitmap.Width(); x += w + separation.X())
 				_tiles.push_back(Graphics::Bitmap(_bitmap, RectangleI(x, y, Math::Min(w, _bitmap.Width() - x), Math::Min(h, _bitmap.Height() - y))));
 
 			// Increment the number of rows.
