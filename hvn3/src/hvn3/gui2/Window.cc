@@ -17,12 +17,21 @@ namespace hvn3 {
 		}
 		Window::Window(float x, float y, float width, float height, const String& text) :
 			WidgetBase(x, y, width, height),
-			_size_before_resize(Size()) {
+			_size_before_resize(Size()),
+			_minimum_size(Size()),
+			_child_manager(this) {
 
 			_initializeMembers();
 
 			SetText(text);
 
+		}
+
+		WidgetManager& Window::GetChildren() {
+			return _child_manager;
+		}
+		bool Window::HasChildren() {
+			return true;
 		}
 
 		void Window::OnMousePressed(WidgetMousePressedEventArgs& e) {
@@ -66,6 +75,12 @@ namespace hvn3 {
 			}
 
 		}
+		void Window::OnUpdate(WidgetUpdateEventArgs& e) {
+			WidgetBase::OnUpdate(e);
+
+			_child_manager.SetDockableRegion(RectangleF(_resize_edge_width, _titlebar_height, Width() - (_resize_edge_width * 2.0f), Height() - (_titlebar_height + _resize_edge_width)));
+
+		}
 
 
 
@@ -75,7 +90,9 @@ namespace hvn3 {
 			_is_dragging = false;
 			_is_resizing = false;
 			_resizing_edges = 0;
-			_resize_edge_width = 4.0f;
+			_resize_edge_width = 6.0f;
+			_titlebar_height = 20.0f;
+			_minimum_size = SizeF(_resize_edge_width * 2.0f, _titlebar_height + _resize_edge_width);
 
 		}
 		int Window::_getHoveredEdges(const PointF& p) {
@@ -125,18 +142,27 @@ namespace hvn3 {
 			int edges = _resizing_edges;
 
 			PointF diff = (mouse_position - _mouse_down_position);
+			SizeF new_size = Size();
 
 			if ((edges & EDGE_LEFT) || (edges & EDGE_RIGHT))
-				SetWidth(_size_before_resize.width + diff.x);
+				new_size.SetWidth(_size_before_resize.width + diff.x);
 
 			if ((edges & EDGE_TOP) || (edges & EDGE_BOTTOM))
-				SetHeight(_size_before_resize.height + diff.y);
+				new_size.SetHeight(_size_before_resize.height + diff.y);
 
 			if (edges & EDGE_LEFT)
-				SetX(X() - (_size_before_resize.width - Width()));
+				SetX(X() - (_size_before_resize.width - new_size.width));
 
 			if (edges & EDGE_TOP)
-				SetY(Y() - (_size_before_resize.height - Height()));
+				SetY(Y() - (_size_before_resize.height - new_size.height));
+
+			if (new_size.width < _minimum_size.width)
+				new_size.width = _minimum_size.width;
+
+			if (new_size.height < _minimum_size.height)
+				new_size.height = _minimum_size.height;
+
+			SetSize(new_size);
 
 		}
 

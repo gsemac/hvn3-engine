@@ -57,6 +57,9 @@ namespace hvn3 {
 			virtual SystemCursor Cursor() const = 0;
 			virtual void SetCursor(SystemCursor cursor) = 0;
 
+			virtual void BringToFront() = 0;
+			virtual void SendToBack() = 0;
+
 			virtual void OnMouseDown(WidgetMouseDownEventArgs& e) = 0;
 			virtual void OnMouseEnter(WidgetMouseEnterEventArgs& e) = 0;
 			virtual void OnMouseHover(WidgetMouseHoverEventArgs& e) = 0;

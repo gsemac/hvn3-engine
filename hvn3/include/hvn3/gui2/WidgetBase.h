@@ -52,6 +52,9 @@ namespace hvn3 {
 			SystemCursor Cursor() const override;
 			void SetCursor(SystemCursor cursor) override;
 
+			void BringToFront() override;
+			void SendToBack() override;
+
 			void OnMouseDown(WidgetMouseDownEventArgs& e) override;
 			void OnMouseEnter(WidgetMouseEnterEventArgs& e) override;
 			void OnMouseHover(WidgetMouseHoverEventArgs& e) override;

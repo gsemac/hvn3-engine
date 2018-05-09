@@ -41,8 +41,13 @@ namespace hvn3 {
 			}
 
 			if (_context_menu != nullptr) {
+				
 				_context_menu->SetPosition(Position().x, Position().y + Height());
 				_context_menu->SetVisible(true);
+
+				if (_parent->GetManager() != nullptr)
+					_parent->GetManager()->BringToFront(_context_menu);
+
 			}
 
 		}

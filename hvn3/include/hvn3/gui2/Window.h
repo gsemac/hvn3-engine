@@ -10,9 +10,13 @@ namespace hvn3 {
 			Window(const String& text);
 			Window(float x, float y, float width, float height, const String& text);
 
+			WidgetManager& GetChildren() override;
+			bool HasChildren() override;
+
 			void OnMousePressed(WidgetMousePressedEventArgs& e) override;
 			void OnMouseReleased(WidgetMouseReleasedEventArgs& e) override;
 			void OnMouseMove(WidgetMouseMoveEventArgs& e) override;
+			void OnUpdate(WidgetUpdateEventArgs& e) override;
 
 		private:
 			void _initializeMembers();
@@ -26,6 +30,9 @@ namespace hvn3 {
 			int _resizing_edges;
 			SizeF _size_before_resize;
 			float _resize_edge_width;
+			float _titlebar_height;
+			SizeF _minimum_size;
+			WidgetManager _child_manager;
 
 		};
 

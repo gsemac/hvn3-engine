@@ -185,6 +185,19 @@ namespace hvn3 {
 			_cursor = cursor;
 		}
 
+		void WidgetBase::BringToFront() {
+		
+			if (GetManager() != nullptr)
+				GetManager()->BringToFront(this);
+
+		}
+		void WidgetBase::SendToBack() {
+
+			if (GetManager() != nullptr)
+				GetManager()->SendToBack(this);
+
+		}
+
 		void WidgetBase::OnMouseDown(WidgetMouseDownEventArgs& e) {
 			//SetState(WidgetState::Active, true);
 		}

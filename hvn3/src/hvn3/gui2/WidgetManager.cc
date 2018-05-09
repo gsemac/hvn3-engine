@@ -57,6 +57,7 @@ namespace hvn3 {
 		void WidgetManager::Add(std::unique_ptr<IWidget>& widget) {
 
 			widget->SetManager(this);
+			widget->SetParent(_owner);
 
 			_widgets.emplace_back(WidgetData(widget));
 
@@ -131,7 +132,7 @@ namespace hvn3 {
 
 				// Render the widget.
 				_getRenderer()->DrawWidget(e.Graphics(), i->GetRef(), i->rendererArgs);
-				i->widget->OnDraw(WidgetDrawEventArgs(i->widget.get(), e));
+				i->widget->OnDraw(WidgetDrawEventArgs(i->widget.get(), &e));
 
 				// Render the widget's child widgets.
 				_renderChildWidgets(e, i->widget.get());
@@ -159,6 +160,10 @@ namespace hvn3 {
 
 				// Call the update event for the widget.
 				i->widget->HandleEvent(WidgetUpdateEventArgs(i->widget.get(), e.Delta()));
+
+				// Call the update event for the widget's child widgets.
+				if (i->widget->HasChildren())
+					i->widget->GetChildren().OnUpdate(e);
 
 				// Update the widget's transition data (i.e. update animations).
 				i->rendererArgs.UpdateTransitionData(static_cast<float>(e.Delta()));
@@ -234,7 +239,7 @@ namespace hvn3 {
 
 			// Find the widget that the mouse is currently hovering over.
 
-			if (!e.Handled() && Math::Geometry::PointIn(e.Position(), fixed_region)) {
+			if (Math::Geometry::PointIn(e.Position(), fixed_region)) {
 				for (auto i = _widgets.rbegin(); i != _widgets.rend(); ++i) {
 
 					if (!i->widget->Visible())
@@ -269,10 +274,10 @@ namespace hvn3 {
 				if (widget_hovered != nullptr)
 					widget_hovered->HandleEvent(WidgetMouseEnterEventArgs(widget_hovered, e));
 
-				if (widget_hovered != nullptr)
-					e.SetHandled(true);
-
 			}
+
+			if (widget_hovered != nullptr)
+				e.SetHandled(true);
 
 			if (_widget_hovered != nullptr && _widget_hovered->HasChildren())
 				_widget_hovered->GetChildren().OnMouseMove(e);

@@ -117,15 +117,15 @@ namespace hvn3 {
 
 		class WidgetDrawEventArgs : public WidgetEventArgsBase<WidgetEventType::OnDraw> {
 		public:
-			WidgetDrawEventArgs(IWidget* sender, DrawEventArgs& e) :
+			WidgetDrawEventArgs(IWidget* sender, DrawEventArgs* e) :
 				WidgetEventArgsBase(sender),
 				_args(e) {
 			}
 			Graphics::Graphics& Graphics() {
-				return _args.Graphics();
+				return _args->Graphics();
 			}
 		private:
-			DrawEventArgs _args;
+			DrawEventArgs* _args;
 		};
 
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseReleased> WidgetMouseReleasedEventArgs;

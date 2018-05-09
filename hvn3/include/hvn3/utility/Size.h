@@ -18,10 +18,10 @@ namespace hvn3 {
 			return height;
 		}
 		void SetWidth(T value) {
-			Resize(value, height);
+			SetSize(value, height);
 		}
 		void SetHeight(T value) {
-			Resize(width, value);
+			SetSize(width, value);
 		}
 		void SetSize(T width, T height) {
 
