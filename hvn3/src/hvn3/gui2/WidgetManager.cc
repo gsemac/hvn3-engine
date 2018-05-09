@@ -120,6 +120,9 @@ namespace hvn3 {
 
 		void WidgetManager::OnDraw(DrawEventArgs& e) {
 
+			if (_update_required_before_draw)
+				OnUpdate(UpdateEventArgs(0.0));
+
 			// Save the current graphics state so we can modify it for each widget.
 			Graphics::GraphicsState state = e.Graphics().Save();
 
@@ -180,6 +183,8 @@ namespace hvn3 {
 					i->z = HVN3_DEFAULT_WIDGET_Z;
 				_resort_required = false;
 			}
+
+			_update_required_before_draw = false;
 
 		}
 
@@ -301,6 +306,7 @@ namespace hvn3 {
 			_widget_held = nullptr;
 			_resort_required = false;
 			_owner = nullptr;
+			_update_required_before_draw = true;
 
 		}
 		WidgetManager::widget_collection_type::iterator WidgetManager::_findWidget(IWidget* widget) {

@@ -81,6 +81,7 @@ namespace hvn3 {
 			RectangleF _dockable_region;
 			IWidget* _owner;
 			std::unordered_map<IWidget*, WidgetManager*> _child_managers;
+			bool _update_required_before_draw;
 
 			static IWidget* _widget_focused; // Only one widget can be focused at a time among all managers.
 

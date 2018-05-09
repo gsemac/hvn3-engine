@@ -43,7 +43,7 @@ namespace hvn3 {
 
 			if (_resizing_edges != 0)
 				_is_resizing = true;
-			else
+			else if (DockStyle() == static_cast<Gui::DockStyle>(0))
 				_is_dragging = true;
 
 			if (GetManager() != nullptr)
