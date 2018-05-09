@@ -7,8 +7,8 @@ namespace hvn3 {
 	class Tileset {
 
 	public:
-		Tileset(const char* filepath, const SizeI& tile_size);
-		Tileset(const char* filepath, const SizeI& tile_size, const PointI& offset, const PointI& separation);
+		Tileset(const Graphics::Bitmap& tileset, const SizeI& tile_size);
+		Tileset(const Graphics::Bitmap& tileset, const SizeI& tile_size, const PointI& offset, const PointI& separation);
 				
 		const Graphics::Bitmap& TileAt(unsigned int x, unsigned int y) const;
 		const Graphics::Bitmap& TileAt(unsigned int n) const;

@@ -2,11 +2,11 @@
 
 namespace hvn3 {
 
-	Tileset::Tileset(const char* filepath, const SizeI& tile_size) :
-		Tileset(filepath, tile_size, PointI(0, 0), PointI(0, 0)) {
+	Tileset::Tileset(const Graphics::Bitmap& tileset, const SizeI& tile_size) :
+		Tileset(tileset, tile_size, PointI(0, 0), PointI(0, 0)) {
 	}
-	Tileset::Tileset(const char* filepath, const SizeI& tile_size, const PointI& offset, const PointI& separation) :
-		_bitmap(Graphics::Bitmap::FromFile(filepath)),
+	Tileset::Tileset(const Graphics::Bitmap& tileset, const SizeI& tile_size, const PointI& offset, const PointI& separation) :
+		_bitmap(tileset),
 		_tile_size(tile_size) {
 
 		// Initialize row count.
