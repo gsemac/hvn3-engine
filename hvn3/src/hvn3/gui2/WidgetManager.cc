@@ -69,6 +69,28 @@ namespace hvn3 {
 			throw System::NotImplementedException();
 
 		}
+		void WidgetManager::Move(IWidget* widget, WidgetManager* to_manager) {
+
+			// If trying to move a widget to a non-existent manager, just remove it.
+			if (to_manager == nullptr) {
+				Remove(widget);
+				return;
+			}
+
+			// Get a pointer to the widget.
+			auto iter = _findWidget(widget);
+
+			if (iter == _widgets.end())
+				return;
+
+			// Move the widget data to the other manager. 
+			to_manager->Add(std::move(iter->widget));
+			widget->SetManager(to_manager);
+
+			// Remove the pointer from this manager's collection.
+			_widgets.erase(iter);
+
+		}
 		const WidgetManager::widget_collection_type& WidgetManager::Widgets() const {
 			return _widgets;
 		}

@@ -128,6 +128,19 @@ namespace hvn3 {
 			DrawEventArgs* _args;
 		};
 
+		class WidgetManagerChangedEventArgs : public WidgetEventArgsBase<WidgetEventType::OnManagerChanged> {
+		public:
+			WidgetManagerChangedEventArgs(IWidget* sender, WidgetManager* previous_manager) :
+				WidgetEventArgsBase(sender),
+				_previous_manager(previous_manager) {
+			}
+			WidgetManager* OldManager() {
+				return _previous_manager;
+			}
+		private:
+			WidgetManager* _previous_manager;
+		};
+
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseReleased> WidgetMouseReleasedEventArgs;
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseDown> WidgetMouseDownEventArgs;
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMousePressed> WidgetMousePressedEventArgs;
@@ -135,7 +148,6 @@ namespace hvn3 {
 		typedef WidgetMouseMoveEventArgsBase<WidgetEventType::OnMouseMove> WidgetMouseMoveEventArgs;
 		typedef WidgetMouseMoveEventArgsBase<WidgetEventType::OnMouseEnter> WidgetMouseEnterEventArgs;
 		typedef WidgetMouseMoveEventArgsBase<WidgetEventType::OnMouseLeave> WidgetMouseLeaveEventArgs;
-		typedef WidgetEventArgsBase<WidgetEventType::OnManagerChanged> WidgetManagerChangedEventArgs;
 		typedef WidgetEventArgsBase<WidgetEventType::OnRendererChanged> WidgetRendererChangedEventArgs;
 		typedef WidgetEventArgsBase<WidgetEventType::OnFocus> WidgetFocusEventArgs;
 		typedef WidgetEventArgsBase<WidgetEventType::OnFocusLost> WidgetFocusLostEventArgs;

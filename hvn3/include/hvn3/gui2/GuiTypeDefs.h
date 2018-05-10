@@ -24,6 +24,11 @@ namespace hvn3 {
 			Fill
 		};
 
+		enum class Orientation {
+			Horizontal,
+			Vertical
+		};
+
 		enum class WidgetProperty {
 			BackgroundColor,
 			Color,

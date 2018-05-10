@@ -1,39 +1,49 @@
 #pragma once
 #include "hvn3/gui2/WidgetBase.h"
+#include "hvn3/tilesets/Tileset.h"
 
 namespace hvn3 {
 	namespace Gui {
 
+		enum class TilesetViewMode {
+			Fixed,
+			Collapse
+		};
+
 		class TilesetView : public WidgetBase {
 
 		public:
-			TilesetView() : 
-				WidgetBase(0.0f, 0.0f, 10.0f, 10.0f) {
-				_color = Color::Red;
+			TilesetView(const Tileset& tileset) :
+				_tileset(tileset) {
 			}
+
 			void OnDraw(WidgetDrawEventArgs& e) override {
 
-				e.Graphics().DrawSolidRectangle(X(), Y(), Width(), Height(), _color);
-				e.Graphics().DrawLine(X(), Y(), Width(), Height(), Color::Black, 3.0f);
-				e.Graphics().DrawLine(Width(), Y(), X(), Height(), Color::Black, 3.0f);
+				e.Graphics().DrawSolidRectangle(RectangleF(Position(), Size()), Color(Color::Black, 50));
 
+				e.Graphics().HoldBitmapDrawing(true);
 
-			}
-			void OnMouseEnter(WidgetMouseEnterEventArgs& e) override {
-				WidgetBase::OnMouseEnter(e);
+				float tile_drawing_x = 0.0f;
+				float tile_drawing_y = 0.0f;
+				
+				for (size_t i = 0; i < _tileset.TileCount(); ++i) {
+					
+					e.Graphics().DrawBitmap(X() + tile_drawing_x, Y() + tile_drawing_y, _tileset.TileAt(i));
 
-				_color = Color::Blue;
+					tile_drawing_x += _tileset.TileSize().width;
+					if (tile_drawing_x + _tileset.TileSize().width > Width()) {
+						tile_drawing_x = 0.0f;
+						tile_drawing_y += _tileset.TileSize().height;
+					}
 
-			}
-			void OnMouseLeave(WidgetMouseLeaveEventArgs& e) override {
-				WidgetBase::OnMouseLeave(e);
+				}
 
-				_color = Color::Red;
+				e.Graphics().HoldBitmapDrawing(false);
 
 			}
 
 		private:
-			Color _color;
+			Tileset _tileset;
 
 		};
 
