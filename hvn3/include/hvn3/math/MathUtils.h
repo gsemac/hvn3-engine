@@ -85,6 +85,13 @@ namespace hvn3 {
 		}
 
 		template <typename T>
+		inline T Floor(T n, T multiple) {
+
+			return (std::floor)(n / multiple) * multiple;
+
+		}
+
+		template <typename T>
 		inline T Ceiling(T n) {
 
 			return std::ceil(n);
@@ -97,13 +104,13 @@ namespace hvn3 {
 			if (multiple == static_cast<T>(0))
 				return n;
 
-			T r = Mod(Abs(n), multiple);
+			T r = Mod((std::abs)(n), multiple);
 
 			if (r == static_cast<T>(0))
 				return n;
 
 			if (n < static_cast<T>(0))
-				return -(Abs(n) - r);
+				return -((std::abs)(n) - r);
 			else
 				return n + multiple - r;
 
@@ -122,7 +129,7 @@ namespace hvn3 {
 			if (multiple == static_cast<T>(0))
 				return n;
 
-			return ((n + multiple / static_cast<T>(2)) / multiple) * multiple;
+			return (std::floor)((n + multiple / static_cast<T>(2)) / multiple) * multiple;
 
 		}
 

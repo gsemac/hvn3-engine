@@ -80,6 +80,7 @@ namespace hvn3 {
 		static const Color Yellow;
 
 		static const Color Transparent;
+		static const Color Transluscent;
 
 		// Color constants from Game Maker
 		static const Color LtGrey;

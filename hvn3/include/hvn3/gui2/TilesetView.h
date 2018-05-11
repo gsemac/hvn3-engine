@@ -29,11 +29,14 @@ namespace hvn3 {
 			void SetSelection(const RectangleI& selection) {
 				_selection = selection;
 			}
+			const Tileset& Tileset() {
+				return _tileset;
+			}
 
 			void OnMousePressed(WidgetMousePressedEventArgs& e) override {
 
 				PointI tile_index = _mousePositionToTileIndex(e.Position());
-
+				
 				if (tile_index.x < 0 && tile_index.y < 0)
 					return;
 
@@ -93,7 +96,7 @@ namespace hvn3 {
 			}
 
 		private:
-			Tileset _tileset;
+			hvn3::Tileset _tileset;
 			PointI _selected_index;
 			RectangleI _selection;
 			bool _dragging;

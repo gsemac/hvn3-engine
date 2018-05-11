@@ -395,6 +395,7 @@ namespace hvn3 {
 	const Color Color::Silver = FromArgb(192, 192, 192);
 	const Color Color::SlateGrey = FromArgb(112, 128, 144);
 	const Color Color::Transparent = FromArgb(1, 1, 1, 0.0f);
+	const Color Color::Transluscent = FromArgbf(0.5f, 0.5f, 0.5f, 0.5f);
 	const Color Color::White = FromArgbf(1.0f, 1.0f, 1.0f);
 	const Color Color::Yellow = FromArgb(255, 255, 0);
 
