@@ -41,6 +41,12 @@ namespace hvn3 {
 			return Y() + Height();
 
 		}
+		void SetX2(T value) {
+			SetWidth(value - X());
+		}
+		void SetY2(T value) {
+			SetHeight(value - Y());
+		}
 
 		T Bottom() const {
 

@@ -66,7 +66,7 @@ namespace hvn3 {
 			return n1 < n2 ? n1 : n2;
 
 		}
-		
+
 		// Returns the minimum of all given values.
 		template <typename T, typename... Args>
 		T Min(T n, Args... args) {
@@ -90,13 +90,39 @@ namespace hvn3 {
 			return std::ceil(n);
 
 		}
-		// Returns the minimum of two values.
-		//float Min(float a, float b);
-		// Returns the given float rounded to the nearest integer.
+
+		template <typename T>
+		inline T Ceiling(T n, T multiple) {
+
+			if (multiple == static_cast<T>(0))
+				return n;
+
+			T r = Mod(Abs(n), multiple);
+
+			if (r == static_cast<T>(0))
+				return n;
+
+			if (n < static_cast<T>(0))
+				return -(Abs(n) - r);
+			else
+				return n + multiple - r;
+
+		}
+
+		// Returns the given value rounded to the nearest integer.
 		template <typename T>
 		inline T Round(T n) {
-
 			return (std::round)(n);
+		}
+
+		// Rounds the given value to the nearest multiple of the second value.
+		template <typename T>
+		inline T Round(T n, T multiple) {
+
+			if (multiple == static_cast<T>(0))
+				return n;
+
+			return ((n + multiple / static_cast<T>(2)) / multiple) * multiple;
 
 		}
 
@@ -255,9 +281,31 @@ namespace hvn3 {
 		template<typename T>
 		T Cosine(T degrees) {
 
-			T rad = DegreesToRadians(degrees);	
+			T rad = DegreesToRadians(degrees);
 
 			return std::cos(rad);
+
+		}
+
+		// Increments or decrements a value in the direction of its sign.
+		template <typename T>
+		T SignedIncrement(T n) {
+
+			if (n < 0)
+				return n - static_cast<T>(1);
+			else
+				return n + -static_cast<T>(1);
+
+		}
+
+		// Increments or decrements a value in the direction of the sign of the second value.
+		template <typename T>
+		T SignedIncrement(T n, T sign) {
+
+			if (sign < 0)
+				return n - static_cast<T>(1);
+			else
+				return n + -static_cast<T>(1);
 
 		}
 

@@ -85,8 +85,6 @@ namespace hvn3 {
 					region.SetY((hdiff + sdiff) * _vscrollbar->ValuePercent());
 
 				}					
-			
-				std::cout << _hscrollbar->Value() << std::endl;
 
 				return region;
 
