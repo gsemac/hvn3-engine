@@ -1,6 +1,5 @@
 #pragma once
 #include "hvn3/gui2/WidgetBase.h"
-#include "hvn3/math/MathUtils.h"
 
 namespace hvn3 {
 	namespace Gui {
@@ -10,113 +9,51 @@ namespace hvn3 {
 			class Thumb : public WidgetBase {
 
 			public:
-				Thumb(Scrollbar* scrollbar) :
-					_scrollbar(scrollbar) {
+				Thumb(Scrollbar* scrollbar);
 
-					SetIdentifier("thumb");
-					_offset = 0.0f;
-
-				}
-
-				void OnUpdate(WidgetUpdateEventArgs& e) override {
-
-					if (_scrollbar == nullptr)
-						return;
-
-
-
-					// Set the thumb according to the state of the scrollbar.
-
-					if (_scrollbar->Orientation() == Orientation::Horizontal) {
-
-						SetHeight(_scrollbar->Height());
-						SetPosition(_scrollbar->X() + ((_scrollbar->Width() - Width()) * _scrollbar->ValuePercent()), _scrollbar->Y());
-
-					}
-					else {
-
-						SetWidth(_scrollbar->Width());
-						SetPosition(_scrollbar->X(), _scrollbar->Y() + ((_scrollbar->Height() - Height()) * _scrollbar->ValuePercent()));
-
-					}
-
-				}
+				void OnUpdate(WidgetUpdateEventArgs& e) override;
+				void OnMousePressed(WidgetMousePressedEventArgs& e) override;
+				void OnMouseReleased(WidgetMouseReleasedEventArgs& e) override;
+				void OnMouseMove(WidgetMouseMoveEventArgs& e) override;
 
 			private:
 				Scrollbar* _scrollbar;
 				float _offset;
+				bool _dragging;
+				PointF _mouse_drag_offset;
+				float _drag_offset;
+
+				void _updatePosition();
+				void _updateSize();
 
 			};
 
 		public:
-			Scrollbar(float length, float max, Orientation orientation) :
-				WidgetBase(0.0f, 0.0f, 20.0f, length) {
+			Scrollbar(float length, float max, Orientation orientation);
 
-				SetIdentifier("scrollbar");
-				_value = 0.0f;
-				_max_scroll = max;
-				_orientation = orientation;
-				_thumb = nullptr;
+			float Max() const;
+			void SetMax(float value);
+			float Value() const;
+			void SetValue(float value);
+			float ValuePercent() const;
+			void SetValuePercent(float value);
+			Orientation Orientation() const;
+			float Length() const;
+			void SetLength(float value);
+			bool SmoothScrollEnabled();
+			void SetSmoothScrollEnabled(bool value);
 
-			}
+			void SetVisible(bool value) override;
 
-			float Max() const {
-				return _max_scroll;
-			}
-			void SetMax(float value) {
-				_max_scroll = value;
-			}
-			float Value() const {
-				return _value;
-			}
-			void SetValue(float value) {
-				_value = value;
-			}
-			float ValuePercent() const {
-				return (_value / _max_scroll);
-			}
-			float SetValuePercent(float value) {
-
-				value = Math::Clamp(value, 0.0f, 1.0f);
-
-				_value = _max_scroll * value;
-
-			}
-			Orientation Orientation() const {
-				return _orientation;
-			}
-
-			void OnManagerChanged(WidgetManagerChangedEventArgs& e) override {
-
-				// If the new manager is null, do nothing but destroy the thumb (if it exists).
-				if (GetManager() == nullptr && _thumb != nullptr) {
-
-					if (e.OldManager() != nullptr)
-						e.OldManager()->Remove(_thumb);
-
-					_thumb = nullptr;
-
-					return;
-
-				}
-
-				// If the thumb already exists, move it to the new manager.
-				if (_thumb != nullptr) {
-					e.OldManager()->Move(_thumb, GetManager());
-					return;
-				}
-
-				// If the thumb does not already exist, we need to create it and add it to the new manager.
-				if (GetManager() != nullptr) {
-					_thumb = new Thumb(this);
-					GetManager()->Add(_thumb);
-				}
-
-			}
+			void OnManagerChanged(WidgetManagerChangedEventArgs& e) override;
+			void OnZDepthChanged(WidgetZDepthChangedEventArgs& e) override;
+			void OnUpdate(WidgetUpdateEventArgs& e) override;
 
 		private:
 			float _value;
 			float _max_scroll;
+			bool _smooth_scroll;
+			float _goto_value;
 			Gui::Orientation _orientation;
 			Thumb* _thumb;
 

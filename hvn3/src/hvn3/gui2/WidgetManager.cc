@@ -102,18 +102,30 @@ namespace hvn3 {
 		}
 
 		void WidgetManager::BringToFront(IWidget* widget) {
+			
 			auto iter = _findWidget(widget);
+
 			if (iter == _widgets.end())
 				return;
-			iter->z = 0;
+
+			iter->z = --_smallest_z_depth;
 			_resort_required = true;
+
+			widget->OnZDepthChanged(WidgetZDepthChangedEventArgs(widget));
+
 		}
 		void WidgetManager::SendToBack(IWidget* widget) {
+
 			auto iter = _findWidget(widget);
+
 			if (iter == _widgets.end())
 				return;
+
 			iter->z = _widgets.front().z + 1;
 			_resort_required = true;
+
+			widget->OnZDepthChanged(WidgetZDepthChangedEventArgs(widget));
+
 		}
 
 		void WidgetManager::SetRenderer(renderer_ptr_type& renderer) {
@@ -196,14 +208,20 @@ namespace hvn3 {
 			}
 
 			// If sorting is required, sort the list of widgets, and then reset their z values.
+
 			if (_resort_required) {
+				
 				_widgets.sort([](const WidgetData& lhs, const WidgetData& rhs) {
 					return lhs.z > rhs.z;
 				});
+
 				// Reset the z values after sorting so that BringToFront/SendToBack continue to work.
 				for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
 					i->z = HVN3_DEFAULT_WIDGET_Z;
+
+				_smallest_z_depth = HVN3_DEFAULT_WIDGET_Z;
 				_resort_required = false;
+
 			}
 
 			_update_required_before_draw = false;
@@ -329,6 +347,7 @@ namespace hvn3 {
 			_resort_required = false;
 			_owner = nullptr;
 			_update_required_before_draw = true;
+			_smallest_z_depth = HVN3_DEFAULT_WIDGET_Z;
 
 		}
 		WidgetManager::widget_collection_type::iterator WidgetManager::_findWidget(IWidget* widget) {

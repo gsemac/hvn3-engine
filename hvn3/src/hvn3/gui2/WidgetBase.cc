@@ -142,7 +142,7 @@ namespace hvn3 {
 			return _dock_style;
 		}
 		void WidgetBase::SetDockStyle(Gui::DockStyle value) {
-			
+
 			_dock_style = value;
 
 			if (value == Gui::DockStyle::Top)
@@ -186,7 +186,7 @@ namespace hvn3 {
 		}
 
 		void WidgetBase::BringToFront() {
-		
+
 			if (GetManager() != nullptr)
 				GetManager()->BringToFront(this);
 
@@ -221,6 +221,7 @@ namespace hvn3 {
 		void WidgetBase::OnFocus(WidgetFocusEventArgs& e) {}
 		void WidgetBase::OnFocusLost(WidgetFocusLostEventArgs& e) {}
 		void WidgetBase::OnDraw(WidgetDrawEventArgs& e) {}
+		void WidgetBase::OnZDepthChanged(WidgetZDepthChangedEventArgs& e) {}
 
 
 
@@ -229,9 +230,11 @@ namespace hvn3 {
 		}
 		void WidgetBase::SetManager(WidgetManager* value) {
 
+			WidgetManager* old_manager = _parent_manager;
+
 			_parent_manager = value;
 
-			OnManagerChanged(WidgetManagerChangedEventArgs(this));
+			OnManagerChanged(WidgetManagerChangedEventArgs(this, old_manager));
 			OnRendererChanged(WidgetRendererChangedEventArgs(this));
 
 			//if (value != nullptr)

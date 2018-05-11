@@ -40,6 +40,10 @@ namespace hvn3 {
 				DrawContextMenu(canvas, widget, args);
 			else if (widget.Identifier() == "contextmenuitem")
 				DrawMenuStripItem(canvas, widget, args);
+			else if (widget.Identifier() == "scrollbar")
+				DrawWidgetBase(canvas, widget, DEFAULT_UPPER_GRADIENT_COLOR, DEFAULT_LOWER_GRADIENT_COLOR);
+			else if (widget.Identifier() == "thumb")
+				DrawWidgetBase(canvas, widget, Color::Silver, Color::Grey);
 
 		}
 		SizeF DefaultWidgetRenderer::MeasureString(const String& string) const {

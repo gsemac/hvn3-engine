@@ -101,6 +101,7 @@
     <ClInclude Include="include\hvn3\gui2\ContextMenu.h" />
     <ClInclude Include="include\hvn3\gui2\GuiManager.h" />
     <ClInclude Include="include\hvn3\gui2\MenuStrip.h" />
+    <ClInclude Include="include\hvn3\gui2\ScrollableWidgetBase.h" />
     <ClInclude Include="include\hvn3\gui2\Scrollbar.h" />
     <ClInclude Include="include\hvn3\gui2\TilesetView.h" />
     <ClInclude Include="include\hvn3\gui2\WidgetManager.h" />
@@ -261,6 +262,7 @@
     <ClCompile Include="src\hvn3\gui2\Button.cc" />
     <ClCompile Include="src\hvn3\gui2\GuiManager.cc" />
     <ClCompile Include="src\hvn3\gui2\MenuStrip.cc" />
+    <ClCompile Include="src\hvn3\gui2\Scrollbar.cc" />
     <ClCompile Include="src\hvn3\gui2\WidgetBase.cc" />
     <ClCompile Include="src\hvn3\gui2\DefaultWidgetRenderer.cc" />
     <ClCompile Include="src\hvn3\gui2\WidgetManager.cc" />

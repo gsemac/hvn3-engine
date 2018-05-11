@@ -13,6 +13,7 @@ namespace hvn3 {
 	namespace Gui {
 
 		class IWidget;
+		class WidgetManager;
 
 		// Base class for widget event args classes. The Type() method must be overridden to return the event ID.
 		class IWidgetEventArgs : public System::EventArgs {
@@ -151,6 +152,7 @@ namespace hvn3 {
 		typedef WidgetEventArgsBase<WidgetEventType::OnRendererChanged> WidgetRendererChangedEventArgs;
 		typedef WidgetEventArgsBase<WidgetEventType::OnFocus> WidgetFocusEventArgs;
 		typedef WidgetEventArgsBase<WidgetEventType::OnFocusLost> WidgetFocusLostEventArgs;
+		typedef WidgetEventArgsBase<WidgetEventType::OnZDepthChanged> WidgetZDepthChangedEventArgs;
 
 		template <WidgetEventType WIDGET_EVENT_TYPE>
 		struct WidgetEventTypeTraits {
@@ -158,18 +160,19 @@ namespace hvn3 {
 		};
 
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnUpdate, WidgetUpdateEventArgs)
-			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseClick, WidgetMouseClickEventArgs)
-			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseDown, WidgetMouseDownEventArgs)
-			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseEnter, WidgetMouseEnterEventArgs)
-			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseHover, WidgetMouseHoverEventArgs)
-			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseLeave, WidgetMouseLeaveEventArgs)
-			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseReleased, WidgetMouseReleasedEventArgs)
-			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMousePressed, WidgetMousePressedEventArgs)
-			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseMove, WidgetMouseMoveEventArgs)
-			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMove, WidgetMoveEventArgs)
-			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnFocus, WidgetFocusEventArgs)
-			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnFocusLost, WidgetFocusLostEventArgs)
-			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnDraw, WidgetDrawEventArgs)
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseClick, WidgetMouseClickEventArgs)
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseDown, WidgetMouseDownEventArgs)
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseEnter, WidgetMouseEnterEventArgs)
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseHover, WidgetMouseHoverEventArgs)
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseLeave, WidgetMouseLeaveEventArgs)
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseReleased, WidgetMouseReleasedEventArgs)
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMousePressed, WidgetMousePressedEventArgs)
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseMove, WidgetMouseMoveEventArgs)
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMove, WidgetMoveEventArgs)
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnFocus, WidgetFocusEventArgs)
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnFocusLost, WidgetFocusLostEventArgs)
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnDraw, WidgetDrawEventArgs)
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnZDepthChanged, WidgetZDepthChangedEventArgs)
 
 	}
 }

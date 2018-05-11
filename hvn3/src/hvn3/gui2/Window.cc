@@ -141,20 +141,24 @@ namespace hvn3 {
 
 			int edges = _resizing_edges;
 
-			PointF diff = (mouse_position - _mouse_down_position);
+			PointF diff = (_mouse_down_position - (mouse_position - Position()));
 			SizeF new_size = Size();
 
-			if ((edges & EDGE_LEFT) || (edges & EDGE_RIGHT))
+			if (edges & EDGE_RIGHT)
+				new_size.SetWidth(_size_before_resize.width - diff.x);
+			else if (edges & EDGE_LEFT) {
 				new_size.SetWidth(_size_before_resize.width + diff.x);
+				SetX(X() - (new_size.width - _size_before_resize.width));
+				_size_before_resize.width = new_size.width;
+			}
 
-			if ((edges & EDGE_TOP) || (edges & EDGE_BOTTOM))
+			if (edges & EDGE_BOTTOM)
+				new_size.SetHeight(_size_before_resize.height - diff.y);
+			else if (edges & EDGE_TOP) {
 				new_size.SetHeight(_size_before_resize.height + diff.y);
-
-			if (edges & EDGE_LEFT)
-				SetX(X() - (_size_before_resize.width - new_size.width));
-
-			if (edges & EDGE_TOP)
-				SetY(Y() - (_size_before_resize.height - new_size.height));
+				SetY(Y() - (new_size.height - _size_before_resize.height));
+				_size_before_resize.height = new_size.height;
+			}
 
 			if (new_size.width < _minimum_size.width)
 				new_size.width = _minimum_size.width;

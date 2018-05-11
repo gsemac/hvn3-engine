@@ -73,6 +73,7 @@ namespace hvn3 {
 			virtual void OnFocus(WidgetFocusEventArgs& e) = 0;
 			virtual void OnFocusLost(WidgetFocusLostEventArgs& e) = 0;
 			virtual void OnDraw(WidgetDrawEventArgs& e) = 0;
+			virtual void OnZDepthChanged(WidgetZDepthChangedEventArgs& e) = 0;
 
 		protected:
 			virtual WidgetManager* GetManager() const = 0;

@@ -22,12 +22,14 @@ namespace hvn3 {
 			public virtual IKeyboardListener,
 			public virtual IMouseListener {
 
+			typedef int z_depth_type;
+
 			struct WidgetData {
 				WidgetData(std::unique_ptr<IWidget>& widget);
 				IWidget& GetRef();
 				std::unique_ptr<IWidget> widget;
 				WidgetRenderArgs rendererArgs;
-				size_t z;
+				z_depth_type z;
 			};
 
 			typedef std::shared_ptr<IWidgetRenderer> renderer_ptr_type;
@@ -78,6 +80,7 @@ namespace hvn3 {
 			IWidget* _widget_hovered;
 			IWidget* _widget_held;
 			PointF _last_mouse_position;
+			z_depth_type _smallest_z_depth;
 			bool _resort_required;
 			RectangleF _dockable_region;
 			IWidget* _owner;

@@ -705,6 +705,9 @@
     <ClInclude Include="include\hvn3\gui2\Scrollbar.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\ScrollableWidgetBase.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1051,6 +1054,9 @@
       <Filter>src\gui2</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\gui2\MenuStrip.cc">
+      <Filter>src\gui2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui2\Scrollbar.cc">
       <Filter>src\gui2</Filter>
     </ClCompile>
   </ItemGroup>
