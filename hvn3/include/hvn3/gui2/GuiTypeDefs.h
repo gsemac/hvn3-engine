@@ -54,7 +54,8 @@ namespace hvn3 {
 			OnUpdate,
 			OnManagerChanged,
 			OnRendererChanged,
-			OnZDepthChanged
+			OnZDepthChanged,
+			ChildWidgetAdded
 		};
 
 		enum class WidgetState {

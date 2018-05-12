@@ -222,6 +222,7 @@ namespace hvn3 {
 		void WidgetBase::OnFocusLost(WidgetFocusLostEventArgs& e) {}
 		void WidgetBase::OnDraw(WidgetDrawEventArgs& e) {}
 		void WidgetBase::OnZDepthChanged(WidgetZDepthChangedEventArgs& e) {}
+		void WidgetBase::OnChildWidgetAdded(ChildWidgetAddedEventArgs& e) {}
 
 
 

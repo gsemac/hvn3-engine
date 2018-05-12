@@ -98,11 +98,13 @@
     <ClInclude Include="include\hvn3\graphics\Transform.h" />
     <ClInclude Include="include\hvn3\graphics\Tween.h" />
     <ClInclude Include="include\hvn3\gui2\Button.h" />
+    <ClInclude Include="include\hvn3\gui2\ContainerWidgetBase.h" />
     <ClInclude Include="include\hvn3\gui2\ContextMenu.h" />
     <ClInclude Include="include\hvn3\gui2\GuiManager.h" />
     <ClInclude Include="include\hvn3\gui2\MenuStrip.h" />
     <ClInclude Include="include\hvn3\gui2\ScrollableWidgetBase.h" />
     <ClInclude Include="include\hvn3\gui2\Scrollbar.h" />
+    <ClInclude Include="include\hvn3\gui2\TabStrip.h" />
     <ClInclude Include="include\hvn3\gui2\TilesetView.h" />
     <ClInclude Include="include\hvn3\gui2\WidgetManager.h" />
     <ClInclude Include="include\hvn3\gui2\GuiTypeDefs.h" />

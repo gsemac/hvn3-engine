@@ -10,6 +10,9 @@ namespace hvn3 {
 			Window(const String& text);
 			Window(float x, float y, float width, float height, const String& text);
 
+			bool TitleBarVisible();
+			void SetTitleBarVisible(bool value);
+
 			WidgetManager& GetChildren() override;
 			bool HasChildren() override;
 
@@ -31,6 +34,7 @@ namespace hvn3 {
 			SizeF _size_before_resize;
 			float _resize_edge_width;
 			float _titlebar_height;
+			bool _titlebar_visible;
 			SizeF _minimum_size;
 			WidgetManager _child_manager;
 

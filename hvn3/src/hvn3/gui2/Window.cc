@@ -27,6 +27,13 @@ namespace hvn3 {
 
 		}
 
+		bool Window::TitleBarVisible() {
+			return _titlebar_visible;
+		}
+		void Window::SetTitleBarVisible(bool value) {
+			_titlebar_visible = value;
+		}
+
 		WidgetManager& Window::GetChildren() {
 			return _child_manager;
 		}
@@ -78,7 +85,9 @@ namespace hvn3 {
 		void Window::OnUpdate(WidgetUpdateEventArgs& e) {
 			WidgetBase::OnUpdate(e);
 
-			_child_manager.SetDockableRegion(RectangleF(_resize_edge_width, _titlebar_height, Width() - (_resize_edge_width * 2.0f), Height() - (_titlebar_height + _resize_edge_width)));
+			float titlebar_height = _titlebar_visible ? _titlebar_height : 0.0f;
+
+			_child_manager.SetDockableRegion(RectangleF(_resize_edge_width, titlebar_height, Width() - (_resize_edge_width * 2.0f), Height() - (titlebar_height + _resize_edge_width)));
 
 		}
 
@@ -92,6 +101,7 @@ namespace hvn3 {
 			_resizing_edges = 0;
 			_resize_edge_width = 6.0f;
 			_titlebar_height = 20.0f;
+			_titlebar_visible = true;
 			_minimum_size = SizeF(_resize_edge_width * 2.0f, _titlebar_height + _resize_edge_width);
 
 		}

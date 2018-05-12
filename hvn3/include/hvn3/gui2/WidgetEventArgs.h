@@ -142,6 +142,19 @@ namespace hvn3 {
 			WidgetManager* _previous_manager;
 		};
 
+		class ChildWidgetAddedEventArgs : public WidgetEventArgsBase<WidgetEventType::ChildWidgetAdded> {
+		public:
+			ChildWidgetAddedEventArgs(IWidget* sender, IWidget* child) :
+				WidgetEventArgsBase(sender),
+				_child(child) {
+			}
+			IWidget* Child() {
+				return _child;
+			}
+		private:
+			IWidget* _child;
+		};
+
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseReleased> WidgetMouseReleasedEventArgs;
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseDown> WidgetMouseDownEventArgs;
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMousePressed> WidgetMousePressedEventArgs;
@@ -173,6 +186,7 @@ namespace hvn3 {
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnFocusLost, WidgetFocusLostEventArgs)
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnDraw, WidgetDrawEventArgs)
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnZDepthChanged, WidgetZDepthChangedEventArgs)
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::ChildWidgetAdded, ChildWidgetAddedEventArgs)
 
 	}
 }

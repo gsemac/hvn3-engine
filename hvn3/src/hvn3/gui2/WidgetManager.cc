@@ -59,6 +59,9 @@ namespace hvn3 {
 			widget->SetManager(this);
 			widget->SetParent(_owner);
 
+			if (_owner != nullptr)
+				_owner->OnChildWidgetAdded(ChildWidgetAddedEventArgs(_owner, widget.get()));
+
 			_widgets.emplace_back(WidgetData(widget));
 
 		}
