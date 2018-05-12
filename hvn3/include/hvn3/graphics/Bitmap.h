@@ -71,6 +71,8 @@ namespace hvn3 {
 
 			void SetPixel(int x, int y, const Color& color);
 			Color GetPixel(int x, int y) const;
+			
+			void Save(const std::string& filename) const;
 
 			Bitmap& operator=(const Bitmap& other);
 			Bitmap& operator=(Bitmap&& other);

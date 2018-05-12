@@ -1,3 +1,5 @@
+#include "hvn3/exceptions/Exception.h"
+#include "hvn3/graphics/Graphics.h"
 #include "hvn3/tilesets/Tileset.h"
 
 namespace hvn3 {
@@ -9,8 +11,8 @@ namespace hvn3 {
 		_bitmap(tileset),
 		_tile_size(tile_size) {
 
-		// Initialize row count.
-		_rows = 0;
+		// Initialize column count.
+		_columns = 0;
 
 		// Get width/height as unsigned integers.
 		int w = tile_size.Width();
@@ -24,47 +26,69 @@ namespace hvn3 {
 				_tiles.push_back(Graphics::Bitmap(_bitmap, RectangleI(x, y, Math::Min(w, _bitmap.Width() - x), Math::Min(h, _bitmap.Height() - y))));
 
 			// Increment the number of rows.
-			++_rows;
+			++_columns;
 
 		}
 
 	}
+	const Graphics::Bitmap& Tileset::At(unsigned int x, unsigned int y) const {
 
-	const Graphics::Bitmap& Tileset::TileAt(unsigned int x, unsigned int y) const {
-
-		return _tiles[y * Columns() + x];
+		return _tiles[y * Rows() + x];
 
 	}
-	const Graphics::Bitmap& Tileset::TileAt(unsigned int n) const {
+	const Graphics::Bitmap& Tileset::At(unsigned int n) const {
 
 		return _tiles[n];
 
 	}
-	size_t Tileset::TileCount() const {
+	size_t Tileset::Count() const {
 
 		return _tiles.size();
 
 	}
 	size_t Tileset::Rows() const {
 
-		return _rows;
+		return _tiles.size() / _columns;
 
 	}
 	size_t Tileset::Columns() const {
 
-		return _tiles.size() / _rows;
+		return _columns;
 
 	}
-
 	const Graphics::Bitmap& Tileset::Bitmap() const {
 
 		return _bitmap;
 
 	}
-	const SizeI& Tileset::TileSize() const {
+	const SizeI& Tileset::GridSize() const {
 
 		return _tile_size;
 
 	}
+
+	//Tileset Tileset::GenerateAutoTiles(const Tileset& autotiles) {
+
+	//	//// Each autotile set is composed of 2 columns of 3 tiles (6 tiles total).
+	//	//// There will be 48 combinations generated for each autotile.
+
+	//	//// If the dimensions of the tileset don't match, through an exception.
+	//	//if (autotiles.Rows() % 2 != 0 || autotiles.Columns() % 3 != 0 || (autotiles.TileSize().width != autotiles.TileSize().height))
+	//	//	throw System::ArgumentException("The width of the tileset must be a multiple of 2 and the height a multiple of 3, and tiles must be square.");
+
+	//	//// We will store the 48 generated tiles in 1 1/2 rows of 32 tiles (width of 1024px for 32px tiles).
+	//	//int autotile_count = (autotiles.Rows() / 2) * (autotiles.Columns() / 3);
+	//	//int bmp_w = autotiles.TileSize().width * 32;
+	//	//int bmp_h = static_cast<int>(Math::Ceiling(1.5f * autotile_count)) * autotiles.TileSize().height;
+	//	//Graphics::Bitmap bmp(bmp_w, bmp_h);
+
+	//	//Graphics::Graphics gfx(bmp);
+	//	//gfx.DrawBitmap(0, 0, autotiles.TileAt(0));
+	//	//
+	//	//bmp.Save("test.png");
+
+	//	//return Tileset(bmp, SizeI(32, 32));
+
+	//}
 
 }

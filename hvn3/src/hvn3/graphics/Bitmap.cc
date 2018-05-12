@@ -243,6 +243,10 @@ namespace hvn3 {
 
 		}
 
+		void Bitmap::Save(const std::string& filename) const {
+			al_save_bitmap(filename.c_str(), _get_bitmap_ptr());
+		}
+
 		Bitmap& Bitmap::operator=(const Bitmap& other) {
 
 			_copy_assign(other);

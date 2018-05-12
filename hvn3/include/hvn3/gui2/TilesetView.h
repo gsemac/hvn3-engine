@@ -16,7 +16,7 @@ namespace hvn3 {
 			TilesetView(const Tileset& tileset) :
 				ScrollableWidgetBase(SizeF(tileset.Bitmap().Width(), tileset.Bitmap().Height())),
 				_tileset(tileset),
-				_selection(0, 0, 0, 0) {
+				_selection(0, 0, 1, 1) {
 				_dragging = false;
 			}
 
@@ -105,7 +105,7 @@ namespace hvn3 {
 
 				RectangleF selection_rect = _selection;
 				PointF offset = Position() - VisibleRegion().Position();
-				SizeI size = _tileset.TileSize();
+				SizeI size = _tileset.GridSize();
 
 				selection_rect.SetX(_selection.X() * size.width + offset.x);
 				selection_rect.SetY(_selection.Y() * size.height + offset.y);
@@ -123,12 +123,12 @@ namespace hvn3 {
 				offset += VisibleRegion().Position();
 
 				if (offset.x >= _tileset.Bitmap().Width())
-					offset.x = _tileset.Bitmap().Width() - _tileset.TileSize().width;
+					offset.x = _tileset.Bitmap().Width() - _tileset.GridSize().width;
 
 				if (offset.y >= _tileset.Bitmap().Height())
-					offset.y = _tileset.Bitmap().Height() - _tileset.TileSize().height;
+					offset.y = _tileset.Bitmap().Height() - _tileset.GridSize().height;
 
-				return PointI(offset.x / _tileset.TileSize().width, offset.y / _tileset.TileSize().height);
+				return PointI(offset.x / _tileset.GridSize().width, offset.y / _tileset.GridSize().height);
 
 			}
 
