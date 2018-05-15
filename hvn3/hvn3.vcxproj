@@ -265,6 +265,7 @@
     <ClCompile Include="src\hvn3\gui2\GuiManager.cc" />
     <ClCompile Include="src\hvn3\gui2\MenuStrip.cc" />
     <ClCompile Include="src\hvn3\gui2\Scrollbar.cc" />
+    <ClCompile Include="src\hvn3\gui2\TabStrip.cc" />
     <ClCompile Include="src\hvn3\gui2\WidgetBase.cc" />
     <ClCompile Include="src\hvn3\gui2\DefaultWidgetRenderer.cc" />
     <ClCompile Include="src\hvn3\gui2\WidgetManager.cc" />

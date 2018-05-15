@@ -47,7 +47,7 @@ namespace hvn3 {
 			else if (widget.Identifier() == "tabstrip")
 				DrawWidgetBase(canvas, widget, DEFAULT_UPPER_GRADIENT_COLOR, DEFAULT_LOWER_GRADIENT_COLOR);
 			else if (widget.Identifier() == "tabstripitem")
-				DrawButton(canvas, widget, args);
+				DrawMenuStripItem(canvas, widget, args);
 
 		}
 		SizeF DefaultWidgetRenderer::MeasureString(const String& string) const {

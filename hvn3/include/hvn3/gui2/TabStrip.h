@@ -4,53 +4,42 @@
 namespace hvn3 {
 	namespace Gui {
 
+		class TabStrip;
+
 		class TabStripItem : public WidgetBase {
+			friend class TabStrip;
 
 		public:
-			TabStripItem(const String& text) {
-				SetIdentifier("tabstripitem");
-				SetText(text);
-			}			
+			TabStripItem(const String& text);
+
+			void OnMousePressed(WidgetMousePressedEventArgs& e) override;
+
+		private:
+			TabStrip* _owner;
 
 		};
 
 		class TabStrip : public ContainerWidgetBase {
+			friend class TabStripItem;
 
 		public:
-			TabStrip() {
-				SetIdentifier("tabstrip");
-				SetHeight(25.0f);
-			}
+			TabStrip();
 
-			TabStripItem* AddItem(TabStripItem* item) {
-				
-				GetChildren().Add(item);
-				return item;
+			TabStripItem* AddItem(TabStripItem* item);
+			TabStripItem* AddItem(const String& text);
 
-			}
-			TabStripItem* AddItem(const String& text) {
-				
-				TabStripItem* item = new TabStripItem(text);
-				AddItem(item);
+			const TabStripItem* SelectedTab() const;
+			TabStripItem* GetSelectedTab();
 
-				return item;
+			virtual void OnSelectedTabChanged(WidgetSelectedTabChangedEventArgs& e);
 
-			}
+			void OnUpdate(WidgetUpdateEventArgs& e) override;
 
-			void OnUpdate(WidgetUpdateEventArgs& e) override {
-				
-				// Evenly space out all tabs over the width of the tab strip.
-				float width = Width() / GetChildren().Count();
-				float x_offset = 0.0f;
+		protected:
+			void SetSelectedTab(IWidget* sender, TabStripItem* tab);
 
-				for (auto i = GetChildren().GetWidgets().begin(); i != GetChildren().GetWidgets().end(); ++i) {
-					i->widget->SetWidth(width);
-					i->widget->SetHeight(Height());
-					i->widget->SetX(x_offset);
-					x_offset += width;
-				}
-
-			}
+		private:
+			TabStripItem* _selected_tab;
 
 		};
 

@@ -13,6 +13,7 @@ namespace hvn3 {
 	namespace Gui {
 
 		class IWidget;
+		class TabStripItem;
 		class WidgetManager;
 
 		// Base class for widget event args classes. The Type() method must be overridden to return the event ID.
@@ -142,7 +143,7 @@ namespace hvn3 {
 			WidgetManager* _previous_manager;
 		};
 
-		class ChildWidgetAddedEventArgs : public WidgetEventArgsBase<WidgetEventType::ChildWidgetAdded> {
+		class ChildWidgetAddedEventArgs : public WidgetEventArgsBase<WidgetEventType::OnChildWidgetAdded> {
 		public:
 			ChildWidgetAddedEventArgs(IWidget* sender, IWidget* child) :
 				WidgetEventArgsBase(sender),
@@ -153,6 +154,19 @@ namespace hvn3 {
 			}
 		private:
 			IWidget* _child;
+		};
+
+		class WidgetSelectedTabChangedEventArgs : public WidgetEventArgsBase<WidgetEventType::OnSelectedTabChanged> {
+		public:
+			WidgetSelectedTabChangedEventArgs(IWidget* sender, TabStripItem* tab) :
+				WidgetEventArgsBase(sender),
+				_child(tab) {
+			}
+			TabStripItem* Tab() {
+				return _child;
+			}
+		private:
+			TabStripItem* _child;
 		};
 
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseReleased> WidgetMouseReleasedEventArgs;
@@ -186,7 +200,7 @@ namespace hvn3 {
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnFocusLost, WidgetFocusLostEventArgs)
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnDraw, WidgetDrawEventArgs)
 		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnZDepthChanged, WidgetZDepthChangedEventArgs)
-		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::ChildWidgetAdded, ChildWidgetAddedEventArgs)
+		HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnChildWidgetAdded, ChildWidgetAddedEventArgs)
 
 	}
 }
