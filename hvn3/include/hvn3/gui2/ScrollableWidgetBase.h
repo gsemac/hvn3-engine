@@ -5,13 +5,24 @@
 namespace hvn3 {
 	namespace Gui {
 
-		class ScrollableWidgetBase : public WidgetBase {
+		class ScrollableWidgetBase : public virtual WidgetBase {
 
 		public:
 			ScrollableWidgetBase(const SizeF& scrollable_size) :
 				_scrollable_size(scrollable_size) {
 
 
+
+			}
+
+			void SetVisible(bool value) override {
+
+				WidgetBase::SetVisible(value);
+
+				if (_scrollbarsCreated()) {
+					_vscrollbar->SetVisible(value);
+					_hscrollbar->SetVisible(value);
+				}
 
 			}
 
@@ -57,6 +68,7 @@ namespace hvn3 {
 				_hscrollbar->SetMax(_scrollable_size.width);
 
 			}
+
 
 		protected:
 			Scrollbar* VerticalScrollbar() {
