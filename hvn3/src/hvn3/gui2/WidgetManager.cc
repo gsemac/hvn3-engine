@@ -235,6 +235,8 @@ namespace hvn3 {
 		void WidgetManager::OnKeyPressed(KeyPressedEventArgs& e) {}
 		void WidgetManager::OnKeyUp(KeyUpEventArgs& e) {}
 		void WidgetManager::OnKeyChar(KeyCharEventArgs& e) {}
+		void WidgetManager::OnKeyboardLost(KeyboardLostEventArgs& e) {}
+		void WidgetManager::OnKeyboardFound(KeyboardFoundEventArgs& e) {}
 
 		void WidgetManager::OnMouseDown(MouseDownEventArgs& e) {}
 		void WidgetManager::OnMousePressed(MousePressedEventArgs& e) {

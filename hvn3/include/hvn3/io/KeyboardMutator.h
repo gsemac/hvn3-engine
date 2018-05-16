@@ -20,6 +20,8 @@ namespace hvn3 {
 			void DispatchEvent(KeyPressedEventArgs& e) const;
 			void DispatchEvent(KeyUpEventArgs& e) const;
 			void DispatchEvent(KeyCharEventArgs& e) const;
+			void DispatchKeyboardLostEvent(KeyboardLostEventArgs& e) const;
+			void DispatchKeyboardFoundEvent(KeyboardFoundEventArgs& e) const;
 			
 			System::EventSource GetEventSource() const;
 

@@ -39,6 +39,8 @@ namespace hvn3 {
 		void GuiManager::OnKeyChar(KeyCharEventArgs& e) {
 			WidgetManager::OnKeyChar(e);
 		}
+		void GuiManager::OnKeyboardLost(KeyboardLostEventArgs& e) {}
+		void GuiManager::OnKeyboardFound(KeyboardFoundEventArgs& e) {}
 		void GuiManager::OnMouseDown(MouseDownEventArgs& e) {
 			WidgetManager::OnMouseDown(e);
 		}

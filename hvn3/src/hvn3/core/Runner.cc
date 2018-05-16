@@ -422,7 +422,10 @@ namespace hvn3 {
 		void Runner::OnDisplaySwitchOut(Event& ev) {
 
 			_context.GetDisplay()._setFocus(false);
-			KeyboardMutator().ResetKeyStates();
+
+			KeyboardMutator con;
+			con.ResetKeyStates();
+			con.DispatchKeyboardLostEvent(KeyboardLostEventArgs());
 
 			if (_properties().FreezeWhenLostFocus)
 				_delta_timer.Stop();
@@ -431,6 +434,7 @@ namespace hvn3 {
 		void Runner::OnDisplaySwitchIn(Event& ev) {
 
 			_context.GetDisplay()._setFocus(true);
+			KeyboardMutator().DispatchKeyboardFoundEvent(KeyboardFoundEventArgs());
 
 			_delta_timer.Start();
 

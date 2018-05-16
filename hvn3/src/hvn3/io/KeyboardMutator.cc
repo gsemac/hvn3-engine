@@ -87,6 +87,18 @@ namespace hvn3 {
 				(*i)->OnKeyChar(e);
 
 		}
+		void KeyboardMutator::DispatchKeyboardLostEvent(KeyboardLostEventArgs& e) const {
+
+			for (auto i = KeyboardListener::_listeners().begin(); i != KeyboardListener::_listeners().end(); ++i)
+				(*i)->OnKeyboardLost(e);
+
+		}
+		void KeyboardMutator::DispatchKeyboardFoundEvent(KeyboardFoundEventArgs& e) const {
+
+			for (auto i = KeyboardListener::_listeners().begin(); i != KeyboardListener::_listeners().end(); ++i)
+				(*i)->OnKeyboardFound(e);
+
+		}
 
 		System::EventSource KeyboardMutator::GetEventSource() const {
 

@@ -28,6 +28,8 @@ namespace hvn3 {
 		void OnKeyPressed(KeyPressedEventArgs& e) override;
 		void OnKeyUp(KeyUpEventArgs& e) override;
 		void OnKeyChar(KeyCharEventArgs& e) override;
+		void OnKeyboardLost(KeyboardLostEventArgs& e) override;
+		void OnKeyboardFound(KeyboardFoundEventArgs& e) override;
 
 	protected:
 		static listener_collection_type& _listeners();

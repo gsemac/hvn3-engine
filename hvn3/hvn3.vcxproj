@@ -117,6 +117,7 @@
     <ClInclude Include="include\hvn3\gui2\WidgetRenderArgs.h" />
     <ClInclude Include="include\hvn3\gui2\Window.h" />
     <ClInclude Include="include\hvn3\helper\DirectionalControlsHelper.h" />
+    <ClInclude Include="include\hvn3\helper\DirectionalInputListener.h" />
     <ClInclude Include="include\hvn3\helper\PlatformerControlsHelper.h" />
     <ClInclude Include="include\hvn3\hvn3.h" />
     <ClInclude Include="include\hvn3\io\Clipboard.h" />
@@ -273,6 +274,7 @@
     <ClCompile Include="src\hvn3\gui2\WidgetRendererRenderArgs.cc" />
     <ClCompile Include="src\hvn3\gui2\Window.cc" />
     <ClCompile Include="src\hvn3\helper\DirectionalControlsHelper.cc" />
+    <ClCompile Include="src\hvn3\helper\DirectionalInputListener.cc" />
     <ClCompile Include="src\hvn3\helper\PlatformerControlsHelper.cc" />
     <ClCompile Include="src\hvn3\io\Clipboard.cc" />
     <ClCompile Include="src\hvn3\io\Console.cc" />

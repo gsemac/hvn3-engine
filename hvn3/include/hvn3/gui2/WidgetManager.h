@@ -67,6 +67,8 @@ namespace hvn3 {
 			void OnKeyPressed(KeyPressedEventArgs& e) override;
 			void OnKeyUp(KeyUpEventArgs& e) override;
 			void OnKeyChar(KeyCharEventArgs& e) override;
+			void OnKeyboardLost(KeyboardLostEventArgs& e) override;
+			void OnKeyboardFound(KeyboardFoundEventArgs& e) override;
 
 			void OnMouseDown(MouseDownEventArgs& e) override;
 			void OnMousePressed(MousePressedEventArgs& e) override;

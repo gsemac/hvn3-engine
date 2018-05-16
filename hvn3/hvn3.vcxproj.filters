@@ -717,6 +717,9 @@
     <ClInclude Include="include\hvn3\gui2\ListBox.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\helper\DirectionalInputListener.h">
+      <Filter>include\helper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1070,6 +1073,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\gui2\TabStrip.cc">
       <Filter>src\gui2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\helper\DirectionalInputListener.cc">
+      <Filter>src\helper</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
