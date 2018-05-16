@@ -56,7 +56,7 @@ namespace hvn3 {
 			OnRendererChanged,
 			OnZDepthChanged,
 			OnChildWidgetAdded,
-			OnSelectedTabChanged
+			OnSelectedItemChanged
 		};
 
 		enum class WidgetState {

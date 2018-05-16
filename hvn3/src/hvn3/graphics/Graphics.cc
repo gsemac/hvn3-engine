@@ -72,9 +72,10 @@ namespace hvn3 {
 		}
 
 		void Graphics::DrawRectangle(const RectangleF& rect, const Color& color, float thickness) {
-
 			DrawRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color, thickness);
-
+		}
+		void Graphics::DrawRectangle(const PointF& position, const SizeF& size, const Color& color, float thickness) {
+			DrawRectangle(position.x, position.y, size.width, size.height, color, thickness);
 		}
 		void Graphics::DrawRectangle(float x, float y, float width, float height, const Color& color, float thickness) {
 
@@ -91,9 +92,10 @@ namespace hvn3 {
 
 		}
 		void Graphics::DrawSolidRectangle(const RectangleF& rect, const Color& color) {
-
 			DrawSolidRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color);
-
+		}
+		void Graphics::DrawSolidRectangle(const PointF& position, const SizeF& size, const Color& color) {
+			DrawSolidRectangle(position.x, position.y, size.width, size.height, color);
 		}
 		void Graphics::DrawSolidRectangle(float x, float y, float width, float height, const Color& color) {
 

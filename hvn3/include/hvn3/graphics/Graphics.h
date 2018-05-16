@@ -21,9 +21,11 @@ namespace hvn3 {
 			Graphics(Bitmap& surface);
 			~Graphics();
 
-			void DrawRectangle(const RectangleF& rect, const Color& color, float thickness);
-			void DrawRectangle(float x, float y, float width, float height, const Color& color, float thickness);
+			void DrawRectangle(const RectangleF& rect, const Color& color, float thickness = 1.0f);
+			void DrawRectangle(const PointF& position, const SizeF& size, const Color& color, float thickness = 1.0f);
+			void DrawRectangle(float x, float y, float width, float height, const Color& color, float thickness = 1.0f);
 			void DrawSolidRectangle(const RectangleF& rect, const Color& color);
+			void DrawSolidRectangle(const PointF& position, const SizeF& size, const Color& color);
 			void DrawSolidRectangle(float x, float y, float width, float height, const Color& color);
 
 			void DrawRoundRectangle(const RectangleF& rect, const Color& color, float radius, float thickness);

@@ -17,7 +17,7 @@ namespace hvn3 {
 
 			if (_owner != nullptr) {
 				_owner->_selected_tab = this;
-				_owner->OnSelectedTabChanged(WidgetSelectedTabChangedEventArgs(_owner, this));
+				_owner->OnSelectedItemChanged(WidgetSelectedTabChangedEventArgs(_owner, this));
 			}
 
 		}
@@ -53,7 +53,7 @@ namespace hvn3 {
 		TabStripItem* TabStrip::GetSelectedTab() {
 			return _selected_tab;
 		}
-		void TabStrip::OnSelectedTabChanged(WidgetSelectedTabChangedEventArgs& e) {}
+		void TabStrip::OnSelectedItemChanged(WidgetSelectedTabChangedEventArgs& e) {}
 		void TabStrip::OnUpdate(WidgetUpdateEventArgs& e)  {
 			WidgetBase::OnUpdate(e);
 
@@ -74,7 +74,7 @@ namespace hvn3 {
 
 		_selected_tab = tab;
 
-		OnSelectedTabChanged(WidgetSelectedTabChangedEventArgs(sender, tab));
+		OnSelectedItemChanged(WidgetSelectedTabChangedEventArgs(sender, tab));
 
 	}
 

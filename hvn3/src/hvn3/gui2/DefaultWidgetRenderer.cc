@@ -48,6 +48,10 @@ namespace hvn3 {
 				DrawWidgetBase(canvas, widget, DEFAULT_UPPER_GRADIENT_COLOR, DEFAULT_LOWER_GRADIENT_COLOR);
 			else if (widget.Identifier() == "tabstripitem")
 				DrawMenuStripItem(canvas, widget, args);
+			else if (widget.Identifier() == "listbox")
+				DrawListBox(canvas, widget, args);
+			else if (widget.Identifier() == "listboxitem")
+				DrawListBoxItem(canvas, widget, args);
 
 		}
 		SizeF DefaultWidgetRenderer::MeasureString(const String& string) const {
@@ -150,6 +154,25 @@ namespace hvn3 {
 		}
 		void DefaultWidgetRenderer::DrawContextMenuItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
 			DrawMenuStripItem(canvas, widget, args);
+		}
+		void DefaultWidgetRenderer::DrawListBox(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
+
+			canvas.DrawSolidRectangle(widget.Position(), widget.Size(), Color::LtGrey);
+			canvas.DrawRectangle(widget.Position(), widget.Size(), Color::SlateGrey);
+
+		}
+		void DefaultWidgetRenderer::DrawListBoxItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
+
+			Color backcol = Color::White;
+
+			if (HasFlag(widget.State(), WidgetState::Focus))
+				backcol = Color::Blue;
+
+			canvas.DrawSolidRectangle(widget.Position(), widget.Size(), backcol);
+
+			if (_default_font)
+				canvas.DrawText(widget.X(), widget.Y(), widget.Text(), _default_font, Color::Black);
+
 		}
 
 		void DefaultWidgetRenderer::InitRenderArgs(const IWidget& widget, WidgetRenderArgs& args) const {

@@ -156,7 +156,7 @@ namespace hvn3 {
 			IWidget* _child;
 		};
 
-		class WidgetSelectedTabChangedEventArgs : public WidgetEventArgsBase<WidgetEventType::OnSelectedTabChanged> {
+		class WidgetSelectedTabChangedEventArgs : public WidgetEventArgsBase<WidgetEventType::OnSelectedItemChanged> {
 		public:
 			WidgetSelectedTabChangedEventArgs(IWidget* sender, TabStripItem* tab) :
 				WidgetEventArgsBase(sender),

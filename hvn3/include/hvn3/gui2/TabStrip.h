@@ -31,7 +31,7 @@ namespace hvn3 {
 			const TabStripItem* SelectedTab() const;
 			TabStripItem* GetSelectedTab();
 
-			virtual void OnSelectedTabChanged(WidgetSelectedTabChangedEventArgs& e);
+			virtual void OnSelectedItemChanged(WidgetSelectedTabChangedEventArgs& e);
 
 			void OnUpdate(WidgetUpdateEventArgs& e) override;
 
