@@ -723,6 +723,9 @@
     <ClInclude Include="include\hvn3\tilesets\TileMap.h">
       <Filter>include\tilesets</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\tilesets\TileMapRenderer.h">
+      <Filter>include\tilesets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
