@@ -720,6 +720,9 @@
     <ClInclude Include="include\hvn3\helper\DirectionalInputListener.h">
       <Filter>include\helper</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\tilesets\TileMap.h">
+      <Filter>include\tilesets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1076,6 +1079,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\helper\DirectionalInputListener.cc">
       <Filter>src\helper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tilesets\TileMap.cc">
+      <Filter>src\tilesets</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

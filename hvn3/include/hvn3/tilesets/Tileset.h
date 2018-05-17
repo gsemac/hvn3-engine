@@ -4,18 +4,18 @@
 
 namespace hvn3 {
 
-	enum class TileFlags {
-		AutoTile
-	};
+	//enum class TileFlags {
+	//	AutoTile
+	//};
 
-	class Tile {
-	public:
-		Tile(const Graphics::Bitmap& bitmap);
-		TileFlags Flags() const;
-	private:
-		Graphics::Bitmap _bitmap;
-		TileFlags _flags;
-	};
+	//class Tile {
+	//public:
+	//	Tile(const Graphics::Bitmap& bitmap);
+	//	TileFlags Flags() const;
+	//private:
+	//	Graphics::Bitmap _bitmap;
+	//	TileFlags _flags;
+	//};
 
 	class Tileset {
 
