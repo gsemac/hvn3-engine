@@ -27,10 +27,10 @@ namespace hvn3 {
 
 						TileMap::Tile tile_data = tilemap.At(i, j, layer->first);
 
-						if (tile_data.id == 0)
+						if (tile_data.id <= 0)
 							continue;
 
-						Graphics::Bitmap tile_image = _tilesets[0].At(tile_data.id);
+						Graphics::Bitmap tile_image = _tilesets[0].At(tile_data.id - 1);
 						SizeI tile_size = _tilesets[0].GridSize();
 
 						canvas.DrawBitmap(i * tile_size.width, j * tile_size.height, tile_image);
