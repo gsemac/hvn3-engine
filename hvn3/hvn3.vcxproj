@@ -145,6 +145,7 @@
     <ClInclude Include="include\hvn3\math\GeometryUtils.h" />
     <ClInclude Include="include\hvn3\math\Line.h" />
     <ClInclude Include="include\hvn3\math\MathUtils.h" />
+    <ClInclude Include="include\hvn3\math\Matrix.h" />
     <ClInclude Include="include\hvn3\math\Point2d.h" />
     <ClInclude Include="include\hvn3\math\Rectangle.h" />
     <ClInclude Include="include\hvn3\math\Vector2d.h" />

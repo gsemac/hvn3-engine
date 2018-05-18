@@ -32,13 +32,13 @@ namespace hvn3 {
 
 		const Graphics::Bitmap& Bitmap() const;
 		const SizeI& GridSize() const;
-		
+
 		//static Tileset GenerateAutoTiles(const Tileset& autotiles);
 
 	private:
 		Graphics::Bitmap _bitmap;
 		std::vector<Graphics::Bitmap> _tiles;
-		size_t _columns;
+		size_t _rows;
 		SizeI _tile_size;
 
 	};

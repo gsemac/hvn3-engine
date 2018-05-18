@@ -12,7 +12,7 @@ namespace hvn3 {
 		_tile_size(tile_size) {
 
 		// Initialize column count.
-		_columns = 0;
+		_rows = 0;
 
 		// Get width/height as unsigned integers.
 		int w = tile_size.Width();
@@ -26,20 +26,16 @@ namespace hvn3 {
 				_tiles.push_back(Graphics::Bitmap(_bitmap, RectangleI(x, y, Math::Min(w, _bitmap.Width() - x), Math::Min(h, _bitmap.Height() - y))));
 
 			// Increment the number of rows.
-			++_columns;
+			++_rows;
 
 		}
 
 	}
 	const Graphics::Bitmap& Tileset::At(unsigned int x, unsigned int y) const {
-
-		return _tiles[y * Rows() + x];
-
+		return _tiles[y * Columns() + x];
 	}
 	const Graphics::Bitmap& Tileset::At(unsigned int n) const {
-
 		return _tiles[n];
-
 	}
 	size_t Tileset::Count() const {
 
@@ -47,14 +43,10 @@ namespace hvn3 {
 
 	}
 	size_t Tileset::Rows() const {
-
-		return _tiles.size() / _columns;
-
+		return _rows;
 	}
 	size_t Tileset::Columns() const {
-
-		return _columns;
-
+		return _tiles.size() / _rows;
 	}
 	const Graphics::Bitmap& Tileset::Bitmap() const {
 

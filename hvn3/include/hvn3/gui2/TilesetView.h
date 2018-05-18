@@ -20,13 +20,13 @@ namespace hvn3 {
 				_dragging = false;
 			}
 
-			const RectangleI& Selection() {
+			const RectangleI& SelectedRegion() {
 				return _selection;
 			}
-			void SetSelection(float x, float y, float w, float h) {
-				SetSelection(RectangleI(x, y, w, h));
+			void SetSelectedRegion(int x, int y, int w, int h) {
+				SetSelectedRegion(RectangleI(x, y, w, h));
 			}
-			void SetSelection(const RectangleI& selection) {
+			void SetSelectedRegion(const RectangleI& selection) {
 				_selection = selection;
 			}
 			const Tileset& Tileset() {
