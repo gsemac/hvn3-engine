@@ -1,7 +1,10 @@
 #include "hvn3/exceptions/Exception.h"
 #include "hvn3/tilesets/TileMap.h"
+#include "hvn3/utility/BitUtils.h"
 
 #define GET_TILE_INDEX(x, y) y * _width + x
+#define TILE_INDEX_BITS 16u
+#define AUTOTILE_INDEX_BITS 6
 
 namespace hvn3 {
 
@@ -93,6 +96,18 @@ namespace hvn3 {
 
 	TileMap::Tile::Tile(tile_id id) {
 		this->id = id;
+	}
+	TileMap::tile_id TileMap::Tile::TileIndex() const {
+		return BitUtils::LeastSignificantBits(id, TILE_INDEX_BITS); // 16 bits
+	}
+	TileMap::tile_id TileMap::Tile::AutoTileIndex() const {
+		return (id & 0x3F0000) >> TILE_INDEX_BITS; // 6 bits
+	}
+	void TileMap::Tile::SetTileIndex(tile_id value) {
+		id |= value & 0xFFFF; // 16 bits
+	}
+	void TileMap::Tile::SetAutoTileIndex(tile_id value) {
+
 	}
 
 }

@@ -729,6 +729,9 @@
     <ClInclude Include="include\hvn3\math\Matrix.h">
       <Filter>include\math</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\utility\BitUtils.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1087,6 +1090,9 @@
       <Filter>src\helper</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\tilesets\TileMap.cc">
+      <Filter>src\tilesets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tilesets\TileMapRenderer.cc">
       <Filter>src\tilesets</Filter>
     </ClCompile>
   </ItemGroup>

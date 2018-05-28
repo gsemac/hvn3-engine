@@ -14,19 +14,24 @@ namespace hvn3 {
 		typedef std::map<layer_id, std::vector<tile_id>> layer_map_type;
 
 		class Tile {
-			
+
 		public:
 			Tile(tile_id id);
-		
+
+			tile_id TileIndex() const;
+			tile_id AutoTileIndex() const;
+			void SetTileIndex(tile_id value);
+			void SetAutoTileIndex(tile_id value);
+
 			tile_id id;
-		
+
 		};
 
 		TileMap(int width, int height);
 
 		int Width() const;
 		int Height() const;
-		
+
 		void SetTile(int x, int y, tile_id tile);
 		void SetTile(int x, int y, tile_id tile, layer_id depth);
 		Tile At(int x, int y) const;

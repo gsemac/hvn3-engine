@@ -23,7 +23,7 @@ namespace hvn3 {
 
 			// Insert the next row of tiles.
 			for (int x = offset.X(); x < _bitmap.Width(); x += w + separation.X())
-				_tiles.push_back(Graphics::Bitmap(_bitmap, RectangleI(x, y, Math::Min(w, _bitmap.Width() - x), Math::Min(h, _bitmap.Height() - y))));
+				_tiles.push_back(Tile(std::move(Graphics::Bitmap(_bitmap, RectangleI(x, y, Math::Min(w, _bitmap.Width() - x), Math::Min(h, _bitmap.Height() - y))))));
 
 			// Increment the number of rows.
 			++_rows;
@@ -31,10 +31,16 @@ namespace hvn3 {
 		}
 
 	}
-	const Graphics::Bitmap& Tileset::At(unsigned int x, unsigned int y) const {
+	const Tileset::Tile& Tileset::At(unsigned int x, unsigned int y) const {
 		return _tiles[y * Columns() + x];
 	}
-	const Graphics::Bitmap& Tileset::At(unsigned int n) const {
+	const Tileset::Tile& Tileset::At(unsigned int n) const {
+		return _tiles[n];
+	}
+	Tileset::Tile& Tileset::GetAt(unsigned int x, unsigned int y) {
+		return _tiles[y * Columns() + x];
+	}
+	Tileset::Tile& Tileset::GetAt(unsigned int n) {
 		return _tiles[n];
 	}
 	size_t Tileset::Count() const {
@@ -56,6 +62,14 @@ namespace hvn3 {
 	const SizeI& Tileset::GridSize() const {
 
 		return _tile_size;
+
+	}
+
+
+	Tileset::Tile::Tile(Graphics::Bitmap&& bitmap) :
+		bitmap(std::move(bitmap)) {
+
+		this->flags = static_cast<TileFlags>(0);
 
 	}
 
