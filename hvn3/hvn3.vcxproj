@@ -184,6 +184,7 @@
     <ClInclude Include="include\hvn3\sound\SoundManager.h" />
     <ClInclude Include="include\hvn3\sprites\Sprite.h" />
     <ClInclude Include="include\hvn3\sprites\SpriteRenderer.h" />
+    <ClInclude Include="include\hvn3\tilesets\AutoTileMapper.h" />
     <ClInclude Include="include\hvn3\tilesets\TileMap.h" />
     <ClInclude Include="include\hvn3\tilesets\TileMapRenderer.h" />
     <ClInclude Include="include\hvn3\tilesets\Tileset.h" />

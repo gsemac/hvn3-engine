@@ -94,4 +94,6 @@ namespace hvn3 {
 
 	};
 
+	Color operator*(const Color& lhs, float rhs);
+
 }

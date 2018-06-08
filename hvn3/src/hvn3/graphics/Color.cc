@@ -403,4 +403,9 @@ namespace hvn3 {
 	const Color Color::LtGrey = FromArgbf(0.7f, 0.7f, 0.7f);
 	const Color Color::DkGrey = FromRgbInt(4210752);
 
+
+	Color operator*(const Color& lhs, float rhs) {
+		return Color::FromArgbf(lhs.Rf(), lhs.Gf(), lhs.Bf(), lhs.Alphaf() * rhs);
+	}
+
 }

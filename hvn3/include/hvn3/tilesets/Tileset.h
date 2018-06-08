@@ -21,7 +21,7 @@ namespace hvn3 {
 
 	public:
 		enum class TileFlags {
-			AutoTile
+			AutoTile = 1
 		};
 
 		class Tile {

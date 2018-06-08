@@ -36,6 +36,8 @@ namespace hvn3 {
 		void SetTile(int x, int y, tile_id tile, layer_id depth);
 		Tile At(int x, int y) const;
 		Tile At(int x, int y, layer_id depth) const;
+		bool Exists(int x, int y, layer_id depth) const;
+		bool Exists(int x, int y, layer_id depth, tile_id tile_index) const;
 
 		void AddLayer(int depth);
 		layer_map_type::size_type LayerCount() const;
@@ -49,9 +51,10 @@ namespace hvn3 {
 
 	private:
 		int _width, _height;
-		layer_map_type _tiles;
+		layer_map_type _layers;
 
 		bool _layerExists(layer_id layer) const;
+		tile_id _getTileIdAt(int x, int y, layer_id depth) const;
 
 	};
 

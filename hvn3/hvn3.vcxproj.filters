@@ -732,6 +732,9 @@
     <ClInclude Include="include\hvn3\utility\BitUtils.h">
       <Filter>include\utility</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\tilesets\AutoTileMapper.h">
+      <Filter>include\tilesets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
