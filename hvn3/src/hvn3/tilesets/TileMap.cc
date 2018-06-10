@@ -23,6 +23,9 @@ namespace hvn3 {
 	int TileMap::Height() const {
 		return _height;
 	}
+	int TileMap::Count() const {
+		return Width() * Height();
+	}
 	void TileMap::SetTile(int x, int y, tile_id tile) {
 		SetTile(x, y, tile, 0);
 	}

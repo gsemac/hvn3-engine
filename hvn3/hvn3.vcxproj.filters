@@ -732,7 +732,7 @@
     <ClInclude Include="include\hvn3\utility\BitUtils.h">
       <Filter>include\utility</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\tilesets\AutoTileMapper.h">
+    <ClInclude Include="include\hvn3\tilesets\AutoTileRenderer.h">
       <Filter>include\tilesets</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1096,6 +1096,9 @@
       <Filter>src\tilesets</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\tilesets\TileMapRenderer.cc">
+      <Filter>src\tilesets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tilesets\AutoTileRenderer.cc">
       <Filter>src\tilesets</Filter>
     </ClCompile>
   </ItemGroup>

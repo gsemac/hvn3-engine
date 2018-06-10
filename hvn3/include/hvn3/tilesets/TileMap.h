@@ -31,6 +31,7 @@ namespace hvn3 {
 
 		int Width() const;
 		int Height() const;
+		int Count() const;
 
 		void SetTile(int x, int y, tile_id tile);
 		void SetTile(int x, int y, tile_id tile, layer_id depth);

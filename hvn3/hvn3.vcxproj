@@ -184,7 +184,7 @@
     <ClInclude Include="include\hvn3\sound\SoundManager.h" />
     <ClInclude Include="include\hvn3\sprites\Sprite.h" />
     <ClInclude Include="include\hvn3\sprites\SpriteRenderer.h" />
-    <ClInclude Include="include\hvn3\tilesets\AutoTileMapper.h" />
+    <ClInclude Include="include\hvn3\tilesets\AutoTileRenderer.h" />
     <ClInclude Include="include\hvn3\tilesets\TileMap.h" />
     <ClInclude Include="include\hvn3\tilesets\TileMapRenderer.h" />
     <ClInclude Include="include\hvn3\tilesets\Tileset.h" />
@@ -322,6 +322,7 @@
     <ClCompile Include="src\hvn3\sound\SoundManager.cc" />
     <ClCompile Include="src\hvn3\sprites\Sprite.cc" />
     <ClCompile Include="src\hvn3\sprites\SpriteRenderer.cc" />
+    <ClCompile Include="src\hvn3\tilesets\AutoTileRenderer.cc" />
     <ClCompile Include="src\hvn3\tilesets\TileMap.cc" />
     <ClCompile Include="src\hvn3\tilesets\TileMapRenderer.cc" />
     <ClCompile Include="src\hvn3\tilesets\Tileset.cc" />
