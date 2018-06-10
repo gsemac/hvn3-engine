@@ -1,4 +1,5 @@
 #include "hvn3/exceptions/Exception.h"
+#include "hvn3/tilesets/AutoTileMapper.h"
 #include "hvn3/tilesets/TileMapRenderer.h"
 
 namespace hvn3 {
@@ -94,27 +95,227 @@ namespace hvn3 {
 		int dy = j * tile_size.height;
 
 		switch (auto_tile_index) {
-		case 1: // N, S, E, W, NE, SE, NW, SW
+		case AUTOTILE_INDEX_ALL:
 			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
 			canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
 			canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
 			canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
 			break;
-		case 2: // N
+		case AUTOTILE_INDEX_N:
 			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 2).bitmap, RectangleF(0, 0, 16, 32));
 			canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(16, 0, 16, 32));
 			break;
-		case 3: // W
+		case AUTOTILE_INDEX_W:
 			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(0, 0, 32, 16));
 			canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(0, 16, 32, 16));
 			break;
-		case 4: // 
+		case AUTOTILE_INDEX_N_W:
+			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x + 1, y + 2).bitmap);
+			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x + 1, y).bitmap, RectangleF(0, 0, 16, 16));
 			break;
-		case 15: // N, S
+		case AUTOTILE_INDEX_N_W_NW:
+			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x + 1, y + 2).bitmap);
+			break;
+		case AUTOTILE_INDEX_E:
+			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(0, 0, 32, 16));
+			canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(0, 16, 32, 16));
+			break;
+		case AUTOTILE_INDEX_N_E:
+			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 2).bitmap);
+			canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y).bitmap, RectangleF(16, 0, 16, 16));
+			break;
+		case AUTOTILE_INDEX_N_E_NE:
+			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 2).bitmap);
+			break;
+		case AUTOTILE_INDEX_E_W:
+		case AUTOTILE_INDEX_E_S_W:
+		case AUTOTILE_INDEX_E_S_W_SW:
+		case AUTOTILE_INDEX_E_S_W_SE:
+		case AUTOTILE_INDEX_E_S_W_SW_SE:
+			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(16, 0, 16, 16));
+			canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(0, 0, 16, 16));
+			canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(16, 16, 16, 16));
+			canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(0, 16, 16, 16));
+			switch (auto_tile_index) {
+			case AUTOTILE_INDEX_E_S_W:
+				canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x + 1, y).bitmap, RectangleF(0, 16, 32, 16));
+				break;
+			case AUTOTILE_INDEX_E_S_W_SW:
+				canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y).bitmap, RectangleF(16, 16, 16, 16));
+				break;
+			case AUTOTILE_INDEX_E_S_W_SE:
+				canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x + 1, y).bitmap, RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				break;
+			case AUTOTILE_INDEX_E_S_W_SW_SE:
+				canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				break;
+			}
+			break;
+		case AUTOTILE_INDEX_N_E_W:
+		case AUTOTILE_INDEX_N_E_W_NW:
+		case AUTOTILE_INDEX_N_E_W_NE:
+		case AUTOTILE_INDEX_N_E_W_NE_NW:
+			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x + 1, y).bitmap, RectangleF(0, 0, 32, 16));
+			canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(16, 16, 16, 16));
+			canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(0, 16, 16, 16));
+			switch (auto_tile_index) {
+			case AUTOTILE_INDEX_N_E_W_NW:
+				canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_W_NE:
+				canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_W_NE_NW:
+				canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
+				break;
+			}
+			break;
+		case AUTOTILE_INDEX_S:
+			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(0, 0, 16, 32));
+			canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(16, 0, 16, 32));
+			break;
+		case AUTOTILE_INDEX_N_S:
+		case AUTOTILE_INDEX_N_S_W:
+		case AUTOTILE_INDEX_N_S_W_NW:
+		case AUTOTILE_INDEX_N_E_S:
+		case AUTOTILE_INDEX_N_E_S_NE:
+		case AUTOTILE_INDEX_N_S_W_SW:
+		case AUTOTILE_INDEX_N_S_W_NW_SW:
+		case AUTOTILE_INDEX_N_E_S_SE:
+		case AUTOTILE_INDEX_N_E_S_NE_SE:
 			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(0, 16, 16, 16));
 			canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(16, 16, 16, 16));
 			canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(0, 0, 16, 16));
 			canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+			switch (auto_tile_index) {
+			case AUTOTILE_INDEX_N_S_W:
+				canvas.DrawBitmap(dx, dy, _tilesets[0].At(x + 1, y).bitmap, RectangleF(0, 0, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x + 1, y).bitmap, RectangleF(0, 16, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_S_W_NW:
+				canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x + 1, y).bitmap, RectangleF(0, 16, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S:
+				canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y).bitmap, RectangleF(16, 0, 16, 32));
+				break;
+			case AUTOTILE_INDEX_N_E_S_NE:
+				canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y).bitmap, RectangleF(16, 16, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_S_W_SW:
+				canvas.DrawBitmap(dx, dy, _tilesets[0].At(x + 1, y).bitmap, RectangleF(0, 0, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_S_W_NW_SW:
+				canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S_SE:
+				canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y).bitmap, RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S_NE_SE:
+				canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				break;
+			}
+			break;
+		case AUTOTILE_INDEX_S_W:
+			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x + 1, y + 1).bitmap);
+			canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x + 1, y).bitmap, RectangleF(0, 16, 16, 16));
+			break;
+		case AUTOTILE_INDEX_E_S:
+			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap);
+			canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y).bitmap, RectangleF(16, 16, 16, 16));
+			break;
+		case AUTOTILE_INDEX_N_E_S_W:
+		case AUTOTILE_INDEX_N_E_S_W_NW_SE:
+		case AUTOTILE_INDEX_N_E_S_W_NE:
+		case AUTOTILE_INDEX_N_E_S_W_NE_NW:
+		case AUTOTILE_INDEX_N_E_S_W_NE_SW:
+		case AUTOTILE_INDEX_N_E_S_W_NW_SW:
+		case AUTOTILE_INDEX_N_E_S_W_SW:
+		case AUTOTILE_INDEX_N_E_S_W_NE_NW_SW:
+		case AUTOTILE_INDEX_N_E_S_W_SE:
+		case AUTOTILE_INDEX_N_E_S_W_NE_SE:
+		case AUTOTILE_INDEX_N_E_S_W_NW_NE_SE:
+		case AUTOTILE_INDEX_N_E_S_W_SW_SE:
+		case AUTOTILE_INDEX_N_E_S_W_NW_SW_SE:
+		case AUTOTILE_INDEX_N_E_S_W_NE_SW_SE:
+		case AUTOTILE_INDEX_N_E_S_W_NW:
+			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x + 1, y).bitmap);
+			switch (auto_tile_index) {
+			case AUTOTILE_INDEX_N_E_S_W_NW_SE:
+				canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S_W_NE:
+				canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S_W_NE_NW:
+				canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S_W_NE_SW:
+				canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S_W_NW_SW:
+				canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S_W_SW:
+				canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S_W_NE_NW_SW:
+				canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S_W_SE:
+				canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S_W_NE_SE:
+				canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S_W_NW_NE_SE:
+				canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S_W_SW_SE:
+				canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S_W_NW_SW_SE:
+				canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S_W_NE_SW_SE:
+				canvas.DrawBitmap(dx + 16, dy, _tilesets[0].At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, _tilesets[0].At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, _tilesets[0].At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				break;
+			case AUTOTILE_INDEX_N_E_S_W_NW:
+				canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
+				break;
+			}
+			break;
+		case AUTOTILE_INDEX_S_W_SW:
+			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x + 1, y + 1).bitmap);
+			break;
+		case AUTOTILE_INDEX_E_S_SE:
+			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y + 1).bitmap);
+			break;
+		case AUTOTILE_INDEX_NONE:
+			canvas.DrawBitmap(dx, dy, _tilesets[0].At(x, y).bitmap);
 			break;
 		}
 
