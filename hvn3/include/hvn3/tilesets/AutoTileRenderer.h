@@ -79,6 +79,8 @@ namespace hvn3 {
 		std::array<Point2d<uint8_t>, 5> _auto_tile_layout;
 
 		void _applyAutoMappingAt(TileMap& map, int x, int y, TileMap::layer_id depth);
+		// Applies auto-tile indices to the tiles surrounding the tile at the given position, without affecting the given tile.
+		void _applyAutoTileSurrounding(TileMap& map, int x, int y, TileMap::layer_id depth);
 
 	};
 

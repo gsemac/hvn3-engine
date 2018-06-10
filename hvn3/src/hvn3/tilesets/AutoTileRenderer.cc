@@ -13,7 +13,6 @@ namespace hvn3 {
 
 	}
 
-	// Sets the layout used to determine where related tiles are relative to the primary tile when drawing auto-tiles.
 	void AutoTileRenderer::SetAutoTileLayout(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t x3, uint8_t y3, uint8_t x4, uint8_t y4) {
 
 		_auto_tile_layout[0] = Point2d<uint8_t>(x0, y0);
@@ -23,31 +22,12 @@ namespace hvn3 {
 		_auto_tile_layout[4] = Point2d<uint8_t>(x4, y4);
 
 	}
-	// Applies an auto-tile index to the tile at the given position, and updates surrounding tiles accordingly.
 	void AutoTileRenderer::ApplyAutoTilingAt(TileMap& map, int x, int y, TileMap::layer_id depth) {
 
 		_applyAutoMappingAt(map, x, y, depth);
-
-		// Surrounding tiles may need to be updated.
-		if (map.Exists(x - 1, y - 1, depth))
-			_applyAutoMappingAt(map, x - 1, y - 1, depth); // nw
-		if (map.Exists(x, y - 1, depth))
-			_applyAutoMappingAt(map, x, y - 1, depth); // n
-		if (map.Exists(x + 1, y - 1, depth))
-			_applyAutoMappingAt(map, x + 1, y - 1, depth); // ne
-		if (map.Exists(x + 1, y, depth))
-			_applyAutoMappingAt(map, x + 1, y, depth); // e
-		if (map.Exists(x + 1, y + 1, depth))
-			_applyAutoMappingAt(map, x + 1, y + 1, depth); // se
-		if (map.Exists(x, y + 1, depth))
-			_applyAutoMappingAt(map, x, y + 1, depth); // s
-		if (map.Exists(x - 1, y + 1, depth))
-			_applyAutoMappingAt(map, x - 1, y + 1, depth); // sw
-		if (map.Exists(x - 1, y, depth))
-			_applyAutoMappingAt(map, x - 1, y, depth); // w
+		_applyAutoTileSurrounding(map, x, y, depth);
 
 	}
-	// Applies an auto-tile index to all tiles in the map.
 	void AutoTileRenderer::ApplyAutoTiling(TileMap& map, TileMap::layer_id depth) {
 
 		for (int y = 0; y < map.Height(); ++y)
@@ -67,6 +47,12 @@ namespace hvn3 {
 		// These are the coordinates of the tile graphic in the tileset.
 		TileMap::tile_id x = tile_index % tileset.Columns();
 		TileMap::tile_id y = tile_index / tileset.Columns();
+
+		// If this is not an auto-tile, draw it without any extra processing.
+		if (tileset.At(tile_index).flags != Tileset::TileFlags::AutoTile) {
+			canvas.DrawBitmap(dx, dy, tileset.At(tile_index).bitmap);
+			return;
+		}
 
 		switch (auto_tile_index) {
 		case AUTOTILE_INDEX_ALL:
@@ -295,7 +281,6 @@ namespace hvn3 {
 
 	}
 
-	// Computes the auto-tile index for the tile at the given position and returns the result.
 	AUTOTILE_INDEX AutoTileRenderer::ComputeAutoTileIndex(TileMap& map, int x, int y, TileMap::layer_id depth) {
 
 		// Get the tile data.
@@ -426,6 +411,27 @@ namespace hvn3 {
 
 		// Apply the autotile index to the tile.
 		map.SetTile(x, y, tile.id, depth);
+
+	}
+	void AutoTileRenderer::_applyAutoTileSurrounding(TileMap& map, int x, int y, TileMap::layer_id depth) {
+
+		// Surrounding tiles may need to be updated.
+		if (map.Exists(x - 1, y - 1, depth))
+			_applyAutoMappingAt(map, x - 1, y - 1, depth); // nw
+		if (map.Exists(x, y - 1, depth))
+			_applyAutoMappingAt(map, x, y - 1, depth); // n
+		if (map.Exists(x + 1, y - 1, depth))
+			_applyAutoMappingAt(map, x + 1, y - 1, depth); // ne
+		if (map.Exists(x + 1, y, depth))
+			_applyAutoMappingAt(map, x + 1, y, depth); // e
+		if (map.Exists(x + 1, y + 1, depth))
+			_applyAutoMappingAt(map, x + 1, y + 1, depth); // se
+		if (map.Exists(x, y + 1, depth))
+			_applyAutoMappingAt(map, x, y + 1, depth); // s
+		if (map.Exists(x - 1, y + 1, depth))
+			_applyAutoMappingAt(map, x - 1, y + 1, depth); // sw
+		if (map.Exists(x - 1, y, depth))
+			_applyAutoMappingAt(map, x - 1, y, depth); // w
 
 	}
 
