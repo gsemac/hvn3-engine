@@ -105,7 +105,7 @@ namespace hvn3 {
 		}
 
 		void WidgetManager::BringToFront(IWidget* widget) {
-			
+
 			auto iter = _findWidget(widget);
 
 			if (iter == _widgets.end())
@@ -213,7 +213,7 @@ namespace hvn3 {
 			// If sorting is required, sort the list of widgets, and then reset their z values.
 
 			if (_resort_required) {
-				
+
 				_widgets.sort([](const WidgetData& lhs, const WidgetData& rhs) {
 					return lhs.z > rhs.z;
 				});
@@ -283,60 +283,70 @@ namespace hvn3 {
 		}
 		void WidgetManager::OnMouseMove(MouseMoveEventArgs& e) {
 
-			IWidget* widget_hovered = nullptr;
+			IWidget* new_widget_hovered = nullptr;
+			RectangleF fixed_parent_region = (_owner == nullptr) ? DockableRegion() : _owner->Bounds();
 
-			RectangleF fixed_region = (_owner == nullptr) ? DockableRegion() : _owner->Bounds();
+			/*
+			Find the widget that the mouse is currently hovering over.
+			The widgets are iterated over such that the highest ones are checked first.
+			This only needs to be done if the mouse is within the fixed region of the parent widget.
+			*/
 
-			// Find the widget that the mouse is currently hovering over.
-
-			if (Math::Geometry::PointIn(e.Position(), fixed_region)) {
+			if (Math::Geometry::PointIn(e.Position(), fixed_parent_region)) {
 				for (auto i = _widgets.rbegin(); i != _widgets.rend(); ++i) {
 
+					// If the widget is not visible, the user should not be able to interact with it.
 					if (!i->widget->Visible())
 						continue;
 
+					// All widgets that the mouse touches should receive a mouse movement event.
+					// (?) Was that the intent here, or should this be called for all widgets regardless?
 					IWidget* widget = i->widget.get();
-
 					widget->HandleEvent(WidgetMouseMoveEventArgs(widget, e));
 
-					if (widget_hovered == nullptr && Math::Geometry::PointIn(e.Position(), RectangleF(widget->FixedPosition(), widget->Size()))) {
-						// Assign the new hovered widget.
-						widget_hovered = widget;
-						break;
-					}
+					if (new_widget_hovered == nullptr && !e.Handled() && Math::Geometry::PointIn(e.Position(), widget->Bounds()))
+						new_widget_hovered = widget;
+
 				}
 			}
 
-			// Update the cursor according to the widget currently hovered over (if it hasn't already been set by a child widget).
-			if (!e.Handled()) {
-				if (widget_hovered == nullptr)
-					Mouse::SetCursor(SystemCursor::Default);
-				else
-					Mouse::SetCursor(widget_hovered->Cursor());
-			}
+			/*
+			We now have the widget that the mouse is currently hovering over (which could be the same widget as the last check).
+			*/
 
-			// Dispatch the appropriate events if the hovered widget has changed.
-			if (widget_hovered != _widget_hovered) {
+			if (new_widget_hovered != _widget_hovered) {
 
-				if (_widget_hovered != nullptr)
+				if (_widget_hovered != nullptr) {
+
+					e.SetHandled(true);
+
 					_widget_hovered->HandleEvent(WidgetMouseLeaveEventArgs(_widget_hovered, e));
 
-				if (widget_hovered != nullptr)
-					widget_hovered->HandleEvent(WidgetMouseEnterEventArgs(widget_hovered, e));
+					// If the widget has children, give them the opportunity to handle the event as well.
+					if (_widget_hovered->HasChildren())
+						_widget_hovered->GetChildren().OnMouseMove(e);
+
+					e.SetHandled(false);
+
+				}
+
+				if (new_widget_hovered != nullptr)
+					new_widget_hovered->HandleEvent(WidgetMouseEnterEventArgs(new_widget_hovered, e));
 
 			}
 
-			if (widget_hovered != nullptr)
-				e.SetHandled(true);
+			// If the widget has children, give them the opportunity to handle the event as well.
+			if (new_widget_hovered != nullptr && new_widget_hovered->HasChildren())
+				new_widget_hovered->GetChildren().OnMouseMove(e);
 
-			if (_widget_hovered != nullptr && _widget_hovered->HasChildren())
-				_widget_hovered->GetChildren().OnMouseMove(e);
-			else if (widget_hovered != nullptr && widget_hovered->HasChildren())
-				widget_hovered->GetChildren().OnMouseMove(e);
+			// Update the cursor to reflect the hovered widget.
+			if (new_widget_hovered == nullptr)
+				Mouse::SetCursor(SystemCursor::Default);
+			else
+				Mouse::SetCursor(new_widget_hovered->Cursor());
 
-			// Update the hovered widget.
 			_last_mouse_position = e.Position();
-			_widget_hovered = widget_hovered;
+			_widget_hovered = new_widget_hovered;
 
 		}
 		void WidgetManager::OnMouseScroll(MouseScrollEventArgs& e) {}
