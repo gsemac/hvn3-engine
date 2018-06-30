@@ -16,13 +16,14 @@ namespace hvn3 {
 
 			void SetContextMenu(ContextMenu* context_menu);
 
-			void OnMouseReleased(WidgetMouseReleasedEventArgs& e) override;
+			void OnMousePressed(WidgetMousePressedEventArgs& e) override;
 			void OnFocusLost(WidgetFocusLostEventArgs& e) override;
 
 		protected:
 			void ShowContextMenu();
 			void HideContextMenu();
 			void DestroyContextMenu();
+			bool ContextMenuVisible() const;
 
 		private:
 			MenuStrip* _parent;

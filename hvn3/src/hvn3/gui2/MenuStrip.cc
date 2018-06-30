@@ -26,8 +26,13 @@ namespace hvn3 {
 			_context_menu_managed = false;
 
 		}
-		void MenuStripItem::OnMouseReleased(WidgetMouseReleasedEventArgs& e) {
-			ShowContextMenu();
+		void MenuStripItem::OnMousePressed(WidgetMousePressedEventArgs& e) {
+
+			if (ContextMenuVisible())
+				HideContextMenu();
+			else
+				ShowContextMenu();
+
 		}
 		void MenuStripItem::OnFocusLost(WidgetFocusLostEventArgs& e) {
 			HideContextMenu();
@@ -41,7 +46,7 @@ namespace hvn3 {
 			}
 
 			if (_context_menu != nullptr) {
-				
+
 				_context_menu->SetPosition(Position().x, Position().y + Height());
 				_context_menu->SetVisible(true);
 
@@ -76,6 +81,14 @@ namespace hvn3 {
 			_parent->GetManager()->Remove(_context_menu);
 
 			_context_menu = nullptr;
+
+		}
+		bool MenuStripItem::ContextMenuVisible() const {
+
+			if (_context_menu == nullptr)
+				return false;
+
+			return _context_menu->Visible();
 
 		}
 
@@ -131,7 +144,7 @@ namespace hvn3 {
 
 			float margin_x = 2.0f;
 			float margin_y = 1.0f;
-			float padding = 4.0f;
+			float padding = 8.0f;
 
 			float x = margin_x;
 			float y = margin_y;
