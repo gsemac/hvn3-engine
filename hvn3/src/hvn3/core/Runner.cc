@@ -71,11 +71,11 @@ namespace hvn3 {
 				_context.GetRooms().OnDraw(e);
 
 			else {
-			
+
 				// Draw placeholder graphics.
 				SizeI size = _context.GetDisplay().Size();
 				e.Graphics().DrawText(Math::Round(size.width / 2.0f), Math::Round(size.height / 2.0f), _properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);
-			
+
 			}
 
 			// If running in debug mode, draw the FPS counter.
@@ -207,7 +207,7 @@ namespace hvn3 {
 			if (_allow_redraw && _event_queue.IsEmpty())
 				OnRedraw();
 
-				}
+		}
 		void Runner::Loop() {
 
 			// Render once before starting the loop so there's something to see if the framerate is low.
@@ -423,9 +423,10 @@ namespace hvn3 {
 
 			_context.GetDisplay()._setFocus(false);
 
-			KeyboardMutator con;
-			con.ResetKeyStates();
-			con.DispatchKeyboardLostEvent(KeyboardLostEventArgs());
+			KeyboardMutator().ResetKeyStates();
+			MouseMutator().ResetButtonStates(true, true, true);
+
+			KeyboardMutator().DispatchKeyboardLostEvent(KeyboardLostEventArgs());
 
 			if (_properties().FreezeWhenLostFocus)
 				_delta_timer.Stop();
@@ -434,6 +435,7 @@ namespace hvn3 {
 		void Runner::OnDisplaySwitchIn(Event& ev) {
 
 			_context.GetDisplay()._setFocus(true);
+
 			KeyboardMutator().DispatchKeyboardFoundEvent(KeyboardFoundEventArgs());
 
 			_delta_timer.Start();
@@ -618,5 +620,5 @@ namespace hvn3 {
 
 		}
 
-			}
-		}
+	}
+}

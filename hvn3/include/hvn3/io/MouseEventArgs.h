@@ -22,14 +22,14 @@ namespace hvn3 {
 
 	public:
 		using MouseEventArgs::MouseEventArgs;
-		
+
 	};
 
 	class MousePressedEventArgs : public MouseEventArgs {
 
 	public:
 		MousePressedEventArgs(MouseButton button, int clicks);
-		
+
 		int Clicks() const;
 
 	private:
@@ -48,7 +48,7 @@ namespace hvn3 {
 
 	public:
 		MouseScrollEventArgs(int x, int y, int x_delta, int y_delta);
-		
+
 		int ScrollX() const;
 		int ScrollY() const;
 		int DeltaX() const;
@@ -77,5 +77,8 @@ namespace hvn3 {
 		PointF _position;
 
 	};
-	
+
+	typedef System::EventArgs MouseLostEventArgs;
+	typedef System::EventArgs MouseFoundEventArgs;
+
 }
