@@ -168,7 +168,7 @@
     <ClInclude Include="include\hvn3\rooms\BasicLightingManager.h" />
     <ClInclude Include="include\hvn3\rooms\IRoom.h" />
     <ClInclude Include="include\hvn3\rooms\IRoomManager.h" />
-    <ClInclude Include="include\hvn3\rooms\IRoomTransition.h" />
+    <ClInclude Include="include\hvn3\rooms\RoomTransitionBase.h" />
     <ClInclude Include="include\hvn3\rooms\Room.h" />
     <ClInclude Include="include\hvn3\rooms\RoomBase.h" />
     <ClInclude Include="include\hvn3\rooms\RoomController.h" />
@@ -309,7 +309,7 @@
     <ClCompile Include="src\hvn3\physics\Material.cc" />
     <ClCompile Include="src\hvn3\physics\PhysicsUtils.cc" />
     <ClCompile Include="src\hvn3\rooms\BasicLightingManager.cc" />
-    <ClCompile Include="src\hvn3\rooms\IRoomTransition.cc" />
+    <ClCompile Include="src\hvn3\rooms\RoomTransitionBase.cc" />
     <ClCompile Include="src\hvn3\rooms\Room.cc" />
     <ClCompile Include="src\hvn3\rooms\RoomController.cc" />
     <ClCompile Include="src\hvn3\rooms\RoomEnterEventArgs.cc" />

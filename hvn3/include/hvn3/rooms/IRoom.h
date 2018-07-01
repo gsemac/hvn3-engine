@@ -32,8 +32,6 @@ namespace hvn3 {
 		public System::IContextReceiver,
 		public virtual ISizeable<int> {
 
-		friend class System::RoomController;
-
 	public:
 		virtual ~IRoom() = default;
 
@@ -80,7 +78,6 @@ namespace hvn3 {
 		
 		virtual void Restart() = 0;
 
-	protected:
 		virtual void OnEnter(RoomEnterEventArgs& e) = 0;
 		virtual void OnExit(RoomExitEventArgs& e) = 0;
 		virtual void OnCreate() = 0;

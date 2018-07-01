@@ -15,7 +15,7 @@ namespace hvn3 {
 	GameManager::GameManager(const System::Properties& properties) :
 		_properties(properties),
 		_display(properties.DisplaySize, properties.DisplayTitle, properties.DisplayFlags),
-		_room_manager(Context()),
+		_room_manager(this),
 		_runner(Context()) {
 		_onInit();
 	}
@@ -66,7 +66,7 @@ namespace hvn3 {
 		return _room_manager;
 	}
 	System::ManagerBase& GameManager::GetManagerById(System::ManagerId id) {
-		return GetRoomManager().CurrentRoom()->GetManagerById(id);
+		return GetRoomManager().GetRoom().GetManagerById(id);
 		// #todo Implement for access to "global" managers.
 		throw System::NotImplementedException();
 	}

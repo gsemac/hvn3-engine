@@ -10,14 +10,10 @@ namespace hvn3 {
 		Fade
 	};
 
-	class IRoomTransition;
-
-	typedef std::unique_ptr<IRoomTransition> RoomTransitionPtr;
-
-	class IRoomTransition : public IDrawable {
+	class RoomTransitionBase : public IDrawable {
 
 	public:
-		virtual ~IRoomTransition() = default;
+		virtual ~RoomTransitionBase() = default;
 
 		virtual void ExitBegin() = 0;
 		virtual bool ExitStep(UpdateEventArgs& e) = 0;
@@ -29,8 +25,10 @@ namespace hvn3 {
 
 		virtual void OnDraw(DrawEventArgs& e) override = 0;
 
-		virtual bool AllowRoomUpdate() const;
+		virtual bool Blocking() const;
 
 	};
+
+	typedef std::unique_ptr<RoomTransitionBase> RoomTransitionPtr;
 
 }

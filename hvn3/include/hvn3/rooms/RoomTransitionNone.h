@@ -1,9 +1,9 @@
 #pragma once
-#include "hvn3/rooms/IRoomTransition.h"
+#include "hvn3/rooms/RoomTransitionBase.h"
 
 namespace hvn3 {
 
-	class RoomTransitionNone : public IRoomTransition {
+	class RoomTransitionNone : public RoomTransitionBase {
 
 	public:
 		RoomTransitionNone();

@@ -9,17 +9,19 @@
 #include <memory>
 #include <sstream>
 #include "hvn3/core/Runner.h"
-#include "hvn3/fonts/Font.h"
-#include "hvn3/rooms/RoomBase.h"
-#include "hvn3/io/Mouse.h"
-#include "hvn3/io/Keyboard.h"
 #include "hvn3/core/DrawEventArgs.h"
 #include "hvn3/core/Framework.h"
 #include "hvn3/core/UpdateEventArgs.h"
-#include "hvn3/rooms/RoomController.h"
 #include "hvn3/events/Event.h"
-#include "hvn3/io/KeyboardMutator.h"
+#include "hvn3/fonts/Font.h"
+#include "hvn3/io/Mouse.h"
 #include "hvn3/io/MouseMutator.h"
+#include "hvn3/io/Keyboard.h"
+#include "hvn3/io/KeyboardMutator.h"
+#include "hvn3/rooms/IRoom.h"
+#include "hvn3/rooms/RoomBase.h"
+#include "hvn3/rooms/RoomController.h"
+#include "hvn3/views/IViewManager.h"
 #ifdef HVN3_DEBUG 
 #include "hvn3/io/Console.h"
 #endif
@@ -65,7 +67,7 @@ namespace hvn3 {
 		}
 		void Runner::OnDraw(DrawEventArgs& e) {
 
-			if (_context.GetRooms().RoomCount() > 0)
+			if (!_context.GetRooms().IsRoomNull())
 
 				// Render the active Scene.
 				_context.GetRooms().OnDraw(e);
@@ -85,7 +87,7 @@ namespace hvn3 {
 		}
 		void Runner::OnUpdate(UpdateEventArgs& e) {
 
-			if (_context.GetRooms().RoomCount() > 0 && !_isFrozen() && _frames_skipped++ <= _properties().MaxFrameSkip) {
+			if (!_context.GetRooms().IsRoomNull() && !_isFrozen() && _frames_skipped++ <= _properties().MaxFrameSkip) {
 
 				// Reset the delta timer.
 				_delta_timer.Reset();
@@ -480,7 +482,7 @@ namespace hvn3 {
 		void Runner::_applyScalingMode() {
 
 			// If no scene has been loaded, do nothing.
-			if (_context.GetRooms().RoomCount() <= 0)
+			if (_context.GetRooms().IsRoomNull())
 				return;
 
 			// Get a reference to the current room.
@@ -544,11 +546,11 @@ namespace hvn3 {
 			// #todo fix mouse position scaling
 
 			// If no scene has been loaded, do nothing.
-			if (_context.GetRooms().RoomCount() <= 0)
+			if (_context.GetRooms().IsRoomNull())
 				return;
 
-			IRoom& room = *_context.GetRooms().CurrentRoom();
-
+			IRoom& room = _context.GetRooms().GetRoom();
+			
 			if (room.Views().Count()) {
 
 				// If the mouse is inside of a View, position it relative to the View (where 0, 0 is the top left of the View).

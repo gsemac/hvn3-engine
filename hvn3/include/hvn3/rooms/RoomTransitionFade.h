@@ -1,15 +1,15 @@
 #pragma once
-#include "hvn3/rooms/IRoomTransition.h"
+#include "hvn3/rooms/RoomTransitionBase.h"
 #include "hvn3/graphics/Color.h"
 
 namespace hvn3 {
 
-	class RoomTransitionFade : public IRoomTransition {
+	class RoomTransitionFade : public RoomTransitionBase {
 
 	public:
 		RoomTransitionFade();
 		RoomTransitionFade(const Color& fade_to_color);
-		RoomTransitionFade(const Color& fade_to_color, bool freeze_room);
+		RoomTransitionFade(const Color& fade_to_color, bool blocking);
 
 		virtual void ExitBegin() override;
 		virtual bool ExitStep(UpdateEventArgs& e) override;
@@ -18,10 +18,10 @@ namespace hvn3 {
 
 		virtual void OnDraw(DrawEventArgs& e) override;
 
-		virtual bool AllowRoomUpdate() const override;
+		virtual bool Blocking() const override;
 
 	private:
-		bool _allow_update;
+		bool _blocking;
 		float _alpha;
 		Color _fade_to_color;
 

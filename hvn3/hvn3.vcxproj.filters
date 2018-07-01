@@ -414,9 +414,6 @@
     <ClInclude Include="include\hvn3\rooms\IRoomManager.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\rooms\IRoomTransition.h">
-      <Filter>include\rooms</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\rooms\Room.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
@@ -744,6 +741,9 @@
     <ClInclude Include="include\hvn3\native\FileDialog.h">
       <Filter>include\native</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\rooms\RoomTransitionBase.h">
+      <Filter>include\rooms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -917,9 +917,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\physics\PhysicsUtils.cc">
       <Filter>src\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\rooms\IRoomTransition.cc">
-      <Filter>src\rooms</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\rooms\Room.cc">
       <Filter>src\rooms</Filter>
@@ -1112,6 +1109,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\native\FileDialog.cc">
       <Filter>src\native</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\RoomTransitionBase.cc">
+      <Filter>src\rooms</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

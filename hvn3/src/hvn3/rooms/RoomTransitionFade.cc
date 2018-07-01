@@ -10,8 +10,8 @@ namespace hvn3 {
 	RoomTransitionFade::RoomTransitionFade(const Color& fade_to_color) :
 		RoomTransitionFade(fade_to_color, false) {
 	}
-	RoomTransitionFade::RoomTransitionFade(const Color& fade_to_color, bool allow_room_update) :
-		_allow_update(allow_room_update),
+	RoomTransitionFade::RoomTransitionFade(const Color& fade_to_color, bool blocking) :
+		_blocking(blocking),
 		_alpha(0.0f),
 		_fade_to_color(fade_to_color) {
 	}
@@ -47,10 +47,8 @@ namespace hvn3 {
 
 	}
 
-	bool RoomTransitionFade::AllowRoomUpdate() const {
-
-		return _allow_update;
-
+	bool RoomTransitionFade::Blocking() const {
+		return _blocking;
 	}
 
 }

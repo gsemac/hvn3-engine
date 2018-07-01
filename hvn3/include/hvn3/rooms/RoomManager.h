@@ -1,23 +1,18 @@
 #pragma once
-#include "hvn3/core/Context.h"
-#include "hvn3/core/DrawEventArgs.h"
-#include "hvn3/core/UpdateEventArgs.h"
+#include "hvn3/core/IContextProvider.h"
+#include "hvn3/exceptions/Exception.h"
+#include "hvn3/rooms/IRoom.h"
 #include "hvn3/rooms/IRoomManager.h"
-#include "hvn3/rooms/Room.h"
+#include "hvn3/rooms/RoomTransitionBase.h"
 #include "hvn3/rooms/RoomTransitionNone.h"
 #include "hvn3/rooms/RoomTransitionFade.h"
-#include "hvn3/rooms/RoomController.h"
 #include <vector>
-#include <memory>
 
 namespace hvn3 {
 
-	class IRoomTransition;
-
-	typedef Room room_type;
 	class RoomManager : public IRoomManager {
 
-		enum ROOM_TRANSITION_STATE : char {
+		enum ROOM_TRANSITION_STATE {
 			NO_TRANSITION_PENDING,
 			TRANSITION_PENDING,
 			EXIT_IN_PROGRESS,
@@ -25,134 +20,70 @@ namespace hvn3 {
 		};
 
 	public:
-		typedef room_type room_type;
-
-		RoomManager(Context context) :
+		RoomManager(System::IContextProvider* context_provider) :
 			_transition(nullptr),
-			_context(context) {
+			_context_provider(context_provider) {
 
-			_current_room = 0;
-			_next_room = 0;
 			_room_transition_state = NO_TRANSITION_PENDING;
 
 		}
 		~RoomManager() {
 
-			// Call the room exit event for the current room.
-			ExitCurrentRoom();
+			// Resets the current room and calls its exit event (so the event is still called properly when the game ends).
+			_exitRoom();
 
-			// Clear all rooms.
-			_rooms.clear();
-
-			// Release the transition object so there's no problem with it being freed twice.
+			/*
+			Some implementations of GameManager may call the RoomManager destructor twice.
+			To avoid freeing the transition object more than once, release it here.
+			(?) I don't actually remember why I had to do this. Is it still necessary?
+			*/
 			_transition.release();
 
 		}
 
-		void AddRoom(RoomPtr& room) {
+		void SetRoom(RoomPtr& room) override {
 
-			room->SetContext(_context);
+			if (_roomTransitionIsInProgress())
+				return;
 
-			// Add the new room.
-			_rooms.push_back(std::move(room));
-
-			// If this is the first room we've added and it hasn't been set up, set it up.
-			if (_rooms.size() == 1) {
-				System::RoomController controller(CurrentRoom());
-				controller.CallRoomEnterEvent(RoomEnterEventArgs());
-				if (!controller.IsReady())
-					controller.SetUp();
+			// If no room has been loaded, load the first room immediately without a transition.
+			if (IsRoomNull()) {
+				_next_room = room;
+				_loadNextRoom();
 			}
+			else
+			_beginRoomTransition(room);
 
 		}
-		void AddRoom(IRoom* room) {
+		IRoom& GetRoom() override {
 
-			AddRoom(RoomPtr(room));
+			if (_current_room)
+				return *_current_room;
 
-		}
-		void GotoRoom(RoomId id) {
-
-			// If a room transition is already in progress, do nothing.
-			if (RoomTransitionInProgress())
-				return;
-
-			// Find the index of the requested room.
-			size_t room_index = FindRoomIndex(id);
-
-			// If the room doesn't exist, do nothing.
-			if (room_index >= _rooms.size())
-				return;
-
-			// Otherwise, initiate a pending room change.
-			InitiatePendingRoomTransition(room_index);
+			throw System::NullReferenceException("Attempted to get the current room when no room has been loaded.");
 
 		}
-		void LoadNext() {
-
-			// If a room transition is already in progress, do nothing.
-			if (RoomTransitionInProgress())
-				return;
-
-			// If we're at the last room, loop back to the beginning.
-			size_t room_index = _current_room + 1;
-			if (room_index >= _rooms.size())
-				room_index = 0;
-
-			// Initiate a pending room change.
-			InitiatePendingRoomTransition(room_index);
-
-		}
-		void LoadPrevious() {
-
-			// If a room transition is already in progress, do nothing.
-			if (RoomTransitionInProgress())
-				return;
-
-			// If we're at the first room, loop around to the end.
-			size_t room_index = _current_room == 0 ? _rooms.size() - 1 : --_current_room;
-
-			// Initiate a pending room change.
-			InitiatePendingRoomTransition(room_index);
-
-		}
-
-		void RestartRoom() {
+		void RestartRoom() override {
 
 			// Initiate a pending restart.
-			if (CurrentRoom() != nullptr)
-				CurrentRoom()->Restart();
+			if (_current_room)
+				_current_room->Restart();
 
 		}
-		void ClearRoom() {
+		void ClearRoom() override {
 
 			// Reset the state of the current room without calling any events.
 			// #todo This should be pending; it shouldn't happen immediately.
-			System::RoomController(CurrentRoom()).Reset();
+			if (_current_room)
+				_current_room->OnReset();
 
 		}
-		room_type* CurrentRoom() {
-
-			if (_current_room >= 0 && _current_room < _rooms.size())
-				return static_cast<room_type*>(_rooms[_current_room].get());
-
-			return nullptr;
-
-		}
-		size_t CurrentRoomIndex() const {
-
-			return _current_room;
-
-		}
-		size_t RoomCount() const {
-
-			return _rooms.size();
-
+		bool IsRoomNull() override {
+			return !static_cast<bool>(_current_room);
 		}
 
 		void SetRoomTransition(RoomTransitionPtr& transition) {
-
 			_transition = std::move(transition);
-
 		}
 		void SetRoomTransition(RoomTransition transition) {
 
@@ -170,23 +101,23 @@ namespace hvn3 {
 
 		}
 
-		void OnUpdate(UpdateEventArgs& e) {
-
-			// Update the state of the room if permitted.
-			if (!RoomTransitionInProgress() || !_transition || _transition->AllowRoomUpdate())
-				CurrentRoom()->OnUpdate(e);
+		void OnUpdate(UpdateEventArgs& e) override {
+		
+			// Update the state of the room if there is nothing blocking updates.
+			if (_current_room && (!_roomTransitionIsInProgress() || !_transition || !_transition->Blocking()))
+				_current_room->OnUpdate(e);
 
 			switch (_room_transition_state) {
 
 			case TRANSITION_PENDING:
-
+			
 				// If the transition is null (no transition), just perform the change immediately.
 				if (!_transition) {
-					LoadRoom(_next_room);
+					_loadNextRoom();
 					_room_transition_state = NO_TRANSITION_PENDING;
 					break;
 				}
-
+				
 				// Begin transitioning to the next room.
 				_transition->ExitBegin();
 				_room_transition_state = EXIT_IN_PROGRESS;
@@ -198,7 +129,7 @@ namespace hvn3 {
 				// If the transition is complete, load the next room and begin the enter transition.
 				if (_transition->ExitStep(e)) {
 					_transition->ExitEnd();
-					LoadRoom(_next_room);
+					_loadNextRoom();
 					_transition->EnterBegin();
 					_room_transition_state = ENTER_IN_PROGRESS;
 				}
@@ -216,96 +147,75 @@ namespace hvn3 {
 			}
 
 		}
-		void OnDraw(DrawEventArgs& e) {
+		void OnDraw(DrawEventArgs& e) override {
 
 			// Draw the state of the room.
-			CurrentRoom()->OnDraw(e);
+			if (!IsRoomNull())
+				GetRoom().OnDraw(e);
 
 			// Draw the state of the room transition.
-			if (RoomTransitionInProgress() && _transition)
+			if (_roomTransitionIsInProgress() && _transition)
 				_transition->OnDraw(e);
 
 		}
 
 	protected:
-		void LoadRoom(size_t room_index) {
+		void _loadNextRoom() {
 
-			// Create room controllers for the current room and the next room.
-			System::RoomController current_room_controller(CurrentRoom());
-			System::RoomController next_room_controller(_rooms[room_index].get());
+			if (!IsRoomNull()) {
 
-			// If the current room has been set up and isn't persistent, reset it.
-			if (current_room_controller.IsReady() && !CurrentRoom()->Persistent())
-				current_room_controller.Reset();
+				// If the current room has been set up and isn't persistent, reset it.
+				if (_current_room->IsReady() && !_current_room->Persistent())
+					_current_room->OnReset();
 
-			// Call the on exit event for the current room.
-			current_room_controller.CallRoomExitEvent(RoomExitEventArgs());
+				// Call the on exit event for the current room.
+				_current_room->OnExit(RoomExitEventArgs());
+
+			}
+
+			_next_room->SetContext(_context_provider->Context());
 
 			// Call the on enter event for the new room.
-			next_room_controller.CallRoomEnterEvent(RoomEnterEventArgs());
+			_next_room->OnEnter(RoomEnterEventArgs());
 
 			// If the next room hasn't been set up yet, set it up.
-			if (!next_room_controller.IsReady())
-				next_room_controller.SetUp();
-
-			// Update current room index.
-			_current_room = room_index;
-
-		}
-		size_t FindRoomIndex(RoomId id) const {
-
-			// Look through the list for a room with the room id.
-			for (size_t i = 0; i < _rooms.size(); ++i)
-				if (_rooms[i]->Id() == id)
-					return i;
-
-			// Return the size of the rooms list if we can't find a room with the requested id.
-			return _rooms.size();
+			if (!_next_room->IsReady())
+				_next_room->OnCreate();
+	
+			// Update current room.
+			_current_room = std::move(_next_room);
 
 		}
-		size_t FindRoomIndex(const std::unique_ptr<IRoom>& room) const {
-
-			// Look through the list for a room with the same pointer.
-			for (size_t i = 0; i < _rooms.size(); ++i)
-				if (_rooms[i] == room)
-					return i;
-
-			// Return the size of the rooms list if we can't find the requested room.
-			return _rooms.size();
-
-		}
-
 		// If the current room is not null, resets the room and calls the on exit event; otherwise, does nothing.
-		void ExitCurrentRoom() {
+		void _exitRoom() {
 
-			// Call the room exit event for the current room.
-			if (_rooms.size() >= 1) {
-				System::RoomController controller(CurrentRoom());
-				controller.Reset();
-				controller.CallRoomExitEvent(RoomExitEventArgs());
+			if (!IsRoomNull()) {
+				
+				GetRoom().OnReset();
+				GetRoom().OnExit(RoomExitEventArgs());
+
 			}
 
 		}
 
-		bool RoomTransitionInProgress() const {
+		bool _roomTransitionIsInProgress() const {
 
 			return _room_transition_state != NO_TRANSITION_PENDING;
 
 		}
-		void InitiatePendingRoomTransition(size_t room_index) {
+		void _beginRoomTransition(RoomPtr& next_room) {
 
-			_next_room = room_index;
+			_next_room = next_room;
 			_room_transition_state = TRANSITION_PENDING;
 
 		}
 
 	private:
-		size_t _current_room;
-		size_t _next_room;
-		std::vector<std::unique_ptr<IRoom>> _rooms;
+		RoomPtr _current_room;
+		RoomPtr _next_room;
+		System::IContextProvider* _context_provider;
 		ROOM_TRANSITION_STATE _room_transition_state;
-		std::unique_ptr<IRoomTransition> _transition;
-		hvn3::Context _context;
+		std::unique_ptr<RoomTransitionBase> _transition;
 
 	};
 
