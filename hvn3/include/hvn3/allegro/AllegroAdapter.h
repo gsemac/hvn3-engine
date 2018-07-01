@@ -30,6 +30,8 @@ namespace hvn3 {
 			static int ToBitmapFlags(Graphics::BitmapFlags flags);
 			// Converts Allegro bitmap flags to bitmap flags.
 			static Graphics::BitmapFlags FromBitmapFlags(int flags);
+			// Returns a pointer to the underlying ALLEGRO_DISPLAY from a Display instance.
+			static ALLEGRO_DISPLAY* ToDisplay(const Display& display);
 			// Converts display flags to Allegro display flags.
 			static int ToDisplayFlags(DisplayFlags flags);
 			// Converts display option to Allegro display option.

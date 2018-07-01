@@ -139,6 +139,9 @@
     <Filter Include="src\helper">
       <UniqueIdentifier>{39b2deaf-d22c-449a-8fdd-4d567c2dcec4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\native">
+      <UniqueIdentifier>{a32fddcd-e39b-400b-9e3a-1675b67e8127}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\hvn3\allegro\AllegroAdapter.h">
@@ -734,6 +737,9 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\tilesets\AutoTileRenderer.h">
       <Filter>include\tilesets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\native\FileDialog.h">
+      <Filter>include\native</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

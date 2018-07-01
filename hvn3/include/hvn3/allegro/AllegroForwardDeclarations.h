@@ -17,6 +17,10 @@ struct ALLEGRO_DISPLAY;
 
 struct ALLEGRO_EVENT_SOURCE;
 
+// native/OpenFileDialog.h
+
+struct ALLEGRO_FILECHOOSER;
+
 // Utf8String.h
 
 struct _al_tagbstring;

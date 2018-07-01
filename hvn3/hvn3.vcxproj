@@ -149,6 +149,7 @@
     <ClInclude Include="include\hvn3\math\Point2d.h" />
     <ClInclude Include="include\hvn3\math\Rectangle.h" />
     <ClInclude Include="include\hvn3\math\Vector2d.h" />
+    <ClInclude Include="include\hvn3\native\FileDialog.h" />
     <ClInclude Include="include\hvn3\net\IPAddress.h" />
     <ClInclude Include="include\hvn3\objects\IObject.h" />
     <ClInclude Include="include\hvn3\objects\IObjectManager.h" />
@@ -405,6 +406,7 @@
     <Allegro_AddonFont>true</Allegro_AddonFont>
     <Allegro_LibraryType>StaticMonolithRelease</Allegro_LibraryType>
     <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
+    <Allegro_AddonDialog>true</Allegro_AddonDialog>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Allegro_AddonImage>true</Allegro_AddonImage>
@@ -416,6 +418,7 @@
     <Allegro_AddonFont>true</Allegro_AddonFont>
     <Allegro_LibraryType>StaticMonolithRelease</Allegro_LibraryType>
     <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
+    <Allegro_AddonDialog>true</Allegro_AddonDialog>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Allegro_AddonImage>true</Allegro_AddonImage>
@@ -426,6 +429,7 @@
     <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
     <Allegro_AddonFont>true</Allegro_AddonFont>
     <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
+    <Allegro_AddonDialog>true</Allegro_AddonDialog>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Allegro_AddonImage>true</Allegro_AddonImage>
@@ -436,6 +440,7 @@
     <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
     <Allegro_AddonFont>true</Allegro_AddonFont>
     <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
+    <Allegro_AddonDialog>true</Allegro_AddonDialog>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
