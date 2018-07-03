@@ -744,6 +744,24 @@
     <ClInclude Include="include\hvn3\rooms\RoomTransitionBase.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\io\BitReader.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\BitWriter.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\Buffer.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\FileStream.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\MemoryStream.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\StreamBase.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1112,6 +1130,27 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\rooms\RoomTransitionBase.cc">
       <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\BitReader.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\BitWriter.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\Buffer.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\FileStream.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\MemoryStream.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\StreamBase.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\BitUtils.cc">
+      <Filter>src\io</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
