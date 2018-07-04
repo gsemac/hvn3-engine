@@ -21,7 +21,7 @@ namespace hvn3 {
 	class IObject;
 
 	namespace System {
-		class RoomController;
+		class RoomProxy;
 	}
 	namespace Physics {
 		class IPhysicsManager;
@@ -31,6 +31,8 @@ namespace hvn3 {
 		public IUpdatable, public IDrawable,
 		public System::IContextReceiver,
 		public virtual ISizeable<int> {
+
+		friend class System::RoomProxy;
 
 	public:
 		virtual ~IRoom() = default;
@@ -73,11 +75,31 @@ namespace hvn3 {
 		virtual RectangleF VisiblePort() const = 0;
 		virtual RectangleF VisibleRegion() const = 0;
 		virtual RectangleF Bounds() const = 0;
-		
-		virtual System::ManagerBase& GetManagerById(System::ManagerId id) = 0;
-		
-		virtual void Restart() = 0;
 
+		// Registers a manager so it can be accessed through the current context.
+		template <typename manager_type>
+		void RegisterManager(std::shared_ptr<manager_type>& manager) {
+			
+			std::shared_ptr<ManagerBase> ptr = manager;
+			
+			_addManager(manager_type::Id(), ptr);
+
+		}
+		// Returns a reference to the manager with the given ID, if it exists. Otherwise, returns nullptr.
+		template <typename manager_type>
+		manager_type* GetManager() const {
+			return static_cast<manager_type*>(_getManager(manager_type::Id()));
+		}
+		template <typename manager_type>
+		manager_type* GetManagerById(ManagerId id) const {
+			return static_cast<manager_type*>(_getManager(id));
+		}
+
+	protected:
+		// Returns the context assigned to the room.
+		virtual hvn3::Context Context() = 0;
+
+		virtual void Restart() = 0;
 		virtual void OnEnter(RoomEnterEventArgs& e) = 0;
 		virtual void OnExit(RoomExitEventArgs& e) = 0;
 		virtual void OnCreate() = 0;
@@ -85,18 +107,11 @@ namespace hvn3 {
 		virtual void OnReset() = 0;
 		virtual void OnRender(DrawEventArgs& e) = 0;
 
-		// Returns the current context assigned to the room.
-		virtual hvn3::Context Context() = 0;
-
-		// Registers a manager so it can be accessed through the current context.
-		template <typename manager_type>
-		void RegisterManager(manager_type& manager) {
-			_addManager(manager_type::Id(), &manager);
-		}
-
 	private:
 		// Adds a new manager to the room, mapped to the given ID.
-		virtual void _addManager(System::ManagerId id, System::ManagerBase* manager) = 0;
+		virtual void _addManager(ManagerId id, std::shared_ptr<ManagerBase>& manager) = 0;
+		// Returns a reference to the manager with the given ID, if it exists. Otherwise, returns nullptr.
+		virtual ManagerBase* _getManager(ManagerId id) const = 0;
 
 	};
 

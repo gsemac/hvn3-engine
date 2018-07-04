@@ -15,10 +15,14 @@
 
 namespace hvn3 {
 
-	class Room : public RoomBase<ObjectManager> {
+	class Room : public RoomBase {
 
 	public:
+		typedef BackgroundManager background_manager_type;
 		typedef ObjectCollisionManager<SpacialPartitioningGrid<32, 32>, NarrowPhase> collision_manager_type;
+		typedef ObjectManager object_manager_type;
+		typedef hvn3::Physics::BasicPhysicsManager physics_manager_type;
+		typedef ViewManager view_manager_type;
 
 		Room(RoomId id, const SizeI& size);
 		Room(RoomId id, int width, int height);
@@ -30,10 +34,13 @@ namespace hvn3 {
 		virtual void OnUpdate(UpdateEventArgs& e) override;
 		virtual void OnDraw(DrawEventArgs& e) override;
 
+		IObjectManager& GetObjects() override;
 		IBackgroundManager& GetBackgrounds() override;
 		IViewManager& GetViews() override;
 		collision_manager_type& GetCollisions() override;
 		Physics::IPhysicsManager& GetPhysics() override;
+
+		const IObjectManager& Objects() const override;
 		const IBackgroundManager& Backgrounds() const override;
 		const IViewManager& Views() const override;
 		const collision_manager_type& Collisions() const override;
@@ -45,24 +52,19 @@ namespace hvn3 {
 		RectangleF VisiblePort() const override;
 		RectangleF VisibleRegion() const override;
 
+	protected:
 		void SetContext(hvn3::Context context) override;
 
-		System::ManagerBase& GetManagerById(System::ManagerId id) override;
-
 		void Restart() override;
-
-	protected:
 		void OnReset() override;
 		void OnRender(DrawEventArgs& e) override;
 
 	private:
-		void _addManager(System::ManagerId id, System::ManagerBase* manager) override;
-
 		collision_manager_type  _collision_manager;
-		hvn3::BackgroundManager _background_manager;
-		hvn3::ViewManager _view_manager;
-		std::unique_ptr<hvn3::Physics::BasicPhysicsManager> _physics_manager;
-		std::unordered_map<System::ManagerId, System::ManagerBase*> _registered_managers;
+		background_manager_type _background_manager;
+		view_manager_type _view_manager;
+		std::unique_ptr<physics_manager_type> _physics_manager;
+		std::unique_ptr<object_manager_type> _object_manager;
 
 		size_t _rendering_view;
 		bool _restart_pending;

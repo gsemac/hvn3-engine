@@ -9,17 +9,18 @@ namespace hvn3 {
 
 	namespace System {
 
-		class RoomController {
+		class RoomProxy {
 
 		public:
-			RoomController(IRoom* room);
+			RoomProxy(IRoom& room);
 
 			void SetUp();
 			bool IsReady() const;
 			void Reset();
+			void Restart();
 
-			void CallRoomEnterEvent(RoomEnterEventArgs& e);
-			void CallRoomExitEvent(RoomExitEventArgs& e);
+			void DispatchEvent(RoomEnterEventArgs& e);
+			void DispatchEvent(RoomExitEventArgs& e);
 
 		private:
 			IRoom* _room;

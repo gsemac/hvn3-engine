@@ -28,7 +28,7 @@ namespace hvn3 {
 		LightSourceType type;
 	};
 
-	class BasicLightingManager : public System::ManagerBase, public IDrawable {
+	class BasicLightingManager : public ManagerBase, public IDrawable {
 
 		struct LightMapData {
 			Graphics::Bitmap bitmap;
@@ -53,7 +53,7 @@ namespace hvn3 {
 
 		void OnDraw(DrawEventArgs& e) override;
 
-		static System::ManagerId Id();
+		static ManagerId Id();
 
 	private:
 		LightSourceId _getNextLightSourceId();

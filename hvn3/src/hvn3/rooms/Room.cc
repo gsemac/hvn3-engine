@@ -4,7 +4,7 @@
 namespace hvn3 {
 
 	Room::Room(RoomId id, const SizeI& size) :
-		RoomBase<ObjectManager>(id, size) {
+		RoomBase(id, size) {
 
 		_rendering_view = 0;
 		_restart_pending = false;
@@ -19,7 +19,6 @@ namespace hvn3 {
 	Room::Room(int width, int height) :
 		Room(NULL_ROOM_ID, width, height) {
 	}
-
 	void Room::OnUpdate(UpdateEventArgs& e) {
 
 		// Pending restarts should be processed before anything else, so it doesn't do an extra update when resets are initiated outside of it.
@@ -103,11 +102,11 @@ namespace hvn3 {
 		e.Graphics().SetClip(original_clip);
 
 	}
-
+	IObjectManager& Room::GetObjects() {
+		return *_object_manager;
+	}
 	IBackgroundManager& Room::GetBackgrounds() {
-
 		return _background_manager;
-
 	}
 	IViewManager& Room::GetViews() {
 
@@ -120,15 +119,13 @@ namespace hvn3 {
 
 	}
 	Physics::IPhysicsManager& Room::GetPhysics() {
-
 		return *_physics_manager;
-
 	}
-
+	const IObjectManager& Room::Objects() const {
+		return *_object_manager;
+	}
 	const IBackgroundManager& Room::Backgrounds() const {
-
 		return _background_manager;
-
 	}
 	const IViewManager& Room::Views() const {
 
@@ -141,16 +138,12 @@ namespace hvn3 {
 
 	}
 	const Physics::IPhysicsManager& Room::Physics() const {
-
 		return *_physics_manager;
-
 	}
-
 	void Room::SetBackground(const Background& value) {
 		GetBackgrounds().Clear();
 		GetBackgrounds().Add(value);
 	}
-
 	const View& Room::CurrentView() const {
 
 		if (_view_manager.Count() == 0)
@@ -187,35 +180,27 @@ namespace hvn3 {
 		return RoomBase::VisibleRegion();
 
 	}
+
 	void Room::SetContext(hvn3::Context context) {
 		RoomBase::SetContext(context);
+		
+		if(!_object_manager)
+			_object_manager = std::make_unique<object_manager_type>(Context());
+
 		if (!_physics_manager)
-			_physics_manager = std::make_unique<hvn3::Physics::BasicPhysicsManager>(Context());
-	}
-
-	System::ManagerBase& Room::GetManagerById(System::ManagerId id) {
-
-		auto iter = _registered_managers.find(id);
-
-		if (iter == _registered_managers.end())
-			throw System::NullReferenceException("No manager exists with the given ID.");
-
-		return *iter->second;
+			_physics_manager = std::make_unique<physics_manager_type>(Context());
 
 	}
-
 	void Room::Restart() {
 
 		_restart_pending = true;
 
 	}
-
-
-
 	void Room::OnReset() {
+		RoomBase::OnReset();
 
 		// Reset base (clears all objects).
-		RoomBase::OnReset();
+		_object_manager->Clear();
 
 		// Clear the physics manager first, as it may hold references to the collision manager.
 		_physics_manager->Clear();
@@ -245,19 +230,6 @@ namespace hvn3 {
 
 		// Draw all foregrounds.
 		GetBackgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), current_view, true));
-
-	}
-
-
-
-	void Room::_addManager(System::ManagerId id, System::ManagerBase* manager) {
-
-		auto iter = _registered_managers.find(id);
-
-		if (iter != _registered_managers.end())
-			throw System::ArgumentException("A manager with this ID already exists.");
-
-		_registered_managers[id] = manager;
 
 	}
 

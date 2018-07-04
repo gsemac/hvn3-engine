@@ -420,9 +420,6 @@
     <ClInclude Include="include\hvn3\rooms\RoomBase.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\rooms\RoomController.h">
-      <Filter>include\rooms</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\rooms\RoomEnterEventArgs.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
@@ -765,6 +762,12 @@
     <ClInclude Include="include\hvn3\rooms\RoomExporter.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\rooms\TileManager.h">
+      <Filter>include\rooms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\rooms\RoomProxy.h">
+      <Filter>include\rooms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -940,9 +943,6 @@
       <Filter>src\physics</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\rooms\Room.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\rooms\RoomController.cc">
       <Filter>src\rooms</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\rooms\RoomEnterEventArgs.cc">
@@ -1154,6 +1154,15 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\utility\BitUtils.cc">
       <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\TileManager.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\RoomBase.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\RoomProxy.cc">
+      <Filter>src\rooms</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

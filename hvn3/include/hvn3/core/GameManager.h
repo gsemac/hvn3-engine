@@ -35,7 +35,7 @@ namespace hvn3 {
 	protected:
 		IGameManager& GetGameManager() override;
 		RoomManager& GetRoomManager() override;
-		System::ManagerBase& GetManagerById(System::ManagerId id) override;
+		ManagerBase& GetManager(ManagerId id) override;
 
 	private:
 		System::Properties _properties;

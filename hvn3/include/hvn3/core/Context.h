@@ -38,7 +38,7 @@ namespace hvn3 {
 
 		template <typename manager_type>
 		manager_type& Get() {
-			return static_cast<manager_type&>(_context_provider->GetManagerById(manager_type::Id()));
+			return static_cast<manager_type&>(_context_provider->GetManager(manager_type::Id()));
 		}
 
 		explicit operator bool() const;

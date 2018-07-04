@@ -4,6 +4,7 @@
 
 namespace hvn3 {
 
+	class IObject;
 	class Object;
 
 	typedef std::shared_ptr<IObject> ObjectPtr;

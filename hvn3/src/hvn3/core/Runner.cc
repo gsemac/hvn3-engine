@@ -20,7 +20,6 @@
 #include "hvn3/io/KeyboardMutator.h"
 #include "hvn3/rooms/IRoom.h"
 #include "hvn3/rooms/RoomBase.h"
-#include "hvn3/rooms/RoomController.h"
 #include "hvn3/views/IViewManager.h"
 #ifdef HVN3_DEBUG 
 #include "hvn3/io/Console.h"

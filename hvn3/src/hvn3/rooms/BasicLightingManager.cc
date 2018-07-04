@@ -139,8 +139,8 @@ namespace hvn3 {
 		e.Graphics().DrawBitmap(draw_pos.x, draw_pos.y, _surface, 1.0f, 1.0f, origin, -angle);
 
 	}
-	System::ManagerId BasicLightingManager::Id() {
-		return System::BASIC_LIGHTING_MANAGER;
+	ManagerId BasicLightingManager::Id() {
+		return BASIC_LIGHTING_MANAGER;
 	}
 
 
