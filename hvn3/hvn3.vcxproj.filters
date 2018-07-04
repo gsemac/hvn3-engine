@@ -762,6 +762,9 @@
     <ClInclude Include="include\hvn3\io\StreamBase.h">
       <Filter>include\io</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\rooms\RoomExporter.h">
+      <Filter>include\rooms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/core/IContextProvider.h"
 #include "hvn3/core/IContextReceiver.h"
 #include "hvn3/core/IUpdatable.h"
@@ -8,7 +9,6 @@
 #include "hvn3/rooms/RoomEnterEventArgs.h"
 #include "hvn3/rooms/RoomExitEventArgs.h"
 #include "hvn3/rooms/RoomTypeDefs.h"
-#include "hvn3/collision/ICollisionManager.h"
 
 namespace hvn3 {
 
