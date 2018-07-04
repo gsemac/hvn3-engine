@@ -194,6 +194,8 @@ namespace hvn3 {
 				GetRoom().OnReset();
 				GetRoom().OnExit(RoomExitEventArgs());
 
+				_current_room.reset();
+
 			}
 
 		}
