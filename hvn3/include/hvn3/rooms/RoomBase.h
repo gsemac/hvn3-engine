@@ -47,7 +47,6 @@ namespace hvn3 {
 
 	protected:
 		hvn3::Context Context() override;
-		void SetContext(hvn3::Context context) override;
 		void OnContextChanged(ContextChangedEventArgs& e) override;
 
 		void OnEnter(RoomEnterEventArgs& e) override;

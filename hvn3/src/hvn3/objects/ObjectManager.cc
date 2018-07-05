@@ -18,8 +18,7 @@ namespace hvn3 {
 
 
 
-	ObjectManager::ObjectManager(Context context) :
-		_context(context) {
+	ObjectManager::ObjectManager() {
 
 		_last_found_id = NoOne;
 		_last_found_index = 0;
@@ -204,6 +203,16 @@ namespace hvn3 {
 
 	}
 
+
+	void ObjectManager::OnContextChanged(ContextChangedEventArgs& e) {
+		
+		_context = e.Context();
+
+		// Update the context for all objects.
+		for (auto i = _objects.begin(); i != _objects.end(); ++i)
+			i->object->SetContext(_context);
+
+	}
 
 
 	void ObjectManager::_removeDestroyedObjects(object_list_type::iterator begin, object_list_type::iterator end) {

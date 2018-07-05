@@ -57,6 +57,7 @@
     <ClInclude Include="include\hvn3\collision\RectangleHitMask.h" />
     <ClInclude Include="include\hvn3\collision\SpacialPartitioningGrid.h" />
     <ClInclude Include="include\hvn3\core\Context.h" />
+    <ClInclude Include="include\hvn3\core\ContextProviderBase.h" />
     <ClInclude Include="include\hvn3\core\DrawEventArgs.h" />
     <ClInclude Include="include\hvn3\core\IContextProvider.h" />
     <ClInclude Include="include\hvn3\core\IContextReceiver.h" />

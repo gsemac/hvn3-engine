@@ -10,15 +10,7 @@
 namespace hvn3 {
 	namespace Physics {
 
-		//struct contact {
-		//	IPhysicsBody* a;
-		//	IPhysicsBody* b;
-		//	VelocityAfterCollisionResult result;
-		//};
-
-		BasicPhysicsManager::BasicPhysicsManager(Context context) :
-			_context(context) {
-		}
+		BasicPhysicsManager::BasicPhysicsManager() {}
 
 		IPhysicsBody* BasicPhysicsManager::CreateBody(ICollisionBody* body) {
 			IPhysicsBody* physics_body = PhysicsManagerBase::CreateBody(body);
@@ -109,6 +101,11 @@ namespace hvn3 {
 			PhysicsManagerBase::Clear();
 			_body_lookup_table.clear();
 			_contacts.clear();
+		}
+
+
+		void BasicPhysicsManager::OnContextChanged(ContextChangedEventArgs& e) {
+			_context = e.Context();
 		}
 
 

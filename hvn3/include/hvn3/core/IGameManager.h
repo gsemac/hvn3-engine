@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/core/IContextProvider.h"
+#include "hvn3/core/ContextProviderBase.h"
 
 namespace hvn3 {
 
@@ -11,7 +11,7 @@ namespace hvn3 {
 		class Runner;
 	}
 
-	class IGameManager : public System::IContextProvider {
+	class IGameManager : public System::ContextProviderBase {
 
 	public:
 		virtual ~IGameManager() = default;

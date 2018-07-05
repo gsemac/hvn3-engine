@@ -161,8 +161,8 @@ namespace hvn3 {
 		_current_room = std::move(_next_room);
 
 		System::RoomProxy proxy(GetRoom());
-
-		GetRoom().SetContext(_context_provider->Context());
+		
+		_context_provider->ProvideContext(GetRoom());
 
 		// Call the on enter event for the new room.
 		proxy.DispatchEvent(RoomEnterEventArgs());

@@ -22,16 +22,20 @@ namespace hvn3 {
 
 	namespace System {
 
+		class ContextProviderBase;
+
 		// Classes that are given a context from an IContextProvider should inherit from this interface.
 		class IContextReceiver {
 
-		public:
-			// Sets the context held by this object to the given context.
-			// Ideally, this method should not be public (only certain classes have business accessing it).
-			virtual void SetContext(Context context) = 0;
+			friend class ContextProviderBase;
 
+		protected:
 			// This function is called immediately after SetContext. The event args object contains the new context.
 			virtual void OnContextChanged(ContextChangedEventArgs& e) = 0;
+
+		private:
+			// Sets the context held by this object to the given context.
+			//virtual void SetContext(Context context) = 0;
 
 		};
 

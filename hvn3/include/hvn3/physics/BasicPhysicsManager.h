@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/core/Context.h"
+#include "hvn3/core/IContextReceiver.h"
 #include "hvn3/physics/PhysicsBodyBase.h"
 #include "hvn3/physics/PhysicsManagerBase.h"
 #include <unordered_map>
@@ -8,7 +8,9 @@
 namespace hvn3 {
 	namespace Physics {
 
-		class BasicPhysicsManager : public PhysicsManagerBase<PhysicsBodyBase> {
+		class BasicPhysicsManager : 
+			public PhysicsManagerBase<PhysicsBodyBase>,
+			public System::IContextReceiver {
 
 			struct Contact {
 				IPhysicsBody* body;
@@ -16,11 +18,14 @@ namespace hvn3 {
 			};
 
 		public:
-			BasicPhysicsManager(Context context);
+			BasicPhysicsManager();
 
 			IPhysicsBody* CreateBody(ICollisionBody* body) override;
 			void OnUpdate(UpdateEventArgs& e) override;
 			void Clear() override;
+
+		protected:
+			void OnContextChanged(ContextChangedEventArgs& e) override;
 
 		private:
 			std::unordered_map<ICollisionBody*, IPhysicsBody*> _body_lookup_table;

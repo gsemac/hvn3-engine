@@ -57,14 +57,14 @@ namespace hvn3 {
 		RectangleF VisibleRegion() const override;
 
 	protected:
-		void SetContext(hvn3::Context context) override;
-
+		void OnContextChanged(ContextChangedEventArgs& e) override;
 		void Restart() override;
 		void OnReset() override;
 		void OnRender(DrawEventArgs& e) override;
 
 	private:
 		void _initializeAllManagers();
+		void _updateContextForAllManagers();
 
 		// #todo Perhaps all managers should be stored as pointers to allow them to be swapped easily.
 		collision_manager_type  _collision_manager;

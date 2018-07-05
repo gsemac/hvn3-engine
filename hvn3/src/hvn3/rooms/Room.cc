@@ -9,6 +9,8 @@ namespace hvn3 {
 		_rendering_view = 0;
 		_restart_pending = false;
 
+		_initializeAllManagers();
+
 	}
 	Room::Room(RoomId id, int width, int height) :
 		Room(id, SizeI(width, height)) {
@@ -187,10 +189,10 @@ namespace hvn3 {
 
 	}
 
-	void Room::SetContext(hvn3::Context context) {
-		RoomBase::SetContext(context);
+	void Room::OnContextChanged(ContextChangedEventArgs& e) {
+		RoomBase::OnContextChanged(e);
 
-		_initializeAllManagers();
+		_updateContextForAllManagers();
 
 	}
 	void Room::Restart() {
@@ -238,13 +240,24 @@ namespace hvn3 {
 	void Room::_initializeAllManagers() {
 
 		if (!_object_manager)
-			_object_manager = std::make_unique<object_manager_type>(Context());
+			_object_manager = std::make_unique<object_manager_type>();
 
 		if (!_physics_manager)
-			_physics_manager = std::make_unique<physics_manager_type>(Context());
+			_physics_manager = std::make_unique<physics_manager_type>();
 
 		if (!_tile_manager)
 			_tile_manager = std::make_unique<tile_manager_type>(Size(), SizeI(32, 32));
+
+	}
+	void Room::_updateContextForAllManagers() {
+
+		hvn3::Context ctx = Context();
+
+		if (_object_manager)
+			ctx.GetContextProvider().ProvideContext(*_object_manager);
+
+		if(_physics_manager)
+			ctx.GetContextProvider().ProvideContext(*_physics_manager);
 
 	}
 

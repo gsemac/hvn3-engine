@@ -1,12 +1,14 @@
 #pragma once
-#include "hvn3/core/Context.h"
+#include "hvn3/core/IContextReceiver.h"
 #include "hvn3/objects/IObjectManager.h"
 #include <memory>
 #include <vector>
 
 namespace hvn3 {
 
-	class ObjectManager : public IObjectManager {
+	class ObjectManager : 
+		public IObjectManager,
+		public System::IContextReceiver {
 
 		struct ObjectListItem {
 
@@ -22,23 +24,26 @@ namespace hvn3 {
 		typedef std::vector<ObjectListItem> object_list_type;
 
 	public:
-		ObjectManager(Context context);
+		ObjectManager();
 
-		virtual IObject* Add(ObjectPtr& object) override;
-		virtual IObject* Add(IObject* object) override;
-		virtual void Clear() override;
-		virtual void DestroyAll() override;
+		IObject* Add(ObjectPtr& object) override;
+		IObject* Add(IObject* object) override;
+		void Clear() override;
+		void DestroyAll() override;
 
-		virtual IObject* Find(ObjectId id) override;
-		virtual IObject* FindNext(ObjectId id) override;
-		virtual size_t Count() const override;
-		virtual size_t Count(ObjectId id) const override;
-		virtual bool Exists(ObjectId id) const override;
+		IObject* Find(ObjectId id) override;
+		IObject* FindNext(ObjectId id) override;
+		size_t Count() const override;
+		size_t Count(ObjectId id) const override;
+		bool Exists(ObjectId id) const override;
 
-		virtual void OnBeginUpdate(UpdateEventArgs& e) override;
-		virtual void OnUpdate(UpdateEventArgs& e) override;
-		virtual void OnEndUpdate(UpdateEventArgs& e) override;
-		virtual void OnDraw(DrawEventArgs& e) override;
+		void OnBeginUpdate(UpdateEventArgs& e) override;
+		void OnUpdate(UpdateEventArgs& e) override;
+		void OnEndUpdate(UpdateEventArgs& e) override;
+		void OnDraw(DrawEventArgs& e) override;
+
+	protected:
+		void OnContextChanged(ContextChangedEventArgs& e) override;
 
 	private:
 		object_list_type _objects;

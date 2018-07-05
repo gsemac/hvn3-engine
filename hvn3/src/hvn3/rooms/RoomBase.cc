@@ -109,14 +109,9 @@ namespace hvn3 {
 	hvn3::Context RoomBase::Context() {
 		return _context;
 	}
-	void RoomBase::SetContext(hvn3::Context context) {
-
-		_context = context;
-
-		OnContextChanged(ContextChangedEventArgs(context));
-
+	void RoomBase::OnContextChanged(ContextChangedEventArgs& e) {
+		_context = e.Context();
 	}
-	void RoomBase::OnContextChanged(ContextChangedEventArgs& e) {}
 	void RoomBase::OnEnter(RoomEnterEventArgs& e) {}
 	void RoomBase::OnExit(RoomExitEventArgs& e) {}
 	void RoomBase::OnCreate() {
