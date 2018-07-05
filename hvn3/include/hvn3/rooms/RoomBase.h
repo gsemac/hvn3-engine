@@ -24,12 +24,14 @@ namespace hvn3 {
 		IViewManager& GetViews() override;
 		ICollisionManager<IObject>& GetCollisions() override;
 		Physics::IPhysicsManager& GetPhysics() override;
+		TileManager& GetTiles() override;
 
 		const IObjectManager& Objects() const override;
 		const IBackgroundManager& Backgrounds() const override;
 		const IViewManager& Views() const override;
 		const ICollisionManager<IObject>& Collisions() const override;
 		const Physics::IPhysicsManager& Physics() const override;
+		const TileManager& Tiles() const override;
 
 		void SetBackgroundColor(const Color& color) override;
 		const Color& BackgroundColor() const override;

@@ -121,6 +121,9 @@ namespace hvn3 {
 	Physics::IPhysicsManager& Room::GetPhysics() {
 		return *_physics_manager;
 	}
+	TileManager& Room::GetTiles() {
+		return *_tile_manager;
+	}
 	const IObjectManager& Room::Objects() const {
 		return *_object_manager;
 	}
@@ -139,6 +142,9 @@ namespace hvn3 {
 	}
 	const Physics::IPhysicsManager& Room::Physics() const {
 		return *_physics_manager;
+	}
+	const TileManager& Room::Tiles() const {
+		return *_tile_manager;
 	}
 	void Room::SetBackground(const Background& value) {
 		GetBackgrounds().Clear();
@@ -183,12 +189,8 @@ namespace hvn3 {
 
 	void Room::SetContext(hvn3::Context context) {
 		RoomBase::SetContext(context);
-		
-		if(!_object_manager)
-			_object_manager = std::make_unique<object_manager_type>(Context());
 
-		if (!_physics_manager)
-			_physics_manager = std::make_unique<physics_manager_type>(Context());
+		_initializeAllManagers();
 
 	}
 	void Room::Restart() {
@@ -230,6 +232,19 @@ namespace hvn3 {
 
 		// Draw all foregrounds.
 		GetBackgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), current_view, true));
+
+	}
+
+	void Room::_initializeAllManagers() {
+
+		if (!_object_manager)
+			_object_manager = std::make_unique<object_manager_type>(Context());
+
+		if (!_physics_manager)
+			_physics_manager = std::make_unique<physics_manager_type>(Context());
+
+		if (!_tile_manager)
+			_tile_manager = std::make_unique<tile_manager_type>(Size(), SizeI(32, 32));
 
 	}
 

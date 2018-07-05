@@ -185,7 +185,6 @@
     <ClInclude Include="include\hvn3\rooms\RoomTransitionFade.h" />
     <ClInclude Include="include\hvn3\rooms\RoomTransitionNone.h" />
     <ClInclude Include="include\hvn3\rooms\RoomTypeDefs.h" />
-    <ClInclude Include="include\hvn3\rooms\TileManager.h" />
     <ClInclude Include="include\hvn3\sound\Sound.h" />
     <ClInclude Include="include\hvn3\sound\SoundEmitter.h" />
     <ClInclude Include="include\hvn3\sound\SoundInstance.h" />
@@ -194,6 +193,7 @@
     <ClInclude Include="include\hvn3\sprites\Sprite.h" />
     <ClInclude Include="include\hvn3\sprites\SpriteRenderer.h" />
     <ClInclude Include="include\hvn3\tilesets\AutoTileRenderer.h" />
+    <ClInclude Include="include\hvn3\tilesets\TileManager.h" />
     <ClInclude Include="include\hvn3\tilesets\TileMap.h" />
     <ClInclude Include="include\hvn3\tilesets\TileMapRenderer.h" />
     <ClInclude Include="include\hvn3\tilesets\Tileset.h" />
@@ -332,7 +332,6 @@
     <ClCompile Include="src\hvn3\rooms\RoomManager.cc" />
     <ClCompile Include="src\hvn3\rooms\RoomTransitionFade.cc" />
     <ClCompile Include="src\hvn3\rooms\RoomTransitionNone.cc" />
-    <ClCompile Include="src\hvn3\rooms\TileManager.cc" />
     <ClCompile Include="src\hvn3\sound\Sound.cc" />
     <ClCompile Include="src\hvn3\sound\SoundEmitter.cc" />
     <ClCompile Include="src\hvn3\sound\SoundInstance.cc" />
@@ -341,6 +340,7 @@
     <ClCompile Include="src\hvn3\sprites\Sprite.cc" />
     <ClCompile Include="src\hvn3\sprites\SpriteRenderer.cc" />
     <ClCompile Include="src\hvn3\tilesets\AutoTileRenderer.cc" />
+    <ClCompile Include="src\hvn3\tilesets\TileManager.cc" />
     <ClCompile Include="src\hvn3\tilesets\TileMap.cc" />
     <ClCompile Include="src\hvn3\tilesets\TileMapRenderer.cc" />
     <ClCompile Include="src\hvn3\tilesets\Tileset.cc" />

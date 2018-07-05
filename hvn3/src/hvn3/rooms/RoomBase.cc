@@ -50,6 +50,9 @@ namespace hvn3 {
 	Physics::IPhysicsManager& RoomBase::GetPhysics() {
 		throw System::NotImplementedException();
 	}
+	TileManager& RoomBase::GetTiles() {
+		throw System::NotImplementedException();
+	}
 
 	const IObjectManager& RoomBase::Objects() const {
 		throw System::NotImplementedException();
@@ -64,6 +67,9 @@ namespace hvn3 {
 		throw System::NotImplementedException();
 	}
 	const Physics::IPhysicsManager& RoomBase::Physics() const {
+		throw System::NotImplementedException();
+	}
+	const TileManager& RoomBase::Tiles() const {
 		throw System::NotImplementedException();
 	}
 

@@ -19,6 +19,7 @@ namespace hvn3 {
 	class IBackgroundManager;
 	class IViewManager;
 	class IObject;
+	class TileManager;
 
 	namespace System {
 		class RoomProxy;
@@ -47,6 +48,8 @@ namespace hvn3 {
 		virtual ICollisionManager<IObject>& GetCollisions() = 0;
 		// Returns the physics manager for this room.
 		virtual Physics::IPhysicsManager& GetPhysics() = 0;
+		// Returns the tile manager for this room.
+		virtual TileManager& GetTiles() = 0;
 
 		// Returns the object manager for this room.
 		virtual const IObjectManager& Objects() const = 0;
@@ -58,6 +61,8 @@ namespace hvn3 {
 		virtual const ICollisionManager<IObject>& Collisions() const = 0;
 		// Returns the physics manager for this room.
 		virtual const Physics::IPhysicsManager& Physics() const = 0;
+		// Returns the tile manager for this room.
+		virtual const TileManager& Tiles() const = 0;
 
 		// Sets the room's background color.
 		virtual void SetBackgroundColor(const Color& color) = 0;

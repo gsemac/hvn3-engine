@@ -2,7 +2,7 @@
 
 namespace hvn3 {
 
-	ViewUpdateEventArgs::ViewUpdateEventArgs(float dt, Size<int> room_size) :
+	ViewUpdateEventArgs::ViewUpdateEventArgs(double dt, Size<int> room_size) :
 		UpdateEventArgs(dt),
 		_room_size(room_size) {
 	}

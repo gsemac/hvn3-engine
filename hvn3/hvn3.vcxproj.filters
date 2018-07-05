@@ -762,11 +762,11 @@
     <ClInclude Include="include\hvn3\rooms\RoomExporter.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\rooms\TileManager.h">
-      <Filter>include\rooms</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\rooms\RoomProxy.h">
       <Filter>include\rooms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\tilesets\TileManager.h">
+      <Filter>include\tilesets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1155,14 +1155,14 @@
     <ClCompile Include="src\hvn3\utility\BitUtils.cc">
       <Filter>src\io</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\rooms\TileManager.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\rooms\RoomBase.cc">
       <Filter>src\rooms</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\rooms\RoomProxy.cc">
       <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tilesets\TileManager.cc">
+      <Filter>src\tilesets</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
