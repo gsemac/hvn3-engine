@@ -37,6 +37,12 @@ namespace hvn3 {
 		_layers[depth][GET_TILE_INDEX(x, y)] = tile;
 
 	}
+	TileMap::Tile TileMap::AtIndex(int n) const {
+		return AtIndex(n, 0);
+	}
+	TileMap::Tile TileMap::AtIndex(int n, layer_id depth) const {
+		return _getTileIdAt(n, depth);
+	}
 	TileMap::Tile TileMap::At(int x, int y) const {
 		return At(x, y, 0);
 	}
@@ -116,18 +122,23 @@ namespace hvn3 {
 	bool TileMap::_layerExists(layer_id layer) const {
 		return _layers.count(layer) != 0;
 	}
-	TileMap::tile_id TileMap::_getTileIdAt(int x, int y, layer_id depth) const {
-
-		int index = GET_TILE_INDEX(x, y);
+	TileMap::tile_id TileMap::_getTileIdAt(int n, layer_id depth) const {
 
 		auto it = _layers.find(depth);
 		if (it == _layers.end())
 			throw System::ArgumentException("Tile depth is invalid.");
 
-		if (index < 0 || static_cast<layer_map_type::size_type>(index) >= it->second.size())
+		if (n < 0 || static_cast<layer_map_type::size_type>(n) >= it->second.size())
 			throw System::ArgumentException("Tile index is out of bounds.");
 
-		return it->second[index];
+		return it->second[n];
+
+	}
+	TileMap::tile_id TileMap::_getTileIdAt(int x, int y, layer_id depth) const {
+
+		int index = GET_TILE_INDEX(x, y);
+
+		return _getTileIdAt(index, depth);
 
 	}
 
