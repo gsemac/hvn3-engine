@@ -22,6 +22,9 @@ namespace hvn3 {
 		if (c == '/')
 			return 63;
 
+		// Note that this case should never be reached for a valid base64 string.
+		return c;
+
 	}
 
 

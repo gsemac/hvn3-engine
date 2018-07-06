@@ -15,7 +15,7 @@ namespace hvn3 {
 		if (!_sample)
 			return 0;
 
-		al_get_sample_frequency(_getPtr());
+		return al_get_sample_frequency(_getPtr());
 
 	}
 	unsigned int Sound::Samples() const {
@@ -23,7 +23,7 @@ namespace hvn3 {
 		if (!_sample)
 			return 0;
 
-		al_get_sample_length(_getPtr());
+		return al_get_sample_length(_getPtr());
 
 	}
 	float Sound::Length() const {
