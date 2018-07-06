@@ -278,6 +278,21 @@ namespace hvn3 {
 					return false;
 			return true;
 		}
+		bool NextSubstringEquals(const std::string& str, size_t pos, const std::string& substr) {
+
+			if (pos + substr.length() >= str.length())
+				return false;
+
+			auto i1 = str.begin() + pos;
+			auto i2 = substr.begin();
+
+			for (; i2 != substr.end(); ++i1, ++i2)
+				if (*i1 != *i2)
+					return false;
+
+			return true;
+
+		}
 
 	}
 }

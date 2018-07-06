@@ -228,6 +228,7 @@
     <ClInclude Include="include\hvn3\views\ViewManager.h" />
     <ClInclude Include="include\hvn3\views\ViewUpdateEventArgs.h" />
     <ClInclude Include="include\hvn3\xml\XmlNode.h" />
+    <ClInclude Include="include\hvn3\xml\XmlUtils.h" />
     <ClInclude Include="include\hvn3\xml\XmlWriter.h" />
   </ItemGroup>
   <ItemGroup>
@@ -366,6 +367,7 @@
     <ClCompile Include="src\hvn3\views\ViewManager.cc" />
     <ClCompile Include="src\hvn3\views\ViewUpdateEventArgs.cc" />
     <ClCompile Include="src\hvn3\xml\XmlNode.cc" />
+    <ClCompile Include="src\hvn3\xml\XmlUtils.cc" />
     <ClCompile Include="src\hvn3\xml\XmlWriter.cc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

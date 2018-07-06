@@ -1,3 +1,4 @@
+#include "hvn3/xml/XmlUtils.h"
 #include "hvn3/xml/XmlWriter.h"
 #include <exception>
 #include <fstream>
@@ -56,7 +57,7 @@ namespace hvn3 {
 			_writeIndent(buf);
 			buf << "<" << node.Tag();
 			for (auto i = node.AttributesBegin(); i != node.AttributesEnd(); ++i)
-				buf << " " << i->first << "=\"" << i->second << "\"";
+				buf << " " << i->first << "=\"" << Xml::EscapeXmlString(i->second) << "\"";
 			buf << '>';
 
 			_write_depth += 1;
@@ -64,7 +65,7 @@ namespace hvn3 {
 			// Write text.
 			if (node.HasChildren() && node.HasText()) {
 				_writeNewLine(buf);
-				buf << node.Text();
+				buf << Xml::EscapeXmlString(node.Text());
 			}
 
 			// Write all child nodes.

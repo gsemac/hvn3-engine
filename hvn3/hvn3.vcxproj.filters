@@ -783,6 +783,9 @@
     <ClInclude Include="include\hvn3\rooms\RoomWriter.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\xml\XmlUtils.h">
+      <Filter>include\xml</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1183,6 +1186,9 @@
       <Filter>src\xml</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\xml\XmlWriter.cc">
+      <Filter>src\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\xml\XmlUtils.cc">
       <Filter>src\xml</Filter>
     </ClCompile>
   </ItemGroup>
