@@ -63,8 +63,9 @@ namespace hvn3 {
 			_write_depth += 1;
 
 			// Write text.
-			if (node.HasChildren() && node.HasText()) {
-				_writeNewLine(buf);
+			if (node.HasText()) {
+				if (node.HasChildren())
+					_writeNewLine(buf);
 				buf << Xml::EscapeXmlString(node.Text());
 			}
 

@@ -32,9 +32,6 @@ namespace hvn3 {
 			return iter->first;
 
 		}
-		void XmlNode::SetAttribute(const std::string& attribute, const std::string& value) {
-			_attributes[attribute] = value;
-		}
 		bool XmlNode::HasAttribute(const std::string& attribute) const {
 			return _attributes.count(attribute) > 0;
 		}

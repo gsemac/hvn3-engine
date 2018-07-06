@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <sstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -21,7 +22,22 @@ namespace hvn3 {
 			void SetText(const std::string& value);
 			bool HasText() const;
 			const std::string& GetAttribute(const std::string& attribute) const;
-			void SetAttribute(const std::string& attribute, const std::string& value);
+			template<typename T>
+			void SetAttribute(const std::string& attribute, const T& value) {
+
+				std::stringstream buf;
+				buf << value;
+
+				_attributes[attribute] = buf.str();
+			}
+			template <>
+			void SetAttribute(const std::string& attribute, const std::string& value) {
+				_attributes[attribute] = value;
+			}
+			template<std::size_t N>
+			void SetAttribute(const std::string& attribute, const char(&value)[N]) {
+				_attributes[attribute] = value;
+			}
 			bool HasAttribute(const std::string& attribute) const;
 			attributes_collection_type::iterator AttributesBegin();
 			attributes_collection_type::iterator AttributesEnd();

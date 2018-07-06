@@ -14,8 +14,6 @@ namespace hvn3 {
 		_width = width;
 		_height = height;
 
-		AddLayer(0);
-
 	}
 	int TileMap::Width() const {
 		return _width;
