@@ -33,7 +33,7 @@ namespace hvn3 {
 
 						// If the tile is not an autotile, draw it normally.
 						const Graphics::Bitmap& tile_image = _tilesets[0].At(tile_data.TileIndex() - 1).bitmap;
-						canvas.DrawBitmap(i * tile_size.width, j * tile_size.height, tile_image);
+						canvas.DrawBitmap(static_cast<float>(i * tile_size.width), static_cast<float>(j * tile_size.height), tile_image);
 
 					}
 					else {

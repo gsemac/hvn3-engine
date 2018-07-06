@@ -550,10 +550,10 @@ namespace hvn3 {
 
 			IRoom& room = _context.GetRooms().GetRoom();
 			
-			if (room.Views().Count()) {
+			if (room.Views().Count() > 0) {
 
 				// If the mouse is inside of a View, position it relative to the View (where 0, 0 is the top left of the View).
-				for (int i = room.Views().Count() - 1; i >= 0; --i) {
+				for (size_t i = room.Views().Count() - 1; i >= 0; --i) {
 
 					// Get a reference to the view so it's easy to access.
 					View& view = room.GetViews().At(i);

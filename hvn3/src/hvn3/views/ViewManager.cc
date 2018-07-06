@@ -37,7 +37,7 @@ namespace hvn3 {
 	}
 	void ViewManager::Update(ViewUpdateEventArgs & e) {
 
-		for (int i = Count() - 1; i >= 0; --i) {
+		for (size_t i = Count() - 1; i >= 0; --i) {
 
 			// Initialize variables.	
 			hvn3::View& view = At(i);

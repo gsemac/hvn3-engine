@@ -155,7 +155,7 @@ namespace hvn3 {
 
 	size_t Sprite::_subImageToIndex(int sub_image) const {
 
-		return Math::ModFloor(sub_image, _frames.size());
+		return Math::ModFloor(static_cast<size_t>(sub_image), _frames.size());
 
 	}
 	void Sprite::_moveSpriteToThis(Sprite& other) {
