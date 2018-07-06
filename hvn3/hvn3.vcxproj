@@ -175,7 +175,7 @@
     <ClInclude Include="include\hvn3\rooms\BasicLightingManager.h" />
     <ClInclude Include="include\hvn3\rooms\IRoom.h" />
     <ClInclude Include="include\hvn3\rooms\IRoomManager.h" />
-    <ClInclude Include="include\hvn3\rooms\RoomExporter.h" />
+    <ClInclude Include="include\hvn3\rooms\RoomWriter.h" />
     <ClInclude Include="include\hvn3\rooms\RoomTransitionBase.h" />
     <ClInclude Include="include\hvn3\rooms\Room.h" />
     <ClInclude Include="include\hvn3\rooms\RoomBase.h" />
@@ -227,6 +227,8 @@
     <ClInclude Include="include\hvn3\views\View.h" />
     <ClInclude Include="include\hvn3\views\ViewManager.h" />
     <ClInclude Include="include\hvn3\views\ViewUpdateEventArgs.h" />
+    <ClInclude Include="include\hvn3\xml\XmlNode.h" />
+    <ClInclude Include="include\hvn3\xml\XmlWriter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
@@ -363,6 +365,8 @@
     <ClCompile Include="src\hvn3\views\View.cc" />
     <ClCompile Include="src\hvn3\views\ViewManager.cc" />
     <ClCompile Include="src\hvn3\views\ViewUpdateEventArgs.cc" />
+    <ClCompile Include="src\hvn3\xml\XmlNode.cc" />
+    <ClCompile Include="src\hvn3\xml\XmlWriter.cc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}</ProjectGuid>
