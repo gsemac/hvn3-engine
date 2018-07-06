@@ -44,7 +44,7 @@ namespace hvn3 {
 			return _image_scale.XScale();
 		}
 		float SpriteRenderer::ImageYScale() const {
-			_image_scale.YScale();
+			return _image_scale.YScale();
 		}
 		float SpriteRenderer::ImageAngle() const {
 
