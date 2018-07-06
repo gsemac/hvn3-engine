@@ -134,15 +134,21 @@ namespace hvn3 {
 		std::string LTrim(const std::string& input_string, const std::initializer_list<char>& chars) {
 
 			size_t pos = input_string.find_first_not_of(chars);
+
 			if (std::string::npos != pos)
 				return input_string.substr(pos);
+
+			return input_string;
 
 		}
 		std::string RTrim(const std::string& input_string, const std::initializer_list<char>& chars) {
 
 			size_t pos = input_string.find_last_not_of(chars);
+
 			if (std::string::npos != pos)
 				return input_string.substr(0, pos + 1);
+
+			return input_string;
 
 		}
 
