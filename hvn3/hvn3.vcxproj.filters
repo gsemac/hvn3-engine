@@ -786,6 +786,12 @@
     <ClInclude Include="include\hvn3\xml\XmlUtils.h">
       <Filter>include\xml</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\utility\IteratorBase.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Assert.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

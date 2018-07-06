@@ -48,7 +48,7 @@ namespace hvn3 {
 
 			std::string buf;
 			buf.reserve(str.length());
-
+			
 			for (size_t i = 0; i < str.size(); ++i) {
 
 				if (str[i] == '&') {

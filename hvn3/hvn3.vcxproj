@@ -199,6 +199,7 @@
     <ClInclude Include="include\hvn3\tilesets\TileMapRenderer.h" />
     <ClInclude Include="include\hvn3\tilesets\Tileset.h" />
     <ClInclude Include="include\hvn3\utility\Algorithm.h" />
+    <ClInclude Include="include\hvn3\utility\Assert.h" />
     <ClInclude Include="include\hvn3\utility\Base64.h" />
     <ClInclude Include="include\hvn3\utility\BitFlags.h" />
     <ClInclude Include="include\hvn3\utility\BitUtils.h" />
@@ -209,6 +210,7 @@
     <ClInclude Include="include\hvn3\utility\FpsCounter.h" />
     <ClInclude Include="include\hvn3\utility\Grid.h" />
     <ClInclude Include="include\hvn3\utility\Hash.h" />
+    <ClInclude Include="include\hvn3\utility\IteratorBase.h" />
     <ClInclude Include="include\hvn3\utility\MD5.h" />
     <ClInclude Include="include\hvn3\utility\Padding.h" />
     <ClInclude Include="include\hvn3\utility\Quadtree.h" />
