@@ -786,10 +786,13 @@
     <ClInclude Include="include\hvn3\xml\XmlUtils.h">
       <Filter>include\xml</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\utility\IteratorBase.h">
+    <ClInclude Include="include\hvn3\utility\Assert.h">
       <Filter>include\utility</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\utility\Assert.h">
+    <ClInclude Include="include\hvn3\utility\IteratorTemplate.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\utility\AbstractIterator.h">
       <Filter>include\utility</Filter>
     </ClInclude>
   </ItemGroup>

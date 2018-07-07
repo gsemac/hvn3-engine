@@ -9,10 +9,10 @@ namespace hvn3 {
 	*/
 
 	template <typename DerivedType, typename ValueType, typename DifferenceType = ptrdiff_t>
-	class IteratorBase {
+	class IteratorTemplate {
 
 	protected:
-		typedef IteratorBase<DerivedType, ValueType> base_type;
+		typedef IteratorTemplate<DerivedType, ValueType> base_type;
 
 	public:
 		typedef typename DifferenceType difference_type;
