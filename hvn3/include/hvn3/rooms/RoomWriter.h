@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/objects/IObject.h"
 #include "hvn3/objects/IObjectManager.h"
 #include "hvn3/rooms/IRoom.h"
 #include "hvn3/tilesets/TileManager.h"
@@ -16,12 +17,12 @@ namespace hvn3 {
 		}
 
 		bool Save(const std::string& file_path) const {
-			
+
 			std::stringstream buf;
 
 			Xml::XmlWriter writer("map");
 			writer.Root().SetAttribute("version", "1.0");
-		
+
 			// Write tiles.
 			if (_room->Tiles().LayerCount() > 0) {
 
@@ -38,10 +39,24 @@ namespace hvn3 {
 					buf.clear();
 				}
 
-			}			
+			}
+
+			// Write objects.
+			if (_room->Objects().Count() > 0) {
+
+				Xml::XmlNode* objects_node = writer.Root().AddChild("objects");
+
+				_room->Objects().ForEach([&](const IObject* obj) {
+					Xml::XmlNode* object_node = objects_node->AddChild("object");
+					object_node->SetAttribute("id", obj->Id());
+					object_node->SetAttribute("x", obj->X());
+					object_node->SetAttribute("y", obj->Y());
+				});
+
+			}
 
 			return writer.Save(file_path);
-			
+
 		}
 
 	private:

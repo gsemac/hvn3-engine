@@ -36,6 +36,8 @@ namespace hvn3 {
 		size_t Count() const override;
 		size_t Count(ObjectId id) const override;
 		bool Exists(ObjectId id) const override;
+		void ForEach(const std::function<void(IObject*)>& func) override;
+		void ForEach(const std::function<void(const IObject*)>& func) const override;
 
 		void OnBeginUpdate(UpdateEventArgs& e) override;
 		void OnUpdate(UpdateEventArgs& e) override;

@@ -3,7 +3,7 @@
 
 namespace hvn3 {
 
-	size_t ViewManager::Add(const View & view) {
+	size_t ViewManager::Add(const View& view) {
 
 		_views.push_back(view);
 
@@ -37,10 +37,10 @@ namespace hvn3 {
 	}
 	void ViewManager::Update(ViewUpdateEventArgs & e) {
 
-		for (size_t i = Count() - 1; i >= 0; --i) {
+		for (auto i = _views.rbegin(); i != _views.rend(); ++i) {
 
 			// Initialize variables.	
-			hvn3::View& view = At(i);
+			hvn3::View& view = *i;
 			IObject* obj = view.GetFollowing();
 
 			// If the View isn't following an Object, or is disabled, there's nothing to do.
@@ -78,6 +78,7 @@ namespace hvn3 {
 				view.SetPosition(view.X(), view.Y() - diff);
 
 			}
+
 
 		}
 

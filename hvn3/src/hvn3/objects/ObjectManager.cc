@@ -140,6 +140,18 @@ namespace hvn3 {
 		return false;
 
 	}
+	void ObjectManager::ForEach(const std::function<void(IObject*)>& func) {
+
+		for (auto i = _objects.begin(); i != _objects.end(); ++i)
+			func(i->object.get());
+
+	}
+	void ObjectManager::ForEach(const std::function<void(const IObject*)>& func) const {
+
+		for (auto i = _objects.begin(); i != _objects.end(); ++i)
+			func(i->object.get());
+
+	}
 
 	void ObjectManager::OnBeginUpdate(UpdateEventArgs& e) {
 
