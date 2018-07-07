@@ -780,9 +780,6 @@
     <ClInclude Include="include\hvn3\xml\XmlWriter.h">
       <Filter>include\xml</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\rooms\RoomWriter.h">
-      <Filter>include\rooms</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\xml\XmlUtils.h">
       <Filter>include\xml</Filter>
     </ClInclude>
@@ -794,6 +791,9 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\utility\AbstractIterator.h">
       <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\rooms\RoomExporter.h">
+      <Filter>include\rooms</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

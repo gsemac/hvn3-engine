@@ -175,7 +175,7 @@
     <ClInclude Include="include\hvn3\rooms\BasicLightingManager.h" />
     <ClInclude Include="include\hvn3\rooms\IRoom.h" />
     <ClInclude Include="include\hvn3\rooms\IRoomManager.h" />
-    <ClInclude Include="include\hvn3\rooms\RoomWriter.h" />
+    <ClInclude Include="include\hvn3\rooms\RoomExporter.h" />
     <ClInclude Include="include\hvn3\rooms\RoomTransitionBase.h" />
     <ClInclude Include="include\hvn3\rooms\Room.h" />
     <ClInclude Include="include\hvn3\rooms\RoomBase.h" />

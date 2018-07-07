@@ -4,18 +4,24 @@
 #include "hvn3/rooms/IRoom.h"
 #include "hvn3/tilesets/TileManager.h"
 #include "hvn3/xml/XmlWriter.h"
+#include <functional>
 #include <string>
 #include <sstream>
 
 namespace hvn3 {
 
-	class RoomWriter {
+	class RoomExporter {
 
 	public:
-		RoomWriter(const IRoom& room) :
+		typedef std::function<void(const IObject*, Xml::XmlNode*)> object_exporter_callback_type;
+
+		RoomExporter(const IRoom& room) :
 			_room(&room) {
 		}
 
+		void SetObjectExporterCallback(object_exporter_callback_type&& callback) {
+			_object_exporter_callback = std::move(callback);
+		}
 		bool Save(const std::string& file_path) const {
 
 			std::stringstream buf;
@@ -48,9 +54,7 @@ namespace hvn3 {
 
 				_room->Objects().ForEach([&](const IObject* obj) {
 					Xml::XmlNode* object_node = objects_node->AddChild("object");
-					object_node->SetAttribute("id", obj->Id());
-					object_node->SetAttribute("x", obj->X());
-					object_node->SetAttribute("y", obj->Y());
+					_exportObject(obj, object_node);
 				});
 
 			}
@@ -61,6 +65,19 @@ namespace hvn3 {
 
 	private:
 		const IRoom* _room;
+		object_exporter_callback_type _object_exporter_callback;
+
+		void _exportObject(const IObject* object, Xml::XmlNode* node) const {
+
+			if (_object_exporter_callback)
+				_object_exporter_callback(object, node);
+			else {
+				node->SetAttribute("id", object->Id());
+				node->SetAttribute("x", object->X());
+				node->SetAttribute("y", object->Y());
+			}
+
+		}
 
 	};
 
