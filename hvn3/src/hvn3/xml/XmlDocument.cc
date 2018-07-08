@@ -1,22 +1,22 @@
+#include "hvn3/exceptions/Exception.h"
 #include "hvn3/xml/XmlUtils.h"
-#include "hvn3/xml/XmlWriter.h"
-#include <exception>
+#include "hvn3/xml/XmlDocument.h"
 #include <fstream>
 #include <sstream>
 
 namespace hvn3 {
 	namespace Xml {
 
-		XmlWriter::XmlWriter(const std::string& root) :
-			_root(root) {
+		XmlDocument::XmlDocument(const std::string& root_tag) :
+			_root(root_tag) {
 		}
-		XmlNode& XmlWriter::Root() {
+		XmlElement& XmlDocument::Root() {
 			return _root;
 		}
-		const XmlNode& XmlWriter::Root() const {
+		const XmlElement& XmlDocument::Root() const {
 			return _root;
 		}
-		bool XmlWriter::Save(const std::string& file_path) const {
+		bool XmlDocument::Save(const std::string& file_path) const {
 
 			std::ofstream buf(file_path.c_str());
 
@@ -28,7 +28,7 @@ namespace hvn3 {
 			return true;
 
 		}
-		std::string XmlWriter::ToString() const {
+		std::string XmlDocument::ToString() const {
 
 			_write_depth = 0;
 
@@ -40,7 +40,22 @@ namespace hvn3 {
 
 		}
 
-		void XmlWriter::_write(std::ostream& buf) const {
+		XmlDocument XmlDocument::Open(const std::string& file_path) {
+
+			std::ifstream buf(file_path.c_str());
+
+			if (!buf.is_open())
+				throw System::IO::IOException("File could not be opened.");
+
+
+			XmlDocument doc("");
+			XmlElement* current_node = nullptr;
+			
+
+
+		}
+
+		void XmlDocument::_write(std::ostream& buf) const {
 
 			_write_depth = 0;
 
@@ -48,10 +63,10 @@ namespace hvn3 {
 			_writeNode(buf, _root);
 
 		}
-		void XmlWriter::_writeProlog(std::ostream& buf) const {
+		void XmlDocument::_writeProlog(std::ostream& buf) const {
 			buf << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 		}
-		void XmlWriter::_writeNode(std::ostream& buf, const XmlNode& node) const {
+		void XmlDocument::_writeNode(std::ostream& buf, const XmlElement& node) const {
 
 			// Write the opening tag and attributes.
 			_writeIndent(buf);
@@ -93,13 +108,13 @@ namespace hvn3 {
 			buf << "</" << node.Tag() << '>';
 
 		}
-		void XmlWriter::_writeIndent(std::ostream& buf) const {
+		void XmlDocument::_writeIndent(std::ostream& buf) const {
 
 			for (unsigned int i = 0; i < _write_depth; ++i)
 				buf << '\t';
 
 		}
-		void XmlWriter::_writeNewLine(std::ostream& buf) const {
+		void XmlDocument::_writeNewLine(std::ostream& buf) const {
 
 			buf << '\n';
 			_writeIndent(buf);

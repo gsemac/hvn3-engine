@@ -8,13 +8,13 @@
 namespace hvn3 {
 	namespace Xml {
 
-		class XmlNode {
+		class XmlElement {
 
 			typedef std::unordered_map<std::string, std::string> attributes_collection_type;
-			typedef std::vector<std::unique_ptr<XmlNode>> child_collection_type;
+			typedef std::vector<std::unique_ptr<XmlElement>> child_collection_type;
 
 		public:
-			XmlNode(const std::string& tag);
+			XmlElement(const std::string& tag);
 
 			const std::string& Tag() const;
 			void SetTag(const std::string& value);
@@ -44,7 +44,7 @@ namespace hvn3 {
 			attributes_collection_type::const_iterator AttributesBegin() const;
 			attributes_collection_type::const_iterator AttributesEnd() const;
 			
-			XmlNode* AddChild(const std::string& tag);
+			XmlElement* AddChild(const std::string& tag);
 			bool HasChildren() const;
 			child_collection_type::iterator ChildrenBegin();
 			child_collection_type::iterator ChildrenEnd();
@@ -58,7 +58,7 @@ namespace hvn3 {
 			std::string _tag;
 			std::string _text;
 			attributes_collection_type _attributes;
-			std::vector<std::unique_ptr<XmlNode>> _child_nodes;
+			std::vector<std::unique_ptr<XmlElement>> _child_nodes;
 
 		};
 

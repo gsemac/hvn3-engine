@@ -774,12 +774,6 @@
     <ClInclude Include="include\hvn3\core\ContextProviderBase.h">
       <Filter>include\core</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\xml\XmlNode.h">
-      <Filter>include\xml</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\xml\XmlWriter.h">
-      <Filter>include\xml</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\xml\XmlUtils.h">
       <Filter>include\xml</Filter>
     </ClInclude>
@@ -794,6 +788,18 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\rooms\RoomExporter.h">
       <Filter>include\rooms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\rooms\RoomImporter.h">
+      <Filter>include\rooms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\xml\XmlDocument.h">
+      <Filter>include\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\xml\XmlElement.h">
+      <Filter>include\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\xml\XmlLexer.h">
+      <Filter>include\xml</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1191,13 +1197,13 @@
     <ClCompile Include="src\hvn3\tilesets\TileManager.cc">
       <Filter>src\tilesets</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\xml\XmlNode.cc">
-      <Filter>src\xml</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\xml\XmlWriter.cc">
-      <Filter>src\xml</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\xml\XmlUtils.cc">
+      <Filter>src\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\xml\XmlDocument.cc">
+      <Filter>src\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\xml\XmlElement.cc">
       <Filter>src\xml</Filter>
     </ClCompile>
   </ItemGroup>
