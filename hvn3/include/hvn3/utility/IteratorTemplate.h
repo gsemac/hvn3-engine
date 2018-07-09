@@ -13,6 +13,7 @@ namespace hvn3 {
 
 	protected:
 		typedef IteratorTemplate<DerivedType, ValueType> base_type;
+		typedef DerivedType derived_type;
 
 	public:
 		typedef typename DifferenceType difference_type;
@@ -21,41 +22,41 @@ namespace hvn3 {
 		typedef typename ValueType* pointer;
 
 		bool operator==(const DerivedType& rhs) const {
-			return static_cast<const DerivedType*>(this)->Equal(rhs);
+			return static_cast<const DerivedType*>(this)->equal(rhs);
 		}
 		bool operator!=(const DerivedType& rhs) const {
-			return !(static_cast<const DerivedType*>(this)->Equal(rhs));
+			return !(static_cast<const DerivedType*>(this)->equal(rhs));
 		}
 
 		DerivedType& operator++() {
-			
-			_derivedPtr()->Increment();
-			
+
+			_derivedPtr()->increment();
+
 			return _derivedRef();
 
 		}
 		DerivedType operator++(int) {
-			
+
 			DerivedType iter(*this);
-			
-			_derivedPtr()->Increment();
-			
+
+			_derivedPtr()->increment();
+
 			return iter;
 
 		}
 		DerivedType& operator--() {
-			
-			_derivedPtr()->Decrement();
-			
+
+			_derivedPtr()->decrement();
+
 			return _derivedRef();
 
 		}
 		DerivedType operator--(int) {
-			
+
 			DerivedType iter(*this);
-			
-			_derivedPtr()->Decrement();
-			
+
+			_derivedPtr()->decrement();
+
 			return iter;
 
 		}
@@ -69,7 +70,7 @@ namespace hvn3 {
 		}
 		DerivedType& operator+=(difference_type rhs) {
 
-			_derivedPtr()->Advance(rhs);
+			_derivedPtr()->advance(rhs);
 
 			return _derivedRef();
 
@@ -84,17 +85,17 @@ namespace hvn3 {
 		}
 		DerivedType& operator-=(difference_type rhs) {
 
-			_derivedPtr()->Advance(-rhs);
+			_derivedPtr()->advance(-rhs);
 
 			return _derivedRef();
 
 		}
-		
+
 		pointer operator->() {
-			return &static_cast<DerivedType*>(this)->Dereference();
+			return &static_cast<DerivedType*>(this)->dereference();
 		}
 		reference operator*() {
-			return static_cast<DerivedType*>(this)->Dereference();
+			return static_cast<DerivedType*>(this)->dereference();
 		}
 		reference operator[](difference_type index) {
 			return *(*this + index);

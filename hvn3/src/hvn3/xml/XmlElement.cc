@@ -35,16 +35,16 @@ namespace hvn3 {
 		bool XmlElement::HasAttribute(const std::string& attribute) const {
 			return _attributes.count(attribute) > 0;
 		}
-		XmlElement::attributes_collection_type::iterator XmlElement::AttributesBegin() {
+		XmlElement::attribute_iterator XmlElement::AttributesBegin() {
 			return _attributes.begin();
 		}
-		XmlElement::attributes_collection_type::iterator XmlElement::AttributesEnd() {
+		XmlElement::attribute_iterator XmlElement::AttributesEnd() {
 			return _attributes.end();
 		}
-		XmlElement::attributes_collection_type::const_iterator XmlElement::AttributesBegin() const {
+		XmlElement::const_attribute_iterator XmlElement::AttributesBegin() const {
 			return _attributes.begin();
 		}
-		XmlElement::attributes_collection_type::const_iterator XmlElement::AttributesEnd() const {
+		XmlElement::const_attribute_iterator XmlElement::AttributesEnd() const {
 			return _attributes.end();
 		}
 		XmlElement* XmlElement::AddChild(const std::string& tag) {
@@ -57,16 +57,16 @@ namespace hvn3 {
 		bool XmlElement::HasChildren() const {
 			return _child_nodes.size() > 0;
 		}
-		XmlElement::child_collection_type::iterator XmlElement::ChildrenBegin() {
+		XmlElement::child_iterator XmlElement::ChildrenBegin() {
 			return _child_nodes.begin();
 		}
-		XmlElement::child_collection_type::iterator XmlElement::ChildrenEnd() {
+		XmlElement::child_iterator XmlElement::ChildrenEnd() {
 			return _child_nodes.end();
 		}
-		XmlElement::child_collection_type::const_iterator XmlElement::ChildrenBegin() const {
+		XmlElement::const_child_iterator XmlElement::ChildrenBegin() const {
 			return _child_nodes.begin();
 		}
-		XmlElement::child_collection_type::const_iterator XmlElement::ChildrenEnd() const {
+		XmlElement::const_child_iterator XmlElement::ChildrenEnd() const {
 			return _child_nodes.end();
 		}
 		std::string& XmlElement::operator[](const std::string& attribute) {

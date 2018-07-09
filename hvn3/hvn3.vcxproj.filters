@@ -801,6 +801,9 @@
     <ClInclude Include="include\hvn3\xml\XmlLexer.h">
       <Filter>include\xml</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\utility\IteratorWrapper.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

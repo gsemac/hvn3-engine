@@ -13,16 +13,14 @@ namespace hvn3 {
 	class RoomExporter {
 
 	public:
-		typedef std::function<void(const IObject*, Xml::XmlElement*)> object_exporter_callback_type;
+		typedef std::function<void(const IObject*, Xml::XmlElement*)> object_export_callback_type;
 
-		RoomExporter(const IRoom& room) :
-			_room(&room) {
-		}
+		RoomExporter() {}
 
-		void SetObjectExporterCallback(object_exporter_callback_type&& callback) {
-			_object_exporter_callback = std::move(callback);
+		void SetObjectExportCallback(object_export_callback_type&& callback) {
+			_object_export_callback = std::move(callback);
 		}
-		bool Save(const std::string& file_path) const {
+		bool Save(const IRoom& room, const std::string& file_path) const {
 
 			std::stringstream buf;
 
@@ -30,17 +28,17 @@ namespace hvn3 {
 			writer.Root().SetAttribute("version", "1.0");
 
 			// Write tiles.
-			if (_room->Tiles().LayerCount() > 0) {
+			if (room.Tiles().LayerCount() > 0) {
 
 				Xml::XmlElement* tiles_node = writer.Root().AddChild("tiles");
-				tiles_node->SetAttribute("layers", _room->Tiles().LayerCount());
+				tiles_node->SetAttribute("layers", room.Tiles().LayerCount());
 
 				// Write each layer as a separate node.
-				for (auto i = _room->Tiles().LayersBegin(); i != _room->Tiles().LayersEnd(); ++i) {
+				for (auto i = room.Tiles().LayersBegin(); i != room.Tiles().LayersEnd(); ++i) {
 					Xml::XmlElement* layer_node = writer.Root().AddChild("layer");
 					layer_node->SetAttribute("depth", i->first);
-					for (int j = 0; j < _room->Tiles().Count(); ++j)
-						buf << _room->Tiles().AtIndex(j, i->first).id << ',';
+					for (int j = 0; j < room.Tiles().Count(); ++j)
+						buf << room.Tiles().AtIndex(j, i->first).id << ',';
 					layer_node->SetText(buf.str());
 					buf.clear();
 				}
@@ -48,11 +46,11 @@ namespace hvn3 {
 			}
 
 			// Write objects.
-			if (_room->Objects().Count() > 0) {
+			if (room.Objects().Count() > 0) {
 
 				Xml::XmlElement* objects_node = writer.Root().AddChild("objects");
 
-				_room->Objects().ForEach([&](const IObject* obj) {
+				room.Objects().ForEach([&](const IObject* obj) {
 					Xml::XmlElement* object_node = objects_node->AddChild("object");
 					_exportObject(obj, object_node);
 				});
@@ -64,13 +62,12 @@ namespace hvn3 {
 		}
 
 	private:
-		const IRoom* _room;
-		object_exporter_callback_type _object_exporter_callback;
+		object_export_callback_type _object_export_callback;
 
 		void _exportObject(const IObject* object, Xml::XmlElement* node) const {
 
-			if (_object_exporter_callback)
-				_object_exporter_callback(object, node);
+			if (_object_export_callback)
+				_object_export_callback(object, node);
 			else {
 				node->SetAttribute("id", object->Id());
 				node->SetAttribute("x", object->X());

@@ -213,6 +213,7 @@
     <ClInclude Include="include\hvn3\utility\Hash.h" />
     <ClInclude Include="include\hvn3\utility\AbstractIterator.h" />
     <ClInclude Include="include\hvn3\utility\IteratorTemplate.h" />
+    <ClInclude Include="include\hvn3\utility\IteratorWrapper.h" />
     <ClInclude Include="include\hvn3\utility\MD5.h" />
     <ClInclude Include="include\hvn3\utility\Padding.h" />
     <ClInclude Include="include\hvn3\utility\Quadtree.h" />
