@@ -1,8 +1,10 @@
 #include "hvn3/exceptions/Exception.h"
-#include "hvn3/xml/XmlUtils.h"
 #include "hvn3/xml/XmlDocument.h"
+#include "hvn3/xml/XmlLexer.h"
+#include "hvn3/xml/XmlUtils.h"
 #include <fstream>
 #include <sstream>
+#include <stack>
 
 namespace hvn3 {
 	namespace Xml {
@@ -47,11 +49,20 @@ namespace hvn3 {
 			if (!buf.is_open())
 				throw System::IO::IOException("File could not be opened.");
 
+			XmlDocument doc("");
+			doc._read(buf);
+
+			return doc;
+
+		}
+		XmlDocument XmlDocument::Parse(const std::string& xml) {
+
+			std::stringstream buf(xml);
 
 			XmlDocument doc("");
-			XmlElement* current_node = nullptr;
-			
+			doc._read(buf);
 
+			return doc;
 
 		}
 
@@ -118,6 +129,57 @@ namespace hvn3 {
 
 			buf << '\n';
 			_writeIndent(buf);
+
+		}
+		void XmlDocument::_read(std::istream& buf) {
+
+			std::stack<XmlElement*> nodes;
+			std::string current_attribute;
+			bool parsing_error = false;
+
+			XmlLexerToken token;
+			XmlLexer lexer(buf);
+
+			while (!parsing_error && lexer >> token) {
+
+				switch (token.type) {
+
+				case XmlLexerTokenType::OpenTag:
+					if (nodes.size() <= 0) {
+						nodes.push(&Root());
+						nodes.top()->SetTag(token.value);
+					}
+					else
+						nodes.push(nodes.top()->AddChild(token.value));
+					break;
+
+				case XmlLexerTokenType::CloseTag:
+					nodes.pop();
+					break;
+
+				case XmlLexerTokenType::AttributeName:
+					current_attribute = token.value;
+					break;
+
+				case XmlLexerTokenType::AttributeValue:
+					if (current_attribute.length() <= 0)
+						parsing_error = true;
+					else if (nodes.size() > 0) {
+						nodes.top()->SetAttribute(current_attribute, token.value);
+						current_attribute.clear();
+					}
+					break;
+
+				case XmlLexerTokenType::Text:
+					if (nodes.size() <= 0)
+						parsing_error = true;
+					else
+						nodes.top()->SetText(token.value);
+					break;
+
+				}
+
+			}
 
 		}
 

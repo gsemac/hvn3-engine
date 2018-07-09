@@ -17,6 +17,7 @@ namespace hvn3 {
 			std::string ToString() const;
 
 			static XmlDocument Open(const std::string& file_path);
+			static XmlDocument Parse(const std::string& xml);
 
 		private:
 			XmlElement _root;
@@ -27,6 +28,8 @@ namespace hvn3 {
 			void _writeNode(std::ostream& buf, const XmlElement& node) const;
 			void _writeIndent(std::ostream& buf) const;
 			void _writeNewLine(std::ostream& buf) const;
+
+			void _read(std::istream& buf);
 
 		};
 
