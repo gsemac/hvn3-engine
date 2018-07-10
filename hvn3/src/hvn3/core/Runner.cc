@@ -553,10 +553,9 @@ namespace hvn3 {
 			if (room.Views().Count() > 0) {
 
 				// If the mouse is inside of a View, position it relative to the View (where 0, 0 is the top left of the View).
-				for (size_t i = room.Views().Count() - 1; i >= 0; --i) {
-
-					// Get a reference to the view so it's easy to access.
-					View& view = room.GetViews().At(i);
+				for (size_t i = room.Views().Count(); i-- > 0u;) {
+					
+					const View& view = room.Views().At(i);
 
 					// If the View is disabled or doesn't track the mouse position, do nothing.
 					if (!view.MouseTrackingEnabled() || !view.Enabled())
@@ -588,7 +587,10 @@ namespace hvn3 {
 					// Translate it according to the view's offset.
 					pos += view.Position();
 
+					// Set the mouse position to the new position.
 					MouseMutator().SetPosition(pos.X(), pos.Y());
+
+					// Note that this only needs to be done once, for the top-most view that the mouse is on, so the loop can be exited early.
 					break;
 
 				}

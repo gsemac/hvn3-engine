@@ -16,6 +16,9 @@ namespace hvn3 {
 
 		virtual void Update(ViewUpdateEventArgs& e) = 0;
 
+		virtual void ForEach(const std::function<void(View&)>& func) = 0;
+		virtual void ForEach(const std::function<void(const View&)>& func) const = 0;
+
 	};
 
 }
