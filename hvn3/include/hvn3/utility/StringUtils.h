@@ -60,15 +60,19 @@ namespace hvn3 {
 		bool Equals(const std::string& lhs, const std::string& rhs, bool ignore_case = false);
 		bool NextSubstringEquals(const std::string& str, size_t pos, const std::string& substr);
 
+
+
 		// Attempts to construct an object from a string. Uses constructor if available, otherwise uses std::stringstream.
 		template <typename T>
-		typename std::enable_if<std::is_constructible<T, const std::string&>::value, T>::type ConvertFromString(const std::string& in) {
+		typename std::enable_if<std::is_constructible<T, const std::string&>::value, T>::type ParseString(const std::string& in) {
 			return T(in);
 		}
 		// Attempts to construct an object from a string. Uses constructor if available, otherwise uses std::stringstream.
 		template <typename T>
-		typename std::enable_if<std::is_arithmetic<T>::value, T>::type ConvertFromString(const std::string& in) {
+		typename std::enable_if<std::is_arithmetic<T>::value, T>::type ParseString(const std::string& in) {
+
 			std::stringstream reader;
+
 			if (in.size() >= 2)
 				if (in[0] == '0') {
 					if (std::tolower(in[1]) == 'x')
@@ -76,10 +80,14 @@ namespace hvn3 {
 					else
 						reader << std::oct;
 				}
+
 			reader << in;
+
 			T out;
 			reader >> out;
+
 			return out;
+
 		}
 
 	};

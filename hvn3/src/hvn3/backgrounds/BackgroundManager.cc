@@ -1,5 +1,6 @@
 #include "hvn3/backgrounds/BackgroundManager.h"
 #include "hvn3/views/View.h"
+#include <cassert>
 
 namespace hvn3 {
 
@@ -27,6 +28,9 @@ namespace hvn3 {
 
 	}
 	const Background& BackgroundManager::At(size_t index) const {
+
+		assert(index >= 0);
+		assert(index < _backgrounds.size());
 
 		return _backgrounds[index];
 

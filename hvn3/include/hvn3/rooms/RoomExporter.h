@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/backgrounds/IBackgroundManager.h"
 #include "hvn3/objects/IObject.h"
 #include "hvn3/objects/IObjectManager.h"
 #include "hvn3/rooms/IRoom.h"
@@ -10,69 +11,73 @@
 
 namespace hvn3 {
 
+	template <typename ResourceAdapterT>
 	class RoomExporter {
 
 	public:
-		typedef std::function<void(const IObject*, Xml::XmlElement*)> object_export_callback_type;
-
 		RoomExporter() {}
 
-		void SetObjectExportCallback(object_export_callback_type&& callback) {
-			_object_export_callback = std::move(callback);
-		}
-		bool Save(const IRoom& room, const std::string& file_path) const {
-
-			std::stringstream buf;
-
+		bool Export(const IRoom& room, const std::string& file_path) const {
+			
 			Xml::XmlDocument writer("map");
 			writer.Root().SetAttribute("version", "1.0");
+			writer.Root().SetAttribute("width", room.Width());
+			writer.Root().SetAttribute("height", room.Height());
 
-			// Write tiles.
-			if (room.Tiles().LayerCount() > 0) {
-
-				Xml::XmlElement* tiles_node = writer.Root().AddChild("tiles");
-				tiles_node->SetAttribute("layers", room.Tiles().LayerCount());
-
-				// Write each layer as a separate node.
-				for (auto i = room.Tiles().LayersBegin(); i != room.Tiles().LayersEnd(); ++i) {
-					Xml::XmlElement* layer_node = writer.Root().AddChild("layer");
-					layer_node->SetAttribute("depth", i->first);
-					for (int j = 0; j < room.Tiles().Count(); ++j)
-						buf << room.Tiles().AtIndex(j, i->first).id << ',';
-					layer_node->SetText(buf.str());
-					buf.clear();
-				}
-
-			}
-
-			// Write objects.
-			if (room.Objects().Count() > 0) {
-
-				Xml::XmlElement* objects_node = writer.Root().AddChild("objects");
-
-				room.Objects().ForEach([&](const IObject* obj) {
-					Xml::XmlElement* object_node = objects_node->AddChild("object");
-					_exportObject(obj, object_node);
-				});
-
-			}
+			_writeBackgrounds(room, &writer.Root());
+			_writeTiles(room, &writer.Root());
+			_writeObjects(room, &writer.Root());
 
 			return writer.Save(file_path);
 
 		}
 
 	private:
-		object_export_callback_type _object_export_callback;
+		ResourceAdapterT adapter;
 
-		void _exportObject(const IObject* object, Xml::XmlElement* node) const {
+		void _writeBackgrounds(const IRoom& room, Xml::XmlElement* root) const {
 
-			if (_object_export_callback)
-				_object_export_callback(object, node);
-			else {
-				node->SetAttribute("id", object->Id());
-				node->SetAttribute("x", object->X());
-				node->SetAttribute("y", object->Y());
+			if (room.Backgrounds().Count() <= 0)
+				return;
+
+			Xml::XmlElement* backgrounds_node = root->AddChild("backgrounds");
+
+			for (size_t i = 0; i < room.Backgrounds().Count(); ++i) {
+
+				const Background& bg = room.Backgrounds().At(i);
+
+				Xml::XmlElement* node = backgrounds_node->AddChild("background");
+				
+				adapter.ExportBackground(bg, *node);
+
 			}
+
+
+		}
+		void _writeTiles(const IRoom& room, Xml::XmlElement* root) const {
+
+			if (room.Tiles().LayerCount() <= 0)
+				return;
+
+			Xml::XmlElement* tiles_node = root->AddChild("tiles");
+
+			adapter.ExportTiles(room.Tiles(), *tiles_node);			
+
+		}
+		void _writeObjects(const IRoom& room, Xml::XmlElement* root) const {
+
+			if (room.Objects().Count() <= 0)
+				return;
+
+			Xml::XmlElement* objects_node = root->AddChild("objects");
+
+			room.Objects().ForEach([&](const IObject* obj) {
+
+				Xml::XmlElement* object_node = objects_node->AddChild("object");
+
+				adapter.ExportObject(*obj, *object_node);
+
+			});
 
 		}
 

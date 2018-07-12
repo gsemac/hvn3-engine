@@ -1,6 +1,6 @@
 #include "hvn3/views/ViewManager.h"
 #include "hvn3/rooms/RoomBase.h"
-#include "hvn3/utility/Assert.h"
+#include <cassert>
 
 namespace hvn3 {
 
@@ -18,14 +18,16 @@ namespace hvn3 {
 	}
 	View& ViewManager::At(size_t index) {
 
-		HVN3_ASSERT(index >= 0 && index < _views.size(), "The given index is outside the range of views.");
+		assert(index >= 0);
+		assert(index < _views.size());
 
 		return _views[index];
 
 	}
 	const View& ViewManager::At(size_t index) const {
 
-		HVN3_ASSERT(index >= 0 && index < _views.size(), "The given index is outside the range of views.");
+		assert(index >= 0);
+		assert(index < _views.size());
 
 		return _views[index];
 

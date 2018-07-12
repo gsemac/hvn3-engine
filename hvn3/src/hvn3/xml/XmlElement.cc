@@ -29,7 +29,7 @@ namespace hvn3 {
 
 			assert(iter != _attributes.end());
 
-			return iter->first;
+			return iter->second;
 
 		}
 		bool XmlElement::HasAttribute(const std::string& attribute) const {
@@ -52,6 +52,15 @@ namespace hvn3 {
 			_child_nodes.push_back(std::move(std::make_unique<XmlElement>(tag)));
 
 			return _child_nodes.back().get();
+
+		}
+		XmlElement* XmlElement::GetChild(const std::string& tag) {
+
+			for (auto i = _child_nodes.begin(); i != _child_nodes.end(); ++i)
+				if (i->get()->Tag() == tag)
+					return i->get();
+
+			return nullptr;
 
 		}
 		bool XmlElement::HasChildren() const {
