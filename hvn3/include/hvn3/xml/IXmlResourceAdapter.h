@@ -15,7 +15,7 @@ namespace hvn3 {
 		class IXmlResourceAdapter {
 
 		public:
-			virtual void ExportObject(const IObject& data, Xml::XmlElement& node) const = 0;
+			virtual void ExportObject(const IObject* data, Xml::XmlElement& node) const = 0;
 			virtual void ExportBackground(const Background& data, Xml::XmlElement& node) const = 0;
 			virtual void ExportTiles(const TileManager& data, Xml::XmlElement& node) const = 0;
 			virtual void ExportView(const View& data, Xml::XmlElement& node) const = 0;

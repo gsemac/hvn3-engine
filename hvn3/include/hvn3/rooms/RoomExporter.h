@@ -77,7 +77,7 @@ namespace hvn3 {
 
 				Xml::XmlElement* object_node = objects_node->AddChild("object");
 
-				adapter.ExportObject(*obj, *object_node);
+				adapter.ExportObject(obj, *object_node);
 
 			});
 

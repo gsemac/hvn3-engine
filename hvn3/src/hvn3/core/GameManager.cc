@@ -3,6 +3,7 @@
 #include "hvn3/core/Runner.h"
 #include "hvn3/exceptions/Exception.h"
 #include "hvn3/graphics/Bitmap.h"
+#include <cassert>
 
 namespace hvn3 {
 
@@ -65,18 +66,14 @@ namespace hvn3 {
 	RoomManager& GameManager::GetRoomManager() {
 		return _room_manager;
 	}
-	ManagerBase& GameManager::GetManager(ManagerId id) {
-		
-		ManagerBase* ptr = GetRoomManager().GetRoom().GetManagerById<ManagerBase>(id);
-
-		if (ptr == nullptr)
-			throw System::NullReferenceException();
-
-		return *ptr;
+	ManagerBase* GameManager::GetManager(ManagerId id) {
 		
 		// #todo Implement for access to "global" managers.
-		throw System::NotImplementedException();
 
+		ManagerBase* ptr = GetRoomManager().GetRoom().GetManagerById<ManagerBase>(id);
+		
+		return ptr;
+		
 	}
 
 

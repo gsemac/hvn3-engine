@@ -30,7 +30,7 @@ namespace hvn3 {
 
 
 
-		void XmlResourceAdapterBase::ExportObject(const IObject& data, Xml::XmlElement& node) const {
+		void XmlResourceAdapterBase::ExportObject(const IObject* data, Xml::XmlElement& node) const {
 			WriteDefaultProperties(data, node);
 		}
 		void XmlResourceAdapterBase::ExportBackground(const Background& data, Xml::XmlElement& node) const {
@@ -49,7 +49,7 @@ namespace hvn3 {
 
 			IObject* ptr = new BadObject;
 
-			ReadDefaultProperties(*ptr, node);
+			ReadDefaultProperties(ptr, node);
 
 			return ptr;
 
@@ -94,11 +94,11 @@ namespace hvn3 {
 		}
 
 
-		void XmlResourceAdapterBase::WriteDefaultProperties(const IObject& data, Xml::XmlElement& node) const {
+		void XmlResourceAdapterBase::WriteDefaultProperties(const IObject* data, Xml::XmlElement& node) const {
 
-			node.SetAttribute("id", data.Id());
-			node.SetAttribute("x", data.X());
-			node.SetAttribute("y", data.Y());
+			node.SetAttribute("id", data->Id());
+			node.SetAttribute("x", data->X());
+			node.SetAttribute("y", data->Y());
 
 		}
 		void XmlResourceAdapterBase::WriteDefaultProperties(const Background& data, Xml::XmlElement& node) const {
@@ -182,10 +182,13 @@ namespace hvn3 {
 
 		}
 
-		void XmlResourceAdapterBase::ReadDefaultProperties(IObject& data, const Xml::XmlElement& node) const {
+		void XmlResourceAdapterBase::ReadDefaultProperties(IObject* data, const Xml::XmlElement& node) const {
 
-			data.SetX(StringUtils::ParseString<float>(node["x"]));
-			data.SetY(StringUtils::ParseString<float>(node["y"]));
+			if (data == nullptr)
+				return;
+
+			data->SetX(StringUtils::ParseString<float>(node["x"]));
+			data->SetY(StringUtils::ParseString<float>(node["y"]));
 
 		}
 		void XmlResourceAdapterBase::ReadDefaultProperties(Background& data, const Xml::XmlElement& node) const {

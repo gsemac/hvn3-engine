@@ -22,7 +22,7 @@ namespace hvn3 {
 		protected:
 			virtual IGameManager& GetGameManager() = 0;
 			virtual RoomManager& GetRoomManager() = 0;
-			virtual ManagerBase& GetManager(ManagerId id) = 0;
+			virtual ManagerBase* GetManager(ManagerId id) = 0;
 
 		};
 

@@ -37,8 +37,8 @@ namespace hvn3 {
 		Display& GetDisplay();
 
 		template <typename manager_type>
-		manager_type& Get() {
-			return static_cast<manager_type&>(_context_provider->GetManager(manager_type::Id()));
+		manager_type* Get() {
+			return static_cast<manager_type*>(_context_provider->GetManager(manager_type::Id()));
 		}
 
 		explicit operator bool() const;
