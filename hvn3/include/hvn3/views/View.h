@@ -14,8 +14,10 @@ namespace hvn3 {
 		View(const PointF& position, const SizeF& size, const PointF& port_position, const SizeF& port_size);
 		View(const PointF& view_position, const SizeF& view_size, const PointF& port_position, const SizeF& port_size, IObject* following, const SizeF& border);
 
+		void SetFollowing(IObject* following);
 		void SetFollowing(IObject* following, float border_width, float border_height);
 		void SetFollowing(IObject* following, const SizeF& border);
+		const IObject* GetFollowing() const;
 		IObject* GetFollowing();
 
 		RectangleF Region() const;

@@ -5,6 +5,7 @@
 #include "hvn3/rooms/IRoom.h"
 #include "hvn3/tilesets/TileManager.h"
 #include "hvn3/utility/StringUtils.h"
+#include "hvn3/views/IViewManager.h"
 #include "hvn3/xml/XmlDocument.h"
 #include <functional>
 #include <string>
@@ -26,16 +27,18 @@ namespace hvn3 {
 			int width, height;
 			width = StringUtils::ParseString<int>(doc.Root()["width"]);
 			height = StringUtils::ParseString<int>(doc.Root()["height"]);
-			
+
 			RoomPtr room(new RoomT(SizeI(width, height)));
 
 			Xml::XmlElement* backgrounds_node = doc.Root().GetChild("backgrounds");
 			Xml::XmlElement* tiles_node = doc.Root().GetChild("tiles");
 			Xml::XmlElement* objects_node = doc.Root().GetChild("objects");
+			Xml::XmlElement* views_node = doc.Root().GetChild("views");
 
 			_readBackgrounds(*room, backgrounds_node);
 			_readTiles(*room, tiles_node);
 			_readObjects(*room, objects_node);
+			_readViews(*room, views_node);
 
 			return room;
 
@@ -77,6 +80,31 @@ namespace hvn3 {
 
 				if (object != nullptr)
 					room.GetObjects().Add(object);
+
+			}
+
+		}
+		void _readViews(IRoom& room, const Xml::XmlElement* node) const {
+
+			if (node == nullptr)
+				return;
+
+			for (auto i = node->ChildrenBegin(); i != node->ChildrenEnd(); ++i) {
+
+				View view = adapter.ImportView(*i->get());
+
+				if ((*i)->HasAttribute("following_id")) {
+
+					ObjectId id = StringUtils::ParseString<ObjectId>((*i)->GetAttribute("following_id"));
+
+					IObject* object = room.GetObjects().Find(id);
+
+					if (object != nullptr)
+						view.SetFollowing(object);
+
+				}
+				
+				room.GetViews().Add(view);
 
 			}
 

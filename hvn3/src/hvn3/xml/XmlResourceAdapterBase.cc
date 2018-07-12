@@ -3,6 +3,7 @@
 #include "hvn3/objects/Object.h"
 #include "hvn3/tilesets/TileManager.h"
 #include "hvn3/utility/StringUtils.h"
+#include "hvn3/views/View.h"
 #include "hvn3/xml/XmlResourceAdapterBase.h"
 #include "hvn3/xml/XmlElement.h"
 
@@ -38,6 +39,9 @@ namespace hvn3 {
 		void XmlResourceAdapterBase::ExportTiles(const TileManager& data, Xml::XmlElement& node) const {
 			WriteDefaultProperties(data, node);
 		}
+		void XmlResourceAdapterBase::ExportView(const View& data, Xml::XmlElement& node) const {
+			WriteDefaultProperties(data, node);
+		}
 
 		IObject* XmlResourceAdapterBase::ImportObject(const Xml::XmlElement& node) const {
 
@@ -68,6 +72,25 @@ namespace hvn3 {
 		}
 		void XmlResourceAdapterBase::ImportTiles(TileManager& out, const Xml::XmlElement& node) const {
 			ReadDefaultProperties(out, node);
+		}
+		View XmlResourceAdapterBase::ImportView(const Xml::XmlElement& node) const {
+
+			float x = StringUtils::ParseString<float>(node["x"]);
+			float y = StringUtils::ParseString<float>(node["y"]);
+			float width = StringUtils::ParseString<float>(node["width"]);
+			float height = StringUtils::ParseString<float>(node["height"]);
+
+			float port_x = StringUtils::ParseString<float>(node["port_x"]);
+			float port_y = StringUtils::ParseString<float>(node["port_y"]);
+			float port_width = StringUtils::ParseString<float>(node["port_width"]);
+			float port_height = StringUtils::ParseString<float>(node["port_height"]);
+
+			View view(x, y, width, height, port_x, port_y, port_width, port_height);
+
+			XmlResourceAdapterBase::ReadDefaultProperties(view, node);
+
+			return view;
+
 		}
 
 
@@ -132,6 +155,30 @@ namespace hvn3 {
 				buf.clear();
 
 			}
+
+		}
+		void XmlResourceAdapterBase::WriteDefaultProperties(const View& data, Xml::XmlElement& node) const {
+
+			node.SetAttribute("x", data.X());
+			node.SetAttribute("y", data.Y());
+			node.SetAttribute("width", data.Size().width);
+			node.SetAttribute("height", data.Size().height);
+
+			node.SetAttribute("port_x", data.Port().X());
+			node.SetAttribute("port_y", data.Port().Y());
+			node.SetAttribute("port_width", data.Port().Width());
+			node.SetAttribute("port_height", data.Port().Height());
+
+			node.SetAttribute("hbor", data.HorizontalBorder());
+			node.SetAttribute("vbor", data.VerticalBorder());
+
+			node.SetAttribute("angle", data.Angle());
+
+			if (data.GetFollowing() != nullptr)
+				node.SetAttribute("following_id", data.GetFollowing()->Id());
+
+			node.SetAttribute("enabled", data.Enabled());
+			node.SetAttribute("mouse_tracking", data.MouseTrackingEnabled());
 
 		}
 
@@ -215,6 +262,22 @@ namespace hvn3 {
 
 
 			}
+
+		}
+		void XmlResourceAdapterBase::ReadDefaultProperties(View& data, const Xml::XmlElement& node) const {
+
+			bool enabled = StringUtils::ParseString<bool>(node["enabled"]);
+			bool mouse_tracking = StringUtils::ParseString<bool>(node["mouse_tracking"]);
+			
+			float hbor = StringUtils::ParseString<float>(node["hbor"]);
+			float vbor = StringUtils::ParseString<float>(node["vbor"]);
+			//ObjectId following_id = StringUtils::ParseString<ObjectId>(node["following_id"]);
+
+			data.SetEnabled(enabled);
+			data.SetMouseTrackingEnabled(mouse_tracking);
+
+			// The object being followed is set later by the room importer.
+			data.SetFollowing(nullptr, hbor, vbor);
 
 		}
 

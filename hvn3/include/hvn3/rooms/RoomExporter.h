@@ -4,6 +4,7 @@
 #include "hvn3/objects/IObjectManager.h"
 #include "hvn3/rooms/IRoom.h"
 #include "hvn3/tilesets/TileManager.h"
+#include "hvn3/views/IViewManager.h"
 #include "hvn3/xml/XmlDocument.h"
 #include <functional>
 #include <string>
@@ -27,6 +28,7 @@ namespace hvn3 {
 			_writeBackgrounds(room, &writer.Root());
 			_writeTiles(room, &writer.Root());
 			_writeObjects(room, &writer.Root());
+			_writeViews(room, &writer.Root());
 
 			return writer.Save(file_path);
 
@@ -76,6 +78,22 @@ namespace hvn3 {
 				Xml::XmlElement* object_node = objects_node->AddChild("object");
 
 				adapter.ExportObject(*obj, *object_node);
+
+			});
+
+		}
+		void _writeViews(const IRoom& room, Xml::XmlElement* root) const {
+
+			if (room.Views().Count() <= 0)
+				return;
+
+			Xml::XmlElement* views_node = root->AddChild("views");
+
+			room.Views().ForEach([=,this](const View& view) {
+
+				Xml::XmlElement* view_node = views_node->AddChild("view");
+
+				adapter.ExportView(view, *view_node);
 
 			});
 

@@ -42,6 +42,9 @@ namespace hvn3 {
 
 	}
 
+	void View::SetFollowing(IObject* following) {
+		_following = following;
+	}
 	void View::SetFollowing(IObject* following, float border_width, float border_height) {
 		_following = following;
 		_horizontal_border = border_width;
@@ -49,6 +52,9 @@ namespace hvn3 {
 	}
 	void View::SetFollowing(IObject* following, const SizeF& border) {
 		SetFollowing(following, border.Width(), border.Height());
+	}
+	const IObject* View::GetFollowing() const {
+		return _following;
 	}
 	IObject* View::GetFollowing() {
 		return _following;
