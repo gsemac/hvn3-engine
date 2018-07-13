@@ -189,7 +189,7 @@ namespace hvn3 {
 			}
 
 			// If the distance is 0, just return if the current position is free.
-			if (Math::IsZero(distance, _precision))
+			if (Math::IsZero(distance))
 				return !PlaceFreeIf(body, body->Position(), manifold, condition);
 
 			float distance_per_step = Math::Min(body->AABB().Width(), body->AABB().Height(), distance);

@@ -9,13 +9,13 @@ namespace hvn3 {
 
 	PlatformerControlsHelper::PlatformerControlsHelper(Object* object, float speed, int platform_category_bits) :
 		DirectionalControlsHelper(2, speed),
-		_gravity(0.0f, 16.0f) {
+		_gravity(0.0f, 512.0f) {
 
 		_object = object;
 		_platform_category_bits = platform_category_bits;
 		_flags = static_cast<PlatformerControlsHelperFlags>(0);
 
-		_jump_height = 32.0f;
+		_jump_height = 192.0f;
 		_step_height = 0.0f;
 		_climb_height = 0.0f;
 		_is_grounded = false;
@@ -81,6 +81,9 @@ namespace hvn3 {
 		float xdir = static_cast<float>(xvel < 0.0f ? DIRECTION_LEFT : DIRECTION_RIGHT);
 		float ydir = static_cast<float>(yvel < 0.0f ? DIRECTION_UP : DIRECTION_DOWN);
 
+		// Note that at higher framerates, gravity will be applied more often, and therefore needs to be scaled immediately.
+		yvel += _gravity.Y() * deltaf;
+
 		// Update horizontal position.
 
 		if (xvel != 0.0f) {
@@ -92,29 +95,29 @@ namespace hvn3 {
 
 			while (xleft > 0.0f) {
 
-				// Check for downward slopes.
-				while (!Math::IsZero(xleft)) {
+				//// Check for downward slopes.
+				//while (!Math::IsZero(xleft)) {
 
-					PointF ptry = pprev + PointF(Math::Min(1.0f, xleft) * Math::Sign(xvel), 1.0f);
+				//	PointF ptry = pprev + PointF(Math::Min(1.0f, xleft) * Math::Sign(xvel), 1.0f);
 
-					if (_object->Context().GetCollisions().PlaceFree(body, ptry, _platform_category_bits)) {
+				//	if (_object->Context().GetCollisions().PlaceFree(body, ptry, _platform_category_bits)) {
 
-						_object->SetPosition(ptry);
-						xleft -= Math::Geometry::PointDistance(ptry, pprev);
+				//		_object->SetPosition(ptry);
+				//		xleft -= Math::Geometry::PointDistance(ptry, pprev);
 
-						break;
+				//		break;
 
-					}
-					else
-						slope_success = false;
+				//	}
+				//	else
+				//		slope_success = false;
 
-					if (!slope_success)
-						break;
+				//	if (!slope_success)
+				//		break;
 
-				}
+				//}
 
-				if (xleft < 0.0f || Math::IsZero(xleft))
-					break;
+				//if (xleft < 0.0f || Math::IsZero(xleft))
+				//	break;
 
 				// Handle normal horizontal movement.
 
@@ -130,18 +133,22 @@ namespace hvn3 {
 
 				slope_success = false;
 
-				for (float i = 0.0f; i <= _step_height; i += 1.0f) {
+				if (yvel >= 0.0f) {
 
-					PointF ptry = pprev + PointF(Math::Min(1.0f, xleft) * Math::Sign(xvel), -i);
+					for (float i = 0.0f; i <= _step_height; i += 1.0f) {
 
-					if (_object->Context().GetCollisions().PlaceFree(body, ptry, _platform_category_bits)) {
-						
-						_object->SetPosition(ptry);
-						xleft -= Math::Geometry::PointDistance(ptry, pprev);
+						PointF ptry = pprev + PointF(Math::Min(1.0f, xleft) * Math::Sign(xvel), -i);
 
-						slope_success = true;
+						if (_object->Context().GetCollisions().PlaceFree(body, ptry, _platform_category_bits)) {
 
-						break;
+							_object->SetPosition(ptry);
+							xleft -= Math::Geometry::PointDistance(ptry, pprev);
+
+							slope_success = true;
+
+							break;
+
+						}
 
 					}
 
@@ -158,8 +165,6 @@ namespace hvn3 {
 		}
 
 		// Update vertical position.
-
-		yvel += _gravity.Y();
 
 		if (_object->Context().GetCollisions().MoveContact(body, ydir, Math::Abs(yvel) * deltaf, _platform_category_bits)) {
 			yvel = 0.0f;
@@ -179,7 +184,7 @@ namespace hvn3 {
 		DirectionalControlsHelper::OnKeyPressed(e);
 
 		if (e.Key() == GetKeyData(KEYDIR_UP).key && _is_grounded) {
-			SetVelocity(Vector2d(Velocity().X(), -(_gravity.Y() + _jump_height) * 6.0f));
+			SetVelocity(Vector2d(Velocity().X(), -_jump_height));
 			_setGrounded(false);
 		}
 
