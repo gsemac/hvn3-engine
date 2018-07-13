@@ -627,12 +627,6 @@
     <ClInclude Include="include\hvn3\core\IContextProvider.h">
       <Filter>include\core</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\helper\DirectionalControlsHelper.h">
-      <Filter>include\helper</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\helper\PlatformerControlsHelper.h">
-      <Filter>include\helper</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\rooms\BasicLightingManager.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
@@ -809,6 +803,12 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\xml\XmlResourceAdapterBase.h">
       <Filter>include\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\helper\DirectionalControlsHelper.h">
+      <Filter>include\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\helper\PlatformerControlsHelper.h">
+      <Filter>include\helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1104,12 +1104,6 @@
     <ClCompile Include="src\hvn3\core\Context.cc">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\helper\DirectionalControlsHelper.cc">
-      <Filter>src\helper</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\helper\PlatformerControlsHelper.cc">
-      <Filter>src\helper</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\rooms\BasicLightingManager.cc">
       <Filter>src\rooms</Filter>
     </ClCompile>
@@ -1217,6 +1211,12 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\xml\XmlResourceAdapterBase.cc">
       <Filter>src\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\helper\DirectionalControlsHelper.cc">
+      <Filter>src\helper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\helper\PlatformerControlsHelper.cc">
+      <Filter>src\helper</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
