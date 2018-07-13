@@ -17,6 +17,10 @@ namespace hvn3 {
 
 	}
 	bool SoundInstance::IsPlaying() const {
+
+		if (get() == nullptr)
+			return false;
+
 		return al_get_sample_instance_playing(get());
 	}
 	void SoundInstance::Pause() {
