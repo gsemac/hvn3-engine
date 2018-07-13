@@ -5,9 +5,6 @@
 #include "hvn3/math/GeometryUtils.h"
 #include "hvn3/objects/Object.h"
 
-
-#include "hvn3/utility/Stopwatch.h"
-
 namespace hvn3 {
 
 	PlatformerControlsHelper::PlatformerControlsHelper(Object* object, float speed, int platform_category_bits) :
