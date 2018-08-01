@@ -117,6 +117,7 @@
     <ClInclude Include="include\hvn3\gui2\DefaultWidgetRenderer.h" />
     <ClInclude Include="include\hvn3\gui2\WidgetRenderArgs.h" />
     <ClInclude Include="include\hvn3\gui2\Window.h" />
+    <ClInclude Include="include\hvn3\helper\Camera2d.h" />
     <ClInclude Include="include\hvn3\helper\DirectionalControlsHelper.h" />
     <ClInclude Include="include\hvn3\helper\DirectionalInputListener.h" />
     <ClInclude Include="include\hvn3\helper\PlatformerControlsHelper.h" />

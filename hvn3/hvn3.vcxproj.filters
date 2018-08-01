@@ -810,6 +810,9 @@
     <ClInclude Include="include\hvn3\helper\PlatformerControlsHelper.h">
       <Filter>include\helper</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\helper\Camera2d.h">
+      <Filter>include\helper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

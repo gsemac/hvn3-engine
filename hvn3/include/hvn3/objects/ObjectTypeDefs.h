@@ -10,7 +10,7 @@ namespace hvn3 {
 	typedef std::shared_ptr<IObject> ObjectPtr;
 	typedef std::shared_ptr<const IObject> ConstObjectPtr;
 	typedef int ObjectId;
-	
+
 	enum : ObjectId {
 		Self = -1,
 		Other = -2,
@@ -24,5 +24,12 @@ namespace hvn3 {
 		EnablePhysics = 4
 	};
 	ENABLE_BITFLAG_OPERATORS(ObjectFlags)
+
+	struct BuiltInObjects {
+		enum : ObjectId {
+			// Object ID for helper object "Camera2d" (Camera2d.h).
+			CAMERA_2D = -999
+		};
+	};
 
 }
