@@ -8,7 +8,6 @@ namespace hvn3 {
 	class Object;
 
 	typedef std::shared_ptr<IObject> ObjectPtr;
-	typedef std::shared_ptr<const IObject> ConstObjectPtr;
 	typedef int ObjectId;
 
 	enum : ObjectId {

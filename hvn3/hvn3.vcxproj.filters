@@ -813,6 +813,9 @@
     <ClInclude Include="include\hvn3\helper\Camera2d.h">
       <Filter>include\helper</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\objects\ObjectHandle.h">
+      <Filter>include\objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -164,6 +164,7 @@
     <ClInclude Include="include\hvn3\objects\Object.h" />
     <ClInclude Include="include\hvn3\objects\ObjectBase.h" />
     <ClInclude Include="include\hvn3\objects\ObjectEventArgs.h" />
+    <ClInclude Include="include\hvn3\objects\ObjectHandle.h" />
     <ClInclude Include="include\hvn3\objects\ObjectManager.h" />
     <ClInclude Include="include\hvn3\objects\ObjectTypeDefs.h" />
     <ClInclude Include="include\hvn3\physics\BasicPhysicsManager.h" />
