@@ -13,6 +13,7 @@ namespace hvn3 {
 		_target = nullptr;
 		_target_id = NoOne;
 		_pan_mode = PanMode::EaseOut;
+		_tilt_enabled = false;
 
 	}
 	Camera2d::Camera2d(float x, float y) :
@@ -39,15 +40,35 @@ namespace hvn3 {
 	void Camera2d::OnUpdate(UpdateEventArgs& e) {
 
 		PointF to = _getTargetPosition() + _offset;
-
 		float dist = hvn3::Math::Geometry::PointDistance(to, Position());
+		float max_speed = 0.0f;
 
-		float max_speed = dist / 10.0f;
+		switch (_pan_mode) {
+		case PanMode::Immediate:
+			max_speed = dist;
+			break;
+		case PanMode::EaseOut:
+			max_speed = dist / 10.0f;
+			break;
+		case PanMode::Linear:
+			max_speed = Math::Min(dist, 10.0f); // #todo Make this customizable
+			break;
+		}
 
 		ObjectBase::SetPosition(hvn3::Math::Geometry::PointInDirection(Position(), to, max_speed));
 
-		Context().GetViews().At(0).SetAngle(Context().GetViews().At(0).Angle() + Math::Signum(to.x - X())*(dist / 180));
-		Context().GetViews().At(0).SetAngle(Context().GetViews().At(0).Angle() * (.95));
+		// Rotate the view according to the horizontal speed of the camera.
+
+		if (_tilt_enabled) {
+
+			View* view = _getView();
+
+			if (view != nullptr) {
+				view->SetAngle(view->Angle() + Math::Signum(to.x - X()) * (dist / 180.0f));
+				view->SetAngle(view->Angle() * 0.95f);
+			}
+
+		}
 
 	}
 	void Camera2d::SetPosition(const PointF& position) {
@@ -83,6 +104,12 @@ namespace hvn3 {
 	}
 	void Camera2d::SetOffset(const PointF& offset) {
 		_offset = offset;
+	}
+	void Camera2d::SetPanMode(PanMode value) {
+		_pan_mode = value;
+	}
+	void Camera2d::SetTiltEnabled(bool value) {
+		_tilt_enabled = value;
 	}
 
 	PointF Camera2d::_getTargetPosition() {
@@ -121,6 +148,15 @@ namespace hvn3 {
 	}
 	bool Camera2d::_hasFollowingTarget() {
 		return !(_target_id == NoOne && _target == nullptr);
+	}
+	View* Camera2d::_getView() {
+
+		for (size_t i = 0; i < Context().GetViews().Count(); ++i)
+			if (Context().GetViews().At(i).GetFollowing() == this)
+				return &Context().GetViews().At(i);
+
+		return nullptr;
+
 	}
 
 }

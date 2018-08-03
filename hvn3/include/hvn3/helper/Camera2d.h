@@ -4,6 +4,8 @@
 
 namespace hvn3 {
 
+	class View;
+
 	class Camera2d : 
 		public ObjectBase {
 
@@ -27,15 +29,19 @@ namespace hvn3 {
 		void SetFollowing(ObjectId target_id);
 		void SetOffset(float offset_x, float offset_y);
 		void SetOffset(const PointF& offset);
+		void SetPanMode(PanMode value);
+		void SetTiltEnabled(bool value);
 
 	private:
 		PointF _offset;
 		IObject* _target;
 		ObjectId _target_id;
 		PanMode _pan_mode;
+		bool _tilt_enabled;
 
 		PointF _getTargetPosition();
 		bool _hasFollowingTarget();
+		View* _getView();
 
 	};
 
