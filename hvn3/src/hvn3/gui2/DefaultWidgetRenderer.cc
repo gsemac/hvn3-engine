@@ -93,7 +93,7 @@ namespace hvn3 {
 				float text_y = widget.Position().Y() + (widget.Size().Height() / 2.0f) - (text_h / 2.0f);
 
 				if (text_offset_d != nullptr) {
-					PointF text_offset = System::Graphics::TweenTraits<PointF>::Interpolate(text_offset_d->from, text_offset_d->to, text_offset_d->Percentage(), hvn3::Graphics::TweenFunction::Linear);
+					PointF text_offset = Graphics::TweenTraits<PointF>::Interpolate(text_offset_d->from, text_offset_d->to, text_offset_d->Percentage(), hvn3::Graphics::EasingFunction::Linear);
 					text_x += text_offset.x;
 					text_y += text_offset.y;
 				}
@@ -119,7 +119,7 @@ namespace hvn3 {
 				float text_y = widget.Position().Y(); // +(widget.Size().Height() / 2.0f) - (text_h / 2.0f);
 
 				if (text_offset_d != nullptr) {
-					PointF text_offset = System::Graphics::TweenTraits<PointF>::Interpolate(text_offset_d->from, text_offset_d->to, text_offset_d->Percentage(), hvn3::Graphics::TweenFunction::Linear);
+					PointF text_offset = Graphics::TweenTraits<PointF>::Interpolate(text_offset_d->from, text_offset_d->to, text_offset_d->Percentage(), hvn3::Graphics::EasingFunction::Linear);
 					text_x += text_offset.x;
 					text_y += text_offset.y;
 				}

@@ -68,7 +68,7 @@ namespace hvn3 {
 				auto it = _map->find(prop);
 				if (it == _map->end())
 					it = _map->insert(std::make_pair(prop, TransitionData<T>())).first;
-				it->second.from = System::Graphics::TweenTraits<T>::Interpolate(it->second.from, it->second.to, it->second.Percentage(), Graphics::TweenFunction::Linear);
+				it->second.from = Graphics::TweenTraits<T>::Interpolate(it->second.from, it->second.to, it->second.Percentage(), Graphics::EasingFunction::Linear);
 				it->second.to = to;
 				it->second.progress = 0.0f;
 				it->second.duration = duration;

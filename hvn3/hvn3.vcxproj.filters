@@ -1224,5 +1224,8 @@
     <ClCompile Include="src\hvn3\helper\PlatformerControlsHelper.cc">
       <Filter>src\helper</Filter>
     </ClCompile>
+    <ClCompile Include="src\hvn3\helper\Camera2d.cc">
+      <Filter>src\helper</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

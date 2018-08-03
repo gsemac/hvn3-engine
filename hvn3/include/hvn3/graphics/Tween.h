@@ -1,40 +1,66 @@
 #pragma once
 #include "hvn3/graphics/Color.h"
+#include <cmath>
 #include <type_traits>
 
 namespace hvn3 {
 
 	namespace Graphics {
-		enum class TweenFunction {
+
+		enum class EasingFunction {
+			None,
+			EaseOutSin,
 			Linear
 		};
-	}
 
-	namespace System {
-		namespace Graphics {
-			template<typename T>
-			struct TweenTraits {
-				static T Interpolate(T from, T to, float progress, hvn3::Graphics::TweenFunction func) {
-					switch (func) {
-					case hvn3::Graphics::TweenFunction::Linear:
-						return from + progress * (to - from);
-						break;
-					default:
-						return from;
-					}
-				}
-			};
-			template<>
-			struct TweenTraits<Color> {
-				static Color Interpolate(const Color& from, const Color& to, float progress, hvn3::Graphics::TweenFunction func) {
-					// At the moment, colors only use linear interpolation.
-					return Color::Merge(from, to, progress);
-				}
-			};
-		}
-	}
+		template<typename T>
+		struct TweenTraits {
+			static T Interpolate(const T& from, const T& to, float time, hvn3::Graphics::EasingFunction func) {
 
-	namespace Graphics {
+				float amount = 1.0f;
+
+				time = Math::Clamp(time, 0.0f, 1.0f);
+
+				switch (func) {
+
+				case EasingFunction::None:
+					amount = amount > 0.0f ? 1.0f : 0.0f;
+					break;
+				case EasingFunction::EaseOutSin:
+					amount = static_cast<float>(std::sin(Math::Pi / 2.0 * time));
+					break;
+				case EasingFunction::Linear:
+					amount = time;
+					break;
+
+				}
+
+				return from + (amount * (to - from));
+
+			}
+		};
+
+		template<>
+		struct TweenTraits<Color> {
+			static Color Interpolate(const Color& from, const Color& to, float time, hvn3::Graphics::EasingFunction func) {
+
+				// At the moment, colors only use linear interpolation.
+
+				switch (func) {
+
+				case EasingFunction::None:
+					return to;
+					break;
+				case EasingFunction::Linear:
+					return Color::Merge(from, to, time);
+					break;
+				default:
+					return to;
+
+				}
+
+			}
+		};
 
 		template <typename EasingFromType, typename EasingToType = EasingFromType>
 		class Tween {
@@ -44,9 +70,9 @@ namespace hvn3 {
 				Tween(from, to, 10) {
 			}
 			Tween(EasingFromType from, EasingToType to, int duration) :
-				Tween(from, to, duration, TweenFunction::Linear) {
+				Tween(from, to, duration, EasingFunction::Linear) {
 			}
-			Tween(EasingFromType from, EasingToType to, int duration, TweenFunction func) :
+			Tween(EasingFromType from, EasingToType to, int duration, EasingFunction func) :
 				_from(from), _to(to) {
 				_step = 0;
 				_duration = duration;
@@ -54,7 +80,7 @@ namespace hvn3 {
 			}
 
 			const EasingFromType Value() const {
-				return System::Graphics::TweenTraits<EasingFromType>::Interpolate(_from, _to, Progress(), _func);
+				return Graphics::TweenTraits<EasingFromType>::Interpolate(_from, _to, Progress(), _func);
 			}
 
 			bool Step() {
@@ -87,7 +113,7 @@ namespace hvn3 {
 			EasingFromType _from;
 			EasingToType _to;
 			int _step, _duration;
-			TweenFunction _func;
+			EasingFunction _func;
 
 		};
 

@@ -102,14 +102,24 @@ namespace hvn3 {
 		// If the object id we're looking for differs from the last one, reset the found index.
 		if (_last_found_id != id)
 			_last_found_index = 0;
+		else
+			++_last_found_index;
+
 		_last_found_id = id;
 
 		// Find the next instance, starting at the last found index.
-		for (size_t i = _last_found_index + 1; i < _objects.size(); ++i)
+		for (size_t i = _last_found_index; i < _objects.size(); ++i)
 			if (_objects[i].object->Id() == id)
 				return _objects[i].object.get();
 
+		// If we didn't find anything, start back at the beginning of the collection.
+		if (_last_found_index > 0)
+			for (size_t i = 0; i < _last_found_index; ++i)
+				if (_objects[i].object->Id() == id)
+					return _objects[i].object.get();
+
 		// If we didn't find any more instances, reset the last found index and return nullptr.
+		_last_found_id = NoOne;
 		_last_found_index = 0;
 
 		return nullptr;

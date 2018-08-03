@@ -97,29 +97,19 @@ namespace hvn3 {
 
 	}
 	void ObjectBase::SetX(float x) {
-
-		_position.SetX(x);
-
+		SetPosition(PointF(x, Y()));
 	}
 	void ObjectBase::SetY(float y) {
-
-		_position.SetY(y);
-
+		SetPosition(PointF(X(), y));
 	}
 	PointF ObjectBase::Position() const {
-
 		return _position;
-
 	}
 	void ObjectBase::SetPosition(const PointF& position) {
-
 		_position = position;
-
 	}
 	void ObjectBase::SetPosition(float x, float y) {
-
-		_position = PointF(x, y);
-
+		SetPosition(PointF(x, y));
 	}
 
 	hvn3::Context ObjectBase::Context() {

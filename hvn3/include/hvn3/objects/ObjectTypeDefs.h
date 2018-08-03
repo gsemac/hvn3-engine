@@ -24,7 +24,7 @@ namespace hvn3 {
 	};
 	ENABLE_BITFLAG_OPERATORS(ObjectFlags)
 
-	struct BuiltInObjects {
+	struct SystemObjects {
 		enum : ObjectId {
 			// Object ID for helper object "Camera2d" (Camera2d.h).
 			CAMERA_2D = -999

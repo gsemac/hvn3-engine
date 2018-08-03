@@ -301,6 +301,7 @@
     <ClCompile Include="src\hvn3\gui2\WidgetManager.cc" />
     <ClCompile Include="src\hvn3\gui2\WidgetRendererRenderArgs.cc" />
     <ClCompile Include="src\hvn3\gui2\Window.cc" />
+    <ClCompile Include="src\hvn3\helper\Camera2d.cc" />
     <ClCompile Include="src\hvn3\helper\DirectionalControlsHelper.cc" />
     <ClCompile Include="src\hvn3\helper\DirectionalInputListener.cc" />
     <ClCompile Include="src\hvn3\helper\PlatformerControlsHelper.cc" />

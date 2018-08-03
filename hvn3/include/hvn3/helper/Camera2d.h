@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/graphics/Tween.h"
 #include "hvn3/objects/ObjectBase.h"
 
 namespace hvn3 {
@@ -7,6 +8,12 @@ namespace hvn3 {
 		public ObjectBase {
 
 	public:
+		enum class PanMode {
+			Immediate,
+			Linear,
+			EaseOut
+		};
+		
 		Camera2d();
 		Camera2d(float x, float y);
 		Camera2d(const PointF& position);
@@ -14,14 +21,21 @@ namespace hvn3 {
 		Camera2d(ObjectId target_id);
 
 		void OnUpdate(UpdateEventArgs& e) override;
+		void SetPosition(const PointF& position) override;
 
-		void SetTarget(IObject* target);
-		void SetTarget(ObjectId target_id);
+		void SetFollowing(IObject* target);
+		void SetFollowing(ObjectId target_id);
+		void SetOffset(float offset_x, float offset_y);
+		void SetOffset(const PointF& offset);
 
 	private:
-		PointF _position;
+		PointF _offset;
 		IObject* _target;
 		ObjectId _target_id;
+		PanMode _pan_mode;
+
+		PointF _getTargetPosition();
+		bool _hasFollowingTarget();
 
 	};
 
