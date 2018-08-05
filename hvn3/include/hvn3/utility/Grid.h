@@ -14,6 +14,7 @@ namespace hvn3 {
 		float Height() const;
 		float CellWidth() const;
 		float CellHeight() const;
+		SizeF CellSize() const;
 
 	private:
 		unsigned int _rows;

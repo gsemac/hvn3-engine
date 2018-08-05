@@ -76,6 +76,10 @@ namespace hvn3 {
 		return (a.Width() == b.Width() && a.Height() == b.Height());
 
 	}
+	template <typename T>
+	bool operator!=(const Size<T>& lhs, const Size<T>& rhs) {
+		return !(lhs == rhs);
+	}
 
 	template <typename T>
 	std::ostream& operator<< (std::ostream& stream, const Size<T>& size) {

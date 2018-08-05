@@ -42,5 +42,8 @@ namespace hvn3 {
 		return _cell_height;
 
 	}
+	SizeF Grid::CellSize() const {
+		return SizeF(_cell_width, _cell_height);
+	}
 
 }
