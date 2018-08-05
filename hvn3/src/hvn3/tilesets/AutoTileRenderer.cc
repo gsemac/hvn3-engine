@@ -281,12 +281,12 @@ namespace hvn3 {
 
 	}
 
-	AUTOTILE_INDEX AutoTileRenderer::ComputeAutoTileIndex(TileMap& map, int x, int y, TileMap::layer_id depth) {
+	AutoTileRenderer::AUTOTILE_INDEX AutoTileRenderer::ComputeAutoTileIndex(TileMap& map, int x, int y, TileMap::layer_id depth) {
 
 		// Get the tile data.
 		TileMap::Tile tile = map.At(x, y, depth);
 		TileMap::tile_id tile_index = tile.TileIndex();
-
+	
 		// Check surrounding tiles for the same tile index.
 		bool n = map.Exists(x, y - 1, depth, tile_index);
 		bool e = map.Exists(x + 1, y, depth, tile_index);

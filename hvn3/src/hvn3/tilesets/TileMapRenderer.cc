@@ -9,7 +9,7 @@ namespace hvn3 {
 	void TileMapRenderer::AddTileset(const Tileset& tileset) {
 		_tilesets.push_back(tileset);
 	}
-	void TileMapRenderer::Render(Graphics::Graphics& canvas, const TileMap& tilemap) {
+	void TileMapRenderer::Draw(Graphics::Graphics& canvas, const TileMap& tilemap) {
 
 		// If there are no tilesets to use, do nothing.
 		if (_tilesets.size() == 0)
@@ -49,12 +49,12 @@ namespace hvn3 {
 		canvas.HoldBitmapDrawing(false);
 
 	}
-	void TileMapRenderer::Render(Graphics::Graphics& canvas, const TileMap& tilemap, float x, float y) {
+	void TileMapRenderer::Draw(Graphics::Graphics& canvas, const TileMap& tilemap, float x, float y) {
 
 
 
 	}
-	void TileMapRenderer::Render(Graphics::Graphics& canvas, const TileMap& tilemap, const RectangleF& region) {
+	void TileMapRenderer::Draw(Graphics::Graphics& canvas, const TileMap& tilemap, const RectangleF& region) {
 
 
 

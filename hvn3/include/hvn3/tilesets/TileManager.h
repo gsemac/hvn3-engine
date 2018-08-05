@@ -10,11 +10,14 @@ namespace hvn3 {
 	class TileManager :
 		public ManagerBase,
 		public TileMap,
-		public TileMapRenderer {
+		public TileMapRenderer,
+		public IDrawable {
 
 	public:
 		TileManager(const SizeI& room_size, const SizeI& tile_size);
-		
+
+		void OnDraw(DrawEventArgs& e) override;
+
 		static ManagerId Id();
 
 	private:

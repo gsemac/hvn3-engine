@@ -1,6 +1,7 @@
 #include "hvn3/exceptions/Exception.h"
 #include "hvn3/tilesets/TileMap.h"
 #include "hvn3/utility/BitUtils.h"
+#include <cassert>
 #include <iostream>
 
 #define GET_TILE_INDEX(x, y) y * _width + x
@@ -32,7 +33,12 @@ namespace hvn3 {
 		// Add the layer if it does not already exist.
 		AddLayer(depth);
 
-		_layers[depth][GET_TILE_INDEX(x, y)] = tile;
+		int index = GET_TILE_INDEX(x, y);
+
+		assert(index >= 0);
+		assert(static_cast<size_t>(index) < _layers[depth].size());
+
+		_layers[depth][index] = tile;
 
 	}
 	TileMap::Tile TileMap::AtIndex(int n) const {
@@ -124,10 +130,10 @@ namespace hvn3 {
 
 		auto it = _layers.find(depth);
 		if (it == _layers.end())
-			throw System::ArgumentException("Tile depth is invalid.");
+			return 0;
 
 		if (n < 0 || static_cast<layer_map_type::size_type>(n) >= it->second.size())
-			throw System::ArgumentException("Tile index is out of bounds.");
+			return 0;
 
 		return it->second[n];
 

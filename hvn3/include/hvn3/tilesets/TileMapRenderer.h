@@ -12,9 +12,9 @@ namespace hvn3 {
 
 		void AddTileset(const Tileset& tileset);
 
-		void Render(Graphics::Graphics& canvas, const TileMap& tilemap);
-		void Render(Graphics::Graphics& canvas, const TileMap& tilemap, float x, float y);
-		void Render(Graphics::Graphics& canvas, const TileMap& tilemap, const RectangleF& region);
+		void Draw(Graphics::Graphics& canvas, const TileMap& tilemap);
+		void Draw(Graphics::Graphics& canvas, const TileMap& tilemap, float x, float y);
+		void Draw(Graphics::Graphics& canvas, const TileMap& tilemap, const RectangleF& region);
 
 		const std::vector<Tileset>& Tilesets() const;	
 
