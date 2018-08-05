@@ -1,4 +1,5 @@
 #include "hvn3/utility/Grid.h"
+#include <algorithm>
 
 namespace hvn3 {
 
@@ -6,9 +7,24 @@ namespace hvn3 {
 
 		_rows = rows;
 		_columns = columns;
-
 		_cell_width = cell_width;
 		_cell_height = cell_height;
+
+	}
+	Grid::Grid(SizeF grid_size, SizeF cell_size, bool roundUpRowsAndColumns) {
+
+		float rows = grid_size.height / cell_size.height;
+		float cols = grid_size.width / cell_size.width;
+
+		if (roundUpRowsAndColumns) {
+			rows = (std::ceil)(rows);
+			cols = (std::ceil)(cols);
+		}
+
+		_rows = static_cast<unsigned int>(rows);
+		_columns = static_cast<unsigned int>(cols);
+		_cell_width = cell_size.width;
+		_cell_height = cell_size.height;
 
 	}
 

@@ -9,6 +9,8 @@ namespace hvn3 {
 			_last_cell_size(0.0f, 0.0f) {
 
 			SetCellColor(Color::Transparent);
+
+			_cell_margin = 0.0f;
 			_buffer_invalidated = true;
 
 		}

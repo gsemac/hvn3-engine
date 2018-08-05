@@ -8,6 +8,7 @@ namespace hvn3 {
 
 	public:
 		Grid(unsigned int rows, unsigned int columns, float cell_width, float cell_height);
+		Grid(SizeF grid_size, SizeF cell_size, bool roundUpRowsAndColumns);
 		unsigned int Rows() const;
 		unsigned int Columns() const;
 		float Width() const;
