@@ -211,6 +211,9 @@ namespace hvn3 {
 		}
 		void Runner::Loop() {
 
+			// Allows the game loop to be resumed if it was stopped previously.
+			_exit_loop = false;
+
 			// Render once before starting the loop so there's something to see if the framerate is low.
 			OnRedraw();
 
@@ -226,8 +229,12 @@ namespace hvn3 {
 				WaitForEvent();
 
 			// Call the destructor so resources can be disposed before the framework is shut down.
+			// #todo Don't do this, because if this happens the loop can't be resumed later
 			Runner::~Runner();
 
+		}
+		void Runner::Stop() {
+			_exit_loop = true;
 		}
 		void Runner::DrawFps() {
 
@@ -246,7 +253,6 @@ namespace hvn3 {
 			_graphics.DrawText(10, 10, ss.str().c_str(), *SystemFont(), Color::White);
 
 		}
-
 		void Runner::OnTimerTick(Event& ev) {
 
 			// Update the state of the game.

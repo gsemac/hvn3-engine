@@ -6,7 +6,8 @@
 
 namespace hvn3 {
 
-	class GameManager : public IGameManager {
+	class GameManager : 
+		public IGameManager {
 
 	public:
 		GameManager();
@@ -20,6 +21,8 @@ namespace hvn3 {
 		void Initialize(int argc, char* argv[]) override;
 		// Runs the main game loop.
 		void Loop() override;
+		// Terminates the main game loop.
+		void Exit() override;
 		// Deinitializes the game and underlying framework.
 		void Shutdown() override;
 

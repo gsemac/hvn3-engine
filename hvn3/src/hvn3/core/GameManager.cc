@@ -38,6 +38,9 @@ namespace hvn3 {
 		_runner.Loop();
 
 	}
+	void GameManager::Exit() {
+		_runner.Stop();
+	}
 	void GameManager::Shutdown() {
 
 		_onShutdown();

@@ -10,6 +10,7 @@ namespace hvn3 {
 	class Display;
 	template<typename T>
 	class ICollisionManager;
+	class IGameManager;
 	class IObject;
 	class IObjectManager;
 	class IRoom;
@@ -35,6 +36,7 @@ namespace hvn3 {
 		System::IContextProvider& GetContextProvider();
 		System::Properties& GetProperties();
 		Display& GetDisplay();
+		IGameManager& GetGameManager();
 
 		template <typename manager_type>
 		manager_type* Get() {

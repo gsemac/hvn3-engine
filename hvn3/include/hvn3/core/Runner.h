@@ -25,6 +25,8 @@ namespace hvn3 {
 
 			// Processes the main game loop.
 			virtual void Loop();
+			// Terminates the main game loop.
+			virtual void Stop();
 
 		protected:
 			// Renders the current game state to the display surface.

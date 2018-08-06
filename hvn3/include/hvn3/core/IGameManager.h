@@ -20,6 +20,8 @@ namespace hvn3 {
 		virtual void Initialize(int argc, char* argv[]) = 0;
 		// Runs the main game loop.
 		virtual void Loop() = 0;
+		// Terminates the main game loop.
+		virtual void Exit() = 0;
 		// Deinitializes the game and underlying framework.
 		virtual void Shutdown() = 0;
 

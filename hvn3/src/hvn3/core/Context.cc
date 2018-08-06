@@ -46,6 +46,9 @@ namespace hvn3 {
 	Display& Context::GetDisplay() {
 		return GetContextProvider().GetGameManager().GetDisplay();
 	}
+	IGameManager& Context::GetGameManager() {
+		return GetContextProvider().GetGameManager();
+	}
 	Context::operator bool() const {
 		return _context_provider != nullptr;
 	}
