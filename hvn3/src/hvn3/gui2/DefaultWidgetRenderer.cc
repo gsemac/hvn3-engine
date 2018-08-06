@@ -39,7 +39,9 @@ namespace hvn3 {
 			else if (widget.Identifier() == "contextmenu")
 				DrawContextMenu(canvas, widget, args);
 			else if (widget.Identifier() == "contextmenuitem")
-				DrawMenuStripItem(canvas, widget, args);
+				DrawContextMenuItem(canvas, widget, args);
+			else if (widget.Identifier() == "contextmenuitemseparator")
+				DrawContextMenuItemSeparator(canvas, widget, args);
 			else if (widget.Identifier() == "scrollbar")
 				DrawWidgetBase(canvas, widget, DEFAULT_UPPER_GRADIENT_COLOR, DEFAULT_LOWER_GRADIENT_COLOR);
 			else if (widget.Identifier() == "thumb")
@@ -133,15 +135,15 @@ namespace hvn3 {
 
 			if (_default_font) {
 
-				float text_x = widget.Position().X() + (widget.Size().Width() / 2.0f);
-				float text_y = widget.Position().Y() + (widget.Size().Height() / 2.0f);
+				float text_x = widget.Position().X() + (widget.Size().width / 2.0f);
+				float text_y = widget.Position().Y() + (widget.Size().height / 2.0f);
 
 				if (HasFlag(widget.State(), WidgetState::Hover)) {
 					canvas.DrawSolidRectangle(RectangleF(widget.Position(), widget.Size()), Color(DEFAULT_HIGHLIGHT_COLOR, 128));
 					canvas.DrawRectangle(RectangleF(widget.Position(), widget.Size()), Color(DEFAULT_HIGHLIGHT_COLOR, 128), 1.0f);
 				}
 
-				canvas.DrawText(text_x, text_y, widget.Text(), _default_font, Color(224, 224, 224), Alignment::Both);
+				canvas.DrawText(text_x, text_y, widget.Text(), _default_font, Color(224, 224, 224), Alignment::Center | Alignment::Middle);
 
 			}
 
@@ -151,9 +153,37 @@ namespace hvn3 {
 			canvas.DrawSolidRectangle(RectangleF(widget.Position(), widget.Size()), DEFAULT_UPPER_GRADIENT_COLOR);
 			canvas.DrawRectangle(RectangleF(widget.Position(), widget.Size()), Color::Black, 1.0f);
 
+			float icon_padding = 30.0f;
+
+			canvas.DrawLine(widget.Position().x + icon_padding, widget.Position().y + 3.0f, widget.Position().x + icon_padding, widget.Position().y + widget.Height() - 3.0f, Color::LtGrey, 1.0f);
+
 		}
 		void DefaultWidgetRenderer::DrawContextMenuItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
-			DrawMenuStripItem(canvas, widget, args);
+			
+			if (_default_font) {
+
+				float text_x = widget.Position().X();
+				float text_y = widget.Position().Y() + (widget.Size().Height() / 2.0f);
+
+				text_x += 30.0f + 4.0f; // icon padding + left text padding
+
+				if (HasFlag(widget.State(), WidgetState::Hover)) {
+					canvas.DrawSolidRectangle(RectangleF(widget.Position(), widget.Size()), Color(DEFAULT_HIGHLIGHT_COLOR, 128));
+					canvas.DrawRectangle(RectangleF(widget.Position(), widget.Size()), Color(DEFAULT_HIGHLIGHT_COLOR, 128), 1.0f);
+				}
+
+				canvas.DrawText(text_x, text_y, widget.Text(), _default_font, Color(224, 224, 224), Alignment::Left | Alignment::Middle);
+
+			}
+
+		}
+		void DefaultWidgetRenderer::DrawContextMenuItemSeparator(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
+
+			float y = widget.Position().y + widget.Height() / 2.0f;
+			float icon_padding = 30.0f;
+
+			canvas.DrawLine(widget.Position().x + icon_padding, y, widget.Position().x + widget.Width(), y, Color::LtGrey, 1.0f);
+
 		}
 		void DefaultWidgetRenderer::DrawListBox(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
 

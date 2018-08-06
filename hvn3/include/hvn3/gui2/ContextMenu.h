@@ -5,7 +5,8 @@
 namespace hvn3 {
 	namespace Gui {
 
-		class ContextMenuItem : public WidgetBase {
+		class ContextMenuItem :
+			public WidgetBase {
 
 		public:
 			ContextMenuItem(const String& text) {
@@ -13,6 +14,16 @@ namespace hvn3 {
 				SetIdentifier("contextmenuitem");
 				SetText(text);
 
+			}
+
+		};
+
+		class ContextMenuItemSeparator :
+			public WidgetBase {
+
+		public:
+			ContextMenuItemSeparator() {
+				SetIdentifier("contextmenuitemseparator");
 			}
 
 		};
@@ -45,6 +56,9 @@ namespace hvn3 {
 				return item;
 
 			}
+			void AddSeparator() {
+				AddItem(std::unique_ptr<IWidget>(new ContextMenuItemSeparator));
+			}
 
 			WidgetManager& GetChildren() override {
 				return _child_manager;
@@ -73,8 +87,21 @@ namespace hvn3 {
 				float max_width = 0.0f;
 				float max_height = 0.0f;
 				float padding = 4.0f;
+				float icon_padding = 30.0f + 4.0f; // offer 4 pixels text padding after the icon area
+				float separator_height = 5.0f;
+
+				int item_count = 0;
+				int separator_count = 0;
+				
 
 				for (auto i = _child_manager.GetWidgets().begin(); i != _child_manager.GetWidgets().end(); ++i) {
+
+					if (i->widget->Identifier() == "contextmenuitemseparator") {
+						++separator_count;
+						continue;
+					}
+
+					++item_count;
 
 					SizeF text_size = GetManager()->Renderer().MeasureString(i->widget->Text());
 
@@ -86,7 +113,10 @@ namespace hvn3 {
 
 				}
 
-				SetSize(max_width + (padding * 2.0f), (max_height + (padding * 2.0f)) * _child_manager.Count());
+				float item_width = max_width + (padding * 2.0f) + icon_padding;
+				float item_height = max_height + (padding * 2.0f);
+
+				SetSize(item_width, item_height * item_count + separator_height * separator_count);
 				_child_manager.SetDockableRegion(RectangleF(Size()));
 
 				// Update the dimensions of all items.
@@ -96,10 +126,15 @@ namespace hvn3 {
 
 				for (auto i = _child_manager.GetWidgets().begin(); i != _child_manager.GetWidgets().end(); ++i) {
 
-					i->widget->SetSize(max_width + (padding * 2.0f), max_height + (padding * 2.0f));
+					i->widget->SetWidth(item_width);
 					i->widget->SetPosition(0.0f, y);
 
-					y += margin_y + max_height + (padding * 2.0f);
+					if (i->widget->Identifier() == "contextmenuitemseparator")
+						i->widget->SetHeight(separator_height);
+					else
+						i->widget->SetHeight(item_height);
+
+					y += margin_y + i->widget->Height();
 
 				}
 

@@ -24,6 +24,7 @@ namespace hvn3 {
 			void DrawMenuStripItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
 			void DrawContextMenu(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
 			void DrawContextMenuItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
+			void DrawContextMenuItemSeparator(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
 			void DrawListBox(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
 			void DrawListBoxItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
 			void InitRenderArgs(const IWidget& widget, WidgetRenderArgs& args) const;

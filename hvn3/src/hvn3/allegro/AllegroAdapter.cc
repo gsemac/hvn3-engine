@@ -114,7 +114,7 @@ namespace hvn3 {
 				al_flags |= ALLEGRO_ALIGN_LEFT;
 			if (HasFlag(flags, Alignment::Right))
 				al_flags |= ALLEGRO_ALIGN_RIGHT;
-			if (HasFlag(flags, Alignment::Center) || HasFlag(flags, Alignment::Both))
+			if (HasFlag(flags, Alignment::Center))
 				al_flags |= ALLEGRO_ALIGN_CENTER;
 
 			return al_flags;

@@ -42,12 +42,18 @@ namespace hvn3 {
 	float SecondsToFrames(float fps, float sec);
 
 	enum class Alignment {
+		// Aligns horizontally to the left.
 		Left = 1,
+		// Aligns horizontally to the center.
 		Center = 2,
+		// Aligns horizontally to the right.
 		Right = 4,
+		// Aligns vertically to the top.
 		Top = 8,
-		Bottom = 16,
-		Both = 32
+		// Aligns vertically to the middle.
+		Middle = 16,
+		// Aligns vertically to the bottom.
+		Bottom = 32
 	};
 	ENABLE_BITFLAG_OPERATORS(Alignment)
 

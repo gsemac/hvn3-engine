@@ -291,8 +291,10 @@ namespace hvn3 {
 
 			PrepareDrawingSurface();
 
-			if (HasFlag(alignment, Alignment::Both))
+			if (HasFlag(alignment, Alignment::Middle))
 				y -= font.Ascent() / 2.0f;
+			else if (HasFlag(alignment, Alignment::Bottom))
+				y -= font.Ascent();
 
 			al_draw_text(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, System::AllegroAdapter::ToAlignmentFlags(alignment), text);
 
@@ -306,8 +308,10 @@ namespace hvn3 {
 
 			PrepareDrawingSurface();
 
-			if (HasFlag(alignment, Alignment::Both))
+			if (HasFlag(alignment, Alignment::Middle))
 				y -= font.Ascent() / 2.0f;
+			else if(HasFlag(alignment, Alignment::Bottom))
+				y -= font.Ascent();
 
 			al_draw_ustr(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, System::AllegroAdapter::ToAlignmentFlags(alignment), text.AlPtr());
 

@@ -819,6 +819,9 @@
     <ClInclude Include="include\hvn3\graphics\GridRendererExt.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\DialogBox.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
