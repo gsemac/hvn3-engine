@@ -90,6 +90,8 @@ namespace hvn3 {
 			IWidget* _owner;
 			std::unordered_map<IWidget*, WidgetManager*> _child_managers;
 			bool _update_required_before_draw;
+			
+			float _modal_dialog_background_alpha; // stores alpha for background fading animation when showing modal dialog
 			std::vector<IWidget*> _modal_dialogs; // collection of modal dialogs currently being displayed
 
 			static IWidget* _widget_focused; // Only one widget can be focused at a time among all managers.

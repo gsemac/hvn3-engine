@@ -179,16 +179,16 @@ namespace hvn3 {
 
 			// Draw the top-most modal dialog.
 			if (_modal_dialogs.size() > 0 && _modal_dialogs.back()->Visible()) {
-				
+
 				e.Graphics().SetClip(DockableRegion());
-				e.Graphics().DrawSolidRectangle(DockableRegion(), Color(Color::Black, 128));
+				e.Graphics().DrawSolidRectangle(DockableRegion(), Color::FromArgbf(0, 0, 0, _modal_dialog_background_alpha));
 
 				for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
 					if (i->widget.get() == _modal_dialogs.back()) {
 						_renderWidget(e, *i);
 						break;
 					}
-				
+
 			}
 
 			// Restore the former graphics state.
@@ -240,6 +240,10 @@ namespace hvn3 {
 			}
 
 			_update_required_before_draw = false;
+
+			// Update the background fade animation if we're showing a modal dialog.
+			if (_modal_dialogs.size() > 0 && _modal_dialog_background_alpha < 0.5f)
+				_modal_dialog_background_alpha = Math::Min(0.5f, _modal_dialog_background_alpha + static_cast<float>(2.0 * e.Delta()));
 
 		}
 
@@ -395,6 +399,7 @@ namespace hvn3 {
 			_owner = nullptr;
 			_update_required_before_draw = true;
 			_smallest_z_depth = HVN3_DEFAULT_WIDGET_Z;
+			_modal_dialog_background_alpha = 0.0f;
 
 		}
 		WidgetManager::widget_collection_type::iterator WidgetManager::_findWidget(IWidget* widget) {
