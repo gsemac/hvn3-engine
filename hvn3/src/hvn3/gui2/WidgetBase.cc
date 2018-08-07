@@ -246,6 +246,14 @@ namespace hvn3 {
 			//	_child_control_manager.SetRenderer(_parent_manager->GetRenderer());
 
 		}
+		IWidgetRenderer* WidgetBase::GetRenderer() const {
+			
+			if (GetManager() == nullptr)
+				return nullptr;
+
+			return GetManager()->GetRenderer().get();
+
+		}
 
 		void WidgetBase::DoEventHandler(WidgetEventType ev, IWidgetEventArgs& args) {
 

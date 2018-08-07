@@ -11,6 +11,7 @@ namespace hvn3 {
 
 		class GuiManager;
 		class WidgetManager;
+		class IWidgetRenderer;
 
 		class IWidget {
 			friend class WidgetManager;
@@ -79,6 +80,7 @@ namespace hvn3 {
 		protected:
 			virtual WidgetManager* GetManager() const = 0;
 			virtual void SetManager(WidgetManager* value) = 0;
+			virtual IWidgetRenderer* GetRenderer() const = 0;
 
 		};
 

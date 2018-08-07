@@ -29,8 +29,10 @@ namespace hvn3 {
 			void DrawSolidRectangle(float x, float y, float width, float height, const Color& color);
 
 			void DrawRoundRectangle(const RectangleF& rect, const Color& color, float radius, float thickness);
+			void DrawRoundRectangle(const PointF& position, const SizeF& size, const Color& color, float radius, float thickness);
 			void DrawRoundRectangle(float x, float y, float width, float height, const Color& color, float radius, float thickness);
 			void DrawSolidRoundRectangle(const RectangleF& rect, const Color& color, float radius);
+			void DrawSolidRoundRectangle(const PointF& position, const SizeF& size, const Color& color, float radius);
 			void DrawSolidRoundRectangle(float x, float y, float width, float height, const Color& color, float radius);
 
 			void DrawLine(const LineF& line);

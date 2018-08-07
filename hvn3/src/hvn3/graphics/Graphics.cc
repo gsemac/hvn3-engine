@@ -116,6 +116,9 @@ namespace hvn3 {
 			DrawRoundRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color, radius, thickness);
 
 		}
+		void Graphics::DrawRoundRectangle(const PointF& position, const SizeF& size, const Color& color, float radius, float thickness) {
+			DrawRoundRectangle(RectangleF(position, size), color, radius, thickness);
+		}
 		void Graphics::DrawRoundRectangle(float x, float y, float width, float height, const Color& color, float radius, float thickness) {
 
 			PrepareDrawingSurface();
@@ -128,6 +131,9 @@ namespace hvn3 {
 
 			DrawSolidRoundRectangle(rect.X(), rect.Y(), rect.Width(), rect.Height(), color, radius);
 
+		}
+		void Graphics::DrawSolidRoundRectangle(const PointF& position, const SizeF& size, const Color& color, float radius) {
+			DrawSolidRoundRectangle(RectangleF(position, size), color, radius);
 		}
 		void Graphics::DrawSolidRoundRectangle(float x, float y, float width, float height, const Color& color, float radius) {
 

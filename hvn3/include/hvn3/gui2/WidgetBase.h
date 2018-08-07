@@ -81,6 +81,7 @@ namespace hvn3 {
 		protected:
 			WidgetManager* GetManager() const override;
 			void SetManager(WidgetManager* value) override;
+			IWidgetRenderer* GetRenderer() const override;
 
 			void DoEventHandler(WidgetEventType ev, IWidgetEventArgs& args);
 

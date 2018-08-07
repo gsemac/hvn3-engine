@@ -108,6 +108,7 @@
     <ClInclude Include="include\hvn3\gui2\ScrollableWidgetBase.h" />
     <ClInclude Include="include\hvn3\gui2\Scrollbar.h" />
     <ClInclude Include="include\hvn3\gui2\TabStrip.h" />
+    <ClInclude Include="include\hvn3\gui2\TextBox.h" />
     <ClInclude Include="include\hvn3\gui2\TilesetView.h" />
     <ClInclude Include="include\hvn3\gui2\WidgetManager.h" />
     <ClInclude Include="include\hvn3\gui2\GuiTypeDefs.h" />
