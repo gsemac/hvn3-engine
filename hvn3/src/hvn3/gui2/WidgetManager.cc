@@ -27,7 +27,10 @@ namespace hvn3 {
 		}
 		WidgetManager::WidgetManager(IWidget* owner) :
 			WidgetManager() {
+			
 			_owner = owner;
+			_dockable_region = RectangleF(0.0f, 0.0f, owner->Width(), owner->Height());
+
 		}
 		WidgetManager::WidgetManager(renderer_ptr_type& renderer) :
 			_renderer(std::move(renderer)),
@@ -161,9 +164,6 @@ namespace hvn3 {
 			if (_update_required_before_draw)
 				OnUpdate(UpdateEventArgs(0.0));
 
-			// Save the current graphics state so we can modify it for each widget.
-			Graphics::GraphicsState state = e.Graphics().Save();
-
 			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
 
 				if (!i->widget->Visible())
@@ -190,9 +190,6 @@ namespace hvn3 {
 					}
 
 			}
-
-			// Restore the former graphics state.
-			e.Graphics().Restore(state);
 
 		}
 		void WidgetManager::OnUpdate(UpdateEventArgs& e) {
@@ -407,7 +404,9 @@ namespace hvn3 {
 		}
 		void WidgetManager::_renderWidget(DrawEventArgs& e, WidgetData& data) {
 
-			e.Graphics().SetClip(data.widget->Bounds());
+			Graphics::GraphicsState state = e.Graphics().Save();
+
+			e.Graphics().SetClip(RectangleF::Intersection(data.widget->Bounds(), e.Graphics().Clip()));
 
 			// Render the widget.
 			_getRenderer()->DrawWidget(e.Graphics(), data.GetRef(), data.rendererArgs);
@@ -415,6 +414,8 @@ namespace hvn3 {
 
 			// Render the widget's child widgets.
 			_renderChildWidgets(e, data.widget.get());
+
+			e.Graphics().Restore(state);
 
 		}
 		void WidgetManager::_renderChildWidgets(DrawEventArgs& e, IWidget* widget) {
@@ -428,7 +429,7 @@ namespace hvn3 {
 			t.Translate(widget->Position().x, widget->Position().y);
 
 			e.Graphics().SetTransform(t);
-			e.Graphics().SetClip(widget->Bounds());
+			e.Graphics().SetClip(RectangleF(widget->FixedPosition() + widget->GetChildren().DockableRegion().Position(), widget->GetChildren().DockableRegion().Size()));
 
 			widget->GetChildren().OnDraw(e);
 

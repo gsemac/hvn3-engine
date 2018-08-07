@@ -68,6 +68,8 @@ namespace hvn3 {
 				x_offset += width;
 			}
 
+			GetChildren().SetDockableRegion(RectangleF(Size()));
+
 		}
 
 	void TabStrip::SetSelectedTab(IWidget* sender, TabStripItem* tab) {

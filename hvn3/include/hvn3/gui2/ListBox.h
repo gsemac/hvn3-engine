@@ -60,6 +60,8 @@ namespace hvn3 {
 
 				}
 
+				GetChildren().SetDockableRegion(RectangleF(Size()));
+
 			}
 
 		};

@@ -87,10 +87,18 @@ namespace hvn3 {
 		}
 		void Window::OnUpdate(WidgetUpdateEventArgs& e) {
 			WidgetBase::OnUpdate(e);
+		
+			float dx = _resize_edge_width;
+			float dy = _titlebar_visible ? _titlebar_height : _resize_edge_width;
+			float dw = Width() - (_resize_edge_width * 2.0f);
+			float dh = Height() - _resize_edge_width;
 
-			float titlebar_height = _titlebar_visible ? _titlebar_height : 0.0f;
+			if (_titlebar_visible)
+				dh -= _titlebar_height;
+			else
+				dh -= _resize_edge_width;
 
-			_child_manager.SetDockableRegion(RectangleF(_resize_edge_width, titlebar_height, Width() - (_resize_edge_width * 2.0f), Height() - (titlebar_height + _resize_edge_width)));
+			_child_manager.SetDockableRegion(RectangleF(dx, dy, dw, dh));
 
 		}
 
