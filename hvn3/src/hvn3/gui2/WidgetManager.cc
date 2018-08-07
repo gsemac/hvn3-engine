@@ -4,6 +4,7 @@
 #include "hvn3/gui2/IWidget.h"
 #include "hvn3/gui2/IWidgetRenderer.h"
 #include "hvn3/gui2/WidgetManager.h"
+#include <cassert>
 #define HVN3_DEFAULT_WIDGET_Z 1
 
 namespace hvn3 {
@@ -168,15 +169,26 @@ namespace hvn3 {
 				if (!i->widget->Visible())
 					continue;
 
-				e.Graphics().SetClip(i->widget->Bounds());
+				// If the widget is the top-most modal dialog, we'll skip it for now (it will be drawn after all other widgets).
+				if (_modal_dialogs.size() > 0 && _modal_dialogs.back() == i->widget.get())
+					continue;
 
-				// Render the widget.
-				_getRenderer()->DrawWidget(e.Graphics(), i->GetRef(), i->rendererArgs);
-				i->widget->OnDraw(WidgetDrawEventArgs(i->widget.get(), &e));
+				_renderWidget(e, *i);
 
-				// Render the widget's child widgets.
-				_renderChildWidgets(e, i->widget.get());
+			}
 
+			// Draw the top-most modal dialog.
+			if (_modal_dialogs.size() > 0 && _modal_dialogs.back()->Visible()) {
+				
+				e.Graphics().SetClip(DockableRegion());
+				e.Graphics().DrawSolidRectangle(DockableRegion(), Color(Color::Black, 128));
+
+				for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
+					if (i->widget.get() == _modal_dialogs.back()) {
+						_renderWidget(e, *i);
+						break;
+					}
+				
 			}
 
 			// Restore the former graphics state.
@@ -299,6 +311,10 @@ namespace hvn3 {
 					if (!i->widget->Visible())
 						continue;
 
+					// If there is a modal dialog visible, it should be the only widget that can be interacted with.
+					if (_modal_dialogs.size() > 0 && i->widget.get() != _modal_dialogs.back())
+						continue;
+
 					// All widgets that the mouse touches should receive a mouse movement event.
 					// (?) Was that the intent here, or should this be called for all widgets regardless?
 					IWidget* widget = i->widget.get();
@@ -351,6 +367,22 @@ namespace hvn3 {
 		}
 		void WidgetManager::OnMouseScroll(MouseScrollEventArgs& e) {}
 
+		void WidgetManager::ShowDialog(std::unique_ptr<IWidget>& widget) {
+
+			IWidget* ptr = widget.get(); // Allows access to widget pointer after move
+
+			// The widget manager will manage the lifetime of the dialog widget.
+			Add(widget);
+			_modal_dialogs.push_back(ptr);
+
+			// Center the widget in the middle of the dockable region.
+			ptr->SetX(DockableRegion().X() + ((DockableRegion().Width() / 2.0f) - (ptr->Width() / 2.0f)));
+			ptr->SetY(DockableRegion().Y() + ((DockableRegion().Height() / 2.0f) - (ptr->Height() / 2.0f)));
+
+			ptr->BringToFront();
+
+		}
+
 
 
 		IWidget* WidgetManager::_widget_focused = nullptr;
@@ -367,6 +399,18 @@ namespace hvn3 {
 		}
 		WidgetManager::widget_collection_type::iterator WidgetManager::_findWidget(IWidget* widget) {
 			return std::find_if(_widgets.begin(), _widgets.end(), [=](const WidgetData& x) { return x.widget.get() == widget; });
+		}
+		void WidgetManager::_renderWidget(DrawEventArgs& e, WidgetData& data) {
+
+			e.Graphics().SetClip(data.widget->Bounds());
+
+			// Render the widget.
+			_getRenderer()->DrawWidget(e.Graphics(), data.GetRef(), data.rendererArgs);
+			data.widget->OnDraw(WidgetDrawEventArgs(data.widget.get(), &e));
+
+			// Render the widget's child widgets.
+			_renderChildWidgets(e, data.widget.get());
+
 		}
 		void WidgetManager::_renderChildWidgets(DrawEventArgs& e, IWidget* widget) {
 
@@ -439,6 +483,7 @@ namespace hvn3 {
 			_widget_focused = widget;
 
 		}
+
 		WidgetManager::renderer_ptr_type& WidgetManager::_getRenderer() {
 
 			if (!_renderer)

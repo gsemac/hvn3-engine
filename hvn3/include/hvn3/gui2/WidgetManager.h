@@ -76,6 +76,8 @@ namespace hvn3 {
 			void OnMouseMove(MouseMoveEventArgs& e) override;
 			void OnMouseScroll(MouseScrollEventArgs& e) override;
 
+			void ShowDialog(std::unique_ptr<IWidget>& widget);
+
 		private:
 			renderer_ptr_type _renderer;
 			widget_collection_type _widgets;
@@ -88,14 +90,16 @@ namespace hvn3 {
 			IWidget* _owner;
 			std::unordered_map<IWidget*, WidgetManager*> _child_managers;
 			bool _update_required_before_draw;
+			std::vector<IWidget*> _modal_dialogs; // collection of modal dialogs currently being displayed
 
 			static IWidget* _widget_focused; // Only one widget can be focused at a time among all managers.
 
 			void _initialize();
 			widget_collection_type::iterator _findWidget(IWidget* widget);
-			void _renderChildWidgets(DrawEventArgs& e, IWidget* widget);
+			void _renderWidget(DrawEventArgs& e, WidgetData& data); // renders a widget
+			void _renderChildWidgets(DrawEventArgs& e, IWidget* widget); // renders a widget's child widgets
 			void _applyDockStyle(IWidget* widget, RectangleF& region);
-			void _setFocused(IWidget* widget);
+			void _setFocused(IWidget* widget); // sets the currently-focused widget
 
 			// Returns a pointer to the widget renderer assigned to this manager. 
 			// IF no renderer has been assigned, assigns and returns the default renderer.

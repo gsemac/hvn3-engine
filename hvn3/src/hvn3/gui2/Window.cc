@@ -26,6 +26,9 @@ namespace hvn3 {
 			SetText(text);
 
 		}
+		Window::Window(float width, float height, const String& text) :
+			Window(0.0f, 0.0f, width, height, text) {
+		}
 
 		bool Window::TitleBarVisible() {
 			return _titlebar_visible;

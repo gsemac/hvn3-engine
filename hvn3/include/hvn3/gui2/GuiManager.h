@@ -3,6 +3,7 @@
 #include "hvn3/gui2/WidgetManager.h"
 #include "hvn3/io/KeyboardListener.h"
 #include "hvn3/io/MouseListener.h"
+#include <vector>
 
 namespace hvn3 {
 	namespace Gui {
