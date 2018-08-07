@@ -1,8 +1,11 @@
 #pragma once
-#include <iostream>
 #include "hvn3/utility/Hash.h"
+#include <iostream>
 
 namespace hvn3 {
+
+	template<typename T>
+	class Rectangle;
 
 	template <typename T>
 	class Point2d {
@@ -44,6 +47,9 @@ namespace hvn3 {
 			return (x == 0 && y == 0);
 
 		}
+		bool In(const Rectangle<T>& rectangle) const {
+			return (x >= rectangle.X() && x < rectangle.X2() && y >= rectangle.Y() && y < rectangle.Y2());
+		}
 
 		static Point2d<T> Empty() {
 
@@ -65,8 +71,7 @@ namespace hvn3 {
 			return Point2d<T>(std::trunc(point.X()), std::trunc(point.Y()));
 
 		}
-
-		
+				
 		Point2d<T>& operator+=(const Point2d<T>& other) {
 
 			Offset(other);

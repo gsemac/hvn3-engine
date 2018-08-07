@@ -27,7 +27,7 @@ namespace hvn3 {
 		}
 		WidgetManager::WidgetManager(IWidget* owner) :
 			WidgetManager() {
-			
+
 			_owner = owner;
 			_dockable_region = RectangleF(0.0f, 0.0f, owner->Width(), owner->Height());
 
@@ -297,7 +297,10 @@ namespace hvn3 {
 		void WidgetManager::OnMouseMove(MouseMoveEventArgs& e) {
 
 			IWidget* new_widget_hovered = nullptr;
-			RectangleF fixed_parent_region = (_owner == nullptr) ? DockableRegion() : _owner->Bounds();
+			RectangleF fixed_parent_region = DockableRegion();
+
+			if (_owner != nullptr)
+				fixed_parent_region.SetPosition(fixed_parent_region.Position() + _owner->FixedPosition());
 
 			/*
 			Find the widget that the mouse is currently hovering over.

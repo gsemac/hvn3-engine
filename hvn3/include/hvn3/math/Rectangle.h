@@ -12,7 +12,7 @@ namespace hvn3 {
 	};
 
 	template <typename T>
-	struct Rectangle : public Positionable2dBase<T>, public SizeableBase<T> {
+	class Rectangle : public Positionable2dBase<T>, public SizeableBase<T> {
 
 	public:
 		Rectangle(T width, T height) :
