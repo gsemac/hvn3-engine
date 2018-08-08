@@ -199,6 +199,9 @@ namespace hvn3 {
 
 			RectangleF current_dockable_region = DockableRegion();
 
+			// When widgets are drawn, they are automatically offset by the dockable region offset, and therefore do not need to be offset here.
+			current_dockable_region.SetPosition(0.0f, 0.0f);
+
 			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
 
 				if (!i->widget->Visible())
@@ -244,10 +247,38 @@ namespace hvn3 {
 
 		}
 
-		void WidgetManager::OnKeyDown(KeyDownEventArgs& e) {}
-		void WidgetManager::OnKeyPressed(KeyPressedEventArgs& e) {}
-		void WidgetManager::OnKeyUp(KeyUpEventArgs& e) {}
-		void WidgetManager::OnKeyChar(KeyCharEventArgs& e) {}
+		void WidgetManager::OnKeyDown(KeyDownEventArgs& e) {
+		
+			if (_widget_focused == nullptr)
+				return;
+
+			_widget_focused->HandleEvent(WidgetKeyDownEventArgs(_widget_focused, e));
+
+		}
+		void WidgetManager::OnKeyPressed(KeyPressedEventArgs& e) {
+		
+			if (_widget_focused == nullptr)
+				return;
+
+			_widget_focused->HandleEvent(WidgetKeyPressedEventArgs(_widget_focused, e));
+
+		}
+		void WidgetManager::OnKeyUp(KeyUpEventArgs& e) {
+		
+			if (_widget_focused == nullptr)
+				return;
+
+			_widget_focused->HandleEvent(WidgetKeyUpEventArgs(_widget_focused, e));
+
+		}
+		void WidgetManager::OnKeyChar(KeyCharEventArgs& e) {
+		
+			if (_widget_focused == nullptr)
+				return;
+
+			_widget_focused->HandleEvent(WidgetKeyCharEventArgs(_widget_focused, e));
+
+		}
 		void WidgetManager::OnKeyboardLost(KeyboardLostEventArgs& e) {}
 		void WidgetManager::OnKeyboardFound(KeyboardFoundEventArgs& e) {}
 
@@ -429,7 +460,8 @@ namespace hvn3 {
 			Graphics::GraphicsState state = e.Graphics().Save();
 
 			Graphics::Transform t = e.Graphics().GetTransform();
-			t.Translate(widget->Position().x, widget->Position().y);
+			t.Translate(widget->Position().x + widget->GetChildren().DockableRegion().X(), 
+				widget->Position().y + widget->GetChildren().DockableRegion().Y());
 
 			e.Graphics().SetTransform(t);
 			e.Graphics().SetClip(RectangleF(widget->FixedPosition() + widget->GetChildren().DockableRegion().Position(), widget->GetChildren().DockableRegion().Size()));

@@ -32,7 +32,8 @@ namespace hvn3 {
 		void WidgetBase::HandleEvent(IWidgetEventArgs& ev) {
 
 			DoEventHandler(ev.Type(), ev);
-
+			if (ev.Type() == WidgetEventType::OnKeyChar)
+				
 			if (ev.Handled())
 				return;
 
@@ -47,6 +48,10 @@ namespace hvn3 {
 				EVENT_HANDLER_CASE(WidgetEventType::OnMousePressed, OnMousePressed, ev);
 				EVENT_HANDLER_CASE(WidgetEventType::OnFocus, OnFocus, ev);
 				EVENT_HANDLER_CASE(WidgetEventType::OnFocusLost, OnFocusLost, ev);
+				EVENT_HANDLER_CASE(WidgetEventType::OnKeyDown, OnKeyDown, ev);
+				EVENT_HANDLER_CASE(WidgetEventType::OnKeyPressed, OnKeyPressed, ev);
+				EVENT_HANDLER_CASE(WidgetEventType::OnKeyReleased, OnKeyUp, ev);
+				EVENT_HANDLER_CASE(WidgetEventType::OnKeyChar, OnKeyChar, ev);
 			}
 
 		}
@@ -88,6 +93,9 @@ namespace hvn3 {
 
 			if (_parent != nullptr)
 				position += _parent->FixedPosition();
+
+			if (GetManager() != nullptr)
+				position += GetManager()->DockableRegion().Position();
 
 			return position;
 
@@ -227,6 +235,10 @@ namespace hvn3 {
 		void WidgetBase::OnDraw(WidgetDrawEventArgs& e) {}
 		void WidgetBase::OnZDepthChanged(WidgetZDepthChangedEventArgs& e) {}
 		void WidgetBase::OnChildWidgetAdded(ChildWidgetAddedEventArgs& e) {}
+		void WidgetBase::OnKeyDown(WidgetKeyDownEventArgs& e) {}
+		void WidgetBase::OnKeyPressed(WidgetKeyPressedEventArgs& e) {}
+		void WidgetBase::OnKeyUp(WidgetKeyUpEventArgs& e) {}
+		void WidgetBase::OnKeyChar(WidgetKeyCharEventArgs& e) {}
 
 
 

@@ -86,19 +86,10 @@ namespace hvn3 {
 
 		}
 		void Window::OnUpdate(WidgetUpdateEventArgs& e) {
+
 			WidgetBase::OnUpdate(e);
-		
-			float dx = _resize_edge_width;
-			float dy = _titlebar_visible ? _titlebar_height : _resize_edge_width;
-			float dw = Width() - (_resize_edge_width * 2.0f);
-			float dh = Height() - _resize_edge_width;
 
-			if (_titlebar_visible)
-				dh -= _titlebar_height;
-			else
-				dh -= _resize_edge_width;
-
-			_child_manager.SetDockableRegion(RectangleF(dx, dy, dw, dh));
+			_updateDockableRegion();
 
 		}
 
@@ -114,6 +105,8 @@ namespace hvn3 {
 			_titlebar_height = 20.0f;
 			_titlebar_visible = true;
 			_minimum_size = SizeF(_resize_edge_width * 2.0f, _titlebar_height + _resize_edge_width);
+
+			_updateDockableRegion();
 
 		}
 		int Window::_getHoveredEdges(const PointF& p) {
@@ -188,6 +181,21 @@ namespace hvn3 {
 				new_size.height = _minimum_size.height;
 
 			SetSize(new_size);
+
+		}
+		void Window::_updateDockableRegion() {
+
+			float dx = _resize_edge_width;
+			float dy = _titlebar_visible ? _titlebar_height : _resize_edge_width;
+			float dw = Width() - (_resize_edge_width * 2.0f);
+			float dh = Height() - _resize_edge_width;
+
+			if (_titlebar_visible)
+				dh -= _titlebar_height;
+			else
+				dh -= _resize_edge_width;
+			
+			_child_manager.SetDockableRegion(RectangleF(dx, dy, dw, dh));
 
 		}
 

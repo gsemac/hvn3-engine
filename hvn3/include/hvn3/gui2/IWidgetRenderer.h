@@ -19,6 +19,7 @@ namespace hvn3 {
 
 			virtual void DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const = 0;
 			virtual SizeF MeasureString(const String& string) const = 0;
+			virtual const Font& GetWidgetFont(const IWidget* widget) const = 0;
 
 		};
 

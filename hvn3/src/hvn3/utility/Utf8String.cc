@@ -450,9 +450,15 @@ namespace hvn3 {
 		return CharAt(index);
 
 	}
-	String operator+(const String& a, const char* b) {
+	String String::operator+(const char* rhs) {
+		return String(std::string(c_str()) + rhs);
+	}
+	String String::operator+(int32_t rhs) {
 
-		return String(std::string(a.c_str()) + b);
+		String str(*this);
+		str.Append(rhs);
+
+		return str;
 
 	}
 	std::ostream& operator<< (std::ostream& stream, const String& str) {

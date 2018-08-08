@@ -70,6 +70,10 @@ namespace hvn3 {
 			void OnDraw(WidgetDrawEventArgs& e) override;
 			void OnZDepthChanged(WidgetZDepthChangedEventArgs& e) override;
 			void OnChildWidgetAdded(ChildWidgetAddedEventArgs& e) override;
+			void OnKeyDown(WidgetKeyDownEventArgs& e) override;
+			void OnKeyPressed(WidgetKeyPressedEventArgs& e) override;
+			void OnKeyUp(WidgetKeyUpEventArgs& e) override;
+			void OnKeyChar(WidgetKeyCharEventArgs& e) override;
 
 			template <WidgetEventType WIDGET_EVENT_TYPE>
 			void SetEventHandler(const std::function<void(typename WidgetEventTypeTraits<WIDGET_EVENT_TYPE>::type&)>& callback) {

@@ -124,7 +124,7 @@ namespace hvn3 {
 			PrepareDrawingSurface();
 
 			// Note: 0.5 is added to each coordinate to fix the uneven corners drawn by Allegro.
-			al_draw_rounded_rectangle(x + 0.5f, y + 0.5f, x + width + 0.5f, y + height + 0.5f, radius, radius, System::AllegroAdapter::ToColor(color), thickness);
+			al_draw_rounded_rectangle(x + 0.5f, y + 0.5f, x + width - 0.5f, y + height - 0.5f, radius, radius, System::AllegroAdapter::ToColor(color), thickness);
 
 		}
 		void Graphics::DrawSolidRoundRectangle(const RectangleF& rect, const Color& color, float radius) {
@@ -315,9 +315,9 @@ namespace hvn3 {
 			PrepareDrawingSurface();
 
 			if (HasFlag(alignment, Alignment::Middle))
-				y -= font.Ascent() / 2.0f;
+				y -= font.Height() / 2.0f;
 			else if(HasFlag(alignment, Alignment::Bottom))
-				y -= font.Ascent();
+				y -= font.Height();
 
 			al_draw_ustr(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, System::AllegroAdapter::ToAlignmentFlags(alignment), text.AlPtr());
 

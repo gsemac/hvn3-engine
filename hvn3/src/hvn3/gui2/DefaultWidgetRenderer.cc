@@ -61,6 +61,9 @@ namespace hvn3 {
 		SizeF DefaultWidgetRenderer::MeasureString(const String& string) const {
 			return SizeF(string.Width(_default_font), string.Height(_default_font));
 		}
+		const Font& DefaultWidgetRenderer::GetWidgetFont(const IWidget* widget) const {
+			return _default_font;
+		}
 
 		void DefaultWidgetRenderer::DrawWidgetBase(Graphics::Graphics& canvas, const IWidget& widget, const Color& gradient_top, const Color& gradient_bottom) const {
 
@@ -75,10 +78,10 @@ namespace hvn3 {
 
 			canvas.DrawSolidRoundRectangle(x - 1.0f, y - 1.0f, w + 2.0f, h + 2.0f, outline_shadow_color, 2.0f); // outline/shadow
 			canvas.DrawSolidRectangle(x, y, w, h, corner_shadow_color); // corner shadow
-			al_draw_gradient_rectangle(x + 1.0f, y + 1.0f, w - 1.0f, h - 1.0f,
+			al_draw_gradient_rectangle(x + 1.0f, y + 1.0f, w - 2.0f, h - 2.0f,
 				System::AllegroAdapter::ToColor(gradient_top),
 				System::AllegroAdapter::ToColor(gradient_bottom)); // main gradient
-			canvas.DrawRoundRectangle(x, y, w - 1.0f, h - 1.0f, light_outline_color, 1.0f, 1.0f); // light outline
+			canvas.DrawRoundRectangle(x, y, w, h, light_outline_color, 1.0f, 1.0f); // light outline
 
 		}
 		void DefaultWidgetRenderer::DrawButton(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {

@@ -9,13 +9,15 @@
 namespace hvn3 {
 	namespace Gui {
 
-		class DefaultWidgetRenderer : public IWidgetRenderer {
+		class DefaultWidgetRenderer : 
+			public IWidgetRenderer {
 
 		public:
 			DefaultWidgetRenderer();
 
 			void DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const override;
 			SizeF MeasureString(const String& string) const override;
+			const Font& GetWidgetFont(const IWidget* widget) const override;
 
 		protected:
 			void DrawWidgetBase(Graphics::Graphics& canvas, const IWidget& widget, const Color& gradient_top, const Color& gradient_bottom) const;

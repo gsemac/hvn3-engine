@@ -23,11 +23,6 @@ namespace hvn3 {
 			void OnUpdate(WidgetUpdateEventArgs& e) override;
 
 		private:
-			void _initializeMembers();
-			int _getHoveredEdges(const PointF& mouse_position);
-			SystemCursor _getCursorFromEdges(int edges);
-			void _updateResizing(const PointF& mouse_position);
-
 			PointF _mouse_down_position;
 			bool _is_dragging;
 			bool _is_resizing;
@@ -38,6 +33,12 @@ namespace hvn3 {
 			bool _titlebar_visible;
 			SizeF _minimum_size;
 			WidgetManager _child_manager;
+
+			void _initializeMembers();
+			int _getHoveredEdges(const PointF& mouse_position);
+			SystemCursor _getCursorFromEdges(int edges);
+			void _updateResizing(const PointF& mouse_position);
+			void _updateDockableRegion();
 
 		};
 

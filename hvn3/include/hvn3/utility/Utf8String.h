@@ -72,7 +72,8 @@ namespace hvn3 {
 		String& operator=(const std::string& other);
 		String& operator=(const String& other);
 		int32_t operator[](const int index);
-		friend String operator+(const String& a, const char* b);
+		String operator+(const char* rhs);
+		String operator+(int32_t rhs);
 
 	private:
 		ALLEGRO_USTR* ustr;

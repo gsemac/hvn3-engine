@@ -76,6 +76,10 @@ namespace hvn3 {
 			virtual void OnDraw(WidgetDrawEventArgs& e) = 0;
 			virtual void OnZDepthChanged(WidgetZDepthChangedEventArgs& e) = 0;
 			virtual void OnChildWidgetAdded(ChildWidgetAddedEventArgs& e) = 0;
+			virtual void OnKeyDown(WidgetKeyDownEventArgs& e) = 0;
+			virtual void OnKeyPressed(WidgetKeyPressedEventArgs& e) = 0;
+			virtual void OnKeyUp(WidgetKeyUpEventArgs& e) = 0;
+			virtual void OnKeyChar(WidgetKeyCharEventArgs& e) = 0;
 
 		protected:
 			virtual WidgetManager* GetManager() const = 0;
