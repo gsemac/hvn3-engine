@@ -18,8 +18,8 @@ namespace hvn3 {
 		canvas.HoldBitmapDrawing(true);
 
 		for (auto layer = tilemap.LayersBegin(); layer != tilemap.LayersEnd(); ++layer) {
-			for (int i = 0; i < tilemap.Height(); ++i)
-				for (int j = 0; j < tilemap.Width(); ++j) {
+			for (int i = 0; i < tilemap.Rows(); ++i)
+				for (int j = 0; j < tilemap.Columns(); ++j) {
 
 					TileMap::Tile tile_data = tilemap.At(i, j, layer->first);
 

@@ -30,8 +30,8 @@ namespace hvn3 {
 	}
 	void AutoTileRenderer::ApplyAutoTiling(TileMap& map, TileMap::layer_id depth) {
 
-		for (int y = 0; y < map.Height(); ++y)
-			for (int x = 0; x < map.Width(); ++x)
+		for (int y = 0; y < map.Rows(); ++y)
+			for (int x = 0; x < map.Columns(); ++x)
 				_applyAutoMappingAt(map, x, y, depth);
 
 	}

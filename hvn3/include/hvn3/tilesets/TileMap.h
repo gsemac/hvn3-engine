@@ -29,8 +29,8 @@ namespace hvn3 {
 
 		TileMap(int width, int height);
 
-		int Width() const;
-		int Height() const;
+		int Columns() const;
+		int Rows() const;
 		int Count() const;
 
 		void SetTile(int x, int y, tile_id tile);

@@ -16,14 +16,14 @@ namespace hvn3 {
 		_height = height;
 
 	}
-	int TileMap::Width() const {
+	int TileMap::Columns() const {
 		return _width;
 	}
-	int TileMap::Height() const {
+	int TileMap::Rows() const {
 		return _height;
 	}
 	int TileMap::Count() const {
-		return Width() * Height();
+		return Columns() * Rows();
 	}
 	void TileMap::SetTile(int x, int y, tile_id tile) {
 		SetTile(x, y, tile, 0);

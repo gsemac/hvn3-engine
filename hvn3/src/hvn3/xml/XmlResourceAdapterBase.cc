@@ -256,7 +256,7 @@ namespace hvn3 {
 					TileManager::tile_id tile_id = StringUtils::ParseString<TileManager::tile_id>(token);
 					data.SetTile(x, y, tile_id, depth);
 
-					if (++x > data.Width()) {
+					if (++x > data.Columns()) {
 						x = 0;
 						++y;
 					}
