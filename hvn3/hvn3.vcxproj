@@ -103,6 +103,7 @@
     <ClInclude Include="include\hvn3\gui2\ContainerWidgetBase.h" />
     <ClInclude Include="include\hvn3\gui2\ContextMenu.h" />
     <ClInclude Include="include\hvn3\gui2\GuiManager.h" />
+    <ClInclude Include="include\hvn3\gui2\Label.h" />
     <ClInclude Include="include\hvn3\gui2\ListBox.h" />
     <ClInclude Include="include\hvn3\gui2\MenuStrip.h" />
     <ClInclude Include="include\hvn3\gui2\ScrollableWidgetBase.h" />

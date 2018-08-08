@@ -8,6 +8,10 @@ namespace hvn3 {
 			public WidgetBase {
 
 		public:
+			TextBox(float x, float y, float width) :
+				TextBox(width) {
+				SetPosition(x, y);
+			}
 			TextBox(float width) {
 
 				SetIdentifier("textbox");
@@ -24,7 +28,7 @@ namespace hvn3 {
 				e.Graphics().DrawText(X() + padding, Y() + Height() / 2.0f, Text(), GetRenderer()->GetWidgetFont(this), Color::Black, Alignment::Left | Alignment::Middle);
 
 				if (_caret_blink_timer <= 1.0f && _focused)
-					e.Graphics().DrawLine(padding, padding, padding, Y() + Height() - padding * 2.0f, Color::Black, 1.0f);
+					e.Graphics().DrawLine(X() + padding, Y() + padding, X() + padding, Y() + Height() - padding * 2.0f, Color::Black, 1.0f);
 
 			}
 			void OnUpdate(WidgetUpdateEventArgs& e) override {

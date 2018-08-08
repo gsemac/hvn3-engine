@@ -822,6 +822,9 @@
     <ClInclude Include="include\hvn3\gui2\TextBox.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\Label.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -30,6 +30,7 @@ namespace hvn3 {
 			void DrawListBox(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
 			void DrawListBoxItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
 			void DrawTextBox(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
+			void DrawLabel(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
 			void InitRenderArgs(const IWidget& widget, WidgetRenderArgs& args) const;
 
 		private:

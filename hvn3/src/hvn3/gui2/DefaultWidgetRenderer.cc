@@ -56,6 +56,8 @@ namespace hvn3 {
 				DrawListBoxItem(canvas, widget, args);
 			else if (widget.Identifier() == "textbox")
 				DrawTextBox(canvas, widget, args);
+			else if (widget.Identifier() == "label")
+				DrawLabel(canvas, widget, args);
 
 		}
 		SizeF DefaultWidgetRenderer::MeasureString(const String& string) const {
@@ -213,6 +215,11 @@ namespace hvn3 {
 
 			canvas.DrawSolidRoundRectangle(widget.Position(), widget.Size(), Color::White, 2.0f);
 			canvas.DrawRoundRectangle(widget.Position(), widget.Size(), Color::Black, 2.0f, 1.0f);
+
+		}
+		void DefaultWidgetRenderer::DrawLabel(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
+
+			canvas.DrawText(widget.X(), widget.Y(), widget.Text(), _default_font, Color::White);
 
 		}
 
