@@ -29,6 +29,7 @@ namespace hvn3 {
 				IWidget& GetRef();
 				std::unique_ptr<IWidget> widget;
 				WidgetRenderArgs rendererArgs;
+				bool removed;
 				z_depth_type z;
 			};
 
@@ -47,6 +48,7 @@ namespace hvn3 {
 			void Add(std::unique_ptr<IWidget>& widget);
 			void Remove(IWidget* widget);
 			void Move(IWidget* widget, WidgetManager* to_manager);
+			bool Contains(IWidget* widget) const;
 			const widget_collection_type& Widgets() const;
 			widget_collection_type& GetWidgets();
 			widget_collection_type::size_type Count() const;

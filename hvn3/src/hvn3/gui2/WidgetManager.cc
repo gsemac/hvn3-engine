@@ -12,7 +12,10 @@ namespace hvn3 {
 
 		WidgetManager::WidgetData::WidgetData(std::unique_ptr<IWidget>& widget) :
 			widget(std::move(widget)) {
+
 			z = HVN3_DEFAULT_WIDGET_Z;
+			removed = false;
+
 		}
 		IWidget& WidgetManager::WidgetData::GetRef() {
 			return *widget;
@@ -71,9 +74,11 @@ namespace hvn3 {
 		}
 		void WidgetManager::Remove(IWidget* widget) {
 
-			// #todo mark a widget for removal and remove it after the next update
-
-			throw System::NotImplementedException();
+			for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
+				if (i->widget.get() == widget) {
+					i->removed = true;
+					break;
+				}
 
 		}
 		void WidgetManager::Move(IWidget* widget, WidgetManager* to_manager) {
@@ -96,6 +101,15 @@ namespace hvn3 {
 
 			// Remove the pointer from this manager's collection.
 			_widgets.erase(iter);
+
+		}
+		bool WidgetManager::Contains(IWidget* widget) const {
+
+			for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
+				if (i->widget.get() == widget)
+					return true;
+
+			return false;
 
 		}
 		const WidgetManager::widget_collection_type& WidgetManager::Widgets() const {
@@ -178,10 +192,15 @@ namespace hvn3 {
 			}
 
 			// Draw the top-most modal dialog.
-			if (_modal_dialogs.size() > 0 && _modal_dialogs.back()->Visible()) {
+
+			if (_modal_dialog_background_alpha != 0.0f) {
 
 				e.Graphics().SetClip(DockableRegion());
 				e.Graphics().DrawSolidRectangle(DockableRegion(), Color::FromArgbf(0, 0, 0, _modal_dialog_background_alpha));
+
+			}
+
+			if (_modal_dialogs.size() > 0 && _modal_dialogs.back()->Visible()) {
 
 				for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
 					if (i->widget.get() == _modal_dialogs.back()) {
@@ -202,7 +221,12 @@ namespace hvn3 {
 			// When widgets are drawn, they are automatically offset by the dockable region offset, and therefore do not need to be offset here.
 			current_dockable_region.SetPosition(0.0f, 0.0f);
 
+			bool pending_removals = false;
+
 			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
+
+				if (i->removed)
+					pending_removals = true;
 
 				if (!i->widget->Visible())
 					continue;
@@ -220,6 +244,33 @@ namespace hvn3 {
 				// Update the widget's transition data (i.e. update animations).
 				i->rendererArgs.UpdateTransitionData(static_cast<float>(e.Delta()));
 
+			}
+
+			// If there are pending removals, handle them now.
+			if (pending_removals) {
+				_widgets.erase(std::remove_if(_widgets.begin(), _widgets.end(), [this](const WidgetData& x) {
+
+					if (x.removed) {
+
+						IWidget* ptr = x.widget.get();
+
+						// Remove the widget from the list of modal widgets if present.
+						_modal_dialogs.erase(std::remove(_modal_dialogs.begin(), _modal_dialogs.end(), ptr), _modal_dialogs.end());
+
+						if (_widget_hovered == ptr)
+							_widget_hovered = nullptr;
+
+						if (_widget_held == ptr)
+							_widget_held = nullptr;
+
+						if (_widget_focused == ptr || (ptr->HasChildren() && ptr->GetChildren().Contains(_widget_focused)))
+							_widget_focused = nullptr;
+
+					}
+
+					return x.removed;
+
+				}), _widgets.end());
 			}
 
 			// If sorting is required, sort the list of widgets, and then reset their z values.
@@ -242,13 +293,21 @@ namespace hvn3 {
 			_update_required_before_draw = false;
 
 			// Update the background fade animation if we're showing a modal dialog.
-			if (_modal_dialogs.size() > 0 && _modal_dialog_background_alpha < 0.5f)
-				_modal_dialog_background_alpha = Math::Min(0.5f, _modal_dialog_background_alpha + static_cast<float>(2.0 * e.Delta()));
+
+			float overlay_max_alpha = 0.3f;
+			float overlay_fade_speed = 4.0f;
+
+			if (_modal_dialogs.size() > 0) {
+				if (_modal_dialog_background_alpha < overlay_max_alpha)
+					_modal_dialog_background_alpha = Math::Min(overlay_max_alpha, _modal_dialog_background_alpha + static_cast<float>(overlay_fade_speed * e.Delta()));
+			}
+			else if (_modal_dialog_background_alpha > 0.0f)
+				_modal_dialog_background_alpha = Math::Max(0.0f, _modal_dialog_background_alpha - static_cast<float>(overlay_fade_speed * e.Delta()));
 
 		}
 
 		void WidgetManager::OnKeyDown(KeyDownEventArgs& e) {
-		
+
 			if (_widget_focused == nullptr)
 				return;
 
@@ -256,7 +315,7 @@ namespace hvn3 {
 
 		}
 		void WidgetManager::OnKeyPressed(KeyPressedEventArgs& e) {
-		
+
 			if (_widget_focused == nullptr)
 				return;
 
@@ -264,7 +323,7 @@ namespace hvn3 {
 
 		}
 		void WidgetManager::OnKeyUp(KeyUpEventArgs& e) {
-		
+
 			if (_widget_focused == nullptr)
 				return;
 
@@ -272,7 +331,7 @@ namespace hvn3 {
 
 		}
 		void WidgetManager::OnKeyChar(KeyCharEventArgs& e) {
-		
+
 			if (_widget_focused == nullptr)
 				return;
 
@@ -460,7 +519,7 @@ namespace hvn3 {
 			Graphics::GraphicsState state = e.Graphics().Save();
 
 			Graphics::Transform t = e.Graphics().GetTransform();
-			t.Translate(widget->Position().x + widget->GetChildren().DockableRegion().X(), 
+			t.Translate(widget->Position().x + widget->GetChildren().DockableRegion().X(),
 				widget->Position().y + widget->GetChildren().DockableRegion().Y());
 
 			e.Graphics().SetTransform(t);

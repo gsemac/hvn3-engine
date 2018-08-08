@@ -30,11 +30,19 @@ namespace hvn3 {
 			Window(0.0f, 0.0f, width, height, text) {
 		}
 
-		bool Window::TitleBarVisible() {
+		bool Window::TitleBarVisible() const {
 			return _titlebar_visible;
 		}
 		void Window::SetTitleBarVisible(bool value) {
 			_titlebar_visible = value;
+		}
+		void Window::Close() {
+
+			if (GetManager() == nullptr)
+				return;
+
+			GetManager()->Remove(this);
+
 		}
 
 		WidgetManager& Window::GetChildren() {

@@ -11,8 +11,9 @@ namespace hvn3 {
 			Window(float x, float y, float width, float height, const String& text);
 			Window(float width, float height, const String& text);
 
-			bool TitleBarVisible();
+			bool TitleBarVisible() const;
 			void SetTitleBarVisible(bool value);
+			void Close();
 
 			WidgetManager& GetChildren() override;
 			bool HasChildren() override;
