@@ -18,10 +18,10 @@ namespace hvn3 {
 		canvas.HoldBitmapDrawing(true);
 
 		for (auto layer = tilemap.LayersBegin(); layer != tilemap.LayersEnd(); ++layer) {
-			for (int i = 0; i < tilemap.Rows(); ++i)
-				for (int j = 0; j < tilemap.Columns(); ++j) {
+			for (int y = 0; y < tilemap.Rows(); ++y)
+				for (int x = 0; x < tilemap.Columns(); ++x) {
 
-					TileMap::Tile tile_data = tilemap.At(i, j, layer->first);
+					TileMap::Tile tile_data = tilemap.At(x, y, layer->first);
 
 					if (tile_data.id <= 0)
 						continue;
@@ -33,13 +33,13 @@ namespace hvn3 {
 
 						// If the tile is not an autotile, draw it normally.
 						const Graphics::Bitmap& tile_image = _tilesets[0].At(tile_data.TileIndex() - 1).bitmap;
-						canvas.DrawBitmap(static_cast<float>(i * tile_size.width), static_cast<float>(j * tile_size.height), tile_image);
+						canvas.DrawBitmap(static_cast<float>(x * tile_size.width), static_cast<float>(y * tile_size.height), tile_image);
 
 					}
 					else {
 
 						// If the tile is an autotile, we need to draw it according to its autotile index.
-						_auto_tile_renderer.DrawAutoTile(canvas, tile_data, _tilesets[0], i * tile_size.width, j * tile_size.height);
+						_auto_tile_renderer.DrawAutoTile(canvas, tile_data, _tilesets[0], x * tile_size.width, y * tile_size.height);
 
 					}
 
