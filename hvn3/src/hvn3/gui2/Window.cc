@@ -61,10 +61,10 @@ namespace hvn3 {
 
 			if (_resizing_edges != 0)
 				_is_resizing = true;
-			else if (DockStyle() == static_cast<Gui::DockStyle>(0))
+			else if (DockStyle() == Gui::DockStyle::None)
 				_is_dragging = true;
 
-			if (GetManager() != nullptr)
+			if (GetManager() != nullptr && DockStyle() == Gui::DockStyle::None)
 				GetManager()->BringToFront(this);
 
 		}

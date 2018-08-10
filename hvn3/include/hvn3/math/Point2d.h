@@ -71,7 +71,7 @@ namespace hvn3 {
 			return Point2d<T>(std::trunc(point.X()), std::trunc(point.Y()));
 
 		}
-				
+
 		Point2d<T>& operator+=(const Point2d<T>& other) {
 
 			Offset(other);

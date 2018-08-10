@@ -26,9 +26,9 @@ namespace hvn3 {
 
 			if (!_buffer)
 				return;
-
+			
 			size_t buffer_index = 0;
-
+		
 			float x = position.x;
 			float y = position.y;
 			SizeF cell_size = _getActualCellSize(grid);
@@ -36,22 +36,23 @@ namespace hvn3 {
 			float cell_h = cell_size.height;
 			float w = grid.Columns() * cell_w - _cell_margin;
 			float h = grid.Rows() * cell_h - _cell_margin;
-
+			
 			bool skip = (grid.Columns() % _cell_colors.size()) == 0;
 
 			GraphicsState state = canvas.Save();
+		
 			canvas.HoldBitmapDrawing(true);
-			canvas.SetClip(static_cast<int>(x), static_cast<int>(y), static_cast<int>(w), static_cast<int>(h));
+			//canvas.SetClip(static_cast<int>(x), static_cast<int>(y), static_cast<int>(w), static_cast<int>(h));
 
-			for (unsigned int i = 0; i < grid.Rows(); ++i) {
-				for (unsigned int j = 0; j < grid.Columns(); ++j) {
+			for (unsigned int y = 0; y < grid.Rows(); ++y) {
+				for (unsigned int x = 0; x < grid.Columns(); ++x) {
 
 					if (buffer_index >= _cell_colors.size())
 						buffer_index %= _cell_colors.size();
 
 					canvas.DrawBitmap(
-						x + (static_cast<float>(j) * cell_w),
-						y + (static_cast<float>(i) * cell_h),
+						x + (static_cast<float>(x) * cell_w),
+						y + (static_cast<float>(y) * cell_h),
 						_buffer,
 						RectangleF(buffer_index * cell_w, 0.0f, cell_w, cell_h));
 

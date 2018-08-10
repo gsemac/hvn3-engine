@@ -61,7 +61,7 @@ namespace hvn3 {
 		}
 
 		Graphics::Graphics(Bitmap& surface) :
-			_surface(surface),
+			_canvas(surface),
 			_clipping_region(0.0f, 0.0f, surface.Width(), surface.Height()) {
 		}
 		Graphics::~Graphics() {
@@ -79,7 +79,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawRectangle(float x, float y, float width, float height, const Color& color, float thickness) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			al_draw_rectangle(
 				x + 1.0f,
@@ -99,7 +99,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawSolidRectangle(float x, float y, float width, float height, const Color& color) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			al_draw_filled_rectangle(
 				x,
@@ -121,7 +121,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawRoundRectangle(float x, float y, float width, float height, const Color& color, float radius, float thickness) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			// Note: 0.5 is added to each coordinate to fix the uneven corners drawn by Allegro.
 			al_draw_rounded_rectangle(x + 0.5f, y + 0.5f, x + width - 0.5f, y + height - 0.5f, radius, radius, System::AllegroAdapter::ToColor(color), thickness);
@@ -137,7 +137,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawSolidRoundRectangle(float x, float y, float width, float height, const Color& color, float radius) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			// Note: 0.5 is added to each coordinate to fix the uneven corners drawn by Allegro.
 			al_draw_filled_rounded_rectangle(x, y, x + width, y + height, radius, radius, System::AllegroAdapter::ToColor(color));
@@ -161,14 +161,14 @@ namespace hvn3 {
 		}
 		void Graphics::DrawLine(float x1, float y1, float x2, float y2, const Color& color, float thickness) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			al_draw_line(x1, y1, x2, y2, System::AllegroAdapter::ToColor(color), thickness);
 
 		}
 		void Graphics::DrawLine(float x1, float y1, float x2, float y2, const Pen& pen) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			if (Math::IsZero(pen.Width()))
 				return;
@@ -207,7 +207,7 @@ namespace hvn3 {
 							gap_size *= 2.0f;
 
 					PointF p_next_end = Math::Geometry::PointInDirection(p_next_begin, p_end, gap_size);
-		
+
 					// If we have surpassed the ending point, we can stop drawing the line after the next point.
 					if ((Math::Abs(p_next_end.x) > Math::Abs(p_end.x)) || (Math::Abs(p_next_end.y) > Math::Abs(p_end.y))) {
 						p_next_end = p_end;
@@ -233,7 +233,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawPoint(float x, float y, const Color& color) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			al_put_pixel(x, y, System::AllegroAdapter::ToColor(color));
 
@@ -246,7 +246,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawCircle(float x, float y, float radius, const Color& color, float thickness) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			al_draw_circle(
 				x,
@@ -269,7 +269,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawSolidCircle(float x, float y, float radius, const Color& color) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			al_draw_filled_circle(
 				x,
@@ -287,7 +287,7 @@ namespace hvn3 {
 
 		void Graphics::Clear(const Color& color) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			al_clear_to_color(System::AllegroAdapter::ToColor(color));
 
@@ -295,7 +295,7 @@ namespace hvn3 {
 
 		void Graphics::DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			if (HasFlag(alignment, Alignment::Middle))
 				y -= font.Ascent() / 2.0f;
@@ -312,11 +312,11 @@ namespace hvn3 {
 		}
 		void Graphics::DrawText(float x, float y, const String& text, const Font& font, const Color& color, Alignment alignment) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			if (HasFlag(alignment, Alignment::Middle))
 				y -= font.Height() / 2.0f;
-			else if(HasFlag(alignment, Alignment::Bottom))
+			else if (HasFlag(alignment, Alignment::Bottom))
 				y -= font.Height();
 
 			al_draw_ustr(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, System::AllegroAdapter::ToAlignmentFlags(alignment), text.AlPtr());
@@ -325,7 +325,7 @@ namespace hvn3 {
 
 		void Graphics::DrawSprite(float x, float y, const Sprite& sprite, int subimage) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			al_draw_bitmap(
 				System::AllegroAdapter::ToBitmap((sprite)[subimage]),
@@ -337,7 +337,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawSprite(float x, float y, const Sprite& sprite, int subimage, float xscale, float yscale, float angle, const Color& blend) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			al_draw_tinted_scaled_rotated_bitmap(
 				System::AllegroAdapter::ToBitmap((sprite)[subimage]),
@@ -356,7 +356,7 @@ namespace hvn3 {
 
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			al_draw_bitmap(
 				System::AllegroAdapter::ToBitmap(bitmap),
@@ -368,7 +368,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			al_draw_scaled_bitmap(
 				System::AllegroAdapter::ToBitmap(bitmap),
@@ -386,7 +386,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const PointF& origin, float angle) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			al_draw_scaled_rotated_bitmap(
 				System::AllegroAdapter::ToBitmap(bitmap),
@@ -403,14 +403,14 @@ namespace hvn3 {
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, const RectangleF& region) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			al_draw_bitmap_region(System::AllegroAdapter::ToBitmap(bitmap), region.X(), region.Y(), region.Width(), region.Height(), x, y, NULL);
 
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, const Color& tint) {
 
-			PrepareDrawingSurface();
+			_makeThisActiveInstance(true);
 
 			al_draw_tinted_bitmap(System::AllegroAdapter::ToBitmap(bitmap), al_map_rgba_f(tint.Alphaf(), tint.Alphaf(), tint.Alphaf(), tint.Alphaf()), x, y, NULL);
 
@@ -425,8 +425,8 @@ namespace hvn3 {
 
 			_clipping_region = RectangleF(x, y, width, height);
 
-			if (IsActiveSurface())
-				ApplyClip();
+			if (_isActiveInstance())
+				_applyClip();
 
 		}
 		RectangleF Graphics::Clip() const {
@@ -436,16 +436,20 @@ namespace hvn3 {
 		}
 		void Graphics::ResetClip() {
 
-			SetClip(0, 0, _surface.Width(), _surface.Height());
+			SetClip(0, 0, _canvas.Width(), _canvas.Height());
 
 		}
 
 		void Graphics::HoldBitmapDrawing(bool hold) {
 
+			_makeThisActiveInstance(false);
+
 			al_hold_bitmap_drawing(hold);
 
 		}
 		bool Graphics::BitmapDrawingHeld() const {
+
+			_makeThisActiveInstance(false);
 
 			return al_is_bitmap_drawing_held();
 
@@ -461,9 +465,9 @@ namespace hvn3 {
 			_clipping_region = state.__clip;
 			_transform = state.__transform;
 
-			if (IsActiveSurface()) {
-				ApplyClip();
-				ApplyTransform();
+			if (_isActiveInstance()) {
+				_applyClip();
+				_applyTransform();
 			}
 
 		}
@@ -472,8 +476,8 @@ namespace hvn3 {
 
 			_transform = transform;
 
-			if (IsActiveSurface())
-				ApplyTransform();
+			if (_isActiveInstance())
+				_applyTransform();
 
 		}
 		const Transform& Graphics::GetTransform() const {
@@ -485,8 +489,8 @@ namespace hvn3 {
 
 			_transform.Reset();
 
-			if (IsActiveSurface())
-				ApplyTransform();
+			if (_isActiveInstance())
+				_applyTransform();
 
 		}
 
@@ -523,6 +527,8 @@ namespace hvn3 {
 			int src = ConvertBlendMode(source);
 			int dest = ConvertBlendMode(destination);
 
+			_makeThisActiveInstance(false);
+
 			al_set_blender(op, src, dest);
 
 		}
@@ -537,37 +543,41 @@ namespace hvn3 {
 
 		}
 
-		void Graphics::PrepareDrawingSurface() {
+		void Graphics::_makeThisActiveInstance(bool writing) const {
 
-			_surface._perform_pre_write_operations();
+			if (writing)
+				_canvas._perform_pre_write_operations();
 
-			// If this Object's drawing surface is not set as the current drawing surface, set it.
-			if (!IsActiveSurface()) {
-				al_set_target_bitmap(System::AllegroAdapter::ToBitmap(_surface));
-				ApplyClip();
-				ApplyTransform();
+			if (!_isActiveInstance()) {
+				
+				al_set_target_bitmap(System::AllegroAdapter::ToBitmap(_canvas));
+				
+				_applyClip();
+				_applyTransform();
+				
 				_last_to_draw = this;
+
 			}
 
 		}
 
-		void Graphics::ApplyTransform() {
+		void Graphics::_applyTransform() const {
 
 			al_use_transform((ALLEGRO_TRANSFORM*)&_transform);
 
 		}
-		void Graphics::ApplyClip() {
+		void Graphics::_applyClip() const {
 
 			al_set_clipping_rectangle(_clipping_region.X(), _clipping_region.Y(), _clipping_region.Width(), _clipping_region.Height());
 
 		}
-		bool Graphics::IsActiveSurface() const {
+		bool Graphics::_isActiveInstance() const {
 
 			return (_last_to_draw == this);
 
 		}
 
-		Graphics* Graphics::_last_to_draw = nullptr;
+		const Graphics* Graphics::_last_to_draw = nullptr;
 
 	}
 

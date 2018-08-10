@@ -87,17 +87,16 @@ namespace hvn3 {
 			void Restore(const GraphicsState& state);
 
 		private:
-			Bitmap& _surface;
+			Bitmap& _canvas;
 			Transform _transform;
 			RectangleF _clipping_region;
-			bool _state_changed;
-			static Graphics* _last_to_draw;
+			static const Graphics* _last_to_draw;
 
 			// Called at the beginning of every drawing function to set the drawing target and its and tranforms/clipping region.
-			void PrepareDrawingSurface();
-			void ApplyTransform();
-			void ApplyClip();
-			bool IsActiveSurface() const;
+			void _makeThisActiveInstance(bool writing) const;
+			void _applyTransform() const;
+			void _applyClip() const;
+			bool _isActiveInstance() const;
 
 		};
 

@@ -17,6 +17,7 @@ namespace hvn3 {
 		ENABLE_BITFLAG_OPERATORS(Anchor)
 
 		enum class DockStyle {
+			None = 0,
 			Left = 1,
 			Right,
 			Top,

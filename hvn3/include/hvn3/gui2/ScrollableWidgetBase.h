@@ -111,6 +111,9 @@ namespace hvn3 {
 				}
 
 			}
+			void SetScrollableSize(const SizeF& scrollable_size) {
+				_scrollable_size = scrollable_size;
+			}
 
 		private:
 			Scrollbar* _vscrollbar;
