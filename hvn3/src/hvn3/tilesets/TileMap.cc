@@ -36,6 +36,7 @@ namespace hvn3 {
 		int index = GET_TILE_INDEX(x, y);
 
 		assert(index >= 0);
+		assert(_layers.count(depth) == 1);
 		assert(static_cast<size_t>(index) < _layers[depth].size());
 
 		_layers[depth][index] = tile;

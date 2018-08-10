@@ -40,19 +40,19 @@ namespace hvn3 {
 			bool skip = (grid.Columns() % _cell_colors.size()) == 0;
 
 			GraphicsState state = canvas.Save();
-		
+			
 			canvas.HoldBitmapDrawing(true);
 			//canvas.SetClip(static_cast<int>(x), static_cast<int>(y), static_cast<int>(w), static_cast<int>(h));
 
-			for (unsigned int y = 0; y < grid.Rows(); ++y) {
-				for (unsigned int x = 0; x < grid.Columns(); ++x) {
+			for (unsigned int cy = 0; cy < grid.Rows(); ++cy) {
+				for (unsigned int cx = 0; cx < grid.Columns(); ++cx) {
 
 					if (buffer_index >= _cell_colors.size())
 						buffer_index %= _cell_colors.size();
 
 					canvas.DrawBitmap(
-						x + (static_cast<float>(x) * cell_w),
-						y + (static_cast<float>(y) * cell_h),
+						x + (static_cast<float>(cx) * cell_w),
+						y + (static_cast<float>(cy) * cell_h),
 						_buffer,
 						RectangleF(buffer_index * cell_w, 0.0f, cell_w, cell_h));
 

@@ -10,6 +10,8 @@ namespace hvn3 {
 			public ScrollableWidgetBase {
 
 		public:
+			static const PointF NULL_POSITION;
+
 			RoomView(const RoomPtr& room) :
 				ScrollableWidgetBase(SizeF(room->Width(), room->Height())),
 				_room(room) {
@@ -23,7 +25,7 @@ namespace hvn3 {
 			}
 
 			void SetRoom(const RoomPtr& room) {
-				
+
 				_room = room;
 
 				SetScrollableSize(static_cast<SizeF>(_room->Size()));
@@ -33,34 +35,35 @@ namespace hvn3 {
 				_show_grid = value;
 			}
 			PointF PositionToRoomPosition(const PointF& position) const {
-				
-				PointF null(-1.0f, -1.0f);
-				PointF out = _positionToRoomPosition(position);
-				
+
 				if (!_room)
-					return null;
+					return NULL_POSITION;
 
-				if (out.x < 0.0f || out.y < 0.0f || out.x > _room->Width() || out.y > _room->Height())
-					return null;
+				PointF p = _positionToRoomPosition(position);
 
-				return out;
+				if (!_positionIsInRoomBoundaries(p))
+					return NULL_POSITION;
+
+				return p;
 
 			}
-			PointI PositionToGridPosition(const PointF& position) const {
-
-				PointF null(-1.0f, -1.0f);
-				PointF out = _positionToRoomPosition(position);
+			PointF PositionToGridPosition(const PointF& position) const {
 
 				if (!_room)
-					return null;
+					return NULL_POSITION;
 
-				if (out.x < 0.0f || out.y < 0.0f || out.x > Math::Ceiling(_room->Width(), 32) || out.y > Math::Ceiling(_room->Height(), 32))
-					return null;
+				PointF p = _positionToRoomPosition(position);
 
-				out.x = Math::Floor(out.x / 32.0f);
-				out.y = Math::Floor(out.y / 32.0f);
+				float gridw = Math::Ceiling(static_cast<float>(_room->Width()), 32.0f);
+				float gridh = Math::Ceiling(static_cast<float>(_room->Height()), 32.0f);
 
-				return static_cast<PointI>(out);
+				if (p.x < 0.0f || p.y < 0.0f || p.x >= gridw || p.y >= gridh)
+					return NULL_POSITION;
+
+				p.x = Math::Floor(p.x / 32.0f);
+				p.y = Math::Floor(p.y / 32.0f);
+
+				return p;
 
 			}
 
@@ -107,8 +110,18 @@ namespace hvn3 {
 				return position - room_origin;
 
 			}
+			bool _positionIsInRoomBoundaries(const PointF& position) const {
+
+				if (position.x < 0.0f || position.y < 0.0f || position.x > _room->Width() || position.y > _room->Height())
+					return false;
+
+				return true;
+
+			}
 
 		};
+
+		const PointF RoomView::NULL_POSITION = PointF(-1.0f, 1.0f);
 
 	}
 }
