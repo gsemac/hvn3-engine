@@ -3,8 +3,57 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include <algorithm>
+#include <cassert>
 
 namespace hvn3 {
+
+	String::IteratorCharacterAdapter::IteratorCharacterAdapter(ALLEGRO_USTR* ustr, int index) : ustr(ustr), index(index) {}
+	String::IteratorCharacterAdapter& String::IteratorCharacterAdapter::operator=(int32_t value) {
+
+		assert(ustr != nullptr);
+		assert(index >= 0);
+
+		al_ustr_set_chr(ustr, index, value);
+
+		return *this;
+
+	}
+	String::IteratorCharacterAdapter::operator int32_t() const {
+
+		assert(ustr != nullptr);
+		assert(index >= 0);
+		assert(index < al_ustr_length(ustr));
+
+		return al_ustr_get(ustr, index);
+
+	}
+
+	String::Iterator::Iterator(ALLEGRO_USTR* ustr, int index) :
+		_adapter(ustr, index) {
+	}
+	void String::Iterator::increment() {
+		al_ustr_next(_adapter.ustr, &_adapter.index);
+	}
+	void String::Iterator::decrement() {
+		al_ustr_prev(_adapter.ustr, &_adapter.index);
+	}
+	String::Iterator::reference String::Iterator::dereference() {
+		return _adapter;
+	}
+	bool String::Iterator::equal(const derived_type& rhs) const {
+		return _adapter.index == rhs._adapter.index;
+	}
+	void String::Iterator::advance(difference_type n) {
+
+		if (n > 0)
+			for (auto i = 0; i < n; ++i)
+				increment();
+		else if (n < 0)
+			for (auto i = 0; i < (std::abs)(n); ++i)
+				decrement();
+
+	}
 
 	// Public methods
 
@@ -68,6 +117,30 @@ namespace hvn3 {
 
 		if (info) delete info;
 		info = nullptr;
+
+	}
+	String::iterator String::begin() {
+		return iterator(ustr, 0);
+	}
+	String::const_iterator String::begin() const {
+		return iterator(ustr, 0);
+	}
+	String::iterator String::end() {
+
+		int len = static_cast<int>(Length());
+		
+		assert(len > 0);
+
+		return iterator(ustr, len);
+
+	}
+	String::const_iterator String::end() const {
+
+		int len = static_cast<int>(Length());
+
+		assert(len > 0);
+
+		return iterator(ustr, len);
 
 	}
 
@@ -461,12 +534,37 @@ namespace hvn3 {
 		return str;
 
 	}
+
 	std::ostream& operator<< (std::ostream& stream, const String& str) {
 
 		stream << str.c_str();
 		return stream;
 
 	}
+	bool operator==(const String& lhs, const char* rhs) {
+
+		// Note that String instances are allowed to contain the null byte, and may not always be null-terminated.
+		// Documentation: https://www.allegro.cc/manual/5/al_cstr
+		// Because of this, we can't use C string comparison functions reliably.
+
+		assert(rhs != nullptr);
+
+		size_t len = strlen(rhs);
+
+		if (lhs.Length() != len)
+			return false;
+
+		for (auto i = 0; i < len; ++i)
+			if (lhs.CharAt(i) != rhs[i])
+				return false;
+
+		return true;
+
+	}
+	bool operator!=(const String& lhs, const char* rhs) {
+		return !(lhs == rhs);
+	}
+
 
 	// Private methods
 

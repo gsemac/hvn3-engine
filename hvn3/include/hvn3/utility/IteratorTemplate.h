@@ -6,6 +6,15 @@ namespace hvn3 {
 	/*
 	Base class to simplify the creation of custom iterators.
 	The interface is inspired by: https://www.boost.org/doc/libs/1_65_0/libs/iterator/doc/iterator_facade.html
+
+	Inherited classes must define:
+
+	void increment() {}
+	void decrement() {}
+	reference dereference() {}
+	bool equal(const derived_type& rhs) const {}
+	void advance(difference_type n) {}
+
 	*/
 
 	template <typename DerivedType, typename ValueType, typename DifferenceType = ptrdiff_t>

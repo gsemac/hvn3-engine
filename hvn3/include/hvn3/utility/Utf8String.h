@@ -1,16 +1,53 @@
 #pragma once
-#include <iostream>
-#include <initializer_list>
-#include <string>
 #include "hvn3/utility/Utility.h"
 #include "hvn3/fonts/Font.h"
 #include "hvn3/allegro/AllegroForwardDeclarations.h"
+#include "hvn3/utility/IteratorTemplate.h"
+#include <initializer_list>
+#include <iostream>
+#include <iterator>
+#include <string>
 
 namespace hvn3 {
 
 	class String {
 
 	public:
+		struct IteratorCharacterAdapter {
+
+			IteratorCharacterAdapter(ALLEGRO_USTR* ustr, int index);
+			IteratorCharacterAdapter& operator=(int32_t value);
+			operator int32_t() const;
+
+			ALLEGRO_USTR* ustr;
+			int index;
+
+		};
+
+		class Iterator :
+			public IteratorTemplate<Iterator, IteratorCharacterAdapter> {
+
+			friend class base_type;
+
+		public:
+			typedef std::bidirectional_iterator_tag iterator_category;
+			
+			Iterator(ALLEGRO_USTR* ustr, int index);
+
+		private:
+			IteratorCharacterAdapter _adapter;
+
+			void increment();
+			void decrement();
+			reference dereference();
+			bool equal(const derived_type& rhs) const;
+			void advance(difference_type n);
+
+		};
+
+		typedef Iterator iterator;
+		typedef Iterator const_iterator;
+
 		String();
 		String(const char* str);
 		String(const std::string& str);
@@ -20,6 +57,11 @@ namespace hvn3 {
 		String(const String& other);
 		String(String&& other);
 		~String();
+
+		iterator begin();
+		const_iterator begin() const;
+		iterator end();
+		const_iterator end() const;
 
 		const ALLEGRO_USTR* AlPtr() const;
 
@@ -91,5 +133,7 @@ namespace hvn3 {
 	};
 
 	std::ostream& operator<< (std::ostream& stream, const String& str);
+	bool operator==(const String& lhs, const char* rhs);
+	bool operator!=(const String& lhs, const char* rhs);
 
 }
