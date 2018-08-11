@@ -62,10 +62,17 @@ namespace hvn3 {
 		_forward_iterator(forward_iterator) {
 	}
 	void String::ReverseIterator::increment() {
-		_forward_iterator.decrement();
+
+		if (_forward_iterator._adapter.index == 0)
+			_forward_iterator = Iterator(_forward_iterator._adapter.ustr, -1);
+		else
+			_forward_iterator.decrement();
+
 	}
-	void String::ReverseIterator::decrement() {
+	void String::ReverseIterator::decrement() {		
+
 		_forward_iterator.increment();
+
 	}
 	String::ReverseIterator::reference String::ReverseIterator::dereference() {
 		return _forward_iterator.dereference();
@@ -132,17 +139,17 @@ namespace hvn3 {
 		return iterator(this, len);
 
 	}
-	String::ReverseIterator String::rbegin() {
-		return ReverseIterator(end());
+	String::reverse_iterator String::rbegin() {
+		return reverse_iterator(end() - 1u);
 	}
-	String::ReverseIterator String::rend() {
-		return ReverseIterator(begin());
+	String::reverse_iterator String::rend() {
+		return reverse_iterator(iterator(this, -1));
 	}
-	String::ReverseIterator String::rbegin() const {
-		return ReverseIterator(end());
+	String::const_reverse_iterator String::rbegin() const {
+		return const_reverse_iterator(end() - 1u);
 	}
-	String::ReverseIterator String::rend() const {
-		return ReverseIterator(begin());
+	String::const_reverse_iterator String::rend() const {
+		return const_reverse_iterator(const_iterator(this, -1));
 	}
 	String String::SubString(int length) const {
 		return SubString(0, length);
@@ -585,18 +592,15 @@ namespace hvn3 {
 			_ref_ustr.release();
 			_info.release();
 
-			return;
-
 		}
+		else
 
-		// We need to copy if any other instances are using the same memory.
-		if (_ustr && _ustr.use_count() > 1) {
+			// We need to copy if any other instances are using the same memory.
+			if (_ustr && _ustr.use_count() > 1) {
 
-			_ustr = ustr_ptr_t(al_ustr_dup(_ref_ustr.get()), al_ustr_free);
+				_ustr = ustr_ptr_t(al_ustr_dup(_ustr.get()), al_ustr_free);
 
-			return;
-
-		}
+			}
 
 	}
 

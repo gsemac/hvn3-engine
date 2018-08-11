@@ -4,7 +4,7 @@
 #include "hvn3/graphics/Color.h"
 #include "hvn3/graphics/Display.h"
 #include "hvn3/utility/Utf8String.h"
-#include <allegro5/allegro.h>
+#include <allegro5/color.h>
 
 namespace hvn3 {
 

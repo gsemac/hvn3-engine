@@ -1,5 +1,6 @@
 #include "hvn3/allegro/AllegroAdapter.h"
 #include "hvn3/graphics/BitmapUtils.h"
+#include <allegro5/allegro_color.h>
 #include <allegro5/allegro_image.h>
 
 namespace hvn3 {

@@ -77,6 +77,8 @@ namespace hvn3 {
 
 		typedef Iterator iterator;
 		typedef Iterator const_iterator;
+		typedef ReverseIterator reverse_iterator;
+		typedef ReverseIterator const_reverse_iterator;
 		typedef size_t size_type;
 		typedef int32_t value_type;
 
@@ -91,10 +93,10 @@ namespace hvn3 {
 		iterator end();
 		const_iterator begin() const;
 		const_iterator end() const;
-		ReverseIterator rbegin();
-		ReverseIterator rend();
-		ReverseIterator rbegin() const;
-		ReverseIterator rend() const;
+		reverse_iterator rbegin();
+		reverse_iterator rend();
+		const_reverse_iterator rbegin() const;
+		const_reverse_iterator rend() const;
 
 		String SubString(int end_pos) const;
 		String SubString(int start_pos, int end_pos) const;
