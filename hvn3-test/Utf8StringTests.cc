@@ -9,7 +9,7 @@ using namespace hvn3;
 
 namespace hvn3test {
 
-	TEST_CLASS(UnitTest1)
+	TEST_CLASS(Utf8StringTests)
 	{
 
 		TEST_CLASS_INITIALIZE(initialization)
