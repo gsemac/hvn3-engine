@@ -3,6 +3,7 @@
 #include "hvn3/fonts/Font.h"
 #include "hvn3/graphics/Color.h"
 #include "hvn3/graphics/Display.h"
+#include "hvn3/utility/Utf8String.h"
 #include <allegro5/allegro.h>
 
 namespace hvn3 {
@@ -38,6 +39,7 @@ namespace hvn3 {
 			static int ToDisplayOption(DisplayOption option);
 			static int ToAlignmentFlags(Alignment flags);
 			static ALLEGRO_SAMPLE* ToSample(const Sound& sound);
+			static ALLEGRO_USTR* ToUStr(const String& input);
 
 		private:
 			// It should not be possible to instantiate this class.

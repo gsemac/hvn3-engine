@@ -9,7 +9,7 @@ namespace hvn3 {
 
 	// Returns true if the item is contained in the collection.
 	template <typename T>
-	bool Contains(const std::vector<T>& items, const T& item) {
+	bool Contains(std::vector<T> items, const T& item) {
 
 		return (std::find(items.begin(), items.end(), item) != items.end());
 
@@ -17,7 +17,7 @@ namespace hvn3 {
 
 	// Returns true if the item is contained in the collection.
 	template <typename T>
-	bool Contains(const std::initializer_list<T>& items, const T& item) {
+	bool Contains(std::initializer_list<T> items, const T& item) {
 
 		return (std::find(items.begin(), items.end(), item) != items.end());
 

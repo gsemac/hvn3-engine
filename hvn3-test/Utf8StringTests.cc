@@ -19,10 +19,21 @@ namespace hvn3test {
 		}
 
 	public:
-		TEST_METHOD(TestMethod1)
+		TEST_METHOD(TestConstructorEmpty)
 		{
 
-			Assert::Fail();
+			String str;
+
+			Assert::IsTrue(String::IsNullOrEmpty(str));
+
+		}
+		TEST_METHOD(TestConstructorConstChar)
+		{
+
+			const char* value = "test";
+			String str(value);
+
+			Assert::IsTrue(str == value);
 
 		}
 

@@ -319,7 +319,7 @@ namespace hvn3 {
 			else if (HasFlag(alignment, Alignment::Bottom))
 				y -= font.Height();
 
-			al_draw_ustr(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, System::AllegroAdapter::ToAlignmentFlags(alignment), text.AlPtr());
+			al_draw_ustr(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, System::AllegroAdapter::ToAlignmentFlags(alignment), System::AllegroAdapter::ToUStr(text));
 
 		}
 

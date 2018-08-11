@@ -3,39 +3,69 @@
 #include "hvn3/fonts/Font.h"
 #include "hvn3/allegro/AllegroForwardDeclarations.h"
 #include "hvn3/utility/IteratorTemplate.h"
+#include <allegro5/utf8.h>
 #include <initializer_list>
 #include <iostream>
 #include <iterator>
+#include <functional>
+#include <memory>
 #include <string>
 
 namespace hvn3 {
 
+	namespace System {
+		class AllegroAdapter;
+	}
+
 	class String {
+		friend class System::AllegroAdapter;
 
 	public:
 		struct IteratorCharacterAdapter {
 
-			IteratorCharacterAdapter(ALLEGRO_USTR* ustr, int index);
+			IteratorCharacterAdapter(const String* ustr, int index);
 			IteratorCharacterAdapter& operator=(int32_t value);
 			operator int32_t() const;
 
-			ALLEGRO_USTR* ustr;
+			const String* ustr;
 			int index;
 
 		};
 
+		class ReverseIterator;
+
 		class Iterator :
 			public IteratorTemplate<Iterator, IteratorCharacterAdapter> {
+			friend class base_type;
+			friend class ReverseIterator;
 
+		public:
+			typedef std::bidirectional_iterator_tag iterator_category;
+
+			Iterator(const String* ustr, int index);
+
+		private:
+			IteratorCharacterAdapter _adapter;
+
+			void increment();
+			void decrement();
+			reference dereference();
+			bool equal(const derived_type& rhs) const;
+			void advance(difference_type n);		
+
+		};
+
+		class ReverseIterator :
+			public IteratorTemplate<ReverseIterator, IteratorCharacterAdapter> {
 			friend class base_type;
 
 		public:
 			typedef std::bidirectional_iterator_tag iterator_category;
-			
-			Iterator(ALLEGRO_USTR* ustr, int index);
+
+			ReverseIterator(const Iterator& forward_iterator);
 
 		private:
-			IteratorCharacterAdapter _adapter;
+			Iterator _forward_iterator;
 
 			void increment();
 			void decrement();
@@ -47,56 +77,54 @@ namespace hvn3 {
 
 		typedef Iterator iterator;
 		typedef Iterator const_iterator;
+		typedef size_t size_type;
+		typedef int32_t value_type;
 
 		String();
-		String(const char* str);
-		String(const std::string& str);
-		String(const char* str, size_t size);
-		String(ALLEGRO_USTR* ustr);
-		String(ALLEGRO_USTR* ustr, ALLEGRO_USTR_INFO* info);
+		String(const char* value);
+		String(const std::string& value);
+		String(const char* value, size_t size);
 		String(const String& other);
 		String(String&& other);
-		~String();
 
 		iterator begin();
-		const_iterator begin() const;
 		iterator end();
+		const_iterator begin() const;
 		const_iterator end() const;
-
-		const ALLEGRO_USTR* AlPtr() const;
+		ReverseIterator rbegin();
+		ReverseIterator rend();
+		ReverseIterator rbegin() const;
+		ReverseIterator rend() const;
 
 		String SubString(int end_pos) const;
 		String SubString(int start_pos, int end_pos) const;
 
-		String RefSubString(int end_pos) const;
-		String RefSubString(int start_pos, int end_pos) const;
-
-		size_t Length() const;
+		size_type Length() const;
 		int Width(const Font& font) const;
 		int Height(const Font& font) const;
 
-		int IndexOf(int32_t character) const;
-		int IndexOf(int32_t character, int start_pos) const;
-		int IndexOf(const char* value) const;
-		int LastIndexOf(int32_t character) const;
-		int LastIndexOf(int32_t character, int start_pos) const;
-		int IndexOfAny(const std::initializer_list<int32_t>& characters, int start_pos) const;
-		int IndexOfAny(bool(*f)(int), int start_pos) const;
-		int LastIndexOfAny(const std::initializer_list<int32_t>& characters, int start_pos) const;
-		int LastIndexOfAny(bool(*f)(int), int start_pos) const;
-		int32_t CharAt(int pos) const;
+		size_type IndexOf(value_type character) const;
+		size_type IndexOf(value_type character, size_type start) const;
+		size_type IndexOf(const char* value) const;
+		size_type LastIndexOf(value_type character) const;
+		size_type LastIndexOf(value_type character, size_type start) const;
+		size_type IndexOfAny(std::initializer_list<value_type> characters, size_type start) const;
+		size_type IndexOfAny(const std::function<bool(value_type)>& f, size_type start) const;
+		size_type LastIndexOfAny(std::initializer_list<value_type> characters, size_type start) const;
+		size_type LastIndexOfAny(const std::function<bool(value_type)>& f, size_type start) const;
+		value_type CharAt(size_type index) const;
 
-		bool Equals(const char* str);
+		bool Equals(const char* str) const;
 		bool Contains(const char* value) const;
 
 		void Append(const char* str);
-		void Append(int32_t character);
-		void Insert(int pos, const char* str);
-		void Insert(int pos, int32_t character);
-		void Insert(int pos, const String& str);
-		void Insert(int pos, const std::string& str);
-		void Remove(int pos);
-		void Remove(int pos, int length);
+		void Append(value_type character);
+		void Insert(size_type index, const char* str);
+		void Insert(size_type index, value_type character);
+		void Insert(size_type index, const String& str);
+		void Insert(size_type index, const std::string& str);
+		void Remove(size_type index);
+		void Remove(size_type index, size_type length);
 
 		void Clear();
 		void Trim();
@@ -107,28 +135,30 @@ namespace hvn3 {
 
 		const char* c_str() const;
 
-		static String Empty();
 		static bool IsNullOrEmpty(const String& str);
 
 		String& operator=(const char* other);
 		String& operator=(const std::string& other);
 		String& operator=(const String& other);
-		int32_t operator[](const int index);
+		value_type operator[](const int index);
 		String operator+(const char* rhs);
-		String operator+(int32_t rhs);
+		String operator+(value_type rhs);
+
+		static const String Empty;
+		static const size_type npos;
 
 	private:
-		ALLEGRO_USTR* ustr;
-		ALLEGRO_USTR_INFO* info;
+		typedef std::shared_ptr<ALLEGRO_USTR> ustr_ptr_t;
+		typedef std::unique_ptr<ALLEGRO_USTR, decltype(&al_ustr_free)> ref_ustr_ptr_t;
 
-		// Returns the index of the codepoint at the given character position. Searches from the closest end of the string.
-		int GetCodepointIndex(int char_position) const;
-		// Returns the index of the codepoint at the given character position. Searches forwards from the beginning of the string.
-		int GetCodepointIndexFromStart(int char_position, int starting_char_position = 0, int starting_codepoint = 0) const;
-		// Returns the index of the codepoint at the given character position. Searches backwards from the end of the string.
-		int GetCodepointIndexFromEnd(int char_position, int starting_char_position = -1, int starting_codepoint = -1) const;
+		mutable ustr_ptr_t _ustr; // pointer to the primary string
+		mutable ref_ustr_ptr_t _ref_ustr; // pointer to reference substring (if applicable)
+		mutable std::unique_ptr<ALLEGRO_USTR_INFO> _info; // required for storing reference string information; must not be deleted while _ref_ustr is in use
 
-		void Free();
+		ALLEGRO_USTR* _getUstrPointer() const;
+		ALLEGRO_USTR* _getUstrPointerAndCreateIfNull();
+		int _getCodePointByteOffset(size_type index) const;
+		void _onWrite() const;
 
 	};
 
