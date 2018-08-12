@@ -7,6 +7,7 @@
 #include "hvn3/gui2/WidgetRenderArgs.h"
 #include "hvn3/io/File.h"
 #include "hvn3/utility/Utf8String.h"
+#include <sstream>
 
 namespace hvn3 {
 	namespace Gui {
@@ -26,38 +27,50 @@ namespace hvn3 {
 		}
 		void DefaultWidgetRenderer::DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
 
-			InitRenderArgs(widget, args);
+			// #todo Have styles defined for each widget, and then a general style-drawing function
 
-			if (widget.Identifier() == "button")
-				DrawButton(canvas, widget, args);
-			else if (widget.Identifier() == "window")
-				DrawWindow(canvas, widget, args);
-			else if (widget.Identifier() == "menustrip")
-				DrawWidgetBase(canvas, widget, DEFAULT_UPPER_GRADIENT_COLOR, DEFAULT_UPPER_GRADIENT_COLOR);
-			else if (widget.Identifier() == "menustripitem")
-				DrawMenuStripItem(canvas, widget, args);
-			else if (widget.Identifier() == "contextmenu")
-				DrawContextMenu(canvas, widget, args);
-			else if (widget.Identifier() == "contextmenuitem")
-				DrawContextMenuItem(canvas, widget, args);
-			else if (widget.Identifier() == "contextmenuitemseparator")
-				DrawContextMenuItemSeparator(canvas, widget, args);
-			else if (widget.Identifier() == "scrollbar")
-				DrawWidgetBase(canvas, widget, DEFAULT_UPPER_GRADIENT_COLOR, DEFAULT_LOWER_GRADIENT_COLOR);
-			else if (widget.Identifier() == "thumb")
-				DrawWidgetBase(canvas, widget, Color::Silver, Color::Grey);
-			else if (widget.Identifier() == "tabstrip")
-				DrawWidgetBase(canvas, widget, DEFAULT_UPPER_GRADIENT_COLOR, DEFAULT_LOWER_GRADIENT_COLOR);
-			else if (widget.Identifier() == "tabstripitem")
-				DrawMenuStripItem(canvas, widget, args);
-			else if (widget.Identifier() == "listbox")
-				DrawListBox(canvas, widget, args);
-			else if (widget.Identifier() == "listboxitem")
-				DrawListBoxItem(canvas, widget, args);
-			else if (widget.Identifier() == "textbox")
-				DrawTextBox(canvas, widget, args);
-			else if (widget.Identifier() == "label")
-				DrawLabel(canvas, widget, args);
+			std::stringstream id_reader(widget.Identifier());
+			std::string id;			
+
+			while (id_reader >> id) {
+				
+				InitRenderArgs(widget, args);
+
+				if (id == "button")
+					DrawButton(canvas, widget, args);
+				else if (id == "window")
+					DrawWindow(canvas, widget, args);
+				else if (id == "menustrip")
+					DrawWidgetBase(canvas, widget, DEFAULT_UPPER_GRADIENT_COLOR, DEFAULT_UPPER_GRADIENT_COLOR);
+				else if (id == "menustripitem")
+					DrawMenuStripItem(canvas, widget, args);
+				else if (id == "contextmenu")
+					DrawContextMenu(canvas, widget, args);
+				else if (id == "contextmenuitem")
+					DrawContextMenuItem(canvas, widget, args);
+				else if (id == "contextmenuitemseparator")
+					DrawContextMenuItemSeparator(canvas, widget, args);
+				else if (id == "scrollbar")
+					DrawWidgetBase(canvas, widget, DEFAULT_UPPER_GRADIENT_COLOR, DEFAULT_LOWER_GRADIENT_COLOR);
+				else if (id == "thumb")
+					DrawWidgetBase(canvas, widget, Color::Silver, Color::Grey);
+				else if (id == "tabstrip")
+					DrawWidgetBase(canvas, widget, DEFAULT_UPPER_GRADIENT_COLOR, DEFAULT_LOWER_GRADIENT_COLOR);
+				else if (id == "tabstripitem")
+					DrawMenuStripItem(canvas, widget, args);
+				else if (id == "listbox")
+					DrawListBox(canvas, widget, args);
+				else if (id == "listboxitem")
+					DrawListBoxItem(canvas, widget, args);
+				else if (id == "textbox")
+					DrawTextBox(canvas, widget, args);
+				else if (id == "label")
+					DrawLabel(canvas, widget, args);
+				else if (_styles.count(id) > 0) {
+					DrawWidgetWithStyle(canvas, widget, args, _styles.at(id));
+				}
+
+			}
 
 		}
 		SizeF DefaultWidgetRenderer::MeasureString(const String& string) const {
@@ -65,6 +78,12 @@ namespace hvn3 {
 		}
 		const Font& DefaultWidgetRenderer::GetWidgetFont(const IWidget* widget) const {
 			return _default_font;
+		}
+
+		void DefaultWidgetRenderer::AddStyle(const std::string& _class, const WidgetStyle& style) {
+	
+			_styles.insert(std::make_pair(_class, style));
+
 		}
 
 		void DefaultWidgetRenderer::DrawWidgetBase(Graphics::Graphics& canvas, const IWidget& widget, const Color& gradient_top, const Color& gradient_bottom) const {
@@ -150,7 +169,7 @@ namespace hvn3 {
 					canvas.DrawRectangle(RectangleF(widget.Position(), widget.Size()), Color(DEFAULT_HIGHLIGHT_COLOR, 128), 1.0f);
 				}
 
-				canvas.DrawText(text_x, text_y, widget.Text(), _default_font, Color(224, 224, 224), Alignment::Center | Alignment::Middle);
+				canvas.DrawText(Math::Round(text_x), Math::Round(text_y), widget.Text(), _default_font, Color(224, 224, 224), Alignment::Center | Alignment::Middle);
 
 			}
 
@@ -179,7 +198,7 @@ namespace hvn3 {
 					canvas.DrawRectangle(RectangleF(widget.Position(), widget.Size()), Color(DEFAULT_HIGHLIGHT_COLOR, 128), 1.0f);
 				}
 
-				canvas.DrawText(text_x, text_y, widget.Text(), _default_font, Color(224, 224, 224), Alignment::Left | Alignment::Middle);
+				canvas.DrawText(Math::Round(text_x), Math::Round(text_y), widget.Text(), _default_font, Color(224, 224, 224), Alignment::Left | Alignment::Middle);
 
 			}
 
@@ -220,6 +239,45 @@ namespace hvn3 {
 		void DefaultWidgetRenderer::DrawLabel(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
 
 			canvas.DrawText(widget.X(), widget.Y(), widget.Text(), _default_font, Color::White);
+
+		}
+		void DefaultWidgetRenderer::DrawWidgetWithStyle(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args, const WidgetStyle& style) const {
+		
+			auto background_image = style.GetProperty<WidgetProperty::BackgroundImage>();
+			auto background_position = style.GetProperty<WidgetProperty::BackgroundPosition>();
+
+			if (background_image != nullptr) {
+
+				float background_position_x = widget.X();
+				float background_position_y = widget.Y();
+
+				if (background_position != nullptr) {
+
+					if (background_position->flags == WidgetStyle::PositionFlags::None) {
+
+						background_position_x += background_position->position.x;
+						background_position_y += background_position->position.y;
+
+					}
+					else {
+
+						if (HasFlag(background_position->flags, WidgetStyle::PositionFlags::Right))
+							background_position_x += widget.Width() - background_image->Width();
+						if (HasFlag(background_position->flags, WidgetStyle::PositionFlags::Bottom))
+							background_position_y += widget.Height() - background_image->Height();
+
+						if (HasFlag(background_position->flags, WidgetStyle::PositionFlags::Center)) {
+							background_position_x += widget.Width() / 2.0f - background_image->Width() / 2.0f;
+							background_position_y += widget.Height() / 2.0f - background_image->Height() / 2.0f;
+						}
+
+					}
+
+				}
+
+				canvas.DrawBitmap(background_position_x, background_position_y, *background_image);
+
+			}
 
 		}
 

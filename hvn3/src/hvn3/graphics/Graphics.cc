@@ -6,6 +6,7 @@
 #include "hvn3/utility/UTF8String.h"
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
+#include <cassert>
 
 namespace hvn3 {
 
@@ -355,6 +356,8 @@ namespace hvn3 {
 		}
 
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap) {
+
+			assert(static_cast<bool>(bitmap));
 
 			_makeThisActiveInstance(true);
 

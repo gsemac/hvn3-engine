@@ -44,7 +44,9 @@ namespace hvn3 {
 		}
 
 		void WidgetManager::AddChildManager(IWidget* parent, WidgetManager* manager) {
+
 			_child_managers[parent] = manager;
+
 		}
 		void WidgetManager::RemoveChildManager(IWidget* parent) {
 
@@ -65,6 +67,9 @@ namespace hvn3 {
 
 			widget->SetManager(this);
 			widget->SetParent(_owner);
+			
+			if (widget->HasChildren())
+				widget->GetChildren().SetRenderer(GetRenderer());
 
 			if (_owner != nullptr)
 				_owner->OnChildWidgetAdded(ChildWidgetAddedEventArgs(_owner, widget.get()));

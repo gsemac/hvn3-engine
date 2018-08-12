@@ -19,6 +19,8 @@ namespace hvn3 {
 			SizeF MeasureString(const String& string) const override;
 			const Font& GetWidgetFont(const IWidget* widget) const override;
 
+			void AddStyle(const std::string& _class, const WidgetStyle& style) override;
+
 		protected:
 			void DrawWidgetBase(Graphics::Graphics& canvas, const IWidget& widget, const Color& gradient_top, const Color& gradient_bottom) const;
 			void DrawButton(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
@@ -31,6 +33,7 @@ namespace hvn3 {
 			void DrawListBoxItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
 			void DrawTextBox(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
 			void DrawLabel(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const;
+			void DrawWidgetWithStyle(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args, const WidgetStyle& style) const;
 			void InitRenderArgs(const IWidget& widget, WidgetRenderArgs& args) const;
 
 		private:
@@ -38,6 +41,8 @@ namespace hvn3 {
 
 			Font _createDefaultFont();
 			Color _getTransitionedColor(WidgetRenderArgs& args, const std::string& id, WidgetState state, WidgetProperty prop) const;
+
+			std::unordered_map<std::string, WidgetStyle> _styles;
 
 		};
 

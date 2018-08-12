@@ -25,7 +25,7 @@ namespace hvn3 {
 			void DestroyContextMenu();
 			bool ContextMenuVisible() const;
 
-		private:
+		private: 
 			MenuStrip* _parent;
 			ContextMenu* _context_menu;
 			bool _context_menu_managed;

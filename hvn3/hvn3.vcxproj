@@ -120,6 +120,7 @@
     <ClInclude Include="include\hvn3\gui2\WidgetBase.h" />
     <ClInclude Include="include\hvn3\gui2\DefaultWidgetRenderer.h" />
     <ClInclude Include="include\hvn3\gui2\WidgetRenderArgs.h" />
+    <ClInclude Include="include\hvn3\gui2\WidgetStyle.h" />
     <ClInclude Include="include\hvn3\gui2\Window.h" />
     <ClInclude Include="include\hvn3\helper\Camera2d.h" />
     <ClInclude Include="include\hvn3\helper\DirectionalControlsHelper.h" />
@@ -305,6 +306,7 @@
     <ClCompile Include="src\hvn3\gui2\DefaultWidgetRenderer.cc" />
     <ClCompile Include="src\hvn3\gui2\WidgetManager.cc" />
     <ClCompile Include="src\hvn3\gui2\WidgetRendererRenderArgs.cc" />
+    <ClCompile Include="src\hvn3\gui2\WidgetStyle.cc" />
     <ClCompile Include="src\hvn3\gui2\Window.cc" />
     <ClCompile Include="src\hvn3\helper\Camera2d.cc" />
     <ClCompile Include="src\hvn3\helper\DirectionalControlsHelper.cc" />

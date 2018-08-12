@@ -145,16 +145,17 @@ namespace hvn3 {
 			float margin_x = 2.0f;
 			float margin_y = 1.0f;
 			float padding = 8.0f;
+			float min_width = Height() - (padding * 2.0f);
 
 			float x = margin_x;
-			float y = margin_y;
+			float y = margin_y;			
 
 			for (auto i = _child_manager.GetWidgets().begin(); i != _child_manager.GetWidgets().end(); ++i) {
 
 				SizeF text_size = GetManager()->Renderer().MeasureString(i->widget->Text());
 
 				i->widget->SetPosition(x, y);
-				i->widget->SetSize(text_size.width + (padding * 2.0f), Height());
+				i->widget->SetSize((std::max)(min_width, text_size.width) + (padding * 2.0f), Height());
 
 				x += margin_x + i->widget->Width();
 
