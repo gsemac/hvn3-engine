@@ -229,6 +229,9 @@ namespace hvn3 {
 			if (_default_font)
 				canvas.DrawText(widget.X(), widget.Y(), widget.Text(), _default_font, Color::Black);
 
+			if(HasFlag(widget.State(), WidgetState::Selected))
+				canvas.DrawRectangle(widget.Position(), widget.Size(), Color::Black, 1.0f);
+
 		}
 		void DefaultWidgetRenderer::DrawTextBox(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
 

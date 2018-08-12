@@ -44,6 +44,11 @@ namespace hvn3 {
 			void AddChildManager(IWidget* parent, WidgetManager* manager);
 			void RemoveChildManager(IWidget* parent);
 
+			widget_collection_type::iterator begin();
+			widget_collection_type::iterator end();
+			widget_collection_type::const_iterator begin() const;
+			widget_collection_type::const_iterator end() const;
+
 			void Add(IWidget* widget);
 			void Add(std::unique_ptr<IWidget>& widget);
 			void Remove(IWidget* widget);

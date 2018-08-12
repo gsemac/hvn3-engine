@@ -5,7 +5,9 @@
 namespace hvn3 {
 	namespace Gui {
 
-		class ListBoxItem : public WidgetBase {
+
+		class ListBoxItem :
+			public WidgetBase {
 
 		public:
 			ListBoxItem() {
@@ -16,10 +18,23 @@ namespace hvn3 {
 			}
 			ListBoxItem(const String& text) :
 				ListBoxItem() {
+
 				SetText(text);
+
 			}
 
-		private:
+			void OnFocus(WidgetFocusEventArgs& e) {
+
+				WidgetBase::OnFocus(e);
+
+				SetState(WidgetState::Selected, true);
+
+				if (GetParent() != nullptr && GetParent()->HasChildren())
+					for (auto i = GetParent()->GetChildren().begin(); i != GetParent()->GetChildren().begin(); ++i)
+						if (i->widget.get() != this)
+							i->widget->SetState(WidgetState::Selected, false);
+
+			}
 
 		};
 
@@ -28,7 +43,9 @@ namespace hvn3 {
 		public:
 			ListBox() :
 				ScrollableWidgetBase(Size()) {
+
 				SetIdentifier("listbox");
+
 			}
 
 			ListBoxItem* AddItem(ListBoxItem* item) {
@@ -44,6 +61,18 @@ namespace hvn3 {
 				AddItem(item);
 
 				return item;
+
+			}
+
+			int SelectedIndex() {
+
+				int index = 0;
+
+				for (auto i = GetChildren().begin(); i != GetChildren().end(); ++i, ++index)
+					if (HasFlag(i->widget->State(), WidgetState::Selected))
+						return index;
+
+				return -1;
 
 			}
 

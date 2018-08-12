@@ -79,7 +79,8 @@ namespace hvn3 {
 			ReadOnly = 512,
 			ReadWrite = 1024,
 			Required = 2048,
-			Valid = 4096
+			Selected = 4096,
+			Valid = 8192
 		};
 		ENABLE_BITFLAG_OPERATORS(WidgetState)
 
