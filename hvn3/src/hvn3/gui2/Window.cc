@@ -21,9 +21,9 @@ namespace hvn3 {
 			_minimum_size(Size()),
 			_child_manager(this) {
 
-			_initializeMembers();
-
 			SetText(text);
+
+			_initializeMembers();
 
 		}
 		Window::Window(float width, float height, const String& text) :
@@ -35,6 +35,9 @@ namespace hvn3 {
 		}
 		void Window::SetTitleBarVisible(bool value) {
 			_titlebar_visible = value;
+		}
+		void Window::SetBorderStyle(BorderStyle value) {
+			_border_style = value;
 		}
 		void Window::Close() {
 
@@ -111,13 +114,18 @@ namespace hvn3 {
 			_resizing_edges = 0;
 			_resize_edge_width = 6.0f;
 			_titlebar_height = 20.0f;
-			_titlebar_visible = true;
 			_minimum_size = SizeF(_resize_edge_width * 2.0f, _titlebar_height + _resize_edge_width);
+			_border_style = BorderStyle::Sizable;
+
+			_titlebar_visible = Text().Length() > 0;
 
 			_updateDockableRegion();
 
 		}
 		int Window::_getHoveredEdges(const PointF& p) {
+
+			if (_border_style == BorderStyle::None)
+				return 0;
 
 			int side = 0;
 			float edge_w = _resize_edge_width;
@@ -193,16 +201,23 @@ namespace hvn3 {
 		}
 		void Window::_updateDockableRegion() {
 
-			float dx = _resize_edge_width;
-			float dy = _titlebar_visible ? _titlebar_height : _resize_edge_width;
-			float dw = Width() - (_resize_edge_width * 2.0f);
-			float dh = Height() - _resize_edge_width;
+			float edge_w;
+
+			if (_border_style == BorderStyle::None)
+				edge_w = 0.0f;
+			else
+				edge_w = _resize_edge_width;
+
+			float dx = edge_w;
+			float dy = _titlebar_visible ? _titlebar_height : edge_w;
+			float dw = Width() - (edge_w * 2.0f);
+			float dh = Height() - edge_w;
 
 			if (_titlebar_visible)
 				dh -= _titlebar_height;
 			else
-				dh -= _resize_edge_width;
-			
+				dh -= edge_w;
+
 			_child_manager.SetDockableRegion(RectangleF(dx, dy, dw, dh));
 
 		}

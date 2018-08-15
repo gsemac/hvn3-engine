@@ -7,12 +7,18 @@ namespace hvn3 {
 		class Window : public WidgetBase {
 			
 		public:
+			enum class BorderStyle {
+				None,
+				Sizable
+			};
+			
 			Window(const String& text);
 			Window(float x, float y, float width, float height, const String& text);
 			Window(float width, float height, const String& text);
 
 			bool TitleBarVisible() const;
 			void SetTitleBarVisible(bool value);
+			void SetBorderStyle(BorderStyle value);
 			void Close();
 
 			WidgetManager& GetChildren() override;
@@ -34,6 +40,7 @@ namespace hvn3 {
 			bool _titlebar_visible;
 			SizeF _minimum_size;
 			WidgetManager _child_manager;
+			BorderStyle _border_style;
 
 			void _initializeMembers();
 			int _getHoveredEdges(const PointF& mouse_position);
