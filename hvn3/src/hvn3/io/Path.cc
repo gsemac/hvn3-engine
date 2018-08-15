@@ -2,6 +2,7 @@
 #include "hvn3/utility/Environment.h"
 #include "hvn3/utility/StringUtils.h"
 #include <cctype>
+#include <sstream>
 
 namespace hvn3 {
 
@@ -94,6 +95,18 @@ namespace hvn3 {
 					return path.substr(i, path.length() - i);
 
 			}
+
+			return "";
+
+		}
+		std::string Path::GetFileName(const std::string& path) {
+
+			if (path.length() <= 0)
+				return "";
+
+			for (size_t i = path.length() - 1; i >= 0; --i)
+				if (path[i] == DirectorySeparatorChar() || path[i] == AltDirectorySeparatorChar())
+					return path.substr(i + 1, path.length() - i - 1);
 
 			return "";
 

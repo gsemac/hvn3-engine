@@ -3,7 +3,9 @@
 #include "hvn3/io/Directory.h"
 #include "hvn3/io/Path.h"
 #include "hvn3/native/FileDialog.h"
+#include "hvn3/utility/StringUtils.h"
 #include <allegro5/allegro_native_dialog.h>
+#include <sstream>
 
 namespace hvn3 {
 
@@ -46,6 +48,23 @@ namespace hvn3 {
 		return _filter;
 	}
 	void FileDialog::SetFilter(const std::string& value) {
+
+		// Expects a filter string of the form: label|*.ext|label|*.ext|...
+		// #todo Allegro doesn't support showing the file types in the file type drop-down.
+
+		std::vector<std::string> split = StringUtils::Split(value, '|');
+		std::stringstream formatting_string;
+
+		for (size_t i = 1; i < split.size(); i += 2) {
+		
+			if (split[i] == "*.*") // Allegro expects "*".
+				formatting_string << "*;";
+			else
+				formatting_string << split[i] << ';';
+		
+		}
+
+		_filter = formatting_string.str();
 
 	}
 	bool FileDialog::ShowDialog() {
