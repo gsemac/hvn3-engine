@@ -4,6 +4,7 @@
 #include "hvn3/gui2/IWidget.h"
 #include "hvn3/gui2/IWidgetRenderer.h"
 #include "hvn3/gui2/WidgetManager.h"
+#include <algorithm>
 #include <cassert>
 #define HVN3_DEFAULT_WIDGET_Z 1
 
@@ -85,6 +86,9 @@ namespace hvn3 {
 
 			if (_owner != nullptr)
 				_owner->OnChildWidgetAdded(ChildWidgetAddedEventArgs(_owner, widget.get()));
+
+			// Don't allow the same widget to be added more than once.
+			assert(std::find_if(_widgets.begin(), _widgets.end(), [&](const WidgetData& x) { return x.widget.get() == widget.get(); }) == _widgets.end());
 
 			_widgets.emplace_back(WidgetData(widget));
 
