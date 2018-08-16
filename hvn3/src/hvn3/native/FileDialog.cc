@@ -19,6 +19,8 @@ namespace hvn3 {
 
 		SetInitialDirectory(IO::Directory::GetCurrentDirectory());
 
+		_add_extension_enabled = HasFlag(_flags, FileDialogFlags::Save);
+
 	}
 	const std::string& FileDialog::InitialDirectory() const {
 		return _initial_directory;
@@ -56,12 +58,12 @@ namespace hvn3 {
 		std::stringstream formatting_string;
 
 		for (size_t i = 1; i < split.size(); i += 2) {
-		
+
 			if (split[i] == "*.*") // Allegro expects "*".
 				formatting_string << "*;";
 			else
 				formatting_string << split[i] << ';';
-		
+
 		}
 
 		_filter = formatting_string.str();
@@ -83,6 +85,13 @@ namespace hvn3 {
 			for (size_t i = 0; i < count; ++i)
 				_selected_files.push_back(std::string(al_get_native_file_dialog_path(dialog, i)));
 
+			// Add the default file extension to all files if enabled.
+			if (_add_extension_enabled && _default_extension.length() > 0)
+				for (auto i = _selected_files.begin(); i != _selected_files.end(); ++i)
+					if (!StringUtils::EndsWith(*i, _default_extension))
+						*i += _default_extension;
+
+			// Set the filename value to the first selected file (note that multiple may be selected if relevant flag is enabled).
 			if (_selected_files.size() > 0)
 				_filename = _selected_files[0];
 
@@ -92,6 +101,12 @@ namespace hvn3 {
 
 		return result;
 
+	}
+	void FileDialog::SetDefaultExtension(const std::string& value) {
+		_default_extension = value;
+	}
+	void FileDialog::SetAddExtensionEnabled(bool value) {
+		_add_extension_enabled = value;
 	}
 
 	ALLEGRO_FILECHOOSER* FileDialog::_createDialog() {

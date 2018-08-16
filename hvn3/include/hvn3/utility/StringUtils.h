@@ -59,7 +59,7 @@ namespace hvn3 {
 		bool IEquals(const std::string& lhs, const std::string& rhs);
 		bool Equals(const std::string& lhs, const std::string& rhs, bool ignore_case = false);
 		bool NextSubstringEquals(const std::string& str, size_t pos, const std::string& substr);
-
+		bool EndsWith(const std::string& input, const std::string& substring);
 
 
 		// Attempts to construct an object from a string. Uses constructor if available, otherwise uses std::stringstream.

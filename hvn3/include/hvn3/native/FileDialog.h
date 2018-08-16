@@ -31,6 +31,9 @@ namespace hvn3 {
 		const std::string& Filter() const;
 		void SetFilter(const std::string& value);
 
+		void SetDefaultExtension(const std::string& value);
+		void SetAddExtensionEnabled(bool value);
+
 		bool ShowDialog();
 
 	private:
@@ -38,6 +41,8 @@ namespace hvn3 {
 		std::string _filename;
 		std::string _title;
 		std::string _filter;
+		std::string _default_extension;
+		bool _add_extension_enabled;
 		std::vector<std::string> _selected_files;
 		FileDialogFlags _flags;
 

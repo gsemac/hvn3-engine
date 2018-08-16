@@ -299,6 +299,21 @@ namespace hvn3 {
 			return true;
 
 		}
+		bool EndsWith(const std::string& input, const std::string& substring) {
+
+			if (substring.length() > input.length())
+				return false;
+
+			auto i = input.rbegin();
+			auto j = substring.rbegin();
+
+			for (; j != substring.rend(); ++i, ++j)
+				if (*i != *j)
+					return false;
+
+			return true;
+
+		}
 
 	}
 }
