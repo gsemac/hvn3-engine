@@ -1,5 +1,6 @@
 #pragma once
 #include "hvn3/gui2/IWidget.h"
+#include <initializer_list>
 
 namespace hvn3 {
 	namespace Gui {
@@ -23,6 +24,7 @@ namespace hvn3 {
 			void PlaceBottomOf(IWidget* to_place, IWidget* of);
 
 			void AnchorToInnerEdge(IWidget* to_place, Anchor anchors);
+			void CenterHorizontally(std::initializer_list<IWidget*> to_place);
 
 		private:
 			float _padding;

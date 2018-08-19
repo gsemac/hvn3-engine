@@ -1,5 +1,7 @@
 #include "hvn3/gui2/WidgetLayoutBuilder.h"
 #include "hvn3/gui2/WidgetManager.h"
+#include "hvn3/math/MathUtils.h"
+#include <cassert>
 
 namespace hvn3 {
 	namespace Gui {
@@ -111,6 +113,42 @@ namespace hvn3 {
 			}
 
 			to_place->SetAnchor(anchors);
+
+		}
+		void WidgetLayoutBuilder::CenterHorizontally(std::initializer_list<IWidget*> to_place) {
+
+			uint32_t count = 0;
+			float width = 0.0f;
+			WidgetManager* manager = nullptr;
+
+			for (auto i = to_place.begin(); i != to_place.end(); ++i) {
+
+				if (manager == nullptr) {
+
+					manager = (*i)->GetManager();
+
+					assert(manager != nullptr);
+
+				}
+
+				++count;
+
+				width += (*i)->Width();
+
+			}
+
+			if (count > 0)
+				width += _padding * (count - 1);
+
+			float x = manager->DockableRegion().Width() / 2.0f - width / 2.0f;
+
+			for (auto i = to_place.begin(); i != to_place.end(); ++i) {
+
+				(*i)->SetPosition(Math::Round(x), (*i)->Position().y);
+
+				x += (*i)->Width() + _padding;
+
+			}
 
 		}
 
