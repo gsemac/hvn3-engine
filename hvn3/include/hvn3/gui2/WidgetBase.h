@@ -46,6 +46,7 @@ namespace hvn3 {
 			bool HasChildren() override;
 			IWidget* GetParent() override;
 			void SetParent(IWidget* value) override;
+			WidgetManager* GetManager() const override;
 			RectangleF Bounds() const override;
 			bool Visible() const override;
 			void SetVisible(bool value) override;
@@ -83,7 +84,6 @@ namespace hvn3 {
 			}
 
 		protected:
-			WidgetManager* GetManager() const override;
 			void SetManager(WidgetManager* value) override;
 			IWidgetRenderer* GetRenderer() const override;
 

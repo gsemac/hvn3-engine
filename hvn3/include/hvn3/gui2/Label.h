@@ -9,10 +9,15 @@ namespace hvn3 {
 			public WidgetBase {
 
 		public:
-			Label(float x, float y, const String& text) {
+			Label(const String& text) {
 
 				SetIdentifier("label");
 				SetText(text);
+
+			}
+			Label(float x, float y, const String& text) :
+				Label(text) {
+
 				SetPosition(x, y);
 
 			}
@@ -34,12 +39,12 @@ namespace hvn3 {
 
 		private:
 			void _updateSize() {
-
+			
 				IWidgetRenderer* r = GetRenderer();
 
 				if (r == nullptr)
 					return;
-
+				
 				SetSize(r->MeasureString(Text()));
 
 			}

@@ -51,6 +51,7 @@ namespace hvn3 {
 			virtual WidgetManager& GetChildren() = 0;
 			virtual bool HasChildren() = 0;
 			virtual IWidget* GetParent() = 0;
+			virtual WidgetManager* GetManager() const = 0;
 			virtual void SetParent(IWidget* value) = 0;
 			virtual RectangleF Bounds() const = 0;
 			virtual bool Visible() const = 0;
@@ -82,7 +83,6 @@ namespace hvn3 {
 			virtual void OnKeyChar(WidgetKeyCharEventArgs& e) = 0;
 
 		protected:
-			virtual WidgetManager* GetManager() const = 0;
 			virtual void SetManager(WidgetManager* value) = 0;
 			virtual IWidgetRenderer* GetRenderer() const = 0;
 

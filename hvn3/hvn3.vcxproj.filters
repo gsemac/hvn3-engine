@@ -831,6 +831,9 @@
     <ClInclude Include="include\hvn3\gui2\WidgetStyle.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\WidgetLayoutBuilder.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1246,6 +1249,9 @@
       <Filter>src\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\gui2\WidgetStyle.cc">
+      <Filter>src\gui2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui2\WidgetLayoutBuilder.cc">
       <Filter>src\gui2</Filter>
     </ClCompile>
   </ItemGroup>
