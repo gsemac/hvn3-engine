@@ -834,6 +834,9 @@
     <ClInclude Include="include\hvn3\gui2\WidgetLayoutBuilder.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\CheckBox.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

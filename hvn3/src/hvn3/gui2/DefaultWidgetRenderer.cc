@@ -30,10 +30,10 @@ namespace hvn3 {
 			// #todo Have styles defined for each widget, and then a general style-drawing function
 
 			std::stringstream id_reader(widget.Identifier());
-			std::string id;			
+			std::string id;
 
 			while (id_reader >> id) {
-				
+
 				InitRenderArgs(widget, args);
 
 				if (id == "button")
@@ -66,6 +66,8 @@ namespace hvn3 {
 					DrawTextBox(canvas, widget, args);
 				else if (id == "label")
 					DrawLabel(canvas, widget, args);
+				else if (id == "checkbox")
+					DrawCheckBox(canvas, widget, args);
 				else if (_styles.count(id) > 0) {
 					DrawWidgetWithStyle(canvas, widget, args, _styles.at(id));
 				}
@@ -81,7 +83,7 @@ namespace hvn3 {
 		}
 
 		void DefaultWidgetRenderer::AddStyle(const std::string& _class, const WidgetStyle& style) {
-	
+
 			_styles.insert(std::make_pair(_class, style));
 
 		}
@@ -185,7 +187,7 @@ namespace hvn3 {
 
 		}
 		void DefaultWidgetRenderer::DrawContextMenuItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
-			
+
 			if (_default_font) {
 
 				float text_x = widget.Position().X();
@@ -229,7 +231,7 @@ namespace hvn3 {
 			if (_default_font)
 				canvas.DrawText(widget.X(), widget.Y(), widget.Text(), _default_font, Color::Black);
 
-			if(HasFlag(widget.State(), WidgetState::Selected))
+			if (HasFlag(widget.State(), WidgetState::Selected))
 				canvas.DrawRectangle(widget.Position(), widget.Size(), Color::Black, 1.0f);
 
 		}
@@ -244,8 +246,39 @@ namespace hvn3 {
 			canvas.DrawText(widget.X(), widget.Y(), widget.Text(), _default_font, Color::White);
 
 		}
+		void DefaultWidgetRenderer::DrawCheckBox(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
+
+			// Account for the widget of the checkbox itself and the padding before the text.
+
+			float checkbox_w = 12.0f;
+			float text_left_padding = 5.0f;
+
+			canvas.DrawText(widget.X() + checkbox_w + text_left_padding, widget.Y(), widget.Text(), _default_font, Color::White);
+
+			// Draw the checkbox.
+
+			float text_height = MeasureString(widget.Text()).height;
+			float checkbox_x = widget.X();
+			float checkbox_y = Math::Round(widget.Y() + (text_height / 2.0f) - (checkbox_w / 2.0f));
+
+			canvas.DrawSolidRectangle(checkbox_x, checkbox_y, checkbox_w, checkbox_w, Color::White);
+			canvas.DrawRectangle(checkbox_x, checkbox_y, checkbox_w, checkbox_w, Color::Black);
+
+			float checkmark_w = 2.0f;
+			float checkmark_padding = 3.0f;
+
+			checkbox_x += checkmark_padding;
+			checkbox_y += checkmark_padding;
+			checkbox_w -= checkmark_padding * 2.0f;
+
+			if (HasFlag(widget.State(), WidgetState::Checked)) {
+				canvas.DrawLine(checkbox_x + checkbox_w, checkbox_y, checkbox_x + checkbox_w / 2.0f, checkbox_y + checkbox_w, Color::Black, checkmark_w);
+				canvas.DrawLine(checkbox_x + checkbox_w / 2.0f, checkbox_y + checkbox_w, checkbox_x, checkbox_y + checkbox_w * 0.5f, Color::Black, checkmark_w);
+			}
+
+		}
 		void DefaultWidgetRenderer::DrawWidgetWithStyle(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args, const WidgetStyle& style) const {
-		
+
 			auto background_image = style.GetProperty<WidgetProperty::BackgroundImage>();
 			auto background_position = style.GetProperty<WidgetProperty::BackgroundPosition>();
 
@@ -283,7 +316,6 @@ namespace hvn3 {
 			}
 
 		}
-
 		void DefaultWidgetRenderer::InitRenderArgs(const IWidget& widget, WidgetRenderArgs& args) const {
 
 			if (args.Initialized() && args.LastState() == widget.State())
