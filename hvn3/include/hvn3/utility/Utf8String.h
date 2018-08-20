@@ -125,7 +125,7 @@ namespace hvn3 {
 		void Insert(size_type index, value_type character);
 		void Insert(size_type index, const String& str);
 		void Insert(size_type index, const std::string& str);
-		void Remove(size_type index);
+		void RemoveAt(size_type index);
 		void Remove(size_type index, size_type length);
 
 		void Clear();

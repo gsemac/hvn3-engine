@@ -374,7 +374,7 @@ namespace hvn3 {
 	void String::Insert(size_type index, const std::string& str) {
 		Insert(index, str.c_str());
 	}
-	void String::Remove(size_type index) {
+	void String::RemoveAt(size_type index) {
 
 		_onWrite();
 
@@ -577,7 +577,7 @@ namespace hvn3 {
 
 		int index_i = static_cast<int>(index);
 
-		assert(index_i > 0);
+		assert(index_i >= 0);
 
 		return index_i;
 
