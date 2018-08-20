@@ -38,11 +38,13 @@ namespace hvn3 {
 
 		};
 
-		class ListBox : public ScrollableWidgetBase, public ContainerWidgetBase {
+		class ListBox : 
+			public ScrollableWidgetBase, 
+			public ContainerWidgetBase {
 
 		public:
 			ListBox() :
-				ScrollableWidgetBase(Size()) {
+				ScrollableWidgetBase(SizeF(0.0f, 0.0f)) {
 
 				SetIdentifier("listbox");
 
@@ -78,16 +80,23 @@ namespace hvn3 {
 
 			void OnUpdate(WidgetUpdateEventArgs& e) {
 
+				ScrollableWidgetBase::OnUpdate(e);
+				ContainerWidgetBase::OnUpdate(e);
+
+				// Position and size all items.
+
 				float yoff = 0.0f;
 
 				for (auto i = GetChildren().GetWidgets().begin(); i != GetChildren().GetWidgets().end(); ++i) {
 
 					i->widget->SetWidth(Width());
-					i->widget->SetY(yoff);
+					i->widget->SetY(yoff - VisibleRegion().Y());
 
 					yoff += i->widget->Height();
 
 				}
+
+				SetScrollableSize(SizeF(0.0f, yoff));
 
 				GetChildren().SetDockableRegion(RectangleF(Size()));
 

@@ -208,14 +208,29 @@ namespace hvn3 {
 			else
 				edge_w = _resize_edge_width;
 
-			float dx = edge_w;
-			float dy = _titlebar_visible ? _titlebar_height : edge_w;
-			float dw = Width() - (edge_w * 2.0f);
-			float dh = Height() - edge_w;
+			float dx = 0.0f;
+			float dy = 0.0f;
+			float dw = Width();
+			float dh = Height();
 
-			if (_titlebar_visible)
+			if (!HasFlag(Anchor(), Anchor::Left)) {
+				dx = edge_w;
+				dw -= edge_w;
+			}
+
+			if (!HasFlag(Anchor(), Anchor::Right))
+				dw -= edge_w;
+
+			if (_titlebar_visible) {
+				dy = _titlebar_height;
 				dh -= _titlebar_height;
-			else
+			}
+			else if (!HasFlag(Anchor(), Anchor::Top)) {
+				dy = edge_w;
+				dh -= edge_w;
+			}
+
+			if (!HasFlag(Anchor(), Anchor::Bottom))
 				dh -= edge_w;
 
 			_child_manager.SetDockableRegion(RectangleF(dx, dy, dw, dh));

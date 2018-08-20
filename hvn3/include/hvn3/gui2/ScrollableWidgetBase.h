@@ -5,14 +5,12 @@
 namespace hvn3 {
 	namespace Gui {
 
-		class ScrollableWidgetBase : public virtual WidgetBase {
+		class ScrollableWidgetBase : 
+			public virtual WidgetBase {
 
 		public:
 			ScrollableWidgetBase(const SizeF& scrollable_size) :
 				_scrollable_size(scrollable_size) {
-
-
-
 			}
 
 			void SetVisible(bool value) override {
@@ -51,9 +49,11 @@ namespace hvn3 {
 				if (!_scrollbarsCreated())
 					return;
 
+				PointF pos = Position();
+
 				// Make sure the scrollbars stick to their positions.
-				_vscrollbar->SetPosition(X() + Width() - _vscrollbar->Width(), Y());
-				_hscrollbar->SetPosition(X(), Y() + Height() - _hscrollbar->Height());
+				_vscrollbar->SetPosition(pos.X() + Width() - _vscrollbar->Width(), pos.Y());
+				_hscrollbar->SetPosition(pos.X(), pos.Y() + Height() - _hscrollbar->Height());
 
 				// Only have the scrollbars visible if they're required to view the scrollable area.
 				_vscrollbar->SetVisible(Height() < _scrollable_size.height);
@@ -68,7 +68,6 @@ namespace hvn3 {
 				_hscrollbar->SetMax(_scrollable_size.width);
 
 			}
-
 
 		protected:
 			Scrollbar* VerticalScrollbar() {
