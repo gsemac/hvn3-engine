@@ -1,5 +1,6 @@
 #include "hvn3/gui2/IWidgetRenderer.h"
 #include "hvn3/gui2/WidgetBase.h"
+#include "hvn3/utility/StringUtils.h"
 
 namespace hvn3 {
 	namespace Gui {
@@ -18,6 +19,12 @@ namespace hvn3 {
 				SetWidth(width);
 
 				_initializeMembers();
+
+			}
+			TextBox(float width, InputType input_type) :
+				TextBox(width) {
+
+				_input_type = input_type;
 
 			}
 
@@ -66,8 +73,15 @@ namespace hvn3 {
 			}
 			void OnKeyChar(WidgetKeyCharEventArgs& e) override {
 
-				if (Keyboard::IsPrintableChar(e.Key()))
-					_insertAtCaret(e.CharCode());
+				if (Keyboard::IsPrintableChar(e.Key())) {
+
+					if (_input_type == InputType::Numeric)
+						if (!StringUtils::IsNumeric(e.CharCode()))
+							return;
+				
+						_insertAtCaret(e.CharCode());
+				
+				}
 				else if (e.Key() == Key::Backspace || e.Key() == Key::Delete)
 					_removeAtCaret(e.Key() == Key::Backspace);
 				else if (e.Key() == Key::Left)
@@ -95,11 +109,13 @@ namespace hvn3 {
 			int _caret_pos;
 			float _caret_blink_timer;
 			bool _focused;
+			InputType _input_type;
 
 			void _initializeMembers() {
 
 				_caret_pos = 0;
 				_caret_blink_timer = 0.0f;
+				_input_type = InputType::Unrestricted;
 
 			}
 			void _insertAtCaret(int32_t character) {

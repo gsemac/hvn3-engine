@@ -136,18 +136,20 @@ namespace hvn3 {
 		String ToLower() const;
 
 		const char* c_str() const;
-
+		
 		static bool IsNullOrEmpty(const String& str);
 
 		String& operator=(const char* other);
 		String& operator=(const std::string& other);
 		String& operator=(const String& other);
-		value_type operator[](const int index);
+		value_type operator[](int index) const;
 		String operator+(const char* rhs);
 		String operator+(value_type rhs);
 
 		static const String Empty;
 		static const size_type npos;
+
+		size_type size() const;
 
 	private:
 		typedef std::shared_ptr<ALLEGRO_USTR> ustr_ptr_t;

@@ -1,10 +1,12 @@
 #pragma once
+#include <cassert>
 #include <cctype>
 #include <cstdint>
 #include <functional>
 #include <initializer_list>
 #include <ios>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <type_traits>
 #include <vector>
@@ -63,13 +65,13 @@ namespace hvn3 {
 
 
 		// Attempts to construct an object from a string. Uses constructor if available, otherwise uses std::stringstream.
-		template <typename T>
-		typename std::enable_if<std::is_constructible<T, const std::string&>::value, T>::type ParseString(const std::string& in) {
+		template <typename T, typename StringT>
+		typename std::enable_if<std::is_constructible<T, const std::string&>::value, T>::type ParseString(const StringT& in) {
 			return T(in);
 		}
 		// Attempts to construct an object from a string. Uses constructor if available, otherwise uses std::stringstream.
-		template <typename T>
-		typename std::enable_if<std::is_arithmetic<T>::value, T>::type ParseString(const std::string& in) {
+		template <typename T, typename StringT>
+		typename std::enable_if<std::is_arithmetic<T>::value, T>::type ParseString(const StringT& in) {
 
 			std::stringstream reader;
 
@@ -85,6 +87,8 @@ namespace hvn3 {
 
 			T out;
 			reader >> out;
+
+			assert(!reader.fail());
 
 			return out;
 

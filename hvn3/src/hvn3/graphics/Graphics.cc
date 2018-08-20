@@ -371,6 +371,8 @@ namespace hvn3 {
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale) {
 
+			assert(static_cast<bool>(bitmap));
+
 			_makeThisActiveInstance(true);
 
 			al_draw_scaled_bitmap(
@@ -389,6 +391,8 @@ namespace hvn3 {
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const PointF& origin, float angle) {
 
+			assert(static_cast<bool>(bitmap));
+
 			_makeThisActiveInstance(true);
 
 			al_draw_scaled_rotated_bitmap(
@@ -406,12 +410,16 @@ namespace hvn3 {
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, const RectangleF& region) {
 
+			assert(static_cast<bool>(bitmap));
+
 			_makeThisActiveInstance(true);
 
 			al_draw_bitmap_region(System::AllegroAdapter::ToBitmap(bitmap), region.X(), region.Y(), region.Width(), region.Height(), x, y, NULL);
 
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, const Color& tint) {
+
+			assert(static_cast<bool>(bitmap));
 
 			_makeThisActiveInstance(true);
 

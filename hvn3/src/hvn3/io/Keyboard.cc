@@ -106,5 +106,12 @@ namespace hvn3 {
 	bool Keyboard::IsPrintableChar(hvn3::Key key) {
 		return IsPrintableChar(static_cast<int>(key));
 	}
+	bool Keyboard::IsNumeric(hvn3::Key key) {
 
+		int key_code = static_cast<int>(key);
+
+		return (key_code >= 27 && key_code < 47);
+
+	}
+	
 }

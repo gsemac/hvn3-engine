@@ -286,7 +286,7 @@ namespace hvn3 {
 	}
 	String::value_type String::CharAt(size_type index) const {
 
-		assert(index > Length());
+		assert(index < Length());
 
 		ALLEGRO_USTR* ptr = _getUstrPointer();
 
@@ -521,7 +521,7 @@ namespace hvn3 {
 		return *this;
 
 	}
-	int32_t String::operator[](const int index) {
+	int32_t String::operator[](int index) const {
 		return CharAt(index);
 	}
 	String String::operator+(const char* rhs) {
@@ -555,6 +555,10 @@ namespace hvn3 {
 
 	const String String::Empty;
 	const String::size_type String::npos = -1;
+
+	String::size_type String::size() const {
+		return Length();
+	}
 
 	// Private methods
 

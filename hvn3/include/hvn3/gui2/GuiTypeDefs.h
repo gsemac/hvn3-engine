@@ -14,7 +14,7 @@ namespace hvn3 {
 			Top = 4,
 			Bottom = 8
 		};
-		ENABLE_BITFLAG_OPERATORS(Anchor)
+		ENABLE_BITFLAG_OPERATORS(Anchor);
 
 		enum class DockStyle {
 			None = 0,
@@ -82,7 +82,12 @@ namespace hvn3 {
 			Selected = 4096,
 			Valid = 8192
 		};
-		ENABLE_BITFLAG_OPERATORS(WidgetState)
+		ENABLE_BITFLAG_OPERATORS(WidgetState);
+
+		enum class InputType {
+			Unrestricted,
+			Numeric
+		};
 
 	}
 }

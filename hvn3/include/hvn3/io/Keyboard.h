@@ -209,6 +209,7 @@ namespace hvn3 {
 		static void ClearLastKey();
 		static bool IsPrintableChar(int key_code);
 		static bool IsPrintableChar(hvn3::Key key);
+		static bool IsNumeric(hvn3::Key key);
 
 	private:
 		struct Key {
