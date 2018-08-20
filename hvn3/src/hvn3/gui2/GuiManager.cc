@@ -14,24 +14,16 @@ namespace hvn3 {
 		//}
 		//void GuiManager::OnContextChanged(ContextChangedEventArgs& e) {}
 		void GuiManager::OnDraw(DrawEventArgs& e) {
-
 			WidgetManager::OnDraw(e);
-
 		}
 		void GuiManager::OnUpdate(UpdateEventArgs& e) {
-
 			WidgetManager::OnUpdate(e);
-
 		}
 		void GuiManager::OnKeyDown(KeyDownEventArgs& e) {
-
 			WidgetManager::OnKeyDown(e);
-
 		}
 		void GuiManager::OnKeyPressed(KeyPressedEventArgs& e) {
-
-			WidgetManager::OnKeyPressed(e);
-
+			WidgetManager::OnKeyPressed(e);			
 		}
 		void GuiManager::OnKeyUp(KeyUpEventArgs& e) {
 			WidgetManager::OnKeyUp(e);

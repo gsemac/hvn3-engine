@@ -26,6 +26,7 @@ namespace hvn3 {
 			_parent = nullptr;
 			_visible = true;
 			_cursor = SystemCursor::Default;
+			_tab_stop = true;
 
 		}
 
@@ -191,6 +192,12 @@ namespace hvn3 {
 		}
 		void WidgetBase::SetCursor(SystemCursor cursor) {
 			_cursor = cursor;
+		}
+		bool WidgetBase::TabStop() const {
+			return _tab_stop;
+		}
+		void WidgetBase::SetTabStop(bool value) {
+			_tab_stop = value;
 		}
 
 		void WidgetBase::BringToFront() {

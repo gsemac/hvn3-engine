@@ -333,6 +333,7 @@ namespace hvn3 {
 				return;
 
 			_widget_focused->HandleEvent(WidgetKeyDownEventArgs(_widget_focused, e));
+			
 
 		}
 		void WidgetManager::OnKeyPressed(KeyPressedEventArgs& e) {
@@ -341,6 +342,55 @@ namespace hvn3 {
 				return;
 
 			_widget_focused->HandleEvent(WidgetKeyPressedEventArgs(_widget_focused, e));
+
+			// Allow tabbing to the next widget.
+
+			if (e.Key() == Key::Tab && _widget_focused->GetManager() != nullptr) {
+
+				// Find the widget after the tabbed widget, and give it focus.
+				for (auto i = _widget_focused->GetManager()->_widgets.begin(); i != _widget_focused->GetManager()->_widgets.end(); ++i) {
+				
+					if (i->widget.get() != _widget_focused)
+						continue;
+
+					// Get the next widget in the collection that can be tabbed to from the currently-focused.
+
+					IWidget* tabbed_widget = nullptr;
+					
+					while (++i != _widget_focused->GetManager()->_widgets.end()) {
+
+						if (!i->widget->TabStop())
+							continue;
+
+						tabbed_widget = i->widget.get();
+
+						break;
+
+					}
+
+					// If we couldn't find a widget to tab to, start from the beginning of the list.
+										
+					if (tabbed_widget == nullptr) {
+
+						for (i = _widget_focused->GetManager()->_widgets.begin(); i != _widget_focused->GetManager()->_widgets.end(); ++i) 
+							if (i->widget->TabStop()) {
+
+								tabbed_widget = i->widget.get();
+								break;
+
+							}
+
+					}
+
+					if(tabbed_widget != nullptr)
+						_setFocused(tabbed_widget);
+
+					break;
+
+				}
+
+
+			}
 
 		}
 		void WidgetManager::OnKeyUp(KeyUpEventArgs& e) {

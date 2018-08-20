@@ -58,6 +58,8 @@ namespace hvn3 {
 			virtual void SetVisible(bool value) = 0;
 			virtual SystemCursor Cursor() const = 0;
 			virtual void SetCursor(SystemCursor cursor) = 0;
+			virtual bool TabStop() const = 0;
+			virtual void SetTabStop(bool value) = 0;
 
 			virtual void BringToFront() = 0;
 			virtual void SendToBack() = 0;

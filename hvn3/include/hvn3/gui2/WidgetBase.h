@@ -52,6 +52,8 @@ namespace hvn3 {
 			void SetVisible(bool value) override;
 			SystemCursor Cursor() const override;
 			void SetCursor(SystemCursor cursor) override;
+			bool TabStop() const override;
+			void SetTabStop(bool value) override;
 
 			void BringToFront() override;
 			void SendToBack() override;
@@ -102,6 +104,7 @@ namespace hvn3 {
 			SystemCursor _cursor;
 			WidgetManager* _parent_manager;
 			callback_table_type _callbacks;
+			bool _tab_stop;
 
 		};
 

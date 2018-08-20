@@ -13,6 +13,7 @@ namespace hvn3 {
 
 				SetIdentifier("label");
 				SetText(text);
+				SetTabStop(false);
 
 			}
 			Label(float x, float y, const String& text) :
