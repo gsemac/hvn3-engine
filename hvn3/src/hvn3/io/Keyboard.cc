@@ -94,7 +94,7 @@ namespace hvn3 {
 		_last_key = 0;
 
 	}
-	bool Keyboard::IsChar(int key_code) {
+	bool Keyboard::IsPrintableChar(int key_code) {
 
 		return (key_code >= 1 && key_code < 47) || // A-Z, 0-9
 			(key_code >= 60 && key_code < 63) || // ~ - =
@@ -103,14 +103,8 @@ namespace hvn3 {
 			(key_code >= 86 && key_code < 89); // / * - + (keypad)
 
 	}
-	bool Keyboard::IsChar(hvn3::Key key) {
-
-		return IsChar((int)key);
-
+	bool Keyboard::IsPrintableChar(hvn3::Key key) {
+		return IsPrintableChar(static_cast<int>(key));
 	}
-
-	// Private members
-
-	Keyboard::Keyboard() {}
 
 }

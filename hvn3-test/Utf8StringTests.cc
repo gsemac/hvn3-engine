@@ -83,6 +83,13 @@ namespace hvn3test {
 			Assert::IsTrue(copy == "olleh");
 
 		}
+		TEST_METHOD(TestSubstringStartingAtBeginningOfString) {
+
+			String str("hello, world!");
+
+			Assert::IsTrue(str.SubString(5) == "hello");
+
+		}
 
 	};
 

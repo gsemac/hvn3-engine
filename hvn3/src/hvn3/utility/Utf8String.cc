@@ -69,7 +69,7 @@ namespace hvn3 {
 			_forward_iterator.decrement();
 
 	}
-	void String::ReverseIterator::decrement() {		
+	void String::ReverseIterator::decrement() {
 
 		_forward_iterator.increment();
 
@@ -113,6 +113,8 @@ namespace hvn3 {
 		String() {
 
 		_ustr = std::move(other._ustr);
+		_ref_ustr = std::move(other._ref_ustr);
+		_info = std::move(other._info);
 
 	}
 	String::iterator String::begin() {
@@ -134,8 +136,6 @@ namespace hvn3 {
 
 		int len = static_cast<int>(Length());
 
-		assert(len > 0);
-
 		return iterator(this, len);
 
 	}
@@ -156,6 +156,7 @@ namespace hvn3 {
 	}
 	String String::SubString(int index, int length) const {
 
+		assert(index >= 0);
 		assert(length >= 0);
 
 		if (length == 0)
@@ -536,7 +537,11 @@ namespace hvn3 {
 	}
 	std::ostream& operator<< (std::ostream& stream, const String& str) {
 
-		stream << str.c_str();
+		// Note that if we were to output the c_cstr array for a reference string, it would write the entire string.
+		// To keep things simple, we'll write one character at a time so it doesn't matter.
+
+		for (auto i = str.begin(); i != str.end(); ++i)
+			stream << static_cast<char>(*i);
 
 		return stream;
 

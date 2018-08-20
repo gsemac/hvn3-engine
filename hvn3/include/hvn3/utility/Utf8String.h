@@ -98,8 +98,8 @@ namespace hvn3 {
 		const_reverse_iterator rbegin() const;
 		const_reverse_iterator rend() const;
 
-		String SubString(int end_pos) const;
-		String SubString(int start_pos, int end_pos) const;
+		String SubString(int length) const;
+		String SubString(int index, int length) const;
 
 		size_type Length() const;
 		int Width(const Font& font) const;

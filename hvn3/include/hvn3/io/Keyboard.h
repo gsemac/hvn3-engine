@@ -207,8 +207,8 @@ namespace hvn3 {
 		static int LastKey();
 		static void ClearLastChar();
 		static void ClearLastKey();
-		static bool IsChar(int key_code);
-		static bool IsChar(hvn3::Key key);
+		static bool IsPrintableChar(int key_code);
+		static bool IsPrintableChar(hvn3::Key key);
 
 	private:
 		struct Key {
@@ -229,7 +229,7 @@ namespace hvn3 {
 		static int _last_key;
 		static int _modifier;
 
-		Keyboard();
+		Keyboard() = default;
 
 	};
 

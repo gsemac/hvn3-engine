@@ -304,18 +304,25 @@ namespace hvn3 {
 		}
 		void Runner::OnKeyChar(Event& ev) {
 
-			if (ev.AlPtr()->keyboard.keycode != ALLEGRO_KEY_ENTER &&
-				ev.AlPtr()->keyboard.keycode != ALLEGRO_KEY_PAD_ENTER &&
-				ev.AlPtr()->keyboard.keycode != ALLEGRO_KEY_BACKSPACE &&
-				ev.AlPtr()->keyboard.keycode != ALLEGRO_KEY_DELETE &&
-				!(ev.AlPtr()->keyboard.modifiers & ALLEGRO_KEYMOD_CTRL) &&
-				ev.AlPtr()->keyboard.unichar > 0) {
+			// Documentation:
+			// https://liballeg.org/a5docs/trunk/events.html#allegro_event_key_char
 
-				KeyboardMutator con;
+			// Note that non-printable key codes like arrows, delete, backspace, etc. are also returned here.
+
+			KeyboardMutator con;
+			int32_t character = ev.AlPtr()->keyboard.unichar;
+
+			if (Keyboard::IsPrintableChar(character))
 				con.SetLastChar(ev.AlPtr()->keyboard.unichar);
-				con.DispatchEvent(KeyCharEventArgs((Key)ev.AlPtr()->keyboard.keycode, ev.AlPtr()->keyboard.unichar));
 
-			}
+			con.DispatchEvent(KeyCharEventArgs(static_cast<Key>(ev.AlPtr()->keyboard.keycode), ev.AlPtr()->keyboard.unichar));
+
+			//if (ev.AlPtr()->keyboard.keycode != ALLEGRO_KEY_ENTER &&
+			//	ev.AlPtr()->keyboard.keycode != ALLEGRO_KEY_PAD_ENTER &&
+			//	ev.AlPtr()->keyboard.keycode != ALLEGRO_KEY_BACKSPACE &&
+			//	ev.AlPtr()->keyboard.keycode != ALLEGRO_KEY_DELETE &&
+			//	!(ev.AlPtr()->keyboard.modifiers & ALLEGRO_KEYMOD_CTRL) &&
+			//	ev.AlPtr()->keyboard.unichar > 0) {}
 
 		}
 		void Runner::OnMouseButtonDown(Event& ev) {
@@ -555,12 +562,12 @@ namespace hvn3 {
 				return;
 
 			IRoom& room = _context.GetRooms().GetRoom();
-			
+
 			if (room.Views().Count() > 0) {
 
 				// If the mouse is inside of a View, position it relative to the View (where 0, 0 is the top left of the View).
 				for (size_t i = room.Views().Count(); i-- > 0u;) {
-					
+
 					const View& view = room.Views().At(i);
 
 					// If the View is disabled or doesn't track the mouse position, do nothing.
