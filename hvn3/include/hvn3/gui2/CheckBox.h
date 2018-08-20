@@ -34,9 +34,9 @@ namespace hvn3 {
 				_updateSize();
 
 			}
-			void OnMousePressed(WidgetMousePressedEventArgs& e) override {
+			void OnMouseReleased(WidgetMouseReleasedEventArgs& e) override {
 
-				WidgetBase::OnMousePressed(e);
+				WidgetBase::OnMouseReleased(e);
 
 				SetState(WidgetState::Checked, !HasFlag(State(), WidgetState::Checked));
 				
