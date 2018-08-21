@@ -29,8 +29,9 @@ namespace hvn3 {
 
 				SetState(WidgetState::Selected, true);
 
-				if (GetParent() != nullptr && GetParent()->HasChildren())
-					for (auto i = GetParent()->GetChildren().begin(); i != GetParent()->GetChildren().begin(); ++i)
+				// Un-select all other items.
+				if (GetManager() != nullptr)
+					for (auto i = GetManager()->begin(); i != GetManager()->end(); ++i)
 						if (i->widget.get() != this)
 							i->widget->SetState(WidgetState::Selected, false);
 
@@ -38,8 +39,8 @@ namespace hvn3 {
 
 		};
 
-		class ListBox : 
-			public ScrollableWidgetBase, 
+		class ListBox :
+			public ScrollableWidgetBase,
 			public ContainerWidgetBase {
 
 		public:

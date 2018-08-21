@@ -233,18 +233,26 @@ namespace hvn3 {
 		}
 		void DefaultWidgetRenderer::DrawListBoxItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
 
-			Color backcol = Color::White;
+			Color background_color = Color::White;
+			Color text_color = Color::Black;
 
-			if (HasFlag(widget.State(), WidgetState::Focus))
-				backcol = Color::Blue;
+			if (HasFlag(widget.State(), WidgetState::Selected)) {
 
-			canvas.DrawSolidRectangle(widget.Position(), widget.Size(), backcol);
+				if (HasFlag(widget.State(), WidgetState::Focus)) {
+
+					background_color = Color::FromArgb(35, 144, 253);
+					text_color = Color::White;
+
+				}
+				else
+					background_color = Color::FromArgb(199, 199, 199);
+
+			}
+
+			canvas.DrawSolidRectangle(widget.Position(), widget.Size(), background_color);
 
 			if (_default_font)
-				canvas.DrawText(widget.X(), widget.Y(), widget.Text(), _default_font, Color::Black);
-
-			if (HasFlag(widget.State(), WidgetState::Selected))
-				canvas.DrawRectangle(widget.Position(), widget.Size(), Color::Black, 1.0f);
+				canvas.DrawText(widget.X(), widget.Y(), widget.Text(), _default_font, text_color);
 
 		}
 		void DefaultWidgetRenderer::DrawTextBox(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
