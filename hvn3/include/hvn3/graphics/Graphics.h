@@ -62,6 +62,7 @@ namespace hvn3 {
 
 			void DrawBitmap(float x, float y, const Bitmap& bitmap);
 			void DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale);
+			void DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const Color& tint);
 			void DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const PointF& origin, float angle);
 			void DrawBitmap(float x, float y, const Bitmap& bitmap, const RectangleF& region);
 			void DrawBitmap(float x, float y, const Bitmap& bitmap, const Color& tint);

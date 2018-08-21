@@ -15,6 +15,8 @@ namespace hvn3 {
 				return GetSystemAssetPath() + "fonts/";
 			case SystemAssetType::Graphics:
 				return GetSystemAssetPath() + "graphics/";
+			case SystemAssetType::Icons:
+				return GetSystemAssetPath() + "icons/";
 			default:
 				return GetSystemAssetPath();
 			}

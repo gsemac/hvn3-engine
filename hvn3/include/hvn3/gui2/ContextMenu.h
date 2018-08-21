@@ -16,6 +16,13 @@ namespace hvn3 {
 
 			}
 
+			bool Checked() const {
+				return HasFlag(State(), WidgetState::Checked);
+			}
+			void SetChecked(bool value) {
+				SetState(WidgetState::Checked, value);
+			}
+
 		};
 
 		class ContextMenuItemSeparator :

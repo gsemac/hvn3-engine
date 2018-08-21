@@ -389,6 +389,27 @@ namespace hvn3 {
 				);
 
 		}
+		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const Color& tint) {
+
+			assert(static_cast<bool>(bitmap));
+
+			_makeThisActiveInstance(true);
+
+			al_draw_tinted_scaled_bitmap(
+				System::AllegroAdapter::ToBitmap(bitmap),
+				System::AllegroAdapter::ToColor(tint),
+				0.0f,
+				0.0f,
+				bitmap.Width(),
+				bitmap.Height(),
+				x,
+				y,
+				bitmap.Width() * xscale,
+				bitmap.Height() * yscale,
+				NULL
+			);
+
+		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const PointF& origin, float angle) {
 
 			assert(static_cast<bool>(bitmap));

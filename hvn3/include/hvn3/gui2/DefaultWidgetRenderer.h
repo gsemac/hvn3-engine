@@ -39,9 +39,11 @@ namespace hvn3 {
 
 		private:
 			Font _default_font;
+			Graphics::Bitmap _checkmark_icon;
 
 			Font _createDefaultFont();
 			Color _getTransitionedColor(WidgetRenderArgs& args, const std::string& id, WidgetState state, WidgetProperty prop) const;
+			void _initializeImages();
 
 			std::unordered_map<std::string, WidgetStyle> _styles;
 

@@ -24,6 +24,9 @@ namespace hvn3 {
 
 		DefaultWidgetRenderer::DefaultWidgetRenderer() :
 			_default_font(_createDefaultFont()) {
+	
+			_initializeImages();
+
 		}
 		void DefaultWidgetRenderer::DrawWidget(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
 
@@ -190,6 +193,15 @@ namespace hvn3 {
 
 			if (_default_font) {
 
+				if (HasFlag(widget.State(), WidgetState::Checked)) {
+
+					float x_scale = widget.Height() / _checkmark_icon.Width();
+					float y_scale = x_scale;
+
+					canvas.DrawBitmap(widget.X(), widget.Y(), _checkmark_icon, x_scale, y_scale);
+
+				}
+
 				float text_x = widget.Position().X();
 				float text_y = widget.Position().Y() + (widget.Size().Height() / 2.0f);
 
@@ -201,7 +213,7 @@ namespace hvn3 {
 				}
 
 				canvas.DrawText(Math::Round(text_x), Math::Round(text_y), widget.Text(), _default_font, Color(224, 224, 224), Alignment::Left | Alignment::Middle);
-
+								
 			}
 
 		}
@@ -264,16 +276,23 @@ namespace hvn3 {
 			canvas.DrawSolidRectangle(checkbox_x, checkbox_y, checkbox_w, checkbox_w, Color::White);
 			canvas.DrawRectangle(checkbox_x, checkbox_y, checkbox_w, checkbox_w, Color::Black);
 
-			float checkmark_w = 2.0f;
-			float checkmark_padding = 3.0f;
+			//float checkmark_w = 2.0f;
+			//float checkmark_padding = 3.0f;
 
-			checkbox_x += checkmark_padding;
-			checkbox_y += checkmark_padding;
-			checkbox_w -= checkmark_padding * 2.0f;
+			//checkbox_x += checkmark_padding;
+			//checkbox_y += checkmark_padding;
+			//checkbox_w -= checkmark_padding * 2.0f;
 
 			if (HasFlag(widget.State(), WidgetState::Checked)) {
-				canvas.DrawLine(checkbox_x + checkbox_w, checkbox_y, checkbox_x + checkbox_w / 2.0f, checkbox_y + checkbox_w, Color::Black, checkmark_w);
-				canvas.DrawLine(checkbox_x + checkbox_w / 2.0f, checkbox_y + checkbox_w, checkbox_x, checkbox_y + checkbox_w * 0.5f, Color::Black, checkmark_w);
+
+				//canvas.DrawLine(checkbox_x + checkbox_w, checkbox_y, checkbox_x + checkbox_w / 2.0f, checkbox_y + checkbox_w, Color::Black, checkmark_w);
+				//canvas.DrawLine(checkbox_x + checkbox_w / 2.0f, checkbox_y + checkbox_w, checkbox_x, checkbox_y + checkbox_w * 0.5f, Color::Black, checkmark_w);
+
+				float x_scale = checkbox_w / _checkmark_icon.Width();
+				float y_scale = checkbox_w / _checkmark_icon.Height();
+
+				canvas.DrawBitmap(checkbox_x, checkbox_y, _checkmark_icon, x_scale, y_scale, Color::Black);
+
 			}
 
 		}
@@ -359,6 +378,12 @@ namespace hvn3 {
 			if (td_ptr != nullptr)
 				return Color::Merge(td_ptr->from, td_ptr->to, td_ptr->Percentage());
 			return Color(68, 64, 78); // Return the default background color if we don't have one to return.
+		}
+		void DefaultWidgetRenderer::_initializeImages() {
+
+			if (!_checkmark_icon)
+				_checkmark_icon = Graphics::Bitmap::FromFile(System::GetSystemAssetPath(System::SystemAssetType::Icons) + "checkmark.png");
+
 		}
 
 	}
