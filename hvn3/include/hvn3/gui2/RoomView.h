@@ -1,6 +1,8 @@
 #pragma once
 #include "hvn3/graphics/GridRendererExt.h"
 #include "hvn3/gui2/ScrollableWidgetBase.h"
+#include "hvn3/objects/IObject.h"
+#include "hvn3/objects/IObjectManager.h"
 #include "hvn3/rooms/IRoom.h"
 
 namespace hvn3 {
@@ -17,6 +19,8 @@ namespace hvn3 {
 				_room(room) {
 
 				_show_grid = true;
+				_draw_objects = true;
+				_draw_outside_room = true;
 
 				Graphics::Pen pen(hvn3::Color(hvn3::Color::Black, 128));
 				pen.SetDashPattern({ 2.0f });
@@ -33,6 +37,12 @@ namespace hvn3 {
 			}
 			void SetGridVisible(bool value) {
 				_show_grid = value;
+			}
+			void SetObjectsVisible(bool value, bool draw_outside_room) {
+
+				_draw_objects = value;
+				_draw_outside_room = draw_outside_room;
+
 			}
 			PointF PositionToRoomPosition(const PointF& position) const {
 
@@ -82,7 +92,13 @@ namespace hvn3 {
 
 					_room->OnDraw(DrawEventArgs(e.Graphics()));
 
+					if (_draw_objects && !_draw_outside_room)
+						_drawObjects(e);
+
 					e.Graphics().SetClip(clip);
+
+					if (_draw_objects && _draw_outside_room)
+						_drawObjects(e);
 
 					if (_show_grid) {
 
@@ -100,6 +116,8 @@ namespace hvn3 {
 		private:
 			RoomPtr _room;
 			bool _show_grid;
+			bool _draw_objects;
+			bool _draw_outside_room;
 			hvn3::Graphics::GridRendererExt _grid_renderer;
 
 			PointF _positionToRoomPosition(const PointF& position) const {
@@ -116,6 +134,13 @@ namespace hvn3 {
 					return false;
 
 				return true;
+
+			}
+			void _drawObjects(WidgetDrawEventArgs& e) {
+
+				_room->GetObjects().ForEach([&](IObject* x) {
+					x->OnDraw(DrawEventArgs(e.Graphics()));
+				});
 
 			}
 
