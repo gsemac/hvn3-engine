@@ -56,6 +56,7 @@ namespace hvn3 {
 		}
 
 		void Window::OnMousePressed(WidgetMousePressedEventArgs& e) {
+
 			WidgetBase::OnMousePressed(e);
 
 			_mouse_down_position = (e.Position() - Position());

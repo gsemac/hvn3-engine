@@ -26,6 +26,9 @@ namespace hvn3 {
 
 				_input_type = input_type;
 
+				if (_input_type == InputType::Numeric)
+					SetText("0");
+
 			}
 
 			void OnDraw(WidgetDrawEventArgs& e) override {
@@ -36,10 +39,7 @@ namespace hvn3 {
 
 				if (_caret_blink_timer <= 1.0f && _focused) {
 
-					float caret_x = X() + padding;
-
-					if (GetRenderer() != nullptr)
-						caret_x += GetRenderer()->MeasureString(Text().SubString(_caret_pos)).width;
+					float caret_x = X() + _text_padding + _getCaretXOffset(_caret_pos);
 
 					e.Graphics().DrawLine(caret_x, Y() + padding, caret_x, Y() + Height() - padding * 2.0f, Color::Black, 1.0f);
 
@@ -68,6 +68,10 @@ namespace hvn3 {
 
 				WidgetBase::OnFocusLost(e);
 
+				if(_input_type == InputType::Numeric)
+					if(Text().Length() <= 0)
+						SetText("0");
+
 				_focused = false;
 
 			}
@@ -92,7 +96,7 @@ namespace hvn3 {
 				_caret_blink_timer = 0.0f;
 
 			}
-			void OnRendererChanged(WidgetRendererChangedEventArgs& e) {
+			void OnRendererChanged(WidgetRendererChangedEventArgs& e) override {
 
 				IWidgetRenderer* r = GetRenderer();
 
@@ -104,9 +108,38 @@ namespace hvn3 {
 				SetHeight(h);
 
 			}
+			void OnMousePressed(WidgetMousePressedEventArgs& e) override {
+
+				// Find the caret position closest to where the mouse was clicked.
+
+				float click_x = e.Position().x;
+				float best_distance = std::numeric_limits<float>::max();
+				int best_pos = 0;
+
+				for (int i = 0; static_cast<size_t>(i) < Text().Length() + 1; ++i) {
+
+					float caret_x = FixedPosition().x + _text_padding + _getCaretXOffset(i);
+					float dist = Math::Abs(caret_x - click_x);
+
+					if (dist < best_distance) {
+						
+						best_distance = dist;
+						best_pos = i;
+
+					}
+					else
+						break;
+
+				}
+
+				_caret_pos = best_pos;
+				_caret_blink_timer = 0.0f;
+				
+			}
 
 		private:
 			int _caret_pos;
+			float _text_padding;
 			float _caret_blink_timer;
 			bool _focused;
 			InputType _input_type;
@@ -114,7 +147,9 @@ namespace hvn3 {
 			void _initializeMembers() {
 
 				_caret_pos = 0;
+				_text_padding = 3.0f;
 				_caret_blink_timer = 0.0f;
+				_focused = false;
 				_input_type = InputType::Unrestricted;
 
 			}
@@ -150,6 +185,16 @@ namespace hvn3 {
 
 				if (remove_left)
 					--_caret_pos;
+
+			}
+			float _getCaretXOffset(int caret_position) {
+
+				float caret_x = 0.0f;
+
+				if (GetRenderer() != nullptr)
+					caret_x += GetRenderer()->MeasureString(Text().SubString(caret_position)).width;
+
+				return caret_x;
 
 			}
 

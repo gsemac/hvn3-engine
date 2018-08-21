@@ -4,7 +4,8 @@
 namespace hvn3 {
 	namespace Gui {
 
-		class Window : public WidgetBase {
+		class Window : 
+			public WidgetBase {
 			
 		public:
 			enum class BorderStyle {

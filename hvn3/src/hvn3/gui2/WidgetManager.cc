@@ -80,7 +80,7 @@ namespace hvn3 {
 
 			widget->SetManager(this);
 			widget->SetParent(_owner);
-			
+
 			if (widget->HasChildren())
 				widget->GetChildren().SetRenderer(GetRenderer());
 
@@ -333,7 +333,7 @@ namespace hvn3 {
 				return;
 
 			_widget_focused->HandleEvent(WidgetKeyDownEventArgs(_widget_focused, e));
-			
+
 
 		}
 		void WidgetManager::OnKeyPressed(KeyPressedEventArgs& e) {
@@ -349,14 +349,14 @@ namespace hvn3 {
 
 				// Find the widget after the tabbed widget, and give it focus.
 				for (auto i = _widget_focused->GetManager()->_widgets.begin(); i != _widget_focused->GetManager()->_widgets.end(); ++i) {
-				
+
 					if (i->widget.get() != _widget_focused)
 						continue;
 
 					// Get the next widget in the collection that can be tabbed to from the currently-focused.
 
 					IWidget* tabbed_widget = nullptr;
-					
+
 					while (++i != _widget_focused->GetManager()->_widgets.end()) {
 
 						if (!i->widget->TabStop())
@@ -369,10 +369,10 @@ namespace hvn3 {
 					}
 
 					// If we couldn't find a widget to tab to, start from the beginning of the list.
-										
+
 					if (tabbed_widget == nullptr) {
 
-						for (i = _widget_focused->GetManager()->_widgets.begin(); i != _widget_focused->GetManager()->_widgets.end(); ++i) 
+						for (i = _widget_focused->GetManager()->_widgets.begin(); i != _widget_focused->GetManager()->_widgets.end(); ++i)
 							if (i->widget->TabStop()) {
 
 								tabbed_widget = i->widget.get();
@@ -382,7 +382,7 @@ namespace hvn3 {
 
 					}
 
-					if(tabbed_widget != nullptr)
+					if (tabbed_widget != nullptr)
 						_setFocused(tabbed_widget);
 
 					break;
@@ -422,10 +422,11 @@ namespace hvn3 {
 			// Call the mouse-down event for the currently-hovered widget if the mouse was not held over a different widget.
 			if (_widget_hovered != nullptr && _widget_held == nullptr) {
 
-				_widget_hovered->HandleEvent(WidgetMousePressedEventArgs(_widget_hovered, e));
-
 				if (_widget_hovered->HasChildren())
 					_widget_hovered->GetChildren().OnMousePressed(e);
+
+				if (!e.Handled())
+					_widget_hovered->HandleEvent(WidgetMousePressedEventArgs(_widget_hovered, e));
 
 				_widget_held = _widget_hovered;
 
