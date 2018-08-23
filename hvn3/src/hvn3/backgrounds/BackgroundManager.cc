@@ -1,4 +1,5 @@
 #include "hvn3/backgrounds/BackgroundManager.h"
+#include "hvn3/core/CoreTypeDefs.h"
 #include "hvn3/views/View.h"
 #include <cassert>
 
@@ -45,7 +46,20 @@ namespace hvn3 {
 		_backgrounds.clear();
 
 	}
+	void BackgroundManager::ForEach(const std::function<bool(Background&)>& func) {
 
+		for (auto i = _backgrounds.begin(); i != _backgrounds.end(); ++i)
+			if (func(*i) == BREAK)
+				return;
+
+	}
+	void BackgroundManager::ForEach(const std::function<bool(const Background&)>& func) const {
+
+		for (auto i = _backgrounds.begin(); i != _backgrounds.end(); ++i)
+			if (func(*i) == BREAK)
+				return;
+
+	}
 	void BackgroundManager::Update(UpdateEventArgs& e) {
 
 		// Update the offset of all moving backgrounds.
@@ -70,8 +84,6 @@ namespace hvn3 {
 			e.Graphics().HoldBitmapDrawing(false);
 
 	}
-
-
 
 	void BackgroundManager::_drawBackground(BackgroundDrawEventArgs& e, const Background& background) const {
 

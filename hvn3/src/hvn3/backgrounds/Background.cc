@@ -22,7 +22,7 @@ namespace hvn3 {
 	}
 	unsigned int Background::Height() const {
 
-		return _bitmap.Width();
+		return _bitmap.Height();
 
 	}
 	const Graphics::Bitmap& Background::Bitmap() const {

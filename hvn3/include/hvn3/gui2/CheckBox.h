@@ -20,6 +20,20 @@ namespace hvn3 {
 
 			}
 
+			bool Checked() const {
+				return HasFlag(State(), WidgetState::Checked);
+			}
+			void SetChecked(bool value) {
+
+				if (value == Checked())
+					return;
+
+				SetState(WidgetState::Checked, value);
+
+				HandleEvent(WidgetCheckedStateChangedEventArgs(this, value));
+
+			}
+
 			void SetText(const String& value) override {
 
 				WidgetBase::SetText(value);
@@ -38,8 +52,8 @@ namespace hvn3 {
 
 				WidgetBase::OnMouseReleased(e);
 
-				SetState(WidgetState::Checked, !HasFlag(State(), WidgetState::Checked));
-				
+				SetChecked(!Checked());
+
 			}
 
 		private:

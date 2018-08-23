@@ -33,8 +33,7 @@ namespace hvn3 {
 		void WidgetBase::HandleEvent(IWidgetEventArgs& ev) {
 
 			DoEventHandler(ev.Type(), ev);
-			if (ev.Type() == WidgetEventType::OnKeyChar)
-				
+
 			if (ev.Handled())
 				return;
 
@@ -266,7 +265,7 @@ namespace hvn3 {
 
 		}
 		IWidgetRenderer* WidgetBase::GetRenderer() const {
-			
+
 			if (GetManager() == nullptr)
 				return nullptr;
 

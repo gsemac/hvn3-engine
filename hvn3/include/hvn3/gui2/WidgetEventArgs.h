@@ -194,7 +194,7 @@ namespace hvn3 {
 			KeyModifiers _modifiers;
 		};
 
-		class WidgetKeyCharEventArgs : 
+		class WidgetKeyCharEventArgs :
 			public WidgeKeyboardEventArgsBase<WidgetEventType::OnKeyChar> {
 		public:
 			WidgetKeyCharEventArgs(IWidget* sender, KeyCharEventArgs& e) :
@@ -209,6 +209,20 @@ namespace hvn3 {
 			}
 		private:
 			int _char_code;
+		};
+
+		class WidgetCheckedStateChangedEventArgs :
+			public WidgetEventArgsBase<WidgetEventType::OnCheckedStateChanged> {
+		public:
+			WidgetCheckedStateChangedEventArgs(IWidget* sender, bool checked) :
+				WidgetEventArgsBase(sender) {
+				_checked = checked;
+			}
+			bool Checked() const {
+				return _checked;
+			}
+		private:
+			bool _checked;
 		};
 
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseReleased> WidgetMouseReleasedEventArgs;
@@ -250,6 +264,7 @@ namespace hvn3 {
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnKeyPressed, WidgetKeyPressedEventArgs)
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnKeyReleased, WidgetKeyUpEventArgs)
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnKeyChar, WidgetKeyCharEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnCheckedStateChanged, WidgetCheckedStateChangedEventArgs)
 
 	}
 }

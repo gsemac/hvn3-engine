@@ -837,6 +837,9 @@
     <ClInclude Include="include\hvn3\gui2\CheckBox.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\core\CoreTypeDefs.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

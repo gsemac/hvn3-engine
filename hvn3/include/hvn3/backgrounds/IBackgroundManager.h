@@ -16,9 +16,12 @@ namespace hvn3 {
 		virtual size_t Count() const = 0;
 		virtual void Clear() = 0;
 
+		virtual void ForEach(const std::function<bool(Background&)>& func) = 0;
+		virtual void ForEach(const std::function<bool(const Background&)>& func) const = 0;
+
 		virtual void Update(UpdateEventArgs& e) = 0;
 		virtual void Draw(BackgroundDrawEventArgs& e) = 0;
-
+		
 	};
 
 }

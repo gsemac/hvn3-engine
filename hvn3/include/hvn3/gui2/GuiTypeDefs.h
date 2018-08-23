@@ -63,7 +63,8 @@ namespace hvn3 {
 			OnKeyDown,
 			OnKeyPressed,
 			OnKeyReleased,
-			OnKeyChar
+			OnKeyChar,
+			OnCheckedStateChanged
 		};
 
 		enum class WidgetState {

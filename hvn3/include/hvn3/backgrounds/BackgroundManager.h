@@ -15,6 +15,9 @@ namespace hvn3 {
 		size_t Count() const override;
 		void Clear() override;
 
+		void ForEach(const std::function<bool(Background&)>& func) override;
+		void ForEach(const std::function<bool(const Background&)>& func) const override;
+
 		void Update(UpdateEventArgs& e) override;
 		void Draw(BackgroundDrawEventArgs& e) override;
 
