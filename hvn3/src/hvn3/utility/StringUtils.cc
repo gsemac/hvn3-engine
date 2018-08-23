@@ -89,15 +89,6 @@ namespace hvn3 {
 			return (ch >= 'a' && ch <= 'f') || (ch >= '0' && ch <= '9');
 		}
 
-		bool StartsWith(const std::string& str, const std::string& prefix) {
-			if (prefix.length() > str.length())
-				return false;
-			for (size_t i = 0; i < prefix.length(); ++i)
-				if (str[i] != prefix[i])
-					return false;
-			return true;
-		}
-
 		std::string Trim(const std::string& input_string) {
 
 			auto front = std::find_if_not(input_string.begin(), input_string.end(), std::isspace);
@@ -294,21 +285,6 @@ namespace hvn3 {
 
 			for (; i2 != substr.end(); ++i1, ++i2)
 				if (*i1 != *i2)
-					return false;
-
-			return true;
-
-		}
-		bool EndsWith(const std::string& input, const std::string& substring) {
-
-			if (substring.length() > input.length())
-				return false;
-
-			auto i = input.rbegin();
-			auto j = substring.rbegin();
-
-			for (; j != substring.rend(); ++i, ++j)
-				if (*i != *j)
 					return false;
 
 			return true;

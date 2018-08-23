@@ -64,7 +64,8 @@ namespace hvn3 {
 			OnKeyPressed,
 			OnKeyReleased,
 			OnKeyChar,
-			OnCheckedStateChanged
+			OnCheckedStateChanged,
+			OnTextChanged
 		};
 
 		enum class WidgetState {
@@ -86,8 +87,9 @@ namespace hvn3 {
 		ENABLE_BITFLAG_OPERATORS(WidgetState);
 
 		enum class InputType {
-			Unrestricted,
-			Numeric
+			Default,
+			Numeric,
+			Decimal
 		};
 
 	}

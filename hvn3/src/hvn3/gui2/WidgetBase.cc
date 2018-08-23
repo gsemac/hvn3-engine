@@ -129,7 +129,11 @@ namespace hvn3 {
 			return _text;
 		}
 		void WidgetBase::SetText(const String& text) {
+			
 			_text = text;
+
+			EmitEvent(WidgetTextChangedEventArgs(this));
+
 		}
 		WidgetState WidgetBase::State() const {
 			return _state;
@@ -281,6 +285,14 @@ namespace hvn3 {
 				return;
 
 			iter->second(args);
+
+		}
+		void WidgetBase::EmitEvent(IWidgetEventArgs& ev) {
+			
+			// Having this function separate from HandleEvent allows more flexibility in the future (e.g., not handling events immediately).
+			// In the meantime, it's just an alias for HandleEvent.
+
+			HandleEvent(ev);
 
 		}
 

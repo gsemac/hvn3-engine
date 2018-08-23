@@ -239,6 +239,7 @@ namespace hvn3 {
 		typedef WidgeKeyboardEventArgsBase<WidgetEventType::OnKeyDown> WidgetKeyDownEventArgs;
 		typedef WidgeKeyboardEventArgsBase<WidgetEventType::OnKeyPressed> WidgetKeyPressedEventArgs;
 		typedef WidgeKeyboardEventArgsBase<WidgetEventType::OnKeyReleased> WidgetKeyUpEventArgs;
+		typedef WidgetEventArgsBase<WidgetEventType::OnTextChanged> WidgetTextChangedEventArgs;
 
 		template <WidgetEventType WIDGET_EVENT_TYPE>
 		struct WidgetEventTypeTraits {
@@ -265,6 +266,7 @@ namespace hvn3 {
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnKeyReleased, WidgetKeyUpEventArgs)
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnKeyChar, WidgetKeyCharEventArgs)
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnCheckedStateChanged, WidgetCheckedStateChangedEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnTextChanged, WidgetTextChangedEventArgs)
 
 	}
 }

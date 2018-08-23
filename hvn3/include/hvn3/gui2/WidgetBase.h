@@ -90,6 +90,7 @@ namespace hvn3 {
 			IWidgetRenderer* GetRenderer() const override;
 
 			void DoEventHandler(WidgetEventType ev, IWidgetEventArgs& args);
+			void EmitEvent(IWidgetEventArgs& ev);
 
 		private:
 			std::string _name;

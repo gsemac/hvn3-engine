@@ -17,5 +17,8 @@
     <ClCompile Include="Utf8StringTests.cc">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="StringUtilsTests.cc">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

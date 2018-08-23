@@ -160,6 +160,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="StringUtilsTests.cc" />
     <ClCompile Include="Utf8StringTests.cc" />
   </ItemGroup>
   <ItemGroup>

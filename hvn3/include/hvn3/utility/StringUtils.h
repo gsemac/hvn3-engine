@@ -2,6 +2,7 @@
 #include <cassert>
 #include <cctype>
 #include <cstdint>
+#include <cstring>
 #include <functional>
 #include <initializer_list>
 #include <ios>
@@ -32,8 +33,6 @@ namespace hvn3 {
 		bool IsAlphanumeric(int ch);
 		bool IsHexDigit(int ch);
 
-		bool StartsWith(const std::string& str, const std::string& prefix);
-
 		std::string Trim(const std::string& input_string);
 		std::string LTrim(const std::string& input_string);
 		std::string RTrim(const std::string& input_string);
@@ -61,17 +60,89 @@ namespace hvn3 {
 		bool IEquals(const std::string& lhs, const std::string& rhs);
 		bool Equals(const std::string& lhs, const std::string& rhs, bool ignore_case = false);
 		bool NextSubstringEquals(const std::string& str, size_t pos, const std::string& substr);
-		bool EndsWith(const std::string& input, const std::string& substring);
 
+		template<typename StringT>
+		bool StartsWith(const StringT& input, const char* prefix) {
+
+			size_t len = strlen(prefix);
+
+			if (len > input.size() || len <= 0)
+				return false;
+
+			auto i = input.begin();
+			size_t j = 0;
+
+			for (; j < len; ++i, ++j) {
+				if (*i != *(prefix + j))
+					return false;
+			}
+
+			return true;
+
+		}
+		template<typename StringT1, typename StringT2>
+		bool StartsWith(const StringT1& input, const StringT2& prefix) {
+
+			if (prefix.size() > input.size())
+				return false;
+
+			auto i = input.begin();
+			auto j = prefix.begin();
+
+			for (; i != input.end(); ++i, ++j)
+				if (*i != *j)
+					return false;
+
+			return true;
+
+		}
+		template<typename StringT>
+		bool EndsWith(const StringT& input, const char* suffix) {
+
+			size_t len = strlen(suffix);
+
+			if (len > input.size() || len <= 0)
+				return false;
+
+			auto i = input.rbegin();
+			auto j = suffix + (len - 1);
+
+			for (; j != suffix; ++i, --j)
+				if (*i != *j)
+					return false;
+
+			return true;
+
+		}
+		template<typename StringT1, typename StringT2>
+		bool EndsWith(const StringT1& input, const StringT2& suffix) {
+
+			if (suffix.size() > input.size())
+				return false;
+
+			auto i = input.rbegin();
+			auto j = suffix.rbegin();
+
+			for (; i != input.rend(); ++i, ++j)
+				if (*i != *j)
+					return false;
+
+			return true;
+
+		}
 
 		// Attempts to construct an object from a string. Uses constructor if available, otherwise uses std::stringstream.
 		template <typename T, typename StringT>
-		typename std::enable_if<std::is_constructible<T, const std::string&>::value, T>::type ParseString(const StringT& in) {
-			return T(in);
+		typename std::enable_if<std::is_constructible<T, const std::string&>::value, bool>::type TryParse(const StringT& in, T& out) {
+
+			out = std::move(T(in));
+
+			return true;
+
 		}
 		// Attempts to construct an object from a string. Uses constructor if available, otherwise uses std::stringstream.
 		template <typename T, typename StringT>
-		typename std::enable_if<std::is_arithmetic<T>::value, T>::type ParseString(const StringT& in) {
+		typename std::enable_if<std::is_arithmetic<T>::value, bool>::type TryParse(const StringT& in, T& out) {
 
 			std::stringstream reader;
 
@@ -84,15 +155,26 @@ namespace hvn3 {
 				}
 
 			reader << in;
-
-			T out;
 			reader >> out;
 
-			assert(!reader.fail());
+			if (reader.fail())
+				return false;
+
+			return true;
+
+		}
+
+		template<typename T, typename StringT>
+		T Parse(const StringT& in) {
+
+			T out;
+
+			assert(TryParse<T>(in, out));
 
 			return out;
 
 		}
+
 
 	};
 

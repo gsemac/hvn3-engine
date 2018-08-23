@@ -30,7 +30,7 @@ namespace hvn3 {
 
 				SetState(WidgetState::Checked, value);
 
-				HandleEvent(WidgetCheckedStateChangedEventArgs(this, value));
+				EmitEvent(WidgetCheckedStateChangedEventArgs(this, value));
 
 			}
 

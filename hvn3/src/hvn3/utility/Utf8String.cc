@@ -1,5 +1,6 @@
-#include "hvn3/utility/UTF8String.h"
 #include "hvn3/allegro/AllegroAdapter.h"
+#include "hvn3/utility/StringUtils.h"
+#include "hvn3/utility/UTF8String.h"
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
@@ -323,6 +324,12 @@ namespace hvn3 {
 
 		return al_ustr_find_cstr(ptr, 0, value) != -1;
 
+	}
+	bool String::StartsWith(const char* value) const {
+		return StringUtils::StartsWith(*this, value);
+	}
+	bool String::EndsWith(const char* value) const {
+		return StringUtils::EndsWith(*this, value);
 	}
 	void String::Append(const char* str) {
 

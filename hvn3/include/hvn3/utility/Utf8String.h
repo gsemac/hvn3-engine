@@ -116,8 +116,10 @@ namespace hvn3 {
 		size_type LastIndexOfAny(const std::function<bool(value_type)>& f, size_type start) const;
 		value_type CharAt(size_type index) const;
 
-		bool Equals(const char* str) const;
+		bool Equals(const char* value) const;
 		bool Contains(const char* value) const;
+		bool StartsWith(const char* value) const;
+		bool EndsWith(const char* value) const;
 
 		void Append(const char* str);
 		void Append(value_type character);

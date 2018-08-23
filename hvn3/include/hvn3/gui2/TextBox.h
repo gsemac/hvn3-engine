@@ -26,8 +26,7 @@ namespace hvn3 {
 
 				_input_type = input_type;
 
-				if (_input_type == InputType::Numeric)
-					SetText("0");
+				_initializeText();
 
 			}
 
@@ -68,23 +67,21 @@ namespace hvn3 {
 
 				WidgetBase::OnFocusLost(e);
 
-				if(_input_type == InputType::Numeric)
-					if(Text().Length() <= 0)
-						SetText("0");
-
 				_focused = false;
+
+				_initializeText();
 
 			}
 			void OnKeyChar(WidgetKeyCharEventArgs& e) override {
 
 				if (Keyboard::IsPrintableChar(e.Key())) {
 
-					if (_input_type == InputType::Numeric)
-						if (!StringUtils::IsNumeric(e.CharCode()))
+					if (_input_type == InputType::Numeric || _input_type == InputType::Decimal)
+						if (!StringUtils::IsNumeric(e.CharCode()) && !(e.Char() == '.' && _input_type == InputType::Decimal))
 							return;
-				
-						_insertAtCaret(e.CharCode());
-				
+
+					_insertAtCaret(e.CharCode());
+
 				}
 				else if (e.Key() == Key::Backspace || e.Key() == Key::Delete)
 					_removeAtCaret(e.Key() == Key::Backspace);
@@ -122,7 +119,7 @@ namespace hvn3 {
 					float dist = Math::Abs(caret_x - click_x);
 
 					if (dist < best_distance) {
-						
+
 						best_distance = dist;
 						best_pos = i;
 
@@ -134,7 +131,7 @@ namespace hvn3 {
 
 				_caret_pos = best_pos;
 				_caret_blink_timer = 0.0f;
-				
+
 			}
 
 		private:
@@ -150,7 +147,24 @@ namespace hvn3 {
 				_text_padding = 3.0f;
 				_caret_blink_timer = 0.0f;
 				_focused = false;
-				_input_type = InputType::Unrestricted;
+				_input_type = InputType::Default;
+
+			}
+			void _initializeText() {
+
+				switch (_input_type) {
+
+				case InputType::Numeric:
+					if (Text().Length() <= 0)
+						SetText("0");
+					break;
+
+				case InputType::Decimal:
+					if (Text().Length() <= 0)
+						SetText("0.0");
+					break;
+
+				}
 
 			}
 			void _insertAtCaret(int32_t character) {

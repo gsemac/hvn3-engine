@@ -75,15 +75,15 @@ namespace hvn3 {
 		}
 		View XmlResourceAdapterBase::ImportView(const Xml::XmlElement& node) const {
 
-			float x = StringUtils::ParseString<float>(node["x"]);
-			float y = StringUtils::ParseString<float>(node["y"]);
-			float width = StringUtils::ParseString<float>(node["width"]);
-			float height = StringUtils::ParseString<float>(node["height"]);
+			float x = StringUtils::Parse<float>(node["x"]);
+			float y = StringUtils::Parse<float>(node["y"]);
+			float width = StringUtils::Parse<float>(node["width"]);
+			float height = StringUtils::Parse<float>(node["height"]);
 
-			float port_x = StringUtils::ParseString<float>(node["port_x"]);
-			float port_y = StringUtils::ParseString<float>(node["port_y"]);
-			float port_width = StringUtils::ParseString<float>(node["port_width"]);
-			float port_height = StringUtils::ParseString<float>(node["port_height"]);
+			float port_x = StringUtils::Parse<float>(node["port_x"]);
+			float port_y = StringUtils::Parse<float>(node["port_y"]);
+			float port_width = StringUtils::Parse<float>(node["port_width"]);
+			float port_height = StringUtils::Parse<float>(node["port_height"]);
 
 			View view(x, y, width, height, port_x, port_y, port_width, port_height);
 
@@ -187,16 +187,16 @@ namespace hvn3 {
 			if (data == nullptr)
 				return;
 
-			data->SetX(StringUtils::ParseString<float>(node["x"]));
-			data->SetY(StringUtils::ParseString<float>(node["y"]));
+			data->SetX(StringUtils::Parse<float>(node["x"]));
+			data->SetY(StringUtils::Parse<float>(node["y"]));
 
 		}
 		void XmlResourceAdapterBase::ReadDefaultProperties(Background& data, const Xml::XmlElement& node) const {
 
 			if (node.HasAttribute("x") && node.HasAttribute("y")) {
 
-				float x = StringUtils::ParseString<float>(node["x"]);
-				float y = StringUtils::ParseString<float>(node["y"]);
+				float x = StringUtils::Parse<float>(node["x"]);
+				float y = StringUtils::Parse<float>(node["y"]);
 
 				data.SetOffset(x, y);
 
@@ -204,8 +204,8 @@ namespace hvn3 {
 
 			if (node.HasAttribute("scale_x") && node.HasAttribute("scale_y")) {
 
-				float x = StringUtils::ParseString<float>(node["scale_x"]);
-				float y = StringUtils::ParseString<float>(node["scale_y"]);
+				float x = StringUtils::Parse<float>(node["scale_x"]);
+				float y = StringUtils::Parse<float>(node["scale_y"]);
 
 				data.SetScale(x, y);
 
@@ -213,34 +213,34 @@ namespace hvn3 {
 
 			if (node.HasAttribute("velocity_x") && node.HasAttribute("velocity_y")) {
 
-				float x = StringUtils::ParseString<float>(node["velocity_x"]);
-				float y = StringUtils::ParseString<float>(node["velocity_y"]);
+				float x = StringUtils::Parse<float>(node["velocity_x"]);
+				float y = StringUtils::Parse<float>(node["velocity_y"]);
 
 				data.SetVelocity(Vector2d(x, y));
 
 			}
 
 			if (node.HasAttribute("foreground"))
-				data.SetForeground(StringUtils::ParseString<bool>(node["foreground"]));
+				data.SetForeground(StringUtils::Parse<bool>(node["foreground"]));
 
 			if (node.HasAttribute("tiled_x"))
-				data.SetTiledHorizontally(StringUtils::ParseString<bool>(node["tiled_x"]));
+				data.SetTiledHorizontally(StringUtils::Parse<bool>(node["tiled_x"]));
 
 			if (node.HasAttribute("tiled_y"))
-				data.SetTiledVertically(StringUtils::ParseString<bool>(node["tiled_y"]));
+				data.SetTiledVertically(StringUtils::Parse<bool>(node["tiled_y"]));
 
 			if (node.HasAttribute("visible"))
-				data.SetVisible(StringUtils::ParseString<bool>(node["visible"]));
+				data.SetVisible(StringUtils::Parse<bool>(node["visible"]));
 
 			if (node.HasAttribute("fixed"))
-				data.SetFixed(StringUtils::ParseString<bool>(node["fixed"]));
+				data.SetFixed(StringUtils::Parse<bool>(node["fixed"]));
 
 		}
 		void XmlResourceAdapterBase::ReadDefaultProperties(TileManager& data, const Xml::XmlElement& node) const {
 
 			for (auto i = node.ChildrenBegin(); i != node.ChildrenEnd(); ++i) {
 
-				TileManager::layer_id depth = StringUtils::ParseString<TileManager::layer_id>(i->get()->GetAttribute("depth"));
+				TileManager::layer_id depth = StringUtils::Parse<TileManager::layer_id>(i->get()->GetAttribute("depth"));
 
 				data.AddLayer(depth);
 
@@ -253,7 +253,7 @@ namespace hvn3 {
 
 				while (std::getline(ss, token, ',')) {
 
-					TileManager::tile_id tile_id = StringUtils::ParseString<TileManager::tile_id>(token);
+					TileManager::tile_id tile_id = StringUtils::Parse<TileManager::tile_id>(token);
 					data.SetTile(x, y, tile_id, depth);
 
 					if (++x > data.Columns()) {
@@ -269,12 +269,12 @@ namespace hvn3 {
 		}
 		void XmlResourceAdapterBase::ReadDefaultProperties(View& data, const Xml::XmlElement& node) const {
 
-			bool enabled = StringUtils::ParseString<bool>(node["enabled"]);
-			bool mouse_tracking = StringUtils::ParseString<bool>(node["mouse_tracking"]);
+			bool enabled = StringUtils::Parse<bool>(node["enabled"]);
+			bool mouse_tracking = StringUtils::Parse<bool>(node["mouse_tracking"]);
 			
-			float hbor = StringUtils::ParseString<float>(node["hbor"]);
-			float vbor = StringUtils::ParseString<float>(node["vbor"]);
-			//ObjectId following_id = StringUtils::ParseString<ObjectId>(node["following_id"]);
+			float hbor = StringUtils::Parse<float>(node["hbor"]);
+			float vbor = StringUtils::Parse<float>(node["vbor"]);
+			//ObjectId following_id = StringUtils::Parse<ObjectId>(node["following_id"]);
 
 			data.SetEnabled(enabled);
 			data.SetMouseTrackingEnabled(mouse_tracking);
