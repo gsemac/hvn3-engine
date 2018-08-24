@@ -97,7 +97,8 @@ namespace hvn3 {
 
 	}
 	String::String(const std::string& value) :
-		String(value.c_str()) {}
+		String(value.c_str()) {
+	}
 	String::String(const char* value, size_t size) :
 		String() {
 
@@ -349,6 +350,17 @@ namespace hvn3 {
 		al_ustr_append_chr(ptr, character);
 
 	}
+	void String::Append(const String& value) {
+
+		_onWrite();
+
+		ALLEGRO_USTR* ptr = _getUstrPointerAndCreateIfNull();
+		ALLEGRO_USTR* other_ptr = value._getUstrPointer();
+
+		if (other_ptr != nullptr)
+			al_ustr_append(ptr, other_ptr);
+
+	}
 	void String::Insert(size_type index, const char* str) {
 
 		_onWrite();
@@ -531,9 +543,6 @@ namespace hvn3 {
 	int32_t String::operator[](int index) const {
 		return CharAt(index);
 	}
-	String String::operator+(const char* rhs) {
-		return String(std::string(c_str()) + rhs);
-	}
 	String String::operator+(value_type rhs) {
 
 		String str(*this);
@@ -558,6 +567,24 @@ namespace hvn3 {
 	}
 	bool operator!=(const String& lhs, const char* rhs) {
 		return !(lhs == rhs);
+	}
+	String operator+(const String& lhs, const char* rhs) {
+
+		String str = lhs;
+
+		str.Append(rhs);
+
+		return str;
+
+	}
+	String operator+(const char* lhs, const String& rhs) {
+
+		String str(lhs);
+
+		str.Append(rhs);
+
+		return str;
+
 	}
 
 	const String String::Empty;

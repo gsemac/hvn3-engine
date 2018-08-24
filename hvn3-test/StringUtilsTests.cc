@@ -32,6 +32,21 @@ public:
 		Assert::IsTrue(StringUtils::StartsWith(str, "hello world"));
 
 	}
+	TEST_METHOD(TestStartsWithWithStringTypeAndConstCharReturnsFalse) {
+
+		String str = "hello world";
+
+		Assert::IsFalse(StringUtils::StartsWith(str, "world"));
+		Assert::IsFalse(StringUtils::StartsWith(str, "hello world hello"));
+
+	}
+	TEST_METHOD(TestStartsWithWithStringTypeAndConstCharOfLength1ReturnsFalse) {
+
+		String str = "hello world";
+
+		Assert::IsFalse(StringUtils::StartsWith(str, "."));
+
+	}
 	TEST_METHOD(TestEndsWithWithStringTypeAndConstCharReturnsTrue) {
 
 		String str = "hello world";
@@ -46,20 +61,19 @@ public:
 		Assert::IsTrue(StringUtils::EndsWith(str, "hello world"));
 
 	}
-	TEST_METHOD(TestStartsWithWithStringTypeAndConstCharReturnsFalse) {
-
-		String str = "hello world";
-
-		Assert::IsFalse(StringUtils::StartsWith(str, "world"));
-		Assert::IsFalse(StringUtils::StartsWith(str, "hello world hello"));
-
-	}
 	TEST_METHOD(TestEndsWithWithStringTypeAndConstCharReturnsFalse) {
 
 		String str = "hello world";
 
 		Assert::IsFalse(StringUtils::EndsWith(str, "hello"));
 		Assert::IsFalse(StringUtils::EndsWith(str, "hello world hello"));
+
+	}
+	TEST_METHOD(TestEndsWithWithStringTypeAndConstCharOfLength1ReturnsFalse) {
+
+		String str = "hello world";
+
+		Assert::IsFalse(StringUtils::EndsWith(str, "."));
 
 	}
 

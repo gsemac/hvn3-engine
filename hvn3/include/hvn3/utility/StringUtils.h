@@ -107,7 +107,7 @@ namespace hvn3 {
 			auto i = input.rbegin();
 			auto j = suffix + (len - 1);
 
-			for (; j != suffix; ++i, --j)
+			for (; j != (suffix - 1); ++i, --j)
 				if (*i != *j)
 					return false;
 

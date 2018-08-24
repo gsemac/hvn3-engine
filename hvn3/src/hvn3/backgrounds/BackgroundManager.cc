@@ -116,11 +116,14 @@ namespace hvn3 {
 		if (scale_x < 0.0f) offset.Offset(width, offset.Y());
 		if (scale_y < 0.0f) offset.Offset(offset.X(), height);
 
-		if (background.IsTiledHorizontally() && background.IsTiledVertically())
+		if (background.IsTiledHorizontally() && background.IsTiledVertically()) {
+
 			// Draw background tiled horizontally and vertically.
-			for (; offset.X() < (scale_x < 0.0f ? e.RoomSize().Width() + width : e.RoomSize().Width()); offset.Offset(width, offset.Y()))
+			for (; offset.X() < (scale_x < 0.0f ? e.RoomSize().Width() + width : e.RoomSize().Width()); offset.Offset(width, 0.0f))
 				for (float j = offset.Y(); j < ((scale_y < 0.0f) ? (e.RoomSize().Height() + height) : e.RoomSize().Height()); j += height)
 					e.Graphics().DrawBitmap(offset.X(), j, background.Bitmap(), background.Scale().XScale(), background.Scale().YScale());
+
+		}
 		else if (background.IsTiledHorizontally())
 			// Draw background tiled horizontally only.
 			for (; offset.X() < (scale_x < 0.0f ? e.RoomSize().Width() + width : e.RoomSize().Width()); offset.Offset(width, offset.Y()))

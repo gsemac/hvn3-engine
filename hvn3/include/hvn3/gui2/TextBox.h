@@ -1,6 +1,7 @@
 #include "hvn3/gui2/IWidgetRenderer.h"
 #include "hvn3/gui2/WidgetBase.h"
 #include "hvn3/utility/StringUtils.h"
+#include <algorithm>
 
 namespace hvn3 {
 	namespace Gui {
@@ -77,7 +78,7 @@ namespace hvn3 {
 				if (Keyboard::IsPrintableChar(e.Key())) {
 
 					if (_input_type == InputType::Numeric || _input_type == InputType::Decimal)
-						if (!StringUtils::IsNumeric(e.CharCode()) && !(e.Char() == '.' && _input_type == InputType::Decimal))
+						if (!StringUtils::IsNumeric(e.CharCode()) && !(e.Char() == '.' && _input_type == InputType::Decimal && std::count(Text().begin(), Text().end(), '.') == 0))
 							return;
 
 					_insertAtCaret(e.CharCode());
@@ -155,13 +156,23 @@ namespace hvn3 {
 				switch (_input_type) {
 
 				case InputType::Numeric:
+
 					if (Text().Length() <= 0)
 						SetText("0");
+
 					break;
 
 				case InputType::Decimal:
+
 					if (Text().Length() <= 0)
 						SetText("0.0");
+					else {
+						if (Text().StartsWith("."))
+							SetText("0" + Text());
+						if (Text().EndsWith("."))
+							SetText(Text() + "0");
+					}
+
 					break;
 
 				}

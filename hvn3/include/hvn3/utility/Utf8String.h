@@ -123,6 +123,7 @@ namespace hvn3 {
 
 		void Append(const char* str);
 		void Append(value_type character);
+		void Append(const String& value);
 		void Insert(size_type index, const char* str);
 		void Insert(size_type index, value_type character);
 		void Insert(size_type index, const String& str);
@@ -145,7 +146,6 @@ namespace hvn3 {
 		String& operator=(const std::string& other);
 		String& operator=(const String& other);
 		value_type operator[](int index) const;
-		String operator+(const char* rhs);
 		String operator+(value_type rhs);
 
 		static const String Empty;
@@ -171,5 +171,7 @@ namespace hvn3 {
 	std::ostream& operator<< (std::ostream& stream, const String& str);
 	bool operator==(const String& lhs, const char* rhs);
 	bool operator!=(const String& lhs, const char* rhs);
+	String operator+(const String& lhs, const char* rhs);
+	String operator+(const char* lhs, const String& rhs);
 
 }
