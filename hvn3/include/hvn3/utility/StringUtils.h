@@ -175,6 +175,16 @@ namespace hvn3 {
 
 		}
 
+		template <typename T>
+		std::string ToString(const T& input) {
+
+			std::stringstream ss;
+			
+			ss << input;
+
+			return ss.str();
+
+		}
 
 	};
 

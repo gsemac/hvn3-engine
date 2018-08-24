@@ -157,7 +157,7 @@ namespace hvn3 {
 			IWidget* _child;
 		};
 
-		class WidgetSelectedTabChangedEventArgs : public WidgetEventArgsBase<WidgetEventType::OnSelectedItemChanged> {
+		class WidgetSelectedTabChangedEventArgs : public WidgetEventArgsBase<WidgetEventType::OnSelectedTabChanged> {
 		public:
 			WidgetSelectedTabChangedEventArgs(IWidget* sender, TabStripItem* tab) :
 				WidgetEventArgsBase(sender),
@@ -225,6 +225,25 @@ namespace hvn3 {
 			bool _checked;
 		};
 
+		class WidgetSelectedItemChangedEventArgs :
+			public WidgetEventArgsBase<WidgetEventType::OnSelectedItemChanged> {
+		public:
+			WidgetSelectedItemChangedEventArgs(IWidget* sender, IWidget* selected_item, int selected_index) :
+				WidgetEventArgsBase(sender) {
+				_selected_item = selected_item;
+				_selected_index = selected_index;
+			}
+			IWidget* Item() {
+				return _selected_item;
+			}
+			int Index() const {
+				return _selected_index;
+			}
+		private:
+			IWidget* _selected_item;
+			int _selected_index;
+		};
+
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseReleased> WidgetMouseReleasedEventArgs;
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseDown> WidgetMouseDownEventArgs;
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMousePressed> WidgetMousePressedEventArgs;
@@ -267,6 +286,7 @@ namespace hvn3 {
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnKeyChar, WidgetKeyCharEventArgs)
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnCheckedStateChanged, WidgetCheckedStateChangedEventArgs)
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnTextChanged, WidgetTextChangedEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnSelectedItemChanged, WidgetSelectedItemChangedEventArgs)
 
 	}
 }

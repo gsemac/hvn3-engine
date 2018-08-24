@@ -63,6 +63,14 @@ namespace hvn3 {
 				return item;
 
 			}
+			ContextMenuItem* AddItem(const String& text, bool checked) {
+
+				ContextMenuItem* item = AddItem(text);
+				item->SetChecked(checked);
+
+				return item;
+
+			}
 			void AddSeparator() {
 				AddItem(std::unique_ptr<IWidget>(new ContextMenuItemSeparator));
 			}

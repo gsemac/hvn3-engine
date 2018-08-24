@@ -59,13 +59,14 @@ namespace hvn3 {
 			OnRendererChanged,
 			OnZDepthChanged,
 			OnChildWidgetAdded,
-			OnSelectedItemChanged,
+			OnSelectedTabChanged,
 			OnKeyDown,
 			OnKeyPressed,
 			OnKeyReleased,
 			OnKeyChar,
 			OnCheckedStateChanged,
-			OnTextChanged
+			OnTextChanged,
+			OnSelectedItemChanged
 		};
 
 		enum class WidgetState {

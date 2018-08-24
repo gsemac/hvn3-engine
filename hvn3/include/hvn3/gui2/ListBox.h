@@ -1,6 +1,7 @@
 #pragma once
 #include "hvn3/gui2/ScrollableWidgetBase.h"
 #include "hvn3/gui2/ContainerWidgetBase.h"
+#include <cassert>
 
 namespace hvn3 {
 	namespace Gui {
@@ -27,13 +28,27 @@ namespace hvn3 {
 
 				WidgetBase::OnFocus(e);
 
-				SetState(WidgetState::Selected, true);
+				bool already_selected = HasFlag(State(), WidgetState::Selected);
 
-				// Un-select all other items.
-				if (GetManager() != nullptr)
-					for (auto i = GetManager()->begin(); i != GetManager()->end(); ++i)
+				SetState(WidgetState::Selected, true);
+								
+				if (GetManager() != nullptr) {
+
+					int c_index = 0;
+					int this_index = -1;
+
+					// Un-select all other items.
+					for (auto i = GetManager()->begin(); i != GetManager()->end(); ++i, ++c_index)
 						if (i->widget.get() != this)
 							i->widget->SetState(WidgetState::Selected, false);
+						else
+							this_index = c_index;
+
+					// If the selection has changed, emit the appropriate event.
+					if (!already_selected && GetParent() != nullptr)
+						GetParent()->HandleEvent(WidgetSelectedItemChangedEventArgs(GetParent(), this, this_index));
+
+				}					
 
 			}
 
@@ -76,6 +91,41 @@ namespace hvn3 {
 						return index;
 
 				return -1;
+
+			}
+			void SetSelectedIndex(int value) {
+
+				ClearSelection();
+
+				if (value == -1)
+					return;
+
+				assert(value >= 0);
+				assert(value < Count());
+
+				int c_index = 0;
+
+				for (auto i = GetChildren().begin(); i != GetChildren().end(); ++i, ++c_index)
+					if (c_index == value) {
+
+						i->widget->SetState(WidgetState::Selected, true);
+
+						EmitEvent(WidgetSelectedItemChangedEventArgs(this, i->widget.get(), value));
+
+						break;
+
+					}
+
+			}
+			void ClearSelection() {
+
+				for (auto i = GetChildren().begin(); i != GetChildren().end(); ++i)
+					i->widget->SetState(WidgetState::Selected, false);
+
+			}
+			size_t Count() {
+
+				return GetChildren().Count();
 
 			}
 
