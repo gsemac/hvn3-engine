@@ -169,6 +169,9 @@ namespace hvn3 {
 			widget->OnZDepthChanged(WidgetZDepthChangedEventArgs(widget));
 
 		}
+		void WidgetManager::SetFocus(IWidget* widget) {
+			_setFocused(widget);
+		}
 
 		void WidgetManager::SetRenderer(renderer_ptr_type& renderer) {
 
@@ -646,11 +649,15 @@ namespace hvn3 {
 			if (_widget_focused == widget)
 				return;
 
-			if (_widget_focused != nullptr)
+			if (_widget_focused != nullptr) {
+				_widget_focused->SetState(WidgetState::Focus, false);
 				_widget_focused->HandleEvent(WidgetFocusLostEventArgs(_widget_focused));
+			}
 
-			if (widget != nullptr)
+			if (widget != nullptr) {
+				widget->SetState(WidgetState::Focus, true);
 				widget->HandleEvent(WidgetFocusEventArgs(widget));
+			}
 
 			_widget_focused = widget;
 

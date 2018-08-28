@@ -139,10 +139,12 @@ namespace hvn3 {
 			return _state;
 		}
 		void WidgetBase::SetState(WidgetState state, bool value) {
-			if (value)
+			
+			if (value) 
 				_state |= state;
 			else
 				_state &= ~state;
+
 		}
 		Gui::Anchor WidgetBase::Anchor() const {
 			return _anchor;
@@ -236,12 +238,8 @@ namespace hvn3 {
 		void WidgetBase::OnUpdate(WidgetUpdateEventArgs& e) {}
 		void WidgetBase::OnManagerChanged(WidgetManagerChangedEventArgs& e) {}
 		void WidgetBase::OnRendererChanged(WidgetRendererChangedEventArgs& e) {}
-		void WidgetBase::OnFocus(WidgetFocusEventArgs& e) {
-			SetState(WidgetState::Focus, true);
-		}
-		void WidgetBase::OnFocusLost(WidgetFocusLostEventArgs& e) {
-			SetState(WidgetState::Focus, false);
-		}
+		void WidgetBase::OnFocus(WidgetFocusEventArgs& e) {}
+		void WidgetBase::OnFocusLost(WidgetFocusLostEventArgs& e) {}
 		void WidgetBase::OnDraw(WidgetDrawEventArgs& e) {}
 		void WidgetBase::OnZDepthChanged(WidgetZDepthChangedEventArgs& e) {}
 		void WidgetBase::OnChildWidgetAdded(ChildWidgetAddedEventArgs& e) {}

@@ -26,16 +26,46 @@ namespace hvn3 {
 			_context_menu_managed = false;
 
 		}
-		void MenuStripItem::OnMousePressed(WidgetMousePressedEventArgs& e) {
+		void MenuStripItem::OnFocus(WidgetFocusEventArgs& e) {
 
-			if (ContextMenuVisible())
-				HideContextMenu();
-			else
-				ShowContextMenu();
+			WidgetBase::OnFocus(e);
+
+			ShowContextMenu();
 
 		}
 		void MenuStripItem::OnFocusLost(WidgetFocusLostEventArgs& e) {
+
+			WidgetBase::OnFocusLost(e);
+
 			HideContextMenu();
+
+		}
+		void MenuStripItem::OnMousePressed(WidgetMousePressedEventArgs& e) {
+
+			WidgetBase::OnMousePressed(e);
+
+			ToggleContextMenuVisibility();
+
+		}
+		void MenuStripItem::OnMouseEnter(WidgetMouseEnterEventArgs& e) {
+
+			WidgetBase::OnMouseEnter(e);
+
+			// If any sibling items are focused, make this the focused item instead.
+			// This allows moving the cursor across the menu strip to open different context menus.
+
+			if (GetParent() == nullptr || !GetParent()->HasChildren())
+				return;
+
+			for (auto i = GetParent()->GetChildren().begin(); i != GetParent()->GetChildren().end(); ++i)
+				if (HasFlag(i->widget->State(), WidgetState::Focus)) {
+
+					GetParent()->GetChildren().SetFocus(this);
+
+					break;
+
+				}
+
 		}
 
 		void MenuStripItem::ShowContextMenu() {
@@ -62,6 +92,14 @@ namespace hvn3 {
 				return;
 
 			_context_menu->SetVisible(false);
+
+		}
+		void MenuStripItem::ToggleContextMenuVisibility() {
+
+			if (ContextMenuVisible())
+				HideContextMenu();
+			else
+				ShowContextMenu();
 
 		}
 		void MenuStripItem::DestroyContextMenu() {
@@ -91,7 +129,6 @@ namespace hvn3 {
 			return _context_menu->Visible();
 
 		}
-
 
 
 		MenuStrip::MenuStrip() :
@@ -148,7 +185,7 @@ namespace hvn3 {
 			float min_width = Height() - (padding * 2.0f);
 
 			float x = margin_x;
-			float y = margin_y;			
+			float y = margin_y;
 
 			for (auto i = _child_manager.GetWidgets().begin(); i != _child_manager.GetWidgets().end(); ++i) {
 

@@ -59,6 +59,7 @@ namespace hvn3 {
 			widget_collection_type::size_type Count() const;
 			void BringToFront(IWidget* widget);
 			void SendToBack(IWidget* widget);
+			void SetFocus(IWidget* widget);
 
 			void SetRenderer(renderer_ptr_type& renderer);
 			const IWidgetRenderer& Renderer();
