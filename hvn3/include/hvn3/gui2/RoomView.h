@@ -4,6 +4,7 @@
 #include "hvn3/objects/IObject.h"
 #include "hvn3/objects/IObjectManager.h"
 #include "hvn3/rooms/IRoom.h"
+#include <cassert>
 
 namespace hvn3 {
 	namespace Gui {
@@ -12,11 +13,10 @@ namespace hvn3 {
 			public ScrollableWidgetBase {
 
 		public:
-			static const PointF NULL_POSITION;
-
 			RoomView(const RoomPtr& room) :
 				ScrollableWidgetBase(SizeF(room->Width(), room->Height())),
-				_room(room) {
+				_room(room),
+				_grid_cell_size(32, 32) {
 
 				_show_grid = true;
 				_draw_objects = true;
@@ -44,37 +44,41 @@ namespace hvn3 {
 				_draw_outside_room = draw_outside_room;
 
 			}
-			PointF PositionToRoomPosition(const PointF& position) const {
 
-				if (!_room)
-					return NULL_POSITION;
+			PointF PositionToRoomPosition(const PointF& position, bool snap_to_grid) const {
+
+				assert(static_cast<bool>(_room));
 
 				PointF p = _positionToRoomPosition(position);
 
-				if (!_positionIsInRoomBoundaries(p))
-					return NULL_POSITION;
+				if (snap_to_grid) {
+					p.x = Math::Floor(p.x, _grid_cell_size.width);
+					p.y = Math::Floor(p.y, _grid_cell_size.height);
+				}
 
 				return p;
 
 			}
-			PointF PositionToGridPosition(const PointF& position) const {
-
-				if (!_room)
-					return NULL_POSITION;
+			PointF PositionToGridCell(const PointF& position) const {
 
 				PointF p = _positionToRoomPosition(position);
 
-				float gridw = Math::Ceiling(static_cast<float>(_room->Width()), 32.0f);
-				float gridh = Math::Ceiling(static_cast<float>(_room->Height()), 32.0f);
-
-				if (p.x < 0.0f || p.y < 0.0f || p.x >= gridw || p.y >= gridh)
-					return NULL_POSITION;
-
-				p.x = Math::Floor(p.x / 32.0f);
-				p.y = Math::Floor(p.y / 32.0f);
+				p.x = Math::Floor(p.x / _grid_cell_size.width);
+				p.y = Math::Floor(p.y / _grid_cell_size.height);
 
 				return p;
 
+			}
+			bool IsPositionInRoomBounds(const PointF& position) const {
+
+				if (position.x < 0.0f || position.y < 0.0f || position.x > _room->Width() || position.y > _room->Height())
+					return false;
+
+				return true;
+
+			}
+			void SetGridCellSize(const SizeF& size) {
+				_grid_cell_size = size;
 			}
 
 			void OnDraw(WidgetDrawEventArgs& e) override {
@@ -102,7 +106,7 @@ namespace hvn3 {
 
 					if (_show_grid) {
 
-						Grid grid(static_cast<hvn3::SizeF>(_room->Size()), hvn3::SizeF(32.0f, 32.0f), true);
+						Grid grid(static_cast<SizeF>(_room->Size()), _grid_cell_size, true);
 						_grid_renderer.Draw(e.Graphics(), PointF(0.0f, 0.0f), grid);
 
 					}
@@ -118,6 +122,7 @@ namespace hvn3 {
 			bool _show_grid;
 			bool _draw_objects;
 			bool _draw_outside_room;
+			SizeF _grid_cell_size;
 			hvn3::Graphics::GridRendererExt _grid_renderer;
 
 			PointF _positionToRoomPosition(const PointF& position) const {
@@ -126,14 +131,6 @@ namespace hvn3 {
 				room_origin -= VisibleRegion().Position();
 
 				return position - room_origin;
-
-			}
-			bool _positionIsInRoomBoundaries(const PointF& position) const {
-
-				if (position.x < 0.0f || position.y < 0.0f || position.x > _room->Width() || position.y > _room->Height())
-					return false;
-
-				return true;
 
 			}
 			void _drawObjects(WidgetDrawEventArgs& e) {
@@ -145,8 +142,6 @@ namespace hvn3 {
 			}
 
 		};
-
-		const PointF RoomView::NULL_POSITION = PointF(-1.0f, 1.0f);
 
 	}
 }
