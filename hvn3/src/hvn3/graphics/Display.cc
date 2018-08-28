@@ -115,12 +115,6 @@ namespace hvn3 {
 		// Update the size values of the underlying sizeable class.
 		SizeableBase::SetSize(width, height);
 
-		// Notify all listeners of the size change.
-		auto listeners = DisplayListener::GetListeners();
-		DisplaySizeChangedEventArgs args(this);
-		for (auto i = listeners.begin(); i != listeners.end(); ++i)
-			(*i)->OnDisplaySizeChanged(args);
-
 		// If the Display's actual size is the same as the sizes provided, just update width/height values. 
 		// This can occur when the Display is resized manually.
 		if (al_get_display_width(get()) == width && al_get_display_height(get()) == height)

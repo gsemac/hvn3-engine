@@ -8,12 +8,14 @@
 #include <xmmintrin.h>
 #include <memory>
 #include <sstream>
+#include "hvn3/allegro/AllegroAdapter.h"
 #include "hvn3/core/Runner.h"
 #include "hvn3/core/DrawEventArgs.h"
 #include "hvn3/core/Framework.h"
 #include "hvn3/core/UpdateEventArgs.h"
 #include "hvn3/events/Event.h"
 #include "hvn3/fonts/Font.h"
+#include "hvn3/io/DisplayListener.h"
 #include "hvn3/io/Mouse.h"
 #include "hvn3/io/MouseMutator.h"
 #include "hvn3/io/Keyboard.h"
@@ -417,41 +419,67 @@ namespace hvn3 {
 		}
 		void Runner::OnDisplayResize(Event& ev) {
 
+			Display& display = _context.GetDisplay();
+
 			// Store the old size so that we can include it in the event args.
-			SizeI old_size = _context.GetDisplay().Size();
+			SizeI old_size = display.Size();
 
 			// Acknowledge the resize.
-			al_acknowledge_resize(_context.GetDisplay().get());
+			al_acknowledge_resize(System::AllegroAdapter::ToDisplay(display));
 
-			// Resize the display.
-			_context.GetDisplay().SetSize(ev.AlPtr()->display.width, ev.AlPtr()->display.height);
+			// Update the size stored by the display.
+			display.SetSize(ev.AlPtr()->display.width, ev.AlPtr()->display.height);
 
-			// Trigger the "OnDisplaySizeChanged" event for the current room.
-			//if (_context.GetRooms().RoomCount() > 0)
-			//	_context.GetRooms().CurrentRoom()->OnDisplaySizeChanged(
-			//		DisplaySizeChangedEventArgs(old_size, SizeI(_display.Width(), _display.Height()), &_display)
-			//	);
+			// Notify all listeners.
+
+			auto listeners = DisplayListener::GetListeners();
+			DisplaySizeChangedEventArgs args(&display);
+
+			for (auto i = listeners.begin(); i != listeners.end(); ++i)
+				(*i)->OnDisplaySizeChanged(args);
 
 		}
 		void Runner::OnDisplaySwitchOut(Event& ev) {
 
-			_context.GetDisplay()._setFocus(false);
+			Display& display = _context.GetDisplay();
+
+			display._setFocus(false);			
 
 			KeyboardMutator().ResetKeyStates();
 			MouseMutator().ResetButtonStates(true, true, true);
 
+			// Notify all listeners.
+
 			KeyboardMutator().DispatchKeyboardLostEvent(KeyboardLostEventArgs());
 
+			auto listeners = DisplayListener::GetListeners();
+			DisplayLostEventArgs args(&display);
+
+			for (auto i = listeners.begin(); i != listeners.end(); ++i)
+				(*i)->OnDisplayLost(args);
+
+			// Freeze the game if this property is enabled.
 			if (_properties().FreezeWhenLostFocus)
 				_delta_timer.Stop();
 
 		}
 		void Runner::OnDisplaySwitchIn(Event& ev) {
 
-			_context.GetDisplay()._setFocus(true);
+			Display& display = _context.GetDisplay();
+
+			display._setFocus(true);
+
+			// Notify all listeners.
 
 			KeyboardMutator().DispatchKeyboardFoundEvent(KeyboardFoundEventArgs());
 
+			auto listeners = DisplayListener::GetListeners();
+			DisplayFoundEventArgs args(&display);
+
+			for (auto i = listeners.begin(); i != listeners.end(); ++i)
+				(*i)->OnDisplayFound(args);
+
+			// Un-freeze the game if this property is enabled.
 			_delta_timer.Start();
 
 		}

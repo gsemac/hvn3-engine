@@ -24,4 +24,7 @@ namespace hvn3 {
 		}
 	};
 
+	typedef DisplayEventArgs DisplayLostEventArgs;
+	typedef DisplayEventArgs DisplayFoundEventArgs;
+
 }
