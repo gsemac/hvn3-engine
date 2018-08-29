@@ -168,9 +168,6 @@ namespace hvn3 {
 		void MenuStrip::AddItem(std::unique_ptr<IWidget>& item) {
 			_child_manager.Add(item);
 		}
-		void MenuStrip::AddItem(MenuStripItem* item) {
-			AddItem(std::unique_ptr<IWidget>(item));
-		}
 		MenuStripItem* MenuStrip::AddItem(const String& text) {
 
 			MenuStripItem* item = new MenuStripItem(this, text);
@@ -178,6 +175,12 @@ namespace hvn3 {
 
 			return item;
 
+		}
+		void MenuStrip::AddItem(MenuStripItem* item) {
+			AddItem(std::unique_ptr<IWidget>(item));
+		}
+		void MenuStrip::AddItem(Label* item) {
+			AddItem(std::unique_ptr<IWidget>(item));
 		}
 		WidgetManager& MenuStrip::GetChildren() {
 			return _child_manager;

@@ -4,7 +4,6 @@
 #include <type_traits>
 
 namespace hvn3 {
-
 	namespace Graphics {
 
 		enum class EasingFunction {
@@ -39,7 +38,6 @@ namespace hvn3 {
 
 			}
 		};
-
 		template<>
 		struct TweenTraits<Color> {
 			static Color Interpolate(const Color& from, const Color& to, float time, hvn3::Graphics::EasingFunction func) {

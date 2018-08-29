@@ -1,6 +1,7 @@
 #pragma once
 #include "hvn3/gui2/ContextMenu.h"
 #include "hvn3/gui2/IWidgetRenderer.h"
+#include "hvn3/gui2/Label.h"
 #include "hvn3/gui2/WidgetBase.h"
 
 namespace hvn3 {
@@ -45,8 +46,9 @@ namespace hvn3 {
 			MenuStrip(float height);
 
 			void AddItem(std::unique_ptr<IWidget>& item);
-			void AddItem(MenuStripItem* item);
 			MenuStripItem* AddItem(const String& text);
+			void AddItem(MenuStripItem* item);
+			void AddItem(Label* item);
 
 			WidgetManager& GetChildren() override;
 			bool HasChildren() override;
