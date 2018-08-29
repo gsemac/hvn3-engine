@@ -76,6 +76,14 @@ public:
 		Assert::IsFalse(StringUtils::EndsWith(str, "."));
 
 	}
+	TEST_METHOD(TestEndsWithWithStringTypeAndStringTypeOfLesserLength) {
+
+		String str = "hello world";
+		String suffix = "world";
+
+		Assert::IsTrue(StringUtils::EndsWith(str, suffix));
+
+	}
 
 	};
 

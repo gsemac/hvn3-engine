@@ -86,8 +86,8 @@ namespace hvn3 {
 				_selected_files.push_back(std::string(al_get_native_file_dialog_path(dialog, i)));
 
 			// Add the default file extension to all files if enabled.
-			if (_add_extension_enabled && _default_extension.length() > 0)
-				for (auto i = _selected_files.begin(); i != _selected_files.end(); ++i)
+			if (_add_extension_enabled && _default_extension.size() > 0)
+				for (auto i = _selected_files.begin(); i != _selected_files.end(); ++i) 
 					if (!StringUtils::EndsWith(*i, _default_extension))
 						*i += _default_extension;
 
