@@ -1,3 +1,4 @@
+#pragma once
 #include "hvn3/gui2/IWidgetRenderer.h"
 #include "hvn3/gui2/WidgetBase.h"
 #include "hvn3/utility/StringUtils.h"
