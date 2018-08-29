@@ -616,7 +616,7 @@ namespace hvn3 {
 				break;
 
 			case DockStyle::Bottom:
-				widget->SetPosition(region.X(), region.Height() - widget->Height());
+				widget->SetPosition(region.X(), region.Y() + region.Height() - widget->Height());
 				widget->SetWidth(region.Width());
 				region = RectangleF::Crop(region, hvn3::CropSide::Bottom, widget->Height());
 				break;
