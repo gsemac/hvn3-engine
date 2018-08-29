@@ -16,13 +16,23 @@ namespace hvn3 {
 
 			}
 
+			void OnMouseReleased(WidgetMouseReleasedEventArgs& e) override {
+
+				WidgetBase::OnMouseReleased(e);
+
+				// The context menu that this item belongs to should no longer be visible after the item is clicked.
+				if (GetParent() != nullptr)
+					GetParent()->SetVisible(false);
+
+			}
+
 			bool Checked() const {
 				return HasFlag(State(), WidgetState::Checked);
 			}
 			void SetChecked(bool value) {
 				SetState(WidgetState::Checked, value);
 			}
-
+			
 		};
 
 		class ContextMenuItemSeparator :

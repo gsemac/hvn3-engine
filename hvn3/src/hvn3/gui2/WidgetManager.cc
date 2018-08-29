@@ -649,18 +649,23 @@ namespace hvn3 {
 			if (_widget_focused == widget)
 				return;
 
-			if (_widget_focused != nullptr) {
-				_widget_focused->SetState(WidgetState::Focus, false);
-				_widget_focused->HandleEvent(WidgetFocusLostEventArgs(_widget_focused));
-			}
+			// Update the focused widget and the state of both involved widgets before calling event handlers.
+			// This allows the widget that lost focus to check the newly-focused widget if it needs to.
 
-			if (widget != nullptr) {
-				widget->SetState(WidgetState::Focus, true);
-				widget->HandleEvent(WidgetFocusEventArgs(widget));
-			}
-
+			IWidget* _widget_focused_old = _widget_focused;
 			_widget_focused = widget;
 
+			if (_widget_focused != nullptr)
+				_widget_focused->SetState(WidgetState::Focus, true);
+
+			if (_widget_focused_old != nullptr) {
+				_widget_focused_old->SetState(WidgetState::Focus, false);
+				_widget_focused_old->HandleEvent(WidgetFocusLostEventArgs(_widget_focused_old));
+			}
+
+			if (_widget_focused != nullptr)
+				_widget_focused->HandleEvent(WidgetFocusEventArgs(_widget_focused));
+			
 		}
 
 		WidgetManager::renderer_ptr_type& WidgetManager::_getRenderer() {

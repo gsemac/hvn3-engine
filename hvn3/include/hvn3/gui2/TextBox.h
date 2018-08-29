@@ -34,7 +34,7 @@ namespace hvn3 {
 			}
 
 			void OnDraw(WidgetDrawEventArgs& e) override {
-				_selected_range.Set(0, 2);
+
 				float padding = 3.0f;
 				float text_y = Y() + Height() / 2.0f;
 

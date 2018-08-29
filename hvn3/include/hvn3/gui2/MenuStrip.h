@@ -33,6 +33,8 @@ namespace hvn3 {
 			ContextMenu* _context_menu;
 			bool _context_menu_managed;
 
+			bool _contextMenuOrItsChildrenHaveFocus() const;
+
 		};
 
 		class MenuStrip : public WidgetBase {

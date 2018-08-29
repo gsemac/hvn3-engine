@@ -37,7 +37,11 @@ namespace hvn3 {
 
 			WidgetBase::OnFocusLost(e);
 
-			HideContextMenu();
+			// If the context menu or its children received focus, postpone closing the context menu until the next mouse-up.
+			// This gives events like OnMouseClick a chance to be detected before the menu disappears.
+
+			if (!_contextMenuOrItsChildrenHaveFocus())
+				HideContextMenu();
 
 		}
 		void MenuStripItem::OnMousePressed(WidgetMousePressedEventArgs& e) {
@@ -127,6 +131,23 @@ namespace hvn3 {
 				return false;
 
 			return _context_menu->Visible();
+
+		}
+
+		bool MenuStripItem::_contextMenuOrItsChildrenHaveFocus() const {
+
+			if (!ContextMenuVisible())
+				return false;
+
+			if (HasFlag(_context_menu->State(), WidgetState::Focus))
+				return true;
+
+			if (_context_menu->HasChildren())
+				for (auto i = _context_menu->GetChildren().begin(); i != _context_menu->GetChildren().end(); ++i)
+					if (HasFlag(i->widget->State(), WidgetState::Focus))
+						return true;
+
+			return false;
 
 		}
 
