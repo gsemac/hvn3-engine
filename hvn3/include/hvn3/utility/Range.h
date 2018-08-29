@@ -1,126 +1,117 @@
-#ifndef __RANGE_H
-#define __RANGE_H
-#include <cassert>
+#pragma once
 #include <algorithm>
+#include <cassert>
 
 namespace hvn3 {
 
 	template <typename T>
 	class Range {
 
-	private:
-		T __start, __end;
-		bool __inclusive;
-
 	public:
+		Range() :
+			Range(true) {
+		}
+		Range(bool inclusive) {
+
+			_start = 0;
+			_end = _start;
+			_inclusive = inclusive;
+
+		}
 		Range(T start, T end, bool inclusive = true) {
 
 			Resize(start, end);
-			__inclusive = inclusive;
+			_inclusive = inclusive;
 
 		}
 
-		T Start() {
-
-			return __start;
-
+		T Start() const {
+			return _start;
 		}
-		T End() {
-
-			return __end;
-
-		}
-		bool Overlaps(const Range<T>& other) {
-
-			return (other.__start >= __start && other.__start <= __end + 1) ||
-				(other.__start <= __start && other.__end + 1 >= __start);
-
-		}
-		Range<T>& Merge(const Range<T>& other) {
-
-			__start = (std::min)(__start, other.__start);
-			__end = (std::max)(__end, other.__end);
-
-			return *this;
-
-		}
-		void Resize(T start, T end) {
-
-			// Set member variables.
-			__start = start;
-			__end = end;
-
-		}
-		void AssignToMin(T value) {
-
-			if (__end < __start)
-				__end = value;
-			else
-				__start = value;
-
-		}
-		void AssignToMax(T value) {
-
-			if (__end > __start)
-				__end = value;
-			else
-				__end = value;
-
-		}
-		void SetStart(T value) {
-
-			__start = value;
-
-		}
-		void SetEnd(T value) {
-
-			__end = value;
-
-		}
-		int Length() {
-
-			return (std::abs)(__end - __start);
-
-		}
-		bool IsEmpty() {
-
-			return Length() == 0;
-
-		}
-		bool IsAscending() {
-
-			return __start < __end;
-
-		}
-		bool IsDescending() {
-
-			return __start __end;
-
-		}
-		bool IsInclusive() {
-
-			return __inclusive;
-
-		}
-		void Sort() {
-
-			if (__start > __end)
-				std::swap(__start, __end);
-
+		T End() const {
+			return _end;
 		}
 		T Min() {
 
-			return (__start < __end) ? __start : __end;
+			return (_start < _end) ? _start : _end;
 
 		}
 		T Max() {
 
-			return (__end > __start) ? __end : __start;
+			return (_end > _start) ? _end : _start;
 
+		}
+		int Length() const {
+			return (std::abs)(_end - _start);
+		}
+
+		bool Overlaps(const Range<T>& other) const {
+
+			return (other._start >= _start && other._start <= _end + 1) ||
+				(other._start <= _start && other._end + 1 >= _start);
+
+		}
+		Range<T>& Merge(const Range<T>& other) {
+
+			_start = (std::min)(_start, other._start);
+			_end = (std::max)(_end, other._end);
+
+			return *this;
+
+		}
+
+		void Set(T start, T end) {
+			_start = start;
+			_end = end;
+		}
+		void SetLower(T value) {
+
+			if (_end < _start)
+				_end = value;
+			else
+				_start = value;
+
+		}
+		void SetUpper(T value) {
+
+			if (_end > _start)
+				_end = value;
+			else
+				_end = value;
+
+		}
+		void SetStart(T value) {
+
+			_start = value;
+
+		}
+		void SetEnd(T value) {
+
+			_end = value;
+
+		}
+
+		bool IsEmpty() const {
+
+			return Length() == 0;
+
+		}
+		bool IsAscending() const {
+
+			return _start < _end;
+
+		}
+		bool IsDescending() const {
+
+			return _start > _end;
+
+		}
+		bool IsInclusive() const {
+			return _inclusive;
 		}
 		bool ContainsValue(const T& value) {
 
-			return (value >= Min() + !__inclusive && value <= Max() - !__inclusive);
+			return (value >= Min() + !_inclusive && value <= Max() - !_inclusive);
 
 		}
 		bool ContainsRange(const Range<T>& other) {
@@ -129,8 +120,23 @@ namespace hvn3 {
 
 		}
 
+		void MakeAscending() {
+
+			if (_start > _end)
+				std::swap(_start, _end);
+
+		}
+		void MakeDescending() {
+
+			if (_start < _end)
+				std::swap(_start, _end);
+
+		}
+
+	private:
+		T _start, _end;
+		bool _inclusive;
+
 	};
 
 }
-
-#endif

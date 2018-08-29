@@ -1,6 +1,7 @@
 #pragma once
 #include "hvn3/gui2/IWidgetRenderer.h"
 #include "hvn3/gui2/WidgetBase.h"
+#include "hvn3/utility/Range.h"
 #include "hvn3/utility/StringUtils.h"
 #include <algorithm>
 
@@ -33,10 +34,22 @@ namespace hvn3 {
 			}
 
 			void OnDraw(WidgetDrawEventArgs& e) override {
-
+				_selected_range.Set(0, 2);
 				float padding = 3.0f;
+				float text_y = Y() + Height() / 2.0f;
 
-				e.Graphics().DrawText(X() + padding, Y() + Height() / 2.0f, Text(), GetRenderer()->GetWidgetFont(this), Color::Black, Alignment::Left | Alignment::Middle);
+				e.Graphics().DrawText(X() + padding, text_y, Text(), GetRenderer()->GetWidgetFont(this), Color::Black, Alignment::Left | Alignment::Middle);
+
+				if (_selected_range.Length() > 0) {
+
+					float selection_h = GetRenderer()->GetWidgetFont(this).Height();
+					float selection_w = GetRenderer()->MeasureString(SelectedText()).width;
+					Color selection_color = Color::FromArgb(51, 153, 255);
+
+					e.Graphics().DrawSolidRectangle(X() + padding, text_y - selection_h / 2.0f, selection_w, selection_h, selection_color);
+					e.Graphics().DrawText(X() + padding, text_y, SelectedText(), GetRenderer()->GetWidgetFont(this), Color::White, Alignment::Left | Alignment::Middle);
+
+				}
 
 				if (_caret_blink_timer <= 1.0f && _focused) {
 
@@ -136,12 +149,17 @@ namespace hvn3 {
 
 			}
 
+			String SelectedText() const {
+				return Text().SubString(_selected_range.Start(), _selected_range.End());
+			}
+
 		private:
 			int _caret_pos;
 			float _text_padding;
 			float _caret_blink_timer;
 			bool _focused;
 			InputType _input_type;
+			Range<int> _selected_range;
 
 			void _initializeMembers() {
 
