@@ -37,7 +37,7 @@ namespace hvn3 {
 
 				}
 
-				return from + (amount * (to - from));
+				return static_cast<T>(from + (amount * (to - from)));
 
 			}
 		};
@@ -67,7 +67,7 @@ namespace hvn3 {
 		class Tween {
 
 			typedef int duration_type;
-			typedef std::function<void(Tween<T>&)> do_callback_type;
+			typedef std::function<void(Tween<T>&)> callback_type;
 
 			struct tween_data {
 
@@ -78,7 +78,7 @@ namespace hvn3 {
 				T from;
 				T to;
 				duration_type duration;
-				do_callback_type _do;
+				callback_type _do;
 			};
 
 			typedef std::vector<tween_data> data_collection_type;
@@ -135,10 +135,10 @@ namespace hvn3 {
 				bool finished;
 
 				if (_reverse) {
-				
+
 					// If stepping in reverse, we're finished when we hit the beginning of the tween.
 					finished = (_step == 0 && _data_index == 0);
-				
+
 					if (!finished && data._do)
 						data._do(*this);
 
@@ -248,11 +248,26 @@ namespace hvn3 {
 				return *this;
 
 			}
-			Tween<T>& Do(do_callback_type&& value) {
+			Tween<T>& Do(callback_type&& value) {
 
 				assert(_data.size() > 0);
 
 				_data.back()._do = std::move(value);
+
+				return *this;
+
+			}
+			Tween<T>& Then(callback_type&& value) {
+
+				assert(_data.size() > 0);
+
+				tween_data data;
+				data.from = _data.back().to;
+				data.to = _data.back().to;
+				data.duration = 0;
+				data._do = std::move(value);
+
+				_data.push_back(data);
 
 				return *this;
 
