@@ -11,7 +11,7 @@ namespace hvn3 {
 		public:
 			Label(const String& text) {
 
-				SetIdentifier("label");
+				SetId("label");
 				SetText(text);
 				SetTabStop(false);
 

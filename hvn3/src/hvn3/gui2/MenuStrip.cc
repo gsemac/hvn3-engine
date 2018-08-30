@@ -5,7 +5,7 @@ namespace hvn3 {
 
 		MenuStripItem::MenuStripItem(MenuStrip* parent, const String& text) {
 
-			SetIdentifier("menustripitem");
+			SetId("menustripitem");
 			SetText(text);
 
 			_parent = parent;
@@ -158,7 +158,7 @@ namespace hvn3 {
 		MenuStrip::MenuStrip(float height) :
 			_child_manager(this) {
 
-			SetIdentifier("menustrip");
+			SetId("menustrip");
 			SetDockStyle(DockStyle::Top);
 			SetHeight(height);
 
@@ -198,7 +198,7 @@ namespace hvn3 {
 		void MenuStrip::OnRendererChanged(WidgetRendererChangedEventArgs& e) {
 			WidgetBase::OnRendererChanged(e);
 
-			if (GetManager() == nullptr)
+			if (GetManager() == nullptr || !static_cast<const WidgetManager*>(GetManager())->Renderer())
 				return;
 
 			// Resize all child widgets according to the new renderer.
@@ -213,7 +213,7 @@ namespace hvn3 {
 
 			for (auto i = _child_manager.GetWidgets().begin(); i != _child_manager.GetWidgets().end(); ++i) {
 
-				SizeF text_size = GetManager()->Renderer().MeasureString(i->widget->Text());
+				SizeF text_size = GetManager()->Renderer()->MeasureString(i->widget->Text());
 
 				i->widget->SetPosition(x, y);
 				i->widget->SetSize((std::max)(min_width, text_size.width) + (padding * 2.0f), Height());

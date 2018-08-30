@@ -109,7 +109,7 @@ namespace hvn3 {
 
 		void Window::_initializeMembers() {
 
-			SetIdentifier("window");
+			SetId("window");
 			_is_dragging = false;
 			_is_resizing = false;
 			_resizing_edges = 0;

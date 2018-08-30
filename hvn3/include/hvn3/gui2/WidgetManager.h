@@ -62,8 +62,8 @@ namespace hvn3 {
 			void SetFocus(IWidget* widget);
 
 			void SetRenderer(renderer_ptr_type& renderer);
-			const IWidgetRenderer& Renderer();
-			renderer_ptr_type& GetRenderer();
+			const renderer_ptr_type& Renderer() const;
+			renderer_ptr_type& Renderer();
 
 			const RectangleF& DockableRegion() const;
 			void SetDockableRegion(const RectangleF& value);

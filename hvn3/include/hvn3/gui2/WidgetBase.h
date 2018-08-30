@@ -17,8 +17,9 @@ namespace hvn3 {
 
 			void HandleEvent(IWidgetEventArgs& ev) override;
 
-			const std::string& Identifier() const override;
-			void SetIdentifier(const std::string& value) override;
+			const std::string& Id() const override;
+			void SetId(const std::string& value) override;
+			void AddId(const std::string& value) override;
 			const PointF& Position() const override;
 			void SetPosition(const PointF& value) override;
 			void SetPosition(float x, float y) override;

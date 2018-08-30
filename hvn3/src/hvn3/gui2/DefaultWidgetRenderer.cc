@@ -32,7 +32,7 @@ namespace hvn3 {
 
 			// #todo Have styles defined for each widget, and then a general style-drawing function
 
-			std::stringstream id_reader(widget.Identifier());
+			std::stringstream id_reader(widget.Id());
 			std::string id;
 
 			while (id_reader >> id) {
@@ -113,7 +113,7 @@ namespace hvn3 {
 		void DefaultWidgetRenderer::DrawButton(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
 
 			Color background_top_color(DEFAULT_UPPER_GRADIENT_COLOR);
-			Color background_bottom_color = _getTransitionedColor(args, widget.Identifier(), widget.State(), WidgetProperty::BackgroundColor);
+			Color background_bottom_color = _getTransitionedColor(args, widget.Id(), widget.State(), WidgetProperty::BackgroundColor);
 			auto text_offset_d = args.GetTransitionData<PointF>(WidgetProperty::TextOffset);
 
 			DrawWidgetBase(canvas, widget, background_top_color, background_bottom_color);
@@ -139,7 +139,7 @@ namespace hvn3 {
 		void DefaultWidgetRenderer::DrawWindow(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
 
 			Color background_top_color(DEFAULT_UPPER_GRADIENT_COLOR);
-			Color background_bottom_color = _getTransitionedColor(args, widget.Identifier(), widget.State(), WidgetProperty::BackgroundColor);
+			Color background_bottom_color = _getTransitionedColor(args, widget.Id(), widget.State(), WidgetProperty::BackgroundColor);
 			auto text_offset_d = args.GetTransitionData<PointF>(WidgetProperty::TextOffset);
 
 			DrawWidgetBase(canvas, widget, background_top_color, background_bottom_color);
@@ -338,7 +338,7 @@ namespace hvn3 {
 
 				}
 
-				canvas.DrawBitmap(background_position_x, background_position_y, *background_image);
+				canvas.DrawBitmap(Math::Round(background_position_x), Math::Round(background_position_y), *background_image);
 
 			}
 
@@ -360,7 +360,7 @@ namespace hvn3 {
 			args.SetLastState(widget.State());
 
 			// Update the transition data to reflect the widget's current (new) state.
-			if (widget.Identifier() == "button") {
+			if (widget.Id() == "button") {
 				if (HasFlag(widget.State(), WidgetState::Hover)) {
 					args.SetTransitionData<Color>(WidgetProperty::BackgroundColor, Color::Merge(Color::Orange, default_background_color, 0.7f), 0.3f);
 					args.SetTransitionData<PointF>(WidgetProperty::TextOffset, PointF(0.0f, 2.0f), 0.1f);

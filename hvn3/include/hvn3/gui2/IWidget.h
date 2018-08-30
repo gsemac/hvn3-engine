@@ -23,8 +23,9 @@ namespace hvn3 {
 			virtual void HandleEvent(IWidgetEventArgs& ev) = 0;
 
 			// Returns a string representing the widget's styling class hierarchy.
-			virtual const std::string& Identifier() const = 0;
-			virtual void SetIdentifier(const std::string& value) = 0;
+			virtual const std::string& Id() const = 0;
+			virtual void SetId(const std::string& value) = 0;
+			virtual void AddId(const std::string& value) = 0;
 			virtual const PointF& Position() const = 0;
 			virtual void SetPosition(const PointF& value) = 0;
 			virtual void SetPosition(float x, float y) = 0;

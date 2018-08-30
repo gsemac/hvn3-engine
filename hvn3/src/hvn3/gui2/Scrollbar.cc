@@ -10,7 +10,7 @@ namespace hvn3 {
 			_dragging = false;
 			_offset = 0.0f;
 
-			SetIdentifier("thumb");
+			SetId("thumb");
 
 		}
 
@@ -120,7 +120,7 @@ namespace hvn3 {
 			_thumb = nullptr;
 			_smooth_scroll = false;
 
-			SetIdentifier("scrollbar");
+			SetId("scrollbar");
 			SetLength(length);
 
 		}

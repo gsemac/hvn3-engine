@@ -78,11 +78,14 @@ namespace hvn3 {
 		}
 		void WidgetManager::Add(std::unique_ptr<IWidget>& widget) {
 
+			// Set the renderer for child widgets before calling SetManager, since SetManager will trigger a OnRendererChanged event.
+			// By giving the children the renderer first, the parent can work on the assumption it's been set when that event triggered.
+			// E.g., it can update the layout of its child widgets.
+			if (widget->HasChildren())
+				widget->GetChildren().SetRenderer(_renderer);
+
 			widget->SetManager(this);
 			widget->SetParent(_owner);
-
-			if (widget->HasChildren())
-				widget->GetChildren().SetRenderer(GetRenderer());
 
 			if (_owner != nullptr)
 				_owner->OnChildWidgetAdded(ChildWidgetAddedEventArgs(_owner, widget.get()));
@@ -178,17 +181,28 @@ namespace hvn3 {
 			_renderer = renderer;
 
 			// Let all child widgets know that the renderer has changed.
-			for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
+			// Also, update the renderer for any child widget with managers of their own (IF they don't already have one set).
+			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
+
+				if (i->widget->HasChildren()) {
+					
+					const WidgetManager* ptr = &i->widget->GetChildren();
+
+					if (!ptr->Renderer())
+						i->widget->GetChildren().SetRenderer(renderer);
+
+				}
+
 				i->widget->OnRendererChanged(WidgetRendererChangedEventArgs(i->widget.get()));
 
-		}
-		const IWidgetRenderer& WidgetManager::Renderer() {
-			return *_getRenderer();
-		}
-		WidgetManager::renderer_ptr_type& WidgetManager::GetRenderer() {
+			}
 
+		}
+		const WidgetManager::renderer_ptr_type& WidgetManager::Renderer() const {
 			return _renderer;
-
+		}
+		WidgetManager::renderer_ptr_type& WidgetManager::Renderer() {
+			return _getRenderer();
 		}
 		const RectangleF& WidgetManager::DockableRegion() const {
 			return _dockable_region;
@@ -665,7 +679,7 @@ namespace hvn3 {
 
 			if (_widget_focused != nullptr)
 				_widget_focused->HandleEvent(WidgetFocusEventArgs(_widget_focused));
-			
+
 		}
 
 		WidgetManager::renderer_ptr_type& WidgetManager::_getRenderer() {

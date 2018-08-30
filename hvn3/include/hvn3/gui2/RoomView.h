@@ -13,10 +13,9 @@ namespace hvn3 {
 			public ScrollableWidgetBase {
 
 		public:
-			RoomView(const RoomPtr& room) :
-				ScrollableWidgetBase(SizeF(room->Width(), room->Height())),
-				_room(room),
-				_grid_cell_size(32, 32) {
+			RoomView() :
+				ScrollableWidgetBase(SizeF(0.0f, 0.0f)),
+				_grid_cell_size(32.0f, 32.0f) {
 
 				_show_grid = true;
 				_draw_objects = true;
@@ -26,6 +25,15 @@ namespace hvn3 {
 				pen.SetDashPattern({ 2.0f });
 				_grid_renderer.SetLineStyle(pen);
 
+			}
+			RoomView(const RoomPtr& room) : 
+				RoomView() {
+
+				_room = room;
+
+				if (_room)
+					SetScrollableSize(SizeF(_room->Width(), _room->Height()));
+							   
 			}
 
 			void SetRoom(const RoomPtr& room) {

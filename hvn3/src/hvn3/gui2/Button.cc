@@ -30,7 +30,7 @@ namespace hvn3 {
 
 			_auto_size = false;
 
-			SetIdentifier("button");
+			SetId("button");
 
 		}
 

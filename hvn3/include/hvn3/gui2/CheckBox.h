@@ -12,7 +12,7 @@ namespace hvn3 {
 			CheckBox(const String& text) {
 
 				SetText(text);
-				SetIdentifier("checkbox");
+				SetId("checkbox");
 
 				_checkbox_width = 12.0f + 5.0f;
 

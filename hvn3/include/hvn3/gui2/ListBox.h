@@ -13,7 +13,7 @@ namespace hvn3 {
 		public:
 			ListBoxItem() {
 
-				SetIdentifier("listboxitem");
+				SetId("listboxitem");
 				SetHeight(15.0f);
 
 			}
@@ -62,7 +62,7 @@ namespace hvn3 {
 			ListBox() :
 				ScrollableWidgetBase(SizeF(0.0f, 0.0f)) {
 
-				SetIdentifier("listbox");
+				SetId("listbox");
 
 			}
 

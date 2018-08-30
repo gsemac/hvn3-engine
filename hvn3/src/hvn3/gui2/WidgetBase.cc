@@ -56,11 +56,17 @@ namespace hvn3 {
 
 		}
 
-		const std::string& WidgetBase::Identifier() const {
+		const std::string& WidgetBase::Id() const {
 			return _name;
 		}
-		void WidgetBase::SetIdentifier(const std::string& value) {
+		void WidgetBase::SetId(const std::string& value) {
 			_name = value;
+		}
+		void WidgetBase::AddId(const std::string& value) {
+
+			_name.push_back(' ');
+			_name += value;
+
 		}
 		const PointF& WidgetBase::Position() const {
 
@@ -271,7 +277,7 @@ namespace hvn3 {
 			if (GetManager() == nullptr)
 				return nullptr;
 
-			return GetManager()->GetRenderer().get();
+			return const_cast<const WidgetManager*>(GetManager())->Renderer().get();
 
 		}
 

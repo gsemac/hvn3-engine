@@ -11,7 +11,7 @@ namespace hvn3 {
 		public:
 			ContextMenuItem(const String& text) {
 
-				SetIdentifier("contextmenuitem");
+				SetId("contextmenuitem");
 				SetText(text);
 
 			}
@@ -40,7 +40,7 @@ namespace hvn3 {
 
 		public:
 			ContextMenuItemSeparator() {
-				SetIdentifier("contextmenuitemseparator");
+				SetId("contextmenuitemseparator");
 			}
 
 		};
@@ -51,7 +51,7 @@ namespace hvn3 {
 			ContextMenu() :
 				_child_manager(this) {
 
-				SetIdentifier("contextmenu");
+				SetId("contextmenu");
 
 			}
 
@@ -121,14 +121,14 @@ namespace hvn3 {
 
 				for (auto i = _child_manager.GetWidgets().begin(); i != _child_manager.GetWidgets().end(); ++i) {
 
-					if (i->widget->Identifier() == "contextmenuitemseparator") {
+					if (i->widget->Id() == "contextmenuitemseparator") {
 						++separator_count;
 						continue;
 					}
 
 					++item_count;
 
-					SizeF text_size = GetManager()->Renderer().MeasureString(i->widget->Text());
+					SizeF text_size = GetManager()->Renderer()->MeasureString(i->widget->Text());
 
 					if (text_size.width > max_width)
 						max_width = text_size.width;
@@ -154,7 +154,7 @@ namespace hvn3 {
 					i->widget->SetWidth(item_width);
 					i->widget->SetPosition(0.0f, y);
 
-					if (i->widget->Identifier() == "contextmenuitemseparator")
+					if (i->widget->Id() == "contextmenuitemseparator")
 						i->widget->SetHeight(separator_height);
 					else
 						i->widget->SetHeight(item_height);

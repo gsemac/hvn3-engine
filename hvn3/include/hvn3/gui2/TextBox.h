@@ -18,7 +18,7 @@ namespace hvn3 {
 			}
 			TextBox(float width) {
 
-				SetIdentifier("textbox");
+				SetId("textbox");
 				SetWidth(width);
 
 				_initializeMembers();

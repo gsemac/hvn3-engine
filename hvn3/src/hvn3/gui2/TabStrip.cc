@@ -7,7 +7,7 @@ namespace hvn3 {
 			
 			_owner = nullptr;
 			
-			SetIdentifier("tabstripitem");
+			SetId("tabstripitem");
 			SetText(text);
 
 		}
@@ -27,7 +27,7 @@ namespace hvn3 {
 
 			_selected_tab = nullptr;
 
-			SetIdentifier("tabstrip");
+			SetId("tabstrip");
 			SetHeight(25.0f);
 
 		}
