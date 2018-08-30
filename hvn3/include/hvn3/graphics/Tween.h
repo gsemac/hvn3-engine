@@ -1,7 +1,10 @@
 #pragma once
 #include "hvn3/graphics/Color.h"
+#include <cassert>
 #include <cmath>
+#include <functional>
 #include <type_traits>
+#include <vector>
 
 namespace hvn3 {
 	namespace Graphics {
@@ -60,60 +63,225 @@ namespace hvn3 {
 			}
 		};
 
-		template <typename EasingFromType, typename EasingToType = EasingFromType>
+		template <typename T>
 		class Tween {
 
+			typedef int duration_type;
+			typedef std::function<void(Tween<T>&)> do_callback_type;
+
+			struct tween_data {
+
+				tween_data() {
+					duration = 1;
+				}
+
+				T from;
+				T to;
+				duration_type duration;
+				do_callback_type _do;
+			};
+
+			typedef std::vector<tween_data> data_collection_type;
+
 		public:
-			Tween(EasingFromType from, EasingToType to) :
+			template<typename T = T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
+			Tween(T from, T to) :
+				Tween(from, to, Math::Abs(to - from)) {
+			}
+			template<typename T = T, typename std::enable_if<!std::is_integral<T>::value, int>::type = 0>
+			Tween(T from, T to) :
 				Tween(from, to, 10) {
 			}
-			Tween(EasingFromType from, EasingToType to, int duration) :
+			Tween(T from, T to, duration_type duration) :
 				Tween(from, to, duration, EasingFunction::Linear) {
 			}
-			Tween(EasingFromType from, EasingToType to, int duration, EasingFunction func) :
-				_from(from), _to(to) {
+			Tween(T from, T to, duration_type duration, EasingFunction easing_function) {
+
+				From(from).To(to).During(duration);
+
 				_step = 0;
-				_duration = duration;
-				_func = func;
+				_data_index = 0;
+				_easing_function = easing_function;
+				_reverse = false;
+
 			}
 
-			const EasingFromType Value() const {
-				return Graphics::TweenTraits<EasingFromType>::Interpolate(_from, _to, Progress(), _func);
+			const T Value() const {
+
+				assert(_data_index >= 0);
+				assert(_data_index < _data.size());
+
+				const tween_data& data = _data[_data_index];
+
+				return TweenTraits<T>::Interpolate(data.from, data.to, Progress(), _easing_function);
+
 			}
 
 			bool Step() {
 				return Step(1);
 			}
-			bool Step(int amount) {
+			bool Step(duration_type amount) {
+
+				assert(_data_index >= 0);
+				assert(_data_index < _data.size());
+
+				if (_reverse)
+					amount = -amount;
+
+				tween_data& data = _data[_data_index];
 
 				// This is checked before adjusting the step so that it doesn't return true until the user has had a chance
 				// to react to the final step. By returning a bool, this method can conveniently be called in loops.
-				bool finished = _step >= _duration;
+				bool finished;
 
-				if (-amount > _step)
-					_step = 0;
-				else if (_step + amount > _duration)
-					_step = _duration;
+				if (_reverse) {
+				
+					// If stepping in reverse, we're finished when we hit the beginning of the tween.
+					finished = (_step == 0 && _data_index == 0);
+				
+					if (!finished && data._do)
+						data._do(*this);
+
+				}
 				else
-					_step += amount;
+					finished = (_step >= data.duration) && (_data_index + 1 >= _data.size());
+
+				if (!_reverse && _step >= data.duration && _data_index + 1 < _data.size()) {
+
+					_step = 0;
+					++_data_index;
+
+				}
+				else if (_reverse && _step == 0 && _data_index > 0) {
+					_step = _data[--_data_index].duration;
+				}
+				else {
+
+					if (-amount > _step)
+						_step = 0;
+					else if (_step + amount > data.duration)
+						_step = data.duration;
+					else
+						_step += amount;
+
+				}
+
+				if (!_reverse && !finished && data._do)
+					data._do(*this);
 
 				return !finished;
 
 			}
+			void Reverse() {
+				_reverse = !_reverse;
+			}
+			void SeekToBegin() {
+				_step = 0;
+				_data_index = 0;
+			}
+			void SeekToEnd() {
+
+				if (_data.size() > 0) {
+					_data_index = _data.size() - 1;
+					_step = _data[_data_index].duration;
+				}
+				else {
+					_step = 0;
+					_data_index = 0;
+				}
+
+			}
 
 			float Progress() const {
-				if (_step >= _duration)
+
+				assert(_data_index >= 0);
+				assert(_data_index < _data.size());
+
+				if (_step >= _data[_data_index].duration)
 					return 1.0f;
-				return _step / static_cast<float>(_duration);
+
+				return _step / static_cast<float>(_data[_data_index].duration);
+
+			}
+
+			Tween<T>& From(T value) {
+
+				tween_data data;
+				data.from = value;
+				data.to = value;
+				data.duration = 1;
+
+				_data.push_back(data);
+
+				return *this;
+
+			}
+			Tween<T>& To(T value) {
+
+				assert(_data.size() > 0);
+
+				_data.back().to = value;
+
+				return *this;
+
+			}
+			Tween<T>& During(duration_type value) {
+
+				assert(_data.size() > 0);
+
+				_data.back().duration = value;
+
+				return *this;
+
+			}
+			Tween<T>& Wait(duration_type value) {
+
+				assert(_data.size() > 0);
+
+				tween_data data;
+				data.from = _data.back().to;
+				data.to = _data.back().to;
+				data.duration = value;
+
+				_data.push_back(data);
+
+				return *this;
+
+			}
+			Tween<T>& Do(do_callback_type&& value) {
+
+				assert(_data.size() > 0);
+
+				_data.back()._do = std::move(value);
+
+				return *this;
+
+			}
+			Tween<T>& Using(EasingFunction easing_function) {
+
+				_easing_function = easing_function;
+
+				return *this;
+
 			}
 
 		private:
-			EasingFromType _from;
-			EasingToType _to;
-			int _step, _duration;
-			EasingFunction _func;
+			duration_type _step;
+			bool _reverse;
+			typename data_collection_type::size_type _data_index;
+			data_collection_type _data;
+			EasingFunction _easing_function;
 
 		};
+
+		namespace tween {
+
+			template<typename T>
+			Tween<T> From(T value) {
+				return Tween<T>(value, value);
+			}
+
+		}
 
 		/*
 

@@ -101,7 +101,7 @@ namespace hvn3 {
 					return;
 
 				assert(value >= 0);
-				assert(value < Count());
+				assert(static_cast<size_t>(value) < Count());
 
 				int c_index = 0;
 
