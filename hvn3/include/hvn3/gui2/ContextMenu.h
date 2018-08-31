@@ -32,7 +32,7 @@ namespace hvn3 {
 			void SetChecked(bool value) {
 				SetState(WidgetState::Checked, value);
 			}
-			
+
 		};
 
 		class ContextMenuItemSeparator :
@@ -117,7 +117,7 @@ namespace hvn3 {
 
 				int item_count = 0;
 				int separator_count = 0;
-				
+
 
 				for (auto i = _child_manager.GetWidgets().begin(); i != _child_manager.GetWidgets().end(); ++i) {
 
@@ -140,6 +140,9 @@ namespace hvn3 {
 
 				float item_width = max_width + (padding * 2.0f) + icon_padding;
 				float item_height = max_height + (padding * 2.0f);
+
+				item_width = Math::Max(item_width, 142.0f);
+				item_height = Math::Max(item_height, 25.0f);
 
 				SetSize(item_width, item_height * item_count + separator_height * separator_count);
 				_child_manager.SetDockableRegion(RectangleF(Size()));

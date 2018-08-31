@@ -20,6 +20,7 @@ namespace hvn3 {
 			void OnFocus(WidgetFocusEventArgs& e) override;
 			void OnFocusLost(WidgetFocusLostEventArgs& e) override;
 			void OnMousePressed(WidgetMousePressedEventArgs& e) override;
+			void OnMouseReleased(WidgetMouseReleasedEventArgs& e) override;
 			void OnMouseEnter(WidgetMouseEnterEventArgs& e) override;
 
 		protected:

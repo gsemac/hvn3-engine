@@ -48,7 +48,17 @@ namespace hvn3 {
 
 			WidgetBase::OnMousePressed(e);
 
-			ToggleContextMenuVisibility();
+			ToggleContextMenuVisibility();		
+
+		}
+		void MenuStripItem::OnMouseReleased(WidgetMouseReleasedEventArgs& e) {
+
+			// If the item was clicked and the context menu hidden, remove focus from the item.
+			// This is so that dragging to other items doesn't open their context menus if one isn't already open.
+			// This is handled in OnMouseReleased instead of OnMousePressed so it doesn't just regain focus immediately after the click.
+
+			if (!ContextMenuVisible() && GetManager() != nullptr)
+				GetManager()->SetFocus(nullptr);
 
 		}
 		void MenuStripItem::OnMouseEnter(WidgetMouseEnterEventArgs& e) {
