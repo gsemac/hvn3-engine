@@ -1,8 +1,12 @@
 #include "hvn3/gui2/Button.h"
+#include "hvn3/gui2/IWidgetRenderer.h"
 
 namespace hvn3 {
 	namespace Gui {
 
+		Button::Button(const String& text) :
+			Button(0.0f, 0.0f, text) {
+		}
 		Button::Button(float x, float y, const String& text)
 			: Button(PointF(x, y), text) {
 		}
@@ -23,6 +27,30 @@ namespace hvn3 {
 			_initializeMembers();
 
 			SetText(text);
+
+		}
+		void Button::OnRendererChanged(WidgetRendererChangedEventArgs& e) {
+
+			if (!_auto_size)
+				return;
+
+			if (GetManager() == nullptr)
+				return;
+
+			if (!const_cast<const WidgetManager*>(GetManager())->Renderer())
+				return;
+
+			SizeF size = GetManager()->Renderer()->MeasureString(Text());
+			size.width = Math::Max(size.width, 25.0f);
+			size.height = Math::Max(size.height, 25.0f);
+
+			// Don't adjust the dimension if the user has already set it manually.
+
+			if (Size().width <= 0.0f)
+				SetWidth(size.width);
+
+			if (Size().height <= 0.0f)
+				SetHeight(size.height);
 
 		}
 

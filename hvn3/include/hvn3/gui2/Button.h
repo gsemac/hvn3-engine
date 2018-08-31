@@ -7,10 +7,13 @@ namespace hvn3 {
 		class Button : public WidgetBase {
 
 		public:
+			Button(const String& text);
 			Button(float x, float y, const String& text);
 			Button(const PointF& position, const String& text);
 			Button(float x, float y, float width, float height, const String& text);
 			Button(const PointF& position, const SizeF& size, const String& text);
+
+			void OnRendererChanged(WidgetRendererChangedEventArgs& e) override;
 
 		private:
 			void _initializeMembers();
