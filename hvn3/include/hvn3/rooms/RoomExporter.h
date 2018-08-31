@@ -5,18 +5,21 @@
 #include "hvn3/rooms/IRoom.h"
 #include "hvn3/tilesets/TileManager.h"
 #include "hvn3/views/IViewManager.h"
+#include "hvn3/xml/IXmlResourceAdapter.h"
 #include "hvn3/xml/XmlDocument.h"
 #include <functional>
+#include <memory>
 #include <string>
 #include <sstream>
 
 namespace hvn3 {
 
-	template <typename ResourceAdapterT>
 	class RoomExporter {
 
 	public:
-		RoomExporter() {}
+		RoomExporter(std::unique_ptr<Xml::IXmlResourceAdapter>& adapter) {
+			_adapter = std::move(adapter);
+		}
 
 		bool Export(const IRoom& room, const std::string& file_path) const {
 			
@@ -35,7 +38,7 @@ namespace hvn3 {
 		}
 
 	private:
-		ResourceAdapterT adapter;
+		std::unique_ptr<Xml::IXmlResourceAdapter> _adapter;
 
 		void _writeBackgrounds(const IRoom& room, Xml::XmlElement* root) const {
 
@@ -50,7 +53,7 @@ namespace hvn3 {
 
 				Xml::XmlElement* node = backgrounds_node->AddChild("background");
 				
-				adapter.ExportBackground(bg, *node);
+				_adapter->ExportBackground(bg, *node);
 
 			}
 
@@ -63,7 +66,7 @@ namespace hvn3 {
 
 			Xml::XmlElement* tiles_node = root->AddChild("tiles");
 
-			adapter.ExportTiles(room.Tiles(), *tiles_node);			
+			_adapter->ExportTiles(room.Tiles(), *tiles_node);
 
 		}
 		void _writeObjects(const IRoom& room, Xml::XmlElement* root) const {
@@ -77,7 +80,7 @@ namespace hvn3 {
 
 				Xml::XmlElement* object_node = objects_node->AddChild("object");
 
-				adapter.ExportObject(obj, *object_node);
+				_adapter->ExportObject(obj, *object_node);
 
 			});
 
@@ -89,11 +92,11 @@ namespace hvn3 {
 
 			Xml::XmlElement* views_node = root->AddChild("views");
 
-			room.Views().ForEach([=,this](const View& view) {
+			room.Views().ForEach([=](const View& view) {
 
 				Xml::XmlElement* view_node = views_node->AddChild("view");
 
-				adapter.ExportView(view, *view_node);
+				_adapter->ExportView(view, *view_node);
 
 			});
 

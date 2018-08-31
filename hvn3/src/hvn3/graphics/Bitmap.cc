@@ -261,10 +261,10 @@ namespace hvn3 {
 			return *this;
 
 		}
-		bool Bitmap::operator==(const Bitmap& other) {
+		bool Bitmap::operator==(const Bitmap& other) const {
 			return _src_bitmap.get() == other._src_bitmap.get();
 		}
-		bool Bitmap::operator!=(const Bitmap& other) {
+		bool Bitmap::operator!=(const Bitmap& other) const {
 			return !(*this == other);
 		}
 		Bitmap::operator bool() const {

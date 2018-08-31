@@ -111,6 +111,17 @@ namespace hvn3 {
 			return "";
 
 		}
+		std::string Path::GetDirectoryName(const std::string& path) {
+
+			size_t substring_index = path.size();
+
+			for (auto i = path.rbegin(); i != path.rend(); ++i, --substring_index)
+				if (*i == DirectorySeparatorChar() || *i == AltDirectorySeparatorChar())
+					return path.substr(0, substring_index);
+
+			return path;
+
+		}
 
 	}
 

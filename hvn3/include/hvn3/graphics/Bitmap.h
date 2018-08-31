@@ -76,8 +76,8 @@ namespace hvn3 {
 
 			Bitmap& operator=(const Bitmap& other);
 			Bitmap& operator=(Bitmap&& other);
-			bool operator==(const Bitmap& other);
-			bool operator!=(const Bitmap& other);
+			bool operator==(const Bitmap& other) const;
+			bool operator!=(const Bitmap& other) const;
 			explicit operator bool() const;
 
 			static Bitmap FromBuffer(uint8_t* buffer, size_t buffer_size, Imaging::ImageFormat format);

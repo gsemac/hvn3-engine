@@ -17,6 +17,7 @@ namespace hvn3 {
 			static char VolumeSeparatorChar();
 			static std::string GetExtension(const std::string& path);
 			static std::string GetFileName(const std::string& path);
+			static std::string GetDirectoryName(const std::string& path);
 
 		private:
 

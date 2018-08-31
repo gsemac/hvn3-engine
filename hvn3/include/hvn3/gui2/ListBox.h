@@ -123,6 +123,21 @@ namespace hvn3 {
 					i->widget->SetState(WidgetState::Selected, false);
 
 			}
+			IWidget* ItemAt(int index) {
+
+				if (index < 0 || index > Count())
+					return nullptr;
+
+				int c_index = 0;
+
+				for (auto i = GetChildren().begin(); i != GetChildren().end(); ++i, ++c_index)
+					if (c_index == index)
+						return i->widget.get();
+
+				return nullptr;
+
+			}
+
 			size_t Count() {
 
 				return GetChildren().Count();
