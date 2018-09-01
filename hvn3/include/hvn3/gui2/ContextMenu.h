@@ -62,6 +62,8 @@ namespace hvn3 {
 
 				_child_manager.Add(item);
 
+				_resizeItems();
+
 			}
 			void AddItem(ContextMenuItem* item) {
 				AddItem(std::unique_ptr<IWidget>(item));
@@ -113,6 +115,11 @@ namespace hvn3 {
 			}
 			bool HasChildren() override {
 				return _child_manager.Count() > 0;
+			}
+			size_t Count() const {
+
+				return _child_manager.Count();
+
 			}
 
 			void OnUpdate(WidgetUpdateEventArgs& e) override {
