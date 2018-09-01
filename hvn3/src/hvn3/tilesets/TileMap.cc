@@ -110,6 +110,34 @@ namespace hvn3 {
 	TileMap::layer_map_type::const_iterator TileMap::LayersEnd() const {
 		return _layers.end();
 	}
+	void TileMap::Resize(int width, int height) {
+
+		for (auto i = _layers.begin(); i != _layers.end(); ++i) {
+
+			std::vector<tile_id> map;
+			map.resize(static_cast<size_t>(width * height), 0);
+
+			int x = 0;
+			int y = 0;
+
+			for (; y < _height; ++y)
+				for (; x < _width; ++x) {
+
+					int source_index = y * _width + x;
+					int dest_index = y * width + x;
+
+					map[dest_index] = i->second[source_index];
+
+				}
+
+			i->second = map;
+
+		}
+
+		_width = width;
+		_height = height;
+
+	}
 	void TileMap::Clear() {
 		_layers.clear();
 	}

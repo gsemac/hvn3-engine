@@ -49,6 +49,7 @@ namespace hvn3 {
 		layer_map_type::const_iterator LayersBegin() const;
 		layer_map_type::const_iterator LayersEnd() const;
 
+		void Resize(int width, int height);
 		void Clear();
 		void Clear(layer_id depth);
 

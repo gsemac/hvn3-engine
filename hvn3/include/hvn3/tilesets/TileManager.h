@@ -18,9 +18,12 @@ namespace hvn3 {
 
 		void OnDraw(DrawEventArgs& e) override;
 
+		void SetTileSize(const SizeI& tile_size);
+
 		static ManagerId Id();
 
 	private:
+		SizeI _room_size;
 
 	};
 

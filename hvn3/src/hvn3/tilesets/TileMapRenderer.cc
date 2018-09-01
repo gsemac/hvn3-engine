@@ -60,6 +60,12 @@ namespace hvn3 {
 		throw System::NotImplementedException();
 
 	}
+	const SizeI& TileMapRenderer::TileSize() const {
+		return _tile_size;
+	}
+	void TileMapRenderer::SetTileSize(const SizeI& value) {
+		_tile_size = value;
+	}
 	const std::vector<Tileset>& TileMapRenderer::Tilesets() const {
 		return _tilesets;
 	}

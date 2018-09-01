@@ -16,6 +16,9 @@ namespace hvn3 {
 		void Draw(Graphics::Graphics& canvas, const TileMap& tilemap, float x, float y);
 		void Draw(Graphics::Graphics& canvas, const TileMap& tilemap, const RectangleF& region);
 
+		const SizeI& TileSize() const;
+		void SetTileSize(const SizeI& value);
+
 		const std::vector<Tileset>& Tilesets() const;	
 
 	private:
