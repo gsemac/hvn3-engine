@@ -122,13 +122,16 @@ namespace hvn3 {
 				PointI offset = pos - FixedPosition();
 				offset += VisibleRegion().Position();
 
-				if (offset.x >= _tileset.Bitmap().Width())
-					offset.x = _tileset.Bitmap().Width() - _tileset.GridSize().width;
+				//if (offset.x >= _tileset.Bitmap().Width())
+				//	offset.x = _tileset.Bitmap().Width() - _tileset.GridSize().width  + 1;
 
-				if (offset.y >= _tileset.Bitmap().Height())
-					offset.y = _tileset.Bitmap().Height() - _tileset.GridSize().height;
+				//if (offset.y >= _tileset.Bitmap().Height())
+				//	offset.y = _tileset.Bitmap().Height() - _tileset.GridSize().height + 1;
 
-				return PointI(offset.x / _tileset.GridSize().width, offset.y / _tileset.GridSize().height);
+				PointI index(Math::Min(offset.x / _tileset.GridSize().width, static_cast<int>(_tileset.Columns()) - 1),
+					Math::Min(offset.y / _tileset.GridSize().height, static_cast<int>(_tileset.Rows()) - 1));
+
+				return index;
 
 			}
 
