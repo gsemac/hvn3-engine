@@ -125,7 +125,7 @@ namespace hvn3 {
 			}
 			IWidget* ItemAt(int index) {
 
-				if (index < 0 || index > Count())
+				if (index < 0 || static_cast<size_t>(index) > Count())
 					return nullptr;
 
 				int c_index = 0;

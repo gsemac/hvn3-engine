@@ -94,14 +94,14 @@ namespace hvn3 {
 		}
 
 
-		void XmlResourceAdapterBase::WriteDefaultProperties(const IObject* data, Xml::XmlElement& node) const {
+		void XmlResourceAdapterBase::WriteDefaultProperties(const IObject* data, Xml::XmlElement& node) {
 
 			node.SetAttribute("id", data->Id());
 			node.SetAttribute("x", data->X());
 			node.SetAttribute("y", data->Y());
 
 		}
-		void XmlResourceAdapterBase::WriteDefaultProperties(const Background& data, Xml::XmlElement& node) const {
+		void XmlResourceAdapterBase::WriteDefaultProperties(const Background& data, Xml::XmlElement& node) {
 
 			// We will only export the properties that differ from the defaults.
 
@@ -135,7 +135,7 @@ namespace hvn3 {
 				node.SetAttribute("fixed", true);
 
 		}
-		void XmlResourceAdapterBase::WriteDefaultProperties(const TileManager& data, Xml::XmlElement& node) const {
+		void XmlResourceAdapterBase::WriteDefaultProperties(const TileManager& data, Xml::XmlElement& node) {
 
 			std::stringstream buf;
 
@@ -157,7 +157,7 @@ namespace hvn3 {
 			}
 
 		}
-		void XmlResourceAdapterBase::WriteDefaultProperties(const View& data, Xml::XmlElement& node) const {
+		void XmlResourceAdapterBase::WriteDefaultProperties(const View& data, Xml::XmlElement& node) {
 
 			node.SetAttribute("x", data.X());
 			node.SetAttribute("y", data.Y());
@@ -182,7 +182,7 @@ namespace hvn3 {
 
 		}
 
-		void XmlResourceAdapterBase::ReadDefaultProperties(IObject* data, const Xml::XmlElement& node) const {
+		void XmlResourceAdapterBase::ReadDefaultProperties(IObject* data, const Xml::XmlElement& node) {
 
 			if (data == nullptr)
 				return;
@@ -191,7 +191,7 @@ namespace hvn3 {
 			data->SetY(StringUtils::Parse<float>(node["y"]));
 
 		}
-		void XmlResourceAdapterBase::ReadDefaultProperties(Background& data, const Xml::XmlElement& node) const {
+		void XmlResourceAdapterBase::ReadDefaultProperties(Background& data, const Xml::XmlElement& node) {
 
 			if (node.HasAttribute("x") && node.HasAttribute("y")) {
 
@@ -236,7 +236,7 @@ namespace hvn3 {
 				data.SetFixed(StringUtils::Parse<bool>(node["fixed"]));
 
 		}
-		void XmlResourceAdapterBase::ReadDefaultProperties(TileManager& data, const Xml::XmlElement& node) const {
+		void XmlResourceAdapterBase::ReadDefaultProperties(TileManager& data, const Xml::XmlElement& node) {
 
 			for (auto i = node.ChildrenBegin(); i != node.ChildrenEnd(); ++i) {
 
@@ -267,7 +267,7 @@ namespace hvn3 {
 			}
 
 		}
-		void XmlResourceAdapterBase::ReadDefaultProperties(View& data, const Xml::XmlElement& node) const {
+		void XmlResourceAdapterBase::ReadDefaultProperties(View& data, const Xml::XmlElement& node) {
 
 			bool enabled = StringUtils::Parse<bool>(node["enabled"]);
 			bool mouse_tracking = StringUtils::Parse<bool>(node["mouse_tracking"]);

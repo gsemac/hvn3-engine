@@ -6,27 +6,31 @@
 #include "hvn3/tilesets/TileManager.h"
 #include "hvn3/utility/StringUtils.h"
 #include "hvn3/views/IViewManager.h"
+#include "hvn3/xml/IXmlResourceAdapter.h"
 #include "hvn3/xml/XmlDocument.h"
 #include <functional>
+#include <memory>
 #include <string>
 
 namespace hvn3 {
 
 	class Room;
 
-	template <typename ResourceAdapterT, typename RoomT = Room>
+	template <typename RoomT = Room>
 	class RoomImporter {
 
 	public:
-		RoomImporter() {}
+		RoomImporter(std::unique_ptr<Xml::IXmlResourceAdapter>& adapter) {
+			_adapter = std::move(adapter);
+		}
 
 		RoomPtr Import(const std::string& file_path) const {
 
 			Xml::XmlDocument doc = Xml::XmlDocument::Open(file_path);
 
 			int width, height;
-			width = StringUtils::ParseString<int>(doc.Root()["width"]);
-			height = StringUtils::ParseString<int>(doc.Root()["height"]);
+			width = StringUtils::Parse<int>(doc.Root()["width"]);
+			height = StringUtils::Parse<int>(doc.Root()["height"]);
 
 			RoomPtr room(new RoomT(SizeI(width, height)));
 
@@ -45,7 +49,7 @@ namespace hvn3 {
 		}
 
 	private:
-		ResourceAdapterT adapter;
+		std::unique_ptr<Xml::IXmlResourceAdapter> _adapter;
 
 		void _readBackgrounds(IRoom& room, const Xml::XmlElement* node) const {
 
@@ -54,7 +58,7 @@ namespace hvn3 {
 
 			for (auto i = node->ChildrenBegin(); i != node->ChildrenEnd(); ++i) {
 
-				Background background = adapter.ImportBackground(*i->get());
+				Background background = _adapter->ImportBackground(*i->get());
 
 				room.GetBackgrounds().Add(background);
 
@@ -66,7 +70,7 @@ namespace hvn3 {
 			if (node == nullptr)
 				return;
 
-			adapter.ImportTiles(room.GetTiles(), *node);
+			_adapter->ImportTiles(room.GetTiles(), *node);
 
 		}
 		void _readObjects(IRoom& room, const Xml::XmlElement* node) const {
@@ -76,7 +80,7 @@ namespace hvn3 {
 
 			for (auto i = node->ChildrenBegin(); i != node->ChildrenEnd(); ++i) {
 
-				IObject* object = adapter.ImportObject(*i->get());
+				IObject* object = _adapter->ImportObject(*i->get());
 
 				if (object != nullptr)
 					room.GetObjects().Add(object);
@@ -91,11 +95,11 @@ namespace hvn3 {
 
 			for (auto i = node->ChildrenBegin(); i != node->ChildrenEnd(); ++i) {
 
-				View view = adapter.ImportView(*i->get());
+				View view = _adapter->ImportView(*i->get());
 
 				if ((*i)->HasAttribute("following_id")) {
 
-					ObjectId id = StringUtils::ParseString<ObjectId>((*i)->GetAttribute("following_id"));
+					ObjectId id = StringUtils::Parse<ObjectId>((*i)->GetAttribute("following_id"));
 
 					IObject* object = room.GetObjects().Find(id);
 

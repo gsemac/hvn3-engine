@@ -117,6 +117,7 @@ namespace hvn3 {
 		value_type CharAt(size_type index) const;
 
 		bool Equals(const char* value) const;
+		bool Equals(const String& value) const;
 		bool Contains(const char* value) const;
 		bool StartsWith(const char* value) const;
 		bool EndsWith(const char* value) const;
@@ -148,6 +149,8 @@ namespace hvn3 {
 		value_type operator[](int index) const;
 		String operator+(value_type rhs);
 
+		operator std::string() const;
+
 		static const String Empty;
 		static const size_type npos;
 
@@ -170,6 +173,7 @@ namespace hvn3 {
 
 	std::ostream& operator<< (std::ostream& stream, const String& str);
 	bool operator==(const String& lhs, const char* rhs);
+	bool operator==(const String& lhs, const String& rhs);
 	bool operator!=(const String& lhs, const char* rhs);
 	String operator+(const String& lhs, const char* rhs);
 	String operator+(const char* lhs, const String& rhs);

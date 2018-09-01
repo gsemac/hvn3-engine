@@ -316,6 +316,9 @@ namespace hvn3 {
 		return true;
 
 	}
+	bool String::Equals(const String& value) const {
+		return al_ustr_equal(_getUstrPointer(), value._getUstrPointer());
+	}
 	bool String::Contains(const char* value) const {
 
 		ALLEGRO_USTR* ptr = _getUstrPointer();
@@ -551,6 +554,13 @@ namespace hvn3 {
 		return str;
 
 	}
+	String::operator std::string() const {
+
+		std::string str(begin(), end());
+
+		return str;
+
+	}
 	std::ostream& operator<< (std::ostream& stream, const String& str) {
 
 		// Note that if we were to output the c_cstr array for a reference string, it would write the entire string.
@@ -563,6 +573,9 @@ namespace hvn3 {
 
 	}
 	bool operator==(const String& lhs, const char* rhs) {
+		return lhs.Equals(rhs);
+	}
+	bool operator==(const String& lhs, const String& rhs) {
 		return lhs.Equals(rhs);
 	}
 	bool operator!=(const String& lhs, const char* rhs) {

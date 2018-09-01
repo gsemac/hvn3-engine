@@ -18,16 +18,15 @@ namespace hvn3 {
 			void ImportTiles(TileManager& out, const Xml::XmlElement& node) const override;
 			View ImportView(const Xml::XmlElement& node) const override;
 
-		protected:
-			void WriteDefaultProperties(const IObject* data, Xml::XmlElement& node) const;
-			void WriteDefaultProperties(const Background& data, Xml::XmlElement& node) const;
-			void WriteDefaultProperties(const TileManager& data, Xml::XmlElement& node) const;
-			void WriteDefaultProperties(const View& data, Xml::XmlElement& node) const;
+			static void WriteDefaultProperties(const IObject* data, Xml::XmlElement& node);
+			static void WriteDefaultProperties(const Background& data, Xml::XmlElement& node);
+			static void WriteDefaultProperties(const TileManager& data, Xml::XmlElement& node);
+			static void WriteDefaultProperties(const View& data, Xml::XmlElement& node);
 
-			void ReadDefaultProperties(IObject* data, const Xml::XmlElement& node) const;
-			void ReadDefaultProperties(Background& data, const Xml::XmlElement& node) const;
-			void ReadDefaultProperties(TileManager& data, const Xml::XmlElement& node) const;
-			void ReadDefaultProperties(View& data, const Xml::XmlElement& node) const;
+			static void ReadDefaultProperties(IObject* data, const Xml::XmlElement& node);
+			static void ReadDefaultProperties(Background& data, const Xml::XmlElement& node);
+			static void ReadDefaultProperties(TileManager& data, const Xml::XmlElement& node);
+			static void ReadDefaultProperties(View& data, const Xml::XmlElement& node);
 			
 		};
 
