@@ -8,7 +8,7 @@ namespace hvn3 {
 	class TileMapRenderer {
 
 	public:
-		TileMapRenderer();
+		TileMapRenderer(const SizeI& tile_size);
 
 		void AddTileset(const Tileset& tileset);
 
@@ -20,6 +20,7 @@ namespace hvn3 {
 
 	private:
 		std::vector<Tileset> _tilesets;
+		SizeI _tile_size;
 		AutoTileRenderer _auto_tile_renderer;
 		
 	};

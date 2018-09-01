@@ -88,6 +88,9 @@ namespace hvn3 {
 			void SetGridCellSize(const SizeF& size) {
 				_grid_cell_size = size;
 			}
+			const SizeF& GridCellSize() const {
+				return _grid_cell_size;
+			}
 
 			void OnDraw(WidgetDrawEventArgs& e) override {
 

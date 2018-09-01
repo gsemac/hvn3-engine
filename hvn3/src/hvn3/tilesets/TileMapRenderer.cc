@@ -4,7 +4,8 @@
 
 namespace hvn3 {
 
-	TileMapRenderer::TileMapRenderer() {}
+	TileMapRenderer::TileMapRenderer(const SizeI& tile_size) :
+		_tile_size(tile_size) {}
 
 	void TileMapRenderer::AddTileset(const Tileset& tileset) {
 		_tilesets.push_back(tileset);
@@ -26,7 +27,7 @@ namespace hvn3 {
 					if (tile_data.id <= 0)
 						continue;
 
-					SizeI tile_size = _tilesets[0].GridSize();
+					SizeI tile_size = _tile_size;
 					TileMap::tile_id auto_tile_index = tile_data.AutoTileIndex();
 
 					if (auto_tile_index <= 0) {
@@ -51,12 +52,12 @@ namespace hvn3 {
 	}
 	void TileMapRenderer::Draw(Graphics::Graphics& canvas, const TileMap& tilemap, float x, float y) {
 
-
+		throw System::NotImplementedException();
 
 	}
 	void TileMapRenderer::Draw(Graphics::Graphics& canvas, const TileMap& tilemap, const RectangleF& region) {
 
-
+		throw System::NotImplementedException();
 
 	}
 	const std::vector<Tileset>& TileMapRenderer::Tilesets() const {
