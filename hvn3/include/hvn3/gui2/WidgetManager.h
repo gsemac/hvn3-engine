@@ -48,6 +48,10 @@ namespace hvn3 {
 			widget_collection_type::iterator end();
 			widget_collection_type::const_iterator begin() const;
 			widget_collection_type::const_iterator end() const;
+			widget_collection_type::reverse_iterator rbegin();
+			widget_collection_type::reverse_iterator rend();
+			widget_collection_type::const_reverse_iterator rbegin() const;
+			widget_collection_type::const_reverse_iterator rend() const;
 
 			void Add(IWidget* widget);
 			void Add(std::unique_ptr<IWidget>& widget);

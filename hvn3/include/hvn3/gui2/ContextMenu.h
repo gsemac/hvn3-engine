@@ -85,16 +85,20 @@ namespace hvn3 {
 			void InsertItem(ContextMenuItem* item, int index) {
 
 				assert(index >= 0);
-				
+
 				AddItem(item);
 
-				// This is stupid, but it does the job. #todo Something better?
+				// #todo Implement this properly, because this doesn't actually work.
 
 				item->BringToFront();
 
-				int current_index = 0;
+				size_t c_index = _child_manager.Count();
+				auto range_begin = _child_manager.rbegin();
+				auto range_end = _child_manager.rend();
 
-				for (auto i = _child_manager.begin(); i != _child_manager.end() && current_index < index; ++i, ++current_index)
+				for (auto i = range_begin; i != range_end && c_index > static_cast<size_t>(index); ++i, --c_index);
+
+				for (auto i = range_begin; i != range_end; ++i)
 					i->widget->BringToFront();
 
 				_resize_pending = true;

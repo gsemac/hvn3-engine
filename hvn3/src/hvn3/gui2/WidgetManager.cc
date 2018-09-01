@@ -71,6 +71,18 @@ namespace hvn3 {
 		WidgetManager::widget_collection_type::const_iterator WidgetManager::end() const {
 			return _widgets.end();
 		}
+		WidgetManager::widget_collection_type::reverse_iterator WidgetManager::rbegin() {
+			return _widgets.rbegin();
+		}
+		WidgetManager::widget_collection_type::reverse_iterator WidgetManager::rend() {
+			return _widgets.rend();
+		}
+		WidgetManager::widget_collection_type::const_reverse_iterator WidgetManager::rbegin() const {
+			return _widgets.rbegin();
+		}
+		WidgetManager::widget_collection_type::const_reverse_iterator WidgetManager::rend() const {
+			return _widgets.rend();
+		}
 		void WidgetManager::Add(IWidget* widget) {
 
 			Add(std::unique_ptr<IWidget>(widget));
