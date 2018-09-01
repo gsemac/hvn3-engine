@@ -34,7 +34,7 @@ namespace hvn3 {
 		}
 
 		template <typename U>
-		explicit operator Size<U>() {
+		explicit operator Size<U>() const {
 			return Size<U>(static_cast<U>(Width()), static_cast<U>(Height()));
 		}
 

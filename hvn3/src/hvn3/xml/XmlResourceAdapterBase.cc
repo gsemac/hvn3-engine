@@ -140,6 +140,8 @@ namespace hvn3 {
 			std::stringstream buf;
 
 			node.SetAttribute("layers", data.LayerCount());
+			node.SetAttribute("tile_w", data.TileSize().width);
+			node.SetAttribute("tile_h", data.TileSize().height);
 
 			// Write each layer as a separate node.
 			for (auto i = data.LayersBegin(); i != data.LayersEnd(); ++i) {
@@ -237,6 +239,11 @@ namespace hvn3 {
 
 		}
 		void XmlResourceAdapterBase::ReadDefaultProperties(TileManager& data, const Xml::XmlElement& node) {
+
+			int tile_w = StringUtils::Parse<int>(node.GetAttribute("tile_w"));
+			int tile_h = StringUtils::Parse<int>(node.GetAttribute("tile_h"));
+
+			data.SetTileSize(SizeI(tile_w, tile_h));
 
 			for (auto i = node.ChildrenBegin(); i != node.ChildrenEnd(); ++i) {
 
