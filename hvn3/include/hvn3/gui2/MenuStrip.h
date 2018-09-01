@@ -13,7 +13,7 @@ namespace hvn3 {
 			friend class MenuStrip;
 
 		public:
-			MenuStripItem(MenuStrip* parent, const String& text);
+			MenuStripItem(const String& text);
 
 			void SetContextMenu(ContextMenu* context_menu);
 
@@ -31,10 +31,10 @@ namespace hvn3 {
 			bool ContextMenuVisible() const;
 
 		private: 
-			MenuStrip* _parent;
 			ContextMenu* _context_menu;
 			bool _context_menu_managed;
 
+			WidgetManager* _getTopManager() const;
 			bool _contextMenuOrItsChildrenHaveFocus() const;
 
 		};

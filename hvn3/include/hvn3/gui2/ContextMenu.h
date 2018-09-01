@@ -52,6 +52,7 @@ namespace hvn3 {
 				_child_manager(this) {
 
 				SetId("contextmenu");
+				_resize_pending = false;
 
 			}
 
@@ -81,6 +82,24 @@ namespace hvn3 {
 				return item;
 
 			}
+			void InsertItem(ContextMenuItem* item, int index) {
+
+				assert(index >= 0);
+				
+				AddItem(item);
+
+				// This is stupid, but it does the job. #todo Something better?
+
+				item->BringToFront();
+
+				int current_index = 0;
+
+				for (auto i = _child_manager.begin(); i != _child_manager.end() && current_index < index; ++i, ++current_index)
+					i->widget->BringToFront();
+
+				_resize_pending = true;
+
+			}
 			void AddSeparator() {
 				AddItem(std::unique_ptr<IWidget>(new ContextMenuItemSeparator));
 			}
@@ -93,15 +112,33 @@ namespace hvn3 {
 			}
 
 			void OnUpdate(WidgetUpdateEventArgs& e) override {
+
 				WidgetBase::OnUpdate(e);
 
 				// Update the dockable region for child widgets (in case this widget's dimensions have changed).
 				_child_manager.SetDockableRegion(RectangleF(0.0f, 0.0f, Width(), Height()));
 
+				if (_resize_pending) {
+
+					_resizeItems();
+					_resize_pending = false;
+
+				}
 
 			}
 			void OnRendererChanged(WidgetRendererChangedEventArgs& e) override {
+
 				WidgetBase::OnRendererChanged(e);
+
+				_resizeItems();
+
+			}
+
+		private:
+			WidgetManager _child_manager;
+			bool _resize_pending;
+
+			void _resizeItems() {
 
 				if (GetManager() == nullptr)
 					return;
@@ -167,9 +204,6 @@ namespace hvn3 {
 				}
 
 			}
-
-		private:
-			WidgetManager _child_manager;
 
 		};
 

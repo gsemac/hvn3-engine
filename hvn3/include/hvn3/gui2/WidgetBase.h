@@ -45,7 +45,7 @@ namespace hvn3 {
 			void SetDockStyle(Gui::DockStyle value) override;
 			WidgetManager& GetChildren() override;
 			bool HasChildren() override;
-			IWidget* GetParent() override;
+			IWidget* GetParent() const override;
 			void SetParent(IWidget* value) override;
 			WidgetManager* GetManager() const override;
 			RectangleF Bounds() const override;

@@ -183,7 +183,7 @@ namespace hvn3 {
 		bool WidgetBase::HasChildren() {
 			return false;
 		}
-		IWidget* WidgetBase::GetParent() {
+		IWidget* WidgetBase::GetParent() const {
 			return _parent;
 		}
 		void WidgetBase::SetParent(IWidget* value) {

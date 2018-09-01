@@ -3,12 +3,11 @@
 namespace hvn3 {
 	namespace Gui {
 
-		MenuStripItem::MenuStripItem(MenuStrip* parent, const String& text) {
+		MenuStripItem::MenuStripItem(const String& text) {
 
 			SetId("menustripitem");
 			SetText(text);
 
-			_parent = parent;
 			_context_menu = nullptr;
 			_context_menu_managed = false;
 
@@ -48,7 +47,7 @@ namespace hvn3 {
 
 			WidgetBase::OnMousePressed(e);
 
-			ToggleContextMenuVisibility();		
+			ToggleContextMenuVisibility();
 
 		}
 		void MenuStripItem::OnMouseReleased(WidgetMouseReleasedEventArgs& e) {
@@ -84,18 +83,22 @@ namespace hvn3 {
 
 		void MenuStripItem::ShowContextMenu() {
 
-			if (!_context_menu_managed && _context_menu != nullptr && _parent != nullptr && _parent->GetManager() != nullptr) {
-				_parent->GetManager()->Add(_context_menu);
+			WidgetManager* manager = _getTopManager();
+
+			if (!_context_menu_managed && _context_menu != nullptr && manager != nullptr) {
+				manager->Add(_context_menu);
 				_context_menu_managed = true;
 			}
 
 			if (_context_menu != nullptr) {
 
-				_context_menu->SetPosition(Position().x, Position().y + Height());
+				PointF pos = Bounds().Position();
+
+				_context_menu->SetPosition(pos.x, pos.y + Height());
 				_context_menu->SetVisible(true);
 
-				if (_parent->GetManager() != nullptr)
-					_parent->GetManager()->BringToFront(_context_menu);
+				if (manager != nullptr)
+					manager->BringToFront(_context_menu);
 
 			}
 
@@ -127,10 +130,12 @@ namespace hvn3 {
 				_context_menu = nullptr;
 			}
 
-			if (_parent == nullptr || _parent->GetManager() == nullptr)
+			WidgetManager* manager = _getTopManager();
+
+			if (manager == nullptr)
 				return;
 
-			_parent->GetManager()->Remove(_context_menu);
+			manager->Remove(_context_menu);
 
 			_context_menu = nullptr;
 
@@ -144,6 +149,16 @@ namespace hvn3 {
 
 		}
 
+		WidgetManager* MenuStripItem::_getTopManager() const {
+
+			const IWidget* ptr = this;
+
+			while (ptr->GetParent() != nullptr)
+				ptr = ptr->GetParent();
+
+			return ptr->GetManager();
+
+		}
 		bool MenuStripItem::_contextMenuOrItsChildrenHaveFocus() const {
 
 			if (!ContextMenuVisible())
@@ -176,11 +191,15 @@ namespace hvn3 {
 
 		}
 		void MenuStrip::AddItem(std::unique_ptr<IWidget>& item) {
+
+			item->SetParent(this);
+
 			_child_manager.Add(item);
+
 		}
 		MenuStripItem* MenuStrip::AddItem(const String& text) {
 
-			MenuStripItem* item = new MenuStripItem(this, text);
+			MenuStripItem* item = new MenuStripItem(text);
 			AddItem(item);
 
 			return item;

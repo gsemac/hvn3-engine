@@ -51,7 +51,7 @@ namespace hvn3 {
 			virtual void SetDockStyle(Gui::DockStyle value) = 0;
 			virtual WidgetManager& GetChildren() = 0;
 			virtual bool HasChildren() = 0;
-			virtual IWidget* GetParent() = 0;
+			virtual IWidget* GetParent() const = 0;
 			virtual WidgetManager* GetManager() const = 0;
 			virtual void SetParent(IWidget* value) = 0;
 			virtual RectangleF Bounds() const = 0;
