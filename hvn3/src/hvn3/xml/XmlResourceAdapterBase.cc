@@ -138,15 +138,17 @@ namespace hvn3 {
 		void XmlResourceAdapterBase::WriteDefaultProperties(const TileManager& data, Xml::XmlElement& node) {
 
 			std::stringstream buf;
-
-			node.SetAttribute("layers", data.LayerCount());
+						
 			node.SetAttribute("tile_w", data.TileSize().width);
 			node.SetAttribute("tile_h", data.TileSize().height);
+
+			Xml::XmlElement* layers_node = node.AddChild("layers");
+			layers_node->SetAttribute("layers", data.LayerCount());
 
 			// Write each layer as a separate node.
 			for (auto i = data.LayersBegin(); i != data.LayersEnd(); ++i) {
 
-				Xml::XmlElement* layer_node = node.AddChild("layer");
+				Xml::XmlElement* layer_node = layers_node->AddChild("layer");
 				layer_node->SetAttribute("depth", i->first);
 
 				for (int j = 0; j < data.Count(); ++j)
@@ -245,7 +247,9 @@ namespace hvn3 {
 
 			data.SetTileSize(SizeI(tile_w, tile_h));
 
-			for (auto i = node.ChildrenBegin(); i != node.ChildrenEnd(); ++i) {
+			const Xml::XmlElement* layers_node = node.GetChild("layers");
+
+			for (auto i = layers_node->ChildrenBegin(); i != layers_node->ChildrenEnd(); ++i) {
 
 				TileManager::layer_id depth = StringUtils::Parse<TileManager::layer_id>(i->get()->GetAttribute("depth"));
 

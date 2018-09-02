@@ -106,6 +106,20 @@ namespace hvn3 {
 				_resize_pending = true;
 
 			}
+			IWidget* ItemAt(int index) {
+
+				if (index < 0 || static_cast<size_t>(index) > Count())
+					return nullptr;
+
+				int c_index = 0;
+
+				for (auto i = GetChildren().begin(); i != GetChildren().end(); ++i, ++c_index)
+					if (c_index == index)
+						return i->widget.get();
+
+				return nullptr;
+
+			}
 			void AddSeparator() {
 				AddItem(std::unique_ptr<IWidget>(new ContextMenuItemSeparator));
 			}

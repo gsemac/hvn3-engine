@@ -54,6 +54,7 @@ namespace hvn3 {
 
 			XmlElement* AddChild(const std::string& tag);
 			XmlElement* GetChild(const std::string& tag);
+			const XmlElement* GetChild(const std::string& tag) const;
 			bool HasChildren() const;
 			child_iterator ChildrenBegin();
 			child_iterator ChildrenEnd();

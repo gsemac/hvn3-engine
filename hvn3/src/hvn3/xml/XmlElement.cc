@@ -63,6 +63,15 @@ namespace hvn3 {
 			return nullptr;
 
 		}
+		const XmlElement* XmlElement::GetChild(const std::string& tag) const {
+
+			for (auto i = _child_nodes.begin(); i != _child_nodes.end(); ++i)
+				if (i->get()->Tag() == tag)
+					return i->get();
+
+			return nullptr;
+
+		}
 		bool XmlElement::HasChildren() const {
 			return _child_nodes.size() > 0;
 		}
