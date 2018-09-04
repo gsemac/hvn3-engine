@@ -73,7 +73,7 @@ namespace hvn3 {
 		
 		// #todo Implement for access to "global" managers.
 
-		ManagerBase* ptr = GetRoomManager().GetRoom().GetManagerById<ManagerBase>(id);
+		ManagerBase* ptr = GetRoomManager().Room()->GetManagerById<ManagerBase>(id);
 		
 		return ptr;
 		

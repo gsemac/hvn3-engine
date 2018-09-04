@@ -18,7 +18,7 @@ namespace hvn3 {
 		return GetRoom().GetObjects();
 	}
 	IRoom& Context::GetRoom() {
-		return GetRooms().GetRoom();
+		return *GetRooms().Room();
 	}
 	RoomManager& Context::GetRooms() {
 		return GetContextProvider().GetRoomManager();

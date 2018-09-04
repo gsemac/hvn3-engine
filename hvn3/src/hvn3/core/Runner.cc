@@ -589,7 +589,7 @@ namespace hvn3 {
 			if (_context.GetRooms().IsRoomNull())
 				return;
 
-			IRoom& room = _context.GetRooms().GetRoom();
+			IRoom& room = *_context.GetRooms().Room();
 
 			if (room.Views().Count() > 0) {
 

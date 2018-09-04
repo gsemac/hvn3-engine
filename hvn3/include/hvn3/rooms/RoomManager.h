@@ -7,7 +7,8 @@
 
 namespace hvn3 {
 
-	class RoomManager : public IRoomManager {
+	class RoomManager : 
+		public IRoomManager {
 
 		enum ROOM_TRANSITION_STATE {
 			NO_TRANSITION_PENDING,
@@ -21,7 +22,8 @@ namespace hvn3 {
 		~RoomManager();
 
 		void SetRoom(RoomPtr& room) override;
-		IRoom& GetRoom() override;
+		RoomPtr& Room() override;
+		const RoomPtr& Room() const override;
 		void RestartRoom() override;
 		void ClearRoom() override;
 		bool IsRoomNull() override;

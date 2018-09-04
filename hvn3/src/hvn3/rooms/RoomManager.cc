@@ -40,19 +40,17 @@ namespace hvn3 {
 			_beginRoomTransition(room);
 
 	}
-	IRoom& RoomManager::GetRoom() {
-
-		if (_current_room)
-			return *_current_room;
-
-		throw System::NullReferenceException("Attempted to get the current room when no room has been loaded.");
-
+	RoomPtr& RoomManager::Room() {
+		return _current_room;
+	}
+	const RoomPtr& RoomManager::Room() const {
+		return _current_room;
 	}
 	void RoomManager::RestartRoom() {
 
 		// Initiate a pending restart.
 		if (!IsRoomNull())
-			System::RoomProxy(GetRoom()).Restart();
+			System::RoomProxy(*Room()).Restart();
 
 	}
 	void RoomManager::ClearRoom() {
@@ -60,7 +58,7 @@ namespace hvn3 {
 		// Reset the state of the current room without calling any events.
 		// #todo This should be pending; it shouldn't happen immediately.
 		if (!IsRoomNull())
-			System::RoomProxy(GetRoom()).Reset();
+			System::RoomProxy(*Room()).Reset();
 
 	}
 	bool RoomManager::IsRoomNull() {
@@ -134,7 +132,7 @@ namespace hvn3 {
 
 		// Draw the state of the room.
 		if (!IsRoomNull())
-			GetRoom().OnDraw(e);
+			Room()->OnDraw(e);
 
 		// Draw the state of the room transition.
 		if (_roomTransitionIsInProgress() && _transition)
@@ -146,7 +144,7 @@ namespace hvn3 {
 
 		if (!IsRoomNull()) {
 
-			System::RoomProxy proxy(GetRoom());
+			System::RoomProxy proxy(*Room());
 
 			// If the current room has been set up and isn't persistent, reset it.
 			if (proxy.IsReady() && !_current_room->Persistent())
@@ -160,9 +158,9 @@ namespace hvn3 {
 		// Update current room.
 		_current_room = std::move(_next_room);
 
-		System::RoomProxy proxy(GetRoom());
+		System::RoomProxy proxy(*Room());
 		
-		_context_provider->ProvideContext(GetRoom());
+		_context_provider->ProvideContext(*Room());
 
 		// Call the on enter event for the new room.
 		proxy.DispatchEvent(RoomEnterEventArgs());
@@ -177,7 +175,7 @@ namespace hvn3 {
 
 		if (!IsRoomNull()) {
 
-			System::RoomProxy proxy(GetRoom());
+			System::RoomProxy proxy(*Room());
 
 			proxy.Reset();
 			proxy.DispatchEvent(RoomExitEventArgs());
