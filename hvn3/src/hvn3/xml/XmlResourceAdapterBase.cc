@@ -138,7 +138,7 @@ namespace hvn3 {
 		void XmlResourceAdapterBase::WriteDefaultProperties(const TileManager& data, Xml::XmlElement& node) {
 
 			std::stringstream buf;
-						
+
 			node.SetAttribute("tile_w", data.TileSize().width);
 			node.SetAttribute("tile_h", data.TileSize().height);
 
@@ -256,24 +256,25 @@ namespace hvn3 {
 				data.AddLayer(depth);
 
 				std::stringstream ss;
-				std::string token;
+				TileManager::tile_id id;
 				int x = 0;
 				int y = 0;
 
 				ss << i->get()->Text();
 
-				while (std::getline(ss, token, ',')) {
+				while (ss >> id) {
 
-					TileManager::tile_id tile_id = StringUtils::Parse<TileManager::tile_id>(token);
-					data.SetTile(x, y, tile_id, depth);
+					data.SetTile(x, y, id, depth);
 
-					if (++x > data.Columns()) {
+					if (++x >= data.Columns()) {
 						x = 0;
 						++y;
 					}
 
-				}
+					// Ignore the comma following the tile id.
+					ss.ignore(1);
 
+				}
 
 			}
 
@@ -282,7 +283,7 @@ namespace hvn3 {
 
 			bool enabled = StringUtils::Parse<bool>(node["enabled"]);
 			bool mouse_tracking = StringUtils::Parse<bool>(node["mouse_tracking"]);
-			
+
 			float hbor = StringUtils::Parse<float>(node["hbor"]);
 			float vbor = StringUtils::Parse<float>(node["vbor"]);
 			//ObjectId following_id = StringUtils::Parse<ObjectId>(node["following_id"]);
