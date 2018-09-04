@@ -61,9 +61,6 @@ namespace hvn3 {
 		}
 		void _writeTiles(const IRoom& room, Xml::XmlElement* root) const {
 
-			if (room.Tiles().LayerCount() <= 0)
-				return;
-
 			Xml::XmlElement* tiles_node = root->AddChild("tiles");
 
 			_adapter->ExportTiles(room.Tiles(), *tiles_node);

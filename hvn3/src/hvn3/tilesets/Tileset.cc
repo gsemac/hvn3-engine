@@ -1,6 +1,7 @@
 #include "hvn3/exceptions/Exception.h"
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/tilesets/Tileset.h"
+#include <cassert>
 
 namespace hvn3 {
 
@@ -17,6 +18,9 @@ namespace hvn3 {
 		// Get width/height as unsigned integers.
 		int w = tile_size.Width();
 		int h = tile_size.Height();
+
+		assert(w > 0);
+		assert(w > 0);
 
 		// Generate a vector of sub-bitmaps to represent each tile.
 		for (int y = offset.Y(); y < _bitmap.Height(); y += h + separation.Y()) {
@@ -63,6 +67,9 @@ namespace hvn3 {
 
 		return _tile_size;
 
+	}
+	const SizeI& Tileset::TileSize() const {
+		return _tile_size;
 	}
 
 

@@ -48,6 +48,7 @@ namespace hvn3 {
 
 		const Graphics::Bitmap& Bitmap() const;
 		const SizeI& GridSize() const;
+		const SizeI& TileSize() const;
 
 		//static Tileset GenerateAutoTiles(const Tileset& autotiles);
 
