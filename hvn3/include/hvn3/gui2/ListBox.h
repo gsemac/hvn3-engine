@@ -117,12 +117,23 @@ namespace hvn3 {
 					}
 
 			}
+			IWidget* SelectedItem() {
+
+				for (auto i = GetChildren().begin(); i != GetChildren().end(); ++i)
+					if (HasFlag(i->widget->State(), WidgetState::Selected))
+						return i->widget.get();
+
+				return nullptr;
+
+			}
+
 			void ClearSelection() {
 
 				for (auto i = GetChildren().begin(); i != GetChildren().end(); ++i)
 					i->widget->SetState(WidgetState::Selected, false);
 
 			}
+
 			IWidget* ItemAt(int index) {
 
 				if (index < 0 || static_cast<size_t>(index) > Count())

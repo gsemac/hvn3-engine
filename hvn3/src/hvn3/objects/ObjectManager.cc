@@ -3,8 +3,9 @@
 #include "hvn3/objects/Object.h"
 #include "hvn3/objects/ObjectEventArgs.h"
 #include "hvn3/objects/ObjectManager.h"
-#include <utility>
 #include <algorithm>
+#include <cassert>
+#include <utility>
 
 namespace hvn3 {
 
@@ -70,6 +71,8 @@ namespace hvn3 {
 
 	}
 	IObject* ObjectManager::Add(IObject* object) {
+
+		assert(object != nullptr);
 
 		return Add(ObjectPtr(object));
 
