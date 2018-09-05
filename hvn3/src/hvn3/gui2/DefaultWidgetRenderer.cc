@@ -227,8 +227,8 @@ namespace hvn3 {
 		}
 		void DefaultWidgetRenderer::DrawListBox(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
 
-			canvas.DrawSolidRectangle(widget.Position(), widget.Size(), Color::LtGrey);
-			canvas.DrawRectangle(widget.Position(), widget.Size(), Color::SlateGrey);
+			canvas.DrawSolidRectangle(widget.Position(), widget.Size(), Color(49, 47, 59));
+			canvas.DrawRectangle(widget.Position(), widget.Size(), Color(90, 86, 103));
 
 		}
 		void DefaultWidgetRenderer::DrawListBoxItem(Graphics::Graphics& canvas, const IWidget& widget, WidgetRenderArgs& args) const {
