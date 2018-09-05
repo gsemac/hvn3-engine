@@ -1,5 +1,5 @@
 #include "hvn3/io/Path.h"
-#include "hvn3/utility/Environment.h"
+#include "hvn3/native/OperatingSystem.h"
 #include "hvn3/utility/StringUtils.h"
 #include <cctype>
 #include <sstream>
@@ -58,7 +58,7 @@ namespace hvn3 {
 		}
 		char Path::DirectorySeparatorChar() {
 
-			if (HasFlag(Environment::OperatingSystem(), OperatingSystem::Windows))
+			if (environment::OperatingSystem() == environment::Platform::Windows)
 				return '\\';
 			else
 				return '/';
@@ -66,7 +66,7 @@ namespace hvn3 {
 		}
 		char Path::AltDirectorySeparatorChar() {
 
-			if (HasFlag(Environment::OperatingSystem(), OperatingSystem::Windows))
+			if (environment::OperatingSystem() == environment::Platform::Windows)
 				return '/';
 			else
 				return '\\';
@@ -74,8 +74,8 @@ namespace hvn3 {
 		}
 		char Path::VolumeSeparatorChar() {
 
-			if (HasFlag(Environment::OperatingSystem(), OperatingSystem::Windows) ||
-				HasFlag(Environment::OperatingSystem(), OperatingSystem::MacOSX))
+			if (environment::OperatingSystem() == environment::Platform::Windows ||
+				environment::OperatingSystem() == environment::Platform::MacOS)
 				return ':';
 			else
 				return '/';

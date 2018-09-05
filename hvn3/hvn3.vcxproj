@@ -165,7 +165,10 @@
     <ClInclude Include="include\hvn3\math\Point2d.h" />
     <ClInclude Include="include\hvn3\math\Rectangle.h" />
     <ClInclude Include="include\hvn3\math\Vector2d.h" />
+    <ClInclude Include="include\hvn3\native\Endianness.h" />
     <ClInclude Include="include\hvn3\native\FileDialog.h" />
+    <ClInclude Include="include\hvn3\native\OperatingSystem.h" />
+    <ClInclude Include="include\hvn3\native\OperatingSystemDefs.h" />
     <ClInclude Include="include\hvn3\net\IPAddress.h" />
     <ClInclude Include="include\hvn3\objects\IObject.h" />
     <ClInclude Include="include\hvn3\objects\IObjectManager.h" />
@@ -238,6 +241,7 @@
     <ClInclude Include="include\hvn3\utility\ThreadPool.h" />
     <ClInclude Include="include\hvn3\utility\Utf8String.h" />
     <ClInclude Include="include\hvn3\utility\Utility.h" />
+    <ClInclude Include="include\hvn3\utility\Version.h" />
     <ClInclude Include="include\hvn3\views\IViewManager.h" />
     <ClInclude Include="include\hvn3\views\View.h" />
     <ClInclude Include="include\hvn3\views\ViewManager.h" />
@@ -339,7 +343,9 @@
     <ClCompile Include="src\hvn3\math\GeometryUtils.cc" />
     <ClCompile Include="src\hvn3\math\MathUtils.cc" />
     <ClCompile Include="src\hvn3\math\Vector2d.cc" />
+    <ClCompile Include="src\hvn3\native\Endianness.cc" />
     <ClCompile Include="src\hvn3\native\FileDialog.cc" />
+    <ClCompile Include="src\hvn3\native\OperatingSystem.cc" />
     <ClCompile Include="src\hvn3\net\IPAddress.cc" />
     <ClCompile Include="src\hvn3\objects\Object.cc" />
     <ClCompile Include="src\hvn3\objects\ObjectBase.cc" />
@@ -385,6 +391,7 @@
     <ClCompile Include="src\hvn3\utility\ThreadPool.cc" />
     <ClCompile Include="src\hvn3\utility\Utf8String.cc" />
     <ClCompile Include="src\hvn3\utility\Utility.cc" />
+    <ClCompile Include="src\hvn3\utility\Version.cc" />
     <ClCompile Include="src\hvn3\views\View.cc" />
     <ClCompile Include="src\hvn3\views\ViewManager.cc" />
     <ClCompile Include="src\hvn3\views\ViewUpdateEventArgs.cc" />

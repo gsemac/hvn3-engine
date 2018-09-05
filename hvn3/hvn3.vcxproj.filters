@@ -840,6 +840,18 @@
     <ClInclude Include="include\hvn3\core\CoreTypeDefs.h">
       <Filter>include\core</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Version.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\native\Endianness.h">
+      <Filter>include\native</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\native\OperatingSystem.h">
+      <Filter>include\native</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\native\OperatingSystemDefs.h">
+      <Filter>include\native</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1259,6 +1271,15 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\gui2\WidgetLayoutBuilder.cc">
       <Filter>src\gui2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\Version.cc">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\native\Endianness.cc">
+      <Filter>src\native</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\native\OperatingSystem.cc">
+      <Filter>src\native</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
