@@ -9,6 +9,7 @@ namespace hvn3 {
 
 		public:
 			static const std::string GetCurrentDirectory();
+			static const std::string GetTemporaryDirectory();
 			static void SetCurrentDirectory(const std::string path);
 
 		};
