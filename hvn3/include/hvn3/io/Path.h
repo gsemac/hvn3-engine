@@ -2,7 +2,6 @@
 #include <string>
 
 namespace hvn3 {
-
 	namespace IO {
 
 		class Path {
@@ -18,11 +17,11 @@ namespace hvn3 {
 			static std::string GetExtension(const std::string& path);
 			static std::string GetFileName(const std::string& path);
 			static std::string GetDirectoryName(const std::string& path);
+			static std::string GetTemporaryFilePath();
 
 		private:
 
 		};
 
 	}
-
 }

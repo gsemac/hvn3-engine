@@ -1,11 +1,17 @@
 #include "hvn3/io/Path.h"
 #include "hvn3/native/OperatingSystem.h"
+#include "hvn3/native/OperatingSystemDefs.h"
 #include "hvn3/utility/StringUtils.h"
+
 #include <cctype>
+#include <cstdio>
 #include <sstream>
 
-namespace hvn3 {
+#if !defined(HVN3_OS_WINDOWS)
+#define tmpnam tmpnam_s
+#endif
 
+namespace hvn3 {
 	namespace IO {
 
 		std::string Path::Combine(const std::string& path1, const std::string& path2) {
@@ -122,7 +128,15 @@ namespace hvn3 {
 			return path;
 
 		}
+		std::string Path::GetTemporaryFilePath() {
+
+			char buf[L_tmpnam];
+
+			tmpnam_s(buf);
+
+			return std::string(buf);
+
+		}
 
 	}
-
 }
