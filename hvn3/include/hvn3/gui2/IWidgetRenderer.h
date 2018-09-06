@@ -1,6 +1,7 @@
 #pragma once
 #include "hvn3/gui2/WidgetStyle.h"
 #include "hvn3/utility/Size.h"
+#include "hvn3/utility/Utf8String.h"
 
 namespace hvn3 {
 

@@ -108,13 +108,13 @@ namespace hvn3 {
 		std::string Path::GetFileName(const std::string& path) {
 
 			if (path.length() <= 0)
-				return "";
+				return path;
 
-			for (size_t i = path.length() - 1; i >= 0; --i)
+			for (size_t i = path.length() - 1; i > 0; --i)
 				if (path[i] == DirectorySeparatorChar() || path[i] == AltDirectorySeparatorChar())
 					return path.substr(i + 1, path.length() - i - 1);
 
-			return "";
+			return path;
 
 		}
 		std::string Path::GetDirectoryName(const std::string& path) {

@@ -31,7 +31,7 @@ namespace hvn3 {
 				bool already_selected = HasFlag(State(), WidgetState::Selected);
 
 				SetState(WidgetState::Selected, true);
-								
+
 				if (GetManager() != nullptr) {
 
 					int c_index = 0;
@@ -48,7 +48,7 @@ namespace hvn3 {
 					if (!already_selected && GetParent() != nullptr)
 						GetParent()->HandleEvent(WidgetSelectedItemChangedEventArgs(GetParent(), this, this_index));
 
-				}					
+				}
 
 			}
 
@@ -155,7 +155,28 @@ namespace hvn3 {
 
 			}
 
-			void OnUpdate(WidgetUpdateEventArgs& e) {
+			bool HasChildren() override {
+				return ContainerWidgetBase::HasChildren();
+			}
+			WidgetManager& GetChildren() override {
+				return ContainerWidgetBase::GetChildren();
+			}
+			void SetVisible(bool value) override {
+
+				ContainerWidgetBase::SetVisible(value);
+				ScrollableWidgetBase::SetVisible(value);
+				WidgetBase::SetVisible(value);
+
+			}
+
+			void OnManagerChanged(WidgetManagerChangedEventArgs& e) override {
+
+				ContainerWidgetBase::OnManagerChanged(e);
+				ScrollableWidgetBase::OnManagerChanged(e);
+				WidgetBase::OnManagerChanged(e);
+
+			}
+			void OnUpdate(WidgetUpdateEventArgs& e) override {
 
 				ScrollableWidgetBase::OnUpdate(e);
 				ContainerWidgetBase::OnUpdate(e);
