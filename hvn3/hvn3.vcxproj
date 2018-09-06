@@ -150,7 +150,7 @@
     <ClInclude Include="include\hvn3\io\KeyboardMutator.h" />
     <ClInclude Include="include\hvn3\io\KeyboardEventArgs.h" />
     <ClInclude Include="include\hvn3\io\KeyboardListener.h" />
-    <ClInclude Include="include\hvn3\io\Listener.h" />
+    <ClInclude Include="include\hvn3\io\ListenerBase.h" />
     <ClInclude Include="include\hvn3\io\MemoryStream.h" />
     <ClInclude Include="include\hvn3\io\Mouse.h" />
     <ClInclude Include="include\hvn3\io\MouseMutator.h" />

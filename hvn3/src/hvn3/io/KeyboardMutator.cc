@@ -1,6 +1,7 @@
+#include "hvn3/io/IKeyboardListener.h"
 #include "hvn3/io/KeyboardMutator.h"
-#include "hvn3/io/KeyboardListener.h"
 #include "hvn3/io/Keyboard.h"
+#include "hvn3/io/ListenerBase.h"
 #include <allegro5/allegro.h>
 
 namespace hvn3 {
@@ -65,37 +66,37 @@ namespace hvn3 {
 		}
 		void KeyboardMutator::DispatchEvent(KeyDownEventArgs& e) const {
 
-			for (auto i = KeyboardListener::_listeners().begin(); i != KeyboardListener::_listeners().end(); ++i)
+			for (auto i = ListenerCollection<IKeyboardListener>::Listeners().begin(); i != ListenerCollection<IKeyboardListener>::Listeners().end(); ++i)
 				(*i)->OnKeyDown(e);
 
 		}
 		void KeyboardMutator::DispatchEvent(KeyPressedEventArgs& e) const {
 
-			for (auto i = KeyboardListener::_listeners().begin(); i != KeyboardListener::_listeners().end(); ++i)
+			for (auto i = ListenerCollection<IKeyboardListener>::Listeners().begin(); i != ListenerCollection<IKeyboardListener>::Listeners().end(); ++i)
 				(*i)->OnKeyPressed(e);
 
 		}
 		void KeyboardMutator::DispatchEvent(KeyUpEventArgs& e) const {
 
-			for (auto i = KeyboardListener::_listeners().begin(); i != KeyboardListener::_listeners().end(); ++i)
+			for (auto i = ListenerCollection<IKeyboardListener>::Listeners().begin(); i != ListenerCollection<IKeyboardListener>::Listeners().end(); ++i)
 				(*i)->OnKeyUp(e);
 
 		}
 		void KeyboardMutator::DispatchEvent(KeyCharEventArgs& e) const {
 
-			for (auto i = KeyboardListener::_listeners().begin(); i != KeyboardListener::_listeners().end(); ++i)
+			for (auto i = ListenerCollection<IKeyboardListener>::Listeners().begin(); i != ListenerCollection<IKeyboardListener>::Listeners().end(); ++i)
 				(*i)->OnKeyChar(e);
 
 		}
 		void KeyboardMutator::DispatchKeyboardLostEvent(KeyboardLostEventArgs& e) const {
 
-			for (auto i = KeyboardListener::_listeners().begin(); i != KeyboardListener::_listeners().end(); ++i)
+			for (auto i = ListenerCollection<IKeyboardListener>::Listeners().begin(); i != ListenerCollection<IKeyboardListener>::Listeners().end(); ++i)
 				(*i)->OnKeyboardLost(e);
 
 		}
 		void KeyboardMutator::DispatchKeyboardFoundEvent(KeyboardFoundEventArgs& e) const {
 
-			for (auto i = KeyboardListener::_listeners().begin(); i != KeyboardListener::_listeners().end(); ++i)
+			for (auto i = ListenerCollection<IKeyboardListener>::Listeners().begin(); i != ListenerCollection<IKeyboardListener>::Listeners().end(); ++i)
 				(*i)->OnKeyboardFound(e);
 
 		}

@@ -1,6 +1,6 @@
 #pragma once 
 #include "hvn3/io/IDisplayListener.h"
-#include "hvn3/io/Listener.h"
+#include "hvn3/io/ListenerBase.h"
 
 namespace hvn3 {
 
@@ -8,9 +8,8 @@ namespace hvn3 {
 		class Runner;
 	}
 
-	class DisplayListener : 
-		public System::Listener<DisplayListener>,
-		public virtual IDisplayListener {
+	class DisplayListener :
+		public ListenerBase<IDisplayListener> {
 
 		friend class System::Runner;
 

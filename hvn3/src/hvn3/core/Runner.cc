@@ -432,7 +432,7 @@ namespace hvn3 {
 
 			// Notify all listeners.
 
-			auto listeners = DisplayListener::GetListeners();
+			auto listeners = ListenerCollection<IDisplayListener>::Listeners();
 			DisplaySizeChangedEventArgs args(&display);
 
 			for (auto i = listeners.begin(); i != listeners.end(); ++i)
@@ -452,7 +452,7 @@ namespace hvn3 {
 
 			KeyboardMutator().DispatchKeyboardLostEvent(KeyboardLostEventArgs());
 
-			auto listeners = DisplayListener::GetListeners();
+			auto listeners = ListenerCollection<IDisplayListener>::Listeners();
 			DisplayLostEventArgs args(&display);
 
 			for (auto i = listeners.begin(); i != listeners.end(); ++i)
@@ -473,7 +473,7 @@ namespace hvn3 {
 
 			KeyboardMutator().DispatchKeyboardFoundEvent(KeyboardFoundEventArgs());
 
-			auto listeners = DisplayListener::GetListeners();
+			auto listeners = ListenerCollection<IDisplayListener>::Listeners();
 			DisplayFoundEventArgs args(&display);
 
 			for (auto i = listeners.begin(); i != listeners.end(); ++i)
