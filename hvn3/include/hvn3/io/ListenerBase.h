@@ -36,16 +36,20 @@ namespace hvn3 {
 
 		}
 		static void Remove(const ListenerBase<InterfaceType>* listener) {
+
 			_registry.listeners.erase(const_cast<ListenerBase<InterfaceType>*>(listener));
+
 		}
 		static void Remove(const InterfaceType* listener) {
+
 			_registry.listeners.erase(const_cast<InterfaceType*>(listener));
+
 		}
 		static typename listener_collection_type::size_type Count() {
 			return _registry.size();
 		}
 
-		static const listener_collection_type& Listeners() {
+		static listener_collection_type& Listeners() {
 			return _registry.listeners;
 		}
 
@@ -68,9 +72,16 @@ namespace hvn3 {
 		friend class hvn3::ListenerCollection<InterfaceType>;
 
 	public:
-		ListenerBase() {
+		ListenerBase() :
+			ListenerBase(true) {}
+		ListenerBase(bool automatic) {
+
+			_deregister_self = false;
+
 			// Add self to the global collection of listeners.
-			ListenerCollection<InterfaceType>::Add(this);
+			if (automatic)
+				ListenerCollection<InterfaceType>::Add(this);
+
 
 		}
 		~ListenerBase() {
