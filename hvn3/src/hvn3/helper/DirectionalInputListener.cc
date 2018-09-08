@@ -1,5 +1,6 @@
-#include "hvn3/math/MathUtils.h"
+#include "hvn3/io/KeyboardEventArgs.h"
 #include "hvn3/helper/DirectionalInputListener.h"
+#include "hvn3/math/MathUtils.h"
 
 #define KEY_COUNT (sizeof(_keys) / sizeof(_keys[0]))
 

@@ -66,38 +66,50 @@ namespace hvn3 {
 		}
 		void KeyboardMutator::DispatchEvent(KeyDownEventArgs& e) const {
 
-			for (auto i = ListenerCollection<IKeyboardListener>::Listeners().begin(); i != ListenerCollection<IKeyboardListener>::Listeners().end(); ++i)
-				(*i)->OnKeyDown(e);
+			ListenerCollection<IKeyboardListener>::ForEach([&](IKeyboardListener* i) {
+				i->OnKeyDown(e);
+				HVN3_CONTINUE;
+			});
 
 		}
 		void KeyboardMutator::DispatchEvent(KeyPressedEventArgs& e) const {
 
-			for (auto i = ListenerCollection<IKeyboardListener>::Listeners().begin(); i != ListenerCollection<IKeyboardListener>::Listeners().end(); ++i)
-				(*i)->OnKeyPressed(e);
+			ListenerCollection<IKeyboardListener>::ForEach([&](IKeyboardListener* i) {
+				i->OnKeyPressed(e);
+				HVN3_CONTINUE;
+			});
 
 		}
 		void KeyboardMutator::DispatchEvent(KeyUpEventArgs& e) const {
 
-			for (auto i = ListenerCollection<IKeyboardListener>::Listeners().begin(); i != ListenerCollection<IKeyboardListener>::Listeners().end(); ++i)
-				(*i)->OnKeyUp(e);
+			ListenerCollection<IKeyboardListener>::ForEach([&](IKeyboardListener* i) {
+				i->OnKeyUp(e);
+				HVN3_CONTINUE;
+			});
 
 		}
 		void KeyboardMutator::DispatchEvent(KeyCharEventArgs& e) const {
 
-			for (auto i = ListenerCollection<IKeyboardListener>::Listeners().begin(); i != ListenerCollection<IKeyboardListener>::Listeners().end(); ++i)
-				(*i)->OnKeyChar(e);
+			ListenerCollection<IKeyboardListener>::ForEach([&](IKeyboardListener* i) {
+				i->OnKeyChar(e);
+				HVN3_CONTINUE;
+			});
 
 		}
 		void KeyboardMutator::DispatchKeyboardLostEvent(KeyboardLostEventArgs& e) const {
 
-			for (auto i = ListenerCollection<IKeyboardListener>::Listeners().begin(); i != ListenerCollection<IKeyboardListener>::Listeners().end(); ++i)
-				(*i)->OnKeyboardLost(e);
+			ListenerCollection<IKeyboardListener>::ForEach([&](IKeyboardListener* i) {
+				i->OnKeyboardLost(e);
+				HVN3_CONTINUE;
+			});
 
 		}
 		void KeyboardMutator::DispatchKeyboardFoundEvent(KeyboardFoundEventArgs& e) const {
 
-			for (auto i = ListenerCollection<IKeyboardListener>::Listeners().begin(); i != ListenerCollection<IKeyboardListener>::Listeners().end(); ++i)
-				(*i)->OnKeyboardFound(e);
+			ListenerCollection<IKeyboardListener>::ForEach([&](IKeyboardListener* i) {
+				i->OnKeyboardFound(e);
+				HVN3_CONTINUE;
+			});
 
 		}
 

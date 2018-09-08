@@ -1,8 +1,11 @@
 #pragma once
+#include "hvn3/events/EventSource.h"
+#include "hvn3/io/IKeyboardListener.h"
+#include "hvn3/io/ListenerBase.h"
+#include "hvn3/utility/BitFlags.h"
+
 #include <queue>
 #include <string>
-#include "hvn3/events/EventSource.h"
-#include "hvn3/utility/BitFlags.h"
 
 namespace hvn3 {
 
@@ -194,6 +197,8 @@ namespace hvn3 {
 		friend class System::KeyboardMutator;
 
 	public:
+		typedef ListenerCollection<IKeyboardListener> Listeners;
+
 		static bool KeyPressed(int key_code);
 		static bool KeyDown(int key_code);
 		static bool KeyReleased(int key_code);

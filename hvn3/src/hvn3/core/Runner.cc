@@ -431,19 +431,18 @@ namespace hvn3 {
 			display.SetSize(ev.AlPtr()->display.width, ev.AlPtr()->display.height);
 
 			// Notify all listeners.
-
-			auto listeners = ListenerCollection<IDisplayListener>::Listeners();
 			DisplaySizeChangedEventArgs args(&display);
-
-			for (auto i = listeners.begin(); i != listeners.end(); ++i)
-				(*i)->OnDisplaySizeChanged(args);
+			ListenerCollection<IDisplayListener>::ForEach([&](IDisplayListener* i) {
+				i->OnDisplaySizeChanged(args);
+				HVN3_CONTINUE;
+			});
 
 		}
 		void Runner::OnDisplaySwitchOut(Event& ev) {
 
 			Display& display = _context.GetDisplay();
 
-			display._setFocus(false);			
+			display._setFocus(false);
 
 			KeyboardMutator().ResetKeyStates();
 			MouseMutator().ResetButtonStates(true, true, true);
@@ -452,11 +451,11 @@ namespace hvn3 {
 
 			KeyboardMutator().DispatchKeyboardLostEvent(KeyboardLostEventArgs());
 
-			auto listeners = ListenerCollection<IDisplayListener>::Listeners();
 			DisplayLostEventArgs args(&display);
-
-			for (auto i = listeners.begin(); i != listeners.end(); ++i)
-				(*i)->OnDisplayLost(args);
+			ListenerCollection<IDisplayListener>::ForEach([&](IDisplayListener* i) {
+				i->OnDisplayLost(args);
+				HVN3_CONTINUE;
+			});
 
 			// Freeze the game if this property is enabled.
 			if (_properties().FreezeWhenLostFocus)
@@ -473,11 +472,11 @@ namespace hvn3 {
 
 			KeyboardMutator().DispatchKeyboardFoundEvent(KeyboardFoundEventArgs());
 
-			auto listeners = ListenerCollection<IDisplayListener>::Listeners();
 			DisplayFoundEventArgs args(&display);
-
-			for (auto i = listeners.begin(); i != listeners.end(); ++i)
-				(*i)->OnDisplayFound(args);
+			ListenerCollection<IDisplayListener>::ForEach([&](IDisplayListener* i) {
+				i->OnDisplayFound(args);
+				HVN3_CONTINUE;
+			});
 
 			// Un-freeze the game if this property is enabled.
 			_delta_timer.Start();

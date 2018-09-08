@@ -113,32 +113,42 @@ namespace hvn3 {
 		}
 		void MouseMutator::DispatchEvent(MouseDownEventArgs& e) const {
 
-			for (auto i = ListenerCollection<IMouseListener>::Listeners().begin(); i != ListenerCollection<IMouseListener>::Listeners().end(); ++i)
-				(*i)->OnMouseDown(e);
+			ListenerCollection<IMouseListener>::ForEach([&](IMouseListener* i) {
+				i->OnMouseDown(e);
+				HVN3_CONTINUE;
+			});
 
 		}
 		void MouseMutator::DispatchEvent(MousePressedEventArgs& e) const {
 
-			for (auto i = ListenerCollection<IMouseListener>::Listeners().begin(); i != ListenerCollection<IMouseListener>::Listeners().end(); ++i)
-				(*i)->OnMousePressed(e);
+			ListenerCollection<IMouseListener>::ForEach([&](IMouseListener* i) {
+				i->OnMousePressed(e);
+				HVN3_CONTINUE;
+			});
 
 		}
 		void MouseMutator::DispatchEvent(MouseReleasedEventArgs& e) const {
 		
-			for (auto i = ListenerCollection<IMouseListener>::Listeners().begin(); i != ListenerCollection<IMouseListener>::Listeners().end(); ++i)
-				(*i)->OnMouseReleased(e);
+			ListenerCollection<IMouseListener>::ForEach([&](IMouseListener* i) {
+				i->OnMouseReleased(e);
+				HVN3_CONTINUE;
+			});
 
 		}
 		void MouseMutator::DispatchEvent(MouseMoveEventArgs& e) const {
 
-			for (auto i = ListenerCollection<IMouseListener>::Listeners().begin(); i != ListenerCollection<IMouseListener>::Listeners().end(); ++i)
-				(*i)->OnMouseMove(e);
+			ListenerCollection<IMouseListener>::ForEach([&](IMouseListener* i) {
+				i->OnMouseMove(e);
+				HVN3_CONTINUE;
+			});
 
 		}
 		void MouseMutator::DispatchEvent(MouseScrollEventArgs& e) const {
 
-			for (auto i = ListenerCollection<IMouseListener>::Listeners().begin(); i != ListenerCollection<IMouseListener>::Listeners().end(); ++i)
-				(*i)->OnMouseScroll(e);
+			ListenerCollection<IMouseListener>::ForEach([&](IMouseListener* i) {
+				i->OnMouseScroll(e);
+				HVN3_CONTINUE;
+			});
 
 		}
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/io/Keyboard.h"
 #include "hvn3/io/KeyboardListener.h"
 #include "hvn3/utility/Direction8.h"
 

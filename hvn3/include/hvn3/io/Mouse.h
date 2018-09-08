@@ -1,8 +1,10 @@
 #pragma once
-#include "hvn3/utility/Stopwatch.h"
+#include "hvn3/events/EventSource.h"
+#include "hvn3/io/IMouseListener.h"
+#include "hvn3/io/ListenerBase.h"
 #include "hvn3/math/GeometryUtils.h"
 #include "hvn3/utility/BitFlags.h"
-#include "hvn3/events/EventSource.h"
+#include "hvn3/utility/Stopwatch.h"
 
 namespace hvn3 {
 
@@ -52,6 +54,8 @@ namespace hvn3 {
 		friend class System::MouseMutator;
 
 	public:
+		typedef ListenerCollection<IMouseListener> Listeners;
+
 		static float x, y;
 
 		static bool ButtonDown(MouseButton button);

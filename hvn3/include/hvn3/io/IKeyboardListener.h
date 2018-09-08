@@ -1,7 +1,13 @@
 #pragma once
-#include "hvn3/io/KeyboardEventArgs.h"
 
 namespace hvn3 {
+
+	class KeyboardLostEventArgs;
+	class KeyboardFoundEventArgs;
+	class KeyCharEventArgs;
+	class KeyDownEventArgs;
+	class KeyPressedEventArgs;
+	class KeyUpEventArgs;
 
 	class IKeyboardListener {
 

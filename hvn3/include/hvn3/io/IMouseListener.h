@@ -1,7 +1,12 @@
 #pragma once
-#include "hvn3/io/MouseEventArgs.h"
 
 namespace hvn3 {
+
+	class MouseDownEventArgs;
+	class MouseMoveEventArgs;
+	class MousePressedEventArgs;
+	class MouseReleasedEventArgs;
+	class MouseScrollEventArgs;
 
 	class IMouseListener {
 

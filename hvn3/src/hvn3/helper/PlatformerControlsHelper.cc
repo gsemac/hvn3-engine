@@ -2,6 +2,7 @@
 #include "hvn3/collision/ICollisionBody.h"
 #include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/helper/PlatformerControlsHelper.h"
+#include "hvn3/io/KeyboardEventArgs.h"
 #include "hvn3/math/GeometryUtils.h"
 #include "hvn3/objects/Object.h"
 

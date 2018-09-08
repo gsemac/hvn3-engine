@@ -53,7 +53,7 @@ namespace hvn3 {
 
 	};
 
-	typedef System::EventArgs KeyboardLostEventArgs;
-	typedef System::EventArgs KeyboardFoundEventArgs;
+	class KeyboardLostEventArgs : public System::EventArgs {};
+	class KeyboardFoundEventArgs : public System::EventArgs {};
 
 }
