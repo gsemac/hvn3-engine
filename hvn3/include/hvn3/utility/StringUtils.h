@@ -186,6 +186,60 @@ namespace hvn3 {
 
 		}
 
+		template<typename T, typename... Args>
+		void MakeStringArray(std::vector<std::string>& strings, const T& arg, Args... args) {
+			strings.push_back(ToString(arg));
+			MakeStringArray(strings, args...);
+		}
+		template<typename T>
+		void MakeStringArray(std::vector<std::string>& strings, const T& arg) {
+			strings.push_back(ToString(arg));
+		}
+		template<typename... Args>
+		std::vector<std::string> MakeStringArray(Args... args) {
+
+			std::vector<std::string> strings;
+
+			MakeStringArray(strings, args...);
+
+			return strings;
+
+		}
+
+		template <typename... Args>
+		std::string Format(const std::string& format, Args... args) {
+
+			std::vector<std::string> str_args = MakeStringArray(args...);
+			std::stringstream out;
+
+			std::string index_str;
+
+			for (auto i = format.begin(); i != format.end(); ++i) {
+
+				if (*i == '{') {
+
+					while (++i != format.end() && std::isdigit(*i))
+						index_str.push_back(*i);
+
+					assert(index_str.size() > 0);
+					assert(*i == '}');
+
+					int index = std::stoi(index_str);
+
+					assert(index >= 0 && index < str_args.size());
+
+					out << str_args[index];
+
+				}
+				else
+					out << *i;
+
+			}
+
+			return out.str();
+
+		}
+
 	};
 
 }
