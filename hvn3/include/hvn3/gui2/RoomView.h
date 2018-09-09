@@ -40,7 +40,10 @@ namespace hvn3 {
 
 				_room = room;
 
-				SetScrollableSize(static_cast<SizeF>(_room->Size()));
+				if (_room)
+					SetScrollableSize(static_cast<SizeF>(_room->Size()));
+				else
+					SetScrollableSize(SizeF(0.0f, 0.0f));
 
 			}
 			void SetGridVisible(bool value) {

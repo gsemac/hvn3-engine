@@ -1,8 +1,9 @@
 #pragma once
-#include "hvn3/core/Context.h"
 #include "hvn3/core/ManagerBase.h"
 
 namespace hvn3 {
+
+	class Context;
 	class IGameManager;
 	class RoomManager;
 

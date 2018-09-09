@@ -1,9 +1,9 @@
 #pragma once
+#include "hvn3/core/IContextProvider.h"
 
 namespace hvn3 {
 
 	namespace System {
-		class IContextProvider;
 		struct Properties;
 	}
 

@@ -218,6 +218,8 @@ namespace hvn3 {
 
 				if (*i == '{') {
 
+					index_str.clear();
+
 					while (++i != format.end() && std::isdigit(*i))
 						index_str.push_back(*i);
 
@@ -226,7 +228,8 @@ namespace hvn3 {
 
 					int index = std::stoi(index_str);
 
-					assert(index >= 0 && index < str_args.size());
+					assert(index >= 0);
+					assert(static_cast<size_t>(index) < str_args.size());
 
 					out << str_args[index];
 

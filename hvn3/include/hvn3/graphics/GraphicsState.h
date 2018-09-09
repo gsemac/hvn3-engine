@@ -3,7 +3,6 @@
 #include "hvn3/math/Rectangle.h"
 
 namespace hvn3 {
-
 	namespace Graphics {
 
 		class GraphicsState {
@@ -18,5 +17,4 @@ namespace hvn3 {
 		};
 
 	}
-
 }

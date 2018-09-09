@@ -4,7 +4,8 @@
 namespace hvn3 {
 
 	template <typename T>
-	class Positionable2dBase : public IPositionable2d<T> {
+	class Positionable2dBase : 
+		public IPositionable2d<T> {
 
 	public:
 		Positionable2dBase() :
@@ -19,7 +20,6 @@ namespace hvn3 {
 			return _position.X();
 
 		}
-
 		T Y() const override {
 
 			return _position.Y();

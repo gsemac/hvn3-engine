@@ -20,6 +20,10 @@ namespace hvn3 {
 		typedef broadphase_type broadphase_type;
 		typedef narrowphase_type narrowphase_type;
 
+		using collider_handle_type = typename ICollisionManager<collidable_type>::collider_handle_type;
+		using collidable_ptr_type = typename ICollisionManager<collidable_type>::collidable_ptr_type;
+		using condition_lambda_type = typename ICollisionManager<collidable_type>::condition_lambda_type;
+
 		CollisionManagerBase() {
 
 			// Use default precision of 0.4, precise to 2/5ths of a pixel. Anything less may produce visually-noticeable inaccuracies.

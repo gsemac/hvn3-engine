@@ -562,7 +562,7 @@ namespace hvn3 {
 		}
 		void WidgetManager::OnMouseScroll(MouseScrollEventArgs& e) {}
 
-		void WidgetManager::ShowDialog(std::unique_ptr<IWidget>& widget) {
+		void WidgetManager::ShowDialog(std::unique_ptr<IWidget>&& widget) {
 
 			IWidget* ptr = widget.get(); // Allows access to widget pointer after move
 

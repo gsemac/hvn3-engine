@@ -88,7 +88,7 @@ namespace hvn3 {
 			void OnMouseMove(MouseMoveEventArgs& e) override;
 			void OnMouseScroll(MouseScrollEventArgs& e) override;
 
-			void ShowDialog(std::unique_ptr<IWidget>& widget);
+			void ShowDialog(std::unique_ptr<IWidget>&& widget);
 
 		private:
 			renderer_ptr_type _renderer;

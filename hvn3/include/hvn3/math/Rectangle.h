@@ -1,6 +1,7 @@
 #pragma once
 #include "hvn3/core/Positionable2dBase.h"
 #include "hvn3/core/SizeableBase.h"
+#include "hvn3/exceptions/Exception.h"
 
 namespace hvn3 {
 
@@ -12,7 +13,9 @@ namespace hvn3 {
 	};
 
 	template <typename T>
-	class Rectangle : public Positionable2dBase<T>, public SizeableBase<T> {
+	class Rectangle : 
+		public Positionable2dBase<T>, 
+		public SizeableBase<T> {
 
 	public:
 		Rectangle(T width, T height) :
@@ -31,6 +34,12 @@ namespace hvn3 {
 			Rectangle(position.X(), position.Y(), size.Width(), size.Height()) {
 		}
 
+		T X() const override {
+			return Positionable2dBase<T>::X();
+		}
+		T Y() const override {
+			return Positionable2dBase<T>::Y();
+		}
 		T X2() const {
 
 			return X() + Width();
@@ -46,6 +55,13 @@ namespace hvn3 {
 		}
 		void SetY2(T value) {
 			SetHeight(value - Y());
+		}
+
+		T Width() const {
+			return SizeableBase<T>::Width();
+		}
+		T Height() const {
+			return SizeableBase<T>::Height();
 		}
 
 		T Bottom() const {
@@ -104,7 +120,7 @@ namespace hvn3 {
 		}
 		void Scale(T x_scale, T y_scale) {
 
-			throw NotImplementedException();
+			throw System::NotImplementedException();
 
 		}
 
