@@ -10,15 +10,23 @@ namespace hvn3 {
 	GameManager::GameManager() :
 		GameManager(GameProperties()) {
 	}
-	GameManager::GameManager(int argc, char* argv[]) : GameManager() {
-		Initialize(argc, argv);
+	GameManager::GameManager(int argc, char* argv[]) :
+		GameManager(argc, argv, GameProperties()) {
 	}
 	GameManager::GameManager(const GameProperties& properties) :
 		_properties(properties),
 		_display(properties.DisplaySize, properties.DisplayTitle, properties.DisplayFlags),
 		_room_manager(this),
 		_runner(Context()) {
+
 		_onInit();
+
+	}
+	GameManager::GameManager(int argc, char* argv[], const GameProperties& properties) :
+		GameManager(properties) {
+
+		Initialize(argc, argv);
+
 	}
 	GameManager::~GameManager() {
 

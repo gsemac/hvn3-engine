@@ -13,6 +13,7 @@ namespace hvn3 {
 		GameManager();
 		GameManager(int argc, char* argv[]);
 		GameManager(const GameProperties& properties);
+		GameManager(int argc, char* argv[], const GameProperties& properties);
 		~GameManager();
 
 		// Inherited from IGameManager
