@@ -74,7 +74,7 @@
     <ClInclude Include="include\hvn3\core\ITransformable.h" />
     <ClInclude Include="include\hvn3\core\IUpdatable.h" />
     <ClInclude Include="include\hvn3\core\Positionable2dBase.h" />
-    <ClInclude Include="include\hvn3\core\Properties.h" />
+    <ClInclude Include="include\hvn3\core\GameProperties.h" />
     <ClInclude Include="include\hvn3\core\Runner.h" />
     <ClInclude Include="include\hvn3\core\SharedCreatableBase.h" />
     <ClInclude Include="include\hvn3\core\SizeableBase.h" />
@@ -282,7 +282,7 @@
     <ClCompile Include="src\hvn3\core\Framework.cc" />
     <ClCompile Include="src\hvn3\core\GameManager.cc" />
     <ClCompile Include="src\hvn3\core\IUpdatable.cc" />
-    <ClCompile Include="src\hvn3\core\Properties.cc" />
+    <ClCompile Include="src\hvn3\core\GameProperties.cc" />
     <ClCompile Include="src\hvn3\core\Runner.cc" />
     <ClCompile Include="src\hvn3\core\UpdateEventArgs.cc" />
     <ClCompile Include="src\hvn3\events\Event.cc" />

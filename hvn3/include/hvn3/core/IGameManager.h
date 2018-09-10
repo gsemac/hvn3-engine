@@ -4,14 +4,15 @@
 namespace hvn3 {
 
 	class Display;
+	class GameProperties;
 	class RoomManager;
 
 	namespace System {
-		struct Properties;
 		class Runner;
 	}
 
-	class IGameManager : public System::ContextProviderBase {
+	class IGameManager :
+		public System::ContextProviderBase {
 
 	public:
 		virtual ~IGameManager() = default;
@@ -25,7 +26,7 @@ namespace hvn3 {
 		// Deinitializes the game and underlying framework.
 		virtual void Shutdown() = 0;
 
-		virtual System::Properties& GetProperties() = 0;
+		virtual GameProperties& GetProperties() = 0;
 		virtual System::Runner& GetRunner() = 0;
 		virtual Display& GetDisplay() = 0;
 

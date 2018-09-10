@@ -2,7 +2,7 @@
 #include "hvn3/graphics/Display.h"
 #include "hvn3/events/EventQueue.h"
 #include "hvn3/events/Timer.h"
-#include "hvn3/core/Properties.h"
+#include "hvn3/core/GameProperties.h"
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/rooms/RoomManager.h"
 #include "hvn3/utility/Stopwatch.h"
@@ -74,7 +74,7 @@ namespace hvn3 {
 			bool _isFrozen();
 			void _applyScalingMode();
 			void _recalculateMousePosition();
-			Properties& _properties();
+			GameProperties& _properties();
 
 		};
 

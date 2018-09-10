@@ -276,9 +276,6 @@
     <ClInclude Include="include\hvn3\core\Positionable2dBase.h">
       <Filter>include\core</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\core\Properties.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\core\Runner.h">
       <Filter>include\core</Filter>
     </ClInclude>
@@ -852,6 +849,9 @@
     <ClInclude Include="include\hvn3\io\ListenerBase.h">
       <Filter>include\io</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\core\GameProperties.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -907,9 +907,6 @@
       <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\core\IUpdatable.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\core\Properties.cc">
       <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\core\Runner.cc">
@@ -1280,6 +1277,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\native\OperatingSystem.cc">
       <Filter>src\native</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\GameProperties.cc">
+      <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

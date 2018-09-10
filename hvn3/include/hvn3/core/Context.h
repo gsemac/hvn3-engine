@@ -3,10 +3,6 @@
 
 namespace hvn3 {
 
-	namespace System {
-		struct Properties;
-	}
-
 	class Display;
 	template<typename T>
 	class ICollisionManager;
@@ -15,6 +11,7 @@ namespace hvn3 {
 	class IObjectManager;
 	class IRoom;
 	class IViewManager;
+	class GameProperties;
 	class RoomManager;
 
 	namespace Physics {
@@ -34,7 +31,7 @@ namespace hvn3 {
 		Physics::IPhysicsManager& GetPhysics();
 		IViewManager& GetViews();
 		System::IContextProvider& GetContextProvider();
-		System::Properties& GetProperties();
+		GameProperties& GetProperties();
 		Display& GetDisplay();
 		IGameManager& GetGameManager();
 

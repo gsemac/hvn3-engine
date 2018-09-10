@@ -1,18 +1,18 @@
 #pragma once
 #include "hvn3/core/IGameManager.h"
-#include "hvn3/core/Properties.h"
+#include "hvn3/core/GameProperties.h"
 #include "hvn3/core/Runner.h"
 #include "hvn3/rooms/RoomManager.h"
 
 namespace hvn3 {
 
-	class GameManager : 
+	class GameManager :
 		public IGameManager {
 
 	public:
 		GameManager();
 		GameManager(int argc, char* argv[]);
-		GameManager(const System::Properties& properties);
+		GameManager(const GameProperties& properties);
 		~GameManager();
 
 		// Inherited from IGameManager
@@ -26,7 +26,7 @@ namespace hvn3 {
 		// Deinitializes the game and underlying framework.
 		void Shutdown() override;
 
-		System::Properties& GetProperties() override;
+		GameProperties& GetProperties() override;
 		System::Runner& GetRunner() override;
 		Display& GetDisplay() override;
 
@@ -41,7 +41,7 @@ namespace hvn3 {
 		ManagerBase* GetManager(ManagerId id) override;
 
 	private:
-		System::Properties _properties;
+		GameProperties _properties;
 		Display _display;
 		hvn3::RoomManager _room_manager;
 		System::Runner _runner;

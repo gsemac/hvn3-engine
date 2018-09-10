@@ -40,7 +40,7 @@ namespace hvn3 {
 		return *_context_provider;
 
 	}
-	System::Properties& Context::GetProperties() {
+	GameProperties& Context::GetProperties() {
 		return GetContextProvider().GetGameManager().GetProperties();
 	}
 	Display& Context::GetDisplay() {

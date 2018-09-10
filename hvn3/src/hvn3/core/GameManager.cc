@@ -8,12 +8,12 @@
 namespace hvn3 {
 
 	GameManager::GameManager() :
-		GameManager(System::Properties()) {
+		GameManager(GameProperties()) {
 	}
 	GameManager::GameManager(int argc, char* argv[]) : GameManager() {
 		Initialize(argc, argv);
 	}
-	GameManager::GameManager(const System::Properties& properties) :
+	GameManager::GameManager(const GameProperties& properties) :
 		_properties(properties),
 		_display(properties.DisplaySize, properties.DisplayTitle, properties.DisplayFlags),
 		_room_manager(this),
@@ -47,7 +47,7 @@ namespace hvn3 {
 
 	}
 
-	System::Properties& GameManager::GetProperties() {
+	GameProperties& GameManager::GetProperties() {
 		return _properties;
 	}
 	System::Runner& GameManager::GetRunner() {
@@ -70,13 +70,13 @@ namespace hvn3 {
 		return _room_manager;
 	}
 	ManagerBase* GameManager::GetManager(ManagerId id) {
-		
+
 		// #todo Implement for access to "global" managers.
 
 		ManagerBase* ptr = GetRoomManager().Room()->GetManagerById<ManagerBase>(id);
-		
+
 		return ptr;
-		
+
 	}
 
 

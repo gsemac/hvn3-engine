@@ -657,7 +657,7 @@ namespace hvn3 {
 			}
 
 		}
-		Properties& Runner::_properties() {
+		GameProperties& Runner::_properties() {
 
 			return _context.GetProperties();
 

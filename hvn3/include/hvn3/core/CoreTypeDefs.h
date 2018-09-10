@@ -5,6 +5,12 @@
 
 namespace hvn3 {
 
+	enum class ScalingMode {
+		Fixed,
+		Full,
+		MaintainAspectRatio
+	};
+
 	const bool BREAK = false;
 	const bool CONTINUE = true;
 
