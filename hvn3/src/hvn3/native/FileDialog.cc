@@ -82,8 +82,16 @@ namespace hvn3 {
 
 			size_t count = static_cast<size_t>(al_get_native_file_dialog_count(dialog));
 
-			for (size_t i = 0; i < count; ++i)
-				_selected_files.push_back(std::string(al_get_native_file_dialog_path(dialog, i)));
+			for (size_t i = 0; i < count; ++i) {
+
+				std::string filename = std::string(al_get_native_file_dialog_path(dialog, i));
+
+				if (HasFlag(_flags, FileDialogFlags::Folder) && filename.size() > 0 && filename.back() != IO::Path::DirectorySeparatorChar())
+					filename += IO::Path::DirectorySeparatorChar();
+
+				_selected_files.push_back(std::move(filename));
+
+			}
 
 			// Add the default file extension to all files if enabled.
 			if (_add_extension_enabled && _default_extension.size() > 0)

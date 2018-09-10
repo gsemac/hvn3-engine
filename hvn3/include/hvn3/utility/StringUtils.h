@@ -60,6 +60,33 @@ namespace hvn3 {
 		bool IEquals(const std::string& lhs, const std::string& rhs);
 		bool Equals(const std::string& lhs, const std::string& rhs, bool ignore_case = false);
 		bool NextSubstringEquals(const std::string& str, size_t pos, const std::string& substr);
+		template <typename StringT>
+		typename StringT::size_type IndexOf(const StringT& input, const StringT& substring) {
+
+			typename StringT::size_type index = 0;
+
+			if (substring.size() <= 0)
+				return index;
+
+			for (auto i = input.begin(); i != input.end(); ++i, ++index) {
+
+				if (*i != *substring.begin())
+					continue;
+
+				auto i2 = i;
+				auto j = substring.begin();
+				
+				for (; i2 != input.end() && j != substring.end(); ++i2, ++j)
+					if (*i2 != *j)
+						break;
+					else if (j + 1 == substring.end())
+						return index;
+
+			}
+
+			return StringT::npos;
+
+		}
 
 		template<typename StringT>
 		bool StartsWith(const StringT& input, const char* prefix) {
@@ -130,6 +157,23 @@ namespace hvn3 {
 			return true;
 
 		}
+		template <typename StringT>
+		StringT CommonPrefix(const StringT& input1, const StringT& input2) {
+
+			auto i = input1.begin();
+			auto j = input2.begin();
+
+			StringT out;
+
+			for (; i != input1.end() && j != input2.end(); ++i)
+				if (*i == *j)
+					out.push_back(*i);
+				else
+					break;
+
+			return out;
+
+		}
 
 		// Attempts to construct an object from a string. Uses constructor if available, otherwise uses std::stringstream.
 		template <typename T, typename StringT>
@@ -179,7 +223,7 @@ namespace hvn3 {
 		std::string ToString(const T& input) {
 
 			std::stringstream ss;
-			
+
 			ss << input;
 
 			return ss.str();
