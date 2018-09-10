@@ -381,10 +381,13 @@ namespace hvn3 {
 	const Color Color::Coral = FromArgb(255, 127, 80);
 	const Color Color::CornFlowerBlue = FromArgb(100, 149, 237);
 	const Color Color::CornSilk = FromArgb(255, 248, 220);
+	const Color Color::DarkGreen = FromArgb(0, 100, 0);
 	const Color Color::DarkGrey = FromArgb(169, 169, 169);
 	const Color Color::DarkOrange = FromArgb(255, 140, 0);
+	const Color Color::DarkSeaGreen = FromArgb(143, 188, 139);
 	const Color Color::DimGrey = FromArgb(105, 105, 105);
 	const Color Color::DodgerBlue = FromArgb(30, 144, 255);
+	const Color Color::ForestGreen = FromArgb(34, 139, 34);
 	const Color Color::Fuchsia = FromArgb(255, 0, 255);
 	const Color Color::Gainsboro = FromArgb(220, 220, 220);
 	const Color Color::Green = FromArgb(0, 255, 0);

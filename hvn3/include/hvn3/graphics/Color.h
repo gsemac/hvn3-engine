@@ -63,10 +63,13 @@ namespace hvn3 {
 		static const Color Coral;
 		static const Color CornFlowerBlue;
 		static const Color CornSilk;
+		static const Color DarkGreen;
 		static const Color DarkGrey;
 		static const Color DarkOrange;
+		static const Color DarkSeaGreen;
 		static const Color DimGrey;
 		static const Color DodgerBlue;
+		static const Color ForestGreen;
 		static const Color Fuchsia;
 		static const Color Gainsboro;
 		static const Color Green;
