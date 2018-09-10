@@ -31,4 +31,13 @@ namespace hvn3 {
 		};
 	};
 
+	template<typename object_type = Object, typename... Args>
+	ObjectPtr make_object(Args&&... args) {
+
+		ObjectPtr ptr = std::make_shared<object_type>(std::forward<Args>(args)...);
+
+		return ptr;
+
+	}
+
 }

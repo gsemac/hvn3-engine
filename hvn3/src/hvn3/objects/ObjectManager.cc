@@ -27,7 +27,7 @@ namespace hvn3 {
 	}
 
 
-	IObject* ObjectManager::Add(ObjectPtr& object) {
+	IObject* ObjectManager::Add(ObjectPtr&& object) {
 
 		object->SetContext(_context);
 

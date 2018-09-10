@@ -16,7 +16,7 @@ namespace hvn3 {
 
 	public:
 		// Adds a new instance of an object to the manager. The manager assumes ownership.
-		virtual IObject* Add(ObjectPtr& object) = 0;
+		virtual IObject* Add(ObjectPtr&& object) = 0;
 		// Adds a new instance of an object to the manager. The manager assumes ownership.
 		virtual IObject* Add(IObject* object) = 0;
 		// Clears all instances without calling their destroy events.

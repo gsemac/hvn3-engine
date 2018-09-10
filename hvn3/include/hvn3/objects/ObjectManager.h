@@ -26,7 +26,7 @@ namespace hvn3 {
 	public:
 		ObjectManager();
 
-		IObject* Add(ObjectPtr& object) override;
+		IObject* Add(ObjectPtr&& object) override;
 		IObject* Add(IObject* object) override;
 		void Clear() override;
 		void DestroyAll() override;
