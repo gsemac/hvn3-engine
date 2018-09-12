@@ -12,9 +12,9 @@ namespace hvn3 {
 
 		struct ObjectListItem {
 
-			ObjectListItem(ObjectPtr& object);
+			ObjectListItem(const IObjectPtr& object);
 
-			ObjectPtr object;
+			IObjectPtr object;
 			// This is set to false when the OnCreate event has been called.
 			bool callOnCreateEvent;
 			// This is set to false when the OnDestroy event has been called.
@@ -26,8 +26,8 @@ namespace hvn3 {
 	public:
 		ObjectManager();
 
-		IObject* Add(ObjectPtr&& object) override;
-		IObject* Add(IObject* object) override;
+		void Add(const IObjectPtr& object) override;
+		void Add(IObject* object) override;
 		void Clear() override;
 		void DestroyAll() override;
 

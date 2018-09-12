@@ -62,6 +62,7 @@
     <ClInclude Include="include\hvn3\core\DrawEventArgs.h" />
     <ClInclude Include="include\hvn3\core\IContextProvider.h" />
     <ClInclude Include="include\hvn3\core\IContextReceiver.h" />
+    <ClInclude Include="include\hvn3\core\SmartPointerToInterfaceWrapper.h" />
     <ClInclude Include="include\hvn3\core\ManagerBase.h" />
     <ClInclude Include="include\hvn3\core\Framework.h" />
     <ClInclude Include="include\hvn3\core\GameManager.h" />
@@ -175,7 +176,6 @@
     <ClInclude Include="include\hvn3\objects\Object.h" />
     <ClInclude Include="include\hvn3\objects\ObjectBase.h" />
     <ClInclude Include="include\hvn3\objects\ObjectEventArgs.h" />
-    <ClInclude Include="include\hvn3\objects\ObjectHandle.h" />
     <ClInclude Include="include\hvn3\objects\ObjectManager.h" />
     <ClInclude Include="include\hvn3\objects\ObjectTypeDefs.h" />
     <ClInclude Include="include\hvn3\physics\BasicPhysicsManager.h" />

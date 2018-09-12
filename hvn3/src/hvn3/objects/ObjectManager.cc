@@ -9,7 +9,7 @@
 
 namespace hvn3 {
 
-	ObjectManager::ObjectListItem::ObjectListItem(ObjectPtr& object) :
+	ObjectManager::ObjectListItem::ObjectListItem(const IObjectPtr& object) :
 		object(object) {
 
 		callOnCreateEvent = true;
@@ -27,7 +27,7 @@ namespace hvn3 {
 	}
 
 
-	IObject* ObjectManager::Add(ObjectPtr&& object) {
+	void ObjectManager::Add(const IObjectPtr& object) {
 
 		object->SetContext(_context);
 
@@ -38,7 +38,7 @@ namespace hvn3 {
 		// Add the object to our object collection.
 		_objects.emplace_back(ObjectListItem(object));
 
-		return _objects.back().object.get();
+		//return _objects.back().object.get();
 
 		//// If there are no objects in the list, just insert the new object.
 		//if (_objects.size() == 0) {
@@ -70,11 +70,11 @@ namespace hvn3 {
 		//}
 
 	}
-	IObject* ObjectManager::Add(IObject* object) {
+	void ObjectManager::Add(IObject* object) {
 
 		assert(object != nullptr);
 
-		return Add(ObjectPtr(object));
+		Add(IObjectPtr(object));
 
 	}
 	void ObjectManager::Clear() {
@@ -230,7 +230,7 @@ namespace hvn3 {
 
 
 	void ObjectManager::OnContextChanged(ContextChangedEventArgs& e) {
-		
+
 		_context = e.Context();
 
 		// Update the context for all objects.

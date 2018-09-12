@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/core/SmartPointerToInterfaceWrapper.h"
 #include "hvn3/utility/BitFlags.h"
 #include <memory>
 
@@ -7,7 +8,9 @@ namespace hvn3 {
 	class IObject;
 	class Object;
 
-	typedef std::shared_ptr<IObject> ObjectPtr;
+	typedef std::shared_ptr<IObject> IObjectPtr;
+	template <typename ObjectType>
+	using ObjectPtr = hvn3::system::SmartPointerToInterfaceWrapper<IObjectPtr, ObjectType>;
 	typedef int ObjectId;
 
 	enum : ObjectId {
@@ -24,19 +27,20 @@ namespace hvn3 {
 	};
 	ENABLE_BITFLAG_OPERATORS(ObjectFlags)
 
-	struct SystemObjects {
+		struct SystemObjects {
 		enum : ObjectId {
 			// Object ID for helper object "Camera2d" (Camera2d.h).
 			CAMERA_2D = -999
 		};
 	};
 
-	template<typename object_type = Object, typename... Args>
-	ObjectPtr make_object(Args&&... args) {
+	template<typename ObjectType = Object, typename... Args>
+	ObjectPtr<ObjectType> make_object(Args&&... args) {
 
-		ObjectPtr ptr = std::make_shared<object_type>(std::forward<Args>(args)...);
+		IObjectPtr smart_ptr = std::make_shared<ObjectType>(std::forward<Args>(args)...);
+		ObjectPtr<ObjectType> handle(std::move(smart_ptr));
 
-		return ptr;
+		return handle;
 
 	}
 

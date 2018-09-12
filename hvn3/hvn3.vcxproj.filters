@@ -807,9 +807,6 @@
     <ClInclude Include="include\hvn3\helper\Camera2d.h">
       <Filter>include\helper</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\objects\ObjectHandle.h">
-      <Filter>include\objects</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\graphics\GridRendererExt.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
@@ -850,6 +847,9 @@
       <Filter>include\io</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\core\GameProperties.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\SmartPointerToInterfaceWrapper.h">
       <Filter>include\core</Filter>
     </ClInclude>
   </ItemGroup>
