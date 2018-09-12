@@ -43,22 +43,11 @@ namespace hvn3 {
 		void SetVelocity(float x, float y);
 		void AddVelocity(const Vector2d& other);
 		void AddVelocity(float x, float y);
-		ICollisionBody* GetCollisionBody();
-		const ICollisionBody* CollisionBody() const;
-		Physics::IPhysicsBody* GetPhysicsBody();
-		const Physics::IPhysicsBody* PhysicsBody() const;
 
 	private:
 		sprite_type _sprite;
 		Graphics::SpriteRenderer _renderer;
 		Vector2d _velocity;
-		ICollisionBody* _collision_body;
-		Physics::IPhysicsBody* _physics_body;
-
-		void _createCollisionBody();
-		void _createPhysicsBody();
-		void _destroyCollisionBody();
-		void _destroyPhysicsBody();
 
 	};
 

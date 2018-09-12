@@ -4,6 +4,7 @@
 
 namespace hvn3 {
 
+	class ICollider;
 	class Object;
 
 	enum class PlatformerControlsHelperFlags {
@@ -15,7 +16,7 @@ namespace hvn3 {
 	class PlatformerControlsHelper : public DirectionalControlsHelper {
 
 	public:
-		PlatformerControlsHelper(Object* object, float speed, int platform_category_bits);
+		PlatformerControlsHelper(Object* object, ICollider* collider, float speed, int platform_category_bits);
 
 		float Friction() const;
 		void SetFriction(float value);
@@ -40,6 +41,7 @@ namespace hvn3 {
 		void _setGrounded(bool value);
 
 		Object* _object;
+		ICollider* _collider;
 		int _platform_category_bits;
 		float _jump_height, _step_height, _climb_height;
 		float _friction;

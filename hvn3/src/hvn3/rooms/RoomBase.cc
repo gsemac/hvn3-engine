@@ -44,7 +44,7 @@ namespace hvn3 {
 	IViewManager& RoomBase::GetViews() {
 		throw System::NotImplementedException();
 	}
-	ICollisionManager<IObject>& RoomBase::GetCollisions() {
+	ICollisionManager& RoomBase::GetCollisions() {
 		throw System::NotImplementedException();
 	}
 	Physics::IPhysicsManager& RoomBase::GetPhysics() {
@@ -63,7 +63,7 @@ namespace hvn3 {
 	const IViewManager& RoomBase::Views() const {
 		throw System::NotImplementedException();
 	}
-	const ICollisionManager<IObject>& RoomBase::Collisions() const {
+	const ICollisionManager& RoomBase::Collisions() const {
 		throw System::NotImplementedException();
 	}
 	const Physics::IPhysicsManager& RoomBase::Physics() const {

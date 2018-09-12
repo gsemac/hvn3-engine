@@ -1,6 +1,6 @@
 #include "hvn3/collision/CategoryFilter.h"
 #include "hvn3/collision/CollisionManifold.h"
-#include "hvn3/collision/ICollisionBody.h"
+#include "hvn3/collision/ICollider.h"
 #include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/math/GeometryUtils.h"
 #include "hvn3/physics/BasicPhysicsManager.h"
@@ -12,7 +12,7 @@ namespace hvn3 {
 
 		BasicPhysicsManager::BasicPhysicsManager() {}
 
-		IPhysicsBody* BasicPhysicsManager::CreateBody(ICollisionBody* body) {
+		IPhysicsBody* BasicPhysicsManager::CreateBody(ICollider* body) {
 			IPhysicsBody* physics_body = PhysicsManagerBase::CreateBody(body);
 			_body_lookup_table[body] = physics_body;
 			return physics_body;
@@ -34,14 +34,14 @@ namespace hvn3 {
 
 				// Get the physics and collision bodies associated with this body.
 				physics_body_type* this_body = &(*i);
-				ICollisionBody* collision_body = this_body->GetCollisionBody();
+				ICollider* collision_body = this_body->GetCollisionBody();
 
 				// If the body is static, we do not need to apply physics to it.
 				if (this_body->Type() == BodyType::Static)
 					continue;
 
 				// Lambda for filtering collision bodies. Only returns true for bodies this body can collide with in the physics system.
-				auto body_filter = [&](ICollisionBody* other) {
+				auto body_filter = [&](const ICollider* other) {
 					IPhysicsBody* other_body = _lookupBody(other);
 					if (other_body != nullptr && this_body->Category().CheckHit(other_body->Category()))
 						return true;
@@ -109,9 +109,9 @@ namespace hvn3 {
 		}
 
 
-		IPhysicsBody* BasicPhysicsManager::_lookupBody(ICollisionBody* key) {
+		IPhysicsBody* BasicPhysicsManager::_lookupBody(const ICollider* key) {
 
-			auto it = _body_lookup_table.find(key);
+			auto it = _body_lookup_table.find(const_cast<ICollider*>(key));
 
 			if (it == _body_lookup_table.end())
 				return nullptr;

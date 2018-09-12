@@ -4,7 +4,6 @@
 namespace hvn3 {
 
 	class Display;
-	template<typename T>
 	class ICollisionManager;
 	class IGameManager;
 	class IObject;
@@ -27,7 +26,7 @@ namespace hvn3 {
 		IObjectManager& Objects();
 		IRoom& Room();
 		RoomManager& Rooms();
-		ICollisionManager<IObject>& Collisions();
+		ICollisionManager& Collisions();
 		Physics::IPhysicsManager& Physics();
 		IViewManager& Views();
 		System::IContextProvider& ContextProvider();

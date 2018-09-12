@@ -10,18 +10,18 @@ namespace hvn3 {
 	class CategoryFilter;
 	class IObject;
 
-	enum class CollisionBodyFlags {
+	enum class ColliderFlags {
 		Static,
 		Solid
 	};
-	ENABLE_BITFLAG_OPERATORS(CollisionBodyFlags)
+	ENABLE_BITFLAG_OPERATORS(ColliderFlags)
 
-	class ICollisionBody :
+	class ICollider :
 		public IPositionable2d<float>,
 		public IDestroyable {
 
 	public:
-		virtual ~ICollisionBody() = default;
+		virtual ~ICollider() = default;
 
 		// Returns the body's axis-aligned bounding box.
 		virtual RectangleF AABB() const = 0;
@@ -38,8 +38,10 @@ namespace hvn3 {
 		// Sets the hit mask associated with this body.
 		virtual void SetHitMask(HitMaskPtr& mask) = 0;
 
-		virtual CollisionBodyFlags Flags() const = 0;
-		virtual void SetFlags(CollisionBodyFlags flags) = 0;
+		virtual ColliderFlags Flags() const = 0;
+		virtual void SetFlags(ColliderFlags flags) = 0;
+		
+		virtual void OnCollide(ICollider* other) const = 0;
 
 	};
 

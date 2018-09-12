@@ -3,35 +3,34 @@
 #include "hvn3/collision/CategoryFilter.h"
 #include "hvn3/exceptions/Exception.h"
 #include "hvn3/utility/Algorithm.h"
+#include <cassert>
+#include <memory>
 #include <unordered_set>
 #include <unordered_map>
 #include <vector>
-#include <memory>
 
 namespace hvn3 {
 
-	template <unsigned int cell_width, unsigned int cell_height>
-	class SpacialPartitioningGrid final : public IBroadPhase {
+	class SpacialPartitioningGrid :
+		public IBroadPhase {
 
 	public:
-		SpacialPartitioningGrid() :
-			_cell_size(cell_width, cell_height) {
+		SpacialPartitioningGrid(const SizeI& cell_size) :
+			_cell_size(cell_size) {
+
+			assert(cell_size.width > 0);
+			assert(cell_size.height > 0);
+
+		}
+		SpacialPartitioningGrid(int cell_width, int cell_height) :
+			SpacialPartitioningGrid(SizeI(cell_width, cell_height)) {
 		}
 
-		void AddBody(collider_ptr_type body) override {
-
+		void Add(const IColliderPtr& body) override {
 			_colliders.push_back(body);
-
-		}
-		void RemoveBody(collider_ptr_type body) override {
-
-			_pending_removal.push_back(body);
-
 		}
 		size_t Count() const override {
-
 			return _colliders.size();
-
 		}
 		void Clear() override {
 
@@ -41,34 +40,31 @@ namespace hvn3 {
 		}
 
 		void OnUpdate(UpdateEventArgs& e) override {
-		
-			// If there are any colliders pending removal, remove them now.
-			if (_pending_removal.size() > 0) {
-				_colliders.erase(RemoveSame(_colliders.begin(), _colliders.end(), _pending_removal.begin(), _pending_removal.end()).first, _colliders.end());
-				_pending_removal.clear();
-			}
+
+			bool clear_bodies_required = false;
 
 			// Clear existing map contents.
 			_grid.clear();
 
 			// Map all colliders to grid spaces.
-			bool clear_destroyed_required = false;
 			for (auto it = _colliders.begin(); it != _colliders.end(); ++it) {
-				if ((*it)->IsDestroyed())
-					clear_destroyed_required = true;
+
+				if (it->use_count() <= 1)
+					clear_bodies_required = true;
 				else
-					_mapToCells(*it);
+					_mapToCells(it->get());
+
 			}
 
-			// If any destroyed bodies were found, remove them from the manager now.
-			if (clear_destroyed_required)
+			// If any dead bodies were found, remove them from the manager now.
+			if (clear_bodies_required)
 				_clearDestroyedBodies();
 
 		}
 		const collider_pair_vector_type& FindCandidatePairs() override {
 
 			// Create a set for storing pairs (to prevent duplicates).
-			static std::unordered_set<std::pair<collider_ptr_type, collider_ptr_type>, PairHasher> pairs;
+			static std::unordered_set<std::pair<ICollider*, ICollider*>, PairHasher> pairs;
 			pairs.clear();
 
 			// Interate over all cells, and for all other colliders in the same cell, generate a pair.
@@ -108,7 +104,7 @@ namespace hvn3 {
 			return _pairs;
 
 		}
-		collider_ptr_type Pick(const PointF& point) const override {
+		ICollider* Pick(const PointF& point) const override {
 
 			throw System::NotImplementedException();
 
@@ -121,7 +117,7 @@ namespace hvn3 {
 			_getIntersectedCells(region, cells);
 
 			// Use a set to store the collider list (to prevent duplicates).
-			static std::unordered_set<collider_ptr_type> colliders;
+			static std::unordered_set<ICollider*> colliders;
 			colliders.clear();
 
 			// Add all colliders in those cells to the output list.
@@ -136,7 +132,7 @@ namespace hvn3 {
 			std::copy(colliders.begin(), colliders.end(), std::back_inserter(output));
 
 		}
-		collider_ptr_type QueryNearest(const PointF& point, int filter = 0) const override {
+		ICollider* QueryNearest(const PointF& point, int filter = 0) const override {
 
 			// The algorithm will check a region surrounding the the given Point, and if no relevant colliders are found, the region will be expanded according by the cell size.
 			// To potentially improve efficiency, the difference of the cells of the two regions could be checked instead.
@@ -195,16 +191,15 @@ namespace hvn3 {
 		}
 
 	private:
-		std::vector<collider_ptr_type> _colliders;
-		std::vector<collider_ptr_type> _pending_removal;
-		std::unordered_multimap<PointI, collider_ptr_type> _grid;
+		std::vector<IColliderPtr> _colliders;
+		std::unordered_multimap<PointI, ICollider*> _grid;
 		collider_pair_vector_type _pairs;
 		SizeI _cell_size;
 
 		// Used for temporarily holding the resulting cells from the "MapToCells" function. Avoids having to create a new vector each time.
 		std::vector<PointI> _cell_mapping_buffer;
 
-		void _getIntersectedCells(collider_ptr_type body, std::vector<PointI>& cells) const {
+		void _getIntersectedCells(ICollider* body, std::vector<PointI>& cells) const {
 
 			// If the mask type undefined, do not assign the collider to any cells.
 			if (!body->HitMask())
@@ -237,7 +232,7 @@ namespace hvn3 {
 			//		cells.push_back(CellAt(i, j));
 
 		}
-		void _mapToCells(collider_ptr_type body) {
+		void _mapToCells(ICollider* body) {
 
 			// Clear the cell mapping buffer.
 			_cell_mapping_buffer.clear();
@@ -268,7 +263,7 @@ namespace hvn3 {
 			PointI cell(
 				static_cast<int>(x / 32 - (x < 0)),
 				static_cast<int>(y / 32 - (y < 0))
-				);
+			);
 
 			// Return the result.
 			return cell;
@@ -276,7 +271,11 @@ namespace hvn3 {
 		}
 
 		void _clearDestroyedBodies() {
-			_colliders.erase(std::remove_if(_colliders.begin(), _colliders.end(), [](collider_ptr_type body) { return body->IsDestroyed(); }), _colliders.end());
+
+			_colliders.erase(std::remove_if(_colliders.begin(), _colliders.end(), [](const IColliderPtr& body) {
+				return body.use_count() <= 1;
+			}), _colliders.end());
+
 		}
 
 	};

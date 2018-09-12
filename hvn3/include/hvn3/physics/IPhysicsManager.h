@@ -5,19 +5,20 @@
 
 namespace hvn3 {
 
-	class ICollisionBody;
+	class ICollider;
 
 	namespace Physics {
 
 		class IPhysicsBody;
 
-		class IPhysicsManager : public IUpdatable {
+		class IPhysicsManager :
+			public IUpdatable {
 			
 		public:
 			virtual ~IPhysicsManager() = default;
 
 			// Creates and adds a new body to the system, and returns a pointer to it. The body is owned by the physics manager.
-			virtual IPhysicsBody* CreateBody(ICollisionBody* body) = 0;
+			virtual IPhysicsBody* CreateBody(ICollider* body) = 0;
 
 			virtual const Vector2d& Gravity() const = 0;
 			virtual void SetGravity(const Vector2d& value) = 0;

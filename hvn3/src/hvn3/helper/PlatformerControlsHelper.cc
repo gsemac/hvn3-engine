@@ -1,5 +1,5 @@
 #include "hvn3/collision/CategoryFilter.h"
-#include "hvn3/collision/ICollisionBody.h"
+#include "hvn3/collision/ICollider.h"
 #include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/helper/PlatformerControlsHelper.h"
 #include "hvn3/io/KeyboardEventArgs.h"
@@ -8,11 +8,12 @@
 
 namespace hvn3 {
 
-	PlatformerControlsHelper::PlatformerControlsHelper(Object* object, float speed, int platform_category_bits) :
+	PlatformerControlsHelper::PlatformerControlsHelper(Object* object, ICollider* collider, float speed, int platform_category_bits) :
 		DirectionalControlsHelper(2, speed),
 		_gravity(0.0f, 512.0f) {
 
 		_object = object;
+		_collider = collider;
 		_platform_category_bits = platform_category_bits;
 		_flags = static_cast<PlatformerControlsHelperFlags>(0);
 
@@ -74,7 +75,7 @@ namespace hvn3 {
 
 		DirectionalControlsHelper::Step();
 
-		auto body = _object->GetCollisionBody();
+		auto body = _collider;
 
 		float deltaf = static_cast<float>(delta);
 		float xvel = Velocity().X();

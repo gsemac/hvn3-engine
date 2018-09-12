@@ -23,7 +23,7 @@ namespace hvn3 {
 	RoomManager& Context::Rooms() {
 		return ContextProvider().GetRoomManager();
 	}
-	ICollisionManager<IObject>& Context::Collisions() {
+	ICollisionManager& Context::Collisions() {
 		return Room().GetCollisions();
 	}
 	Physics::IPhysicsManager& Context::Physics() {

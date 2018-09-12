@@ -22,14 +22,14 @@ namespace hvn3 {
 		IObjectManager& GetObjects() override;
 		IBackgroundManager& GetBackgrounds() override;
 		IViewManager& GetViews() override;
-		ICollisionManager<IObject>& GetCollisions() override;
+		ICollisionManager& GetCollisions() override;
 		Physics::IPhysicsManager& GetPhysics() override;
 		TileManager& GetTiles() override;
 
 		const IObjectManager& Objects() const override;
 		const IBackgroundManager& Backgrounds() const override;
 		const IViewManager& Views() const override;
-		const ICollisionManager<IObject>& Collisions() const override;
+		const ICollisionManager& Collisions() const override;
 		const Physics::IPhysicsManager& Physics() const override;
 		const TileManager& Tiles() const override;
 

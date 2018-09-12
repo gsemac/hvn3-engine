@@ -1,13 +1,14 @@
 #pragma once
-#include "hvn3/collision/ICollisionBody.h"
+#include "hvn3/collision/ICollider.h"
 #include "hvn3/collision/CategoryFilter.h"
 
 namespace hvn3 {
 
-	class CollisionBodyBase : public ICollisionBody {
+	class ColliderBase :
+		public ICollider {
 
 	public:
-		CollisionBodyBase();
+		ColliderBase();
 
 		PointF Position() const override;
 		void SetPosition(const PointF& position) override;
@@ -19,8 +20,8 @@ namespace hvn3 {
 		const HitMaskPtr& HitMask() const override;
 		void SetHitMask(HitMaskPtr& mask) override;
 
-		CollisionBodyFlags Flags() const override;
-		void SetFlags(CollisionBodyFlags flags) override;
+		ColliderFlags Flags() const override;
+		void SetFlags(ColliderFlags flags) override;
 
 		void Destroy() override;
 		bool IsDestroyed() const override;
@@ -29,7 +30,7 @@ namespace hvn3 {
 	private:
 		HitMaskPtr _mask;
 		CategoryFilter _filter;
-		CollisionBodyFlags _flags;
+		ColliderFlags _flags;
 		bool _is_destroyed;
 
 	};

@@ -45,7 +45,7 @@ namespace hvn3 {
 		// Returns the view manager for this room.
 		virtual IViewManager& GetViews() = 0;
 		// Returns the collision manager for this room.
-		virtual ICollisionManager<IObject>& GetCollisions() = 0;
+		virtual ICollisionManager& GetCollisions() = 0;
 		// Returns the physics manager for this room.
 		virtual Physics::IPhysicsManager& GetPhysics() = 0;
 		// Returns the tile manager for this room.
@@ -58,7 +58,7 @@ namespace hvn3 {
 		// Returns the view manager for this room.
 		virtual const IViewManager& Views() const = 0;
 		// Returns the collision manager for this room.
-		virtual const ICollisionManager<IObject>& Collisions() const = 0;
+		virtual const ICollisionManager& Collisions() const = 0;
 		// Returns the physics manager for this room.
 		virtual const Physics::IPhysicsManager& Physics() const = 0;
 		// Returns the tile manager for this room.

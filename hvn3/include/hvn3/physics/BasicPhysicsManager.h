@@ -20,7 +20,7 @@ namespace hvn3 {
 		public:
 			BasicPhysicsManager();
 
-			IPhysicsBody* CreateBody(ICollisionBody* body) override;
+			IPhysicsBody* CreateBody(ICollider* body) override;
 			void OnUpdate(UpdateEventArgs& e) override;
 			void Clear() override;
 
@@ -28,11 +28,11 @@ namespace hvn3 {
 			void OnContextChanged(ContextChangedEventArgs& e) override;
 
 		private:
-			std::unordered_map<ICollisionBody*, IPhysicsBody*> _body_lookup_table;
+			std::unordered_map<ICollider*, IPhysicsBody*> _body_lookup_table;
 			std::vector<Contact> _contacts;
 			Context _context;
 
-			IPhysicsBody* _lookupBody(ICollisionBody* key);
+			IPhysicsBody* _lookupBody(const ICollider* key);
 
 		};
 

@@ -1,6 +1,8 @@
 #include "hvn3/rooms/Room.h"
 #include "hvn3/objects/ObjectManager.h"
 
+#include <cassert>
+
 namespace hvn3 {
 
 	Room::Room(RoomId id, const SizeI& size) :
@@ -115,9 +117,11 @@ namespace hvn3 {
 		return _view_manager;
 
 	}
-	Room::collision_manager_type& Room::GetCollisions() {
+	ICollisionManager& Room::GetCollisions() {
 
-		return _collision_manager;
+		assert(static_cast<bool>(_collision_manager));
+
+		return *_collision_manager;
 
 	}
 	Physics::IPhysicsManager& Room::GetPhysics() {
@@ -137,9 +141,11 @@ namespace hvn3 {
 		return _view_manager;
 
 	}
-	const Room::collision_manager_type& Room::Collisions() const {
+	const ICollisionManager& Room::Collisions() const {
 
-		return _collision_manager;
+		assert(static_cast<bool>(_collision_manager));
+
+		return *_collision_manager;
 
 	}
 	const Physics::IPhysicsManager& Room::Physics() const {
@@ -210,7 +216,7 @@ namespace hvn3 {
 		_physics_manager->Clear();
 
 		// Clear all bodies from the collision manager.
-		_collision_manager.Clear();
+		_collision_manager->Clear();
 
 		// Reset the view manager.
 		_view_manager.Clear();
@@ -241,6 +247,9 @@ namespace hvn3 {
 	}
 
 	void Room::_initializeAllManagers() {
+
+		if (!_collision_manager)
+			_collision_manager = std::make_unique<CollisionManager>(std::make_unique<SpacialPartitioningGrid>(32, 32));
 
 		if (!_object_manager)
 			_object_manager = std::make_unique<object_manager_type>();

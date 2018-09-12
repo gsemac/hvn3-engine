@@ -18,7 +18,7 @@ namespace hvn3 {
 				SetPixelsToMetersScale(1.0f / 32.0f);
 			}
 
-			IPhysicsBody* CreateBody(ICollisionBody* body) override {
+			IPhysicsBody* CreateBody(ICollider* body) override {
 				_bodies.push_back(physics_body_type(body));
 				return &_bodies.back();
 			}

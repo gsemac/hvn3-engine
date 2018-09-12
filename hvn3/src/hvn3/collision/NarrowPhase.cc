@@ -1,15 +1,15 @@
 #include "hvn3/collision/NarrowPhase.h"
-#include "hvn3/collision/ICollisionBody.h"
+#include "hvn3/collision/ICollider.h"
 #include "hvn3/math/GeometryUtils.h"
 
 namespace hvn3 {
 
-	bool NarrowPhase::TestCollision(ICollisionBody* body, ICollisionBody* other, CollisionManifold& manifold) const {
+	bool NarrowPhase::TestCollision(ICollider* body, ICollider* other, CollisionManifold& manifold) const {
 
 		return TestCollision(body, body->Position(), other, other->Position(), manifold);
 
 	}
-	bool NarrowPhase::TestCollision(ICollisionBody* body, const PointF& body_position, ICollisionBody* other, const PointF& other_position, CollisionManifold& manifold) const {
+	bool NarrowPhase::TestCollision(ICollider* body, const PointF& body_position, ICollider* other, const PointF& other_position, CollisionManifold& manifold) const {
 
 		// Get the masks for both colliders.
 		HitMaskPtr& a_mask = body->GetHitMask();

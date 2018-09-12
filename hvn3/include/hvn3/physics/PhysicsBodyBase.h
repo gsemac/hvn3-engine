@@ -5,10 +5,11 @@
 namespace hvn3 {
 	namespace Physics {
 
-		class PhysicsBodyBase : public IPhysicsBody {
+		class PhysicsBodyBase : 
+			public IPhysicsBody {
 
 		public:
-			PhysicsBodyBase(ICollisionBody* collision_body);
+			PhysicsBodyBase(ICollider* collision_body);
 			~PhysicsBodyBase();
 
 			virtual const PointF Position() const override;
@@ -30,8 +31,8 @@ namespace hvn3 {
 			void SetMaterial(const Physics::Material& material) override;
 			BodyType Type() const override;
 			void SetType(BodyType type) override;
-			ICollisionBody* GetCollisionBody() override;
-			const ICollisionBody* CollisionBody() const override;
+			ICollider* GetCollisionBody() override;
+			const ICollider* CollisionBody() const override;
 			CategoryFilter& GetCategory() override;
 			const CategoryFilter& Category() const override;
 
@@ -46,7 +47,7 @@ namespace hvn3 {
 			BodyType _type;
 			Vector2d _force;
 			Physics::Material _material;
-			ICollisionBody* _collision_body;
+			ICollider* _collision_body;
 			CategoryFilter _filter;
 
 		};

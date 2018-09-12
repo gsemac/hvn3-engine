@@ -1,15 +1,16 @@
 #pragma once
-#include "hvn3/collision/CollisionBodyBase.h"
+#include "hvn3/collision/ColliderBase.h"
 
 namespace hvn3 {
 
 	class IObject;
 
-	class CollisionBody : public CollisionBodyBase {
+	class Collider : 
+		public ColliderBase {
 
 	public:
-		CollisionBody(IObject* object);
-		CollisionBody(CollisionBody&& other);
+		Collider(IObject* object);
+		Collider(Collider&& other);
 
 		float X() const override;
 		float Y() const override;
@@ -17,8 +18,7 @@ namespace hvn3 {
 		void SetX(float x) override;
 		void SetY(float y) override;
 		void SetPosition(const PointF& position) override;
-
-		IObject* GetObject();
+		void OnCollide(ICollider* other) const override;
 
 	private:
 		IObject* _object;

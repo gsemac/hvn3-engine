@@ -1,12 +1,12 @@
 #pragma once
-#include "hvn3/collision/CollisionBodyPtr.h"
+#include "hvn3/collision/CollisionDefs.h"
 #include "hvn3/core/IDestroyable.h"
 #include "hvn3/math/Vector2d.h"
 #include "hvn3/physics/Material.h"
 
 namespace hvn3 {
 
-	class ICollisionBody;
+	class ICollider;
 	class IPhysicsManager;
 	class CategoryFilter;
 
@@ -63,8 +63,8 @@ namespace hvn3 {
 			virtual void SetMaterial(const Physics::Material& material) = 0;
 			virtual BodyType Type() const = 0;
 			virtual void SetType(BodyType type) = 0;
-			virtual ICollisionBody* GetCollisionBody() = 0;
-			virtual const ICollisionBody* CollisionBody() const = 0;
+			virtual ICollider* GetCollisionBody() = 0;
+			virtual const ICollider* CollisionBody() const = 0;
 			virtual CategoryFilter& GetCategory() = 0;
 			virtual const CategoryFilter& Category() const = 0;
 

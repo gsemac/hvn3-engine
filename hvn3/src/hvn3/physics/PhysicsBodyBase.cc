@@ -1,4 +1,4 @@
-#include "hvn3/collision/ICollisionBody.h"
+#include "hvn3/collision/ICollider.h"
 #include "hvn3/physics/PhysicsBodyBase.h"
 #include "hvn3/physics/IPhysicsManager.h"
 #include "hvn3/exceptions/Exception.h"
@@ -6,7 +6,7 @@
 namespace hvn3 {
 	namespace Physics {
 
-		PhysicsBodyBase::PhysicsBodyBase(ICollisionBody* collision_body) :
+		PhysicsBodyBase::PhysicsBodyBase(ICollider* collision_body) :
 			_material(),
 			_linear_velocity(0.0f, 0.0f) {
 
@@ -117,12 +117,12 @@ namespace hvn3 {
 			_type = type;
 
 		}
-		ICollisionBody* PhysicsBodyBase::GetCollisionBody() {
+		ICollider* PhysicsBodyBase::GetCollisionBody() {
 
 			return _collision_body;
 
 		}
-		const ICollisionBody* PhysicsBodyBase::CollisionBody() const {
+		const ICollider* PhysicsBodyBase::CollisionBody() const {
 
 			return _collision_body;
 

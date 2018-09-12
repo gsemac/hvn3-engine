@@ -204,9 +204,6 @@
     <ClInclude Include="include\hvn3\collision\CircleHitMask.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\collision\CollisionBodyBase.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\collision\CollisionEventArgs.h">
       <Filter>include\collision</Filter>
     </ClInclude>
@@ -225,13 +222,7 @@
     <ClInclude Include="include\hvn3\collision\ICollidable.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\collision\ICollisionBody.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\collision\ICollisionManager.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\collision\IHitMask.h">
       <Filter>include\collision</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\collision\INarrowPhase.h">
@@ -600,13 +591,7 @@
     <ClInclude Include="include\hvn3\graphics\Bitmap.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\collision\CollisionBody.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\collision\CollisionManager.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\collision\CollisionBodyPtr.h">
       <Filter>include\collision</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\graphics\Tween.h">
@@ -852,6 +837,21 @@
     <ClInclude Include="include\hvn3\core\SmartPointerToInterfaceWrapper.h">
       <Filter>include\core</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\collision\IHitMask.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\ICollider.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\CollisionDefs.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\Collider.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\ColliderBase.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -881,9 +881,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\backgrounds\Background.cc">
       <Filter>src\backgrounds</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\collision\CollisionBodyBase.cc">
-      <Filter>src\collision</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\collision\CollisionEventArgs.cc">
       <Filter>src\collision</Filter>
@@ -1128,12 +1125,6 @@
     <ClCompile Include="src\hvn3\graphics\Bitmap.cc">
       <Filter>src\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\collision\CollisionBody.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\collision\CollisionBodyPtr.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\gui2\WidgetRendererRenderArgs.cc">
       <Filter>src\gui2</Filter>
     </ClCompile>
@@ -1280,6 +1271,12 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\core\GameProperties.cc">
       <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\Collider.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\ColliderBase.cc">
+      <Filter>src\collision</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

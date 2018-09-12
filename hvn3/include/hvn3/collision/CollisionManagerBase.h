@@ -1,135 +1,117 @@
 #pragma once
+#include "hvn3/collision/CategoryFilter.h"
 #include "hvn3/collision/CollisionManifold.h"
+#include "hvn3/collision/ICollider.h"
 #include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/collision/IBroadPhase.h"
+#include "hvn3/collision/NarrowPhase.h"
 #include "hvn3/math/GeometryUtils.h"
-#include <vector>
+
+#include <cassert>
+#include <memory>
 #include <list>
+#include <vector>
 
 namespace hvn3 {
 
-	class ICollisionBody;
-
-	template <typename collidable_type, typename collider_type_, typename broadphase_type, typename narrowphase_type>
-	class CollisionManagerBase : public ICollisionManager<collidable_type> {
+	class CollisionManagerBase :
+		public ICollisionManager {
 
 	public:
-		typedef collider_type_ collider_type;
-		typedef collider_type_* collider_ptr_type;
+		using condition_lambda_type = ICollisionManager::condition_lambda_type;
 
-		typedef broadphase_type broadphase_type;
-		typedef narrowphase_type narrowphase_type;
-
-		using collider_handle_type = typename ICollisionManager<collidable_type>::collider_handle_type;
-		using collidable_ptr_type = typename ICollisionManager<collidable_type>::collidable_ptr_type;
-		using condition_lambda_type = typename ICollisionManager<collidable_type>::condition_lambda_type;
-
-		CollisionManagerBase() {
+		CollisionManagerBase(std::unique_ptr<IBroadPhase>&& broad) :
+			CollisionManagerBase(std::move(broad), std::make_unique<NarrowPhase>()) {
+		}
+		CollisionManagerBase(std::unique_ptr<IBroadPhase>&& broad, std::unique_ptr<INarrowPhase>&& narrow) :
+			_broad_phase(std::move(broad)),
+			_narrow_phase(std::move(narrow)) {
 
 			// Use default precision of 0.4, precise to 2/5ths of a pixel. Anything less may produce visually-noticeable inaccuracies.
 			_precision = 0.4f;
 
 		}
 		~CollisionManagerBase() {
-
-			_broad_phase.Clear();
-
+			_broad_phase->Clear();
 		}
 
-		collider_handle_type CreateBody(collidable_ptr_type collidable) override {
-			_colliders.emplace_back(collider_type(collidable));
-			collider_handle_type body = &_colliders.back();
-			_broad_phase.AddBody(body);
-			return body;
+		void Add(const IColliderPtr& collider) override {
+			_broad_phase->Add(collider);
 		}
-		broadphase_type& BroadPhase() override {
+		const IBroadPhase& Broad() const override {
 
-			return _broad_phase;
+			assert(static_cast<bool>(_broad_phase));
+
+			return *_broad_phase;
 
 		}
-		narrowphase_type& NarrowPhase() override {
+		const INarrowPhase& Narrow() const override {
 
-			return _narrow_phase;
+			assert(static_cast<bool>(_narrow_phase));
+
+			return *_narrow_phase;
 
 		}
 		const std::vector<CollisionManifold>& CollidingPairs() const override {
-
 			return _pairs;
-
 		}
 		size_t Count() const override {
-
-			return _colliders.size();
-
+			return _broad_phase->Count();
 		}
 		void Clear() override {
-
-			_colliders.clear();
-			_broad_phase.Clear();
-
+			_broad_phase->Clear();
 		}
 
 		float Precision() const {
-
 			return _precision;
-
 		}
 		void SetPrecision(float value) {
-
 			_precision = value;
-
 		}
 
 		void OnUpdate(UpdateEventArgs& e) override {
 
-			// Store the current number of bodies in the broadphase manager so we can see if any are destroyed later.
-			size_t body_count = _broad_phase.Count();
-
 			// Update the state of the collision detection method.
-			_broad_phase.OnUpdate(e);
-
-			// Check if any bodies have been destroyed-- If so, clear the destroyed bodies from this manager.
-			if (_broad_phase.Count() < body_count)
-				ClearDestroyedBodies();
+			_broad_phase->OnUpdate(e);
 
 			// Get a vector containing all potentially-colliding pairs from the broadphase method, and check all collisions.
-			CheckPairs(_broad_phase.FindCandidatePairs());
+			CheckPairs(_broad_phase->FindCandidatePairs());
 
 		}
 
-		bool PlaceFree(collider_handle_type body) override {
+		bool PlaceFree(ICollider* body) override {
 
 			return PlaceFree(body, body->Position());
 
 		}
-		bool PlaceFree(collider_handle_type body, const PointF& position) override {
+		bool PlaceFree(ICollider* body, const PointF& position) override {
 
-			return PlaceFreeIf(body, position, [](collider_handle_type) { return true; });
+			return PlaceFreeIf(body, position, [](const ICollider*) { return true; });
 
 		}
-		bool PlaceFree(collider_handle_type body, float x, float y) override {
+		bool PlaceFree(ICollider* body, float x, float y) override {
 
 			return PlaceFree(body, PointF(x, y));
 
 		}
-		bool PlaceFree(collider_handle_type body, const PointF& position, int category) override {
+		bool PlaceFree(ICollider* body, const PointF& position, int category) override {
 
-			return PlaceFreeIf(body, position, [=](collider_handle_type body) { return (body->Category().CategoryBits() & category) != 0; });
-
-		}
-		bool PlaceFree(collider_handle_type body, const PointF& position, CollisionManifold& manifold) override {
-
-			return PlaceFreeIf(body, position, manifold, [](collider_handle_type) { return true; });
+			return PlaceFreeIf(body, position, [=](const ICollider* body) { return (body->Category().CategoryBits() & category) != 0; });
 
 		}
-		bool PlaceFreeIf(collider_handle_type body, const PointF& position, const condition_lambda_type& condition) override {
+		bool PlaceFree(ICollider* body, const PointF& position, CollisionManifold& manifold) override {
+
+			return PlaceFreeIf(body, position, manifold, [](const ICollider*) { return true; });
+
+		}
+		bool PlaceFreeIf(ICollider* body, const PointF& position, const condition_lambda_type& condition) override {
 
 			CollisionManifold m;
 
 			return PlaceFreeIf(body, position, m, condition);
 
 		}
-		bool PlaceFreeIf(collider_handle_type body, const PointF& position, CollisionManifold& manifold, const condition_lambda_type& condition) override {
+		bool PlaceFreeIf(ICollider* body, const PointF& position, CollisionManifold& manifold, const condition_lambda_type& condition) override {
 
 			// If the object does not have a collision mask, return true immediately (no collisions are possible).
 			if (body->HitMask() == nullptr)
@@ -142,7 +124,7 @@ namespace hvn3 {
 			RectangleF aabb = body->AABB();
 			aabb.Translate(-body->X(), -body->Y());
 			aabb.Translate(position.X(), position.Y());
-			BroadPhase().QueryRegion(aabb, hits, body->Category().MaskBits());
+			Broad().QueryRegion(aabb, hits, body->Category().MaskBits());
 
 			// If the list is empty, the place is free.
 			if (hits.size() == 0)
@@ -155,7 +137,7 @@ namespace hvn3 {
 					continue;
 
 				// Check for a collision.
-				if (NarrowPhase().TestCollision(body, position, hits[i], hits[i]->Position(), manifold)) {
+				if (Narrow().TestCollision(body, position, hits[i], hits[i]->Position(), manifold)) {
 					manifold.bodyA = body;
 					manifold.bodyB = hits[i];
 					return false;
@@ -167,24 +149,24 @@ namespace hvn3 {
 			return true;
 
 		}
-		bool MoveContact(collider_handle_type body, float direction, float distance) override {
+		bool MoveContact(ICollider* body, float direction, float distance) override {
 
-			return MoveContactIf(body, direction, distance, [](collider_handle_type) { return true; });
-
-		}
-		bool MoveContact(collider_handle_type body, float direction, float distance, int category) override {
-
-			return MoveContactIf(body, direction, distance, [=](collider_handle_type body) { return (body->Category().CategoryBits() & category) != 0; });
+			return MoveContactIf(body, direction, distance, [](const ICollider*) { return true; });
 
 		}
-		bool MoveContactIf(collider_handle_type body, float direction, float distance, const condition_lambda_type& condition) override {
+		bool MoveContact(ICollider* body, float direction, float distance, int category) override {
+
+			return MoveContactIf(body, direction, distance, [=](const ICollider* body) { return (body->Category().CategoryBits() & category) != 0; });
+
+		}
+		bool MoveContactIf(ICollider* body, float direction, float distance, const condition_lambda_type& condition) override {
 
 			CollisionManifold manifold;
 
 			return MoveContactIf(body, direction, distance, manifold, condition);
 
 		}
-		bool MoveContactIf(collider_handle_type body, float direction, float distance, CollisionManifold& manifold, const condition_lambda_type& condition) override {
+		bool MoveContactIf(ICollider* body, float direction, float distance, CollisionManifold& manifold, const condition_lambda_type& condition) override {
 
 			// If the distance is negative, reverse the direction and then make it positive.
 			if (distance < 0.0f) {
@@ -243,7 +225,7 @@ namespace hvn3 {
 			return contact_made;
 
 		}
-		bool MoveOutside(collider_handle_type body, float direction, float max_distance) override {
+		bool MoveOutside(ICollider* body, float direction, float max_distance) override {
 
 			PointF pos = body->Position();
 			float dist = 0.0f;
@@ -264,7 +246,7 @@ namespace hvn3 {
 			return place_free;
 
 		}
-		bool MoveOutsideBody(collider_handle_type body, collider_handle_type other, float direction, float max_distance) override {
+		bool MoveOutsideBody(ICollider* body, ICollider* other, float direction, float max_distance) override {
 
 			float dist = 0.0f;
 			float distance_per_step = Math::Min(1.0f, max_distance);
@@ -272,7 +254,7 @@ namespace hvn3 {
 			CollisionManifold m;
 
 			// It's important that we check if the place is free before doing the distance check (what if the user passes in a distance of 0?).
-			while ((place_free = NarrowPhase().TestCollision(body, other, m), place_free) && dist < (std::abs)(max_distance)) {
+			while ((place_free = Narrow().TestCollision(body, other, m), place_free) && dist < (std::abs)(max_distance)) {
 
 				body->SetPosition(Math::Geometry::PointInDirection(body->Position(), direction, distance_per_step));
 
@@ -298,18 +280,12 @@ namespace hvn3 {
 
 		}
 		// Checks all potentially-colliding pairs and triggers events as needed.
-		virtual void CheckPairs(const typename broadphase_type::collider_pair_vector_type& pairs) = 0;
-
-		// Removes all destroyed bodies from the manager. Destroyed bodies are freed and cannot be accessed after this point.
-		void ClearDestroyedBodies() {
-			_colliders.remove_if([](const collider_type& body) { return body.IsDestroyed(); });
-		}
+		virtual void CheckPairs(const IBroadPhase::collider_pair_vector_type& pairs) = 0;
 
 	private:
 		std::vector<CollisionManifold> _pairs;
-		std::list<collider_type> _colliders;
-		broadphase_type _broad_phase;
-		narrowphase_type _narrow_phase;
+		std::unique_ptr<IBroadPhase> _broad_phase;
+		std::unique_ptr<INarrowPhase> _narrow_phase;
 		float _precision;
 
 	};

@@ -20,7 +20,6 @@ namespace hvn3 {
 
 	public:
 		typedef BackgroundManager background_manager_type;
-		typedef ObjectCollisionManager<SpacialPartitioningGrid<32, 32>, NarrowPhase> collision_manager_type;
 		typedef ObjectManager object_manager_type;
 		typedef hvn3::Physics::BasicPhysicsManager physics_manager_type;
 		typedef TileManager tile_manager_type;
@@ -39,14 +38,14 @@ namespace hvn3 {
 		IObjectManager& GetObjects() override;
 		IBackgroundManager& GetBackgrounds() override;
 		IViewManager& GetViews() override;
-		collision_manager_type& GetCollisions() override;
+		ICollisionManager& GetCollisions() override;
 		Physics::IPhysicsManager& GetPhysics() override;
 		TileManager& GetTiles() override;
 
 		const IObjectManager& Objects() const override;
 		const IBackgroundManager& Backgrounds() const override;
 		const IViewManager& Views() const override;
-		const collision_manager_type& Collisions() const override;
+		const ICollisionManager& Collisions() const override;
 		const Physics::IPhysicsManager& Physics() const override;
 		const TileManager& Tiles() const override;
 
@@ -67,7 +66,7 @@ namespace hvn3 {
 		void _updateContextForAllManagers();
 
 		// #todo Perhaps all managers should be stored as pointers to allow them to be swapped easily.
-		collision_manager_type  _collision_manager;
+		std::unique_ptr<ICollisionManager>  _collision_manager;
 		background_manager_type _background_manager;
 		view_manager_type _view_manager;
 		std::unique_ptr<tile_manager_type> _tile_manager;
