@@ -24,16 +24,16 @@ namespace hvn3 {
 		Context();
 		Context(System::IContextProvider* context_provider);
 
-		IObjectManager& GetObjects();
-		IRoom& GetRoom();
-		RoomManager& GetRooms();
-		ICollisionManager<IObject>& GetCollisions();
-		Physics::IPhysicsManager& GetPhysics();
-		IViewManager& GetViews();
-		System::IContextProvider& GetContextProvider();
-		GameProperties& GetProperties();
-		Display& GetDisplay();
-		IGameManager& GetGameManager();
+		IObjectManager& Objects();
+		IRoom& Room();
+		RoomManager& Rooms();
+		ICollisionManager<IObject>& Collisions();
+		Physics::IPhysicsManager& Physics();
+		IViewManager& Views();
+		System::IContextProvider& ContextProvider();
+		GameProperties& Properties();
+		Display& Display();
+		IGameManager& GameManager();
 
 		template <typename manager_type>
 		manager_type* Get() {

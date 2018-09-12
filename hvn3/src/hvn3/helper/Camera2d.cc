@@ -123,7 +123,7 @@ namespace hvn3 {
 			if (_target_id != NoOne) {
 
 				// If we have an ID to work with, we can find the object that way.
-				while (ptr = Context().GetObjects().FindNext(_target_id), ptr != nullptr)
+				while (ptr = Context().Objects().FindNext(_target_id), ptr != nullptr)
 					if (ptr == _target)
 						break;
 
@@ -131,7 +131,7 @@ namespace hvn3 {
 			else {
 
 				// If we don't have an ID to work with, we can find the object by its address.
-				Context().GetObjects().ForEach([&](hvn3::IObject* i) {
+				Context().Objects().ForEach([&](hvn3::IObject* i) {
 					if (ptr == i)
 						ptr = i;
 				});
@@ -151,9 +151,9 @@ namespace hvn3 {
 	}
 	View* Camera2d::_getView() {
 
-		for (size_t i = 0; i < Context().GetViews().Count(); ++i)
-			if (Context().GetViews().At(i).GetFollowing() == this)
-				return &Context().GetViews().At(i);
+		for (size_t i = 0; i < Context().Views().Count(); ++i)
+			if (Context().Views().At(i).GetFollowing() == this)
+				return &Context().Views().At(i);
 
 		return nullptr;
 

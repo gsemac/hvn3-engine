@@ -122,7 +122,7 @@ namespace hvn3 {
 
 				// Handle normal horizontal movement.
 
-				_object->Context().GetCollisions().MoveContact(body, xdir, xmax, _platform_category_bits);
+				_object->Context().Collisions().MoveContact(body, xdir, xmax, _platform_category_bits);
 
 				xleft -= Math::Abs(pprev.x - _object->X());
 				pprev = _object->Position();
@@ -140,7 +140,7 @@ namespace hvn3 {
 
 						PointF ptry = pprev + PointF(Math::Min(1.0f, xleft) * Math::Sign(xvel), -i);
 
-						if (_object->Context().GetCollisions().PlaceFree(body, ptry, _platform_category_bits)) {
+						if (_object->Context().Collisions().PlaceFree(body, ptry, _platform_category_bits)) {
 
 							_object->SetPosition(ptry);
 							xleft -= Math::Geometry::PointDistance(ptry, pprev);
@@ -167,7 +167,7 @@ namespace hvn3 {
 
 		// Update vertical position.
 
-		if (_object->Context().GetCollisions().MoveContact(body, ydir, Math::Abs(yvel) * deltaf, _platform_category_bits)) {
+		if (_object->Context().Collisions().MoveContact(body, ydir, Math::Abs(yvel) * deltaf, _platform_category_bits)) {
 			yvel = 0.0f;
 			_setGrounded(true);
 		}

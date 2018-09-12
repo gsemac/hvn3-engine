@@ -257,10 +257,10 @@ namespace hvn3 {
 		hvn3::Context ctx = Context();
 
 		if (_object_manager)
-			ctx.GetContextProvider().ProvideContext(*_object_manager);
+			ctx.ContextProvider().ProvideContext(*_object_manager);
 
 		if(_physics_manager)
-			ctx.GetContextProvider().ProvideContext(*_physics_manager);
+			ctx.ContextProvider().ProvideContext(*_physics_manager);
 
 	}
 

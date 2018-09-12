@@ -91,7 +91,7 @@ namespace hvn3 {
 	}
 	void BasicLightingManager::OnDraw(DrawEventArgs& e) {
 
-		RectangleF visible_region = _context_provider->Context().GetRoom().VisibleRegion();
+		RectangleF visible_region = _context_provider->Context().Room().VisibleRegion();
 		SizeI visible_size = static_cast<SizeI>(visible_region.Size());
 
 		// If the visible region has changed in size, resize the lighting surface.
@@ -102,8 +102,8 @@ namespace hvn3 {
 		float angle = 0.0f;
 
 		// If there is an active view, we need to rotate the lights and lighting surface accordingly.
-		if (_context_provider->Context().GetRoom().Views().Count() > 0) {
-			const View& view = _context_provider->Context().GetRoom().CurrentView();
+		if (_context_provider->Context().Room().Views().Count() > 0) {
+			const View& view = _context_provider->Context().Room().CurrentView();
 			origin = view.Region().Midpoint() - view.Position();
 			angle = view.Angle();
 		}

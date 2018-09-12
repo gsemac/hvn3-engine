@@ -14,25 +14,25 @@ namespace hvn3 {
 		_context_provider = context_provider;
 	}
 
-	IObjectManager& Context::GetObjects() {
-		return GetRoom().GetObjects();
+	IObjectManager& Context::Objects() {
+		return Room().GetObjects();
 	}
-	IRoom& Context::GetRoom() {
-		return *GetRooms().Room();
+	IRoom& Context::Room() {
+		return *Rooms().Room();
 	}
-	RoomManager& Context::GetRooms() {
-		return GetContextProvider().GetRoomManager();
+	RoomManager& Context::Rooms() {
+		return ContextProvider().GetRoomManager();
 	}
-	ICollisionManager<IObject>& Context::GetCollisions() {
-		return GetRoom().GetCollisions();
+	ICollisionManager<IObject>& Context::Collisions() {
+		return Room().GetCollisions();
 	}
-	Physics::IPhysicsManager& Context::GetPhysics() {
-		return GetRoom().GetPhysics();
+	Physics::IPhysicsManager& Context::Physics() {
+		return Room().GetPhysics();
 	}
-	IViewManager& Context::GetViews() {
-		return GetRoom().GetViews();
+	IViewManager& Context::Views() {
+		return Room().GetViews();
 	}
-	System::IContextProvider& Context::GetContextProvider() {
+	System::IContextProvider& Context::ContextProvider() {
 
 		if (_context_provider == nullptr)
 			throw System::NullReferenceException("Context has not yet been initialized.");
@@ -40,14 +40,14 @@ namespace hvn3 {
 		return *_context_provider;
 
 	}
-	GameProperties& Context::GetProperties() {
-		return GetContextProvider().GetGameManager().GetProperties();
+	GameProperties& Context::Properties() {
+		return ContextProvider().GetGameManager().GetProperties();
 	}
-	Display& Context::GetDisplay() {
-		return GetContextProvider().GetGameManager().GetDisplay();
+	Display& Context::Display() {
+		return ContextProvider().GetGameManager().GetDisplay();
 	}
-	IGameManager& Context::GetGameManager() {
-		return GetContextProvider().GetGameManager();
+	IGameManager& Context::GameManager() {
+		return ContextProvider().GetGameManager();
 	}
 	Context::operator bool() const {
 		return _context_provider != nullptr;
