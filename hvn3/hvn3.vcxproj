@@ -56,12 +56,13 @@
     <ClInclude Include="include\hvn3\collision\SpacialPartitioningGrid.h" />
     <ClInclude Include="include\hvn3\core\Context.h" />
     <ClInclude Include="include\hvn3\core\ContextProviderBase.h" />
-    <ClInclude Include="include\hvn3\core\CoreTypeDefs.h" />
+    <ClInclude Include="include\hvn3\core\CoreDefs.h" />
     <ClInclude Include="include\hvn3\core\DrawEventArgs.h" />
     <ClInclude Include="include\hvn3\core\IContextProvider.h" />
     <ClInclude Include="include\hvn3\core\IContextReceiver.h" />
+    <ClInclude Include="include\hvn3\core\IManager.h" />
     <ClInclude Include="include\hvn3\core\SmartPointerToInterfaceWrapper.h" />
-    <ClInclude Include="include\hvn3\core\ManagerBase.h" />
+    <ClInclude Include="include\hvn3\core\ManagerDefs.h" />
     <ClInclude Include="include\hvn3\core\Framework.h" />
     <ClInclude Include="include\hvn3\core\GameManager.h" />
     <ClInclude Include="include\hvn3\core\IDestroyable.h" />

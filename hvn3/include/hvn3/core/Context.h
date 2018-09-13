@@ -34,9 +34,9 @@ namespace hvn3 {
 		Display& Display();
 		IGameManager& GameManager();
 
-		template <typename manager_type>
-		manager_type* Get() {
-			return static_cast<manager_type*>(_context_provider->GetManager(manager_type::Id()));
+		template <ManagerId MANAGER_ID>
+		typename ManagerTraits<MANAGER_ID>::type* Get() {
+			return static_cast<ManagerTraits<MANAGER_ID>::type*>(_context_provider->GetManager(MANAGER_ID));
 		}
 
 		explicit operator bool() const;

@@ -1,6 +1,7 @@
 #pragma once
 #include "hvn3/core/IGameManager.h"
 #include "hvn3/core/GameProperties.h"
+#include "hvn3/core/ManagerDefs.h"
 #include "hvn3/core/Runner.h"
 #include "hvn3/rooms/RoomManager.h"
 
@@ -39,7 +40,7 @@ namespace hvn3 {
 	protected:
 		IGameManager& GetGameManager() override;
 		RoomManager& GetRoomManager() override;
-		ManagerBase* GetManager(ManagerId id) override;
+		IManager* GetManager(ManagerId id) override;
 
 	private:
 		GameProperties _properties;

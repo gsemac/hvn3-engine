@@ -1,5 +1,5 @@
 #include "hvn3/backgrounds/BackgroundManager.h"
-#include "hvn3/core/CoreTypeDefs.h"
+#include "hvn3/core/CoreDefs.h"
 #include "hvn3/views/View.h"
 #include <cassert>
 

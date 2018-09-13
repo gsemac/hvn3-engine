@@ -1,6 +1,6 @@
 #pragma once
 #include "hvn3/core/IDrawable.h"
-#include "hvn3/core/ManagerBase.h"
+#include "hvn3/core/ManagerDefs.h"
 #include "hvn3/tilesets/TileMap.h"
 #include "hvn3/tilesets/TileMapRenderer.h"
 #include "hvn3/utility/Size.h"
@@ -8,7 +8,7 @@
 namespace hvn3 {
 
 	class TileManager :
-		public ManagerBase,
+		public IManager,
 		public TileMap,
 		public TileMapRenderer,
 		public IDrawable {
@@ -19,8 +19,6 @@ namespace hvn3 {
 		void OnDraw(DrawEventArgs& e) override;
 
 		void SetTileSize(const SizeI& tile_size);
-
-		static ManagerId Id();
 
 	private:
 		SizeI _room_size;

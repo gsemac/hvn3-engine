@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/core/ManagerBase.h"
+#include "hvn3/core/ManagerDefs.h"
 
 namespace hvn3 {
 
@@ -23,7 +23,7 @@ namespace hvn3 {
 		protected:
 			virtual IGameManager& GetGameManager() = 0;
 			virtual RoomManager& GetRoomManager() = 0;
-			virtual ManagerBase* GetManager(ManagerId id) = 0;
+			virtual IManager* GetManager(ManagerId id) = 0;
 
 		};
 

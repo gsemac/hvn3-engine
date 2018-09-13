@@ -2,7 +2,7 @@
 #include "hvn3/objects/ObjectTypeDefs.h"
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/core/IDrawable.h"
-#include "hvn3/core/ManagerBase.h"
+#include "hvn3/core/ManagerDefs.h"
 #include <functional>
 #include <memory>
 #include <utility>
@@ -12,9 +12,11 @@ namespace hvn3 {
 	class IObjectManager : 
 		public IUpdatable, 
 		public IDrawable,
-		public ManagerBase {
+		public IManager {
 
 	public:
+		virtual ~IObjectManager() = default;
+
 		// Adds a new instance of an object to the manager. The manager assumes ownership.
 		virtual void Add(const IObjectPtr& object) = 0;
 		// Adds a new instance of an object to the manager. The manager assumes ownership.
@@ -39,10 +41,6 @@ namespace hvn3 {
 			object_type* ptr = new object_type(std::forward<Args>(args)...);
 			Add(ptr);
 			return ptr;
-		}
-
-		static ManagerId Id() {
-			return OBJECT_MANAGER;
 		}
 
 	};

@@ -2,6 +2,7 @@
 #include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/core/IContextProvider.h"
 #include "hvn3/core/IContextReceiver.h"
+#include "hvn3/core/ManagerDefs.h"
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/core/IDrawable.h"
 #include "hvn3/graphics/Color.h"
@@ -82,22 +83,22 @@ namespace hvn3 {
 		virtual RectangleF Bounds() const = 0;
 
 		// Registers a manager so it can be accessed through the current context.
-		template <typename manager_type>
-		void RegisterManager(std::shared_ptr<manager_type>& manager) {
-			
-			std::shared_ptr<ManagerBase> ptr = manager;
-			
-			_addManager(manager_type::Id(), ptr);
+		template<ManagerId MANAGER_ID>
+		void RegisterManager(std::shared_ptr<typename ManagerTraits<MANAGER_ID>::type>& manager) {
+
+			std::shared_ptr<IManager> ptr = manager;
+
+			_addManager(MANAGER_ID, ptr);
 
 		}
 		// Returns a reference to the manager with the given ID, if it exists. Otherwise, returns nullptr.
-		template <typename manager_type>
-		manager_type* GetManager() const {
-			return static_cast<manager_type*>(_getManager(manager_type::Id()));
+		template <ManagerId MANAGER_ID>
+		typename ManagerTraits<MANAGER_ID>::type GetManager() const {
+			return static_cast<typename ManagerTraits<MANAGER_ID>::type*>(_getManager(MANAGER_ID));
 		}
-		template <typename manager_type>
-		manager_type* GetManagerById(ManagerId id) const {
-			return static_cast<manager_type*>(_getManager(id));
+		// Returns a reference to the manager with the given ID, if it exists. Otherwise, returns nullptr.
+		IManager* GetManagerById(ManagerId id) const {
+			return _getManager(id);
 		}
 
 	protected:
@@ -114,9 +115,9 @@ namespace hvn3 {
 
 	private:
 		// Adds a new manager to the room, mapped to the given ID.
-		virtual void _addManager(ManagerId id, std::shared_ptr<ManagerBase>& manager) = 0;
+		virtual void _addManager(ManagerId id, std::shared_ptr<IManager>& manager) = 0;
 		// Returns a reference to the manager with the given ID, if it exists. Otherwise, returns nullptr.
-		virtual ManagerBase* _getManager(ManagerId id) const = 0;
+		virtual IManager* _getManager(ManagerId id) const = 0;
 
 	};
 

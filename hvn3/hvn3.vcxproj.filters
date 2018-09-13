@@ -606,9 +606,6 @@
     <ClInclude Include="include\hvn3\rooms\BasicLightingManager.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\core\ManagerBase.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\core\IContextReceiver.h">
       <Filter>include\core</Filter>
     </ClInclude>
@@ -807,9 +804,6 @@
     <ClInclude Include="include\hvn3\gui2\CheckBox.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\core\CoreTypeDefs.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\utility\Version.h">
       <Filter>include\utility</Filter>
     </ClInclude>
@@ -845,6 +839,15 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\collision\HitMask.h">
       <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\CoreDefs.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\ManagerDefs.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\IManager.h">
+      <Filter>include\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -77,11 +77,11 @@ namespace hvn3 {
 	RoomManager& GameManager::GetRoomManager() {
 		return _room_manager;
 	}
-	ManagerBase* GameManager::GetManager(ManagerId id) {
+	IManager* GameManager::GetManager(ManagerId id) {
 
 		// #todo Implement for access to "global" managers.
 
-		ManagerBase* ptr = GetRoomManager().Room()->GetManagerById<ManagerBase>(id);
+		IManager* ptr = GetRoomManager().Room()->GetManagerById(id);
 
 		return ptr;
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/core/CoreTypeDefs.h"
+#include "hvn3/core/CoreDefs.h"
 #include "hvn3/utility/Size.h"
 #include "hvn3/graphics/Color.h"
 #include "hvn3/graphics/Display.h"

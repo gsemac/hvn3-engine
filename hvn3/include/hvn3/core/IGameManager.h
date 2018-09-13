@@ -1,5 +1,6 @@
 #pragma once
 #include "hvn3/core/ContextProviderBase.h"
+#include "hvn3/core/ManagerDefs.h"
 
 namespace hvn3 {
 
@@ -12,6 +13,7 @@ namespace hvn3 {
 	}
 
 	class IGameManager :
+		public IManager,
 		public System::ContextProviderBase {
 
 	public:
@@ -30,6 +32,11 @@ namespace hvn3 {
 		virtual System::Runner& GetRunner() = 0;
 		virtual Display& GetDisplay() = 0;
 
+	};
+
+	template<>
+	struct ManagerTraits<GAME_MANAGER> {
+		typedef IGameManager type;
 	};
 
 }

@@ -133,7 +133,7 @@ namespace hvn3 {
 	}
 
 
-	void RoomBase::_addManager(ManagerId id, std::shared_ptr<ManagerBase>& manager) {
+	void RoomBase::_addManager(ManagerId id, std::shared_ptr<IManager>& manager) {
 
 		auto iter = _registered_managers.find(id);
 
@@ -144,7 +144,7 @@ namespace hvn3 {
 		_registered_managers[id] = std::move(manager);
 
 	}
-	ManagerBase* RoomBase::_getManager(ManagerId id) const {
+	IManager* RoomBase::_getManager(ManagerId id) const {
 
 		auto iter = _registered_managers.find(id);
 

@@ -21,8 +21,4 @@ namespace hvn3 {
 
 	}
 
-	ManagerId TileManager::Id() {
-		return TILE_MANAGER;
-	}
-
 }

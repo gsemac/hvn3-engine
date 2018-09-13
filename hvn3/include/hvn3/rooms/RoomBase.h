@@ -57,15 +57,15 @@ namespace hvn3 {
 		void OnRender(DrawEventArgs& e) override;
 
 	private:
-		void _addManager(ManagerId id, std::shared_ptr<ManagerBase>& manager) override;
-		ManagerBase* _getManager(ManagerId id) const override;
+		void _addManager(ManagerId id, std::shared_ptr<IManager>& manager) override;
+		IManager* _getManager(ManagerId id) const override;
 
 		RoomId _id;
 		Color _background_color;
 		bool _set_up;
 		bool _persistent;
 		hvn3::Context _context;
-		std::unordered_map<ManagerId, std::shared_ptr<ManagerBase>> _registered_managers;
+		std::unordered_map<ManagerId, std::shared_ptr<IManager>> _registered_managers;
 
 	};
 

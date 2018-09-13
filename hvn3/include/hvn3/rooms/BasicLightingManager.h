@@ -2,7 +2,7 @@
 #include "hvn3/core/IContextProvider.h"
 #include "hvn3/core/IDrawable.h"
 #include "hvn3/core/IUpdatable.h"
-#include "hvn3/core/ManagerBase.h"
+#include "hvn3/core/ManagerDefs.h"
 #include "hvn3/graphics/Bitmap.h"
 #include "hvn3/objects/IObject.h"
 #include <unordered_map>
@@ -28,7 +28,7 @@ namespace hvn3 {
 		LightSourceType type;
 	};
 
-	class BasicLightingManager : public ManagerBase, public IDrawable {
+	class BasicLightingManager : public IManager, public IDrawable {
 
 		struct LightMapData {
 			Graphics::Bitmap bitmap;
@@ -53,8 +53,6 @@ namespace hvn3 {
 
 		void OnDraw(DrawEventArgs& e) override;
 
-		static ManagerId Id();
-
 	private:
 		LightSourceId _getNextLightSourceId();
 		LightMapData* _findLightMapData(LightSourceType type);
@@ -74,6 +72,11 @@ namespace hvn3 {
 		static void _loadDefaultLightMaps();
 		static void _freeDefaultLightMaps();
 
+	};
+
+	template<>
+	struct ManagerTraits<BASIC_LIGHTING_MANAGER> {
+		typedef BasicLightingManager type;
 	};
 
 }
