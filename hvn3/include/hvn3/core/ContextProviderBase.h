@@ -13,7 +13,8 @@ namespace hvn3 {
 				hvn3::Context ctx = Context();
 
 				//receiver.SetContext(ctx);
-				receiver.OnContextChanged(ContextChangedEventArgs(ctx));
+				ContextChangedEventArgs args(ctx);
+				receiver.OnContextChanged(args);
 
 			}
 

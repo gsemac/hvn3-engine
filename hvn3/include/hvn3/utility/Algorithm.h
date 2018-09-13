@@ -43,7 +43,7 @@ namespace hvn3 {
 	template<typename Iter1, typename Iter2>
 	std::pair<Iter1, Iter2> RemoveSame(Iter1 begin_1, Iter1 end_1, Iter2 begin_2, Iter2 end_2) {
 
-		return RemoveSame(begin_1, end_1, begin_2, end_2, [](typename const Iter1::value_type& x, typename const Iter2::value_type& y) {return x == y; });
+		return RemoveSame(begin_1, end_1, begin_2, end_2, [](const typename Iter1::value_type& x, const typename Iter2::value_type& y) {return x == y; });
 
 	}
 

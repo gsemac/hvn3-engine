@@ -5,6 +5,8 @@
 namespace hvn3 {
 	namespace Graphics {
 
+		class Graphics;
+
 		class GraphicsState {
 			friend class Graphics;
 

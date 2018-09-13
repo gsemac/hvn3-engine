@@ -108,13 +108,13 @@ namespace hvn3 {
 		}
 		Point2d<T> Midpoint() const {
 
-			return Point2d<T>(X() + Width() / 2.0f, Y() + Height() / 2.0f);
+			return Point2d<T>(X() + static_cast<T>(Width() / 2.0), Y() + static_cast<T>(Height() / 2.0));
 
 		}
 
 		void Translate(T x_offset, T y_offset) {
 
-			SetPosition(X() + x_offset, Y() + y_offset);
+			Positionable2dBase<T>::SetPosition(X() + x_offset, Y() + y_offset);
 
 		}
 		void Translate(const Point2d<T>& offset) {
