@@ -1,13 +1,14 @@
 #pragma once
 #include "hvn3/collision/ICollidable.h"
-#include "hvn3/collision/IHitMask.h"
 #include "hvn3/core/IPositionable2d.h"
 #include "hvn3/core/IDestroyable.h"
+#include "hvn3/math/Rectangle.h"
 #include "hvn3/utility/BitFlags.h"
 
 namespace hvn3 {
 
 	class CategoryFilter;
+	class HitMask;
 	class IObject;
 
 	enum class ColliderFlags {
@@ -32,11 +33,11 @@ namespace hvn3 {
 		virtual const CategoryFilter& Category() const = 0;
 
 		// Returns the hit mask associated with this body.
-		virtual HitMaskPtr& GetHitMask() = 0;
+		virtual HitMask& GetHitMask() = 0;
 		// Returns the hit mask associated with this body.
-		virtual const HitMaskPtr& HitMask() const = 0;
+		virtual const HitMask& HitMask() const = 0;
 		// Sets the hit mask associated with this body.
-		virtual void SetHitMask(HitMaskPtr& mask) = 0;
+		virtual void SetHitMask(const hvn3::HitMask& mask) = 0;
 
 		virtual ColliderFlags Flags() const = 0;
 		virtual void SetFlags(ColliderFlags flags) = 0;

@@ -3,8 +3,6 @@
 // This file includes the header files for common engine components.
 
 #include "hvn3/assets/AssetManager.h"
-#include "hvn3/collision/RectangleHitMask.h"
-#include "hvn3/collision/CircleHitMask.h"
 #include "hvn3/core/Framework.h"
 #include "hvn3/core/GameManager.h"
 #include "hvn3/graphics/Color.h"

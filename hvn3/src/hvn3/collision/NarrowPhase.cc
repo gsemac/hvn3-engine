@@ -1,5 +1,6 @@
-#include "hvn3/collision/NarrowPhase.h"
+#include "hvn3/collision/HitMask.h"
 #include "hvn3/collision/ICollider.h"
+#include "hvn3/collision/NarrowPhase.h"
 #include "hvn3/math/GeometryUtils.h"
 
 namespace hvn3 {
@@ -12,8 +13,8 @@ namespace hvn3 {
 	bool NarrowPhase::TestCollision(ICollider* body, const PointF& body_position, ICollider* other, const PointF& other_position, CollisionManifold& manifold) const {
 
 		// Get the masks for both colliders.
-		HitMaskPtr& a_mask = body->GetHitMask();
-		HitMaskPtr& b_mask = other->GetHitMask();
+		HitMask* a_mask = &body->GetHitMask();
+		HitMask* b_mask = &other->GetHitMask();
 		bool hit;
 
 		// Offset both colliders by the given offsets.
@@ -26,7 +27,7 @@ namespace hvn3 {
 
 		// Test to see if the two masks intersect one another.
 		else
-			hit = a_mask->TestCollision(b_mask, manifold);
+			hit = a_mask->TestCollision(*b_mask, manifold);
 
 		// Reset the offsets.
 		a_mask->SetOffset(PointF(a_mask->Offset().X() - body_position.X(), a_mask->Offset().Y() - body_position.Y()));

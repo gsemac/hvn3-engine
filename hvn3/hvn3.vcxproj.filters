@@ -201,9 +201,6 @@
     <ClInclude Include="include\hvn3\backgrounds\IBackgroundManager.h">
       <Filter>include\backgrounds</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\collision\CircleHitMask.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\collision\CollisionEventArgs.h">
       <Filter>include\collision</Filter>
     </ClInclude>
@@ -229,9 +226,6 @@
       <Filter>include\collision</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\collision\NarrowPhase.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\collision\RectangleHitMask.h">
       <Filter>include\collision</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\collision\SpacialPartitioningGrid.h">
@@ -837,9 +831,6 @@
     <ClInclude Include="include\hvn3\core\SmartPointerToInterfaceWrapper.h">
       <Filter>include\core</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\collision\IHitMask.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\collision\ICollider.h">
       <Filter>include\collision</Filter>
     </ClInclude>
@@ -850,6 +841,9 @@
       <Filter>include\collision</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\collision\ColliderBase.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\HitMask.h">
       <Filter>include\collision</Filter>
     </ClInclude>
   </ItemGroup>
@@ -892,12 +886,6 @@
       <Filter>src\collision</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\collision\NarrowPhase.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\collision\RectangleHitMask.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\collision\CircleHitMask.cc">
       <Filter>src\collision</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\core\GameManager.cc">
@@ -1276,6 +1264,9 @@
       <Filter>src\collision</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\collision\ColliderBase.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\HitMask.cc">
       <Filter>src\collision</Filter>
     </ClCompile>
   </ItemGroup>

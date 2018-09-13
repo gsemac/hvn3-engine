@@ -6,6 +6,8 @@ namespace hvn3 {
 	struct Line {
 
 	public:
+		Line() :
+			Line(0, 0, 0, 0) {}
 		Line(T x1, T y1, T x2, T y2) :
 			_a(x1, y1),
 			_b(x2, y2) {}

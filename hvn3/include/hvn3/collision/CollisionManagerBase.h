@@ -1,6 +1,7 @@
 #pragma once
 #include "hvn3/collision/CategoryFilter.h"
 #include "hvn3/collision/CollisionManifold.h"
+#include "hvn3/collision/HitMask.h"
 #include "hvn3/collision/ICollider.h"
 #include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/collision/IBroadPhase.h"
@@ -114,7 +115,7 @@ namespace hvn3 {
 		bool PlaceFreeIf(ICollider* body, const PointF& position, CollisionManifold& manifold, const condition_lambda_type& condition) override {
 
 			// If the object does not have a collision mask, return true immediately (no collisions are possible).
-			if (body->HitMask() == nullptr)
+			if (!body->HitMask())
 				return true;
 
 			// Create a vector to store the results.

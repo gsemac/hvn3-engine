@@ -26,11 +26,7 @@ namespace hvn3 {
 	}
 	RectangleF ColliderBase::AABB() const {
 
-		// A rectangle of area 0 is returned if the body doesn't have a hitmask.
-		if (!HitMask())
-			return RectangleF(X(), Y(), 0, 0);
-
-		RectangleF aabb = HitMask()->AABB();
+		RectangleF aabb = HitMask().AABB();
 		aabb.Translate(X(), Y());
 
 		return aabb;
@@ -46,20 +42,18 @@ namespace hvn3 {
 		return _filter;
 
 	}
-	HitMaskPtr& ColliderBase::GetHitMask() {
+	HitMask& ColliderBase::GetHitMask() {
 
 		return _mask;
 
 	}
-	const HitMaskPtr& ColliderBase::HitMask() const {
+	const HitMask& ColliderBase::HitMask() const {
 
 		return _mask;
 
 	}
-	void ColliderBase::SetHitMask(HitMaskPtr& mask) {
-
-		_mask = std::move(mask);
-
+	void ColliderBase::SetHitMask(const hvn3::HitMask& mask) {
+		_mask = mask;
 	}
 
 	ColliderFlags ColliderBase::Flags() const {

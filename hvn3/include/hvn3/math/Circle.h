@@ -7,6 +7,8 @@ namespace hvn3 {
 	struct Circle : public Positionable2dBase<T> {
 
 	public:
+		Circle() :
+			Circle(0) {}
 		Circle(T radius) :
 			Circle(0, 0, radius) {}
 		Circle(T x, T y, T radius) :
@@ -15,14 +17,14 @@ namespace hvn3 {
 			_radius = radius;
 
 		}
-		Circle(Point2d<T> pos, T radius) : 
+		Circle(Point2d<T> pos, T radius) :
 			Circle(pos.X(), pos.Y(), radius) {}
 		T Radius() const {
 
 			return _radius;
 
 		}
-		
+
 	private:
 		T _radius;
 
@@ -43,7 +45,7 @@ namespace hvn3 {
 	template <typename T>
 	bool operator==(const Circle<T>& lhs, const Circle<T>& rhs) {
 
-		return 
+		return
 			lhs.X() == rhs.X() &&
 			lhs.Y() == rhs.Y() &&
 			lhs.Radius() == lhs.Radius();

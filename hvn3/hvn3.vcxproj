@@ -37,7 +37,6 @@
     <ClInclude Include="include\hvn3\backgrounds\BackgroundDrawEventArgs.h" />
     <ClInclude Include="include\hvn3\backgrounds\BackgroundManager.h" />
     <ClInclude Include="include\hvn3\backgrounds\IBackgroundManager.h" />
-    <ClInclude Include="include\hvn3\collision\CircleHitMask.h" />
     <ClInclude Include="include\hvn3\collision\ColliderBase.h" />
     <ClInclude Include="include\hvn3\collision\CollisionDefs.h" />
     <ClInclude Include="include\hvn3\collision\CollisionEventArgs.h" />
@@ -49,12 +48,11 @@
     <ClInclude Include="include\hvn3\collision\ICollidable.h" />
     <ClInclude Include="include\hvn3\collision\ICollider.h" />
     <ClInclude Include="include\hvn3\collision\ICollisionManager.h" />
-    <ClInclude Include="include\hvn3\collision\IHitMask.h" />
+    <ClInclude Include="include\hvn3\collision\HitMask.h" />
     <ClInclude Include="include\hvn3\collision\INarrowPhase.h" />
     <ClInclude Include="include\hvn3\collision\NarrowPhase.h" />
     <ClInclude Include="include\hvn3\collision\Collider.h" />
     <ClInclude Include="include\hvn3\collision\CollisionManager.h" />
-    <ClInclude Include="include\hvn3\collision\RectangleHitMask.h" />
     <ClInclude Include="include\hvn3\collision\SpacialPartitioningGrid.h" />
     <ClInclude Include="include\hvn3\core\Context.h" />
     <ClInclude Include="include\hvn3\core\ContextProviderBase.h" />
@@ -268,14 +266,13 @@
     <ClCompile Include="src\hvn3\backgrounds\Background.cc" />
     <ClCompile Include="src\hvn3\backgrounds\BackgroundDrawEventArgs.cc" />
     <ClCompile Include="src\hvn3\backgrounds\BackgroundManager.cc" />
-    <ClCompile Include="src\hvn3\collision\CircleHitMask.cc" />
     <ClCompile Include="src\hvn3\collision\ColliderBase.cc" />
     <ClCompile Include="src\hvn3\collision\CollisionEventArgs.cc" />
     <ClCompile Include="src\hvn3\collision\CollisionFilter.cc" />
     <ClCompile Include="src\hvn3\collision\CollisionManifold.cc" />
+    <ClCompile Include="src\hvn3\collision\HitMask.cc" />
     <ClCompile Include="src\hvn3\collision\NarrowPhase.cc" />
     <ClCompile Include="src\hvn3\collision\Collider.cc" />
-    <ClCompile Include="src\hvn3\collision\RectangleHitMask.cc" />
     <ClCompile Include="src\hvn3\core\Context.cc" />
     <ClCompile Include="src\hvn3\core\DrawEventArgs.cc" />
     <ClCompile Include="src\hvn3\core\Framework.cc" />

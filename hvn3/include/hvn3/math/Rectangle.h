@@ -13,11 +13,13 @@ namespace hvn3 {
 	};
 
 	template <typename T>
-	class Rectangle : 
-		public Positionable2dBase<T>, 
+	class Rectangle :
+		public Positionable2dBase<T>,
 		public SizeableBase<T> {
 
 	public:
+		Rectangle() :
+			Rectangle(0, 0) {}
 		Rectangle(T width, T height) :
 			Rectangle<T>(0, 0, width, height) {
 		}
