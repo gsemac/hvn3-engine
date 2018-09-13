@@ -127,11 +127,15 @@ namespace hvn3 {
 			if (lm == nullptr)
 				continue;
 
+			g.SetBlendMode(Graphics::BlendOperation::Subtract);
+
 			g.DrawBitmap(i->second.position.x, i->second.position.y, lm->bitmap, 1.0f, 1.0f, lm->origin, i->second.direction);
 
-		}
+			g.ResetBlendMode();
 
-		g.ResetBlendMode();
+			g.DrawBitmap(i->second.position.x, i->second.position.y, lm->bitmap, 1.0f, 1.0f, lm->origin, i->second.direction, Color::FromArgbf(0.4f, 0.4f, 0.4f, 0.4f));
+
+		}		
 
 		// Draw the lighting surface.
 
