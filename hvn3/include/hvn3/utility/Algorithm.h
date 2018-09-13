@@ -4,11 +4,12 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+
 namespace hvn3 {
 
 	// Moves matching elements to the ends of both containers and returns a pair of iterators one past the last elements. Not guaranteed to preserve element ordering.
 	template<typename Iter1, typename Iter2>
-	std::pair<Iter1, Iter2> RemoveSame(Iter1 begin_1, Iter1 end_1, Iter2 begin_2, Iter2 end_2, std::function<bool(typename const Iter1::value_type&, typename const Iter2::value_type&)> comparer) {
+	std::pair<Iter1, Iter2> RemoveSame(Iter1 begin_1, Iter1 end_1, Iter2 begin_2, Iter2 end_2, std::function<bool(const typename std::iterator_traits<Iter1>::value_type&, const typename std::iterator_traits<Iter1>::value_type&)> comparer) {
 
 		bool found = false;
 
