@@ -15,7 +15,8 @@ namespace hvn3 {
 		public:
 			RoomView() :
 				ScrollableWidgetBase(SizeF(0.0f, 0.0f)),
-				_grid_cell_size(32.0f, 32.0f) {
+				_grid_cell_size(32.0f, 32.0f),
+				_room_scale(1.0f) {
 
 				_show_grid = true;
 				_draw_objects = true;
@@ -26,24 +27,21 @@ namespace hvn3 {
 				_grid_renderer.SetLineStyle(pen);
 
 			}
-			RoomView(const RoomPtr& room) : 
+			RoomView(const RoomPtr& room) :
 				RoomView() {
 
 				_room = room;
 
 				if (_room)
 					SetScrollableSize(SizeF(_room->Width(), _room->Height()));
-							   
+
 			}
 
 			void SetRoom(const RoomPtr& room) {
 
 				_room = room;
 
-				if (_room)
-					SetScrollableSize(static_cast<SizeF>(_room->Size()));
-				else
-					SetScrollableSize(SizeF(0.0f, 0.0f));
+				_updateScrollableRegion();
 
 			}
 			void SetGridVisible(bool value) {
@@ -73,7 +71,6 @@ namespace hvn3 {
 			PointF PositionToGridCell(const PointF& position) const {
 
 				PointF p = _positionToRoomPosition(position);
-
 				p.x = Math::Floor(p.x / _grid_cell_size.width);
 				p.y = Math::Floor(p.y / _grid_cell_size.height);
 
@@ -94,19 +91,35 @@ namespace hvn3 {
 			const SizeF& GridCellSize() const {
 				return _grid_cell_size;
 			}
+			Scale RoomScale() const {
+				return _room_scale;
+			}
+			void SetRoomScale(const Scale& value) {
+
+				_room_scale = value;
+
+				_updateScrollableRegion();
+
+			}
 
 			void OnDraw(WidgetDrawEventArgs& e) override {
 
-				if (_room) {
+				if (_room) {					
 
 					Graphics::GraphicsState original_graphics_state = e.Graphics().Save();
-					RectangleF clip = e.Graphics().Clip();
 
 					Graphics::Transform t = e.Graphics().GetTransform();
-					t.Translate(X() - VisibleRegion().X(), Y() - VisibleRegion().Y());
+					RectangleF clip = e.Graphics().Clip();
+
+					float xoff = X() - VisibleRegion().X();
+					float yoff = Y() - VisibleRegion().Y();
+					SizeF room_size = static_cast<SizeF>(_room->Size() * _room_scale);
+
+					t.Scale(_room_scale);
+					t.Translate(xoff, yoff);
 
 					e.Graphics().SetTransform(t);
-					e.Graphics().SetClip(RectangleF::Intersection(clip, RectangleF(FixedPosition(), static_cast<SizeF>(_room->Size()))));
+					e.Graphics().SetClip(RectangleF::Intersection(clip, RectangleF(FixedPosition(), room_size)));
 
 					_room->OnDraw(DrawEventArgs(e.Graphics()));
 
@@ -118,14 +131,16 @@ namespace hvn3 {
 					if (_draw_objects && _draw_outside_room)
 						_drawObjects(e);
 
+					e.Graphics().Restore(original_graphics_state);
+
 					if (_show_grid) {
 
-						Grid grid(static_cast<SizeF>(_room->Size()), _grid_cell_size, true);
-						_grid_renderer.Draw(e.Graphics(), PointF(0.0f, 0.0f), grid);
+						SizeF cell_size = _grid_cell_size * _room_scale;
+						Grid grid(room_size, cell_size, true);
+
+						_grid_renderer.Draw(e.Graphics(), PointF(xoff, yoff), grid);
 
 					}
-
-					e.Graphics().Restore(original_graphics_state);
 
 				}
 
@@ -137,6 +152,7 @@ namespace hvn3 {
 			bool _draw_objects;
 			bool _draw_outside_room;
 			SizeF _grid_cell_size;
+			Scale _room_scale;
 			hvn3::Graphics::GridRendererExt _grid_renderer;
 
 			PointF _positionToRoomPosition(const PointF& position) const {
@@ -144,7 +160,10 @@ namespace hvn3 {
 				PointF room_origin = FixedPosition();
 				room_origin -= VisibleRegion().Position();
 
-				return position - room_origin;
+				PointF pos = position - room_origin;
+				pos *= _room_scale.Inverse();
+
+				return pos;
 
 			}
 			void _drawObjects(WidgetDrawEventArgs& e) {
@@ -152,6 +171,14 @@ namespace hvn3 {
 				_room->GetObjects().ForEach([&](IObject* x) {
 					x->OnDraw(DrawEventArgs(e.Graphics()));
 				});
+
+			}
+			void _updateScrollableRegion() {
+
+				if (_room)
+					SetScrollableSize(static_cast<SizeF>(_room->Size() * _room_scale));
+				else
+					SetScrollableSize(SizeF(0.0f, 0.0f));
 
 			}
 

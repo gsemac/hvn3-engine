@@ -11,6 +11,8 @@ namespace hvn3 {
 	class Point2d {
 
 	public:
+		typedef T value_type;
+
 		Point2d() :
 			Point2d(0, 0) {
 		}

@@ -55,6 +55,7 @@ namespace hvn3 {
 			void SetCursor(SystemCursor cursor) override;
 			bool TabStop() const override;
 			void SetTabStop(bool value) override;
+			bool HasFocus() const override;
 
 			void BringToFront() override;
 			void SendToBack() override;

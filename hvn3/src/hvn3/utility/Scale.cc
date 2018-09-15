@@ -2,33 +2,33 @@
 
 namespace hvn3 {
 
-	Scale::Scale(float scale) :
+	Scale::Scale(value_type scale) :
 		Scale(scale, scale) {
 	}
-	Scale::Scale(float x_scale, float y_scale) {
+	Scale::Scale(value_type x_scale, value_type y_scale) {
 
 		_scale_factor_x = x_scale;
 		_scale_factor_y = y_scale;
 
 	}
 
-	float Scale::XScale() const {
+	Scale::value_type Scale::XScale() const {
 
 		return _scale_factor_x;
 
 	}
-	float Scale::YScale() const {
+	Scale::value_type Scale::YScale() const {
 
 		return _scale_factor_y;
 
 	}
-	float Scale::Factor() const {
+	Scale::value_type Scale::Factor() const {
 
 		return (_scale_factor_x + _scale_factor_y) / 2.0f;
 
 	}
 
-	void Scale::ScalePoint(float& x, float& y) const {
+	void Scale::ScalePoint(value_type& x, value_type& y) const {
 
 		x *= _scale_factor_x;
 		y *= _scale_factor_y;

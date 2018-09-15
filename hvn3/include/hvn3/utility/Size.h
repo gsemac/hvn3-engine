@@ -1,12 +1,17 @@
 #pragma once
+#include <algorithm>
 #include <iostream>
 
 namespace hvn3 {
+
+	class Scale;
 
 	template <typename T>
 	class Size {
 
 	public:
+		typedef T value_type;
+
 		Size(T width, T height) {
 			SetSize(width, height);
 		}
@@ -36,6 +41,37 @@ namespace hvn3 {
 		template <typename U>
 		explicit operator Size<U>() const {
 			return Size<U>(static_cast<U>(Width()), static_cast<U>(Height()));
+		}
+
+		static Size<T> Round(const Size<T>& value) {
+
+			Size<T> out = value;
+
+			out.width = (std::round)(out.width);
+			out.height = (std::round)(out.height);
+
+			return out;
+
+		}
+		static Size<T> Floor(const Size<T>& value) {
+
+			Size<T> out = value;
+
+			out.width = (std::floor)(out.width);
+			out.height = (std::floor)(out.height);
+
+			return out;
+
+		}
+		static Size<T> Ceiling(const Size<T>& value) {
+
+			Size<T> out = value;
+
+			out.width = (std::ceil)(out.width);
+			out.height = (std::ceil)(out.height);
+
+			return out;
+
 		}
 
 		T width;

@@ -26,9 +26,9 @@ namespace hvn3 {
 
 			if (!_buffer)
 				return;
-			
+
 			size_t buffer_index = 0;
-		
+
 			float x = position.x;
 			float y = position.y;
 			SizeF cell_size = _getActualCellSize(grid);
@@ -36,11 +36,11 @@ namespace hvn3 {
 			float cell_h = cell_size.height;
 			float w = grid.Columns() * cell_w - _cell_margin;
 			float h = grid.Rows() * cell_h - _cell_margin;
-			
+
 			bool skip = (grid.Columns() % _cell_colors.size()) == 0;
 
 			GraphicsState state = canvas.Save();
-			
+
 			canvas.HoldBitmapDrawing(true);
 			//canvas.SetClip(static_cast<int>(x), static_cast<int>(y), static_cast<int>(w), static_cast<int>(h));
 
@@ -109,13 +109,26 @@ namespace hvn3 {
 
 			// The buffer contains each possible cell.
 
-			SizeF actual_cs = _getActualCellSize(grid);
+			// Clear the existing buffer.
+			if (_buffer)
+				_buffer = Bitmap();
+
+			SizeF actual_cs = _getActualCellSize(grid); // Considers the size of the cell with margins added
 			float cell_w = grid.CellWidth();
 			float cell_h = grid.CellHeight();
-			int buf_w = static_cast<int>(actual_cs.width * _cell_colors.size());
-			int buf_h = static_cast<int>(actual_cs.height);
+
+			if (cell_w <= 0.0f || cell_h <= 0.0f)
+				return;
+
+			int buf_w = static_cast<int>(Math::Ceiling(actual_cs.width * _cell_colors.size()));
+			int buf_h = static_cast<int>(Math::Ceiling(actual_cs.height));
 
 			if (buf_w <= 0 || buf_h <= 0)
+				return;
+
+			size_t cell_count = static_cast<size_t>(static_cast<float>(buf_w) / cell_w);
+
+			if (cell_count <= 0)
 				return;
 
 			if (_buffer.Width() != buf_w || _buffer.Height() != buf_h)
@@ -124,13 +137,12 @@ namespace hvn3 {
 			Graphics g(_buffer);
 			g.Clear(Color::Transparent);
 
-			for (size_t i = 0; i < static_cast<size_t>(_buffer.Width()) / static_cast<size_t>(cell_w); ++i) {
+			for (size_t i = 0; i < cell_count; ++i) {
 
 				float dx = i * actual_cs.width;
 				float dy = 0.0f;
 
-				g.DrawSolidRectangle(dx, dy, cell_w, cell_h, _cell_colors[i]);
-
+				g.DrawSolidRectangle(dx, dy, cell_w, cell_h, _cell_colors[Math::Min(i, _cell_colors.size() - 1)]);
 				g.DrawLine(dx, dy + actual_cs.height - (_cell_margin / 2.0f), dx + actual_cs.width, dy + actual_cs.height - (_cell_margin / 2.0f), _pen); // bottom
 				g.DrawLine(dx + actual_cs.width - (_cell_margin / 2.0f), dy, dx + actual_cs.width - (_cell_margin / 2.0f), dy + actual_cs.height, _pen); // right
 

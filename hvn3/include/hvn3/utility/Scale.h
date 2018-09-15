@@ -1,13 +1,16 @@
 #pragma once
 #include "hvn3/math/Rectangle.h"
+#include "hvn3/utility/Size.h"
 
 namespace hvn3 {
 
 	class Scale {
 
 	public:
-		Scale(float scale);
-		Scale(float x_scale, float y_scale);
+		typedef float value_type;
+
+		Scale(value_type scale);
+		Scale(value_type x_scale, value_type y_scale);
 
 		template <typename T>
 		Scale(const Rectangle<T>& a, const Rectangle<T>& b) :
@@ -22,9 +25,9 @@ namespace hvn3 {
 			Scale(a.Width() / b.Width(), a.Height() / b.Height()) {
 		}
 
-		float XScale() const;
-		float YScale() const;
-		float Factor() const;
+		value_type XScale() const;
+		value_type YScale() const;
+		value_type Factor() const;
 
 		template <typename T>
 		Point2d<T>& ScalePoint(Point2d<T>& point) const {
@@ -35,17 +38,56 @@ namespace hvn3 {
 			return point;
 
 		}
-		void ScalePoint(float& x, float& y) const;
+		void ScalePoint(value_type& x, value_type& y) const;
 
 		Scale Inverse() const;
 
 		friend Scale operator*(const Scale& a, const Scale& b);
 		Scale& operator*=(const Scale& other);
-
+		
 	private:
-		float _scale_factor_x;
-		float _scale_factor_y;
+		value_type _scale_factor_x;
+		value_type _scale_factor_y;
 
 	};
+
+	template <typename T>
+	Size<T> operator*(const Size<T>& lhs, const Scale& rhs) {
+
+		Size<T> out = lhs;
+
+		out.width = static_cast<typename Size<T>::value_type>(static_cast<Scale::value_type>(out.width) * rhs.XScale());
+		out.height = static_cast<typename Size<T>::value_type>(static_cast<Scale::value_type>(out.height) * rhs.YScale());
+
+		return out;
+
+	}
+	template <typename T>
+	Size<T>& operator*=(Size<T>& lhs, const Scale& rhs) {
+
+		lhs = lhs * rhs;
+
+		return lhs;
+
+	}
+	template <typename T>
+	Point2d<T> operator*(const Point2d<T>& lhs, const Scale& rhs) {
+
+		Point2d<T> out = lhs;
+
+		out.x = static_cast<typename Point2d<T>::value_type>(static_cast<Scale::value_type>(out.x) * rhs.XScale());
+		out.y = static_cast<typename Point2d<T>::value_type>(static_cast<Scale::value_type>(out.y) * rhs.YScale());
+
+		return out;
+
+	}
+	template <typename T>
+	Point2d<T>& operator*=(Point2d<T>& lhs, const Scale& rhs) {
+
+		lhs = lhs * rhs;
+
+		return lhs;
+
+	}
 
 }

@@ -210,6 +210,9 @@ namespace hvn3 {
 		void WidgetBase::SetTabStop(bool value) {
 			_tab_stop = value;
 		}
+		bool WidgetBase::HasFocus() const {
+			return HasFlag(State(), WidgetState::Focus);
+		}
 
 		void WidgetBase::BringToFront() {
 
