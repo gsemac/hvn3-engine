@@ -13,6 +13,9 @@ namespace hvn3 {
 		struct ObjectListItem {
 
 			ObjectListItem(const IObjectPtr& object);
+			ObjectListItem(ObjectListItem&& other);
+
+			ObjectListItem& operator=(ObjectListItem& other) = default;
 
 			IObjectPtr object;
 			// This is set to false when the OnCreate event has been called.
@@ -21,6 +24,7 @@ namespace hvn3 {
 			bool callOnDestroyEvent;
 		
 		};
+
 		typedef std::vector<ObjectListItem> object_list_type;
 
 	public:
@@ -55,7 +59,7 @@ namespace hvn3 {
 
 		void _removeDestroyedObjects(object_list_type::iterator begin, object_list_type::iterator end);
 		// Updates the state of the given object, and calls the OnCreate or OnDestroy event where applicable. Returns true if the object should have its OnUpdate events called; returns false otherwise.
-		bool _updateAndCheckObject(ObjectListItem& item, UpdateEventArgs& e);
+		bool _updateAndCheckObject(size_t item_index, UpdateEventArgs& e);
 
 	};
 

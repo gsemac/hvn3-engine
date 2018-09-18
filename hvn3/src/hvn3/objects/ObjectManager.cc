@@ -16,6 +16,13 @@ namespace hvn3 {
 		callOnDestroyEvent = true;
 
 	}
+	ObjectManager::ObjectListItem::ObjectListItem(ObjectListItem&& other) {
+
+		callOnCreateEvent = other.callOnCreateEvent;
+		callOnDestroyEvent = other.callOnDestroyEvent;
+		object = std::move(other.object);
+
+	}
 
 
 
@@ -28,6 +35,8 @@ namespace hvn3 {
 
 
 	void ObjectManager::Add(const IObjectPtr& object) {
+
+		assert(static_cast<bool>(object));
 
 		object->SetContext(_context);
 
@@ -171,8 +180,8 @@ namespace hvn3 {
 		bool removed = false;
 
 		for (size_t i = 0; i < _objects.size(); ++i) {
-
-			if (_updateAndCheckObject(_objects[i], e))
+			std::cout << i << std::endl;
+			if (_updateAndCheckObject(i, e))
 				_objects[i].object->OnBeginUpdate(e);
 
 			if (_objects[i].object->IsDestroyed())
@@ -188,8 +197,8 @@ namespace hvn3 {
 		bool removed = false;
 
 		for (size_t i = 0; i < _objects.size(); ++i) {
-
-			if (_updateAndCheckObject(_objects[i], e))
+		
+			if (_updateAndCheckObject(i, e))
 				_objects[i].object->OnUpdate(e);
 
 			if (_objects[i].object->IsDestroyed())
@@ -206,7 +215,7 @@ namespace hvn3 {
 
 		for (size_t i = 0; i < _objects.size(); ++i) {
 
-			if (_updateAndCheckObject(_objects[i], e))
+			if (_updateAndCheckObject(i, e))
 				_objects[i].object->OnEndUpdate(e);
 
 			if (_objects[i].object->IsDestroyed())
@@ -245,21 +254,24 @@ namespace hvn3 {
 		_objects.erase(std::remove_if(begin, end, [](const ObjectListItem& item) { return item.object->IsDestroyed(); }), _objects.end());
 
 	}
-	bool ObjectManager::_updateAndCheckObject(ObjectListItem& item, UpdateEventArgs& e) {
-
+	bool ObjectManager::_updateAndCheckObject(size_t item_index, UpdateEventArgs& e) {
+		
+		// This method takes an index rather than a reference to item because there's no guarantee the vector won't be resized in in OnCreate or OnDestroy.
+		// Passing a reference risks that reference being invalidated after the resize.
+		
 		// Call the OnCreate event for the Object if it hasn't been called yet.
-		if (item.callOnCreateEvent) {
-			item.object->OnCreate(CreateEventArgs());
-			item.callOnCreateEvent = false;
+		if (_objects[item_index].callOnCreateEvent) {
+			_objects[item_index].object->OnCreate(CreateEventArgs());
+			_objects[item_index].callOnCreateEvent = false;
 		}
 
-		if (item.object->IsDestroyed()) {
-			if (item.callOnDestroyEvent) {
-				item.object->OnDestroy(DestroyEventArgs());
-				item.callOnDestroyEvent = false;
+		if (_objects[item_index].object->IsDestroyed()) {
+			if (_objects[item_index].callOnDestroyEvent) {
+				_objects[item_index].object->OnDestroy(DestroyEventArgs());
+				_objects[item_index].callOnDestroyEvent = false;
 			}
 		}
-		else if (item.object->IsActive())
+		else if (_objects[item_index].object->IsActive())
 			return true;
 
 		// If the Object is not active, its update events should not be called.
