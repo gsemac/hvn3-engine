@@ -531,14 +531,8 @@
     <ClInclude Include="include\hvn3\objects\ObjectEventArgs.h">
       <Filter>include\objects</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\objects\ObjectTypeDefs.h">
-      <Filter>include\objects</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\core\ISizeable.h">
       <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\rooms\RoomTypeDefs.h">
-      <Filter>include\rooms</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\physics\PhysicsManagerBase.h">
       <Filter>include\physics</Filter>
@@ -848,6 +842,12 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\core\IManager.h">
       <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\objects\ObjectDefs.h">
+      <Filter>include\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\rooms\RoomDefs.h">
+      <Filter>include\rooms</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

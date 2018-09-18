@@ -5,7 +5,7 @@
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/core/IPositionable2d.h"
 #include "hvn3/objects/ObjectEventArgs.h"
-#include "hvn3/objects/ObjectTypeDefs.h"
+#include "hvn3/objects/ObjectDefs.h"
 
 namespace hvn3 {
 

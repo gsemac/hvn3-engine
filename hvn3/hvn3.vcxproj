@@ -176,7 +176,7 @@
     <ClInclude Include="include\hvn3\objects\ObjectBase.h" />
     <ClInclude Include="include\hvn3\objects\ObjectEventArgs.h" />
     <ClInclude Include="include\hvn3\objects\ObjectManager.h" />
-    <ClInclude Include="include\hvn3\objects\ObjectTypeDefs.h" />
+    <ClInclude Include="include\hvn3\objects\ObjectDefs.h" />
     <ClInclude Include="include\hvn3\physics\BasicPhysicsManager.h" />
     <ClInclude Include="include\hvn3\physics\PhysicsBodyBase.h" />
     <ClInclude Include="include\hvn3\physics\IPhysicsBody.h" />
@@ -198,7 +198,7 @@
     <ClInclude Include="include\hvn3\rooms\RoomManager.h" />
     <ClInclude Include="include\hvn3\rooms\RoomTransitionFade.h" />
     <ClInclude Include="include\hvn3\rooms\RoomTransitionNone.h" />
-    <ClInclude Include="include\hvn3\rooms\RoomTypeDefs.h" />
+    <ClInclude Include="include\hvn3\rooms\RoomDefs.h" />
     <ClInclude Include="include\hvn3\sound\Sound.h" />
     <ClInclude Include="include\hvn3\sound\SoundEmitter.h" />
     <ClInclude Include="include\hvn3\sound\SoundInstance.h" />

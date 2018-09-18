@@ -9,7 +9,7 @@
 #include "hvn3/math/Rectangle.h"
 #include "hvn3/rooms/RoomEnterEventArgs.h"
 #include "hvn3/rooms/RoomExitEventArgs.h"
-#include "hvn3/rooms/RoomTypeDefs.h"
+#include "hvn3/rooms/RoomDefs.h"
 
 namespace hvn3 {
 

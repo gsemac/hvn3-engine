@@ -2,7 +2,7 @@
 #include "hvn3/core/IDrawable.h"
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/rooms/IRoom.h"
-#include "hvn3/rooms/RoomTypeDefs.h"
+#include "hvn3/rooms/RoomDefs.h"
 #include <memory>
 
 namespace hvn3 {
