@@ -24,7 +24,7 @@ namespace hvn3 {
 			_adapter = std::move(adapter);
 		}
 
-		RoomPtr Import(const std::string& file_path) const {
+		IRoomPtr Import(const std::string& file_path) const {
 
 			Xml::XmlDocument doc = Xml::XmlDocument::Open(file_path);
 
@@ -32,7 +32,7 @@ namespace hvn3 {
 			width = StringUtils::Parse<int>(doc.Root()["width"]);
 			height = StringUtils::Parse<int>(doc.Root()["height"]);
 
-			RoomPtr room(new RoomT(SizeI(width, height)));
+			IRoomPtr room(new RoomT(SizeI(width, height)));
 
 			Xml::XmlElement* backgrounds_node = doc.Root().GetChild("backgrounds");
 			Xml::XmlElement* tiles_node = doc.Root().GetChild("tiles");

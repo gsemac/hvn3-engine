@@ -27,7 +27,7 @@ namespace hvn3 {
 				_grid_renderer.SetLineStyle(pen);
 
 			}
-			RoomView(const RoomPtr& room) :
+			RoomView(const IRoomPtr& room) :
 				RoomView() {
 
 				_room = room;
@@ -37,7 +37,7 @@ namespace hvn3 {
 
 			}
 
-			void SetRoom(const RoomPtr& room) {
+			void SetRoom(const IRoomPtr& room) {
 
 				_room = room;
 
@@ -106,6 +106,8 @@ namespace hvn3 {
 
 				if (_room) {					
 
+					DrawEventArgs args(e.Graphics());
+
 					Graphics::GraphicsState original_graphics_state = e.Graphics().Save();
 
 					Graphics::Transform t = e.Graphics().GetTransform();
@@ -121,7 +123,7 @@ namespace hvn3 {
 					e.Graphics().SetTransform(t);
 					e.Graphics().SetClip(RectangleF::Intersection(clip, RectangleF(FixedPosition(), room_size)));
 
-					_room->OnDraw(DrawEventArgs(e.Graphics()));
+					_room->OnDraw(args);
 
 					if (_draw_objects && !_draw_outside_room)
 						_drawObjects(e);
@@ -147,7 +149,7 @@ namespace hvn3 {
 			}
 
 		private:
-			RoomPtr _room;
+			IRoomPtr _room;
 			bool _show_grid;
 			bool _draw_objects;
 			bool _draw_outside_room;
@@ -168,8 +170,10 @@ namespace hvn3 {
 			}
 			void _drawObjects(WidgetDrawEventArgs& e) {
 
+				DrawEventArgs args(e.Graphics());
+
 				_room->GetObjects().ForEach([&](IObject* x) {
-					x->OnDraw(DrawEventArgs(e.Graphics()));
+					x->OnDraw(args);
 				});
 
 			}

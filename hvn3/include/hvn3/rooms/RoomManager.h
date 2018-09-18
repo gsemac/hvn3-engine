@@ -21,9 +21,9 @@ namespace hvn3 {
 		RoomManager(System::IContextProvider* context_provider);
 		~RoomManager();
 
-		void SetRoom(RoomPtr& room) override;
-		RoomPtr& Room() override;
-		const RoomPtr& Room() const override;
+		void SetRoom(IRoomPtr& room) override;
+		IRoomPtr& Room() override;
+		const IRoomPtr& Room() const override;
 		void RestartRoom() override;
 		void ClearRoom() override;
 		bool IsRoomNull() override;
@@ -40,11 +40,11 @@ namespace hvn3 {
 		void _exitRoom();
 
 		bool _roomTransitionIsInProgress() const;
-		void _beginRoomTransition(RoomPtr& next_room);
+		void _beginRoomTransition(IRoomPtr& next_room);
 
 	private:
-		RoomPtr _current_room;
-		RoomPtr _next_room;
+		IRoomPtr _current_room;
+		IRoomPtr _next_room;
 		System::IContextProvider* _context_provider;
 		ROOM_TRANSITION_STATE _room_transition_state;
 		std::unique_ptr<RoomTransitionBase> _transition;

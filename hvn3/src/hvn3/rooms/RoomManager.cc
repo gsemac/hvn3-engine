@@ -26,7 +26,7 @@ namespace hvn3 {
 		_transition.release();
 
 	}
-	void RoomManager::SetRoom(RoomPtr& room) {
+	void RoomManager::SetRoom(IRoomPtr& room) {
 
 		if (_roomTransitionIsInProgress())
 			return;
@@ -40,10 +40,10 @@ namespace hvn3 {
 			_beginRoomTransition(room);
 
 	}
-	RoomPtr& RoomManager::Room() {
+	IRoomPtr& RoomManager::Room() {
 		return _current_room;
 	}
-	const RoomPtr& RoomManager::Room() const {
+	const IRoomPtr& RoomManager::Room() const {
 		return _current_room;
 	}
 	void RoomManager::RestartRoom() {
@@ -190,7 +190,7 @@ namespace hvn3 {
 		return _room_transition_state != NO_TRANSITION_PENDING;
 
 	}
-	void RoomManager::_beginRoomTransition(RoomPtr& next_room) {
+	void RoomManager::_beginRoomTransition(IRoomPtr& next_room) {
 
 		_next_room = next_room;
 		_room_transition_state = TRANSITION_PENDING;

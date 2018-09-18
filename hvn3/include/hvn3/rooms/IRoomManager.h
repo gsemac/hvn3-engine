@@ -13,11 +13,11 @@ namespace hvn3 {
 
 	public:
 		// Sets the current room to the given room object, and begins running it immediately.
-		virtual void SetRoom(RoomPtr& room) = 0;
+		virtual void SetRoom(IRoomPtr& room) = 0;
 		// Returns the current room.
-		virtual RoomPtr& Room() = 0;
+		virtual IRoomPtr& Room() = 0;
 		// Returns the current room.
-		virtual const RoomPtr& Room() const = 0;
+		virtual const IRoomPtr& Room() const = 0;
 		// Deinitializes and reinitializes the current room.
 		virtual void RestartRoom() = 0;
 		// Clears all objects, backgrounds, etc. from the current room.

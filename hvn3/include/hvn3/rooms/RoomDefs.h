@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/core/SmartPointerToInterfaceWrapper.h"
 #include <memory>
 
 namespace hvn3 {
@@ -6,19 +7,22 @@ namespace hvn3 {
 	class IRoom;
 	class Room;
 
+	typedef std::shared_ptr<IRoom> IRoomPtr;
+	template <typename RoomType>
+	using RoomPtr = hvn3::system::SmartPointerToInterfaceWrapper<IRoomPtr, RoomType>;
 	typedef int RoomId;
-	typedef std::shared_ptr<IRoom> RoomPtr;
 
 	enum : RoomId {
 		NULL_ROOM_ID = -1
 	};
 
-	template<typename room_type = Room, typename... Args>
-	RoomPtr make_room(Args&&... args) {
+	template<typename RoomType = Room, typename... Args>
+	RoomPtr<RoomType> make_room(Args&&... args) {
 
-		RoomPtr ptr = std::make_shared<room_type>(std::forward<Args>(args)...);
+		IRoomPtr smart_ptr = std::make_shared<RoomType>(std::forward<Args>(args)...);
+		RoomPtr<RoomType> handle(std::move(smart_ptr));
 
-		return ptr;
+		return handle;
 
 	}
 
