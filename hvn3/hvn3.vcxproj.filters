@@ -744,12 +744,6 @@
     <ClInclude Include="include\hvn3\utility\AbstractIterator.h">
       <Filter>include\utility</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\rooms\RoomExporter.h">
-      <Filter>include\rooms</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\rooms\RoomImporter.h">
-      <Filter>include\rooms</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\xml\XmlDocument.h">
       <Filter>include\xml</Filter>
     </ClInclude>
@@ -1228,9 +1222,6 @@
       <Filter>src\xml</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\xml\XmlElement.cc">
-      <Filter>src\xml</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\xml\XmlResourceAdapterBase.cc">
       <Filter>src\xml</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\helper\DirectionalControlsHelper.cc">

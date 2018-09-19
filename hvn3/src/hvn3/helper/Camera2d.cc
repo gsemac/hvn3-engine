@@ -131,9 +131,9 @@ namespace hvn3 {
 			else {
 
 				// If we don't have an ID to work with, we can find the object by its address.
-				Context().Objects().ForEach([&](hvn3::IObject* i) {
-					if (ptr == i)
-						ptr = i;
+				Context().Objects().ForEach([&](const IObjectPtr& i) {
+					if (ptr == i.get())
+						ptr = i.get();
 				});
 
 			}

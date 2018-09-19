@@ -187,8 +187,6 @@
     <ClInclude Include="include\hvn3\rooms\BasicLightingManager.h" />
     <ClInclude Include="include\hvn3\rooms\IRoom.h" />
     <ClInclude Include="include\hvn3\rooms\IRoomManager.h" />
-    <ClInclude Include="include\hvn3\rooms\RoomExporter.h" />
-    <ClInclude Include="include\hvn3\rooms\RoomImporter.h" />
     <ClInclude Include="include\hvn3\rooms\RoomTransitionBase.h" />
     <ClInclude Include="include\hvn3\rooms\Room.h" />
     <ClInclude Include="include\hvn3\rooms\RoomBase.h" />
@@ -393,7 +391,6 @@
     <ClCompile Include="src\hvn3\views\ViewManager.cc" />
     <ClCompile Include="src\hvn3\views\ViewUpdateEventArgs.cc" />
     <ClCompile Include="src\hvn3\xml\XmlElement.cc" />
-    <ClCompile Include="src\hvn3\xml\XmlResourceAdapterBase.cc" />
     <ClCompile Include="src\hvn3\xml\XmlUtils.cc" />
     <ClCompile Include="src\hvn3\xml\XmlDocument.cc" />
   </ItemGroup>

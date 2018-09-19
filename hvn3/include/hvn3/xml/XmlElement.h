@@ -22,7 +22,7 @@ namespace hvn3 {
 			typedef attributes_collection_type::iterator attribute_iterator;
 			typedef attributes_collection_type::const_iterator const_attribute_iterator;
 
-			XmlElement(const std::string& tag);
+			explicit XmlElement(const std::string& tag);
 
 			const std::string& Tag() const;
 			void SetTag(const std::string& value);

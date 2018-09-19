@@ -32,8 +32,8 @@ namespace hvn3 {
 		virtual size_t Count() const = 0;
 		virtual size_t Count(ObjectId id) const = 0;
 		virtual bool Exists(ObjectId id) const = 0;
-		virtual void ForEach(const std::function<void(IObject*)>& func) = 0;
-		virtual void ForEach(const std::function<void(const IObject*)>& func) const = 0;
+		virtual void ForEach(const std::function<void(IObjectPtr&)>& func) = 0;
+		virtual void ForEach(const std::function<void(const IObjectPtr&)>& func) const = 0;
 
 		// Constructs an object and adds it to the manager, and returns a pointer to the newly-constructed object.
 		template<typename object_type, typename ... Args>

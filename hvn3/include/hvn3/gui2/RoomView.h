@@ -172,7 +172,7 @@ namespace hvn3 {
 
 				DrawEventArgs args(e.Graphics());
 
-				_room->GetObjects().ForEach([&](IObject* x) {
+				_room->GetObjects().ForEach([&](IObjectPtr& x) {
 					x->OnDraw(args);
 				});
 

@@ -9,6 +9,8 @@
 namespace hvn3 {
 	namespace Xml {
 
+		XmlDocument::XmlDocument() :
+			XmlDocument("") {}
 		XmlDocument::XmlDocument(const std::string& root_tag) :
 			_root(root_tag) {
 		}

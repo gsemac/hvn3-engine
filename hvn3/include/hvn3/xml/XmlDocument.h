@@ -8,6 +8,7 @@ namespace hvn3 {
 		class XmlDocument {
 
 		public:
+			XmlDocument();
 			XmlDocument(const std::string& root_tag);
 
 			XmlElement& Root();
