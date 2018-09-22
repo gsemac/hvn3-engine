@@ -7,9 +7,8 @@
 #include "hvn3/core/IDrawable.h"
 #include "hvn3/graphics/Color.h"
 #include "hvn3/math/Rectangle.h"
-#include "hvn3/rooms/RoomEnterEventArgs.h"
-#include "hvn3/rooms/RoomExitEventArgs.h"
 #include "hvn3/rooms/RoomDefs.h"
+#include "hvn3/rooms/RoomEventArgs.h"
 
 namespace hvn3 {
 
@@ -101,17 +100,17 @@ namespace hvn3 {
 			return _getManager(id);
 		}
 
-	protected:
-		// Returns the context assigned to the room.
-		virtual hvn3::Context Context() = 0;
-
 		virtual void Restart() = 0;
 		virtual void OnEnter(RoomEnterEventArgs& e) = 0;
 		virtual void OnExit(RoomExitEventArgs& e) = 0;
-		virtual void OnCreate() = 0;
+		virtual void OnCreate(RoomCreateEventArgs& e) = 0;
 		virtual bool IsReady() const = 0;
 		virtual void OnReset() = 0;
 		virtual void OnRender(DrawEventArgs& e) = 0;
+
+	protected:
+		// Returns the context assigned to the room.
+		virtual hvn3::Context Context() = 0;
 
 	private:
 		// Adds a new manager to the room, mapped to the given ID.

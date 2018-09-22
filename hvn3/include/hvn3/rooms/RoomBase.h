@@ -45,16 +45,16 @@ namespace hvn3 {
 		bool Persistent() const override;
 		void SetPersistent(bool value) override;
 
-	protected:
-		hvn3::Context Context() override;
 		void OnContextChanged(ContextChangedEventArgs& e) override;
-
 		void OnEnter(RoomEnterEventArgs& e) override;
 		void OnExit(RoomExitEventArgs& e) override;
-		void OnCreate() override;
+		void OnCreate(RoomCreateEventArgs& e) override;
 		bool IsReady() const;
 		void OnReset() override;
 		void OnRender(DrawEventArgs& e) override;
+
+	protected:
+		hvn3::Context Context() override;
 
 	private:
 		void _addManager(ManagerId id, std::shared_ptr<IManager>& manager) override;

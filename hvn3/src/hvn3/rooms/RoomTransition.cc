@@ -1,8 +1,30 @@
-#include "hvn3/rooms/RoomTransitionFade.h"
 #include "hvn3/core/DrawEventArgs.h"
-#include "hvn3/utility/Utility.h"
+#include "hvn3/math/Rectangle.h"
+#include "hvn3/rooms/RoomTransition.h"
 
 namespace hvn3 {
+
+	void RoomTransitionBase::ExitEnd() {}
+	void RoomTransitionBase::EnterBegin() {}
+	void RoomTransitionBase::EnterEnd() {}
+	bool RoomTransitionBase::Blocking() const {
+		return true;
+	}
+
+	RoomTransitionNone::RoomTransitionNone() {}
+	RoomTransitionNone::~RoomTransitionNone() {}
+	void RoomTransitionNone::ExitBegin() {}
+	bool RoomTransitionNone::ExitStep(UpdateEventArgs& e) {
+
+		return true;
+
+	}
+	bool RoomTransitionNone::EnterStep(UpdateEventArgs& e) {
+
+		return true;
+
+	}
+	void RoomTransitionNone::OnDraw(DrawEventArgs& e) {}
 
 	RoomTransitionFade::RoomTransitionFade() :
 		RoomTransitionFade(Color::Black) {
@@ -15,7 +37,6 @@ namespace hvn3 {
 		_alpha(0.0f),
 		_fade_to_color(fade_to_color) {
 	}
-
 	void RoomTransitionFade::ExitBegin() {
 
 		_alpha = 0.0f;
@@ -29,7 +50,6 @@ namespace hvn3 {
 
 
 	}
-
 	bool RoomTransitionFade::EnterStep(UpdateEventArgs& e) {
 
 		_alpha = static_cast<float>(Math::Max(_alpha - e.Delta(), 0.0));
@@ -37,7 +57,6 @@ namespace hvn3 {
 		return _alpha <= 0.0f;
 
 	}
-
 	void RoomTransitionFade::OnDraw(DrawEventArgs& e) {
 
 		Color draw_color = Color::FromArgbf(_fade_to_color.Rf(), _fade_to_color.Gf(), _fade_to_color.Bf(), _alpha);
@@ -46,7 +65,6 @@ namespace hvn3 {
 		e.Graphics().DrawSolidRectangle(0, 0, region.Width(), region.Height(), draw_color);
 
 	}
-
 	bool RoomTransitionFade::Blocking() const {
 		return _blocking;
 	}

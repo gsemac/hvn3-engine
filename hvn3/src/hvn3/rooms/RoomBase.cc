@@ -114,7 +114,7 @@ namespace hvn3 {
 	}
 	void RoomBase::OnEnter(RoomEnterEventArgs& e) {}
 	void RoomBase::OnExit(RoomExitEventArgs& e) {}
-	void RoomBase::OnCreate() {
+	void RoomBase::OnCreate(RoomCreateEventArgs& e) {
 		_set_up = true;
 	}
 	bool RoomBase::IsReady() const {

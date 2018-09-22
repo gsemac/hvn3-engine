@@ -16,7 +16,8 @@
 
 namespace hvn3 {
 
-	class Room : public RoomBase {
+	class Room : 
+		public RoomBase {
 
 	public:
 		typedef BackgroundManager background_manager_type;
@@ -55,7 +56,6 @@ namespace hvn3 {
 		RectangleF VisiblePort() const override;
 		RectangleF VisibleRegion() const override;
 
-	protected:
 		void OnContextChanged(ContextChangedEventArgs& e) override;
 		void Restart() override;
 		void OnReset() override;

@@ -10,7 +10,7 @@
 #include "hvn3/io/IO.h"
 #include "hvn3/math/Vector2d.h"
 #include "hvn3/rooms/Room.h"
-#include "hvn3/rooms/RoomTransitionFade.h"
+#include "hvn3/rooms/RoomTransition.h"
 #include "hvn3/sprites/SpriteRenderer.h"
 #include "hvn3/tilesets/Tileset.h"
 #include "hvn3/utility/Environment.h"

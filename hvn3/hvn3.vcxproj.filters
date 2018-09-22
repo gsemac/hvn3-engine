@@ -408,19 +408,7 @@
     <ClInclude Include="include\hvn3\rooms\RoomBase.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\rooms\RoomEnterEventArgs.h">
-      <Filter>include\rooms</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\rooms\RoomExitEventArgs.h">
-      <Filter>include\rooms</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\rooms\RoomManager.h">
-      <Filter>include\rooms</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\rooms\RoomTransitionFade.h">
-      <Filter>include\rooms</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\rooms\RoomTransitionNone.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\sprites\Sprite.h">
@@ -702,9 +690,6 @@
     <ClInclude Include="include\hvn3\native\FileDialog.h">
       <Filter>include\native</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\rooms\RoomTransitionBase.h">
-      <Filter>include\rooms</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\io\BitReader.h">
       <Filter>include\io</Filter>
     </ClInclude>
@@ -722,9 +707,6 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\io\StreamBase.h">
       <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\rooms\RoomProxy.h">
-      <Filter>include\rooms</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\tilesets\TileManager.h">
       <Filter>include\tilesets</Filter>
@@ -841,6 +823,9 @@
       <Filter>include\objects</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\rooms\RoomDefs.h">
+      <Filter>include\rooms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\rooms\RoomTransition.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1008,19 +993,7 @@
     <ClCompile Include="src\hvn3\rooms\Room.cc">
       <Filter>src\rooms</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\rooms\RoomEnterEventArgs.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\rooms\RoomExitEventArgs.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\rooms\RoomManager.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\rooms\RoomTransitionFade.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\rooms\RoomTransitionNone.cc">
       <Filter>src\rooms</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\sprites\Sprite.cc">
@@ -1182,9 +1155,6 @@
     <ClCompile Include="src\hvn3\native\FileDialog.cc">
       <Filter>src\native</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\rooms\RoomTransitionBase.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\io\BitReader.cc">
       <Filter>src\io</Filter>
     </ClCompile>
@@ -1207,9 +1177,6 @@
       <Filter>src\io</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\rooms\RoomBase.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\rooms\RoomProxy.cc">
       <Filter>src\rooms</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\tilesets\TileManager.cc">
@@ -1262,6 +1229,12 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\collision\HitMask.cc">
       <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\RoomEventArgs.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\RoomTransition.cc">
+      <Filter>src\rooms</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

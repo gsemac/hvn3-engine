@@ -26,13 +26,20 @@ namespace hvn3 {
 	void Room::OnUpdate(UpdateEventArgs& e) {
 
 		// Pending restarts should be processed before anything else, so it doesn't do an extra update when resets are initiated outside of it.
+
 		if (_restart_pending) {
+
 			// Reset the state of the room.
 			OnReset();
+
+			RoomCreateEventArgs args;
+
 			// Set-up the room again.
-			OnCreate();
+			OnCreate(args);
+
 			// Disable the restarting pending flag.
 			_restart_pending = false;
+
 		}
 
 		// Update objects (begin).

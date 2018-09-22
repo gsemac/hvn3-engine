@@ -1,8 +1,6 @@
 #include "hvn3/exceptions/Exception.h"
 #include "hvn3/rooms/RoomManager.h"
-#include "hvn3/rooms/RoomProxy.h"
-#include "hvn3/rooms/RoomTransitionNone.h"
-#include "hvn3/rooms/RoomTransitionFade.h"
+#include "hvn3/rooms/RoomTransition.h"
 
 namespace hvn3 {
 
@@ -50,7 +48,7 @@ namespace hvn3 {
 
 		// Initiate a pending restart.
 		if (!IsRoomNull())
-			System::RoomProxy(*Room()).Restart();
+			Room()->Restart();
 
 	}
 	void RoomManager::ClearRoom() {
@@ -58,7 +56,7 @@ namespace hvn3 {
 		// Reset the state of the current room without calling any events.
 		// #todo This should be pending; it shouldn't happen immediately.
 		if (!IsRoomNull())
-			System::RoomProxy(*Room()).Reset();
+			Room()->OnReset();
 
 	}
 	bool RoomManager::IsRoomNull() {
@@ -144,30 +142,33 @@ namespace hvn3 {
 
 		if (!IsRoomNull()) {
 
-			System::RoomProxy proxy(*Room());
-
 			// If the current room has been set up and isn't persistent, reset it.
-			if (proxy.IsReady() && !_current_room->Persistent())
-				proxy.Reset();
+			if (Room()->IsReady() && !_current_room->Persistent())
+				Room()->OnReset();
 
 			// Call the on exit event for the current room.
-			proxy.DispatchEvent(RoomExitEventArgs());
+			RoomExitEventArgs args;
+			Room()->OnExit(args);
 
 		}
 
 		// Update current room.
 		_current_room = std::move(_next_room);
-
-		System::RoomProxy proxy(*Room());
 		
 		_context_provider->ProvideContext(*Room());
 
 		// Call the on enter event for the new room.
-		proxy.DispatchEvent(RoomEnterEventArgs());
+		RoomEnterEventArgs args;
+		Room()->OnEnter(args);
 
 		// If the next room hasn't been set up yet, set it up.
-		if (!proxy.IsReady())
-			proxy.SetUp();
+
+		if (!Room()->IsReady()) {
+
+			RoomCreateEventArgs args;
+			Room()->OnCreate(args);
+
+		}
 
 	}
 	// If the current room is not null, resets the room and calls the on exit event; otherwise, does nothing.
@@ -175,10 +176,10 @@ namespace hvn3 {
 
 		if (!IsRoomNull()) {
 
-			System::RoomProxy proxy(*Room());
+			Room()->OnReset();
 
-			proxy.Reset();
-			proxy.DispatchEvent(RoomExitEventArgs());
+			RoomExitEventArgs args;
+			Room()->OnExit(args);
 
 			_current_room.reset();
 

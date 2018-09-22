@@ -2,7 +2,7 @@
 #include "hvn3/core/IContextProvider.h"
 #include "hvn3/rooms/IRoom.h"
 #include "hvn3/rooms/IRoomManager.h"
-#include "hvn3/rooms/RoomTransitionBase.h"
+#include "hvn3/rooms/RoomTransition.h"
 #include <vector>
 
 namespace hvn3 {
