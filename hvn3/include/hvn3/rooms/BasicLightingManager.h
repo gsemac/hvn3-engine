@@ -28,7 +28,9 @@ namespace hvn3 {
 		LightSourceType type;
 	};
 
-	class BasicLightingManager : public IManager, public IDrawable {
+	class BasicLightingManager : 
+		public IManager, 
+		public IDrawable {
 
 		struct LightMapData {
 			Graphics::Bitmap bitmap;

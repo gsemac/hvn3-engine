@@ -24,6 +24,7 @@ namespace hvn3 {
 		_context_provider = &context_provider;
 		SetAmbientLightLevel(0.0f);
 		_enabled = true;
+		_next_id = 0;
 
 		if (_instance_count++ == 0)
 			_loadDefaultLightMaps();

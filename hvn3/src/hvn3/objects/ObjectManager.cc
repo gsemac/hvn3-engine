@@ -180,7 +180,7 @@ namespace hvn3 {
 		bool removed = false;
 
 		for (size_t i = 0; i < _objects.size(); ++i) {
-			std::cout << i << std::endl;
+			
 			if (_updateAndCheckObject(i, e))
 				_objects[i].object->OnBeginUpdate(e);
 
