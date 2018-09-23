@@ -120,21 +120,30 @@ namespace hvn3 {
 
 			// We need to make sure that the object still exists before trying to access it.
 
-			if (_target_id != NoOne) {
+			// Start by trying to find the object by its address.
 
-				// If we have an ID to work with, we can find the object that way.
-				while (ptr = Context().Objects().FindNext(_target_id), ptr != nullptr)
-					if (ptr == _target)
-						break;
+			if (_target != nullptr) {
+
+				Context().Objects().ForEach([&](const IObjectPtr& i) {
+
+					if (_target == i.get())
+						ptr = i.get();
+
+				});
 
 			}
-			else {
 
-				// If we don't have an ID to work with, we can find the object by its address.
-				Context().Objects().ForEach([&](const IObjectPtr& i) {
-					if (ptr == i.get())
-						ptr = i.get();
-				});
+			// If we didn't find the object, it no longer exists.
+			// If we have an ID to work with, follow the next object with that ID.
+
+			if (ptr == nullptr && _target_id != NoOne) {
+				
+				while (ptr = Context().Objects().FindNext(_target_id), ptr != nullptr) {
+				
+					_target = ptr;
+					break;
+
+				}
 
 			}
 
@@ -143,6 +152,7 @@ namespace hvn3 {
 
 		}
 
+		// If we didn't find the object, there's nothing to follow, so keep the current position.
 		return Position();
 
 	}
