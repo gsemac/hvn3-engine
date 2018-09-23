@@ -828,6 +828,9 @@
     <ClInclude Include="include\hvn3\rooms\RoomTransition.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\tilesets\EdgeTileFinder.h">
+      <Filter>include\tilesets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1235,6 +1238,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\rooms\RoomTransition.cc">
       <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tilesets\EdgeTileFinder.cc">
+      <Filter>src\tilesets</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

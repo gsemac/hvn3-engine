@@ -86,6 +86,30 @@ namespace hvn3 {
 		return Tile(it->second[index]).TileIndex() == tile_index;
 
 	}
+	void TileMap::GetNeighborsOf(std::vector<Tile>& out, int index, layer_id depth) const {
+
+		PointI pos = _indexToPos(index);
+
+		GetNeighborsOf(out, pos.x, pos.y, depth);
+
+	}
+	void TileMap::GetNeighborsOf(std::vector<Tile>& out, int x, int y, layer_id depth) const {
+
+		PointI pos(x, y);
+
+		PointI left(pos.x - 1, pos.y);
+		PointI top_left(pos.x - 1, pos.y - 1);
+		PointI top(pos.x, pos.y - 1);
+		PointI top_right(pos.x + 1, pos.y - 1);
+		PointI right(pos.x + 1, pos.y);
+		PointI bottom_right(pos.x + 1, pos.y + 1);
+		PointI bottom(pos.x, pos.y + 1);
+		PointI bottom_left(pos.x - 1, pos.y + 1);
+
+		for (PointI p : {left, top_left, top, top_right, right, bottom_right, bottom, bottom_left})
+			out.push_back(At(p.x, p.y, depth));
+
+	}
 	void TileMap::AddLayer(int depth) {
 
 		if (_layerExists(depth))
@@ -172,6 +196,15 @@ namespace hvn3 {
 		int index = GET_TILE_INDEX(x, y);
 
 		return _getTileIdAt(index, depth);
+
+	}
+	PointI TileMap::_indexToPos(int index) const {
+
+		PointI pos;
+		pos.x = index % _width;
+		pos.y = index / _height;
+
+		return pos;
 
 	}
 

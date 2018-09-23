@@ -200,6 +200,7 @@
     <ClInclude Include="include\hvn3\sprites\Sprite.h" />
     <ClInclude Include="include\hvn3\sprites\SpriteRenderer.h" />
     <ClInclude Include="include\hvn3\tilesets\AutoTileRenderer.h" />
+    <ClInclude Include="include\hvn3\tilesets\EdgeTileFinder.h" />
     <ClInclude Include="include\hvn3\tilesets\TileManager.h" />
     <ClInclude Include="include\hvn3\tilesets\TileMap.h" />
     <ClInclude Include="include\hvn3\tilesets\TileMapRenderer.h" />
@@ -358,6 +359,7 @@
     <ClCompile Include="src\hvn3\sprites\Sprite.cc" />
     <ClCompile Include="src\hvn3\sprites\SpriteRenderer.cc" />
     <ClCompile Include="src\hvn3\tilesets\AutoTileRenderer.cc" />
+    <ClCompile Include="src\hvn3\tilesets\EdgeTileFinder.cc" />
     <ClCompile Include="src\hvn3\tilesets\TileManager.cc" />
     <ClCompile Include="src\hvn3\tilesets\TileMap.cc" />
     <ClCompile Include="src\hvn3\tilesets\TileMapRenderer.cc" />

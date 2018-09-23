@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/math/Point2d.h"
 #include <cstddef>
 #include <map>
 #include <vector>
@@ -41,6 +42,8 @@ namespace hvn3 {
 		Tile At(int x, int y, layer_id depth) const;
 		bool Exists(int x, int y, layer_id depth) const;
 		bool Exists(int x, int y, layer_id depth, tile_id tile_index) const;
+		void GetNeighborsOf(std::vector<Tile>& out, int index, layer_id depth) const;
+		void GetNeighborsOf(std::vector<Tile>& out, int x, int y, layer_id depth) const;
 
 		void AddLayer(int depth);
 		layer_map_type::size_type LayerCount() const;
@@ -60,6 +63,7 @@ namespace hvn3 {
 		bool _layerExists(layer_id layer) const;
 		tile_id _getTileIdAt(int n, layer_id depth) const;
 		tile_id _getTileIdAt(int x, int y, layer_id depth) const;
+		PointI _indexToPos(int index) const;
 
 	};
 
