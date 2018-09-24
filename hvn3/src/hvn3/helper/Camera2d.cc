@@ -37,6 +37,11 @@ namespace hvn3 {
 		_target_id = target_id;
 
 	}
+	void Camera2d::OnCreate(CreateEventArgs& e) {
+
+		SnapToTarget();
+
+	}
 	void Camera2d::OnUpdate(UpdateEventArgs& e) {
 
 		PointF to = _getTargetPosition() + _offset;
@@ -80,6 +85,11 @@ namespace hvn3 {
 		_target_id = NoOne;
 
 	}
+	void Camera2d::SnapToTarget() {
+
+		ObjectBase::SetPosition(_getTargetPosition());
+
+	}
 	void Camera2d::SetFollowing(IObject* target) {
 
 		_target = target;
@@ -114,7 +124,7 @@ namespace hvn3 {
 
 	PointF Camera2d::_getTargetPosition() {
 
-		if (_hasFollowingTarget()) {
+		if (_hasFollowingTarget() && Context()) {
 
 			IObject* ptr = nullptr;
 
@@ -137,9 +147,9 @@ namespace hvn3 {
 			// If we have an ID to work with, follow the next object with that ID.
 
 			if (ptr == nullptr && _target_id != NoOne) {
-				
+
 				while (ptr = Context().Objects().FindNext(_target_id), ptr != nullptr) {
-				
+
 					_target = ptr;
 					break;
 

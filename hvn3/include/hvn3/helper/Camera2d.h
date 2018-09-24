@@ -22,9 +22,11 @@ namespace hvn3 {
 		Camera2d(IObject* target);
 		Camera2d(ObjectId target_id);
 
+		void OnCreate(CreateEventArgs& e) override;
 		void OnUpdate(UpdateEventArgs& e) override;
 		void SetPosition(const PointF& position) override;
 
+		void SnapToTarget();
 		void SetFollowing(IObject* target);
 		void SetFollowing(ObjectId target_id);
 		void SetOffset(float offset_x, float offset_y);

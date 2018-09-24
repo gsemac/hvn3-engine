@@ -56,6 +56,7 @@ namespace hvn3 {
 			_allow_redraw = true;
 			_exit_loop = false;
 			_default_font = nullptr;
+			_last_room = nullptr;
 
 		}
 		Runner::~Runner() {
@@ -126,12 +127,12 @@ namespace hvn3 {
 					Console::WriteLine("------------------------------");
 					Console::Write("Mouse: ");
 					Console::WriteLine(Mouse::Position());
-				}
+			}
 #endif
 
-			}
-
 		}
+
+	}
 		void Runner::WaitForEvent() {
 
 			// Wait for the next event.
@@ -256,6 +257,13 @@ namespace hvn3 {
 
 		}
 		void Runner::OnTimerTick(Event& ev) {
+
+			// Did the room change? If so, reset the delta timer.
+			// This prevents having a large delta when a room has taken a while to load.
+			if (!_context.Rooms().IsRoomNull() && _last_room != &_context.Room()) {
+				_delta_timer.Reset();
+				_last_room = &_context.Room();
+			}
 
 			// Update the state of the game.
 			OnUpdate(UpdateEventArgs(_delta_timer.SecondsElapsed()));
@@ -663,5 +671,5 @@ namespace hvn3 {
 
 		}
 
-	}
+}
 }

@@ -66,6 +66,7 @@ namespace hvn3 {
 			bool _display_was_fullscreen;
 			bool _track_mouse_outside_display;
 			System::FpsCounter _fps_counter;
+			IRoom* _last_room;
 
 			Context _context;
 			Font* _default_font;
