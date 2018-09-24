@@ -49,10 +49,10 @@ namespace hvn3 {
 		TileMap::tile_id y = tile_index / tileset.Columns();
 
 		// If this is not an auto-tile, draw it without any extra processing.
-		if (tileset.At(tile_index).flags != Tileset::TileFlags::AutoTile) {
+		/*if (tileset.At(tile_index).flags != Tileset::TileFlags::AutoTile) {
 			canvas.DrawBitmap(dx, dy, tileset.At(tile_index).bitmap);
 			return;
-		}
+		}*/
 
 		switch (auto_tile_index) {
 		case AUTOTILE_INDEX_ALL:

@@ -4,33 +4,16 @@
 
 namespace hvn3 {
 
-	//enum class TileFlags {
-	//	AutoTile
-	//};
-
-	//class Tile {
-	//public:
-	//	Tile(const Graphics::Bitmap& bitmap);
-	//	TileFlags Flags() const;
-	//private:
-	//	Graphics::Bitmap _bitmap;
-	//	TileFlags _flags;
-	//};
-
 	class Tileset {
 
 	public:
-		enum class TileFlags {
-			AutoTile = 1
-		};
-
 		class Tile {
 
 		public:
 			Tile(Graphics::Bitmap&& bitmap);
 
 			Graphics::Bitmap bitmap;
-			TileFlags flags;
+			int flag;
 
 		};
 
@@ -59,7 +42,5 @@ namespace hvn3 {
 		SizeI _tile_size;
 
 	};
-
-	ENABLE_BITFLAG_OPERATORS(Tileset::TileFlags)
 
 }

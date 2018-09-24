@@ -1,23 +1,35 @@
 #pragma once
+#include "hvn3/graphics/GridRenderer.h"
+#include "hvn3/gui2/IWidgetRenderer.h"
 #include "hvn3/gui2/ScrollableWidgetBase.h"
+#include "hvn3/utility/StringUtils.h"
 #include "hvn3/tilesets/Tileset.h"
 
 namespace hvn3 {
 	namespace Gui {
 
-		enum class TilesetViewMode {
-			Fixed,
-			Collapse
-		};
-
-		class TilesetView : public ScrollableWidgetBase {
+		class TilesetView :
+			public ScrollableWidgetBase {
 
 		public:
+			enum class DrawingMode {
+				Fixed,
+				Collapse
+			};
+
+			enum class ViewMode {
+				Selection,
+				Flags
+			};
+
 			TilesetView(const Tileset& tileset) :
 				ScrollableWidgetBase(SizeF(tileset.Bitmap().Width(), tileset.Bitmap().Height())),
 				_tileset(tileset),
 				_selection(0, 0, 1, 1) {
+
 				_dragging = false;
+				_view_mode = ViewMode::Selection;
+
 			}
 
 			const RectangleI& SelectedRegion() {
@@ -32,19 +44,31 @@ namespace hvn3 {
 			const Tileset& Tileset() {
 				return _tileset;
 			}
+			void SetViewMode(ViewMode value) {
+				_view_mode = value;
+			}
 
 			void OnMousePressed(WidgetMousePressedEventArgs& e) override {
 
 				PointI tile_index = _mousePositionToTileIndex(e.Position());
-				
+
 				if (tile_index.x < 0 && tile_index.y < 0)
 					return;
 
-				_selected_index = tile_index;
-				_selection.SetPosition(tile_index);
-				_selection.SetSize(1, 1);
+				if (_view_mode == ViewMode::Selection) {
 
-				_dragging = true;
+					_selected_index = tile_index;
+					_selection.SetPosition(tile_index);
+					_selection.SetSize(1, 1);
+
+					_dragging = true;
+
+				}
+				else if (_view_mode == ViewMode::Flags) {
+
+					_tileset.GetAt(tile_index.x, tile_index.y).flag += (e.Button() == MouseButton::Left ? 1 : -1);
+
+				}
 
 			}
 			void OnMouseReleased(WidgetMouseReleasedEventArgs& e) override {
@@ -72,7 +96,32 @@ namespace hvn3 {
 
 				e.Graphics().DrawBitmap(X() - VisibleRegion().X(), Y() - VisibleRegion().Y(), _tileset.Bitmap());
 
-				_drawSelectorRectangle(e);
+				if (_view_mode == ViewMode::Flags) {
+
+					e.Graphics().SetBlendMode(hvn3::Graphics::BlendOperation::Invert);
+
+					Graphics::GridRenderer(e.Graphics()).Draw({ X() - VisibleRegion().X(), Y() - VisibleRegion().Y() }, Grid(_tileset.Rows(), _tileset.Columns(), _tileset.TileSize().width, _tileset.TileSize().height), Color::White);
+
+					e.Graphics().HoldBitmapDrawing(true);
+
+					for (unsigned int y = 0; y < _tileset.Rows(); ++y)
+						for (unsigned int x = 0; x < _tileset.Columns(); ++x) {
+
+							float tx = (X() - VisibleRegion().X()) + x * _tileset.TileSize().width + (_tileset.TileSize().width / 2.0f);
+							float ty = (Y() - VisibleRegion().Y()) + y * _tileset.TileSize().height + (_tileset.TileSize().height / 2.0f);
+
+							//e.Graphics().DrawText(tx + 1.0f, ty + 1.0f, StringUtils::ToString(_tileset.At(x, y).flag), GetRenderer()->GetWidgetFont(this), Color::Black, Alignment::Center | Alignment::Middle);
+							e.Graphics().DrawText(tx, ty, StringUtils::ToString(_tileset.At(x, y).flag), GetRenderer()->GetWidgetFont(this), Color::White, Alignment::Center | Alignment::Middle);
+
+						}
+
+					e.Graphics().HoldBitmapDrawing(false);
+					e.Graphics().ResetBlendMode();
+
+				}
+
+				if (_view_mode == ViewMode::Selection)
+					_drawSelectorRectangle(e);
 
 				//e.Graphics().HoldBitmapDrawing(true);
 
@@ -100,6 +149,7 @@ namespace hvn3 {
 			PointI _selected_index;
 			RectangleI _selection;
 			bool _dragging;
+			ViewMode _view_mode;
 
 			void _drawSelectorRectangle(WidgetDrawEventArgs& e) {
 

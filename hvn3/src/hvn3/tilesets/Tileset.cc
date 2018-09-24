@@ -76,7 +76,7 @@ namespace hvn3 {
 	Tileset::Tile::Tile(Graphics::Bitmap&& bitmap) :
 		bitmap(std::move(bitmap)) {
 
-		this->flags = static_cast<TileFlags>(0);
+		this->flag = 0;
 
 	}
 
