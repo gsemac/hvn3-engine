@@ -122,8 +122,7 @@ namespace hvn3 {
 					e.Graphics().ResetBlendMode();
 
 				}
-
-				if (_view_mode == ViewMode::Selection)
+				else if (_view_mode == ViewMode::Selection)
 					_drawSelectorRectangle(e);
 
 				//e.Graphics().HoldBitmapDrawing(true);

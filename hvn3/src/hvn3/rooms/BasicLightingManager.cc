@@ -143,6 +143,8 @@ namespace hvn3 {
 		PointF draw_pos = visible_region.Position() + origin;
 		e.Graphics().DrawBitmap(draw_pos.x, draw_pos.y, _surface, 1.0f, 1.0f, origin, -angle);
 
+		g.ResetBlendMode();
+
 	}
 
 
