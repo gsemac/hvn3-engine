@@ -42,6 +42,24 @@ namespace hvn3 {
 			};
 
 		public:
+			void WriteDefaultProperties(const IRoomPtr& data, Xml::XmlElement& node) const {
+
+				node.SetTag("map");
+				node.SetAttribute("version", "1.0");
+				node.SetAttribute("width", data->Width());
+				node.SetAttribute("height", data->Height());
+
+				Xml::XmlElement* backgrounds_node = node.AddChild("backgrounds");
+				Xml::XmlElement* tiles_node = node.AddChild("tiles");
+				Xml::XmlElement* objects_node = node.AddChild("objects");
+				Xml::XmlElement* views_node = node.AddChild("views");
+
+				ExportBackgrounds(data->Backgrounds(), *backgrounds_node);
+				ExportObjects(data->Objects(), *objects_node);
+				ExportTiles(data->Tiles(), *tiles_node);
+				ExportViews(data->Views(), *views_node);
+
+			}
 			static void WriteDefaultProperties(const IObjectPtr& data, Xml::XmlElement& node) {
 
 				node.SetAttribute("id", data->Id());
@@ -134,6 +152,29 @@ namespace hvn3 {
 
 			}
 
+			void ReadDefaultProperties(IRoomPtr& data, const Xml::XmlElement& node) const {
+
+				if (!data)
+					return;
+
+				const Xml::XmlElement* backgrounds_node = node.GetChild("backgrounds");
+				const Xml::XmlElement* tiles_node = node.GetChild("tiles");
+				const Xml::XmlElement* objects_node = node.GetChild("objects");
+				const Xml::XmlElement* views_node = node.GetChild("views");
+
+				if (backgrounds_node != nullptr)
+					ImportBackgrounds(data->GetBackgrounds(), *backgrounds_node);
+
+				if (tiles_node != nullptr)
+					ImportTiles(data->GetTiles(), *tiles_node);
+
+				if (objects_node != nullptr)
+					ImportObjects(data->GetObjects(), *objects_node);
+
+				if (views_node != nullptr)
+					ImportViews(data->GetViews(), *views_node);
+
+			}
 			static void ReadDefaultProperties(IObjectPtr& data, const Xml::XmlElement& node) {
 
 				if (!data)
@@ -245,22 +286,7 @@ namespace hvn3 {
 			}
 
 			void ExportRoom(const IRoomPtr& data, Xml::XmlElement& node) const override {
-
-				node.SetTag("map");
-				node.SetAttribute("version", "1.0");
-				node.SetAttribute("width", data->Width());
-				node.SetAttribute("height", data->Height());
-
-				Xml::XmlElement* backgrounds_node = node.AddChild("backgrounds");
-				Xml::XmlElement* tiles_node = node.AddChild("tiles");
-				Xml::XmlElement* objects_node = node.AddChild("objects");
-				Xml::XmlElement* views_node = node.AddChild("views");
-
-				ExportBackgrounds(data->Backgrounds(), *backgrounds_node);
-				ExportObjects(data->Objects(), *objects_node);
-				ExportTiles(data->Tiles(), *tiles_node);
-				ExportViews(data->Views(), *views_node);
-
+				WriteDefaultProperties(data, node);
 			}
 			void ExportBackground(const Background& data, Xml::XmlElement& node) const override {
 				WriteDefaultProperties(data, node);
@@ -327,22 +353,7 @@ namespace hvn3 {
 
 				IRoomPtr room(new RoomType(SizeI(width, height)));
 
-				const Xml::XmlElement* backgrounds_node = node.GetChild("backgrounds");
-				const Xml::XmlElement* tiles_node = node.GetChild("tiles");
-				const Xml::XmlElement* objects_node = node.GetChild("objects");
-				const Xml::XmlElement* views_node = node.GetChild("views");
-
-				if (backgrounds_node != nullptr)
-					ImportBackgrounds(room->GetBackgrounds(), *backgrounds_node);
-
-				if (tiles_node != nullptr)
-					ImportTiles(room->GetTiles(), *tiles_node);
-
-				if (objects_node != nullptr)
-					ImportObjects(room->GetObjects(), *objects_node);
-
-				if (views_node != nullptr)
-					ImportViews(room->GetViews(), *views_node);
+				ReadDefaultProperties(room, node);
 
 				return room;
 
