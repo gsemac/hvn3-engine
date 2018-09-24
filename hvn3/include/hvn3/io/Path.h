@@ -15,11 +15,13 @@ namespace hvn3 {
 			static char AltDirectorySeparatorChar();
 			static char VolumeSeparatorChar();
 			static std::string GetExtension(const std::string& path);
+			static std::string SetExtension(const std::string& path, const std::string& ext);
 			static std::string GetFileName(const std::string& path);
 			static std::string GetDirectoryName(const std::string& path);
 			static std::string GetTemporaryFilePath();
 
 		private:
+			static std::string::size_type _getExtensionPos(const std::string& path);
 
 		};
 

@@ -33,6 +33,9 @@ namespace hvn3 {
 		const SizeI& GridSize() const;
 		const SizeI& TileSize() const;
 
+		static Tileset FromFile(const std::string& file);
+		static Tileset FromFile(const std::string& file, const SizeI& tile_size);
+
 		//static Tileset GenerateAutoTiles(const Tileset& autotiles);
 
 	private:

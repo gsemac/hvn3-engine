@@ -47,6 +47,9 @@ namespace hvn3 {
 			void SetViewMode(ViewMode value) {
 				_view_mode = value;
 			}
+			ViewMode ViewMode() const {
+				return _view_mode;
+			}
 
 			void OnMousePressed(WidgetMousePressedEventArgs& e) override {
 
@@ -149,7 +152,7 @@ namespace hvn3 {
 			PointI _selected_index;
 			RectangleI _selection;
 			bool _dragging;
-			ViewMode _view_mode;
+			enum class ViewMode _view_mode;
 
 			void _drawSelectorRectangle(WidgetDrawEventArgs& e) {
 

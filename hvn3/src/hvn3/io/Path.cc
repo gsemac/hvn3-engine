@@ -89,20 +89,29 @@ namespace hvn3 {
 		}
 		std::string Path::GetExtension(const std::string& path) {
 
-			if (path.length() <= 0)
+			auto pos = _getExtensionPos(path);
+
+			if (pos == std::string::npos)
 				return "";
 
-			for (size_t i = path.length() - 1; i > 0; --i) {
+			return path.substr(pos, path.size() - pos);
 
-				if (path[i] == DirectorySeparatorChar() || path[i] == AltDirectorySeparatorChar())
-					break;
+		}
+		std::string Path::SetExtension(const std::string& path, const std::string& ext) {
 
-				if (path[i] == '.')
-					return path.substr(i, path.length() - i);
+			auto pos = _getExtensionPos(path);
 
-			}
+			if (pos == std::string::npos || ext.size() <= 0)
+				return path;
 
-			return "";
+			std::string new_path = path.substr(0, pos);
+
+			if (ext[0] != '.')
+				new_path.push_back('.');
+
+			new_path += ext;
+
+			return new_path;
 
 		}
 		std::string Path::GetFileName(const std::string& path) {
@@ -135,6 +144,26 @@ namespace hvn3 {
 			tmpnam_s(buf);
 
 			return std::string(buf);
+
+		}
+
+		std::string::size_type Path::_getExtensionPos(const std::string& path) {
+
+			if (path.size() > 0) {
+
+				for (size_t i = path.size() - 1; i > 0; --i) {
+
+					if (path[i] == DirectorySeparatorChar() || path[i] == AltDirectorySeparatorChar())
+						break;
+
+					if (path[i] == '.')
+						return i;
+
+				}
+
+			}
+
+			return std::string::npos;
 
 		}
 
