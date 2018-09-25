@@ -241,12 +241,12 @@ namespace hvn3 {
 		// Draw all backgrounds.
 		const View* current_view = GetViews().Count() > 0 ? &CurrentView() : nullptr;
 		GetBackgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), current_view, false));
-		
-		// Draw all objects.
-		GetObjects().OnDraw(e);
 
 		// Draw all tiles.
 		GetTiles().OnDraw(e);
+
+		// Draw all objects.
+		GetObjects().OnDraw(e);
 
 		// Draw all foregrounds.
 		GetBackgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), current_view, true));

@@ -118,7 +118,6 @@ namespace hvn3 {
 		transform.Rotate(origin, angle);
 
 		g.Clear(Color::FromArgbf(0.0f, 0.0f, 0.0f, _ambient_light_level));
-		g.SetBlendMode(Graphics::BlendOperation::Subtract);
 		g.SetTransform(transform);
 
 		for (auto i = _light_sources.begin(); i != _light_sources.end(); ++i) {
@@ -138,12 +137,12 @@ namespace hvn3 {
 
 		}		
 
+		g.ResetBlendMode();
+
 		// Draw the lighting surface.
 
 		PointF draw_pos = visible_region.Position() + origin;
 		e.Graphics().DrawBitmap(draw_pos.x, draw_pos.y, _surface, 1.0f, 1.0f, origin, -angle);
-
-		g.ResetBlendMode();
 
 	}
 
