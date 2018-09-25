@@ -1,6 +1,7 @@
 #pragma once
 #include "hvn3/collision/CollisionDefs.h"
 #include "hvn3/core/IUpdatable.h"
+#include "hvn3/core/ManagerDefs.h"
 #include "hvn3/math/Point2d.h"
 
 #include <functional>
@@ -67,6 +68,11 @@ namespace hvn3 {
 		// Moves the body in a given direction (in degrees) until it is no longer colliding with the given body.
 		virtual bool MoveOutsideBody(ICollider* body, ICollider* other, float direction, float max_distance) = 0;
 
+	};
+
+	template<>
+	struct ManagerTraits<COLLISION_MANAGER> {
+		typedef ICollisionManager type;
 	};
 
 }

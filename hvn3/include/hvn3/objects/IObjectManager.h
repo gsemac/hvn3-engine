@@ -45,4 +45,9 @@ namespace hvn3 {
 
 	};
 
+	template<>
+	struct ManagerTraits<OBJECT_MANAGER> {
+		typedef IObjectManager type;
+	};
+
 }
