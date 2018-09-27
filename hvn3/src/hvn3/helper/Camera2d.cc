@@ -76,6 +76,11 @@ namespace hvn3 {
 		}
 
 	}
+	void Camera2d::OnContextChanged(ContextChangedEventArgs& e) {
+
+		_context = e.Context();
+
+	}
 	void Camera2d::SetPosition(const PointF& position) {
 
 		ObjectBase::SetPosition(position);
@@ -124,8 +129,9 @@ namespace hvn3 {
 
 	PointF Camera2d::_getTargetPosition() {
 
-		if (_hasFollowingTarget() && Context()) {
+		if (_hasFollowingTarget() && _context) {
 
+			auto& object_manager = _context.Get<OBJECT_MANAGER>();
 			IObject* ptr = nullptr;
 
 			// We need to make sure that the object still exists before trying to access it.
@@ -134,7 +140,7 @@ namespace hvn3 {
 
 			if (_target != nullptr) {
 
-				Context().Objects().ForEach([&](const IObjectPtr& i) {
+				object_manager.ForEach([&](const IObjectPtr& i) {
 
 					if (_target == i.get())
 						ptr = i.get();
@@ -148,7 +154,7 @@ namespace hvn3 {
 
 			if (ptr == nullptr && _target_id != NoOne) {
 
-				while (ptr = Context().Objects().FindNext(_target_id), ptr != nullptr) {
+				while (ptr = object_manager.FindNext(_target_id), ptr != nullptr) {
 
 					_target = ptr;
 					break;
@@ -171,9 +177,11 @@ namespace hvn3 {
 	}
 	View* Camera2d::_getView() {
 
-		for (size_t i = 0; i < Context().Views().Count(); ++i)
-			if (Context().Views().At(i).GetFollowing() == this)
-				return &Context().Views().At(i);
+		auto& view_manager = _context.Get<VIEW_MANAGER>();
+
+		for (size_t i = 0; i < view_manager.Count(); ++i)
+			if (view_manager.At(i).GetFollowing() == this)
+				return &view_manager.At(i);
 
 		return nullptr;
 

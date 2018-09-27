@@ -1,5 +1,6 @@
 #pragma once
 #include "hvn3/core/Context.h"
+#include "hvn3/core/IContextReceiver.h"
 #include "hvn3/collision/ICollidable.h"
 #include "hvn3/core/IDrawable.h"
 #include "hvn3/core/IUpdatable.h"
@@ -10,6 +11,7 @@
 namespace hvn3 {
 
 	class IObject :
+		public IContextReceiver,
 		public IUpdatable,
 		public IDrawable,
 		public ICollidable,
@@ -30,9 +32,6 @@ namespace hvn3 {
 		virtual void SetActive(bool value) = 0;
 		virtual ObjectFlags Flags() const = 0;
 		virtual void SetFlags(ObjectFlags flags) = 0;
-
-		virtual hvn3::Context Context() = 0;
-		virtual void SetContext(hvn3::Context context) = 0;
 
 	};
 

@@ -12,7 +12,8 @@ namespace hvn3 {
 		class IPhysicsBody;
 	}
 
-	class Object : public ObjectBase {
+	class Object :
+		public ObjectBase {
 
 		typedef Sprite sprite_type;
 

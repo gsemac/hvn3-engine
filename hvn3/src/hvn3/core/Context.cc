@@ -1,56 +1,44 @@
-#include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/core/Context.h"
-#include "hvn3/core/IContextProvider.h"
-#include "hvn3/core/IGameManager.h"
-#include "hvn3/rooms/IRoom.h"
-#include "hvn3/rooms/RoomManager.h"
+
+#include <cassert>
 
 namespace hvn3 {
 
-	Context::Context() {
-		_context_provider = nullptr;
+	Context::Context() :
+		Context(nullptr, nullptr) {
 	}
-	Context::Context(System::IContextProvider* context_provider) {
-		_context_provider = context_provider;
-	}
+	Context::Context(ManagerRegistry* global, ManagerRegistry* local) {
 
-	IObjectManager& Context::Objects() {
-		return Room().GetObjects();
-	}
-	IRoom& Context::Room() {
-		return *Rooms().Room();
-	}
-	RoomManager& Context::Rooms() {
-		return ContextProvider().GetRoomManager();
-	}
-	ICollisionManager& Context::Collisions() {
-		return Room().GetCollisions();
-	}
-	Physics::IPhysicsManager& Context::Physics() {
-		return Room().GetPhysics();
-	}
-	IViewManager& Context::Views() {
-		return Room().GetViews();
-	}
-	System::IContextProvider& Context::ContextProvider() {
-
-		if (_context_provider == nullptr)
-			throw System::NullReferenceException("Context has not yet been initialized.");
-
-		return *_context_provider;
+		_global = global;
+		_local = local;
 
 	}
-	GameProperties& Context::Properties() {
-		return ContextProvider().GetGameManager().GetProperties();
+	Context::Context(const Context& copy_global, ManagerRegistry* local) :
+		Context(copy_global.HasGlobalContext() ? &copy_global.Global() : nullptr, local) {
 	}
-	Display& Context::Display() {
-		return ContextProvider().GetGameManager().GetDisplay();
+	ManagerRegistry& Context::Local() const {
+
+		assert(_local != nullptr);
+
+		return *_local;
+
 	}
-	IGameManager& Context::GameManager() {
-		return ContextProvider().GetGameManager();
+	ManagerRegistry& Context::Global() const {
+
+		assert(_global != nullptr);
+
+		return *_global;
+
+	}
+
+	bool Context::HasLocalContext() const {
+		return _local != nullptr;
+	}
+	bool Context::HasGlobalContext() const {
+		return _global != nullptr;
 	}
 	Context::operator bool() const {
-		return _context_provider != nullptr;
+		return !(_local == nullptr && _global == nullptr);
 	}
 
 }

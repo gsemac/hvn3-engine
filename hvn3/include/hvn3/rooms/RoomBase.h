@@ -1,7 +1,7 @@
 #pragma once
-#include "hvn3/exceptions/Exception.h"
+#include "hvn3/core/Context.h"
+#include "hvn3/core/ManagerRegistry.h"
 #include "hvn3/rooms/IRoom.h"
-#include <unordered_map>
 
 #pragma warning(push)
 // Disables warning about SizeableBase providing implementation for ISizeable.
@@ -19,12 +19,12 @@ namespace hvn3 {
 		void OnUpdate(UpdateEventArgs& e) override;
 		void OnDraw(DrawEventArgs& e) override;
 
-		IObjectManager& GetObjects() override;
-		IBackgroundManager& GetBackgrounds() override;
-		IViewManager& GetViews() override;
-		ICollisionManager& GetCollisions() override;
-		Physics::IPhysicsManager& GetPhysics() override;
-		TileManager& GetTiles() override;
+		IObjectManager& Objects() override;
+		IBackgroundManager& Backgrounds() override;
+		IViewManager& Views() override;
+		ICollisionManager& Collisions() override;
+		Physics::IPhysicsManager& Physics() override;
+		TileManager& Tiles() override;
 
 		const IObjectManager& Objects() const override;
 		const IBackgroundManager& Backgrounds() const override;
@@ -54,18 +54,17 @@ namespace hvn3 {
 		void OnRender(DrawEventArgs& e) override;
 
 	protected:
-		hvn3::Context Context() override;
+		const ManagerRegistry& Local() const;
+		ManagerRegistry& Local();
+		const Context& GetContext() const;
 
 	private:
-		void _addManager(ManagerId id, std::shared_ptr<IManager>& manager) override;
-		IManager* _getManager(ManagerId id) const override;
-
 		RoomId _id;
 		Color _background_color;
 		bool _set_up;
 		bool _persistent;
-		hvn3::Context _context;
-		std::unordered_map<ManagerId, std::shared_ptr<IManager>> _registered_managers;
+		Context _context;
+		class ManagerRegistry _local;
 
 	};
 

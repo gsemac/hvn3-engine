@@ -16,7 +16,7 @@
 
 namespace hvn3 {
 
-	class Room : 
+	class Room :
 		public RoomBase {
 
 	public:
@@ -36,42 +36,18 @@ namespace hvn3 {
 		virtual void OnUpdate(UpdateEventArgs& e) override;
 		virtual void OnDraw(DrawEventArgs& e) override;
 
-		IObjectManager& GetObjects() override;
-		IBackgroundManager& GetBackgrounds() override;
-		IViewManager& GetViews() override;
-		ICollisionManager& GetCollisions() override;
-		Physics::IPhysicsManager& GetPhysics() override;
-		TileManager& GetTiles() override;
-
-		const IObjectManager& Objects() const override;
-		const IBackgroundManager& Backgrounds() const override;
-		const IViewManager& Views() const override;
-		const ICollisionManager& Collisions() const override;
-		const Physics::IPhysicsManager& Physics() const override;
-		const TileManager& Tiles() const override;
-
 		void SetBackground(const Background& value) override;
 
 		const View& CurrentView() const override;
 		RectangleF VisiblePort() const override;
 		RectangleF VisibleRegion() const override;
 
-		void OnContextChanged(ContextChangedEventArgs& e) override;
 		void Restart() override;
 		void OnReset() override;
 		void OnRender(DrawEventArgs& e) override;
 
 	private:
 		void _initializeAllManagers();
-		void _updateContextForAllManagers();
-
-		// #todo Perhaps all managers should be stored as pointers to allow them to be swapped easily.
-		std::unique_ptr<ICollisionManager>  _collision_manager;
-		background_manager_type _background_manager;
-		view_manager_type _view_manager;
-		std::unique_ptr<tile_manager_type> _tile_manager;
-		std::unique_ptr<physics_manager_type> _physics_manager;
-		std::unique_ptr<object_manager_type> _object_manager;
 
 		size_t _rendering_view;
 		bool _restart_pending;

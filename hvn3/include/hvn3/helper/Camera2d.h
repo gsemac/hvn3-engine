@@ -24,6 +24,8 @@ namespace hvn3 {
 
 		void OnCreate(CreateEventArgs& e) override;
 		void OnUpdate(UpdateEventArgs& e) override;
+		void OnContextChanged(ContextChangedEventArgs& e) override;
+
 		void SetPosition(const PointF& position) override;
 
 		void SnapToTarget();
@@ -40,6 +42,7 @@ namespace hvn3 {
 		ObjectId _target_id;
 		PanMode _pan_mode;
 		bool _tilt_enabled;
+		Context _context;
 
 		PointF _getTargetPosition();
 		bool _hasFollowingTarget();

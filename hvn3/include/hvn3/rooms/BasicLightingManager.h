@@ -1,6 +1,6 @@
 #pragma once
-#include "hvn3/core/IContextProvider.h"
 #include "hvn3/core/IDrawable.h"
+#include "hvn3/core/IManager.h"
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/core/ManagerDefs.h"
 #include "hvn3/graphics/Bitmap.h"
@@ -38,7 +38,7 @@ namespace hvn3 {
 		};
 
 	public:
-		BasicLightingManager(System::IContextProvider& context_provider);
+		BasicLightingManager();
 		~BasicLightingManager();
 
 		LightSourceId Create(const PointF& position, LightSourceType type);
@@ -54,12 +54,13 @@ namespace hvn3 {
 		static void AddLightMap(const Graphics::Bitmap& light_map, LightSourceType type, const PointF& origin, bool set_alpha = true);
 
 		void OnDraw(DrawEventArgs& e) override;
+		void OnContextChanged(ContextChangedEventArgs& e) override;
 
 	private:
 		LightSourceId _getNextLightSourceId();
 		LightMapData* _findLightMapData(LightSourceType type);
 
-		System::IContextProvider* _context_provider;
+		Context _context;
 		std::unordered_map<LightSourceId, LightSource> _light_sources;
 		LightSourceId _next_id;
 		bool _enabled;
@@ -77,7 +78,7 @@ namespace hvn3 {
 	};
 
 	template<>
-	struct ManagerTraits<BASIC_LIGHTING_MANAGER> {
+	struct ManagerIdTraits<BASIC_LIGHTING_MANAGER> {
 		typedef BasicLightingManager type;
 	};
 

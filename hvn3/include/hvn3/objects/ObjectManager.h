@@ -6,9 +6,8 @@
 
 namespace hvn3 {
 
-	class ObjectManager : 
-		public IObjectManager,
-		public System::IContextReceiver {
+	class ObjectManager :
+		public IObjectManager {
 
 		struct ObjectListItem {
 
@@ -22,7 +21,7 @@ namespace hvn3 {
 			bool callOnCreateEvent;
 			// This is set to false when the OnDestroy event has been called.
 			bool callOnDestroyEvent;
-		
+
 		};
 
 		typedef std::vector<ObjectListItem> object_list_type;

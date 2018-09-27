@@ -12,6 +12,7 @@
 #include "hvn3/core/Runner.h"
 #include "hvn3/core/DrawEventArgs.h"
 #include "hvn3/core/Framework.h"
+#include "hvn3/core/IGameManager.h"
 #include "hvn3/core/UpdateEventArgs.h"
 #include "hvn3/events/Event.h"
 #include "hvn3/fonts/Font.h"
@@ -32,8 +33,8 @@ namespace hvn3 {
 
 		Runner::Runner(Context context) :
 			_context(context),
-			_timer(1.0 / context.Properties().FrameRate),
-			_graphics(context.Display().BackBuffer()),
+			_timer(1.0 / context.Get<GAME_MANAGER>().Properties().FrameRate),
+			_graphics(context.Get<GAME_MANAGER>().Display().BackBuffer()),
 			_fps_counter(0.25) {
 
 			// Make sure that the required framework components have been initialized.
@@ -41,13 +42,13 @@ namespace hvn3 {
 			System::Framework::Initialize(System::FrameworkComponent::IO);
 
 			// Take note of the full-screen state of the display (used for listening to full-screen changes).
-			_display_was_fullscreen = context.Display().IsFullscreen();
+			_display_was_fullscreen = context.Get<GAME_MANAGER>().Display().IsFullscreen();
 
 			// In case any bitmaps were created before the display, tie them to the current display.
 			Graphics::Bitmap::ConvertMemoryBitmapsToVideoBitmaps();
 
 			// Initialize the event queue.
-			_event_queue.AddEventSource(context.Display().EventSource());
+			_event_queue.AddEventSource(context.Get<GAME_MANAGER>().Display().EventSource());
 			_event_queue.AddEventSource(_timer.EventSource());
 			_event_queue.AddEventSource(MouseMutator().GetEventSource());
 			_event_queue.AddEventSource(KeyboardMutator().GetEventSource());
@@ -69,15 +70,15 @@ namespace hvn3 {
 		}
 		void Runner::OnDraw(DrawEventArgs& e) {
 
-			if (!_context.Rooms().IsRoomNull())
+			if (!_context.Get<ROOM_MANAGER>().IsRoomNull())
 
 				// Render the active Scene.
-				_context.Rooms().OnDraw(e);
+				_context.Get<ROOM_MANAGER>().OnDraw(e);
 
 			else {
 
 				// Draw placeholder graphics.
-				SizeI size = _context.Display().Size();
+				SizeI size = _context.Get<GAME_MANAGER>().Display().Size();
 				e.Graphics().DrawText(Math::Round(size.width / 2.0f), Math::Round(size.height / 2.0f), _properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);
 
 			}
@@ -89,13 +90,13 @@ namespace hvn3 {
 		}
 		void Runner::OnUpdate(UpdateEventArgs& e) {
 
-			if (!_context.Rooms().IsRoomNull() && !_isFrozen() && _frames_skipped++ <= _properties().MaxFrameSkip) {
+			if (!_context.Get<ROOM_MANAGER>().IsRoomNull() && !_isFrozen() && _frames_skipped++ <= _properties().MaxFrameSkip) {
 
 				// Reset the delta timer.
 				_delta_timer.Reset();
 
 				// Update the active room.
-				_context.Rooms().OnUpdate(e);
+				_context.Get<ROOM_MANAGER>().OnUpdate(e);
 
 				// For any keys held, dispatch the appropriate event to all keyboard listeners.
 				if (Keyboard::KeyDown(Key::Any))
@@ -105,9 +106,9 @@ namespace hvn3 {
 				MouseMutator().DispatchAllMouseDownEvents();
 
 				// If the fullscreen state of the display has changed, emit a DisplaySizeChanged event.
-				if (_display_was_fullscreen != _context.Display().IsFullscreen()) {
+				if (_display_was_fullscreen != _context.Get<GAME_MANAGER>().Display().IsFullscreen()) {
 					//_context.GetRooms().CurrentRoom()->OnDisplaySizeChanged(DisplaySizeChangedEventArgs(_properties().DisplaySize, _display.Size(), &_display));
-					_display_was_fullscreen = _context.Display().IsFullscreen();
+					_display_was_fullscreen = _context.Get<GAME_MANAGER>().Display().IsFullscreen();
 				}
 
 #if defined(HVN3_DEBUG) && defined(HVN3_DEBUG_CONSOLE)
@@ -127,12 +128,12 @@ namespace hvn3 {
 					Console::WriteLine("------------------------------");
 					Console::Write("Mouse: ");
 					Console::WriteLine(Mouse::Position());
-			}
+				}
 #endif
 
-		}
+			}
 
-	}
+		}
 		void Runner::WaitForEvent() {
 
 			// Wait for the next event.
@@ -260,9 +261,9 @@ namespace hvn3 {
 
 			// Did the room change? If so, reset the delta timer.
 			// This prevents having a large delta when a room has taken a while to load.
-			if (!_context.Rooms().IsRoomNull() && _last_room != &_context.Room()) {
+			if (!_context.Get<ROOM_MANAGER>().IsRoomNull() && _last_room != &*_context.Get<ROOM_MANAGER>().Room()) {
 				_delta_timer.Reset();
-				_last_room = &_context.Room();
+				_last_room = &*_context.Get<ROOM_MANAGER>().Room();
 			}
 
 			// Update the state of the game.
@@ -297,7 +298,7 @@ namespace hvn3 {
 
 			// Toggle fullscreen if F11 is pressed.
 			if (ev.AlPtr()->keyboard.keycode == ALLEGRO_KEY_F11)
-				_context.Display().SetFullscreen(!_context.Display().IsFullscreen());
+				_context.Get<GAME_MANAGER>().Display().SetFullscreen(!_context.Get<GAME_MANAGER>().Display().IsFullscreen());
 
 			// Exit the loop if the escape key has been pressed.
 			if (ev.AlPtr()->keyboard.keycode == ALLEGRO_KEY_ESCAPE && _properties().ExitWithEscapeKey)
@@ -427,7 +428,7 @@ namespace hvn3 {
 		}
 		void Runner::OnDisplayResize(Event& ev) {
 
-			Display& display = _context.Display();
+			Display& display = _context.Get<GAME_MANAGER>().Display();
 
 			// Store the old size so that we can include it in the event args.
 			SizeI old_size = display.Size();
@@ -448,7 +449,7 @@ namespace hvn3 {
 		}
 		void Runner::OnDisplaySwitchOut(Event& ev) {
 
-			Display& display = _context.Display();
+			Display& display = _context.Get<GAME_MANAGER>().Display();
 
 			display._setFocus(false);
 
@@ -472,7 +473,7 @@ namespace hvn3 {
 		}
 		void Runner::OnDisplaySwitchIn(Event& ev) {
 
-			Display& display = _context.Display();
+			Display& display = _context.Get<GAME_MANAGER>().Display();
 
 			display._setFocus(true);
 
@@ -502,7 +503,7 @@ namespace hvn3 {
 			OnDraw(DrawEventArgs(_graphics));
 
 			// Swap out the backbuffer.
-			_context.Display().Refresh();
+			_context.Get<GAME_MANAGER>().Display().Refresh();
 
 			// Redrawing will be disabled until the event queue is cleared.
 			_allow_redraw = false;
@@ -524,16 +525,16 @@ namespace hvn3 {
 
 
 		bool Runner::_isFrozen() {
-			return !_context.Display().IsFocused() && _properties().FreezeWhenLostFocus;
+			return !_context.Get<GAME_MANAGER>().Display().IsFocused() && _properties().FreezeWhenLostFocus;
 		}
 		void Runner::_applyScalingMode() {
 
 			// If no scene has been loaded, do nothing.
-			if (_context.Rooms().IsRoomNull())
+			if (_context.Get<ROOM_MANAGER>().IsRoomNull())
 				return;
 
 			// Get a reference to the current room.
-			IRoom& room = _context.Room();
+			IRoom& room = *_context.Get<ROOM_MANAGER>().Room();
 
 			// For scaling, we need to consider the largest view, or the size of the room if no views are enabled.
 			RectangleF room_region = room.VisiblePort();
@@ -542,8 +543,8 @@ namespace hvn3 {
 			Graphics::Transform scaling_transform;
 			RectangleF clipping_rectangle(0.0f, 0.0f, room_region.Width(), room_region.Height());
 
-			SizeI display_size = _context.Display().Size();
-			Scale display_scale = _context.Display().Scale();
+			SizeI display_size = _context.Get<GAME_MANAGER>().Display().Size();
+			Scale display_scale = _context.Get<GAME_MANAGER>().Display().Scale();
 
 			switch (_properties().ScalingMode) {
 
@@ -593,10 +594,10 @@ namespace hvn3 {
 			// #todo fix mouse position scaling
 
 			// If no scene has been loaded, do nothing.
-			if (_context.Rooms().IsRoomNull())
+			if (_context.Get<ROOM_MANAGER>().IsRoomNull())
 				return;
 
-			IRoom& room = *_context.Rooms().Room();
+			IRoom& room = *_context.Get<ROOM_MANAGER>().Room();
 
 			if (room.Views().Count() > 0) {
 
@@ -667,9 +668,9 @@ namespace hvn3 {
 		}
 		GameProperties& Runner::_properties() {
 
-			return _context.Properties();
+			return _context.Get<GAME_MANAGER>().Properties();
 
 		}
 
-}
+	}
 }

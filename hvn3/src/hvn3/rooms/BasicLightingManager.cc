@@ -5,7 +5,8 @@
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/math/MathUtils.h"
 #include "hvn3/rooms/BasicLightingManager.h"
-#include "hvn3/rooms/Room.h"
+#include "hvn3/rooms/IRoomManager.h"
+#include "hvn3/views/IViewManager.h"
 
 namespace hvn3 {
 
@@ -19,10 +20,10 @@ namespace hvn3 {
 
 
 
-	BasicLightingManager::BasicLightingManager(System::IContextProvider& context_provider) {
+	BasicLightingManager::BasicLightingManager() {
 
-		_context_provider = &context_provider;
 		SetAmbientLightLevel(0.0f);
+
 		_enabled = true;
 		_next_id = 0;
 
@@ -92,7 +93,12 @@ namespace hvn3 {
 	}
 	void BasicLightingManager::OnDraw(DrawEventArgs& e) {
 
-		RectangleF visible_region = _context_provider->Context().Room().VisibleRegion();
+		IRoomPtr& room = _context.Get<ROOM_MANAGER>().Room();
+
+		if (!room)
+			return;
+
+		RectangleF visible_region = room->VisibleRegion();
 		SizeI visible_size = static_cast<SizeI>(visible_region.Size());
 
 		// If the visible region has changed in size, resize the lighting surface.
@@ -103,8 +109,8 @@ namespace hvn3 {
 		float angle = 0.0f;
 
 		// If there is an active view, we need to rotate the lights and lighting surface accordingly.
-		if (_context_provider->Context().Room().Views().Count() > 0) {
-			const View& view = _context_provider->Context().Room().CurrentView();
+		if (room->Views().Count() > 0) {
+			const View& view = room->CurrentView();
 			origin = view.Region().Midpoint() - view.Position();
 			angle = view.Angle();
 		}
@@ -135,7 +141,7 @@ namespace hvn3 {
 
 			g.DrawBitmap(i->second.position.x, i->second.position.y, lm->bitmap, 1.0f, 1.0f, lm->origin, i->second.direction, Color::FromArgbf(0.4f, 0.4f, 0.4f, 0.4f));
 
-		}		
+		}
 
 		g.ResetBlendMode();
 
@@ -143,6 +149,11 @@ namespace hvn3 {
 
 		PointF draw_pos = visible_region.Position() + origin;
 		e.Graphics().DrawBitmap(draw_pos.x, draw_pos.y, _surface, 1.0f, 1.0f, origin, -angle);
+
+	}
+	void BasicLightingManager::OnContextChanged(ContextChangedEventArgs& e) {
+
+		_context = e.Context();
 
 	}
 
@@ -169,7 +180,7 @@ namespace hvn3 {
 		// Store the existing bitmap flags, and enable the AntiAlias flag (so the light maps can be stretched without pixellation).
 		Graphics::BitmapFlags old_flags = Graphics::Bitmap::DefaultBitmapFlags();
 		Graphics::Bitmap::SetDefaultBitmapFlags(Graphics::BitmapFlags::Default | Graphics::BitmapFlags::AntiAlias);
-		
+
 		// Attempt to load the system light maps. Do not throw an exception if this fails, because the user can still add their own light maps if they choose not to use the system ones.
 		// #todo Store these assets in code, not on the file system.
 		Graphics::Bitmap lm_radial = Graphics::Bitmap::FromFile(System::GetSystemAssetPath(System::SystemAssetType::Graphics) + "lm_radial.png");

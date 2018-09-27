@@ -15,6 +15,7 @@ namespace hvn3 {
 
 		void OnCreate(CreateEventArgs& e) override;
 		void OnDestroy(DestroyEventArgs& e) override;
+		void OnContextChanged(ContextChangedEventArgs& e) override;
 
 		ObjectId Id() const override;
 		int Depth() const override;
@@ -39,9 +40,6 @@ namespace hvn3 {
 		void SetPosition(const PointF& position) override;
 		void SetPosition(float x, float y) override;
 
-		hvn3::Context Context() override;
-		void SetContext(hvn3::Context context) override;
-
 	private:
 		ObjectId _id;
 		PointF _position;
@@ -49,7 +47,6 @@ namespace hvn3 {
 		bool _is_destroyed;
 		bool _is_active;
 		ObjectFlags _flags;
-		hvn3::Context _context;
 
 	};
 

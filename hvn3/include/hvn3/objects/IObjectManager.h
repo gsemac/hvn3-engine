@@ -1,18 +1,20 @@
 #pragma once
-#include "hvn3/objects/ObjectDefs.h"
-#include "hvn3/core/IUpdatable.h"
 #include "hvn3/core/IDrawable.h"
+#include "hvn3/core/IManager.h"
+#include "hvn3/core/IUpdatable.h"
 #include "hvn3/core/ManagerDefs.h"
+#include "hvn3/objects/ObjectDefs.h"
+
 #include <functional>
 #include <memory>
 #include <utility>
 
 namespace hvn3 {
 
-	class IObjectManager : 
-		public IUpdatable, 
-		public IDrawable,
-		public IManager {
+	class IObjectManager :
+		public IManager,
+		public IUpdatable,
+		public IDrawable {
 
 	public:
 		virtual ~IObjectManager() = default;
@@ -46,7 +48,7 @@ namespace hvn3 {
 	};
 
 	template<>
-	struct ManagerTraits<OBJECT_MANAGER> {
+	struct ManagerIdTraits<OBJECT_MANAGER> {
 		typedef IObjectManager type;
 	};
 

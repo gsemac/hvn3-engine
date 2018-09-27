@@ -1,5 +1,6 @@
 #pragma once
-#include "hvn3/core/ContextProviderBase.h"
+#include "hvn3/core/IContextProvider.h"
+#include "hvn3/core/IManager.h"
 #include "hvn3/core/ManagerDefs.h"
 
 namespace hvn3 {
@@ -14,7 +15,7 @@ namespace hvn3 {
 
 	class IGameManager :
 		public IManager,
-		public System::ContextProviderBase {
+		public IContextProvider {
 
 	public:
 		virtual ~IGameManager() = default;
@@ -28,14 +29,16 @@ namespace hvn3 {
 		// Deinitializes the game and underlying framework.
 		virtual void Shutdown() = 0;
 
-		virtual GameProperties& GetProperties() = 0;
-		virtual System::Runner& GetRunner() = 0;
-		virtual Display& GetDisplay() = 0;
+		virtual GameProperties& Properties() = 0;
+		virtual System::Runner& Runner() = 0;
+		virtual Display& Display() = 0;
+
+		virtual hvn3::Context Context() = 0;
 
 	};
 
 	template<>
-	struct ManagerTraits<GAME_MANAGER> {
+	struct ManagerIdTraits<GAME_MANAGER> {
 		typedef IGameManager type;
 	};
 

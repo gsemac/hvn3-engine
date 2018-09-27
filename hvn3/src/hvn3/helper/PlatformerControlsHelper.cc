@@ -68,10 +68,10 @@ namespace hvn3 {
 		_flags = value;
 	}
 
-	void PlatformerControlsHelper::Step() {
-		Step(1.0f);
+	void PlatformerControlsHelper::Step(const Context& context) {
+		Step(context, 1.0f);
 	}
-	void PlatformerControlsHelper::Step(double delta) {
+	void PlatformerControlsHelper::Step(const Context& context, double delta) {
 
 		DirectionalControlsHelper::Step();
 
@@ -123,7 +123,7 @@ namespace hvn3 {
 
 				// Handle normal horizontal movement.
 
-				_object->Context().Collisions().MoveContact(body, xdir, xmax, _platform_category_bits);
+				context.Get<COLLISION_MANAGER>().MoveContact(body, xdir, xmax, _platform_category_bits);
 
 				xleft -= Math::Abs(pprev.x - _object->X());
 				pprev = _object->Position();
@@ -141,7 +141,7 @@ namespace hvn3 {
 
 						PointF ptry = pprev + PointF(Math::Min(1.0f, xleft) * Math::Sign(xvel), -i);
 
-						if (_object->Context().Collisions().PlaceFree(body, ptry, _platform_category_bits)) {
+						if (context.Get<COLLISION_MANAGER>().PlaceFree(body, ptry, _platform_category_bits)) {
 
 							_object->SetPosition(ptry);
 							xleft -= Math::Geometry::PointDistance(ptry, pprev);
@@ -168,7 +168,7 @@ namespace hvn3 {
 
 		// Update vertical position.
 
-		if (_object->Context().Collisions().MoveContact(body, ydir, Math::Abs(yvel) * deltaf, _platform_category_bits)) {
+		if (context.Get<COLLISION_MANAGER>().MoveContact(body, ydir, Math::Abs(yvel) * deltaf, _platform_category_bits)) {
 			yvel = 0.0f;
 			_setGrounded(true);
 		}

@@ -31,6 +31,7 @@ namespace hvn3 {
 
 	void ObjectBase::OnCreate(CreateEventArgs& e) {}
 	void ObjectBase::OnDestroy(DestroyEventArgs& e) {}
+	void ObjectBase::OnContextChanged(ContextChangedEventArgs& e) {}
 
 	ObjectId ObjectBase::Id() const {
 
@@ -110,13 +111,6 @@ namespace hvn3 {
 	}
 	void ObjectBase::SetPosition(float x, float y) {
 		SetPosition(PointF(x, y));
-	}
-
-	hvn3::Context ObjectBase::Context() {
-		return _context;
-	}
-	void ObjectBase::SetContext(hvn3::Context context) {
-		_context = context;
 	}
 
 }

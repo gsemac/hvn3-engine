@@ -163,16 +163,16 @@ namespace hvn3 {
 				const Xml::XmlElement* views_node = node.GetChild("views");
 
 				if (backgrounds_node != nullptr)
-					ImportBackgrounds(data->GetBackgrounds(), *backgrounds_node);
+					ImportBackgrounds(data->Backgrounds(), *backgrounds_node);
 
 				if (tiles_node != nullptr)
-					ImportTiles(data->GetTiles(), *tiles_node);
+					ImportTiles(data->Tiles(), *tiles_node);
 
 				if (objects_node != nullptr)
-					ImportObjects(data->GetObjects(), *objects_node);
+					ImportObjects(data->Objects(), *objects_node);
 
 				if (views_node != nullptr)
-					ImportViews(data->GetViews(), *views_node);
+					ImportViews(data->Views(), *views_node);
 
 			}
 			static void ReadDefaultProperties(IObjectPtr& data, const Xml::XmlElement& node) {

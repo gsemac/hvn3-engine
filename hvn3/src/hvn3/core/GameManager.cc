@@ -14,9 +14,12 @@ namespace hvn3 {
 		GameManager(argc, argv, GameProperties()) {
 	}
 	GameManager::GameManager(const GameProperties& properties) :
+		_global(this, [this](IManager* m) {
+		ContextChangedEventArgs args(Context());
+		m->OnContextChanged(args);
+	}),
 		_properties(properties),
 		_display(properties.DisplaySize, properties.DisplayTitle, properties.DisplayFlags),
-		_room_manager(this),
 		_runner(Context()) {
 
 		_onInit();
@@ -55,39 +58,23 @@ namespace hvn3 {
 
 	}
 
-	GameProperties& GameManager::GetProperties() {
+	GameProperties& GameManager::Properties() {
 		return _properties;
 	}
-	System::Runner& GameManager::GetRunner() {
+	System::Runner& GameManager::Runner() {
 		return _runner;
 	}
-	Display& GameManager::GetDisplay() {
+	Display& GameManager::Display() {
 		return _display;
 	}
 
 	hvn3::Context GameManager::Context() {
-		return hvn3::Context(this);
-	}
 
+		hvn3::Context context(&_global, nullptr);
 
-
-	IGameManager& GameManager::GetGameManager() {
-		return *this;
-	}
-	RoomManager& GameManager::GetRoomManager() {
-		return _room_manager;
-	}
-	IManager* GameManager::GetManager(ManagerId id) {
-
-		// #todo Implement for access to "global" managers.
-
-		IManager* ptr = GetRoomManager().Room()->GetManagerById(id);
-
-		return ptr;
+		return context;
 
 	}
-
-
 
 	void GameManager::_onInit() {
 
@@ -104,12 +91,14 @@ namespace hvn3 {
 		if (!_properties.DisplayCursor)
 			_display.SetCursorVisible(false);
 
+		_global.Register<ROOM_MANAGER>(std::make_unique<RoomManager>());
+
 	}
 	void GameManager::_onShutdown() {
 
 		// Call the destructors for all members that could possibly be hanging onto to framework objects.
 		// There should be a better way of dealing with this (reference counting?).
-		_room_manager.~RoomManager();
+		_global.Get<ROOM_MANAGER>().~IRoomManager();
 		_display.~Display();
 		_runner.~Runner();
 

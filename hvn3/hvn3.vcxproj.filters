@@ -711,9 +711,6 @@
     <ClInclude Include="include\hvn3\tilesets\TileManager.h">
       <Filter>include\tilesets</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\core\ContextProviderBase.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\xml\XmlUtils.h">
       <Filter>include\xml</Filter>
     </ClInclude>
@@ -830,6 +827,9 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\tilesets\EdgeTileFinder.h">
       <Filter>include\tilesets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\ManagerRegistry.h">
+      <Filter>include\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

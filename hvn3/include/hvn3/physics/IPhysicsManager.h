@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/core/IManager.h"
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/math/Vector2d.h"
 #include <cstdint>
@@ -12,6 +13,7 @@ namespace hvn3 {
 		class IPhysicsBody;
 
 		class IPhysicsManager :
+			public IManager,
 			public IUpdatable {
 			
 		public:
@@ -31,4 +33,10 @@ namespace hvn3 {
 		};
 
 	}
+
+	template<>
+	struct ManagerIdTraits<PHYSICS_MANAGER> {
+		typedef Physics::IPhysicsManager type;
+	};
+
 }

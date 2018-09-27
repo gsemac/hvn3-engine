@@ -1,31 +1,23 @@
 #pragma once
+#include "hvn3/core/Context.h"
+#include "hvn3/core/IContextReceiver.h"
 #include "hvn3/core/ManagerDefs.h"
 
 namespace hvn3 {
 
 	class Context;
-	class IGameManager;
-	class RoomManager;
 
-	namespace System {
+	class IContextProvider {
 
-		class IContextReceiver;
+	protected:
+		virtual void GiveContext(IContextReceiver& receiver, const Context& context) {
 
-		class IContextProvider {
-			friend class hvn3::Context;
+			ContextChangedEventArgs args(context);
 
-		public:
-			// Returns an object representing the current game state.
-			virtual hvn3::Context Context() = 0;
-			// Provides context to a context receiver via the SetContext method.
-			virtual void ProvideContext(IContextReceiver& receiver) = 0;
+			receiver.OnContextChanged(args);
 
-		protected:
-			virtual IGameManager& GetGameManager() = 0;
-			virtual RoomManager& GetRoomManager() = 0;
-			virtual IManager* GetManager(ManagerId id) = 0;
+		}
 
-		};
+	};
 
-	}
 }

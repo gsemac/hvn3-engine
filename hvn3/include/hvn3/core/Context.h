@@ -1,48 +1,75 @@
 #pragma once
-#include "hvn3/core/IContextProvider.h"
+#include "hvn3/core/CoreDefs.h"
+#include "hvn3/core/ManagerDefs.h"
+#include "hvn3/core/ManagerRegistry.h"
+
+#include <exception>
+#include <type_traits>
 
 namespace hvn3 {
 
-	class Display;
-	class ICollisionManager;
-	class IGameManager;
-	class IObject;
-	class IObjectManager;
-	class IRoom;
-	class IViewManager;
-	class GameProperties;
-	class RoomManager;
-
-	namespace Physics {
-		class IPhysicsManager;
-	}
+	class ManagerRegistry;
 
 	class Context {
 
 	public:
 		Context();
-		Context(System::IContextProvider* context_provider);
+		Context(ManagerRegistry* global, ManagerRegistry* local);
+		Context(const Context& copy_global, ManagerRegistry* local);
 
-		IObjectManager& Objects();
-		IRoom& Room();
-		RoomManager& Rooms();
-		ICollisionManager& Collisions();
-		Physics::IPhysicsManager& Physics();
-		IViewManager& Views();
-		System::IContextProvider& ContextProvider();
-		GameProperties& Properties();
-		Display& Display();
-		IGameManager& GameManager();
+		ManagerRegistry& Local() const;
+		ManagerRegistry& Global() const;
 
-		template <ManagerId MANAGER_ID>
-		typename ManagerTraits<MANAGER_ID>::type* Get() {
-			return static_cast<ManagerTraits<MANAGER_ID>::type*>(_context_provider->GetManager(MANAGER_ID));
-		}
+		bool HasLocalContext() const;
+		bool HasGlobalContext() const;
 
 		explicit operator bool() const;
 
+		template <ManagerId MANAGER_ID>
+		typename ManagerIdTraits<MANAGER_ID>::type& Get() const {
+
+			using interface_type = typename ManagerIdTraits<MANAGER_ID>::type;
+
+			return Get<interface_type>();
+
+		}
+		template <typename InterfaceType>
+		InterfaceType& Get() const {
+
+			if (HasLocalContext() && _local->IsRegistered<InterfaceType>())
+				return _local->Get<InterfaceType>();
+
+			if (HasGlobalContext() && _global->IsRegistered<InterfaceType>())
+				return _global->Get<InterfaceType>();
+
+			HVN3_ASSERT(false, "The requested manager was not registered in any context.");
+
+			// Prevents warning about no return value
+			throw std::logic_error("this should never be reached");
+
+		}
+
+
 	private:
-		System::IContextProvider* _context_provider;
+		ManagerRegistry* _global;
+		ManagerRegistry* _local;
+
+	};
+
+	class ContextChangedEventArgs :
+		public System::EventArgs {
+
+	public:
+		ContextChangedEventArgs(const hvn3::Context& context) :
+			_context(context) {
+		}
+
+		const hvn3::Context& Context() const {
+			return _context;
+		}
+
+	private:
+		hvn3::Context _context;
 
 	};
 

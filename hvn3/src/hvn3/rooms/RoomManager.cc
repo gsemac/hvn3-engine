@@ -4,9 +4,8 @@
 
 namespace hvn3 {
 
-	RoomManager::RoomManager(System::IContextProvider* context_provider) :
-		_transition(nullptr),
-		_context_provider(context_provider) {
+	RoomManager::RoomManager() :
+		_transition(nullptr) {
 
 		_room_transition_state = NO_TRANSITION_PENDING;
 
@@ -137,6 +136,15 @@ namespace hvn3 {
 			_transition->OnDraw(e);
 
 	}
+	void RoomManager::OnContextChanged(ContextChangedEventArgs& e) {
+
+		// Store the last context given so it can be passed to rooms (likely to be global context only).
+		_context = e.Context();
+	
+		// Update the context for the current room if we already have one loaded.
+		_callRoomOnContextChanged();
+
+	}
 
 	void RoomManager::_loadNextRoom() {
 
@@ -154,8 +162,7 @@ namespace hvn3 {
 
 		// Update current room.
 		_current_room = std::move(_next_room);
-		
-		_context_provider->ProvideContext(*Room());
+		_callRoomOnContextChanged();
 
 		// Call the on enter event for the new room.
 		RoomEnterEventArgs args;
@@ -184,6 +191,15 @@ namespace hvn3 {
 			_current_room.reset();
 
 		}
+
+	}
+	void RoomManager::_callRoomOnContextChanged() const {
+
+		if (!Room())
+			return;
+
+		ContextChangedEventArgs context_changed_args(_context);
+		Room()->OnContextChanged(context_changed_args);
 
 	}
 	bool RoomManager::_roomTransitionIsInProgress() const {

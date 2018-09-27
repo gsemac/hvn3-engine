@@ -1,5 +1,6 @@
 #pragma once
 #include "hvn3/collision/CollisionDefs.h"
+#include "hvn3/core/IManager.h"
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/core/ManagerDefs.h"
 #include "hvn3/math/Point2d.h"
@@ -16,7 +17,8 @@ namespace hvn3 {
 	struct CollisionManifold;
 
 	class ICollisionManager :
-		public IUpdatable {
+		public IUpdatable,
+		public IManager {
 
 	public:
 		typedef std::function<bool(const ICollider*)> condition_lambda_type;
@@ -71,7 +73,7 @@ namespace hvn3 {
 	};
 
 	template<>
-	struct ManagerTraits<COLLISION_MANAGER> {
+	struct ManagerIdTraits<COLLISION_MANAGER> {
 		typedef ICollisionManager type;
 	};
 

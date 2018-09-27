@@ -1,8 +1,9 @@
 #pragma once
-#include "hvn3/graphics/Display.h"
+#include "hvn3/core/Context.h"
+#include "hvn3/core/GameProperties.h"
 #include "hvn3/events/EventQueue.h"
 #include "hvn3/events/Timer.h"
-#include "hvn3/core/GameProperties.h"
+#include "hvn3/graphics/Display.h"
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/rooms/RoomManager.h"
 #include "hvn3/utility/Stopwatch.h"

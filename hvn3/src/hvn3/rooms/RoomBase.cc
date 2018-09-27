@@ -1,14 +1,25 @@
 #pragma once
+#include "hvn3/backgrounds/IBackgroundManager.h"
+#include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/core/DrawEventArgs.h"
 #include "hvn3/graphics/Graphics.h"
+#include "hvn3/objects/IObjectManager.h"
+#include "hvn3/physics/IPhysicsManager.h"
 #include "hvn3/rooms/RoomBase.h"
+#include "hvn3/tilesets/TileManager.h"
+#include "hvn3/views/IViewManager.h"
 
 namespace hvn3 {
 
 	RoomBase::RoomBase(RoomId id, const SizeI& size) :
-		SizeableBase(size) {
+		SizeableBase(size),
+		_local([this](IManager* m) {
+		ContextChangedEventArgs args(_context);
+		m->OnContextChanged(args);
+	}) {
 
 		_id = id;
+		_context = Context(nullptr, &_local);
 
 		// Set the default background color.
 		_background_color = Color::Silver;
@@ -35,42 +46,42 @@ namespace hvn3 {
 
 	}
 
-	IObjectManager& RoomBase::GetObjects() {
-		throw System::NotImplementedException();
+	IObjectManager& RoomBase::Objects() {
+		return _local.Get<OBJECT_MANAGER>();
 	}
-	IBackgroundManager& RoomBase::GetBackgrounds() {
-		throw System::NotImplementedException();
+	IBackgroundManager& RoomBase::Backgrounds() {
+		return _local.Get<BACKGROUND_MANAGER>();
 	}
-	IViewManager& RoomBase::GetViews() {
-		throw System::NotImplementedException();
+	IViewManager& RoomBase::Views() {
+		return _local.Get<VIEW_MANAGER>();
 	}
-	ICollisionManager& RoomBase::GetCollisions() {
-		throw System::NotImplementedException();
+	ICollisionManager& RoomBase::Collisions() {
+		return _local.Get<COLLISION_MANAGER>();
 	}
-	Physics::IPhysicsManager& RoomBase::GetPhysics() {
-		throw System::NotImplementedException();
+	Physics::IPhysicsManager& RoomBase::Physics() {
+		return _local.Get<PHYSICS_MANAGER>();
 	}
-	TileManager& RoomBase::GetTiles() {
-		throw System::NotImplementedException();
+	TileManager& RoomBase::Tiles() {
+		return _local.Get<TILE_MANAGER>();
 	}
 
 	const IObjectManager& RoomBase::Objects() const {
-		throw System::NotImplementedException();
+		return _local.Get<OBJECT_MANAGER>();
 	}
 	const IBackgroundManager& RoomBase::Backgrounds() const {
-		throw System::NotImplementedException();
+		return _local.Get<BACKGROUND_MANAGER>();
 	}
 	const IViewManager& RoomBase::Views() const {
-		throw System::NotImplementedException();
+		return _local.Get<VIEW_MANAGER>();
 	}
 	const ICollisionManager& RoomBase::Collisions() const {
-		throw System::NotImplementedException();
+		return _local.Get<COLLISION_MANAGER>();
 	}
 	const Physics::IPhysicsManager& RoomBase::Physics() const {
-		throw System::NotImplementedException();
+		return _local.Get<PHYSICS_MANAGER>();
 	}
 	const TileManager& RoomBase::Tiles() const {
-		throw System::NotImplementedException();
+		return _local.Get<TILE_MANAGER>();
 	}
 
 	void RoomBase::SetBackgroundColor(const Color& color) {
@@ -105,12 +116,16 @@ namespace hvn3 {
 		_persistent = value;
 	}
 
-
-	hvn3::Context RoomBase::Context() {
-		return _context;
-	}
 	void RoomBase::OnContextChanged(ContextChangedEventArgs& e) {
-		_context = e.Context();
+
+		_context = Context(e.Context(), &_local);
+
+		ContextChangedEventArgs args(_context);
+
+		// Update the contexts for all local managers.
+		for (auto i = _local.begin(); i != _local.end(); ++i)
+			i->second->OnContextChanged(args);
+
 	}
 	void RoomBase::OnEnter(RoomEnterEventArgs& e) {}
 	void RoomBase::OnExit(RoomExitEventArgs& e) {}
@@ -132,27 +147,14 @@ namespace hvn3 {
 		e.Graphics().Clear(_background_color);
 	}
 
-
-	void RoomBase::_addManager(ManagerId id, std::shared_ptr<IManager>& manager) {
-
-		auto iter = _registered_managers.find(id);
-
-		//// This has been commented-out so that the user can replace existing managers with new ones.
-		//if (iter != _registered_managers.end())
-		//	throw System::ArgumentException("A manager with this ID already exists.");
-
-		_registered_managers[id] = std::move(manager);
-
+	const ManagerRegistry& RoomBase::Local() const {
+		return _local;
 	}
-	IManager* RoomBase::_getManager(ManagerId id) const {
-
-		auto iter = _registered_managers.find(id);
-
-		if (iter == _registered_managers.end())
-			return nullptr;
-
-		return iter->second.get();
-
+	ManagerRegistry& RoomBase::Local() {
+		return _local;
+	}
+	const Context& RoomBase::GetContext() const {
+		return _context;
 	}
 
 }

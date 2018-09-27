@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/core/IContextProvider.h"
+#include "hvn3/core/IManager.h"
 #include "hvn3/rooms/IRoom.h"
 #include "hvn3/rooms/IRoomManager.h"
 #include "hvn3/rooms/RoomTransition.h"
@@ -7,7 +7,7 @@
 
 namespace hvn3 {
 
-	class RoomManager : 
+	class RoomManager :
 		public IRoomManager {
 
 		enum ROOM_TRANSITION_STATE {
@@ -18,7 +18,7 @@ namespace hvn3 {
 		};
 
 	public:
-		RoomManager(System::IContextProvider* context_provider);
+		RoomManager();
 		~RoomManager();
 
 		void SetRoom(IRoomPtr& room) override;
@@ -33,11 +33,13 @@ namespace hvn3 {
 
 		void OnUpdate(UpdateEventArgs& e) override;
 		void OnDraw(DrawEventArgs& e) override;
+		void OnContextChanged(ContextChangedEventArgs& e) override;
 
 	protected:
 		void _loadNextRoom();
 		// If the current room is not null, resets the room and calls the on exit event; otherwise, does nothing.
 		void _exitRoom();
+		void _callRoomOnContextChanged() const;
 
 		bool _roomTransitionIsInProgress() const;
 		void _beginRoomTransition(IRoomPtr& next_room);
@@ -45,9 +47,9 @@ namespace hvn3 {
 	private:
 		IRoomPtr _current_room;
 		IRoomPtr _next_room;
-		System::IContextProvider* _context_provider;
 		ROOM_TRANSITION_STATE _room_transition_state;
 		std::unique_ptr<RoomTransitionBase> _transition;
+		Context _context;
 
 	};
 

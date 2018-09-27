@@ -1,10 +1,12 @@
 #pragma once
+#include "hvn3/core/IManager.h"
 #include "hvn3/views/View.h"
 #include "hvn3/views/ViewUpdateEventArgs.h"
 
 namespace hvn3 {
 
-	class IViewManager {
+	class IViewManager :
+		public IManager {
 
 	public:
 		virtual size_t Add(const View& view) = 0;
@@ -19,6 +21,11 @@ namespace hvn3 {
 		virtual void ForEach(const std::function<void(View&)>& func) = 0;
 		virtual void ForEach(const std::function<void(const View&)>& func) const = 0;
 
+	};
+
+	template<>
+	struct ManagerIdTraits<VIEW_MANAGER> {
+		typedef IViewManager type;
 	};
 
 }

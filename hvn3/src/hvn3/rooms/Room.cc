@@ -43,25 +43,25 @@ namespace hvn3 {
 		}
 
 		// Update objects (begin).
-		GetObjects().OnBeginUpdate(e);
+		Objects().OnBeginUpdate(e);
 
 		// Update objects (primary).
-		GetObjects().OnUpdate(e);
+		Objects().OnUpdate(e);
 
 		// Update collision manager.
-		GetCollisions().OnUpdate(e);
+		Collisions().OnUpdate(e);
 
 		// Update physics manager.
-		GetPhysics().OnUpdate(e);
+		Physics().OnUpdate(e);
 
 		// Update objects (end).
-		GetObjects().OnEndUpdate(e);
+		Objects().OnEndUpdate(e);
 
 		// Update views.
-		_view_manager.Update(ViewUpdateEventArgs(e.Delta(), hvn3::SizeI(Width(), Height())));
+		Views().Update(ViewUpdateEventArgs(e.Delta(), hvn3::SizeI(Width(), Height())));
 
 		// Update backgrounds.
-		_background_manager.Update(e);
+		Backgrounds().Update(e);
 
 	}
 	void Room::OnDraw(DrawEventArgs& e) {
@@ -71,9 +71,9 @@ namespace hvn3 {
 		RectangleF original_clip(e.Graphics().Clip());
 
 		// Each View needs to be drawn separately.
-		if (_view_manager.Count() > 0) {
+		if (Local().Get<VIEW_MANAGER>().Count() > 0) {
 
-			for (size_t i = 0; i < _view_manager.Count(); ++i) {
+			for (size_t i = 0; i < Local().Get<VIEW_MANAGER>().Count(); ++i) {
 
 				// Set current view index.
 				_rendering_view = i;
@@ -113,72 +113,26 @@ namespace hvn3 {
 		e.Graphics().SetClip(original_clip);
 
 	}
-	IObjectManager& Room::GetObjects() {
-		return *_object_manager;
-	}
-	IBackgroundManager& Room::GetBackgrounds() {
-		return _background_manager;
-	}
-	IViewManager& Room::GetViews() {
-
-		return _view_manager;
-
-	}
-	ICollisionManager& Room::GetCollisions() {
-
-		assert(static_cast<bool>(_collision_manager));
-
-		return *_collision_manager;
-
-	}
-	Physics::IPhysicsManager& Room::GetPhysics() {
-		return *_physics_manager;
-	}
-	TileManager& Room::GetTiles() {
-		return *_tile_manager;
-	}
-	const IObjectManager& Room::Objects() const {
-		return *_object_manager;
-	}
-	const IBackgroundManager& Room::Backgrounds() const {
-		return _background_manager;
-	}
-	const IViewManager& Room::Views() const {
-
-		return _view_manager;
-
-	}
-	const ICollisionManager& Room::Collisions() const {
-
-		assert(static_cast<bool>(_collision_manager));
-
-		return *_collision_manager;
-
-	}
-	const Physics::IPhysicsManager& Room::Physics() const {
-		return *_physics_manager;
-	}
-	const TileManager& Room::Tiles() const {
-		return *_tile_manager;
-	}
 	void Room::SetBackground(const Background& value) {
-		GetBackgrounds().Clear();
-		GetBackgrounds().Add(value);
+
+		Backgrounds().Clear();
+		Backgrounds().Add(value);
+
 	}
 	const View& Room::CurrentView() const {
 
-		if (_view_manager.Count() == 0)
+		if (Views().Count() == 0)
 			throw System::NullReferenceException();
 
-		return _view_manager.At(_rendering_view);
+		return Views().At(_rendering_view);
 
 	}
 	RectangleF Room::VisiblePort() const {
 
 		// Find the largest viewport, or the size of the room if no views are enabled.
 		const View* largest = nullptr;
-		for (size_t i = 0; i < _view_manager.Count(); ++i) {
-			const View* view = &_view_manager.At(i);
+		for (size_t i = 0; i < Views().Count(); ++i) {
+			const View* view = &Views().At(i);
 			if (!view->Enabled())
 				continue;
 			if (largest == nullptr || view->Port().Size() > largest->Port().Size())
@@ -194,7 +148,7 @@ namespace hvn3 {
 	RectangleF Room::VisibleRegion() const {
 
 		// Return the visible region given by the current view (if views are enabled).
-		if (_view_manager.Count() > 0)
+		if (Views().Count() > 0)
 			return CurrentView().Region();
 
 		// Otherwise, return a region corresponding to the entire room size.
@@ -202,12 +156,6 @@ namespace hvn3 {
 
 	}
 
-	void Room::OnContextChanged(ContextChangedEventArgs& e) {
-		RoomBase::OnContextChanged(e);
-
-		_updateContextForAllManagers();
-
-	}
 	void Room::Restart() {
 
 		_restart_pending = true;
@@ -217,20 +165,20 @@ namespace hvn3 {
 		RoomBase::OnReset();
 
 		// Reset base (clears all objects).
-		_object_manager->Clear();
+		Objects().Clear();
 
 		// Clear the physics manager first, as it may hold references to the collision manager.
-		_physics_manager->Clear();
+		Physics().Clear();
 
 		// Clear all bodies from the collision manager.
-		_collision_manager->Clear();
+		Collisions().Clear();
 
 		// Reset the view manager.
-		_view_manager.Clear();
+		Views().Clear();
 		_rendering_view = 0;
 
 		// Reset the background manager.
-		_background_manager.Clear();
+		Backgrounds().Clear();
 
 	}
 	void Room::OnRender(DrawEventArgs& e) {
@@ -239,44 +187,51 @@ namespace hvn3 {
 		e.Graphics().Clear(BackgroundColor());
 
 		// Draw all backgrounds.
-		const View* current_view = GetViews().Count() > 0 ? &CurrentView() : nullptr;
-		GetBackgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), current_view, false));
+		const View* current_view = Views().Count() > 0 ? &CurrentView() : nullptr;
+		Backgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), current_view, false));
 
 		// Draw all tiles.
-		GetTiles().OnDraw(e);
+		Tiles().OnDraw(e);
 
 		// Draw all objects.
-		GetObjects().OnDraw(e);
+		Objects().OnDraw(e);
 
 		// Draw all foregrounds.
-		GetBackgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), current_view, true));
+		Backgrounds().Draw(BackgroundDrawEventArgs(e.Graphics(), SizeI(Width(), Height()), current_view, true));
 
 	}
 
 	void Room::_initializeAllManagers() {
 
-		if (!_collision_manager)
-			_collision_manager = std::make_unique<CollisionManager>(std::make_unique<SpacialPartitioningGrid>(32, 32));
+		if (!Local().IsRegistered<BACKGROUND_MANAGER>()) {
+			auto ptr = make_manager<BackgroundManager>();
+			Local().Register<BACKGROUND_MANAGER>(ptr);
+		}
 
-		if (!_object_manager)
-			_object_manager = std::make_unique<object_manager_type>();
+		if (!Local().IsRegistered<VIEW_MANAGER>()) {
+			auto ptr = make_manager<ViewManager>();
+			Local().Register<VIEW_MANAGER>(ptr);
+		}
 
-		if (!_physics_manager)
-			_physics_manager = std::make_unique<physics_manager_type>();
+		if (!Local().IsRegistered<COLLISION_MANAGER>()) {
+			auto ptr = make_manager<CollisionManager>(std::make_unique<SpacialPartitioningGrid>(32, 32));
+			Local().Register<COLLISION_MANAGER>(ptr);
+		}
 
-		if (!_tile_manager)
-			_tile_manager = std::make_unique<tile_manager_type>(Size(), SizeI(32, 32));
+		if (!Local().IsRegistered<OBJECT_MANAGER>()) {
+			auto ptr = make_manager<object_manager_type>();
+			Local().Register<OBJECT_MANAGER>(ptr);
+		}
 
-	}
-	void Room::_updateContextForAllManagers() {
+		if (!Local().IsRegistered<PHYSICS_MANAGER>()) {
+			auto ptr = make_manager<physics_manager_type>();
+			Local().Register<PHYSICS_MANAGER>(ptr);
+		}
 
-		hvn3::Context ctx = Context();
-
-		if (_object_manager)
-			ctx.ContextProvider().ProvideContext(*_object_manager);
-
-		if(_physics_manager)
-			ctx.ContextProvider().ProvideContext(*_physics_manager);
+		if (!Local().IsRegistered<TILE_MANAGER>()) {
+			auto ptr = make_manager<tile_manager_type>(Size(), SizeI(32, 32));
+			Local().Register<TILE_MANAGER>(ptr);
+		}
 
 	}
 

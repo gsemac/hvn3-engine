@@ -1,5 +1,6 @@
 #pragma once
 #include "hvn3/core/IDrawable.h"
+#include "hvn3/core/IManager.h"
 #include "hvn3/core/ManagerDefs.h"
 #include "hvn3/tilesets/TileMap.h"
 #include "hvn3/tilesets/TileMapRenderer.h"
@@ -23,6 +24,11 @@ namespace hvn3 {
 	private:
 		SizeI _room_size;
 
+	};
+
+	template<>
+	struct ManagerIdTraits<TILE_MANAGER> {
+		typedef TileManager type;
 	};
 
 }

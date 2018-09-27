@@ -2,6 +2,7 @@
 #include "hvn3/core/IGameManager.h"
 #include "hvn3/core/GameProperties.h"
 #include "hvn3/core/ManagerDefs.h"
+#include "hvn3/core/ManagerRegistry.h"
 #include "hvn3/core/Runner.h"
 #include "hvn3/rooms/RoomManager.h"
 
@@ -28,24 +29,19 @@ namespace hvn3 {
 		// Deinitializes the game and underlying framework.
 		void Shutdown() override;
 
-		GameProperties& GetProperties() override;
-		System::Runner& GetRunner() override;
-		Display& GetDisplay() override;
+		GameProperties& Properties() override;
+		System::Runner& Runner() override;
+		class Display& Display() override;
 
 		// Inherited from IContextProvider
 
 		// Returns an object representing the current game context.
 		hvn3::Context Context() override;
 
-	protected:
-		IGameManager& GetGameManager() override;
-		RoomManager& GetRoomManager() override;
-		IManager* GetManager(ManagerId id) override;
-
 	private:
+		ManagerRegistry _global;
 		GameProperties _properties;
-		Display _display;
-		hvn3::RoomManager _room_manager;
+		class Display _display;
 		System::Runner _runner;
 
 		void _onInit();

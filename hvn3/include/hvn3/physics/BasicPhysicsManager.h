@@ -9,8 +9,7 @@ namespace hvn3 {
 	namespace Physics {
 
 		class BasicPhysicsManager : 
-			public PhysicsManagerBase<PhysicsBodyBase>,
-			public System::IContextReceiver {
+			public PhysicsManagerBase<PhysicsBodyBase> {
 
 			struct Contact {
 				IPhysicsBody* body;

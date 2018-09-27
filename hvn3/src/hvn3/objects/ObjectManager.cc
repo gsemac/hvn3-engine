@@ -38,7 +38,9 @@ namespace hvn3 {
 
 		assert(static_cast<bool>(object));
 
-		object->SetContext(_context);
+		ContextChangedEventArgs args(_context);
+
+		object->OnContextChanged(args);
 
 		//// Trigger all listeners.
 		//for (size_t i = 0; i < _listeners.size(); ++i)
@@ -243,8 +245,13 @@ namespace hvn3 {
 		_context = e.Context();
 
 		// Update the context for all objects.
-		for (auto i = _objects.begin(); i != _objects.end(); ++i)
-			i->object->SetContext(_context);
+		for (auto i = _objects.begin(); i != _objects.end(); ++i) {
+		
+			ContextChangedEventArgs args(_context);
+
+			i->object->OnContextChanged(args);
+		
+		}
 
 	}
 
@@ -261,8 +268,12 @@ namespace hvn3 {
 		
 		// Call the OnCreate event for the Object if it hasn't been called yet.
 		if (_objects[item_index].callOnCreateEvent) {
-			_objects[item_index].object->OnCreate(CreateEventArgs());
+			
+			CreateEventArgs args(_context);
+
+			_objects[item_index].object->OnCreate(args);
 			_objects[item_index].callOnCreateEvent = false;
+
 		}
 
 		if (_objects[item_index].object->IsDestroyed()) {

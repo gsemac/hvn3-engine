@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/core/Context.h"
 #include "hvn3/helper/DirectionalControlsHelper.h"
 #include "hvn3/utility/BitFlags.h"
 
@@ -32,8 +33,8 @@ namespace hvn3 {
 		PlatformerControlsHelperFlags Flags() const;
 		void SetFlags(PlatformerControlsHelperFlags value);
 
-		void Step();
-		void Step(double delta);
+		void Step(const Context& context);
+		void Step(const Context& context, double delta);
 
 		void OnKeyPressed(KeyPressedEventArgs& e) override;
 
