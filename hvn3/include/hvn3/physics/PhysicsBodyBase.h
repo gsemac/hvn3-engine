@@ -9,7 +9,7 @@ namespace hvn3 {
 			public IPhysicsBody {
 
 		public:
-			PhysicsBodyBase(ICollider* collision_body);
+			PhysicsBodyBase(IColliderPtr& collision_body);
 			~PhysicsBodyBase();
 
 			virtual const PointF Position() const override;
@@ -36,18 +36,13 @@ namespace hvn3 {
 			CategoryFilter& GetCategory() override;
 			const CategoryFilter& Category() const override;
 
-			void Destroy() override;
-			bool IsDestroyed() const override;
-			void OnDestroy(DestroyEventArgs& e) override;
-
 		private:
-			bool _is_destroyed;
 			Physics::MassData _mass_data;
 			Vector2d _linear_velocity;
 			BodyType _type;
 			Vector2d _force;
 			Physics::Material _material;
-			ICollider* _collision_body;
+			IColliderPtr _collision_body;
 			CategoryFilter _filter;
 
 		};

@@ -182,8 +182,10 @@
     <ClInclude Include="include\hvn3\physics\IPhysicsBody.h" />
     <ClInclude Include="include\hvn3\physics\IPhysicsManager.h" />
     <ClInclude Include="include\hvn3\physics\Material.h" />
+    <ClInclude Include="include\hvn3\physics\PhysicsDefs.h" />
     <ClInclude Include="include\hvn3\physics\PhysicsManagerBase.h" />
     <ClInclude Include="include\hvn3\physics\PhysicsUtils.h" />
+    <ClInclude Include="include\hvn3\physics\PlatformerPhysicsManager.h" />
     <ClInclude Include="include\hvn3\rooms\BasicLightingManager.h" />
     <ClInclude Include="include\hvn3\rooms\IRoom.h" />
     <ClInclude Include="include\hvn3\rooms\IRoomManager.h" />
@@ -345,6 +347,7 @@
     <ClCompile Include="src\hvn3\physics\PhysicsBodyBase.cc" />
     <ClCompile Include="src\hvn3\physics\Material.cc" />
     <ClCompile Include="src\hvn3\physics\PhysicsUtils.cc" />
+    <ClCompile Include="src\hvn3\physics\PlatformerPhysicsManager.cc" />
     <ClCompile Include="src\hvn3\rooms\BasicLightingManager.cc" />
     <ClCompile Include="src\hvn3\rooms\RoomBase.cc" />
     <ClCompile Include="src\hvn3\rooms\RoomEventArgs.cc" />

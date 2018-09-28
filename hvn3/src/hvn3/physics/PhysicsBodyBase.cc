@@ -6,13 +6,12 @@
 namespace hvn3 {
 	namespace Physics {
 
-		PhysicsBodyBase::PhysicsBodyBase(ICollider* collision_body) :
+		PhysicsBodyBase::PhysicsBodyBase(IColliderPtr& collision_body) :
 			_material(),
-			_linear_velocity(0.0f, 0.0f) {
+			_linear_velocity(0.0f, 0.0f),
+			_collision_body(collision_body) {
 
 			_type = BodyType::Dynamic;
-			_collision_body = collision_body;
-			_is_destroyed = false;
 
 		}
 		PhysicsBodyBase::~PhysicsBodyBase() {}
@@ -119,12 +118,12 @@ namespace hvn3 {
 		}
 		ICollider* PhysicsBodyBase::GetCollisionBody() {
 
-			return _collision_body;
+			return _collision_body.get();
 
 		}
 		const ICollider* PhysicsBodyBase::CollisionBody() const {
 
-			return _collision_body;
+			return _collision_body.get();
 
 		}
 		CategoryFilter& PhysicsBodyBase::GetCategory() {
@@ -137,14 +136,6 @@ namespace hvn3 {
 			return _filter;
 
 		}
-
-		void PhysicsBodyBase::Destroy() {
-			_is_destroyed = true;
-		}
-		bool PhysicsBodyBase::IsDestroyed() const {
-			return _is_destroyed;
-		}
-		void PhysicsBodyBase::OnDestroy(DestroyEventArgs& e) {}
 
 	}
 }

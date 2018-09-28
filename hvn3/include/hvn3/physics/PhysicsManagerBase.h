@@ -2,25 +2,39 @@
 #include "hvn3/core/UpdateEventArgs.h"
 #include "hvn3/physics/IPhysicsManager.h"
 #include "hvn3/physics/PhysicsUtils.h"
+
 #include <list>
+#include <unordered_map>
 
 namespace hvn3 {
 	namespace Physics {
 
-		template <typename physics_body_type>
-		class PhysicsManagerBase : public IPhysicsManager {
+		class PhysicsManagerBase :
+			public IPhysicsManager {
 
 		public:
-			typedef physics_body_type physics_body_type;
-
 			PhysicsManagerBase() :
 				_gravity(0.0f, Physics::StandardGravity()) {
+
 				SetPixelsToMetersScale(1.0f / 32.0f);
+
 			}
 
-			IPhysicsBody* CreateBody(ICollider* body) override {
-				_bodies.push_back(physics_body_type(body));
-				return &_bodies.back();
+			void Add(IPhysicsBodyPtr& body) override {
+
+				_bodies.push_back(body);
+
+				_collider_map[body->GetCollisionBody()] = body.get();
+
+			}
+			size_t Count() const override {
+				return _bodies.size();
+			}
+			void Clear() override {
+			
+				_bodies.clear();
+				_collider_map.clear();
+
 			}
 
 			const Vector2d& Gravity() const override {
@@ -35,27 +49,44 @@ namespace hvn3 {
 			void SetPixelsToMetersScale(float value) override {
 				_pixels_to_meters_scale = value;
 			}
-			size_t Count() const override {
-				return _bodies.size();
-			}
-			void Clear() override {
-				_bodies.clear();
-			}
 
 			void OnUpdate(UpdateEventArgs& e) override {}
 
 		protected:
-			typedef std::list<physics_body_type> physics_body_list_type;
-
-			physics_body_list_type& GetBodies() {
+			std::list<IPhysicsBodyPtr>& PhysicsBodies() {
 				return _bodies;
 			}
-			const physics_body_list_type& Bodies() const {
+			const std::list<IPhysicsBodyPtr>& PhysicsBodies() const {
 				return _bodies;
+			}
+			IPhysicsBody* GetPhysicsBodyFromCollider(const ICollider* collider) {
+
+				auto it = _collider_map.find(collider);
+
+				if (it == _collider_map.end())
+					return nullptr;
+
+				return it->second;
+
+			}
+			void ClearDeadPhysicsBodies() {
+
+				PhysicsBodies().remove_if([&](IPhysicsBodyPtr& body) {
+
+					bool dead = (body.use_count() <= 1);
+
+					if (dead)
+						_collider_map.erase(body->GetCollisionBody());
+
+					return dead;
+
+				});
+
 			}
 
 		private:
-			physics_body_list_type _bodies;
+			std::list<IPhysicsBodyPtr> _bodies;
+			std::unordered_map<const ICollider*, IPhysicsBody*> _collider_map;
 			Vector2d _gravity;
 			float _pixels_to_meters_scale;
 

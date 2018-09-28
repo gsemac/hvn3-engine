@@ -12,12 +12,6 @@ namespace hvn3 {
 	namespace Physics {
 
 		BasicPhysicsManager::BasicPhysicsManager() {}
-
-		IPhysicsBody* BasicPhysicsManager::CreateBody(ICollider* body) {
-			IPhysicsBody* physics_body = PhysicsManagerBase::CreateBody(body);
-			_body_lookup_table[body] = physics_body;
-			return physics_body;
-		}
 		void BasicPhysicsManager::OnUpdate(UpdateEventArgs& e) {
 
 			PhysicsManagerBase::OnUpdate(e);
@@ -26,15 +20,15 @@ namespace hvn3 {
 
 			bool has_dead_bodies = false;
 
-			for (auto i = GetBodies().begin(); i != GetBodies().end(); ++i) {
+			for (auto i = PhysicsBodies().begin(); i != PhysicsBodies().end(); ++i) {
 
-				if (i->IsDestroyed()) {
+				if (i->use_count() <= 1) {
 					has_dead_bodies = true;
 					continue;
 				}
 
 				// Get the physics and collision bodies associated with this body.
-				physics_body_type* this_body = &(*i);
+				IPhysicsBody* this_body = i->get();
 				ICollider* collision_body = this_body->GetCollisionBody();
 
 				// If the body is static, we do not need to apply physics to it.
@@ -43,7 +37,7 @@ namespace hvn3 {
 
 				// Lambda for filtering collision bodies. Only returns true for bodies this body can collide with in the physics system.
 				auto body_filter = [&](const ICollider* other) {
-					IPhysicsBody* other_body = _lookupBody(other);
+					IPhysicsBody* other_body = GetPhysicsBodyFromCollider(other);
 					if (other_body != nullptr && this_body->Category().CheckHit(other_body->Category()))
 						return true;
 					return false;
@@ -63,13 +57,13 @@ namespace hvn3 {
 				if (!_context.Get<COLLISION_MANAGER>().PlaceFreeIf(collision_body, collision_body->Position(), manifold, body_filter)) {
 					_context.Get<COLLISION_MANAGER>().MoveOutside(collision_body, Math::Geometry::PointDirection(manifold.bodyB->AABB().Midpoint(), collision_body->AABB().Midpoint()), Math::Max(2.0f, manifold.penetrationDepth / 2.0f));
 				}
-				
+
 				// Move the body towards its new position until it hits something.
 				Vector2d movement_vector = Vector2d(this_body->Position(), integration_result.position);
 				if (_context.Get<COLLISION_MANAGER>().MoveContactIf(collision_body, movement_vector.Direction(), movement_vector.Length(), manifold, body_filter)) {
 
 					// Resolve the collision with the other body.
-					IPhysicsBody* other_body = _lookupBody(manifold.bodyB);
+					IPhysicsBody* other_body = GetPhysicsBodyFromCollider(manifold.bodyB);
 
 					VelocityAfterCollisionResult result = GetLinearVelocityAfterCollision(*this_body, *other_body);
 
@@ -89,36 +83,21 @@ namespace hvn3 {
 				i->body->SetLinearVelocity(i->velocity);
 
 			// Clear all destroyed bodies from the system.
-			if (has_dead_bodies) {
-				GetBodies().remove_if([&](physics_body_type& body) {
-					if (body.IsDestroyed())
-						_body_lookup_table.erase(body.GetCollisionBody());
-					return body.IsDestroyed();
-				});
-			}
+
+			if (has_dead_bodies)
+				ClearDeadPhysicsBodies();
 
 		}
 		void BasicPhysicsManager::Clear() {
-			PhysicsManagerBase::Clear();
-			_body_lookup_table.clear();
-			_contacts.clear();
-		}
 
+			PhysicsManagerBase::Clear();
+
+			_contacts.clear();
+
+		}
 
 		void BasicPhysicsManager::OnContextChanged(ContextChangedEventArgs& e) {
 			_context = e.Context();
-		}
-
-
-		IPhysicsBody* BasicPhysicsManager::_lookupBody(const ICollider* key) {
-
-			auto it = _body_lookup_table.find(const_cast<ICollider*>(key));
-
-			if (it == _body_lookup_table.end())
-				return nullptr;
-
-			return it->second;
-
 		}
 
 	}

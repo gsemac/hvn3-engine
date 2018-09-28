@@ -1,6 +1,5 @@
 #pragma once
 #include "hvn3/collision/CollisionDefs.h"
-#include "hvn3/core/IDestroyable.h"
 #include "hvn3/math/Vector2d.h"
 #include "hvn3/physics/Material.h"
 
@@ -38,8 +37,7 @@ namespace hvn3 {
 			Dynamic
 		};
 
-		class IPhysicsBody : 
-			public IDestroyable {
+		class IPhysicsBody {
 
 		public:
 			virtual ~IPhysicsBody() = default;

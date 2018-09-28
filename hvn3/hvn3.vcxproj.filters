@@ -831,6 +831,12 @@
     <ClInclude Include="include\hvn3\core\ManagerRegistry.h">
       <Filter>include\core</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\physics\PlatformerPhysicsManager.h">
+      <Filter>include\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\physics\PhysicsDefs.h">
+      <Filter>include\physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1241,6 +1247,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\tilesets\EdgeTileFinder.cc">
       <Filter>src\tilesets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\physics\PlatformerPhysicsManager.cc">
+      <Filter>src\physics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

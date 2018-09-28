@@ -8,8 +8,8 @@
 namespace hvn3 {
 	namespace Physics {
 
-		class BasicPhysicsManager : 
-			public PhysicsManagerBase<PhysicsBodyBase> {
+		class BasicPhysicsManager :
+			public PhysicsManagerBase {
 
 			struct Contact {
 				IPhysicsBody* body;
@@ -19,7 +19,6 @@ namespace hvn3 {
 		public:
 			BasicPhysicsManager();
 
-			IPhysicsBody* CreateBody(ICollider* body) override;
 			void OnUpdate(UpdateEventArgs& e) override;
 			void Clear() override;
 
@@ -27,11 +26,8 @@ namespace hvn3 {
 			void OnContextChanged(ContextChangedEventArgs& e) override;
 
 		private:
-			std::unordered_map<ICollider*, IPhysicsBody*> _body_lookup_table;
 			std::vector<Contact> _contacts;
 			Context _context;
-
-			IPhysicsBody* _lookupBody(const ICollider* key);
 
 		};
 
