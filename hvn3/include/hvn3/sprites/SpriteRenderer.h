@@ -4,50 +4,44 @@
 #include "hvn3/core/DrawEventArgs.h"
 
 namespace hvn3 {
-	namespace Graphics {
 
-		class SpriteRenderer {
+	class SpriteRenderer {
 
-		public:
-			SpriteRenderer();
+	public:
+		SpriteRenderer();
+		SpriteRenderer(const Sprite& sprite);
 
-			float ImageAlpha() const;
-			int ImageIndex() const;
-			// The speed of the animation in frames-per-update.
-			float ImageSpeed() const;
-			const Scale& ImageScale() const;
-			float ImageXScale() const;
-			float ImageYScale() const;
-			float ImageAngle() const;
-			const Color& ImageBlend() const;
+		float Opacity() const;
+		void SetOpacity(float value);
+		int AnimationIndex() const;
+		void SetAnimationIndex(int value);
+		float AnimationSpeed() const;
+		void SetAnimationSpeed(float fps);
+		const Scale& Scale() const;
+		void SetScale(const class Scale& value);
+		float Angle() const;
+		void SetAngle(float value);
+		const Color& Blend() const;
+		void SetIBlend(const Color& value);
 
-			void SetImageAlpha(float value);
-			void SetImageIndex(int value);
-			// Sets the speed of the animation in frames-per-update.
-			void SetImageSpeed(float value);
-			void SetImageScale(const Scale& scale);
-			void SetImageAngle(float value);
-			void SetImageBlend(const Color& value);
+		void UpdateAnimation();
+		void UpdateAnimation(double delta);
 
-			void ReflectX();
-			void ReflectY();
+		void DrawSprite(Graphics::Graphics& canvas, const PointF& position) const;
+		void DrawSprite(Graphics::Graphics& canvas, const Sprite& sprite, const PointF& position) const;
 
-			void DrawSprite(Graphics& target, const Sprite& sprite, const PointF& position) const;
-			void Step();
-			void Step(double delta);
+	private:
+		Sprite _sprite;
+		int _image_index;
+		float _image_speed;
+		class Scale _image_scale;
+		float _image_angle;
+		float _image_alpha;
+		Color _image_blend;
+		float _image_index_timer;
 
-		private:
-			int _image_index;
-			float _image_speed;
-			Scale _image_scale;
-			float _image_angle;
-			float _image_alpha;
-			Color _image_blend;
-			float _image_index_timer;
+		void _incrementImageIndex(float delta);
 
-			void _incrementImageIndex(float delta);
+	};
 
-		};
-
-	}
 }

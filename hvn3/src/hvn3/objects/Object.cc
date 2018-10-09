@@ -47,46 +47,9 @@ namespace hvn3 {
 		//}
 		//_renderer.Step(e.Delta());
 	}
-	void Object::OnDraw(DrawEventArgs& e) {
-		_renderer.DrawSprite(e.Graphics(), Sprite(), Position());
-	}
+	void Object::OnDraw(DrawEventArgs& e) {}
 	void Object::OnDestroy(DestroyEventArgs& e) {}
 
-	const Object::sprite_type& Object::Sprite() const {
-
-		return _sprite;
-
-	}
-	Object::sprite_type& Object::GetSprite() {
-
-		return _sprite;
-
-	}
-	void Object::SetSprite(const sprite_type& other) {
-
-		_sprite = other;
-
-	}
-	void Object::SetSprite(sprite_type&& other) {
-
-		_sprite = std::move(other);
-
-	}
-	const Graphics::SpriteRenderer& Object::Renderer() const {
-
-		return _renderer;
-
-	}
-	Graphics::SpriteRenderer& Object::GetRenderer() {
-
-		return _renderer;
-
-	}
-	void Object::SetRenderer(const Graphics::SpriteRenderer& other) {
-
-		_renderer = other;
-
-	}
 	const Vector2d& Object::Velocity() const {
 
 		//if (_physics_body != nullptr)

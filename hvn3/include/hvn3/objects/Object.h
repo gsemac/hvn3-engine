@@ -1,21 +1,11 @@
 #pragma once
 #include "hvn3/math/Vector2d.h"
 #include "hvn3/objects/ObjectBase.h"
-#include "hvn3/sprites/Sprite.h"
-#include "hvn3/sprites/SpriteRenderer.h"
 
 namespace hvn3 {
 
-	class ICollisionBody;
-
-	namespace Physics {
-		class IPhysicsBody;
-	}
-
 	class Object :
 		public ObjectBase {
-
-		typedef Sprite sprite_type;
 
 	public:
 		Object();
@@ -32,13 +22,6 @@ namespace hvn3 {
 		void OnUpdate(UpdateEventArgs& e) override;
 		void OnDestroy(DestroyEventArgs& e) override;
 
-		const sprite_type& Sprite() const;
-		sprite_type& GetSprite();
-		void SetSprite(const sprite_type& other);
-		void SetSprite(sprite_type&& other);
-		const Graphics::SpriteRenderer& Renderer() const;
-		Graphics::SpriteRenderer& GetRenderer();
-		void SetRenderer(const Graphics::SpriteRenderer& other);
 		const Vector2d& Velocity() const;
 		void SetVelocity(const Vector2d& other);
 		void SetVelocity(float x, float y);
@@ -46,8 +29,6 @@ namespace hvn3 {
 		void AddVelocity(float x, float y);
 
 	private:
-		sprite_type _sprite;
-		Graphics::SpriteRenderer _renderer;
 		Vector2d _velocity;
 
 	};
