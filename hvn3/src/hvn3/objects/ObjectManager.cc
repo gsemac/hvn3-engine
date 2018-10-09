@@ -182,12 +182,13 @@ namespace hvn3 {
 		bool removed = false;
 
 		for (size_t i = 0; i < _objects.size(); ++i) {
-			
+
 			if (_updateAndCheckObject(i, e))
 				_objects[i].object->OnBeginUpdate(e);
 
 			if (_objects[i].object->IsDestroyed())
 				removed = true;
+
 		}
 
 		if (removed)
@@ -199,12 +200,13 @@ namespace hvn3 {
 		bool removed = false;
 
 		for (size_t i = 0; i < _objects.size(); ++i) {
-		
+
 			if (_updateAndCheckObject(i, e))
 				_objects[i].object->OnUpdate(e);
 
 			if (_objects[i].object->IsDestroyed())
 				removed = true;
+
 		}
 
 		if (removed)
@@ -222,6 +224,7 @@ namespace hvn3 {
 
 			if (_objects[i].object->IsDestroyed())
 				removed = true;
+
 		}
 
 		if (removed)
@@ -246,11 +249,11 @@ namespace hvn3 {
 
 		// Update the context for all objects.
 		for (auto i = _objects.begin(); i != _objects.end(); ++i) {
-		
+
 			ContextChangedEventArgs args(_context);
 
 			i->object->OnContextChanged(args);
-		
+
 		}
 
 	}
@@ -258,17 +261,35 @@ namespace hvn3 {
 
 	void ObjectManager::_removeDestroyedObjects(object_list_type::iterator begin, object_list_type::iterator end) {
 
-		_objects.erase(std::remove_if(begin, end, [](const ObjectListItem& item) { return item.object->IsDestroyed(); }), _objects.end());
+		_objects.erase(std::remove_if(begin, end, [](ObjectListItem& item) {
+
+			bool destroyed = item.object->IsDestroyed();
+
+			if (destroyed && item.callOnDestroyEvent) {
+
+				// The OnDestroy event is triggered here since objects destroyed during their update are removed immediately following the update.
+				// This could also be handled within the update methods themselves, but handling it here results in less code duplication.
+
+				DestroyEventArgs args;
+
+				item.object->OnDestroy(args);
+				item.callOnDestroyEvent = false;
+
+			}
+
+			return destroyed;
+
+		}), _objects.end());
 
 	}
 	bool ObjectManager::_updateAndCheckObject(size_t item_index, UpdateEventArgs& e) {
-		
+
 		// This method takes an index rather than a reference to item because there's no guarantee the vector won't be resized in in OnCreate or OnDestroy.
 		// Passing a reference risks that reference being invalidated after the resize.
-		
+
 		// Call the OnCreate event for the Object if it hasn't been called yet.
 		if (_objects[item_index].callOnCreateEvent) {
-			
+
 			CreateEventArgs args(_context);
 
 			_objects[item_index].object->OnCreate(args);
@@ -276,13 +297,7 @@ namespace hvn3 {
 
 		}
 
-		if (_objects[item_index].object->IsDestroyed()) {
-			if (_objects[item_index].callOnDestroyEvent) {
-				_objects[item_index].object->OnDestroy(DestroyEventArgs());
-				_objects[item_index].callOnDestroyEvent = false;
-			}
-		}
-		else if (_objects[item_index].object->IsActive())
+		if (_objects[item_index].object->IsActive())
 			return true;
 
 		// If the Object is not active, its update events should not be called.
