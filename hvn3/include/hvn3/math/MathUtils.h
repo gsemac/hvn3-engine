@@ -181,6 +181,13 @@ namespace hvn3 {
 
 		}
 
+		template<typename T>
+		bool IsNegative(T n) {
+
+			return n < static_cast<T>(0);
+
+		}
+
 		// Returns true if the difference between n1 and n2 is less than epsilon.
 		template <typename T>
 		bool AreEqual(T n1, T n2, T epsilon) {
