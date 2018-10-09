@@ -22,7 +22,7 @@ namespace hvn3 {
 		float Angle() const;
 		void SetAngle(float value);
 		const Color& Blend() const;
-		void SetIBlend(const Color& value);
+		void SetBlend(const Color& value);
 
 		void UpdateAnimation();
 		void UpdateAnimation(double delta);

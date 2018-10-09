@@ -56,7 +56,7 @@ namespace hvn3 {
 	const Color& SpriteRenderer::Blend() const {
 		return _image_blend;
 	}
-	void SpriteRenderer::SetIBlend(const Color& value) {
+	void SpriteRenderer::SetBlend(const Color& value) {
 		_image_blend = value;
 	}
 
