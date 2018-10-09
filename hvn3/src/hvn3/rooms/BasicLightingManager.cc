@@ -97,7 +97,7 @@ namespace hvn3 {
 
 		if (!room)
 			return;
-
+		
 		RectangleF visible_region = room->VisibleRegion();
 		SizeI visible_size = static_cast<SizeI>(visible_region.Size());
 
@@ -127,7 +127,7 @@ namespace hvn3 {
 		g.SetTransform(transform);
 
 		for (auto i = _light_sources.begin(); i != _light_sources.end(); ++i) {
-
+			
 			LightMapData* lm = _findLightMapData(i->second.type);
 
 			if (lm == nullptr)
@@ -142,8 +142,6 @@ namespace hvn3 {
 			g.DrawBitmap(i->second.position.x, i->second.position.y, lm->bitmap, 1.0f, 1.0f, lm->origin, i->second.direction, Color::FromArgbf(0.4f, 0.4f, 0.4f, 0.4f));
 
 		}
-
-		g.ResetBlendMode();
 
 		// Draw the lighting surface.
 

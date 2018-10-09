@@ -232,7 +232,13 @@ namespace hvn3 {
 
 			_perform_pre_write_operations();
 
-			Graphics(*this).DrawPoint(x, y, color);
+			ALLEGRO_BITMAP* target = al_get_target_bitmap();
+
+			al_set_target_bitmap(_get_bitmap_ptr());
+
+			al_put_pixel(x, y, System::AllegroAdapter::ToColor(color));
+
+			al_set_target_bitmap(target);
 
 		}
 		Color Bitmap::GetPixel(int x, int y) const {

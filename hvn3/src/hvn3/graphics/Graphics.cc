@@ -89,7 +89,7 @@ namespace hvn3 {
 				y + height,
 				System::AllegroAdapter::ToColor(color),
 				thickness
-				);
+			);
 
 		}
 		void Graphics::DrawSolidRectangle(const RectangleF& rect, const Color& color) {
@@ -108,7 +108,7 @@ namespace hvn3 {
 				x + width,
 				y + height,
 				System::AllegroAdapter::ToColor(color)
-				);
+			);
 
 		}
 
@@ -227,16 +227,16 @@ namespace hvn3 {
 
 		}
 
-		void Graphics::DrawPoint(const PointF& point, const Color& color) {
+		void Graphics::DrawPixel(const PointF& point, const Color& color) {
 
-			DrawPoint(point.X(), point.Y(), color);
+			DrawPixel(point.X(), point.Y(), color);
 
 		}
-		void Graphics::DrawPoint(float x, float y, const Color& color) {
+		void Graphics::DrawPixel(float x, float y, const Color& color) {
 
 			_makeThisActiveInstance(true);
 
-			al_put_pixel(x, y, System::AllegroAdapter::ToColor(color));
+			al_draw_pixel(x, y, System::AllegroAdapter::ToColor(color));
 
 		}
 
@@ -255,7 +255,7 @@ namespace hvn3 {
 				radius,
 				System::AllegroAdapter::ToColor(color),
 				thickness
-				);
+			);
 
 		}
 		void Graphics::DrawCircle(const CircleF& circle, const Color& color, float thickness) {
@@ -277,7 +277,7 @@ namespace hvn3 {
 				y,
 				radius,
 				System::AllegroAdapter::ToColor(color)
-				);
+			);
 
 		}
 		void Graphics::DrawSolidCircle(const CircleF& circle, const Color& color) {
@@ -333,7 +333,7 @@ namespace hvn3 {
 				x + sprite.Origin().X(),
 				y + sprite.Origin().Y(),
 				NULL
-				);
+			);
 
 		}
 		void Graphics::DrawSprite(float x, float y, const Sprite& sprite, int subimage, float xscale, float yscale, float angle, const Color& blend) {
@@ -351,7 +351,7 @@ namespace hvn3 {
 				yscale,
 				Math::DegreesToRadians(angle),
 				NULL
-				);
+			);
 
 		}
 
@@ -366,7 +366,7 @@ namespace hvn3 {
 				x,
 				y,
 				NULL
-				);
+			);
 
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale) {
@@ -386,7 +386,7 @@ namespace hvn3 {
 				bitmap.Width() * xscale,
 				bitmap.Height() * yscale,
 				NULL
-				);
+			);
 
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const Color& tint) {
@@ -426,7 +426,7 @@ namespace hvn3 {
 				yscale,
 				Math::DegreesToRadians(angle),
 				NULL
-				);
+			);
 
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const PointF& origin, float angle, const Color& tint) {
@@ -601,12 +601,12 @@ namespace hvn3 {
 				_canvas._perform_pre_write_operations();
 
 			if (!_isActiveInstance()) {
-				
+
 				al_set_target_bitmap(System::AllegroAdapter::ToBitmap(_canvas));
-				
+
 				_applyClip();
 				_applyTransform();
-				
+
 				_last_to_draw = this;
 
 			}

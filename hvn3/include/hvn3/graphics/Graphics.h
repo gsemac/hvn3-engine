@@ -41,8 +41,8 @@ namespace hvn3 {
 			void DrawLine(float x1, float y1, float x2, float y2, const Color& color, float thickness);
 			void DrawLine(float x1, float y1, float x2, float y2, const Pen& pen);
 
-			void DrawPoint(const PointF& point, const Color& color);
-			void DrawPoint(float x, float y, const Color& color);
+			void DrawPixel(const PointF& point, const Color& color);
+			void DrawPixel(float x, float y, const Color& color);
 
 			void DrawCircle(const PointF& point, float radius, const Color& color, float thickness);
 			void DrawCircle(float x, float y, float radius, const Color& color, float thickness);
