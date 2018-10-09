@@ -282,6 +282,20 @@ namespace hvn3 {
 			return 4;
 
 		}
+		// Returns the given angle mirrored over the X axis.
+		template <typename T>
+		T AngleFlipX(T degrees) {
+
+			return static_cast<T>(540) - degrees;
+
+		}
+		// Returns the given angle mirrored over the Y axis.
+		template <typename T>
+		T AngleFlipY(T degrees) {
+
+			return static_cast<T>(360) - degrees;
+
+		}
 
 		// Performs modulo with floored division.
 		template<typename T, typename N>
