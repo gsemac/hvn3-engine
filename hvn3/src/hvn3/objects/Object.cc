@@ -14,6 +14,9 @@ namespace hvn3 {
 	Object::Object() :
 		Object(NoOne) {
 	}
+	Object::Object(float x, float y) :
+		Object(NoOne, x, y) {
+	}
 	Object::Object(ObjectId id) :
 		Object(id, 0.0f, 0.0f) {
 	}

@@ -9,6 +9,7 @@ namespace hvn3 {
 
 	public:
 		Object();
+		Object(float x, float y);
 		Object(ObjectId id);
 		Object(ObjectId id, const PointF& position);
 		Object(ObjectId id, float x, float y);
