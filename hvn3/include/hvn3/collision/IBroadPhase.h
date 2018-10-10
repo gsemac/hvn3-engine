@@ -31,8 +31,6 @@ namespace hvn3 {
 
 		// Returns a vector of potentially-colliding pairs.
 		virtual const collider_pair_vector_type& FindCandidatePairs() = 0;
-		// Returns the first collider that collides with the given point, or null if none.
-		virtual ICollider* Pick(const PointF& point) const = 0;
 		// Generates a vector of colliders that collide with the given region.
 		virtual void QueryRegion(const RectangleF& region, collider_vector_type& output, int filter = 0) const = 0;
 		// Returns the nearest collider to the given point, or nullptr if no colliders found.

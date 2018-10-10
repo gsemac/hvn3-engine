@@ -104,11 +104,6 @@ namespace hvn3 {
 			return _pairs;
 
 		}
-		ICollider* Pick(const PointF& point) const override {
-
-			throw System::NotImplementedException();
-
-		}
 		void QueryRegion(const RectangleF& region, collider_vector_type& output, int filter = 0) const override {
 
 			// get the cells that are occupied by the region.
