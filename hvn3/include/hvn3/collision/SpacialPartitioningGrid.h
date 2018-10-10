@@ -127,6 +127,11 @@ namespace hvn3 {
 			std::copy(colliders.begin(), colliders.end(), std::back_inserter(output));
 
 		}
+		/*void QueryLine(const LineF& line, collider_vector_type& output, int filter = 0) const override {
+
+			std::unordered_set<ICollider*> hits;
+
+		}*/
 		ICollider* QueryNearest(const PointF& point, int filter = 0) const override {
 
 			// The algorithm will check a region surrounding the the given Point, and if no relevant colliders are found, the region will be expanded according by the cell size.
@@ -182,6 +187,86 @@ namespace hvn3 {
 			//	} while (current_pos.X() < ray.Second().X() && current_pos.Y() < ray.Second().Y);
 			//
 			//	return nullptr;
+
+		}
+
+		CollisionManifold Pick(const PointF& point) const override {
+
+			IBroadPhase::collider_vector_type hits;
+			RectangleF mask(point.x, point.y, 1.0f, 1.0f);
+			CollisionManifold manifold;
+
+			QueryRegion(mask, hits);
+
+			for (auto i = hits.begin(); i != hits.end(); ++i) {
+
+				PointF other_position = (*i)->Position();
+				HitMask& other_mask = (*i)->GetHitMask();
+				PointF other_offset = other_mask.Offset();
+
+				other_mask.SetOffset({ other_mask.Offset().x + other_position.x, other_mask.Offset().y + other_position.y });
+
+				bool result = (*i)->HitMask().TestCollision(mask, manifold);
+
+				other_mask.SetOffset(other_offset);
+
+				if (result) {
+
+					manifold.bodyB = (*i);
+
+					break;
+
+				}
+
+			}
+
+			return manifold;
+
+		}
+		CollisionManifold Pick(const LineF& line) const override {
+
+			PointF start = line.First();
+			float dir = Math::Geometry::PointDirection(line.First(), line.Second());
+			float current_dist_sq = 0.0f;
+			float max_dist_sq = Math::Geometry::PointDistanceSquared(line.First(), line.Second());
+
+			CollisionManifold manifold;
+
+			while (current_dist_sq <= max_dist_sq) {
+				
+				PointI cell_index = _cellAt(start);
+				RectangleF mask(start.x, start.y, 1.0f, 1.0f);
+
+				auto colliders = _grid.equal_range(cell_index);
+
+				for (auto i = colliders.first; i != colliders.second; ++i) {
+
+					PointF other_position = i->second->Position();
+					HitMask& other_mask = i->second->GetHitMask();
+					PointF other_offset = other_mask.Offset();
+
+					other_mask.SetOffset({ other_mask.Offset().x + other_position.x, other_mask.Offset().y + other_position.y });
+
+					bool result = i->second->HitMask().TestCollision(mask, manifold);
+
+					other_mask.SetOffset(other_offset);
+
+					if (result) {
+
+						manifold.bodyB = i->second;
+
+						return manifold;
+
+					}
+
+				}
+
+				start = hvn3::Math::Geometry::PointInDirection(start, dir, 1.0f);
+				current_dist_sq = Math::Geometry::PointDistanceSquared(start, line.Second());
+
+			}
+
+			return manifold;
 
 		}
 

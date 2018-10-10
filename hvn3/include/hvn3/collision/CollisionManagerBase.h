@@ -267,40 +267,6 @@ namespace hvn3 {
 
 		}
 
-		CollisionManifold Pick(const PointF& point) const override {
-
-			IBroadPhase::collider_vector_type hits;
-			RectangleF mask(point.x, point.y, 1.0f, 1.0f);
-			CollisionManifold manifold;
-
-			Broad().QueryRegion(mask, hits);
-
-			for (auto i = hits.begin(); i != hits.end(); ++i) {
-
-				PointF other_position = (*i)->Position();
-				HitMask& other_mask = (*i)->GetHitMask();
-				PointF other_offset = other_mask.Offset();
-
-				other_mask.SetOffset({ other_mask.Offset().x + other_position.x, other_mask.Offset().y + other_position.y });
-
-				bool result = (*i)->HitMask().TestCollision(mask, manifold);
-
-				other_mask.SetOffset(other_offset);
-
-				if (result) {
-
-					manifold.bodyB = (*i);
-
-					break;
-
-				}
-
-			}
-
-			return manifold;
-
-		}
-
 	protected:
 		// Returns the vector of colliding pairs from the last update.
 		std::vector<CollisionManifold>& GetPairs() {

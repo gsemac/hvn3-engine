@@ -31,6 +31,21 @@ namespace hvn3 {
 			return Point2d<T>((_a.X() + _b.X()) / T(2), (_a.Y() + _b.Y()) / T(2));
 
 		}
+		T Slope() const {
+
+			return (_b.y - _a.y) / (_b.x - _a.x);
+
+		}
+		T XIntercept() const {
+			
+			return -YIntercept() / Slope();
+
+		}
+		T YIntercept() const {
+
+			return _a.y - (Slope() * _a.x);
+
+		}
 
 		T Length() const {
 

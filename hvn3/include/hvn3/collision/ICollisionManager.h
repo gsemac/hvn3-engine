@@ -70,9 +70,6 @@ namespace hvn3 {
 		// Moves the body in a given direction (in degrees) until it is no longer colliding with the given body.
 		virtual bool MoveOutsideBody(ICollider* body, ICollider* other, float direction, float max_distance) = 0;
 
-		// Returns the first collider that collides with the given point.
-		virtual CollisionManifold Pick(const PointF& point) const = 0;
-
 	};
 
 	template<>

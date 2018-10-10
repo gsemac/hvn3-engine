@@ -33,10 +33,16 @@ namespace hvn3 {
 		virtual const collider_pair_vector_type& FindCandidatePairs() = 0;
 		// Generates a vector of colliders that collide with the given region.
 		virtual void QueryRegion(const RectangleF& region, collider_vector_type& output, int filter = 0) const = 0;
+		//virtual void QueryLine(const LineF& line, collider_vector_type& output, int filter = 0) const = 0;
 		// Returns the nearest collider to the given point, or nullptr if no colliders found.
 		virtual ICollider* QueryNearest(const PointF& point, int filter = 0) const = 0;
 		// Returns the first collider that the ray hits, or null if none.
 		virtual RayCastResult RayCast(const LineF& ray) const = 0;
+
+		// Returns the first collider that collides with the given point.
+		virtual CollisionManifold Pick(const PointF& point) const = 0;
+		// Returns the first collider that collides with the given line.
+		virtual CollisionManifold Pick(const LineF& line) const = 0;
 
 	};
 
