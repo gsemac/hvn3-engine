@@ -65,6 +65,11 @@ namespace hvn3 {
 				return PointInDirection(p1, deg, distance);
 
 			}
+			PointF PointInDirection(const PointF& point, const Vector2d& direction_vector) {
+
+				return point + direction_vector;
+
+			}
 
 			float PointDirection(float x1, float y1, float x2, float y2) {
 

@@ -57,6 +57,7 @@ namespace hvn3 {
 			PointF PointInDirection(const PointF& point, float degrees, float distance);
 			// Returns the point at the given distance from the first point in the direction of the second point.
 			PointF PointInDirection(const PointF& p1, const PointF& p2, float distance);
+			PointF PointInDirection(const PointF& point, const Vector2d& direction_vector);
 
 			// Returns the angle between two points.
 			float PointDirection(float x1, float y1, float x2, float y2);
