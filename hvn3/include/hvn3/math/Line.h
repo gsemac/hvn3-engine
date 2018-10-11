@@ -1,4 +1,5 @@
 #pragma once
+#include "hvn3/math/Point2d.h"
 
 namespace hvn3 {
 
