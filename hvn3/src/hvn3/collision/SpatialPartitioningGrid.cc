@@ -61,6 +61,8 @@ namespace hvn3 {
 
 	}
 	const SpatialPartitioningGrid::collider_pair_vector_type& SpatialPartitioningGrid::FindCandidatePairs() {
+		
+		_pairs.clear();
 
 		// A hash set is used for storing pairs in order to prevent duplicates.
 		std::unordered_set<std::pair<ICollider*, ICollider*>, PairHasher> pairs;
@@ -159,32 +161,48 @@ namespace hvn3 {
 		throw System::NotImplementedException();
 
 	}
-	RayCastResult SpatialPartitioningGrid::RayCast(const LineF& ray) const {
+	RayCastResult SpatialPartitioningGrid::RayCast(const LineF& ray, int mask) const {
 
-		throw System::NotImplementedException();
+		PointI begin = _cellAt(ray.First());
+		PointI end = _cellAt(ray.Second());
 
-		//
-		//	// Calculate the direction of the line.
-		//	float dir = PointDirection(ray.First(), ray.Second());
-		//
-		//	// Walk the line, checking each new sector.
-		//	Point cell(-1.0f, -1.0f);
-		//	Point current_pos = ray.First();
-		//	do {
-		//		if (cell == CellAt(current_pos)) {
-		//			current_pos = PointInDirection(current_pos, dir, 1.0f);
-		//			continue;
-		//		}
-		//		cell = CellAt(current_pos);
-		//		std::vector<Object*>& objects = ObjectsAt(cell.X(), cell.Y);
-		//		// Find the best candidate in this cell.
-		//		for (size_t i = 0; i < objects.size(); ++i) {
-		//			return objects[0];
-		//		}
-		//		current_pos = PointInDirection(current_pos, dir, 1.0f);
-		//	} while (current_pos.X() < ray.Second().X() && current_pos.Y() < ray.Second().Y);
-		//
-		//	return nullptr;
+		HitMask line_mask(ray);
+		CollisionManifold manifold;
+		RayCastResult result;
+
+		BresenhamLineAlgorithm(begin, end, [&](int x, int y) {
+
+			auto items = _grid.equal_range(PointI(x, y));
+			float nearest_dist_sq = std::numeric_limits<float>::max();
+
+			for (auto i = items.first; i != items.second; ++i) {
+
+				if (mask != 0 && (i->second->Category().CategoryBits() & mask) == 0)
+					continue;
+
+				if (!i->second->GetHitMask().TestCollisionAt(i->second->Position(), line_mask, manifold))
+					continue;
+
+				// #todo Instead of comparing distance to AABB, use distance to intersection point
+				float dist_sq = Math::Geometry::PointDistanceSquared(ray.First(), i->second->AABB());
+
+				if (dist_sq < nearest_dist_sq) {
+
+					nearest_dist_sq = dist_sq;
+					result.hit = i->second;
+
+				}
+
+			}
+
+			if (result.hit != nullptr)
+				HVN3_BREAK;
+
+			HVN3_CONTINUE;
+
+		});
+
+		return result;
 
 	}
 	CollisionManifold SpatialPartitioningGrid::Pick(const PointF& point) const {
@@ -214,52 +232,6 @@ namespace hvn3 {
 				break;
 
 			}
-
-		}
-
-		return manifold;
-
-	}
-	CollisionManifold SpatialPartitioningGrid::Pick(const LineF& line) const {
-
-		PointF start = line.First();
-		float dir = Math::Geometry::PointDirection(line.First(), line.Second());
-		float current_dist_sq = 0.0f;
-		float max_dist_sq = Math::Geometry::PointDistanceSquared(line.First(), line.Second());
-
-		CollisionManifold manifold;
-
-		while (current_dist_sq <= max_dist_sq) {
-
-			PointI cell_index = _cellAt(start);
-			RectangleF mask(start.x, start.y, 1.0f, 1.0f);
-
-			auto colliders = _grid.equal_range(cell_index);
-
-			for (auto i = colliders.first; i != colliders.second; ++i) {
-
-				PointF other_position = i->second->Position();
-				HitMask& other_mask = i->second->GetHitMask();
-				PointF other_offset = other_mask.Offset();
-
-				other_mask.SetOffset({ other_mask.Offset().x + other_position.x, other_mask.Offset().y + other_position.y });
-
-				bool result = i->second->HitMask().TestCollision(mask, manifold);
-
-				other_mask.SetOffset(other_offset);
-
-				if (result) {
-
-					manifold.bodyB = i->second;
-
-					return manifold;
-
-				}
-
-			}
-
-			start = hvn3::Math::Geometry::PointInDirection(start, dir, 1.0f);
-			current_dist_sq = Math::Geometry::PointDistanceSquared(start, line.Second());
 
 		}
 

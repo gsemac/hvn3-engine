@@ -23,10 +23,9 @@ namespace hvn3 {
 
 		void QueryRegion(const RectangleF& region, collider_vector_type& output, int filter = 0) const override;
 		ICollider* QueryNearest(const PointF& point, int filter = 0) const override;
-		RayCastResult RayCast(const LineF& ray) const;
+		RayCastResult RayCast(const LineF& ray, int mask = 0) const;
 
 		CollisionManifold Pick(const PointF& point) const override;
-		CollisionManifold Pick(const LineF& line) const override;
 
 	private:
 		std::vector<IColliderPtr> _colliders;

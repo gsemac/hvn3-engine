@@ -10,8 +10,14 @@ namespace hvn3 {
 	class ICollider;
 
 	struct RayCastResult {
+		
+		RayCastResult() {
+			hit = nullptr;
+		}
+
 		ICollider* hit;
 		PointF hitPosition;
+
 	};
 
 	class IBroadPhase :
@@ -37,12 +43,10 @@ namespace hvn3 {
 		// Returns the nearest collider to the given point, or nullptr if no colliders found.
 		virtual ICollider* QueryNearest(const PointF& point, int filter = 0) const = 0;
 		// Returns the first collider that the ray hits, or null if none.
-		virtual RayCastResult RayCast(const LineF& ray) const = 0;
+		virtual RayCastResult RayCast(const LineF& ray, int mask = 0) const = 0;
 
 		// Returns the first collider that collides with the given point.
 		virtual CollisionManifold Pick(const PointF& point) const = 0;
-		// Returns the first collider that collides with the given line.
-		virtual CollisionManifold Pick(const LineF& line) const = 0;
 
 	};
 

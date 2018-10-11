@@ -368,6 +368,7 @@
     <ClCompile Include="src\hvn3\tilesets\TileMap.cc" />
     <ClCompile Include="src\hvn3\tilesets\TileMapRenderer.cc" />
     <ClCompile Include="src\hvn3\tilesets\Tileset.cc" />
+    <ClCompile Include="src\hvn3\utility\Algorithm.cc" />
     <ClCompile Include="src\hvn3\utility\Base64.cc" />
     <ClCompile Include="src\hvn3\utility\BitUtils.cc" />
     <ClCompile Include="src\hvn3\utility\Direction8.cc" />

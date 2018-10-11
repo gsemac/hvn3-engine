@@ -43,6 +43,7 @@ namespace hvn3 {
 		bool TestCollision(const RectangleF& other, CollisionManifold& manifold) const;
 		bool TestCollision(const CircleF& other, CollisionManifold& manifold) const;
 		bool TestCollision(const LineF& other, CollisionManifold& manifold) const;
+		bool TestCollisionAt(const PointF& at, const HitMask& other, CollisionManifold& manifold);
 
 		HitMask& operator=(const HitMask& other);
 		explicit operator bool() const;

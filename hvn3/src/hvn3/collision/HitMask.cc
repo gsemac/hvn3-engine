@@ -164,6 +164,20 @@ namespace hvn3 {
 		}
 
 	}
+	bool HitMask::TestCollisionAt(const PointF& at, const HitMask& other, CollisionManifold& manifold) {
+
+		PointF offset = Offset();
+		
+		SetOffset(offset + at);
+
+		bool result = TestCollision(other, manifold);
+
+		SetOffset(offset);
+
+		return result;
+
+	}
+
 	HitMask& HitMask::operator=(const HitMask& other) {
 		
 		_copyAssign(other);
