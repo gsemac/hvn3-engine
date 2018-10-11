@@ -54,14 +54,14 @@ namespace hvn3 {
 		// Update physics manager.
 		Physics().OnUpdate(e);
 
-		// Update objects (end).
-		Objects().OnEndUpdate(e);
-
 		// Update views.
 		Views().Update(ViewUpdateEventArgs(e.Delta(), hvn3::SizeI(Width(), Height())));
 
 		// Update backgrounds.
 		Backgrounds().Update(e);
+
+		// Update objects (end).
+		Objects().OnEndUpdate(e);
 
 	}
 	void Room::OnDraw(DrawEventArgs& e) {
@@ -214,7 +214,7 @@ namespace hvn3 {
 		}
 
 		if (!Local().IsRegistered<COLLISION_MANAGER>()) {
-			auto ptr = make_manager<CollisionManager>(std::make_unique<SpacialPartitioningGrid>(32, 32));
+			auto ptr = make_manager<CollisionManager>(std::make_unique<SpatialPartitioningGrid>(32, 32));
 			Local().Register<COLLISION_MANAGER>(ptr);
 		}
 

@@ -2,6 +2,7 @@
 #include "hvn3/core/Positionable2dBase.h"
 #include "hvn3/core/SizeableBase.h"
 #include "hvn3/exceptions/Exception.h"
+#include "hvn3/math/Line.h"
 
 namespace hvn3 {
 
@@ -110,6 +111,18 @@ namespace hvn3 {
 
 			return Point2d<T>(X() + static_cast<T>(Width() / 2.0), Y() + static_cast<T>(Height() / 2.0));
 
+		}
+		Line<T> BottomEdge() const {
+			return Line<T>(BottomLeft(), BottomRight());
+		}
+		Line<T> TopEdge() const {
+			return Line<T>(TopLeft(), TopRight());
+		}
+		Line<T> LeftEdge() const {
+			return Line<T>(TopLeft(), BottomLeft());
+		}
+		Line<T> RightEdge() const {
+			return Line<T>(TopRight(), BottomRight());
 		}
 
 		void Translate(T x_offset, T y_offset) {

@@ -4,13 +4,25 @@
 #include "hvn3/math/Line.h"
 #include "hvn3/math/Vector2d.h"
 #include "hvn3/math/MathUtils.h"
+#include <hvn3/utility/BitFlags.h>
+
 #include <functional>
+#include <utility>
 
 namespace hvn3 {
 	namespace Math {
 		namespace Geometry {
 
-			struct CommonTangentsResult {
+			enum class CohenSutherlandOutCode {
+				Inside = 0b0000,
+				Left = 0b0001,
+				Right = 0b0010,
+				Bottom = 0b0100,
+				Top = 0b1000
+			};
+			ENABLE_BITFLAG_OPERATORS(CohenSutherlandOutCode)
+
+				struct CommonTangentsResult {
 				CommonTangentsResult() : Tangents{
 					LineF(0.0f, 0.0f, 0.0f, 0.0f),
 					LineF(0.0f, 0.0f, 0.0f, 0.0f),
@@ -29,7 +41,7 @@ namespace hvn3 {
 			};
 
 			// Returns the distance squared between two points.
-			template <typename T> 
+			template <typename T>
 			T PointDistanceSquared(const Point2d<T>& a, const Point2d<T>& b) {
 
 				T dx = b.X() - a.X();
@@ -42,7 +54,7 @@ namespace hvn3 {
 			float PointDistanceSquared(const PointF& point, const RectangleF& rectangle);
 
 			// Returns the distance between two points.
-			template <typename T> 
+			template <typename T>
 			T PointDistance(const Point2d<T>& a, const Point2d<T>& b) {
 
 				return (std::sqrt)(PointDistanceSquared(a, b));
@@ -67,7 +79,7 @@ namespace hvn3 {
 			// Rotates the given point about the origin point by the given number of degrees.
 			template<typename T>
 			Point2d<T> PointRotate(const Point2d<T>& point, const Point2d<T>& origin, float degrees) {
-				
+
 				Point2d<T> new_point = point;
 				float rad = Math::DegreesToRadians(degrees);
 				float s = std::sin(rad);
@@ -229,6 +241,33 @@ namespace hvn3 {
 			}
 
 			template <typename T>
+			CohenSutherlandOutCode ComputeCohenSutherlandOutCode(const Rectangle<T>& rectangle, const Point2d<T>& point) {
+
+				CohenSutherlandOutCode out_code = CohenSutherlandOutCode::Inside;
+
+				if (point.X() < rectangle.X())
+					out_code |= CohenSutherlandOutCode::Left;
+				else if (point.X() > rectangle.X2())
+					out_code |= CohenSutherlandOutCode::Right;
+
+				if (point.Y() < rectangle.Y())
+					out_code |= CohenSutherlandOutCode::Top;
+				else if (point.Y() > rectangle.Y2())
+					out_code |= CohenSutherlandOutCode::Bottom;
+
+				return out_code;
+
+			}
+			template <typename T>
+			std::pair<CohenSutherlandOutCode, CohenSutherlandOutCode> ComputeCohenSutherlandOutCodes(const Rectangle<T>& rectangle, const Line<T>& line) {
+
+				auto result = std::make_pair(ComputeCohenSutherlandOutCode(rectangle, line.First()), ComputeCohenSutherlandOutCode(rectangle, line.Second()));
+
+				return result;
+
+			}
+
+			template <typename T>
 			bool TestIntersection(const Rectangle<T>& a, const Rectangle<T>& b) {
 
 				return (a.X() < b.X2() && a.X2() > b.X() && a.Y() < b.Y2() && a.Y2() > b.Y());
@@ -325,7 +364,29 @@ namespace hvn3 {
 			template <typename T>
 			bool TestIntersection(const Rectangle<T>& a, const Line<T>& b) {
 
-				throw System::NotImplementedException();
+				// https://en.wikipedia.org/wiki/Cohen%E2%80%93Sutherland_algorithm
+
+				auto out_codes = ComputeCohenSutherlandOutCodes(a, b);
+
+				// One of the points is inside of the rectangle.
+				if (out_codes.first == CohenSutherlandOutCode::Inside || out_codes.second == CohenSutherlandOutCode::Inside)
+					return true;
+
+				// Both points on one side of the rectangle (top, left, bottom, or right).
+				if (static_cast<int>(out_codes.first & out_codes.second) != 0)
+					return false;
+
+				// Line passes through the rectangle (top/bottom or left/right).
+				if (((out_codes.first | out_codes.second) == (CohenSutherlandOutCode::Left | CohenSutherlandOutCode::Right)) ||
+					((out_codes.first | out_codes.second) == (CohenSutherlandOutCode::Top | CohenSutherlandOutCode::Bottom)))
+					return true;
+
+				// At this point, we know one point is to the left or the right, and one is to the top or the bottom.
+				// We only need to test the two corresponding edges. 
+				Line<T> edge1 = HasFlag(out_codes.first | out_codes.second, CohenSutherlandOutCode::Left) ? a.LeftEdge() : a.RightEdge();
+				Line<T> edge2 = HasFlag(out_codes.first | out_codes.second, CohenSutherlandOutCode::Top) ? a.TopEdge() : a.BottomEdge();
+
+				return TestIntersection(b, edge1) || TestIntersection(b, edge2);
 
 			}
 			template <typename T>

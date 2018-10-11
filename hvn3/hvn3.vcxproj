@@ -53,7 +53,7 @@
     <ClInclude Include="include\hvn3\collision\NarrowPhase.h" />
     <ClInclude Include="include\hvn3\collision\Collider.h" />
     <ClInclude Include="include\hvn3\collision\CollisionManager.h" />
-    <ClInclude Include="include\hvn3\collision\SpacialPartitioningGrid.h" />
+    <ClInclude Include="include\hvn3\collision\SpatialPartitioningGrid.h" />
     <ClInclude Include="include\hvn3\core\Context.h" />
     <ClInclude Include="include\hvn3\core\CoreDefs.h" />
     <ClInclude Include="include\hvn3\core\DrawEventArgs.h" />
@@ -270,6 +270,7 @@
     <ClCompile Include="src\hvn3\collision\HitMask.cc" />
     <ClCompile Include="src\hvn3\collision\NarrowPhase.cc" />
     <ClCompile Include="src\hvn3\collision\Collider.cc" />
+    <ClCompile Include="src\hvn3\collision\SpatialPartitioningGrid.cc" />
     <ClCompile Include="src\hvn3\core\Context.cc" />
     <ClCompile Include="src\hvn3\core\DrawEventArgs.cc" />
     <ClCompile Include="src\hvn3\core\Framework.cc" />

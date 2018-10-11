@@ -1,7 +1,7 @@
 #pragma once
 #include "hvn3/rooms/RoomBase.h"
 #include "hvn3/collision/CollisionManager.h"
-#include "hvn3/collision/SpacialPartitioningGrid.h"
+#include "hvn3/collision/SpatialPartitioningGrid.h"
 #include "hvn3/collision/NarrowPhase.h"
 #include "hvn3/backgrounds/BackgroundManager.h"
 #include "hvn3/views/ViewManager.h"

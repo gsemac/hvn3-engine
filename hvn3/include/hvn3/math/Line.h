@@ -25,6 +25,18 @@ namespace hvn3 {
 			return _b;
 
 		}
+		T X1() const {
+			return _a.x;
+	}
+		T Y1() const {
+			return _a.y;
+		}
+		T X2() const {
+			return _b.x;
+		}
+		T Y2() const {
+			return _b.y;
+		}
 
 		Point2d<T> Midpoint() const {
 
