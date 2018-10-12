@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/collision/CategoryFilter.h"
+#include "hvn3/collision/CollisionFilter.h"
 #include "hvn3/physics/IPhysicsBody.h"
 
 namespace hvn3 {
@@ -33,8 +33,8 @@ namespace hvn3 {
 			void SetType(BodyType type) override;
 			ICollider* GetCollisionBody() override;
 			const ICollider* CollisionBody() const override;
-			CategoryFilter& GetCategory() override;
-			const CategoryFilter& Category() const override;
+			CollisionFilter& GetCategory() override;
+			const CollisionFilter& Category() const override;
 
 		private:
 			Physics::MassData _mass_data;
@@ -43,7 +43,7 @@ namespace hvn3 {
 			Vector2d _force;
 			Physics::Material _material;
 			IColliderPtr _collision_body;
-			CategoryFilter _filter;
+			CollisionFilter _filter;
 
 		};
 

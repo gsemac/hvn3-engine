@@ -1,4 +1,4 @@
-#include "hvn3/collision/CategoryFilter.h"
+#include "hvn3/collision/CollisionFilter.h"
 #include "hvn3/collision/CollisionResult.h"
 #include "hvn3/collision/IBroadPhase.h"
 #include "hvn3/collision/ICollider.h"

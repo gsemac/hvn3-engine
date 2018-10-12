@@ -7,7 +7,7 @@
 
 namespace hvn3 {
 
-	class CategoryFilter;
+	class CollisionFilter;
 	class HitMask;
 	class IObject;
 
@@ -28,9 +28,9 @@ namespace hvn3 {
 		virtual RectangleF AABB() const = 0;
 
 		// Returns the collision filter associated with this body.
-		virtual CategoryFilter& GetCategory() = 0;
+		virtual CollisionFilter& GetCategory() = 0;
 		// Returns the collision filter associated with this body.
-		virtual const CategoryFilter& Category() const = 0;
+		virtual const CollisionFilter& Category() const = 0;
 
 		// Returns the hit mask associated with this body.
 		virtual HitMask& GetHitMask() = 0;

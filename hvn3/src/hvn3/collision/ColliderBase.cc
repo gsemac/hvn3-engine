@@ -32,12 +32,12 @@ namespace hvn3 {
 		return aabb;
 
 	}
-	CategoryFilter& ColliderBase::GetCategory() {
+	CollisionFilter& ColliderBase::GetCategory() {
 
 		return _filter;
 
 	}
-	const CategoryFilter& ColliderBase::Category() const {
+	const CollisionFilter& ColliderBase::Category() const {
 
 		return _filter;
 

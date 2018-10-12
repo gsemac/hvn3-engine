@@ -1,4 +1,4 @@
-#include "hvn3/collision/CategoryFilter.h"
+#include "hvn3/collision/CollisionFilter.h"
 #include "hvn3/collision/ICollider.h"
 #include "hvn3/collision/ICollisionManager.h"
 #include "hvn3/helper/PlatformerControlsHelper.h"

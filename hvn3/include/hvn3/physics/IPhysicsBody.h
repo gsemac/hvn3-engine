@@ -7,7 +7,7 @@ namespace hvn3 {
 
 	class ICollider;
 	class IPhysicsManager;
-	class CategoryFilter;
+	class CollisionFilter;
 
 	namespace System {
 		class PhysicsBodyMutator;
@@ -63,8 +63,8 @@ namespace hvn3 {
 			virtual void SetType(BodyType type) = 0;
 			virtual ICollider* GetCollisionBody() = 0;
 			virtual const ICollider* CollisionBody() const = 0;
-			virtual CategoryFilter& GetCategory() = 0;
-			virtual const CategoryFilter& Category() const = 0;
+			virtual CollisionFilter& GetCategory() = 0;
+			virtual const CollisionFilter& Category() const = 0;
 
 		};
 

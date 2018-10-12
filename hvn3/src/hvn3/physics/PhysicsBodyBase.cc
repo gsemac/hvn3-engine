@@ -126,12 +126,12 @@ namespace hvn3 {
 			return _collision_body.get();
 
 		}
-		CategoryFilter& PhysicsBodyBase::GetCategory() {
+		CollisionFilter& PhysicsBodyBase::GetCategory() {
 
 			return _filter;
 
 		}
-		const CategoryFilter& PhysicsBodyBase::Category() const {
+		const CollisionFilter& PhysicsBodyBase::Category() const {
 
 			return _filter;
 

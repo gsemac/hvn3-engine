@@ -40,7 +40,7 @@
     <ClInclude Include="include\hvn3\collision\ColliderBase.h" />
     <ClInclude Include="include\hvn3\collision\CollisionDefs.h" />
     <ClInclude Include="include\hvn3\collision\CollisionEventArgs.h" />
-    <ClInclude Include="include\hvn3\collision\CategoryFilter.h" />
+    <ClInclude Include="include\hvn3\collision\CollisionFilter.h" />
     <ClInclude Include="include\hvn3\collision\CollisionManagerBase.h" />
     <ClInclude Include="include\hvn3\collision\CollisionResult.h" />
     <ClInclude Include="include\hvn3\collision\CollisionUtils.h" />

@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/collision/CategoryFilter.h"
+#include "hvn3/collision/CollisionFilter.h"
 #include "hvn3/collision/HitMask.h"
 #include "hvn3/collision/ICollider.h"
 
@@ -15,8 +15,8 @@ namespace hvn3 {
 		void SetPosition(const PointF& position) override;
 		void SetPosition(float x, float y) override;
 		RectangleF AABB() const override;
-		CategoryFilter& GetCategory() override;
-		const CategoryFilter& Category() const override;
+		CollisionFilter& GetCategory() override;
+		const CollisionFilter& Category() const override;
 		hvn3::HitMask& GetHitMask() override;
 		const hvn3::HitMask& HitMask() const override;
 		void SetHitMask(const hvn3::HitMask& mask) override;
@@ -30,7 +30,7 @@ namespace hvn3 {
 
 	private:
 		hvn3::HitMask _mask;
-		CategoryFilter _filter;
+		CollisionFilter _filter;
 		ColliderFlags _flags;
 		bool _is_destroyed;
 

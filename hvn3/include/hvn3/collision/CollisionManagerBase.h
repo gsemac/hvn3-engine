@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/collision/CategoryFilter.h"
+#include "hvn3/collision/CollisionFilter.h"
 #include "hvn3/collision/CollisionResult.h"
 #include "hvn3/collision/HitMask.h"
 #include "hvn3/collision/ICollider.h"

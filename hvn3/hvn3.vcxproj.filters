@@ -525,9 +525,6 @@
     <ClInclude Include="include\hvn3\physics\BasicPhysicsManager.h">
       <Filter>include\physics</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\collision\CategoryFilter.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\gui2\IWidget.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
@@ -835,6 +832,9 @@
       <Filter>include\collision</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\collision\CollisionResult.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\CollisionFilter.h">
       <Filter>include\collision</Filter>
     </ClInclude>
   </ItemGroup>

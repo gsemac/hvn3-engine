@@ -1,4 +1,4 @@
-#include "hvn3/collision/CategoryFilter.h"
+#include "hvn3/collision/CollisionFilter.h"
 #include "hvn3/collision/CollisionResult.h"
 #include "hvn3/collision/ICollider.h"
 #include "hvn3/collision/ICollisionManager.h"
@@ -38,7 +38,7 @@ namespace hvn3 {
 				// Lambda for filtering collision bodies. Only returns true for bodies this body can collide with in the physics system.
 				auto body_filter = [&](const ICollider* other) {
 					IPhysicsBody* other_body = GetPhysicsBodyFromCollider(other);
-					if (other_body != nullptr && this_body->Category().CheckHit(other_body->Category()))
+					if (other_body != nullptr && this_body->Category().CheckMatch(other_body->Category()))
 						return true;
 					return false;
 				};
