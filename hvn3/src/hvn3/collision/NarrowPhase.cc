@@ -5,12 +5,12 @@
 
 namespace hvn3 {
 
-	bool NarrowPhase::TestCollision(ICollider* body, ICollider* other, CollisionManifold& manifold) const {
+	bool NarrowPhase::TestCollision(ICollider* body, ICollider* other, CollisionResult& manifold) const {
 
 		return TestCollision(body, body->Position(), other, other->Position(), manifold);
 
 	}
-	bool NarrowPhase::TestCollision(ICollider* body, const PointF& body_position, ICollider* other, const PointF& other_position, CollisionManifold& manifold) const {
+	bool NarrowPhase::TestCollision(ICollider* body, const PointF& body_position, ICollider* other, const PointF& other_position, CollisionResult& manifold) const {
 
 		// Get the masks for both colliders.
 		HitMask* a_mask = &body->GetHitMask();

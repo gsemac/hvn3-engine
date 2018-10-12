@@ -4,13 +4,16 @@
 namespace hvn3 {
 
 	class ICollider;
+	class IObject;
 
-	struct CollisionManifold {
+	struct CollisionResult {
 
-		CollisionManifold();
+		CollisionResult();
 
-		ICollider* bodyA;
-		ICollider* bodyB;
+		ICollider* collider;
+		IObject* object;
+
+		PointF position;
 		Vector2d normal;
 		float penetrationDepth;
 

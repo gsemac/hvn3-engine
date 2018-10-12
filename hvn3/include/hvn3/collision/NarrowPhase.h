@@ -7,8 +7,8 @@ namespace hvn3 {
 		public INarrowPhase {
 
 	public:
-		bool TestCollision(ICollider* body, ICollider* other, CollisionManifold& manifold) const override;
-		bool TestCollision(ICollider* body, const PointF& body_position, ICollider* other, const PointF& other_position, CollisionManifold& manifold) const override;
+		bool TestCollision(ICollider* body, ICollider* other, CollisionResult& manifold) const override;
+		bool TestCollision(ICollider* body, const PointF& body_position, ICollider* other, const PointF& other_position, CollisionResult& manifold) const override;
 
 	};
 

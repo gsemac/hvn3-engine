@@ -14,7 +14,7 @@ namespace hvn3 {
 	class INarrowPhase;
 	class ICollidable;
 	class ICollider;
-	struct CollisionManifold;
+	struct CollisionResult;
 
 	class ICollisionManager :
 		public IUpdatable,
@@ -32,7 +32,7 @@ namespace hvn3 {
 		// Returns the narrow phase collision manager used by the manager.
 		virtual const INarrowPhase& Narrow() const = 0;
 		// Returns a collection of all colliding pairs found in the last update.
-		virtual const std::vector<CollisionManifold>& CollidingPairs() const = 0;
+		virtual const std::vector<CollisionResult>& CollidingPairs() const = 0;
 		// Returns the number of collision bodies added to the manager.
 		virtual size_t Count() const = 0;
 		// Clears all collision bodies from the manager.
@@ -52,11 +52,11 @@ namespace hvn3 {
 		// Returns true if the body collides with a body with the given category at the given position.
 		virtual bool PlaceFree(ICollider* body, const PointF& position, int category) = 0;
 		// Returns true if the body collides with any other body at the given position.
-		virtual bool PlaceFree(ICollider* body, const PointF& position, CollisionManifold& manifold) = 0;
+		virtual bool PlaceFree(ICollider* body, const PointF& position, CollisionResult& manifold) = 0;
 		// Returns true if the body collides with any other body at the given position for which the given condition is true.
 		virtual bool PlaceFreeIf(ICollider* body, const PointF& position, const condition_lambda_type& condition) = 0;
 		// Returns true if the body collides with any other body at the given position for which the given condition is true, and stores collision information.
-		virtual bool PlaceFreeIf(ICollider* body, const PointF& position, CollisionManifold& manifold, const condition_lambda_type& condition) = 0;
+		virtual bool PlaceFreeIf(ICollider* body, const PointF& position, CollisionResult& manifold, const condition_lambda_type& condition) = 0;
 		// Moves the body a set distance in a given direction (in degrees) until it collides with another body.
 		virtual bool MoveContact(ICollider* body, float direction, float distance) = 0;
 		// Moves the body a set distance in a given direction (in degrees) until it collides with a body with the given category.
@@ -64,7 +64,7 @@ namespace hvn3 {
 		// Moves the body a set distance in a given direction (in degrees) until it collides with another body for which the given condition is true.
 		virtual bool MoveContactIf(ICollider* body, float direction, float distance, const condition_lambda_type& condition) = 0;
 		// Moves the body a set distance in a given direction (in degrees) until it collides with another body for which the given condition is true, and stores collision information.
-		virtual bool MoveContactIf(ICollider* body, float direction, float distance, CollisionManifold& manifold, const condition_lambda_type& condition) = 0;
+		virtual bool MoveContactIf(ICollider* body, float direction, float distance, CollisionResult& manifold, const condition_lambda_type& condition) = 0;
 		// Moves the body in a given direction (in degrees) until it is no longer colliding with any other bodies.
 		virtual bool MoveOutside(ICollider* body, float direction, float max_distance) = 0;
 		// Moves the body in a given direction (in degrees) until it is no longer colliding with the given body.

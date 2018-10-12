@@ -20,9 +20,10 @@ namespace hvn3 {
 				Bottom = 0b0100,
 				Top = 0b1000
 			};
-			ENABLE_BITFLAG_OPERATORS(CohenSutherlandOutCode)
+			ENABLE_BITFLAG_OPERATORS(CohenSutherlandOutCode);
 
-				struct CommonTangentsResult {
+			struct CommonTangentsResult {
+
 				CommonTangentsResult() : Tangents{
 					LineF(0.0f, 0.0f, 0.0f, 0.0f),
 					LineF(0.0f, 0.0f, 0.0f, 0.0f),
@@ -30,14 +31,24 @@ namespace hvn3 {
 					LineF(0.0f, 0.0f, 0.0f, 0.0f),
 				},
 				Count(0) {}
+
 				LineF Tangents[4];
 				size_t Count;
+
 			};
 
-			template <typename T>
-			struct SlopeIntercept {
-				T Slope;
-				T Intercept;
+			template<typename ValueType>
+			struct LineLineIntersectionResult {
+
+				LineLineIntersectionResult() {
+					parallel = false;
+					success = false;
+				}
+
+				bool parallel;
+				bool success;
+				Point2d<ValueType> point;
+
 			};
 
 			// Returns the distance squared between two points.
@@ -178,69 +189,6 @@ namespace hvn3 {
 			}
 
 			template <typename T>
-			Point2d<T> IntersectionPoint(T slope1, T intercept1, T slope2, T intercept2) {
-
-				T x = (intercept2 - intercept1) / (slope1 - slope2);
-				T y = (slope1 * x + intercept1);
-
-				return Point2d<T>(x, y);
-
-			}
-			template <typename T>
-			Point2d<T> IntersectionPoint(const SlopeIntercept<T>& equation1, const SlopeIntercept<T>& equation2) {
-
-				return IntersectionPoint(equation1.Slope, equation1.Intercept, equation2.Slope, equation2.Intercept);
-
-			}
-			template <typename T>
-			Point2d<T> IntersectionPoint(const Line<T>& line_segment1, const Line<T>& line_segment2) {
-
-				return IntersectionPoint(CalculateSlopeIntercept(line_segment1), CalculateSlopeIntercept(line_segment2));
-
-			}
-
-			template <typename T>
-			SlopeIntercept<T> CalculateSlopeIntercept(const Point2d<T>& p1, const Point2d<T>& p2) {
-
-				SlopeIntercept<T> result;
-
-				result.Slope = (p2.Y() - p1.Y()) / (p2.X() - p1.X());
-				result.Intercept = -result.Slope * p2.X() + p2.Y();
-
-				return result;
-
-			}
-			template <typename T>
-			SlopeIntercept<T> CalculateSlopeIntercept(const Line<T>& line_segment) {
-
-				return CalculateSlopeIntercept(line_segment.First(), line_segment.Second());
-
-			}
-
-			template <typename T>
-			bool PointIsOnLine(const Line<T>& line, const Point2d<T>& point) {
-
-				T cross_product = (point.Y() - line.First().Y()) * (line.Second().X(), line.First().X()) -
-					(point.X() - line.First().X()) * (line.Second().Y() - line.First().Y());
-
-				if (Math::Abs(cross_product) > static_cast<T>(Math::DoubleEpsilon))
-					return false;
-
-				T dot_product = (point.X() - line.First().X()) * (line.Second().X() - line.First().X()) + (point.Y() - line.First().Y()) * (line.Second().Y() - line.First().Y());
-
-				if (dot_product < T(0))
-					return false;
-
-				T len_sq = (line.Second().X() - line.First().X()) * (line.Second().X() - line.First().X()) + (line.Second().Y() - line.First().Y()) * (line.Second().Y() - line.First().Y());
-
-				if (dot_product > len_sq)
-					return false;
-
-				return true;
-
-			}
-
-			template <typename T>
 			CohenSutherlandOutCode ComputeCohenSutherlandOutCode(const Rectangle<T>& rectangle, const Point2d<T>& point) {
 
 				CohenSutherlandOutCode out_code = CohenSutherlandOutCode::Inside;
@@ -264,6 +212,89 @@ namespace hvn3 {
 				auto result = std::make_pair(ComputeCohenSutherlandOutCode(rectangle, line.First()), ComputeCohenSutherlandOutCode(rectangle, line.Second()));
 
 				return result;
+
+			}
+
+			template<typename ValueType>
+			LineLineIntersectionResult<ValueType> GetIntersectionPoint(const Line<ValueType>& line1, const Line<ValueType>& line2) {
+
+				LineLineIntersectionResult<ValueType> result;
+
+				auto s1 = line1.GetStandardForm();
+				auto s2 = line2.GetStandardForm();
+
+				ValueType determinant = (s1.A * s2.B) - (s2.A * s1.B);
+				Point2d<ValueType> point;
+
+				if (Math::IsZero(determinant)) {
+
+					// The lines are parallel. If one line lines on the other, they intersect.
+					// Take whichever end point is closest to the start point of the first line.
+
+					float dist_sq = std::numeric_limits<float>::max();
+
+					if (line1.ContainsPoint(line2.First())) {
+
+						point = line2.First();
+						dist_sq = Math::Geometry::PointDistanceSquared(line1.First(), line2.First());
+
+						result.success = true;
+
+					}
+
+					if (line1.ContainsPoint(line2.Second())) {
+
+						float try_dist_sq = Math::Geometry::PointDistanceSquared(line1.First(), line2.Second());
+
+						if (try_dist_sq < dist_sq) {
+
+							point = line2.Second();
+							try_dist_sq = dist_sq;
+
+							result.success = true;
+
+						}
+
+
+					}
+
+					result.point = point;
+					result.parallel = true;
+
+					return result;
+
+				}
+
+				// Calculate the potential point of intersection.
+
+				point.x = (s2.B * s1.C - s1.B * s2.C) / determinant;
+				point.y = (s1.A * s2.C - s2.A * s1.C) / determinant;
+
+				// Make sure that the point is on both of the line segments.
+
+				if ((std::min)(line1.X1(), line1.X2()) > point.x || (std::max)(line1.X1(), line1.X2()) < point.x ||
+					(std::min)(line1.Y1(), line1.Y2()) > point.y || (std::max)(line1.Y1(), line1.Y2()) < point.y ||
+					(std::min)(line2.X1(), line2.X2()) > point.x || (std::max)(line2.X1(), line2.X2()) < point.x ||
+					(std::min)(line2.Y1(), line2.Y2()) > point.y || (std::max)(line2.Y1(), line2.Y2()) < point.y)
+					return result;
+
+				// The point is on both lines, so we have an intersection.
+
+				result.point = point;
+				result.success = true;
+
+				return result;
+
+			}
+			template<typename ValueType>
+			Point2d<ValueType> GetIntersectionPoint(const LineSlopeInterceptForm<ValueType>& line1, const LineSlopeInterceptForm<ValueType>& line2) {
+
+				Point2d<ValueType> point;
+
+				point.x = (line2.intercept - line1.intercept) / (line1.slope - line2.slope);
+				point.y = (line1.slope * point.x + line1.intercept);
+
+				return point;
 
 			}
 

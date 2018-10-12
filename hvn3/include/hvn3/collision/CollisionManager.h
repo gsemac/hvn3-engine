@@ -20,9 +20,7 @@ namespace hvn3 {
 				ICollider* body_1 = i->first;
 				ICollider* body_2 = i->second;
 
-				CollisionManifold m;
-				m.bodyA = body_1;
-				m.bodyB = body_2;
+				CollisionResult m;
 
 				if (!Narrow().TestCollision(body_1, body_2, m))
 					continue;

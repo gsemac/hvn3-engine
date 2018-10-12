@@ -1,5 +1,5 @@
 #include "hvn3/collision/CategoryFilter.h"
-#include "hvn3/collision/CollisionManifold.h"
+#include "hvn3/collision/CollisionResult.h"
 #include "hvn3/collision/IBroadPhase.h"
 #include "hvn3/collision/ICollider.h"
 #include "hvn3/collision/HitMask.h"
@@ -167,7 +167,7 @@ namespace hvn3 {
 		PointI end = _cellAt(ray.Second());
 
 		HitMask line_mask(ray);
-		CollisionManifold manifold;
+		CollisionResult manifold;
 		RayCastResult result;
 
 		BresenhamLineAlgorithm(begin, end, [&](int x, int y) {
@@ -189,7 +189,9 @@ namespace hvn3 {
 				if (dist_sq < nearest_dist_sq) {
 
 					nearest_dist_sq = dist_sq;
+
 					result.hit = i->second;
+					result.position = manifold.position;
 
 				}
 
@@ -205,11 +207,11 @@ namespace hvn3 {
 		return result;
 
 	}
-	CollisionManifold SpatialPartitioningGrid::Pick(const PointF& point) const {
+	CollisionResult SpatialPartitioningGrid::Pick(const PointF& point) const {
 
 		IBroadPhase::collider_vector_type hits;
 		RectangleF mask(point.x, point.y, 1.0f, 1.0f);
-		CollisionManifold manifold;
+		CollisionResult manifold;
 
 		QueryRegion(mask, hits);
 
@@ -227,7 +229,7 @@ namespace hvn3 {
 
 			if (result) {
 
-				manifold.bodyB = (*i);
+				manifold.collider = (*i);
 
 				break;
 

@@ -12,11 +12,14 @@ namespace hvn3 {
 	struct RayCastResult {
 		
 		RayCastResult() {
+			
 			hit = nullptr;
+			position = PointF(0.0f, 0.0f);
+
 		}
 
 		ICollider* hit;
-		PointF hitPosition;
+		PointF position;
 
 	};
 
@@ -46,7 +49,7 @@ namespace hvn3 {
 		virtual RayCastResult RayCast(const LineF& ray, int mask = 0) const = 0;
 
 		// Returns the first collider that collides with the given point.
-		virtual CollisionManifold Pick(const PointF& point) const = 0;
+		virtual CollisionResult Pick(const PointF& point) const = 0;
 
 	};
 

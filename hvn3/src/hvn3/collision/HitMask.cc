@@ -89,7 +89,7 @@ namespace hvn3 {
 		}
 
 	}
-	bool HitMask::TestCollision(const HitMask& other, CollisionManifold& manifold) const {
+	bool HitMask::TestCollision(const HitMask& other, CollisionResult& manifold) const {
 
 		if (_type == HITMASK_TYPE_NULL)
 			return false;
@@ -110,7 +110,7 @@ namespace hvn3 {
 		}
 
 	}
-	bool HitMask::TestCollision(const RectangleF& other, CollisionManifold& manifold) const {
+	bool HitMask::TestCollision(const RectangleF& other, CollisionResult& manifold) const {
 
 		switch (_type) {
 		case HITMASK_TYPE_RECTANGLE:
@@ -128,7 +128,7 @@ namespace hvn3 {
 		}
 
 	}
-	bool HitMask::TestCollision(const CircleF& other, CollisionManifold& manifold) const {
+	bool HitMask::TestCollision(const CircleF& other, CollisionResult& manifold) const {
 
 		switch (_type) {
 		case HITMASK_TYPE_RECTANGLE:
@@ -146,7 +146,7 @@ namespace hvn3 {
 		}
 
 	}
-	bool HitMask::TestCollision(const LineF& other, CollisionManifold& manifold) const {
+	bool HitMask::TestCollision(const LineF& other, CollisionResult& manifold) const {
 
 		switch (_type) {
 		case HITMASK_TYPE_RECTANGLE:
@@ -164,7 +164,7 @@ namespace hvn3 {
 		}
 
 	}
-	bool HitMask::TestCollisionAt(const PointF& at, const HitMask& other, CollisionManifold& manifold) {
+	bool HitMask::TestCollisionAt(const PointF& at, const HitMask& other, CollisionResult& manifold) {
 
 		PointF offset = Offset();
 		

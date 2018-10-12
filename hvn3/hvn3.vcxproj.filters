@@ -207,9 +207,6 @@
     <ClInclude Include="include\hvn3\collision\CollisionManagerBase.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\collision\CollisionManifold.h">
-      <Filter>include\collision</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\collision\CollisionUtils.h">
       <Filter>include\collision</Filter>
     </ClInclude>
@@ -837,6 +834,9 @@
     <ClInclude Include="include\hvn3\collision\SpatialPartitioningGrid.h">
       <Filter>include\collision</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\collision\CollisionResult.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -871,9 +871,6 @@
       <Filter>src\collision</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\collision\CollisionFilter.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\collision\CollisionManifold.cc">
       <Filter>src\collision</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\collision\NarrowPhase.cc">
@@ -1256,6 +1253,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\utility\Algorithm.cc">
       <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\CollisionResult.cc">
+      <Filter>src\collision</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -25,7 +25,7 @@ namespace hvn3 {
 		ICollider* QueryNearest(const PointF& point, int filter = 0) const override;
 		RayCastResult RayCast(const LineF& ray, int mask = 0) const;
 
-		CollisionManifold Pick(const PointF& point) const override;
+		CollisionResult Pick(const PointF& point) const override;
 
 	private:
 		std::vector<IColliderPtr> _colliders;

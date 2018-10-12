@@ -6,7 +6,7 @@
 
 namespace hvn3 {
 
-	struct CollisionManifold;
+	struct CollisionResult;
 
 	class HitMask {
 
@@ -39,11 +39,11 @@ namespace hvn3 {
 
 		RectangleF AABB() const;
 
-		bool TestCollision(const HitMask& other, CollisionManifold& manifold) const;
-		bool TestCollision(const RectangleF& other, CollisionManifold& manifold) const;
-		bool TestCollision(const CircleF& other, CollisionManifold& manifold) const;
-		bool TestCollision(const LineF& other, CollisionManifold& manifold) const;
-		bool TestCollisionAt(const PointF& at, const HitMask& other, CollisionManifold& manifold);
+		bool TestCollision(const HitMask& other, CollisionResult& manifold) const;
+		bool TestCollision(const RectangleF& other, CollisionResult& manifold) const;
+		bool TestCollision(const CircleF& other, CollisionResult& manifold) const;
+		bool TestCollision(const LineF& other, CollisionResult& manifold) const;
+		bool TestCollisionAt(const PointF& at, const HitMask& other, CollisionResult& manifold);
 
 		HitMask& operator=(const HitMask& other);
 		explicit operator bool() const;

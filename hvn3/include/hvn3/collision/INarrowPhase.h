@@ -3,14 +3,14 @@
 
 namespace hvn3 {
 
-	struct CollisionManifold;
+	struct CollisionResult;
 	class ICollider;
 
 	class INarrowPhase {
 
 	public:
-		virtual bool TestCollision(ICollider* body, ICollider* other, CollisionManifold& manifold) const = 0;
-		virtual bool TestCollision(ICollider* body, const PointF& body_position, ICollider* other, const PointF& other_position, CollisionManifold& manifold) const = 0;
+		virtual bool TestCollision(ICollider* body, ICollider* other, CollisionResult& manifold) const = 0;
+		virtual bool TestCollision(ICollider* body, const PointF& body_position, ICollider* other, const PointF& other_position, CollisionResult& manifold) const = 0;
 
 	};
 

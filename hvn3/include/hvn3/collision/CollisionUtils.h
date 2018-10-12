@@ -2,14 +2,16 @@
 #include "hvn3/math/Rectangle.h"
 #include "hvn3/math/Circle.h"
 #include "hvn3/math/Line.h"
-#include "hvn3/collision/CollisionManifold.h"
+#include "hvn3/collision/CollisionResult.h"
 #include "hvn3/math/MathUtils.h"
 
 namespace hvn3 {
 
+	// #todo Move all "TestIntersection"-etc. functions into here?
+
 	// Tests for a collision between two rectangles. If they are colliding, returns true and sets the collision manifold information. Otherwise, returns false.
 	template<typename T>
-	bool ResolveCollision(const Rectangle<T>& hitmask_1, const Rectangle<T>& hitmask_2, CollisionManifold& manifold) {
+	bool ResolveCollision(const Rectangle<T>& hitmask_1, const Rectangle<T>& hitmask_2, CollisionResult& manifold) {
 
 		// Vector from A to B.			
 		Vector2d normal(hitmask_1.Midpoint(), hitmask_2.Midpoint());
@@ -64,10 +66,10 @@ namespace hvn3 {
 		return false;
 
 	}
-	
+
 	template <typename T>
 	// Tests for a collision between two rectangles. If they are colliding, returns true and sets the collision manifold information, taking into account the direction of movement. Otherwise, returns false.
-	bool ResolveCollision(const Rectangle<T>& hitmask_1, const Rectangle<T>& hitmask_2, T direction, CollisionManifold& manifold) {
+	bool ResolveCollision(const Rectangle<T>& hitmask_1, const Rectangle<T>& hitmask_2, T direction, CollisionResult& manifold) {
 
 		throw System::NotImplementedException();
 
@@ -99,7 +101,7 @@ namespace hvn3 {
 
 	// Tests for a collision between a circle and a line. If they are colliding, returns true and sets the collision manifold information relative to the circle. Otherwise, returns false.
 	template <typename T>
-	bool ResolveCollision(const Circle<T>& body_1, const Line<T> body_2, CollisionManifold& manifold) {
+	bool ResolveCollision(const Circle<T>& body_1, const Line<T> body_2, CollisionResult& manifold) {
 
 		throw System::NotImplementedException();
 

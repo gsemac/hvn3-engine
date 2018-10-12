@@ -152,7 +152,7 @@ namespace hvn3 {
 
 				Vector2d vec(a.Position(), b.Position());
 				float direction = vec.Direction();
-				SlopeIntercept<float> eq = CalculateSlopeIntercept(a.Position(), b.Position());
+				auto eq = LineF(a.Position(), b.Position()).GetSlopeInterceptForm();
 
 				if (tangents.Count == 1 || tangents.Count == 3) {
 
@@ -201,14 +201,14 @@ namespace hvn3 {
 					PointF p2 = PointInDirection(b.Position(), direction + 90.0f, b.Radius());
 					PointF p3 = PointInDirection(a.Position(), direction - 90.0f, a.Radius());
 					PointF p4 = PointInDirection(b.Position(), direction - 90.0f, b.Radius());
-					SlopeIntercept<float> eq2 = CalculateSlopeIntercept(p1, p2);
+					auto eq2 = LineF(p1, p2).GetSlopeInterceptForm();
 
 					if (a.Radius() == b.Radius()) {
 						tangents.Tangents[tangents.Count == 3 ? 1 : 0] = LineF(p3, p4);
 						tangents.Tangents[tangents.Count == 3 ? 2 : 1] = LineF(p1, p2);
 					}
 					else {
-						PointF center_of_similitude = IntersectionPoint(eq, eq2);
+						PointF center_of_similitude = GetIntersectionPoint(eq, eq2);
 						PointF tp1 = TangentThroughPoint(a, center_of_similitude).first;
 						PointF tp2 = TangentThroughPoint(b, center_of_similitude).first;
 						PointF tp3 = TangentThroughPoint(a, center_of_similitude).second;
@@ -228,9 +228,9 @@ namespace hvn3 {
 					PointF p2 = PointInDirection(b.Position(), direction - 90.0f, b.Radius());
 					PointF p3 = PointInDirection(a.Position(), direction - 90.0f, b.Radius());
 					PointF p4 = PointInDirection(a.Position(), direction + 90.0f, b.Radius());
-					SlopeIntercept<float> eq2 = CalculateSlopeIntercept(p1, p2);
+					auto eq2 = LineF(p1, p2).GetSlopeInterceptForm();
 
-					PointF center_of_similitude = IntersectionPoint(eq, eq2);
+					PointF center_of_similitude = GetIntersectionPoint(eq, eq2);
 					PointF tp1 = TangentThroughPoint(a, center_of_similitude).first;
 					PointF tp2 = TangentThroughPoint(b, center_of_similitude).first;
 					PointF tp3 = TangentThroughPoint(a, center_of_similitude).second;

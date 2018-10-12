@@ -42,7 +42,7 @@
     <ClInclude Include="include\hvn3\collision\CollisionEventArgs.h" />
     <ClInclude Include="include\hvn3\collision\CategoryFilter.h" />
     <ClInclude Include="include\hvn3\collision\CollisionManagerBase.h" />
-    <ClInclude Include="include\hvn3\collision\CollisionManifold.h" />
+    <ClInclude Include="include\hvn3\collision\CollisionResult.h" />
     <ClInclude Include="include\hvn3\collision\CollisionUtils.h" />
     <ClInclude Include="include\hvn3\collision\IBroadPhase.h" />
     <ClInclude Include="include\hvn3\collision\ICollidable.h" />
@@ -266,7 +266,7 @@
     <ClCompile Include="src\hvn3\collision\ColliderBase.cc" />
     <ClCompile Include="src\hvn3\collision\CollisionEventArgs.cc" />
     <ClCompile Include="src\hvn3\collision\CollisionFilter.cc" />
-    <ClCompile Include="src\hvn3\collision\CollisionManifold.cc" />
+    <ClCompile Include="src\hvn3\collision\CollisionResult.cc" />
     <ClCompile Include="src\hvn3\collision\HitMask.cc" />
     <ClCompile Include="src\hvn3\collision\NarrowPhase.cc" />
     <ClCompile Include="src\hvn3\collision\Collider.cc" />

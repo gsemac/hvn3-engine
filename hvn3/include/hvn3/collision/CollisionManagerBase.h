@@ -1,6 +1,6 @@
 #pragma once
 #include "hvn3/collision/CategoryFilter.h"
-#include "hvn3/collision/CollisionManifold.h"
+#include "hvn3/collision/CollisionResult.h"
 #include "hvn3/collision/HitMask.h"
 #include "hvn3/collision/ICollider.h"
 #include "hvn3/collision/ICollisionManager.h"
@@ -53,7 +53,7 @@ namespace hvn3 {
 			return *_narrow_phase;
 
 		}
-		const std::vector<CollisionManifold>& CollidingPairs() const override {
+		const std::vector<CollisionResult>& CollidingPairs() const override {
 			return _pairs;
 		}
 		size_t Count() const override {
@@ -100,19 +100,19 @@ namespace hvn3 {
 			return PlaceFreeIf(body, position, [=](const ICollider* body) { return (body->Category().CategoryBits() & category) != 0; });
 
 		}
-		bool PlaceFree(ICollider* body, const PointF& position, CollisionManifold& manifold) override {
+		bool PlaceFree(ICollider* body, const PointF& position, CollisionResult& manifold) override {
 
 			return PlaceFreeIf(body, position, manifold, [](const ICollider*) { return true; });
 
 		}
 		bool PlaceFreeIf(ICollider* body, const PointF& position, const condition_lambda_type& condition) override {
 
-			CollisionManifold m;
+			CollisionResult m;
 
 			return PlaceFreeIf(body, position, m, condition);
 
 		}
-		bool PlaceFreeIf(ICollider* body, const PointF& position, CollisionManifold& manifold, const condition_lambda_type& condition) override {
+		bool PlaceFreeIf(ICollider* body, const PointF& position, CollisionResult& manifold, const condition_lambda_type& condition) override {
 
 			// If the object does not have a collision mask, return true immediately (no collisions are possible).
 			if (!body->HitMask())
@@ -139,8 +139,7 @@ namespace hvn3 {
 
 				// Check for a collision.
 				if (Narrow().TestCollision(body, position, hits[i], hits[i]->Position(), manifold)) {
-					manifold.bodyA = body;
-					manifold.bodyB = hits[i];
+					manifold.collider = hits[i];
 					return false;
 				}
 
@@ -162,12 +161,12 @@ namespace hvn3 {
 		}
 		bool MoveContactIf(ICollider* body, float direction, float distance, const condition_lambda_type& condition) override {
 
-			CollisionManifold manifold;
+			CollisionResult manifold;
 
 			return MoveContactIf(body, direction, distance, manifold, condition);
 
 		}
-		bool MoveContactIf(ICollider* body, float direction, float distance, CollisionManifold& manifold, const condition_lambda_type& condition) override {
+		bool MoveContactIf(ICollider* body, float direction, float distance, CollisionResult& manifold, const condition_lambda_type& condition) override {
 
 			// If the distance is negative, reverse the direction and then make it positive.
 			if (distance < 0.0f) {
@@ -252,7 +251,7 @@ namespace hvn3 {
 			float dist = 0.0f;
 			float distance_per_step = Math::Min(1.0f, max_distance);
 			bool place_free;
-			CollisionManifold m;
+			CollisionResult m;
 
 			// It's important that we check if the place is free before doing the distance check (what if the user passes in a distance of 0?).
 			while ((place_free = Narrow().TestCollision(body, other, m), place_free) && dist < (std::abs)(max_distance)) {
@@ -269,13 +268,13 @@ namespace hvn3 {
 
 	protected:
 		// Returns the vector of colliding pairs from the last update.
-		std::vector<CollisionManifold>& GetPairs() {
+		std::vector<CollisionResult>& GetPairs() {
 
 			return _pairs;
 
 		}
 		// Returns the vector of colliding pairs from the last update.
-		const std::vector<CollisionManifold>& Pairs() const {
+		const std::vector<CollisionResult>& Pairs() const {
 
 			return _pairs;
 
@@ -284,7 +283,7 @@ namespace hvn3 {
 		virtual void CheckPairs(const IBroadPhase::collider_pair_vector_type& pairs) = 0;
 
 	private:
-		std::vector<CollisionManifold> _pairs;
+		std::vector<CollisionResult> _pairs;
 		std::unique_ptr<IBroadPhase> _broad_phase;
 		std::unique_ptr<INarrowPhase> _narrow_phase;
 		float _precision;
