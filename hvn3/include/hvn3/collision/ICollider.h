@@ -15,7 +15,7 @@ namespace hvn3 {
 		Static,
 		Solid
 	};
-	ENABLE_BITFLAG_OPERATORS(ColliderFlags)
+	ENABLE_BITFLAG_OPERATORS(ColliderFlags);
 
 	class ICollider :
 		public IPositionable2d<float>,
@@ -28,20 +28,20 @@ namespace hvn3 {
 		virtual RectangleF AABB() const = 0;
 
 		// Returns the collision filter associated with this body.
-		virtual CollisionFilter& GetCategory() = 0;
+		virtual CollisionFilter& Filter() = 0;
 		// Returns the collision filter associated with this body.
-		virtual const CollisionFilter& Category() const = 0;
+		virtual const CollisionFilter& Filter() const = 0;
 
 		// Returns the hit mask associated with this body.
-		virtual HitMask& GetHitMask() = 0;
+		virtual HitMask& HitMask() = 0;
 		// Returns the hit mask associated with this body.
-		virtual const HitMask& HitMask() const = 0;
+		virtual const class HitMask& HitMask() const = 0;
 		// Sets the hit mask associated with this body.
 		virtual void SetHitMask(const hvn3::HitMask& mask) = 0;
 
 		virtual ColliderFlags Flags() const = 0;
 		virtual void SetFlags(ColliderFlags flags) = 0;
-		
+
 		virtual void OnCollide(ICollider* other) const = 0;
 
 	};

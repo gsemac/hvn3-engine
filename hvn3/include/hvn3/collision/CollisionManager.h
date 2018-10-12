@@ -26,11 +26,11 @@ namespace hvn3 {
 					continue;
 
 				// Call the collision event for the first object.
-				if (body_1->Category().MaskBits() & body_2->Category().CategoryBits())
+				if (body_1->Filter().MaskBits() & body_2->Filter().CategoryBits())
 					body_1->OnCollide(body_2);
 
 				// Call the collision event for the second object.
-				if (body_2->Category().MaskBits() & body_1->Category().CategoryBits())
+				if (body_2->Filter().MaskBits() & body_1->Filter().CategoryBits())
 					body_2->OnCollide(body_1);
 
 				// Add the pair to the list of collisions.

@@ -32,34 +32,24 @@ namespace hvn3 {
 		return aabb;
 
 	}
-	CollisionFilter& ColliderBase::GetCategory() {
-
+	CollisionFilter& ColliderBase::Filter() {
 		return _filter;
-
 	}
-	const CollisionFilter& ColliderBase::Category() const {
-
+	const CollisionFilter& ColliderBase::Filter() const {
 		return _filter;
-
 	}
-	HitMask& ColliderBase::GetHitMask() {
-
+	HitMask& ColliderBase::HitMask() {
 		return _mask;
-
 	}
 	const HitMask& ColliderBase::HitMask() const {
-
 		return _mask;
-
 	}
 	void ColliderBase::SetHitMask(const hvn3::HitMask& mask) {
 		_mask = mask;
 	}
 
 	ColliderFlags ColliderBase::Flags() const {
-
 		return _flags;
-
 	}
 	void ColliderBase::SetFlags(ColliderFlags flags) {
 		_flags = flags;

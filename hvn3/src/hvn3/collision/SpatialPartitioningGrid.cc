@@ -82,8 +82,8 @@ namespace hvn3 {
 
 					// If the objects can't possibly collide due to their filter flags, skip the pair.
 					if (
-						!(j->second->Category().MaskBits() & k->second->Category().CategoryBits()) &&
-						!(k->second->Category().MaskBits() & j->second->Category().CategoryBits())
+						!(j->second->Filter().CheckMatch(k->second->Filter())) &&
+						!(k->second->Filter().CheckMatch(j->second->Filter()))
 						)
 						continue;
 
@@ -118,7 +118,7 @@ namespace hvn3 {
 		for (size_t i = 0; i < cells.size(); ++i) {
 			auto r = _grid.equal_range(cells[i]);
 			for (auto j = r.first; j != r.second; ++j)
-				if (filter == 0 || j->second->Category().CategoryBits() & filter)
+				if (filter == 0 || j->second->Filter().CategoryBits() & filter)
 					colliders.insert(j->second);
 		}
 
@@ -177,10 +177,10 @@ namespace hvn3 {
 
 			for (auto i = items.first; i != items.second; ++i) {
 
-				if (mask != 0 && (i->second->Category().CategoryBits() & mask) == 0)
+				if (mask != 0 && (i->second->Filter().CategoryBits() & mask) == 0)
 					continue;
 
-				if (!i->second->GetHitMask().TestCollisionAt(i->second->Position(), line_mask, manifold))
+				if (!i->second->HitMask().TestCollisionAt(i->second->Position(), line_mask, manifold))
 					continue;
 
 				// #todo Instead of comparing distance to AABB, use distance to intersection point
@@ -218,7 +218,7 @@ namespace hvn3 {
 		for (auto i = hits.begin(); i != hits.end(); ++i) {
 
 			PointF other_position = (*i)->Position();
-			HitMask& other_mask = (*i)->GetHitMask();
+			HitMask& other_mask = (*i)->HitMask();
 			PointF other_offset = other_mask.Offset();
 
 			other_mask.SetOffset({ other_mask.Offset().x + other_position.x, other_mask.Offset().y + other_position.y });

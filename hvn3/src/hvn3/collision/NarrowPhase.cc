@@ -13,8 +13,8 @@ namespace hvn3 {
 	bool NarrowPhase::TestCollision(ICollider* body, const PointF& body_position, ICollider* other, const PointF& other_position, CollisionResult& manifold) const {
 
 		// Get the masks for both colliders.
-		HitMask* a_mask = &body->GetHitMask();
-		HitMask* b_mask = &other->GetHitMask();
+		HitMask* a_mask = &body->HitMask();
+		HitMask* b_mask = &other->HitMask();
 		bool hit;
 
 		// Offset both colliders by the given offsets.

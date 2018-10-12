@@ -97,7 +97,7 @@ namespace hvn3 {
 		}
 		bool PlaceFree(ICollider* body, const PointF& position, int category) override {
 
-			return PlaceFreeIf(body, position, [=](const ICollider* body) { return (body->Category().CategoryBits() & category) != 0; });
+			return PlaceFreeIf(body, position, [=](const ICollider* body) { return (body->Filter().CategoryBits() & category) != 0; });
 
 		}
 		bool PlaceFree(ICollider* body, const PointF& position, CollisionResult& manifold) override {
@@ -125,7 +125,7 @@ namespace hvn3 {
 			RectangleF aabb = body->AABB();
 			aabb.Translate(-body->X(), -body->Y());
 			aabb.Translate(position.X(), position.Y());
-			Broad().QueryRegion(aabb, hits, body->Category().MaskBits());
+			Broad().QueryRegion(aabb, hits, body->Filter().MaskBits());
 
 			// If the list is empty, the place is free.
 			if (hits.size() == 0)
@@ -156,7 +156,7 @@ namespace hvn3 {
 		}
 		bool MoveContact(ICollider* body, float direction, float distance, int category) override {
 
-			return MoveContactIf(body, direction, distance, [=](const ICollider* body) { return (body->Category().CategoryBits() & category) != 0; });
+			return MoveContactIf(body, direction, distance, [=](const ICollider* body) { return (body->Filter().CategoryBits() & category) != 0; });
 
 		}
 		bool MoveContactIf(ICollider* body, float direction, float distance, const condition_lambda_type& condition) override {

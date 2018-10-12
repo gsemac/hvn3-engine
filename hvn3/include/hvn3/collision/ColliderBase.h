@@ -15,9 +15,9 @@ namespace hvn3 {
 		void SetPosition(const PointF& position) override;
 		void SetPosition(float x, float y) override;
 		RectangleF AABB() const override;
-		CollisionFilter& GetCategory() override;
-		const CollisionFilter& Category() const override;
-		hvn3::HitMask& GetHitMask() override;
+		CollisionFilter& Filter() override;
+		const CollisionFilter& Filter() const override;
+		class HitMask& HitMask() override;
 		const hvn3::HitMask& HitMask() const override;
 		void SetHitMask(const hvn3::HitMask& mask) override;
 
