@@ -3,6 +3,7 @@
 #include "hvn3/math/Circle.h"
 #include "hvn3/math/Line.h"
 #include "hvn3/collision/CollisionResult.h"
+#include "hvn3/math/GeometryUtils.h"
 #include "hvn3/math/MathUtils.h"
 
 namespace hvn3 {
@@ -105,6 +106,55 @@ namespace hvn3 {
 
 		throw System::NotImplementedException();
 
+	}
+
+	template<typename ValueType>
+	bool ResolveCollision(const Line<ValueType>& mask1, const Line<ValueType>& mask2, CollisionResult& manifold) {
+
+		auto result = Math::Geometry::GetIntersectionPoints(mask1, mask2);
+
+		if (result)
+			manifold.position = result.points[0];
+
+		return static_cast<bool>(result);
+
+	}
+	template<typename ValueType>
+	bool ResolveCollision(const Line<ValueType>& mask1, const Rectangle<ValueType>& mask2, CollisionResult& manifold) {
+		
+		// Check if the line is entirely inside of the rectangle. If so, trivially accept.
+
+		auto out_codes = Math::Geometry::GetCohenSutherlandOutCodes(mask2, mask1);
+
+		if (static_cast<int>(out_codes.first | out_codes.second) == 0) {
+
+			manifold.position = mask1.Midpoint();
+
+			return true;
+
+		}
+
+		// Otherwise, check for an edge intersection.
+
+		auto result = Math::Geometry::GetIntersectionPoints(mask1, mask2);
+
+		if (result) {
+
+			if (result.infinite)
+				manifold.position = mask1.Midpoint();
+			else
+				manifold.position = result.points[0];
+
+			return true;
+
+		}
+
+		return false;
+
+	}
+	template<typename ValueType>
+	bool ResolveCollision(const Rectangle<ValueType>& mask1, const Line<ValueType>& mask2, CollisionResult& manifold) {
+		return ResolveCollision(mask2, mask1, manifold);
 	}
 
 }

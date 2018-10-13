@@ -182,7 +182,7 @@ namespace hvn3 {
 
 				if (!i->second->HitMask().TestCollisionAt(i->second->Position(), line_mask, manifold))
 					continue;
-
+				
 				// #todo Instead of comparing distance to AABB, use distance to intersection point
 				float dist_sq = Math::Geometry::PointDistanceSquared(ray.First(), i->second->AABB());
 

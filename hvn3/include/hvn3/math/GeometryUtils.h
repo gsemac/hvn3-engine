@@ -6,6 +6,7 @@
 #include "hvn3/math/MathUtils.h"
 #include <hvn3/utility/BitFlags.h>
 
+#include <array>
 #include <functional>
 #include <utility>
 
@@ -37,17 +38,32 @@ namespace hvn3 {
 
 			};
 
-			template<typename ValueType>
-			struct LineLineIntersectionResult {
+			template<typename ValueType, int SIZE>
+			struct IntersectionPointsResult {
 
-				LineLineIntersectionResult() {
-					parallel = false;
-					success = false;
+				typedef std::array<Point2d<ValueType>, SIZE> array_type;
+
+				bool infinite;
+				int count;
+				array_type points;
+
+				IntersectionPointsResult() {
+
+					infinite = false;
+					count = 0;
+
 				}
 
-				bool parallel;
-				bool success;
-				Point2d<ValueType> point;
+				typename array_type::const_iterator begin() const {
+					return points.begin();
+				}
+				typename array_type::const_iterator end() const {
+					return points.begin() + (std::min(count, SIZE));
+				}
+
+				explicit operator bool() const {
+					return count > 0 || infinite;
+				}
 
 			};
 
@@ -189,7 +205,7 @@ namespace hvn3 {
 			}
 
 			template <typename T>
-			CohenSutherlandOutCode ComputeCohenSutherlandOutCode(const Rectangle<T>& rectangle, const Point2d<T>& point) {
+			CohenSutherlandOutCode GetCohenSutherlandOutCode(const Rectangle<T>& rectangle, const Point2d<T>& point) {
 
 				CohenSutherlandOutCode out_code = CohenSutherlandOutCode::Inside;
 
@@ -207,18 +223,19 @@ namespace hvn3 {
 
 			}
 			template <typename T>
-			std::pair<CohenSutherlandOutCode, CohenSutherlandOutCode> ComputeCohenSutherlandOutCodes(const Rectangle<T>& rectangle, const Line<T>& line) {
+			std::pair<CohenSutherlandOutCode, CohenSutherlandOutCode> GetCohenSutherlandOutCodes(const Rectangle<T>& rectangle, const Line<T>& line) {
 
-				auto result = std::make_pair(ComputeCohenSutherlandOutCode(rectangle, line.First()), ComputeCohenSutherlandOutCode(rectangle, line.Second()));
+				auto result = std::make_pair(GetCohenSutherlandOutCode(rectangle, line.First()), GetCohenSutherlandOutCode(rectangle, line.Second()));
 
 				return result;
 
 			}
 
-			template<typename ValueType>
-			LineLineIntersectionResult<ValueType> GetIntersectionPoint(const Line<ValueType>& line1, const Line<ValueType>& line2) {
 
-				LineLineIntersectionResult<ValueType> result;
+			template<typename ValueType>
+			IntersectionPointsResult<ValueType, 1> GetIntersectionPoints(const Line<ValueType>& line1, const Line<ValueType>& line2) {
+			
+				IntersectionPointsResult<ValueType, 1> result;
 
 				auto s1 = line1.GetStandardForm();
 				auto s2 = line2.GetStandardForm();
@@ -238,7 +255,7 @@ namespace hvn3 {
 						point = line2.First();
 						dist_sq = Math::Geometry::PointDistanceSquared(line1.First(), line2.First());
 
-						result.success = true;
+						result.count = 1;
 
 					}
 
@@ -251,15 +268,15 @@ namespace hvn3 {
 							point = line2.Second();
 							try_dist_sq = dist_sq;
 
-							result.success = true;
+							result.count = 1;
 
 						}
 
 
 					}
 
-					result.point = point;
-					result.parallel = true;
+					result.points[0] = point;
+					result.infinite = true;
 
 					return result;
 
@@ -279,15 +296,15 @@ namespace hvn3 {
 					return result;
 
 				// The point is on both lines, so we have an intersection.
-
-				result.point = point;
-				result.success = true;
+				result.points[0] = point;
+				result.count = 1;
 
 				return result;
 
 			}
+
 			template<typename ValueType>
-			Point2d<ValueType> GetIntersectionPoint(const LineSlopeInterceptForm<ValueType>& line1, const LineSlopeInterceptForm<ValueType>& line2) {
+			Point2d<ValueType> GetIntersectionPoints(const LineSlopeInterceptForm<ValueType>& line1, const LineSlopeInterceptForm<ValueType>& line2) {
 
 				Point2d<ValueType> point;
 
@@ -296,6 +313,91 @@ namespace hvn3 {
 
 				return point;
 
+			}
+
+			template<typename ValueType>
+			IntersectionPointsResult<ValueType, 2> GetIntersectionPoints(const Line<ValueType>& line, const Rectangle<ValueType>& rect) {
+
+				IntersectionPointsResult<ValueType, 2> result;
+				
+				// If the line is collinear with one of the rectangle's edges, there are infinite intersection points.
+				if (line.X1() == line.X2() && (line.X1() == rect.Left() || line.X1() == rect.Right()) ||
+					line.Y1() == line.Y2() && (line.Y1() == rect.Top() || line.Y1() == rect.Bottom())) {
+
+					result.infinite = true;
+
+					return result;
+
+				}
+
+				auto out_codes = GetCohenSutherlandOutCodes(rect, line);
+
+				// Check if both points are inside of the rectangle. If so, there are no intersection points.
+				if (static_cast<int>(out_codes.first | out_codes.second) == 0)
+					return result;
+
+				// Check if both points are on the same side of the rectangle. If so, there are no intersection points.
+				if (static_cast<int>(out_codes.first & out_codes.second) != 0)
+					return result;
+
+				// Get the intersection point closest to the first point of the line.
+
+				if (out_codes.first != CohenSutherlandOutCode::Inside) {
+
+					IntersectionPointsResult<ValueType, 1> test;
+					CohenSutherlandOutCode out_code = out_codes.first;
+					
+					if (!test && HasFlag(out_code, CohenSutherlandOutCode::Top))
+						test = GetIntersectionPoints(line, rect.TopEdge());
+
+					if (!test && HasFlag(out_code, CohenSutherlandOutCode::Left))
+						test = GetIntersectionPoints(line, rect.LeftEdge());
+
+					if (!test && HasFlag(out_code, CohenSutherlandOutCode::Right))
+						test = GetIntersectionPoints(line, rect.RightEdge());
+
+					if (!test && HasFlag(out_code, CohenSutherlandOutCode::Bottom))
+						test = GetIntersectionPoints(line, rect.BottomEdge());
+
+					if (test) {
+						result.points[result.count++] = test.points[0];
+						result.infinite = test.infinite;
+					}
+
+				}
+
+				// Get the intersection point closest to the second point of the line.
+
+				if (out_codes.second != CohenSutherlandOutCode::Inside) {
+
+					IntersectionPointsResult<ValueType, 1> test;
+					CohenSutherlandOutCode out_code = out_codes.second;
+
+					if (!test && HasFlag(out_code, CohenSutherlandOutCode::Top))
+						test = GetIntersectionPoints(line, rect.TopEdge());
+
+					if (!test && HasFlag(out_code, CohenSutherlandOutCode::Left))
+						test = GetIntersectionPoints(line, rect.LeftEdge());
+
+					if (!test && HasFlag(out_code, CohenSutherlandOutCode::Right))
+						test = GetIntersectionPoints(line, rect.RightEdge());
+
+					if (!test && HasFlag(out_code, CohenSutherlandOutCode::Bottom))
+						test = GetIntersectionPoints(line, rect.BottomEdge());
+
+					if (test) {
+						result.points[result.count++] = test.points[0];
+						result.infinite = test.infinite;
+					}
+
+				}
+
+				return result;
+
+			}
+			template<typename ValueType>
+			IntersectionPointsResult<ValueType, 2> GetIntersectionPoints(const Rectangle<ValueType>& rect, const Line<ValueType>& line) {
+				return GetIntersectionPoints(line, rect);
 			}
 
 			template <typename T>
@@ -397,7 +499,7 @@ namespace hvn3 {
 
 				// https://en.wikipedia.org/wiki/Cohen%E2%80%93Sutherland_algorithm
 
-				auto out_codes = ComputeCohenSutherlandOutCodes(a, b);
+				auto out_codes = GetCohenSutherlandOutCodes(a, b);
 
 				// One of the points is inside of the rectangle.
 				if (out_codes.first == CohenSutherlandOutCode::Inside || out_codes.second == CohenSutherlandOutCode::Inside)

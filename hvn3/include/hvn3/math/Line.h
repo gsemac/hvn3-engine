@@ -66,6 +66,9 @@ namespace hvn3 {
 			return false;
 
 		}
+		bool IsSteep() const {
+			return (std::abs)(DeltaY()) > (std::abs)(DeltaX());
+		}
 
 		LineSlopeInterceptForm<T> GetSlopeInterceptForm() const {
 
@@ -108,6 +111,12 @@ namespace hvn3 {
 
 			return _a.y - (Slope() * _a.x);
 
+		}
+		T DeltaX() const {
+			return _b.x - _a.x;
+		}
+		T DeltaY() const {
+			return _b.y - _a.y;
 		}
 
 		T Length() const {

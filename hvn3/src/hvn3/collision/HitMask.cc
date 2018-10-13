@@ -115,16 +115,12 @@ namespace hvn3 {
 		switch (_type) {
 		case HITMASK_TYPE_RECTANGLE:
 			return ResolveCollision(_mask.rectangle, other, manifold);
-			break;
 		case HITMASK_TYPE_CIRCLE:
 			return Math::Geometry::TestIntersection(other, _mask.circle);
-			break;
 		case HITMASK_TYPE_LINE:
-			return Math::Geometry::TestIntersection(other, _mask.line);
-			break;
+			return ResolveCollision(other, _mask.line, manifold);
 		default:
 			throw System::NotImplementedException();
-			break;
 		}
 
 	}
@@ -150,24 +146,20 @@ namespace hvn3 {
 
 		switch (_type) {
 		case HITMASK_TYPE_RECTANGLE:
-			return Math::Geometry::TestIntersection(_mask.rectangle, other);
-			break;
+			return ResolveCollision(_mask.rectangle, other, manifold);
 		case HITMASK_TYPE_CIRCLE:
 			return Math::Geometry::TestIntersection(_mask.circle, other);
-			break;
 		case HITMASK_TYPE_LINE:
-			return Math::Geometry::TestIntersection(_mask.line, other);
-			break;
+			return ResolveCollision(_mask.line, other, manifold);
 		default:
 			throw System::NotImplementedException();
-			break;
 		}
 
 	}
 	bool HitMask::TestCollisionAt(const PointF& at, const HitMask& other, CollisionResult& manifold) {
 
 		PointF offset = Offset();
-		
+
 		SetOffset(offset + at);
 
 		bool result = TestCollision(other, manifold);
@@ -179,7 +171,7 @@ namespace hvn3 {
 	}
 
 	HitMask& HitMask::operator=(const HitMask& other) {
-		
+
 		_copyAssign(other);
 
 		return *this;

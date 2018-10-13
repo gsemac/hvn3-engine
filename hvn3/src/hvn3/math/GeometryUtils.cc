@@ -208,7 +208,7 @@ namespace hvn3 {
 						tangents.Tangents[tangents.Count == 3 ? 2 : 1] = LineF(p1, p2);
 					}
 					else {
-						PointF center_of_similitude = GetIntersectionPoint(eq, eq2);
+						PointF center_of_similitude = GetIntersectionPoints(eq, eq2);
 						PointF tp1 = TangentThroughPoint(a, center_of_similitude).first;
 						PointF tp2 = TangentThroughPoint(b, center_of_similitude).first;
 						PointF tp3 = TangentThroughPoint(a, center_of_similitude).second;
@@ -230,7 +230,7 @@ namespace hvn3 {
 					PointF p4 = PointInDirection(a.Position(), direction + 90.0f, b.Radius());
 					auto eq2 = LineF(p1, p2).GetSlopeInterceptForm();
 
-					PointF center_of_similitude = GetIntersectionPoint(eq, eq2);
+					PointF center_of_similitude = GetIntersectionPoints(eq, eq2);
 					PointF tp1 = TangentThroughPoint(a, center_of_similitude).first;
 					PointF tp2 = TangentThroughPoint(b, center_of_similitude).first;
 					PointF tp3 = TangentThroughPoint(a, center_of_similitude).second;
