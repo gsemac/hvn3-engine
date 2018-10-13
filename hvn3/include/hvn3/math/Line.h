@@ -43,10 +43,10 @@ namespace hvn3 {
 			return _b;
 
 		}
-		T X1() const {
+		T X() const {
 			return _a.x;
 		}
-		T Y1() const {
+		T Y() const {
 			return _a.y;
 		}
 		T X2() const {
@@ -84,9 +84,9 @@ namespace hvn3 {
 
 			LineStandardForm<T> out;
 
-			out.A = Y2() - Y1();
-			out.B = X1() - X2();
-			out.C = out.A * X1() + out.B * Y1();
+			out.A = Y2() - Y();
+			out.B = X() - X2();
+			out.C = out.A * X() + out.B * Y();
 
 			return out;
 

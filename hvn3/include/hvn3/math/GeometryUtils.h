@@ -289,10 +289,10 @@ namespace hvn3 {
 
 				// Make sure that the point is on both of the line segments.
 
-				if ((std::min)(line1.X1(), line1.X2()) > point.x || (std::max)(line1.X1(), line1.X2()) < point.x ||
-					(std::min)(line1.Y1(), line1.Y2()) > point.y || (std::max)(line1.Y1(), line1.Y2()) < point.y ||
-					(std::min)(line2.X1(), line2.X2()) > point.x || (std::max)(line2.X1(), line2.X2()) < point.x ||
-					(std::min)(line2.Y1(), line2.Y2()) > point.y || (std::max)(line2.Y1(), line2.Y2()) < point.y)
+				if ((std::min)(line1.X(), line1.X2()) > point.x || (std::max)(line1.X(), line1.X2()) < point.x ||
+					(std::min)(line1.Y(), line1.Y2()) > point.y || (std::max)(line1.Y(), line1.Y2()) < point.y ||
+					(std::min)(line2.X(), line2.X2()) > point.x || (std::max)(line2.X(), line2.X2()) < point.x ||
+					(std::min)(line2.Y(), line2.Y2()) > point.y || (std::max)(line2.Y(), line2.Y2()) < point.y)
 					return result;
 
 				// The point is on both lines, so we have an intersection.
@@ -321,8 +321,8 @@ namespace hvn3 {
 				IntersectionPointsResult<ValueType, 2> result;
 				
 				// If the line is collinear with one of the rectangle's edges, there are infinite intersection points.
-				if (line.X1() == line.X2() && (line.X1() == rect.Left() || line.X1() == rect.Right()) ||
-					line.Y1() == line.Y2() && (line.Y1() == rect.Top() || line.Y1() == rect.Bottom())) {
+				if (line.X() == line.X2() && (line.X() == rect.Left() || line.X() == rect.Right()) ||
+					line.Y() == line.Y2() && (line.Y() == rect.Top() || line.Y() == rect.Bottom())) {
 
 					result.infinite = true;
 

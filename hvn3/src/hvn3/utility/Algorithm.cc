@@ -58,7 +58,7 @@ namespace hvn3 {
 
 	}
 	void BresenhamLineAlgorithm(const LineF& line, const std::function<bool(int, int)>& plot) {
-		BresenhamLineAlgorithm(line.X1(), line.Y1(), line.X2(), line.Y2(), plot);
+		BresenhamLineAlgorithm(line.X(), line.Y(), line.X2(), line.Y2(), plot);
 	}
 	void BresenhamLineAlgorithm(const PointF& begin, const PointF& end, const std::function<bool(int, int)>& plot) {
 		BresenhamLineAlgorithm(begin.x, begin.y, end.x, end.y, plot);
