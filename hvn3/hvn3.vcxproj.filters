@@ -151,6 +151,9 @@
     <Filter Include="include\xml">
       <UniqueIdentifier>{ca2ef746-db8c-4091-be3c-8f82c273a759}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\particles">
+      <UniqueIdentifier>{a39a2837-5002-4e84-af81-0b89ffac4f30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\hvn3\allegro\AllegroAdapter.h">
@@ -836,6 +839,18 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\collision\CollisionFilter.h">
       <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\particles\ParticleManager.h">
+      <Filter>include\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\particles\ParticleSystem.h">
+      <Filter>include\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\particles\ParticleType.h">
+      <Filter>include\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\particles\ParticleEmitter.h">
+      <Filter>include\particles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
