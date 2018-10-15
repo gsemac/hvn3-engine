@@ -138,6 +138,36 @@ namespace hvn3 {
 
 	};
 
+	template <typename T>
+	std::ostream& operator<< (std::ostream& stream, const Line<T>& line) {
+
+		if (line.DeltaX() == 0.0f)
+			stream << "x = " << line.X();
+		else if (line.DeltaY() == 0.0f)
+			stream << "y = " << line.Y();
+		else
+			stream << "y = " << line.Slope() << "x + " << line.YIntercept();
+
+		return stream;
+
+	}
+	template <typename T>
+	std::ostream& operator<< (std::ostream& stream, const LineSlopeInterceptForm<T>& line) {
+
+		stream << "y = " << line.slope << "x + " << line.intercept;
+
+		return stream;
+
+	}
+	template <typename T>
+	std::ostream& operator<< (std::ostream& stream, const LineStandardForm<T>& line) {
+
+		stream << line.A << "x + " << line.B << "y = " << line.C;
+
+		return stream;
+
+	}
+
 	typedef Line<float> LineF;
 	typedef Line<int> LineI;
 

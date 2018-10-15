@@ -69,42 +69,42 @@ namespace hvn3 {
 
 		T Bottom() const {
 
-			return Y2();
+			return (std::max)(Y(), Y2());
 
 		}
 		T Top() const {
 
-			return Y();
+			return (std::min)(Y(), Y2());
 
 		}
 		T Left() const {
 
-			return X();
+			return (std::min)(X(), X2());
 
 		}
 		T Right() const {
 
-			return X2();
+			return (std::max)(X(), X2());
 
 		}
 		Point2d<T> TopLeft() const {
 
-			return Point2d<T>(X(), Y());
+			return Point2d<T>(Left(), Top());
 
 		}
 		Point2d<T> TopRight() const {
 
-			return Point2d<T>(X() + Width(), Y());
+			return Point2d<T>(Right(), Top());
 
 		}
 		Point2d<T> BottomLeft() const {
 
-			return Point2d<T>(X(), Y() + Height());
+			return Point2d<T>(Left(), Bottom());
 
 		}
 		Point2d<T> BottomRight() const {
 
-			return Point2d<T>(X() + Width(), Y() + Height());
+			return Point2d<T>(Right(), Bottom());
 
 		}
 		Point2d<T> Midpoint() const {

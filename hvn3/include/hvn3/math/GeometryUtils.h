@@ -209,14 +209,14 @@ namespace hvn3 {
 
 				CohenSutherlandOutCode out_code = CohenSutherlandOutCode::Inside;
 
-				if (point.X() < rectangle.X())
+				if (point.X() < rectangle.Left())
 					out_code |= CohenSutherlandOutCode::Left;
-				else if (point.X() > rectangle.X2())
+				else if (point.X() > rectangle.Right())
 					out_code |= CohenSutherlandOutCode::Right;
 
-				if (point.Y() < rectangle.Y())
+				if (point.Y() < rectangle.Top())
 					out_code |= CohenSutherlandOutCode::Top;
-				else if (point.Y() > rectangle.Y2())
+				else if (point.Y() > rectangle.Bottom())
 					out_code |= CohenSutherlandOutCode::Bottom;
 
 				return out_code;
@@ -234,7 +234,7 @@ namespace hvn3 {
 
 			template<typename ValueType>
 			IntersectionPointsResult<ValueType, 1> GetIntersectionPoints(const Line<ValueType>& line1, const Line<ValueType>& line2) {
-			
+
 				IntersectionPointsResult<ValueType, 1> result;
 
 				auto s1 = line1.GetStandardForm();
@@ -289,10 +289,13 @@ namespace hvn3 {
 
 				// Make sure that the point is on both of the line segments.
 
-				if ((std::min)(line1.X(), line1.X2()) > point.x || (std::max)(line1.X(), line1.X2()) < point.x ||
-					(std::min)(line1.Y(), line1.Y2()) > point.y || (std::max)(line1.Y(), line1.Y2()) < point.y ||
-					(std::min)(line2.X(), line2.X2()) > point.x || (std::max)(line2.X(), line2.X2()) < point.x ||
-					(std::min)(line2.Y(), line2.Y2()) > point.y || (std::max)(line2.Y(), line2.Y2()) < point.y)
+				// Don't kid yourself into thinking these IsGreaterThan/IsLessThan calls are unnecessary.
+				// Comparing with epsilon is vital for floating point types; a lot of cases will be erroneously rejected otherwise.
+
+				if (Math::IsGreaterThan((std::min)(line1.X(), line1.X2()), point.x) || Math::IsLessThan((std::max)(line1.X(), line1.X2()), point.x) ||
+					Math::IsGreaterThan((std::min)(line1.Y(), line1.Y2()), point.y) || Math::IsLessThan((std::max)(line1.Y(), line1.Y2()), point.y) ||
+					Math::IsGreaterThan((std::min)(line2.X(), line2.X2()), point.x) || Math::IsLessThan((std::max)(line2.X(), line2.X2()), point.x) ||
+					Math::IsGreaterThan((std::min)(line2.Y(), line2.Y2()), point.y) || Math::IsLessThan((std::max)(line2.Y(), line2.Y2()), point.y))
 					return result;
 
 				// The point is on both lines, so we have an intersection.
@@ -319,7 +322,7 @@ namespace hvn3 {
 			IntersectionPointsResult<ValueType, 2> GetIntersectionPoints(const Line<ValueType>& line, const Rectangle<ValueType>& rect) {
 
 				IntersectionPointsResult<ValueType, 2> result;
-				
+
 				// If the line is collinear with one of the rectangle's edges, there are infinite intersection points.
 				if (line.X() == line.X2() && (line.X() == rect.Left() || line.X() == rect.Right()) ||
 					line.Y() == line.Y2() && (line.Y() == rect.Top() || line.Y() == rect.Bottom())) {
@@ -346,7 +349,7 @@ namespace hvn3 {
 
 					IntersectionPointsResult<ValueType, 1> test;
 					CohenSutherlandOutCode out_code = out_codes.first;
-					
+
 					if (!test && HasFlag(out_code, CohenSutherlandOutCode::Top))
 						test = GetIntersectionPoints(line, rect.TopEdge());
 
