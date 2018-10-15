@@ -177,6 +177,7 @@
     <ClInclude Include="include\hvn3\objects\ObjectEventArgs.h" />
     <ClInclude Include="include\hvn3\objects\ObjectManager.h" />
     <ClInclude Include="include\hvn3\objects\ObjectDefs.h" />
+    <ClInclude Include="include\hvn3\particles\ParticleDefs.h" />
     <ClInclude Include="include\hvn3\particles\ParticleEmitter.h" />
     <ClInclude Include="include\hvn3\particles\ParticleType.h" />
     <ClInclude Include="include\hvn3\particles\ParticleManager.h" />

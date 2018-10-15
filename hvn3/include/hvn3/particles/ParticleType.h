@@ -13,12 +13,23 @@ namespace hvn3 {
 	public:
 		ParticleType() {
 
+			SetColor(Color::White);
 			SetDirection(0.0f, 360.0f);
+			SetGravity(0.0f);
 			SetLife(10);
 			SetSpeed(1.0f);
 
 		}
 
+		void SetColor(const Color& color) {
+			SetColor(color, color);
+		}
+		void SetColor(const Color& begin, const Color& end) {
+
+			colorBegin = begin;
+			colorEnd = end;
+
+		}
 		void SetDirection(float value) {
 			SetDirection(value, value);
 		}
@@ -28,6 +39,15 @@ namespace hvn3 {
 			directionMax = max;
 			directionDelta = delta;
 			directionWiggle = wiggle;
+
+		}
+		void SetGravity(float value) {
+			SetGravity(value, DIRECTION_DOWN);
+		}
+		void SetGravity(float value, float direction) {
+
+			gravity = value;
+			gravityDirection = direction;
 
 		}
 		void SetSpeed(float value) {
@@ -51,10 +71,15 @@ namespace hvn3 {
 
 		}
 
+	private:
+		Color colorBegin;
+		Color colorEnd;
 		float directionMin;
 		float directionMax;
 		float directionDelta;
 		float directionWiggle;
+		float gravity;
+		float gravityDirection;
 		unsigned int lifeMin;
 		unsigned int lifeMax;
 		float speedMin;

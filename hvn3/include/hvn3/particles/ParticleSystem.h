@@ -15,12 +15,18 @@ namespace hvn3 {
 		IDrawable,
 		IUpdatable {
 
+	protected:
 		struct Particle {
 			float x;
 			float y;
 			float dx;
 			float dy;
-			int life;
+			float ax;
+			float ay;
+			Color color1;
+			Color color2;
+			unsigned int life;
+			unsigned int lifeMax;
 		};
 
 	public:
@@ -33,24 +39,31 @@ namespace hvn3 {
 
 		void CreateParticle(const ParticleType& type, float x, float y) {
 
-			Particle p;
-			Vector2d direction = Vector2d::FromDirection(Random::Float(type.directionMin, type.directionMax), Random::Float(type.speedMin, type.speedMax));
+			if (_max_particles > 0 && _particles.size() >= _max_particles)
+				return;
 
-			p.x = x;
-			p.y = y;
-			p.dx = direction.X();
-			p.dy = direction.Y();
-			p.life = Random::UInteger(type.lifeMin, type.lifeMax);
+			_particles.push_back(BuildParticle(type, x, y));
 
-			_particles.push_back(p);
-
+		}
+		void Reserve(size_t value) {
+			_particles.reserve(value);
+		}
+		void SetMaxParticles(size_t value) {
+			_max_particles = value;
+		}
+		size_t Count() const {
+			return _particles.size();
+		}
+		void Clear() {
+			_particles.clear();
 		}
 
 		void OnDraw(DrawEventArgs& e) override {
 
 			for (auto i = _particles.begin(); i != _particles.end(); ++i) {
+
 				// #todo This is just a placeholder for now
-				e.Graphics().DrawSolidCircle(i->x, i->y, 3.0f, Color::Yellow);
+				e.Graphics().DrawSolidCircle(i->x, i->y, 3.0f, Color::Merge(i->color1, i->color2, static_cast<float>(i->lifeMax - i->life) / i->lifeMax));
 
 			}
 
@@ -72,6 +85,8 @@ namespace hvn3 {
 
 					p->x += p->dx;
 					p->y += p->dy;
+					p->dx += p->ax;
+					p->dy += p->ay;
 
 					// If this particle is still alive, swap its position with that of the earliest dead particle.
 					// After the loop, all living particles will be at the beginning of the list.
@@ -80,8 +95,12 @@ namespace hvn3 {
 
 						std::swap(_particles[i], _particles[dead_index]);
 
-						// The dead index has moved to this particle's old position.
-						dead_index = i;
+						// The next dead index will either be the one following the current dead index (if we have a run of dead particles),
+						// or the index of the particle we just swapped.
+						if (_particles[dead_index + 1].life <= 0)
+							++dead_index;
+						else
+							dead_index = i;
 
 					}
 
@@ -105,8 +124,31 @@ namespace hvn3 {
 
 		}
 
+	protected:
+		Particle BuildParticle(const ParticleType& type, float x, float y) {
+
+			Particle p;
+			Vector2d direction = Vector2d::FromDirection(Random::Float(type.directionMin, type.directionMax), Random::Float(type.speedMin, type.speedMax));
+			Vector2d acceleration = Vector2d::FromDirection(type.gravityDirection, type.gravity);
+
+			p.x = x;
+			p.y = y;
+			p.dx = direction.X();
+			p.dy = direction.Y();
+			p.ax = acceleration.X();
+			p.ay = acceleration.Y();
+			p.life = Random::UInteger(type.lifeMin, type.lifeMax);
+			p.lifeMax = type.lifeMax;
+			p.color1 = type.colorBegin;
+			p.color2 = type.colorEnd;
+
+			return p;
+
+		}
+
 	private:
 		std::vector<Particle> _particles;
+		size_t _max_particles;
 
 	};
 
