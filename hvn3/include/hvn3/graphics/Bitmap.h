@@ -80,7 +80,7 @@ namespace hvn3 {
 			bool operator!=(const Bitmap& other) const;
 			explicit operator bool() const;
 
-			static Bitmap FromBuffer(uint8_t* buffer, size_t buffer_size, Imaging::ImageFormat format);
+			static Bitmap FromBuffer(const uint8_t* buffer, size_t buffer_size, Imaging::ImageFormat format);
 			static Bitmap FromFile(const std::string& file);
 			static Bitmap FromFile(const std::string& file, const Color& alpha_color);
 

@@ -279,14 +279,14 @@ namespace hvn3 {
 
 		}
 
-		Bitmap Bitmap::FromBuffer(uint8_t* buffer, size_t buffer_size, Imaging::ImageFormat format) {
+		Bitmap Bitmap::FromBuffer(const uint8_t* buffer, size_t buffer_size, Imaging::ImageFormat format) {
 
 			Bitmap bmp;
 
 			if (buffer == nullptr || buffer_size <= 0)
 				return bmp;
 
-			ALLEGRO_FILE* file = al_open_memfile(buffer, buffer_size, "r");
+			ALLEGRO_FILE* file = al_open_memfile((void*)buffer, buffer_size, "r");
 			bmp._src_bitmap = bitmap_ptr_type(al_load_bitmap_f(file, Imaging::ImageFormatToFileExtension(format).c_str()), al_destroy_bitmap);
 
 			al_fclose(file);

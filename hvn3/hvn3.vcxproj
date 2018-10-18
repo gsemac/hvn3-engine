@@ -25,7 +25,6 @@
     <ClInclude Include="include\hvn3\assets\AssetHandle.h" />
     <ClInclude Include="include\hvn3\assets\AssetLoaderEventArgs.h" />
     <ClInclude Include="include\hvn3\assets\AssetManager.h" />
-    <ClInclude Include="include\hvn3\assets\Assets.h" />
     <ClInclude Include="include\hvn3\assets\AssetTypeDefs.h" />
     <ClInclude Include="include\hvn3\assets\BitmapAssetLoader.h" />
     <ClInclude Include="include\hvn3\assets\FileAssetLoader.h" />

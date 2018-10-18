@@ -171,9 +171,6 @@
     <ClInclude Include="include\hvn3\assets\AssetManager.h">
       <Filter>include\assets</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\assets\Assets.h">
-      <Filter>include\assets</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\assets\AssetTypeDefs.h">
       <Filter>include\assets</Filter>
     </ClInclude>
