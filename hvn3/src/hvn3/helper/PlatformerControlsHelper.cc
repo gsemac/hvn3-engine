@@ -8,7 +8,7 @@
 
 namespace hvn3 {
 
-	PlatformerControlsHelper::PlatformerControlsHelper(Object* object, ICollider* collider, float speed, int platform_category_bits) :
+	PlatformerControlsHelper::PlatformerControlsHelper(IObject* object, ICollider* collider, float speed, int platform_category_bits) :
 		DirectionalControlsHelper(2, speed),
 		_gravity(0.0f, 512.0f) {
 

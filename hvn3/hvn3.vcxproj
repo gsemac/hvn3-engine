@@ -31,6 +31,7 @@
     <ClInclude Include="include\hvn3\assets\FontAssetLoader.h" />
     <ClInclude Include="include\hvn3\assets\IAssetLoader.h" />
     <ClInclude Include="include\hvn3\assets\IBinaryAssetLoader.h" />
+    <ClInclude Include="include\hvn3\assets\ImprovedAssetManager.h" />
     <ClInclude Include="include\hvn3\assets\SystemAssets.h" />
     <ClInclude Include="include\hvn3\backgrounds\Background.h" />
     <ClInclude Include="include\hvn3\backgrounds\BackgroundDrawEventArgs.h" />

@@ -36,7 +36,7 @@ namespace hvn3 {
 		ObjectBase(id, x, y, flags) {
 	}
 	Object::~Object() {}
-
+	
 	void Object::OnCreate(CreateEventArgs& e) {}
 	void Object::OnUpdate(UpdateEventArgs& e) {
 		//// We will only manually adjust the object's velocity if it isn't governed by the physics manager.

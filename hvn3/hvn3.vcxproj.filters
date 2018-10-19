@@ -852,6 +852,9 @@
     <ClInclude Include="include\hvn3\particles\ParticleDefs.h">
       <Filter>include\particles</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\assets\ImprovedAssetManager.h">
+      <Filter>include\assets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
