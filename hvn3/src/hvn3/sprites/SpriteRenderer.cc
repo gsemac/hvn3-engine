@@ -16,7 +16,7 @@ namespace hvn3 {
 		_image_index_timer = 0.0f;
 
 	}
-	SpriteRenderer::SpriteRenderer(const Sprite& sprite) :
+	SpriteRenderer::SpriteRenderer(const class Sprite& sprite) :
 		SpriteRenderer() {
 
 		_sprite = sprite;
@@ -59,6 +59,12 @@ namespace hvn3 {
 	void SpriteRenderer::SetBlend(const Color& value) {
 		_image_blend = value;
 	}
+	const class Sprite& SpriteRenderer::Sprite() const {
+		return _sprite;
+	}
+	void SpriteRenderer::SetSprite(const class Sprite& value) {
+		_sprite = value;
+	}
 
 	void SpriteRenderer::UpdateAnimation() {
 		_incrementImageIndex(_image_speed);
@@ -72,10 +78,10 @@ namespace hvn3 {
 		if (_sprite.Length() <= 0)
 			return;
 
-		DrawSprite(canvas, _sprite, position);
+		DrawSprite(canvas, position, _sprite);
 
 	}
-	void SpriteRenderer::DrawSprite(Graphics::Graphics& canvas, const Sprite& sprite, const PointF& position) const {
+	void SpriteRenderer::DrawSprite(Graphics::Graphics& canvas, const PointF& position, const class Sprite& sprite) const {
 
 		if (sprite.Length() > 0) {
 

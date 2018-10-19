@@ -23,15 +23,16 @@ namespace hvn3 {
 		void SetAngle(float value);
 		const Color& Blend() const;
 		void SetBlend(const Color& value);
-
+		const Sprite& Sprite() const;
+		void SetSprite(const class Sprite& value);
 		void UpdateAnimation();
 		void UpdateAnimation(double delta);
 
 		void DrawSprite(Graphics::Graphics& canvas, const PointF& position) const;
-		void DrawSprite(Graphics::Graphics& canvas, const Sprite& sprite, const PointF& position) const;
+		void DrawSprite(Graphics::Graphics& canvas, const PointF& position, const class Sprite& sprite) const;
 
 	private:
-		Sprite _sprite;
+		class Sprite _sprite;
 		int _image_index;
 		float _image_speed;
 		class Scale _image_scale;
