@@ -7,6 +7,7 @@ The goal is to simplify the interface and the implementation of different asset 
 #todo Eventually the classes here will replace the existing ones altogether once the functionality is fully duplicated.
 */
 
+#include "hvn3/core/CoreDefs.h"
 #include "hvn3/core/IManager.h"
 #include "hvn3/core/ManagerDefs.h"
 #include "hvn3/graphics/Imaging.h"
@@ -22,12 +23,16 @@ The goal is to simplify the interface and the implementation of different asset 
 
 namespace hvn3 {
 
-	namespace Next {
+	namespace Preview {
 
 		typedef uint8_t Byte;
 
-		typedef unsigned int AssetId;
+		typedef int AssetId;
 		typedef AssetId AssetGroupId;
+
+		enum : AssetId {
+			NULL_ASSET_ID = -1
+		};
 
 		class AssetLoaderResult {
 
@@ -372,7 +377,7 @@ namespace hvn3 {
 
 	template<>
 	struct ManagerIdTraits<ASSET_MANAGER> {
-		typedef Next::AssetManager type;
+		typedef Preview::AssetManager type;
 	};
 
 }

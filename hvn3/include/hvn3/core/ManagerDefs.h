@@ -34,7 +34,7 @@ namespace hvn3 {
 	ManagerPtr<ManagerType> make_manager(Args&&... args) {
 
 		ManagerPtr<ManagerType> ptr = std::make_unique<ManagerType>(std::forward<Args>(args)...);
-		
+
 		return ptr;
 
 	}

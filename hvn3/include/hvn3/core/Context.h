@@ -49,6 +49,26 @@ namespace hvn3 {
 
 		}
 
+		template <typename InterfaceType>
+		bool IsRegistered() const {
+
+			if (HasLocalContext() && _local->IsRegistered<InterfaceType>())
+				return true;
+
+			if (HasGlobalContext() && _global->IsRegistered<InterfaceType>())
+				return true;
+
+			return false;
+
+		}
+		template <ManagerId MANAGER_ID>
+		bool IsRegistered() const {
+
+			using interface_type = typename ManagerIdTraits<MANAGER_ID>::type;
+
+			return IsRegistered<interface_type>();
+
+		}
 
 	private:
 		ManagerRegistry* _global;

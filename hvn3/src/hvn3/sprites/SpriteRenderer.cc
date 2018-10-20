@@ -75,33 +75,29 @@ namespace hvn3 {
 
 	void SpriteRenderer::DrawSprite(Graphics::Graphics& canvas, const PointF& position) const {
 
-		if (_sprite.Length() <= 0)
-			return;
-
 		DrawSprite(canvas, position, _sprite);
 
 	}
 	void SpriteRenderer::DrawSprite(Graphics::Graphics& canvas, const PointF& position, const class Sprite& sprite) const {
 
-		if (sprite.Length() > 0) {
+		if (sprite.Length() <= 0)
+			return;
 
-			canvas.DrawSprite(
-				position.X(),
-				position.Y(),
-				sprite,
-				AnimationIndex(),
-				Scale().XScale(),
-				Scale().YScale(),
-				_image_angle,
-				Color::FromArgbf(
-					Blend().Rf() * Opacity(),
-					Blend().Gf() * Opacity(),
-					Blend().Bf() * Opacity(),
-					Opacity()
-				)
-			);
-
-		}
+		canvas.DrawSprite(
+			position.X(),
+			position.Y(),
+			sprite,
+			AnimationIndex(),
+			Scale().XScale(),
+			Scale().YScale(),
+			_image_angle,
+			Color::FromArgbf(
+				Blend().Rf() * Opacity(),
+				Blend().Gf() * Opacity(),
+				Blend().Bf() * Opacity(),
+				Opacity()
+			)
+		);
 
 	}
 
