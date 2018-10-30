@@ -61,7 +61,7 @@ namespace hvn3 {
 
 	}
 	const SpatialPartitioningGrid::collider_pair_vector_type& SpatialPartitioningGrid::FindCandidatePairs() {
-		
+
 		_pairs.clear();
 
 		// A hash set is used for storing pairs in order to prevent duplicates.
@@ -163,14 +163,11 @@ namespace hvn3 {
 	}
 	RayCastResult SpatialPartitioningGrid::RayCast(const LineF& ray, int mask) const {
 
-		PointI begin = _cellAt(ray.First());
-		PointI end = _cellAt(ray.Second());
-
 		HitMask line_mask(ray);
 		CollisionResult manifold;
 		RayCastResult result;
 
-		BresenhamLineAlgorithm(begin, end, [&](int x, int y) {
+		SupercoverLineAlgorithm(ray.First(), ray.Second(), static_cast<SizeF>(_cell_size), [&](int x, int y) {
 
 			auto items = _grid.equal_range(PointI(x, y));
 			float nearest_dist_sq = std::numeric_limits<float>::max();
@@ -182,9 +179,9 @@ namespace hvn3 {
 
 				if (!i->second->HitMask().TestCollisionAt(i->second->Position(), line_mask, manifold))
 					continue;
-				
+
 				// #todo Instead of comparing distance to AABB, use distance to intersection point
-				float dist_sq = Math::Geometry::PointDistanceSquared(ray.First(), i->second->AABB());
+				float dist_sq = Math::Geometry::PointDistanceSquared(ray.First(), manifold.position);
 
 				if (dist_sq < nearest_dist_sq) {
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hvn3/math/Line.h"
+#include "hvn3/utility/Size.h"
 
 #include <functional>
 #include <iterator>
@@ -124,5 +125,10 @@ namespace hvn3 {
 	void BresenhamLineAlgorithm(float x1, float y1, float x2, float y2, const std::function<bool(int, int)>& plot);
 	void BresenhamLineAlgorithm(const LineF& line, const std::function<bool(int, int)>& plot);
 	void BresenhamLineAlgorithm(const PointF& begin, const PointF& end, const std::function<bool(int, int)>& plot);
+
+	// Modification of Bresenham's line algorithm to plot the supercover of a line.
+	void SupercoverLineAlgorithm(float x1, float y1, float x2, float y2, const SizeF& cell_size, const std::function<bool(int, int)>& plot);
+	void SupercoverLineAlgorithm(const LineF& line, const SizeF& cell_size, const std::function<bool(int, int)>& plot);
+	void SupercoverLineAlgorithm(const PointF& begin, const PointF& end, const SizeF& cell_size, const std::function<bool(int, int)>& plot);
 
 }
