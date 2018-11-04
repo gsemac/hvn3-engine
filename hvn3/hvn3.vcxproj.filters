@@ -154,6 +154,9 @@
     <Filter Include="include\particles">
       <UniqueIdentifier>{a39a2837-5002-4e84-af81-0b89ffac4f30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\particles">
+      <UniqueIdentifier>{14dec477-0726-45b0-a057-029724f3760e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\hvn3\allegro\AllegroAdapter.h">
@@ -1274,6 +1277,15 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\collision\CollisionResult.cc">
       <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\particles\ParticleSystem.cc">
+      <Filter>src\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\particles\ParticleEmitter.cc">
+      <Filter>src\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\particles\ParticleManager.cc">
+      <Filter>src\particles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

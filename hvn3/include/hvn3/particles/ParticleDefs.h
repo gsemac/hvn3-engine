@@ -8,6 +8,9 @@ namespace hvn3 {
 		InverseGaussian
 	};
 
+	typedef unsigned int ParticleTypeId;
+	typedef unsigned int ParticleEmitterId;
+	typedef unsigned int ParticleSystemId;
 
 
 }

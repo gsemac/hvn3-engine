@@ -1,6 +1,8 @@
 #pragma once
+
+#include "hvn3/core/CoreDefs.h"
+
 #include <random>
-#include <cassert>
 
 namespace hvn3 {
 
@@ -49,6 +51,41 @@ namespace hvn3 {
 		static double Double(double maximum);
 		static double Double(double minimum, double maximum);
 		static int Sign();
+
+		template<typename T>
+		static T Get() {
+
+			HVN3_ASSERT(false, "Cannot get random value for this type.");
+
+		}
+		template<>
+		static int Get() {
+			return Integer();
+		}
+		template<>
+		static unsigned int Get() {
+			return UInteger();
+		}
+		template<>
+		static bool Get() {
+			return Boolean();
+		}
+		template<>
+		static unsigned char Get() {
+			return Byte();
+		}
+		template<>
+		static char Get() {
+			return Char();
+		}
+		template<>
+		static float Get() {
+			return Float();
+		}
+		template<>
+		static double Get() {
+			return Double();
+		}
 
 		// Returns true with probability 1/p.
 		static bool TestChance(float p);

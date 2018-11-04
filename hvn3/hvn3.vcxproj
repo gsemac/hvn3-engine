@@ -349,6 +349,9 @@
     <ClCompile Include="src\hvn3\objects\Object.cc" />
     <ClCompile Include="src\hvn3\objects\ObjectBase.cc" />
     <ClCompile Include="src\hvn3\objects\ObjectManager.cc" />
+    <ClCompile Include="src\hvn3\particles\ParticleEmitter.cc" />
+    <ClCompile Include="src\hvn3\particles\ParticleManager.cc" />
+    <ClCompile Include="src\hvn3\particles\ParticleSystem.cc" />
     <ClCompile Include="src\hvn3\physics\BasicPhysicsManager.cc" />
     <ClCompile Include="src\hvn3\physics\PhysicsBodyBase.cc" />
     <ClCompile Include="src\hvn3\physics\Material.cc" />

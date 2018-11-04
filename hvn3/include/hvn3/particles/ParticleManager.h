@@ -1,7 +1,13 @@
 #pragma once
+#include "hvn3/core/CoreDefs.h"
 #include "hvn3/core/IManager.h"
 #include "hvn3/core/ManagerDefs.h"
+#include "hvn3/particles/ParticleDefs.h"
 #include "hvn3/particles/ParticleSystem.h"
+#include "hvn3/particles/ParticleType.h"
+#include "hvn3/utility/Random.h"
+
+#include <unordered_map>
 
 namespace hvn3 {
 
@@ -11,33 +17,28 @@ namespace hvn3 {
 		public IUpdatable {
 
 	public:
-		const ParticleSystem& DefaultSystem() const {
-			return _default_system;
-		}
-		ParticleSystem& DefaultSystem() {
-			return _default_system;
-		}
+		ParticleManager();
 
-		void OnDraw(DrawEventArgs& e) override {
+		void RegisterType(ParticleTypeId id, const ParticleType& type);
+		ParticleType& GetType(ParticleTypeId id);
+		const ParticleType& GetType(ParticleTypeId id) const;
+		bool TypeIsRegistered(ParticleTypeId id) const;
 
-			_default_system.OnDraw(e);
+		ParticleSystem& DefaultSystem();
+		const ParticleSystem& DefaultSystem() const;
 
-			for (auto i = _systems.begin(); i != _systems.end(); ++i)
-				i->OnDraw(e);
+		ParticleSystemHandle CreateSystem();
+		ParticleSystem& GetSystem(ParticleSystemId id);
+		const ParticleSystem& GetSystem(ParticleSystemId id) const;
+		bool SystemExists(ParticleSystemId id) const;
 
-		}
-		void OnUpdate(UpdateEventArgs& e) override {
-
-			_default_system.OnUpdate(e);
-
-			for (auto i = _systems.begin(); i != _systems.end(); ++i)
-				i->OnUpdate(e);
-
-		}
+		void OnDraw(DrawEventArgs& e) override;
+		void OnUpdate(UpdateEventArgs& e) override;
 
 	private:
 		ParticleSystem _default_system;
-		std::vector<ParticleSystem> _systems;
+		std::unordered_map<ParticleSystemId, ParticleSystem> _systems;
+		std::unordered_map<ParticleTypeId, ParticleType> _types;
 
 	};
 

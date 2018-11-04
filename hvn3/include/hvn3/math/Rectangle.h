@@ -87,6 +87,38 @@ namespace hvn3 {
 			return (std::max)(X(), X2());
 
 		}
+		void SetBottom(T value) {
+
+			if (Y() > Y2())
+				SetY(value);
+			else
+				SetY2(value);
+
+		}
+		void SetTop(T value) {
+
+			if (Y() < Y2())
+				SetY(value);
+			else
+				SetY2(value);
+
+		}
+		void SetLeft(T value) {
+
+			if (X() < X2())
+				SetX(value);
+			else
+				SetX2(value);
+
+		}
+		void SetRight(T value) {
+
+			if (X() > X2())
+				SetX(value);
+			else
+				SetX2(value);
+
+		}
 		Point2d<T> TopLeft() const {
 
 			return Point2d<T>(Left(), Top());
