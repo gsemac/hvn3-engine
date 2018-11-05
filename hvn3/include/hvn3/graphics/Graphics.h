@@ -2,6 +2,7 @@
 #include "hvn3/graphics/Bitmap.h"
 #include "hvn3/graphics/GraphicsState.h"
 #include "hvn3/graphics/GraphicsTypeDefs.h"
+#include "hvn3/graphics/LinearGradientBrush.h"
 #include "hvn3/graphics/Pen.h"
 #include "hvn3/math/Circle.h"
 #include "hvn3/math/Line.h"
@@ -40,6 +41,7 @@ namespace hvn3 {
 			void DrawLine(const PointF& p1, const PointF& p2, const Color& color, float thickness);
 			void DrawLine(float x1, float y1, float x2, float y2, const Color& color, float thickness);
 			void DrawLine(float x1, float y1, float x2, float y2, const Pen& pen);
+			void DrawLine(float x1, float y1, float x2, float y2, const LinearGradientBrush& brush, float thickness);
 
 			void DrawPixel(const PointF& point, const Color& color);
 			void DrawPixel(float x, float y, const Color& color);

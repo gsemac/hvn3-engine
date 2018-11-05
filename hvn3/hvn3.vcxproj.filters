@@ -858,6 +858,9 @@
     <ClInclude Include="include\hvn3\assets\ImprovedAssetManager.h">
       <Filter>include\assets</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\graphics\LinearGradientBrush.h">
+      <Filter>include\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1286,6 +1289,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\particles\ParticleManager.cc">
       <Filter>src\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\LinearGradientBrush.cc">
+      <Filter>src\graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

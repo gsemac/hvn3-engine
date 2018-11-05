@@ -13,6 +13,8 @@ namespace hvn3 {
 	void al_draw_gradient_rectangle(float x, float y, float width, float height, ALLEGRO_COLOR color_top, ALLEGRO_COLOR color_bottom);
 	void al_draw_horizontal_gradient_rectangle(float x, float y, float width, float height, ALLEGRO_COLOR color_left, ALLEGRO_COLOR color_right);
 
+	void al_draw_line(float x1, float y1, float x2, float y2, ALLEGRO_COLOR start_color, ALLEGRO_COLOR end_color, float thickness);
+
 	ALLEGRO_BITMAP* al_clone_sub_bitmap(ALLEGRO_BITMAP* bitmap);
 		
 }

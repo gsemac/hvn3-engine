@@ -45,6 +45,60 @@ namespace hvn3 {
 
 	}
 
+	void al_draw_line(float x1, float y1, float x2, float y2, ALLEGRO_COLOR start_color, ALLEGRO_COLOR end_color, float thickness) {
+		
+		// This is the implementation for al_draw_line, modified to have different colors for the start and end points.
+
+		// Original implementation:
+		//	https://github.com/liballeg/allegro5/blob/d7757184d335d400460808eff8e0d19c9f557673/addons/primitives/high_primitives.c#L77
+
+		if (thickness > 0) {
+
+			int ii;
+			float tx, ty;
+			float len = std::hypotf(x2 - x1, y2 - y1);
+
+			ALLEGRO_VERTEX vtx[4];
+
+			if (len == 0)
+				return;
+
+			tx = 0.5f * thickness * (y2 - y1) / len;
+			ty = 0.5f * thickness * -(x2 - x1) / len;
+
+			vtx[0].x = x1 + tx; vtx[0].y = y1 + ty;
+			vtx[1].x = x1 - tx; vtx[1].y = y1 - ty;
+			vtx[2].x = x2 - tx; vtx[2].y = y2 - ty;
+			vtx[3].x = x2 + tx; vtx[3].y = y2 + ty;
+
+			for (ii = 0; ii < 2; ii++) {
+				vtx[ii].color = start_color;
+				vtx[ii].z = 0;
+			}
+			for (ii = 2; ii < 4; ii++) {
+				vtx[ii].color = end_color;
+				vtx[ii].z = 0;
+			}
+
+			al_draw_prim(vtx, 0, 0, 0, 4, ALLEGRO_PRIM_TRIANGLE_FAN);
+
+		}
+		else {
+			ALLEGRO_VERTEX vtx[2];
+
+			vtx[0].x = x1; vtx[0].y = y1;
+			vtx[1].x = x2; vtx[1].y = y2;
+
+			vtx[0].color = start_color;
+			vtx[1].color = end_color;
+			vtx[0].z = 0;
+			vtx[1].z = 0;
+
+			al_draw_prim(vtx, 0, 0, 0, 2, ALLEGRO_PRIM_LINE_LIST);
+		}
+
+	}
+
 	ALLEGRO_BITMAP* al_clone_sub_bitmap(ALLEGRO_BITMAP* bitmap) {
 
 		int w = al_get_bitmap_width(bitmap);

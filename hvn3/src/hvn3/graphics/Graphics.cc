@@ -1,4 +1,5 @@
 #include "hvn3/allegro/AllegroAdapter.h"
+#include "hvn3/allegro/AllegroExt.h"
 #include "hvn3/exceptions/Exception.h"
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/math/GeometryUtils.h"
@@ -6,7 +7,9 @@
 #include "hvn3/utility/UTF8String.h"
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
+
 #include <cassert>
+#include <cmath>
 
 namespace hvn3 {
 
@@ -224,6 +227,13 @@ namespace hvn3 {
 				}
 
 			}
+
+		}
+		void Graphics::DrawLine(float x1, float y1, float x2, float y2, const LinearGradientBrush& brush, float thickness) {
+
+			_makeThisActiveInstance(true);
+
+			al_draw_line(x1, y1, x2, y2, System::AllegroAdapter::ToColor(brush.StartColor()), System::AllegroAdapter::ToColor(brush.EndColor()), thickness);
 
 		}
 

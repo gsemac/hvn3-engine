@@ -96,6 +96,7 @@
     <ClInclude Include="include\hvn3\graphics\GridRenderer.h" />
     <ClInclude Include="include\hvn3\graphics\GridRendererExt.h" />
     <ClInclude Include="include\hvn3\graphics\Imaging.h" />
+    <ClInclude Include="include\hvn3\graphics\LinearGradientBrush.h" />
     <ClInclude Include="include\hvn3\graphics\Pen.h" />
     <ClInclude Include="include\hvn3\graphics\Resolution.h" />
     <ClInclude Include="include\hvn3\graphics\Transform.h" />
@@ -300,6 +301,7 @@
     <ClCompile Include="src\hvn3\graphics\GridRenderer.cc" />
     <ClCompile Include="src\hvn3\graphics\GridRendererExt.cc" />
     <ClCompile Include="src\hvn3\graphics\Imaging.cc" />
+    <ClCompile Include="src\hvn3\graphics\LinearGradientBrush.cc" />
     <ClCompile Include="src\hvn3\graphics\Pen.cc" />
     <ClCompile Include="src\hvn3\graphics\Resolution.cc" />
     <ClCompile Include="src\hvn3\graphics\Transform.cc" />
