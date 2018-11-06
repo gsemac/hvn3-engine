@@ -151,7 +151,9 @@ namespace hvn3 {
 		return *this;
 
 	}
-			
+	Sprite::operator bool() const {
+		return _frames.size() > 0;
+	}
 
 	size_t Sprite::_subImageToIndex(int sub_image) const {
 

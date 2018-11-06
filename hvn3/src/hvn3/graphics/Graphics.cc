@@ -359,7 +359,7 @@ namespace hvn3 {
 				y,
 				xscale,
 				yscale,
-				Math::DegreesToRadians(angle),
+				Math::DegreesToRadians(-angle),
 				NULL
 			);
 
@@ -434,7 +434,7 @@ namespace hvn3 {
 				y,
 				xscale,
 				yscale,
-				Math::DegreesToRadians(angle),
+				Math::DegreesToRadians(-angle),
 				NULL
 			);
 

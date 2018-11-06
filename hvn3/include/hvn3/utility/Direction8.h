@@ -15,7 +15,7 @@ namespace hvn3 {
 		DIRECTION_DOWN = 270,
 		DIRECTION_DOWN_RIGHT = 315
 	};
-	 
+
 	class Direction8 {
 
 	public:
@@ -35,7 +35,10 @@ namespace hvn3 {
 		DIRECTION HorizontalDirection() const;
 		DIRECTION VerticalDirection() const;
 
-		bool operator==(const DIRECTION& other);
+		bool operator==(const DIRECTION& other) const;
+		bool operator!=(const DIRECTION& other) const;
+		bool operator==(const Direction8& other) const;
+		bool operator!=(const Direction8& other) const;
 		Direction8& operator=(const DIRECTION& other);
 		Direction8& operator+=(const DIRECTION& other);
 

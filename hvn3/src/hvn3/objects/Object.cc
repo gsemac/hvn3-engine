@@ -82,6 +82,16 @@ namespace hvn3 {
 
 	}
 
+	class Context& Object::GetContext() {
+
+		return _context;
+
+	}
+	const class Context& Object::GetContext() const {
+
+		return _context;
+
+	}
 	const Vector2d& Object::Velocity() const {
 
 		//if (_physics_body != nullptr)
@@ -128,6 +138,9 @@ namespace hvn3 {
 
 	}
 	SpriteRenderer& Object::Renderer() {
+		return _sprite_renderer;
+	}
+	const SpriteRenderer& Object::Renderer() const {
 		return _sprite_renderer;
 	}
 	ColliderPtr& Object::Collider() {

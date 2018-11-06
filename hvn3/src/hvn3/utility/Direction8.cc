@@ -120,9 +120,24 @@ namespace hvn3 {
 
 	}
 
-	bool Direction8::operator==(const DIRECTION& other) {
+	bool Direction8::operator==(const DIRECTION& other) const {
 
 		return _direction == other;
+
+	}
+	bool Direction8::operator!=(const DIRECTION& other) const {
+
+		return !(*this == other);
+
+	}
+	bool Direction8::operator==(const Direction8& other) const {
+
+		return _direction == other._direction;
+		
+	}
+	bool Direction8::operator!=(const Direction8& other) const {
+
+		return !(*this == other);
 
 	}
 	Direction8& Direction8::operator=(const DIRECTION& other) {

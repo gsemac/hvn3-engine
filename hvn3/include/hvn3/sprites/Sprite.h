@@ -51,6 +51,8 @@ namespace hvn3 {
 		Sprite& operator=(const Sprite& other);
 		Sprite& operator=(Sprite&& other);
 
+		explicit operator bool() const;
+
 	private:
 		std::vector<Graphics::Bitmap> _frames;
 		int _ox, _oy;

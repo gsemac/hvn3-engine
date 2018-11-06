@@ -29,6 +29,9 @@ namespace hvn3 {
 		void OnContextChanged(ContextChangedEventArgs& e) override;
 
 	protected:
+		class Context& GetContext();
+		const class Context& GetContext() const;
+
 		const Vector2d& Velocity() const;
 		void SetVelocity(const Vector2d& other);
 		void SetVelocity(float x, float y);
@@ -40,10 +43,11 @@ namespace hvn3 {
 		void SetSprite(Preview::AssetId value);
 
 		SpriteRenderer& Renderer();
+		const SpriteRenderer& Renderer() const;
 		ColliderPtr& Collider();
 
 	private:
-		Context _context;
+		class Context _context;
 		Preview::AssetId _sprite_id;
 		SpriteRenderer _sprite_renderer;
 		Vector2d _velocity;
