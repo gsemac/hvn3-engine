@@ -8,6 +8,8 @@
 #include "hvn3/rooms/IRoomManager.h"
 #include "hvn3/views/IViewManager.h"
 
+#include <cassert>
+
 namespace hvn3 {
 
 	LightSource::LightSource() {
@@ -16,6 +18,53 @@ namespace hvn3 {
 		intensity = 1.0f;
 		on = true;
 		type = LightSourceType::Radial;
+	}
+
+
+	LightSourceHandle::LightSourceHandle() {
+
+		_manager = nullptr;
+
+	}
+	LightSourceHandle::LightSourceHandle(BasicLightingManager* manager, LightSourceId id) {
+
+		_manager = manager;
+		_id = id;
+
+	}
+	void LightSourceHandle::Release() {
+
+		if (_manager == nullptr)
+			return;
+
+		_manager->RemoveLight(_id);
+
+		_manager = nullptr;
+
+	}
+	LightSource* LightSourceHandle::operator->() {
+
+		assert(_manager != nullptr);
+		assert(_manager->LightExists(_id));
+
+		return _manager->GetLight(_id);
+
+	}
+	const LightSource* LightSourceHandle::operator->() const {
+
+		assert(_manager != nullptr);
+		assert(_manager->LightExists(_id));
+
+		return _manager->GetLight(_id);
+
+	}
+	LightSourceHandle::operator bool() const {
+
+		if (_manager == nullptr)
+			return false;
+
+		return _manager->LightExists(_id);
+
 	}
 
 
@@ -37,7 +86,7 @@ namespace hvn3 {
 			_freeDefaultLightMaps();
 
 	}
-	LightSourceId BasicLightingManager::Create(const PointF& position, LightSourceType type) {
+	LightSourceHandle BasicLightingManager::CreateLight(const PointF& position, LightSourceType type) {
 
 		LightSourceId lsid = _getNextLightSourceId();
 		LightSource ls;
@@ -47,10 +96,10 @@ namespace hvn3 {
 
 		_light_sources[lsid] = ls;
 
-		return lsid;
+		return LightSourceHandle(this, lsid);
 
 	}
-	LightSource* BasicLightingManager::GetLightSourceById(LightSourceId id) {
+	LightSource* BasicLightingManager::GetLight(LightSourceId id) {
 
 		auto iter = _light_sources.find(id);
 
@@ -58,6 +107,28 @@ namespace hvn3 {
 			return nullptr;
 
 		return &iter->second;
+
+	}
+	bool BasicLightingManager::LightExists(LightSourceId id) const {
+
+		return _light_sources.count(id) > 0;
+
+	}
+	bool BasicLightingManager::RemoveLight(LightSourceId id) {
+
+		auto it = _light_sources.find(id);
+
+		if (it == _light_sources.end())
+			return false;
+
+		_light_sources.erase(it);
+
+		return true;
+
+	}
+	void BasicLightingManager::RemoveLight(LightSourceHandle& handle) {
+
+		handle.Release();
 
 	}
 	void BasicLightingManager::Clear() {
@@ -97,7 +168,7 @@ namespace hvn3 {
 
 		if (!room)
 			return;
-		
+
 		RectangleF visible_region = room->VisibleRegion();
 		SizeI visible_size = static_cast<SizeI>(visible_region.Size());
 
@@ -127,7 +198,7 @@ namespace hvn3 {
 		g.SetTransform(transform);
 
 		for (auto i = _light_sources.begin(); i != _light_sources.end(); ++i) {
-			
+
 			LightMapData* lm = _findLightMapData(i->second.type);
 
 			if (lm == nullptr)
@@ -135,11 +206,16 @@ namespace hvn3 {
 
 			g.SetBlendMode(Graphics::BlendOperation::Subtract);
 
-			g.DrawBitmap(i->second.position.x, i->second.position.y, lm->bitmap, 1.0f, 1.0f, lm->origin, i->second.direction);
+			float light_alpha = Math::Max(0.0f, i->second.brightness);
+			float overlay_alpha = light_alpha * 0.4f;
+
+			g.DrawBitmap(i->second.position.x, i->second.position.y, lm->bitmap, 1.0f, 1.0f, lm->origin, i->second.direction,
+				Color::FromArgbf(light_alpha, light_alpha, light_alpha, light_alpha));
 
 			g.ResetBlendMode();
 
-			g.DrawBitmap(i->second.position.x, i->second.position.y, lm->bitmap, 1.0f, 1.0f, lm->origin, i->second.direction, Color::FromArgbf(0.4f, 0.4f, 0.4f, 0.4f));
+			g.DrawBitmap(i->second.position.x, i->second.position.y, lm->bitmap, 1.0f, 1.0f, lm->origin, i->second.direction,
+				Color::FromArgbf(overlay_alpha, overlay_alpha, overlay_alpha, overlay_alpha));
 
 		}
 

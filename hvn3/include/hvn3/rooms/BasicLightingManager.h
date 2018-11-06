@@ -12,7 +12,7 @@ namespace hvn3 {
 	typedef unsigned long LightSourceId;
 	typedef unsigned long LightMapId;
 
-	enum LightSourceType {
+	enum class LightSourceType {
 		Radial,
 		Spotlight
 	};
@@ -28,8 +28,29 @@ namespace hvn3 {
 		LightSourceType type;
 	};
 
-	class BasicLightingManager : 
-		public IManager, 
+	class BasicLightingManager;
+
+	class LightSourceHandle {
+
+	public:
+		LightSourceHandle();
+		LightSourceHandle(BasicLightingManager* manager, LightSourceId id);
+
+		void Release();
+
+		LightSource* operator->();
+		const LightSource* operator->() const;
+
+		explicit operator bool() const;
+
+	private:
+		BasicLightingManager* _manager;
+		LightSourceId _id;
+
+	};
+
+	class BasicLightingManager :
+		public IManager,
 		public IDrawable {
 
 		struct LightMapData {
@@ -41,8 +62,12 @@ namespace hvn3 {
 		BasicLightingManager();
 		~BasicLightingManager();
 
-		LightSourceId Create(const PointF& position, LightSourceType type);
-		LightSource* GetLightSourceById(LightSourceId id);
+		LightSourceHandle CreateLight(const PointF& position, LightSourceType type);
+		LightSource* GetLight(LightSourceId id);
+		bool LightExists(LightSourceId id) const;
+		bool RemoveLight(LightSourceId id);
+		void RemoveLight(LightSourceHandle& handle);
+
 		void Clear();
 
 		const Graphics::Bitmap& Surface() const;
