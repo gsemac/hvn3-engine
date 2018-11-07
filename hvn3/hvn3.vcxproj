@@ -230,6 +230,7 @@
     <ClInclude Include="include\hvn3\utility\IteratorWrapper.h" />
     <ClInclude Include="include\hvn3\utility\MD5.h" />
     <ClInclude Include="include\hvn3\utility\Padding.h" />
+    <ClInclude Include="include\hvn3\utility\PerlinNoise.h" />
     <ClInclude Include="include\hvn3\utility\Quadtree.h" />
     <ClInclude Include="include\hvn3\utility\Random.h" />
     <ClInclude Include="include\hvn3\utility\Range.h" />
@@ -386,6 +387,7 @@
     <ClCompile Include="src\hvn3\utility\FpsCounter.cc" />
     <ClCompile Include="src\hvn3\utility\Grid.cc" />
     <ClCompile Include="src\hvn3\utility\Padding.cc" />
+    <ClCompile Include="src\hvn3\utility\PerlinNoise.cc" />
     <ClCompile Include="src\hvn3\utility\Random.cc" />
     <ClCompile Include="src\hvn3\utility\Scale.cc" />
     <ClCompile Include="src\hvn3\utility\Stopwatch.cc" />

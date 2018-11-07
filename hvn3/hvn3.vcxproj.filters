@@ -861,6 +861,9 @@
     <ClInclude Include="include\hvn3\graphics\LinearGradientBrush.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\utility\PerlinNoise.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1292,6 +1295,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\graphics\LinearGradientBrush.cc">
       <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\utility\PerlinNoise.cc">
+      <Filter>src\utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
