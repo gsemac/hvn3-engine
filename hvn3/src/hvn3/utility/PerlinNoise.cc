@@ -4,17 +4,25 @@ namespace hvn3 {
 
 	PerlinNoise::PerlinNoise() {
 
+		_init();
 		_generatePermutationVector();
 
 	}
 	PerlinNoise::PerlinNoise(std::default_random_engine::result_type seed) {
 
+		_init();
 		_generatePermutationVector(seed);
 
 	}
 	void PerlinNoise::SetSeed(std::default_random_engine::result_type seed) {
 
 		_generatePermutationVector(seed);
+
+	}
+	void PerlinNoise::SetScale(result_type min, result_type max) {
+
+		_scale_min = min;
+		_scale_max = max;
 
 	}
 	PerlinNoise::result_type PerlinNoise::Noise(result_type x) {
@@ -64,8 +72,13 @@ namespace hvn3 {
 
 		y2 = _lerp(x1, x2, v);
 
-		// Bounds the result to [0, 1] for convenience instead of [-1, 1].
-		return static_cast<result_type>((_lerp(y1, y2, w) + 1.0) / 2.0);
+		// Bound the result to [0, 1] for convenience (instead of [-1, 1]).
+		result_type result = static_cast<result_type>((_lerp(y1, y2, w) + 1.0) / 2.0);
+
+		// Bound the result to the user-provided range.
+		result = (result * (_scale_max - _scale_min)) + _scale_min;
+
+		return result;
 
 	}
 	PerlinNoise::result_type PerlinNoise::OctaveNoise(result_type x, int32_t octaves) {
@@ -163,6 +176,12 @@ namespace hvn3 {
 
 	}
 
+	void PerlinNoise::_init() {
+
+		_scale_min = 0.0f;
+		_scale_max = 1.0f;
+
+	}
 	void PerlinNoise::_generatePermutationVector() {
 
 		std::copy(_permutation.begin(), _permutation.end(), _p.begin());

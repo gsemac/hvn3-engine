@@ -89,6 +89,12 @@ namespace hvn3 {
 		_position = position;
 
 	}
+	void View::SetX(float x) {
+		_position.SetX(x);
+	}
+	void View::SetY(float y) {
+		_position.SetY(y);
+	}
 	float View::X() const {
 
 		return _position.X();

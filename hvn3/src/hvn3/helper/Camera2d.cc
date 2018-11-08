@@ -2,7 +2,10 @@
 #include "hvn3/helper/Camera2d.h"
 #include "hvn3/math/GeometryUtils.h"
 #include "hvn3/objects/IObjectManager.h"
+#include "hvn3/utility/PerlinNoise.h"
+#include "hvn3/utility/Random.h"
 #include "hvn3/views/ViewManager.h"
+
 #include <cassert>
 
 namespace hvn3 {
@@ -14,6 +17,12 @@ namespace hvn3 {
 		_target_id = NoOne;
 		_pan_mode = PanMode::EaseOut;
 		_tilt_enabled = false;
+
+		_shake_seed = 0.0f;
+		_shake_max_angle = 0.0f;
+		_shake_max_offset = 0.0f;
+		_shake_duration = 0.0f;
+		_shake_duration_max = 0.0f;
 
 	}
 	Camera2d::Camera2d(float x, float y) :
@@ -44,6 +53,8 @@ namespace hvn3 {
 	}
 	void Camera2d::OnUpdate(UpdateEventArgs& e) {
 
+		// Ease the camera towards the target object.
+
 		PointF to = _getTargetPosition() + _offset;
 		float dist = hvn3::Math::Geometry::PointDistance(to, Position());
 		float max_speed = 0.0f;
@@ -62,15 +73,47 @@ namespace hvn3 {
 
 		ObjectBase::SetPosition(hvn3::Math::Geometry::PointInDirection(Position(), to, max_speed));
 
-		// Rotate the view according to the horizontal speed of the camera.
+		// Transform the current view according to camera parameters.
+
+		View* view = _getView();
+
+		if (view == nullptr)
+			return;
+
+		// Rotate the view according to the horizontal speed of the camera (if tilting is enabled).
 
 		if (_tilt_enabled) {
 
-			View* view = _getView();
+			view->SetAngle(view->Angle() + Math::Signum(to.x - X()) * (dist / 180.0f));
+			view->SetAngle(view->Angle() * 0.95f);
 
-			if (view != nullptr) {
-				view->SetAngle(view->Angle() + Math::Signum(to.x - X()) * (dist / 180.0f));
-				view->SetAngle(view->Angle() * 0.95f);
+		}
+
+		// Transform the view according to the shake parameters.
+
+		if (_shake_duration < _shake_duration_max) {
+
+			// #todo It's slow to construct a PerlinNoise instance repeatedly. Static or implementation change?
+			PerlinNoise gen;
+			gen.SetScale(-1.0f, 1.0f);
+
+			float intensity = ((_shake_duration_max - _shake_duration) / _shake_duration_max);
+			float angle_off = _shake_max_angle * intensity * gen.Noise(_shake_seed, _shake_duration);
+			float x_off = _shake_max_offset * intensity * gen.Noise(_shake_seed + 1.0f, _shake_duration);
+			float y_off = _shake_max_offset * intensity * gen.Noise(_shake_seed + 2.0f, _shake_duration);
+
+			view->SetAngle(angle_off);
+
+			ObjectBase::SetPosition(Position() + PointF(x_off, y_off));
+
+			_shake_duration += static_cast<float>(e.Delta());
+
+			if (_shake_duration >= _shake_duration_max) {
+
+				view->SetAngle(0.0f);
+				_shake_duration = 0.0f;
+				_shake_duration_max = 0.0f;
+
 			}
 
 		}
@@ -125,6 +168,15 @@ namespace hvn3 {
 	}
 	void Camera2d::SetTiltEnabled(bool value) {
 		_tilt_enabled = value;
+	}
+	void Camera2d::Shake(float max_offset, float max_angle, float duration) {
+
+		_shake_seed = Random::Get<float>();
+		_shake_max_offset = max_offset;
+		_shake_max_angle = max_angle;
+		_shake_duration = 0.0f;
+		_shake_duration_max = duration;
+
 	}
 
 	PointF Camera2d::_getTargetPosition() {

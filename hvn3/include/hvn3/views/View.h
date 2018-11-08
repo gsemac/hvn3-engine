@@ -28,6 +28,8 @@ namespace hvn3 {
 		const PointF& Position() const;
 		void SetPosition(float x, float y);
 		void SetPosition(const PointF& position);
+		void SetX(float x);
+		void SetY(float y);
 		Scale Scale() const;
 
 		float HorizontalBorder() const;

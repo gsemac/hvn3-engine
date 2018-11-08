@@ -5,12 +5,12 @@
 
 namespace hvn3 {
 
-	Random::Random() : __rand(__default_rand.NextInteger()) {}
-	Random::Random(unsigned int seed) : __rand(seed) {}
+	Random::Random() : _rand(_default_rand.NextInteger()) {}
+	Random::Random(unsigned int seed) : _rand(seed) {}
 
 	int Random::NextInteger() {
 
-		return __rand() % std::numeric_limits<int>::max();
+		return _rand() % std::numeric_limits<int>::max();
 
 	}
 	int Random::NextInteger(int maximum) {
@@ -25,7 +25,7 @@ namespace hvn3 {
 	}
 	unsigned int Random::NextUInteger() {
 
-		return __rand() % std::numeric_limits<unsigned int>::max();
+		return _rand() % std::numeric_limits<unsigned int>::max();
 
 	}
 	unsigned int Random::NextUInteger(unsigned int maximum) {
@@ -40,12 +40,12 @@ namespace hvn3 {
 	}
 	bool Random::NextBoolean() {
 
-		return __rand() % 2 == 0;
+		return _rand() % 2 == 0;
 
 	}
 	unsigned char Random::NextByte() {
 
-		return __rand() % (std::numeric_limits<unsigned char>::max() + 1);
+		return _rand() % (std::numeric_limits<unsigned char>::max() + 1);
 
 	}
 	void Random::NextBytes(unsigned char* buffer, size_t size) {
@@ -56,7 +56,7 @@ namespace hvn3 {
 	}
 	char Random::NextChar() {
 
-		return __rand() % (std::numeric_limits<char>::max() + 1);
+		return _rand() % (std::numeric_limits<char>::max() + 1);
 
 	}
 	void Random::NextChars(char* buffer, size_t size) {
@@ -67,12 +67,12 @@ namespace hvn3 {
 	}
 	short Random::NextShort() {
 
-		return __rand() % (std::numeric_limits<short>::max() + 1);
+		return _rand() % (std::numeric_limits<short>::max() + 1);
 
 	}
 	float Random::NextFloat() {
 
-		return static_cast<float>(__rand()) / __rand.max();
+		return static_cast<float>(_rand()) / _rand.max();
 
 	}
 	float Random::NextFloat(float maximum) {
@@ -87,7 +87,7 @@ namespace hvn3 {
 	}
 	double Random::NextDouble() {
 
-		return static_cast<double>(__rand()) / __rand.max();
+		return static_cast<double>(_rand()) / _rand.max();
 
 	}
 	double Random::NextDouble(double maximum) {
@@ -108,97 +108,97 @@ namespace hvn3 {
 
 	int Random::Integer() {
 
-		return __default_rand.NextInteger();
+		return _default_rand.NextInteger();
 
 	}
 	int Random::Integer(int maximum) {
 
-		return __default_rand.NextInteger(maximum);
+		return _default_rand.NextInteger(maximum);
 
 	}
 	int Random::Integer(int minimum, int maximum) {
 
-		return __default_rand.NextInteger(minimum, maximum);
+		return _default_rand.NextInteger(minimum, maximum);
 
 	}
 	unsigned int Random::UInteger() {
 
-		return __default_rand.NextUInteger();
+		return _default_rand.NextUInteger();
 
 	}
 	unsigned int Random::UInteger(unsigned int maximum) {
 
-		return __default_rand.NextUInteger(maximum);
+		return _default_rand.NextUInteger(maximum);
 
 	}
 	unsigned int Random::UInteger(unsigned int minimum, unsigned int maximum) {
 
-		return __default_rand.NextUInteger(minimum, maximum);
+		return _default_rand.NextUInteger(minimum, maximum);
 
 	}
 	bool Random::Boolean() {
 
-		return __default_rand.NextBoolean();
+		return _default_rand.NextBoolean();
 
 	}
 	unsigned char Random::Byte() {
 
-		return __default_rand.NextByte();
+		return _default_rand.NextByte();
 
 	}
 	void Random::Bytes(unsigned char* buffer, size_t size) {
 
-		__default_rand.NextBytes(buffer, size);
+		_default_rand.NextBytes(buffer, size);
 
 	}
 	char Random::Char() {
 
-		return __default_rand.NextChar();
+		return _default_rand.NextChar();
 
 	}
 	void Random::Chars(char* buffer, size_t size) {
 
-		__default_rand.NextChars(buffer, size);
+		_default_rand.NextChars(buffer, size);
 
 	}
 	unsigned short Random::Short() {
 
-		return __default_rand.NextShort();
+		return _default_rand.NextShort();
 
 	}
 	float Random::Float() {
 
-		return __default_rand.NextFloat();
+		return _default_rand.NextFloat();
 
 	}
 	float Random::Float(float maximum) {
 
-		return __default_rand.NextFloat(maximum);
+		return _default_rand.NextFloat(maximum);
 
 	}
 	float Random::Float(float minimum, float maximum) {
 
-		return __default_rand.NextFloat(minimum, maximum);
+		return _default_rand.NextFloat(minimum, maximum);
 
 	}
 	double Random::Double() {
 
-		return __default_rand.NextDouble();
+		return _default_rand.NextDouble();
 
 	}
 	double Random::Double(double maximum) {
 
-		return __default_rand.NextDouble(maximum);
+		return _default_rand.NextDouble(maximum);
 
 	}
 	double Random::Double(double minimum, double maximum) {
 
-		return __default_rand.NextDouble(minimum, maximum);
+		return _default_rand.NextDouble(minimum, maximum);
 
 	}
 	int Random::Sign() {
 
-		return __default_rand.NextSign();
+		return _default_rand.NextSign();
 
 	}
 
@@ -208,6 +208,6 @@ namespace hvn3 {
 
 	}
 
-	Random Random::__default_rand(static_cast<unsigned int>(time(NULL)));
+	Random Random::_default_rand(static_cast<unsigned int>(time(NULL)));
 
 }

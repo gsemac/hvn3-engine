@@ -15,6 +15,13 @@ namespace hvn3 {
 			Linear,
 			EaseOut
 		};
+
+		struct ShakeArgs {
+			float maxAngle;
+			float maxOffset;
+			float duration;
+
+		};
 		
 		Camera2d();
 		Camera2d(float x, float y);
@@ -36,6 +43,8 @@ namespace hvn3 {
 		void SetPanMode(PanMode value);
 		void SetTiltEnabled(bool value);
 
+		void Shake(float max_angle, float max_offset, float duration);
+
 	private:
 		PointF _offset;
 		IObject* _target;
@@ -43,6 +52,12 @@ namespace hvn3 {
 		PanMode _pan_mode;
 		bool _tilt_enabled;
 		Context _context;
+
+		float _shake_seed;
+		float _shake_max_angle;
+		float _shake_max_offset;
+		float _shake_duration;
+		float _shake_duration_max;
 
 		PointF _getTargetPosition();
 		bool _hasFollowingTarget();

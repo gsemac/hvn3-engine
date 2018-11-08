@@ -23,6 +23,7 @@ namespace hvn3 {
 		PerlinNoise(std::default_random_engine::result_type seed);
 
 		void SetSeed(std::default_random_engine::result_type seed);
+		void SetScale(result_type min, result_type max);
 
 		result_type Noise(result_type x);
 		result_type Noise(result_type x, result_type y);
@@ -36,6 +37,8 @@ namespace hvn3 {
 	private:
 		// Array of all integers from 0-255, twice.
 		std::array<int32_t, 512> _p;
+		result_type _scale_min;
+		result_type _scale_max;
 
 		// Array of all integers from 0-255, as defined by Perlin.
 		// https://mrl.nyu.edu/~perlin/noise/
@@ -46,6 +49,7 @@ namespace hvn3 {
 		static result_type _grad(int32_t hash, result_type x, result_type y, result_type z);
 		static result_type _lerp(result_type a, result_type b, result_type x);
 
+		void _init();
 		void _generatePermutationVector();
 		void _generatePermutationVector(std::default_random_engine::result_type seed);
 

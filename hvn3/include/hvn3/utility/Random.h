@@ -113,9 +113,9 @@ namespace hvn3 {
 
 	private:
 		// The generator used for static function calls.
-		static Random __default_rand;
+		static Random _default_rand;
 		// Generator used for class instances.
-		std::mt19937 __rand;
+		std::mt19937 _rand;
 
 	};
 
