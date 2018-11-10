@@ -180,10 +180,14 @@ namespace hvn3 {
 		float angle = 0.0f;
 
 		// If there is an active view, we need to rotate the lights and lighting surface accordingly.
+
 		if (room->Views().Count() > 0) {
+
 			const View& view = room->CurrentView();
+
 			origin = view.Region().Midpoint() - view.Position();
 			angle = view.Angle();
+
 		}
 
 		// Draw each light on the lighting surface.
@@ -222,7 +226,8 @@ namespace hvn3 {
 		// Draw the lighting surface.
 
 		PointF draw_pos = visible_region.Position() + origin;
-		e.Graphics().DrawBitmap(draw_pos.x, draw_pos.y, _surface, 1.0f, 1.0f, origin, -angle);
+
+		e.Graphics().DrawBitmap(draw_pos.x, draw_pos.y, _surface, 1.0f, 1.0f, origin, angle);
 
 	}
 	void BasicLightingManager::OnContextChanged(ContextChangedEventArgs& e) {

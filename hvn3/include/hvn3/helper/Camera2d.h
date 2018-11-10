@@ -16,13 +16,6 @@ namespace hvn3 {
 			EaseOut
 		};
 
-		struct ShakeArgs {
-			float maxAngle;
-			float maxOffset;
-			float duration;
-
-		};
-		
 		Camera2d();
 		Camera2d(float x, float y);
 		Camera2d(const PointF& position);
