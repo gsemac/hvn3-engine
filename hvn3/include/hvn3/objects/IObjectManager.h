@@ -31,18 +31,25 @@ namespace hvn3 {
 		// Finds and returns the first instance with the given id, or null if no such instance exists.
 		virtual IObject* Find(ObjectId id) = 0;
 		virtual IObject* FindNext(ObjectId id) = 0;
+
 		virtual size_t Count() const = 0;
 		virtual size_t Count(ObjectId id) const = 0;
+
 		virtual bool Exists(ObjectId id) const = 0;
+
 		virtual void ForEach(const std::function<void(IObjectPtr&)>& func) = 0;
 		virtual void ForEach(const std::function<void(const IObjectPtr&)>& func) const = 0;
 
 		// Constructs an object and adds it to the manager, and returns a pointer to the newly-constructed object.
 		template<typename object_type, typename ... Args>
 		object_type* Create(Args &&... args) {
+
 			object_type* ptr = new object_type(std::forward<Args>(args)...);
+
 			Add(ptr);
+
 			return ptr;
+
 		}
 
 	};

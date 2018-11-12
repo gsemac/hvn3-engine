@@ -5,10 +5,12 @@
 namespace hvn3 {
 	namespace Gui {
 
-		class ScrollableWidgetBase : 
+		class ScrollableWidgetBase :
 			public virtual WidgetBase {
 
 		public:
+			ScrollableWidgetBase() :
+				ScrollableWidgetBase(SizeF(0.0f, 0.0f)) {}
 			ScrollableWidgetBase(const SizeF& scrollable_size) :
 				_scrollable_size(scrollable_size) {
 			}
@@ -95,7 +97,7 @@ namespace hvn3 {
 
 					region.SetY((hdiff + sdiff) * _vscrollbar->ValuePercent());
 
-				}					
+				}
 
 				return region;
 
@@ -131,7 +133,7 @@ namespace hvn3 {
 				_vscrollbar->BringToFront();
 				_hscrollbar->BringToFront();
 
-				SetSmoothScrollEnabled(_smooth_scroll_enabled);					
+				SetSmoothScrollEnabled(_smooth_scroll_enabled);
 
 			}
 			bool _scrollbarsCreated() const {

@@ -864,6 +864,9 @@
     <ClInclude Include="include\hvn3\utility\PerlinNoise.h">
       <Filter>include\utility</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\DataGrid.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
