@@ -105,7 +105,7 @@ namespace hvn3 {
 
 					Graphics::GridRenderer(e.Graphics()).Draw({ X() - VisibleRegion().X(), Y() - VisibleRegion().Y() }, Grid(_tileset.Rows(), _tileset.Columns(), _tileset.TileSize().width, _tileset.TileSize().height), Color::White);
 
-					e.Graphics().HoldBitmapDrawing(true);
+					e.Graphics().SetBitmapDrawingHeld(true);
 
 					for (unsigned int y = 0; y < _tileset.Rows(); ++y)
 						for (unsigned int x = 0; x < _tileset.Columns(); ++x) {
@@ -118,7 +118,7 @@ namespace hvn3 {
 
 						}
 
-					e.Graphics().HoldBitmapDrawing(false);
+					e.Graphics().SetBitmapDrawingHeld(false);
 					e.Graphics().ResetBlendMode();
 
 				}

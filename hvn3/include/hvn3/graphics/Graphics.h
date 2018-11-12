@@ -84,7 +84,7 @@ namespace hvn3 {
 			void SetBlendMode(BlendOperation operation, const Color& source, const Color& destination);
 			void ResetBlendMode();
 
-			void HoldBitmapDrawing(bool hold);
+			void SetBitmapDrawingHeld(bool value);
 			bool BitmapDrawingHeld() const;
 
 			GraphicsState Save() const;

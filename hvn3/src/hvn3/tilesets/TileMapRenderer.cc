@@ -16,7 +16,7 @@ namespace hvn3 {
 		if (_tilesets.size() == 0)
 			return;
 
-		canvas.HoldBitmapDrawing(true);
+		canvas.SetBitmapDrawingHeld(true);
 
 		for (auto layer = tilemap.LayersBegin(); layer != tilemap.LayersEnd(); ++layer) {
 			for (int y = 0; y < tilemap.Rows(); ++y)
@@ -47,7 +47,7 @@ namespace hvn3 {
 				}
 		}
 
-		canvas.HoldBitmapDrawing(false);
+		canvas.SetBitmapDrawingHeld(false);
 
 	}
 	void TileMapRenderer::Draw(Graphics::Graphics& canvas, const TileMap& tilemap, float x, float y) {

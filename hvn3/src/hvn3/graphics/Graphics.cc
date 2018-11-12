@@ -502,11 +502,11 @@ namespace hvn3 {
 
 		}
 
-		void Graphics::HoldBitmapDrawing(bool hold) {
+		void Graphics::SetBitmapDrawingHeld(bool value) {
 
 			_makeThisActiveInstance(false);
 
-			al_hold_bitmap_drawing(hold);
+			al_hold_bitmap_drawing(value);
 
 		}
 		bool Graphics::BitmapDrawingHeld() const {
