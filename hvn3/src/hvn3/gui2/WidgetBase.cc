@@ -208,6 +208,12 @@ namespace hvn3 {
 			if (_visible && HasFocus() && GetManager() != nullptr)
 				GetManager()->SetFocus(nullptr);
 
+			// If this widget has children, set the visibility of all children.
+
+			if (HasChildren())
+				for (auto i = GetChildren().begin(); i != GetChildren().end(); ++i)
+					i->widget->SetVisible(value);
+
 		}
 		SystemCursor WidgetBase::Cursor() const {
 			return _cursor;
