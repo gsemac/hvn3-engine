@@ -1,3 +1,4 @@
+#include "hvn3/gui2/ContextMenu.h"
 #include "hvn3/gui2/WidgetBase.h"
 #include "hvn3/gui2/IWidgetRenderer.h"
 
@@ -27,6 +28,9 @@ namespace hvn3 {
 			_visible = true;
 			_cursor = SystemCursor::Default;
 			_tab_stop = true;
+
+			_context_menu = nullptr;
+			_context_menu_managed = false;
 
 		}
 
@@ -135,7 +139,7 @@ namespace hvn3 {
 			return _text;
 		}
 		void WidgetBase::SetText(const String& text) {
-			
+
 			_text = text;
 
 			EmitEvent(WidgetTextChangedEventArgs(this));
@@ -145,8 +149,8 @@ namespace hvn3 {
 			return _state;
 		}
 		void WidgetBase::SetState(WidgetState state, bool value) {
-			
-			if (value) 
+
+			if (value)
 				_state |= state;
 			else
 				_state &= ~state;
@@ -196,7 +200,14 @@ namespace hvn3 {
 			return _visible;
 		}
 		void WidgetBase::SetVisible(bool value) {
+
 			_visible = value;
+
+			// If this widget is focused, clear focus before making it invisible.
+
+			if (_visible && HasFocus() && GetManager() != nullptr)
+				GetManager()->SetFocus(nullptr);
+
 		}
 		SystemCursor WidgetBase::Cursor() const {
 			return _cursor;
@@ -212,6 +223,33 @@ namespace hvn3 {
 		}
 		bool WidgetBase::HasFocus() const {
 			return HasFlag(State(), WidgetState::Focus);
+		}
+		void WidgetBase::Focus() {
+
+			if (_parent_manager == nullptr)
+				return;
+
+			_parent_manager->SetFocus(this);
+
+		}
+
+		class ContextMenu* WidgetBase::GetContextMenu() {
+
+			return _context_menu;
+
+		}
+		void WidgetBase::SetContextMenu(class ContextMenu* context_menu) {
+
+			_freeContextMenu();
+
+			if (context_menu == nullptr)
+				return;
+
+			_context_menu = context_menu;
+			_context_menu->SetVisible(false);
+
+			_context_menu_managed = false;
+
 		}
 
 		void WidgetBase::BringToFront() {
@@ -239,16 +277,38 @@ namespace hvn3 {
 		}
 		void WidgetBase::OnMouseMove(WidgetMouseMoveEventArgs& e) {}
 		void WidgetBase::OnMouseReleased(WidgetMouseReleasedEventArgs& e) {
+
 			SetState(WidgetState::Active, false);
+
+			// If a context menu has been assigned, show it now.
+
+			if (e.Button() == MouseButton::Right)
+				ShowContextMenu(e.Position());
+
 		}
 		void WidgetBase::OnMousePressed(WidgetMousePressedEventArgs& e) {
+
 			SetState(WidgetState::Active, true);
+
+			// If the context menu is visible, hide it.
+			// It will disappear when this widget loses focus, but it also needs to disappear when the widget is clicked anywhere else.
+
+			_setContextMenuVisible(false);
+
 		}
 		void WidgetBase::OnUpdate(WidgetUpdateEventArgs& e) {}
 		void WidgetBase::OnManagerChanged(WidgetManagerChangedEventArgs& e) {}
 		void WidgetBase::OnRendererChanged(WidgetRendererChangedEventArgs& e) {}
 		void WidgetBase::OnFocus(WidgetFocusEventArgs& e) {}
-		void WidgetBase::OnFocusLost(WidgetFocusLostEventArgs& e) {}
+		void WidgetBase::OnFocusLost(WidgetFocusLostEventArgs& e) {
+
+			// If the context menu or its children received focus, postpone closing the context menu until the next mouse-up.
+			// This gives events like OnMouseClick a chance to be detected before the menu disappears.
+
+			if (!_isContextMenuOrContextMenuItemFocused())
+				_setContextMenuVisible(false);
+
+		}
 		void WidgetBase::OnDraw(WidgetDrawEventArgs& e) {}
 		void WidgetBase::OnZDepthChanged(WidgetZDepthChangedEventArgs& e) {}
 		void WidgetBase::OnChildWidgetAdded(ChildWidgetAddedEventArgs& e) {}
@@ -295,11 +355,134 @@ namespace hvn3 {
 
 		}
 		void WidgetBase::EmitEvent(IWidgetEventArgs& ev) {
-			
+
 			// Having this function separate from HandleEvent allows more flexibility in the future (e.g., not handling events immediately).
 			// In the meantime, it's just an alias for HandleEvent.
 
 			HandleEvent(ev);
+
+		}
+
+		void WidgetBase::ShowContextMenu(const PointF& position) {
+
+			if (_context_menu == nullptr)
+				return;
+
+			_setContextMenuVisible(true);
+
+			_context_menu->SetPosition(PointF(Math::Max(0.0f, position.x), Math::Max(0.0f, position.y)));
+
+			// Make sure that the context menu is completely within the visible region.
+
+			WidgetManager* manager = _context_menu->GetManager();
+
+			if (manager != nullptr) {
+
+				RectangleF bounds = _context_menu->Bounds();
+				RectangleF region = manager->DockableRegion();
+
+				float x_over = bounds.Right() - region.Right();
+				float y_over = bounds.Bottom() - region.Bottom();
+
+				if (x_over > 0.0f)
+					_context_menu->SetX(_context_menu->X() - x_over);
+
+				if (y_over > 0.0f)
+					_context_menu->SetY(_context_menu->Y() - y_over);
+
+			}
+
+		}
+
+
+
+		WidgetManager* WidgetBase::_getTopmostManager() const {
+
+			const IWidget* ptr = this;
+
+			while (ptr->GetParent() != nullptr)
+				ptr = ptr->GetParent();
+
+			return ptr->GetManager();
+
+		}
+		void WidgetBase::_setContextMenuVisible(bool value) {
+
+			if (value) {
+
+				WidgetManager* manager = _getTopmostManager();
+
+				if (!_context_menu_managed && _context_menu != nullptr && manager != nullptr) {
+					manager->Add(_context_menu);
+					_context_menu_managed = true;
+				}
+
+				if (_context_menu != nullptr) {
+
+					PointF pos = Bounds().Position();
+
+					_context_menu->SetPosition(pos.x, pos.y + Height());
+					_context_menu->SetVisible(true);
+
+					if (manager != nullptr)
+						manager->BringToFront(_context_menu);
+
+				}
+
+			}
+			else {
+
+				if (_context_menu == nullptr)
+					return;
+
+				_context_menu->SetVisible(false);
+
+			}
+
+		}
+		void WidgetBase::_freeContextMenu() {
+
+			if (_context_menu == nullptr)
+				return;
+
+			// If the context menu isn't currently managed, just delete it.
+			if (!_context_menu_managed) {
+				delete _context_menu;
+				_context_menu = nullptr;
+			}
+
+			WidgetManager* manager = _getTopmostManager();
+
+			if (manager == nullptr)
+				return;
+
+			manager->Remove(_context_menu);
+
+			_context_menu = nullptr;
+
+		}
+		bool WidgetBase::_isContextMenuVisible() const {
+
+			if (_context_menu == nullptr)
+				return false;
+
+			return _context_menu->Visible();
+
+		}
+		bool WidgetBase::_isContextMenuOrContextMenuItemFocused() const {
+
+			if (!_isContextMenuVisible())
+				return false;
+
+			if (HasFlag(_context_menu->State(), WidgetState::Focus))
+				return true;
+
+			if (_context_menu->HasChildren())
+				for (auto i = _context_menu->GetChildren().begin(); i != _context_menu->GetChildren().end(); ++i)
+					if (HasFlag(i->widget->State(), WidgetState::Focus))
+						return true;
+
+			return false;
 
 		}
 

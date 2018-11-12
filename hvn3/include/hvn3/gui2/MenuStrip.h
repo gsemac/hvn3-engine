@@ -15,7 +15,8 @@ namespace hvn3 {
 		public:
 			MenuStripItem(const String& text);
 
-			void SetContextMenu(ContextMenu* context_menu);
+			void SetContextMenu(ContextMenu* context_menu) override;
+			ContextMenu* GetContextMenu() override;
 
 			void OnFocus(WidgetFocusEventArgs& e) override;
 			void OnFocusLost(WidgetFocusLostEventArgs& e) override;

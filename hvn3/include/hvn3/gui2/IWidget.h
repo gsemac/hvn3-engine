@@ -8,7 +8,8 @@
 
 namespace hvn3 {
 	namespace Gui {
-
+	
+		class ContextMenu;
 		class GuiManager;
 		class WidgetManager;
 		class IWidgetRenderer;
@@ -62,6 +63,10 @@ namespace hvn3 {
 			virtual bool TabStop() const = 0;
 			virtual void SetTabStop(bool value) = 0;
 			virtual bool HasFocus() const = 0;
+			virtual void Focus() = 0;
+
+			virtual ContextMenu* GetContextMenu() = 0;
+			virtual void SetContextMenu(ContextMenu* context_menu) = 0;
 
 			virtual void BringToFront() = 0;
 			virtual void SendToBack() = 0;

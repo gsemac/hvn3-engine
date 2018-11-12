@@ -1,5 +1,12 @@
 #include "hvn3/gui2/MenuStrip.h"
 
+/*
+
+A lot of the functionality here is duplicated in WidgetBase, since it was made possible to arbitrarily add a context menu to any widget.
+This could probably be cleaned up a bit to take advantage of that.
+
+*/
+
 namespace hvn3 {
 	namespace Gui {
 
@@ -23,6 +30,11 @@ namespace hvn3 {
 			_context_menu->SetVisible(false);
 
 			_context_menu_managed = false;
+
+		}
+		ContextMenu* MenuStripItem::GetContextMenu() {
+
+			return _context_menu;
 
 		}
 		void MenuStripItem::OnFocus(WidgetFocusEventArgs& e) {

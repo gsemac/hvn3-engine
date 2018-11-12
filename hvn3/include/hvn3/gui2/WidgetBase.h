@@ -56,6 +56,10 @@ namespace hvn3 {
 			bool TabStop() const override;
 			void SetTabStop(bool value) override;
 			bool HasFocus() const override;
+			void Focus() override;
+
+			ContextMenu* GetContextMenu() override;
+			void SetContextMenu(ContextMenu* context_menu) override;
 
 			void BringToFront() override;
 			void SendToBack() override;
@@ -94,6 +98,8 @@ namespace hvn3 {
 			void DoEventHandler(WidgetEventType ev, IWidgetEventArgs& args);
 			void EmitEvent(IWidgetEventArgs& ev);
 
+			void ShowContextMenu(const PointF& position);
+
 		private:
 			std::string _name;
 			PointF _position;
@@ -108,6 +114,16 @@ namespace hvn3 {
 			WidgetManager* _parent_manager;
 			callback_table_type _callbacks;
 			bool _tab_stop;
+
+			ContextMenu* _context_menu;
+			bool _context_menu_managed;
+
+			// Returns the manager of the topmost parent widget.
+			WidgetManager* _getTopmostManager() const;
+			void _setContextMenuVisible(bool value);
+			void _freeContextMenu();
+			bool _isContextMenuVisible() const;
+			bool _isContextMenuOrContextMenuItemFocused() const;
 
 		};
 
