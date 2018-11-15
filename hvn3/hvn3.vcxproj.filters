@@ -1302,5 +1302,8 @@
     <ClCompile Include="src\hvn3\utility\PerlinNoise.cc">
       <Filter>src\utility</Filter>
     </ClCompile>
+    <ClCompile Include="src\hvn3\gui2\ContextMenu.cc">
+      <Filter>src\gui2</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
