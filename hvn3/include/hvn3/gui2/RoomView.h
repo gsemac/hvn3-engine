@@ -54,7 +54,7 @@ namespace hvn3 {
 
 			}
 
-			PointF PositionToRoomPosition(const PointF& position, bool snap_to_grid) const {
+			PointF GlobalPositionToRoomPosition(const PointF& position, bool snap_to_grid) const {
 
 				assert(static_cast<bool>(_room));
 
@@ -68,13 +68,23 @@ namespace hvn3 {
 				return p;
 
 			}
-			PointF PositionToGridCell(const PointF& position) const {
+			PointF GlobalPositionToGridCell(const PointF& position) const {
 
 				PointF p = _positionToRoomPosition(position);
 				p.x = Math::Floor(p.x / _grid_cell_size.width);
 				p.y = Math::Floor(p.y / _grid_cell_size.height);
 
 				return p;
+
+			}
+			PointF RoomPositionToGlobalPosition(const PointF& position) const {
+
+				PointF global_pos = position;
+
+				global_pos *= _room_scale.Inverse();
+				global_pos += FixedPosition() - VisibleRegion().Position();
+
+				return global_pos;
 
 			}
 			bool IsPositionInRoomBounds(const PointF& position) const {
@@ -85,6 +95,7 @@ namespace hvn3 {
 				return true;
 
 			}
+
 			void SetGridCellSize(const SizeF& size) {
 				_grid_cell_size = size;
 			}
