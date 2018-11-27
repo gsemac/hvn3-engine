@@ -551,10 +551,24 @@ namespace hvn3 {
 				new_widget_hovered->GetChildren().OnMouseMove(e);
 
 			// Update the cursor to reflect the hovered widget.
-			if (new_widget_hovered == nullptr)
-				Mouse::SetCursor(SystemCursor::Default);
-			else
-				Mouse::SetCursor(new_widget_hovered->Cursor());
+			
+			// #todo The Handled check prevents parent widgets from overriding a cursor set by their children.
+			// Perhaps _widget_hovered should be static, as only one widget should ever be the "hovered widget" anyway.
+			// Doing that would probably simplify a lot of the logic in this class.
+
+			if (!e.Handled()) {
+
+				if (new_widget_hovered == nullptr)
+					Mouse::SetCursor(SystemCursor::Default);
+				else {
+
+					Mouse::SetCursor(new_widget_hovered->Cursor());
+
+					e.SetHandled(true);
+
+				}
+
+			}
 
 			_last_mouse_position = e.Position();
 			_widget_hovered = new_widget_hovered;

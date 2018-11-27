@@ -115,9 +115,13 @@ namespace hvn3 {
 				if (r == nullptr)
 					return;
 
-				float h = Math::Max(r->MeasureString(Text()).Height(), 25.0f);
+				if (_auto_size) {
 
-				SetHeight(h);
+					float h = Math::Max(r->MeasureString(Text()).Height(), 25.0f);
+
+					SetHeight(h);
+
+				}
 
 			}
 			void OnMousePressed(WidgetMousePressedEventArgs& e) override {
@@ -149,6 +153,20 @@ namespace hvn3 {
 
 			}
 
+			void SetSize(float width, float height) override {
+
+				SetSize(SizeF(width, height));
+
+			}
+			void SetSize(const SizeF& size) override {
+
+				WidgetBase::SetSize(size);
+
+				// #todo Have this be settable directly for all widgets instead of setting it like this?
+				_auto_size = false;
+
+			}
+
 			String SelectedText() const {
 				return Text().SubString(_selected_range.Start(), _selected_range.End());
 			}
@@ -160,6 +178,7 @@ namespace hvn3 {
 			bool _focused;
 			InputType _input_type;
 			Range<int> _selected_range;
+			bool _auto_size;
 
 			void _initializeMembers() {
 
@@ -168,6 +187,7 @@ namespace hvn3 {
 				_caret_blink_timer = 0.0f;
 				_focused = false;
 				_input_type = InputType::Default;
+				_auto_size = true;
 
 			}
 			void _initializeText() {
