@@ -171,24 +171,38 @@ namespace hvn3 {
 		void Window::_updateResizing(const PointF& mouse_position) {
 
 			int edges = _resizing_edges;
-
 			PointF diff = (_mouse_down_position - (mouse_position - Position()));
 			SizeF new_size = Size();
 
+			// If resizing from the right, just increase the width of the window.
 			if (edges & EDGE_RIGHT)
 				new_size.SetWidth(_size_before_resize.width - diff.x);
+
+			// If resizing from the left, we need to increase the width of the window and change its position to compensate.
 			else if (edges & EDGE_LEFT) {
-				new_size.SetWidth(_size_before_resize.width + diff.x);
+
+				// Clamp the size to avoid adjusting the position unnecessarily when the window is at its minimum size (also done when resizing from top).
+				new_size.width = Math::Max(_size_before_resize.width + diff.x, _minimum_size.width);
+
 				SetX(X() - (new_size.width - _size_before_resize.width));
+
 				_size_before_resize.width = new_size.width;
+
 			}
 
+			// If resizing from the bottom, just increase the height of the window.
 			if (edges & EDGE_BOTTOM)
 				new_size.SetHeight(_size_before_resize.height - diff.y);
+
+			// If resizing from the top, we need to increase the height of the window and change its position to compensate.
 			else if (edges & EDGE_TOP) {
-				new_size.SetHeight(_size_before_resize.height + diff.y);
+
+				new_size.height = Math::Max(_size_before_resize.height + diff.y, _minimum_size.height);
+
 				SetY(Y() - (new_size.height - _size_before_resize.height));
+
 				_size_before_resize.height = new_size.height;
+
 			}
 
 			if (new_size.width < _minimum_size.width)
