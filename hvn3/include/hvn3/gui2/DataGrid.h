@@ -4,6 +4,7 @@
 #include "hvn3/gui2/TextBox.h"
 
 #include <cassert>
+#include <initializer_list>
 #include <vector>
 
 namespace hvn3 {
@@ -87,6 +88,14 @@ namespace hvn3 {
 				_rows.push_back(row_type());
 
 			}
+			void AddRow(std::initializer_list<String> values) {
+
+				AddRow();
+
+				for (auto i = values.begin(); i != values.end(); ++i)
+					_rows.back().push_back(*i);
+
+			}
 
 			size_t ColumnCount() const {
 
@@ -101,44 +110,58 @@ namespace hvn3 {
 
 			void OnDraw(WidgetDrawEventArgs& e) override {
 
-				Color background_color = Color::White;
+				Color row_color = Color::White;
+				Color background_color(171, 171, 171);
 				Color header_color(252, 252, 252);
 				Color grid_line_color(235, 244, 254);
 
-				e.Graphics().DrawSolidRectangle(X(), Y(), Width(), Height(), background_color);
-
 				float dx = X();
-				size_t column_index = 0;
+				float dy = Y();
+
+				// Draw background.
+				e.Graphics().DrawSolidRectangle(dx, dy, Width(), Height(), background_color);
+
+				// Draw column headers.
 
 				for (auto i = _columns.begin(); i != _columns.end(); ++i) {
 
-					// Draw header.
-
-					e.Graphics().DrawSolidRectangle(dx, Y(), i->Width(), _header_height, header_color);
-					e.Graphics().DrawLine(dx + i->Width(), Y(), dx + i->Width(), Y() + Height(), grid_line_color, 1.0f);
-
-					e.Graphics().DrawText(dx + (i->Width() / 2.0f), Y() + (_header_height / 2.0f), i->Text(), GetRenderer()->GetWidgetFont(this), Color::Black, Alignment::Center | Alignment::Middle);
-
-					// Draw rows.
-
-					float rdy = Y() + _header_height;
-
-					for (auto j = _rows.begin(); j != _rows.end(); ++j) {
-
-						if (column_index < j->size())
-							e.Graphics().DrawText(dx + (i->Width() / 2.0f), rdy + (_row_height / 2.0f), j->at(column_index), GetRenderer()->GetWidgetFont(this), Color::Black, Alignment::Center | Alignment::Middle);
-
-						rdy += _row_height;
-
-					}
+					e.Graphics().DrawSolidRectangle(dx, dy, i->Width(), _header_height, header_color); // background
+					e.Graphics().DrawLine(dx + i->Width(), dy, dx + i->Width(), dy + _header_height, grid_line_color, 1.0f); // vertical divider
+					e.Graphics().DrawText(dx + (i->Width() / 2.0f), dy + (_header_height / 2.0f), i->Text(), GetRenderer()->GetWidgetFont(this), Color::Black, Alignment::Center | Alignment::Middle);
 
 					dx += i->Width();
-					++column_index;
 
 				}
 
-				for (float dy = Y() + _row_height; dy < Y() + Height(); dy += _row_height)
-					e.Graphics().DrawLine(X(), dy, X() + Width(), dy, grid_line_color, 1.0f);
+				e.Graphics().DrawLine(X(), Y() + _header_height, dx, Y() + _header_height, grid_line_color, 1.0f); // horizontal divider
+
+				// Draw rows.
+
+				dy = Y() + _header_height;
+
+				for (auto i = _rows.begin(); i != _rows.end(); ++i) {
+
+					dx = X();
+					size_t column_index = 0;
+
+					for (auto j = _columns.begin(); j != _columns.end(); ++j) {
+
+						e.Graphics().DrawSolidRectangle(dx, dy, j->Width(), _row_height, row_color); // background
+						e.Graphics().DrawLine(dx + j->Width(), dy, dx + j->Width(), dy + _row_height, grid_line_color, 1.0f); // vertical divider
+
+						if (column_index < i->size())
+							e.Graphics().DrawText(dx + (j->Width() / 2.0f), dy + (_row_height / 2.0f), i->at(column_index), GetRenderer()->GetWidgetFont(this), Color::Black, Alignment::Center | Alignment::Middle);
+
+						dx += j->Width();
+						++column_index;
+
+					}
+
+					e.Graphics().DrawLine(X(), dy + _row_height, dx, dy + _row_height, grid_line_color, 1.0f); // horizontal divider
+
+					dy += _row_height;
+
+				}
 
 			}
 			void OnMouseMove(WidgetMouseMoveEventArgs& e) override {
@@ -288,9 +311,9 @@ namespace hvn3 {
 			}
 			String _getDataAt(const PointI& cell_index) const {
 
-				if (cell_index.x < 0 || 
-					cell_index.y < 0 || 
-					static_cast<size_t>(cell_index.x) >= _columns.size() || 
+				if (cell_index.x < 0 ||
+					cell_index.y < 0 ||
+					static_cast<size_t>(cell_index.x) >= _columns.size() ||
 					static_cast<size_t>(cell_index.y) >= _rows.size())
 					return "";
 
