@@ -197,7 +197,7 @@ namespace hvn3 {
 			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
 
 				if (i->widget->HasChildren()) {
-					
+
 					const WidgetManager* ptr = &i->widget->GetChildren();
 
 					if (!ptr->Renderer())
@@ -441,14 +441,26 @@ namespace hvn3 {
 		void WidgetManager::OnKeyboardLost(KeyboardLostEventArgs& e) {}
 		void WidgetManager::OnKeyboardFound(KeyboardFoundEventArgs& e) {}
 
-		void WidgetManager::OnMouseDown(MouseDownEventArgs& e) {}
+		void WidgetManager::OnMouseDown(MouseDownEventArgs& e) {
+
+			// If there is no currently-hovered widget, do nothing.
+			if (_widget_hovered == nullptr)
+				return;
+
+			if (_widget_hovered->HasChildren())
+				_widget_hovered->GetChildren().OnMouseDown(e);
+
+			if (!e.Handled())
+				_widget_hovered->HandleEvent(WidgetMouseDownEventArgs(_widget_hovered, e));
+
+		}
 		void WidgetManager::OnMousePressed(MousePressedEventArgs& e) {
 
 			// If no widget is hovered over, clear the focused widget.
 			if (_widget_hovered == nullptr)
 				_setFocused(nullptr);
 
-			// Call the mouse-down event for the currently-hovered widget if the mouse was not held over a different widget.
+			// Call the mouse-pressed event for the currently-hovered widget if the mouse was not held over a different widget.
 			if (_widget_hovered != nullptr && _widget_held == nullptr) {
 
 				if (_widget_hovered->HasChildren())
@@ -480,6 +492,7 @@ namespace hvn3 {
 				// If the mouse was released on the same widget that it went down on, consider it a click.
 				if (_widget_hovered == _widget_held)
 					_widget_held->HandleEvent(WidgetMouseClickEventArgs(_widget_held, e));
+
 				_widget_held = nullptr;
 
 			}
@@ -551,7 +564,7 @@ namespace hvn3 {
 				new_widget_hovered->GetChildren().OnMouseMove(e);
 
 			// Update the cursor to reflect the hovered widget.
-			
+
 			// #todo The Handled check prevents parent widgets from overriding a cursor set by their children.
 			// Perhaps _widget_hovered should be static, as only one widget should ever be the "hovered widget" anyway.
 			// Doing that would probably simplify a lot of the logic in this class.
