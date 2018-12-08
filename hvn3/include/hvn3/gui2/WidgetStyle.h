@@ -1,6 +1,6 @@
 #pragma once
 #include "hvn3/graphics/Bitmap.h"
-#include "hvn3/gui2/GuiTypeDefs.h"
+#include "hvn3/gui2/GuiDefs.h"
 #include "hvn3/utility/BitFlags.h"
 #include <unordered_map>
 

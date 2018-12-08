@@ -1,6 +1,8 @@
 #pragma once
 #include "hvn3/utility/BitFlags.h"
+
 #include <functional>
+#include <memory>
 
 namespace hvn3 {
 	namespace Gui {
@@ -92,6 +94,15 @@ namespace hvn3 {
 			Numeric,
 			Decimal
 		};
+
+		template<typename WidgetType, typename... Args>
+		std::shared_ptr<WidgetType> make_widget(Args&&... args) {
+
+			std::shared_ptr<WidgetType> ptr = std::make_shared<WidgetType>(std::forward<Args>(args)...);
+
+			return ptr;
+
+		}
 
 	}
 }

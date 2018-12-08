@@ -11,7 +11,9 @@ namespace hvn3 {
 		};
 
 
-
+		Window::Window() :
+			Window("") {
+		}
 		Window::Window(const String& text) :
 			Window(0.0f, 0.0f, 50.0f, 50.0f, text) {
 		}

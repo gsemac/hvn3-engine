@@ -2,7 +2,7 @@
 #include "hvn3/graphics/Color.h"
 #include "hvn3/fonts/Font.h"
 #include "hvn3/gui2/IWidgetRenderer.h"
-#include "hvn3/gui2/GuiTypeDefs.h"
+#include "hvn3/gui2/GuiDefs.h"
 #include <string>
 #include <unordered_map>
 

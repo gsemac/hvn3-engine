@@ -13,6 +13,7 @@ namespace hvn3 {
 				Sizable
 			};
 			
+			Window();
 			Window(const String& text);
 			Window(float x, float y, float width, float height, const String& text);
 			Window(float width, float height, const String& text);

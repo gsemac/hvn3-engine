@@ -1,7 +1,7 @@
 #pragma once
 #include "hvn3/core/DrawEventArgs.h"
 #include "hvn3/events/EventArgs.h"
-#include "hvn3/gui2/GuiTypeDefs.h"
+#include "hvn3/gui2/GuiDefs.h"
 #include "hvn3/io/KeyboardEventArgs.h"
 #include "hvn3/io/MouseEventArgs.h"
 #include "hvn3/math/Point2d.h"

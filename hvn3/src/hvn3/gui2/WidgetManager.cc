@@ -11,7 +11,7 @@
 namespace hvn3 {
 	namespace Gui {
 
-		WidgetManager::WidgetData::WidgetData(std::unique_ptr<IWidget>& widget) :
+		WidgetManager::WidgetData::WidgetData(const std::shared_ptr<IWidget>& widget) :
 			widget(std::move(widget)) {
 
 			z = HVN3_DEFAULT_WIDGET_Z;
@@ -90,6 +90,11 @@ namespace hvn3 {
 		}
 		void WidgetManager::Add(std::unique_ptr<IWidget>& widget) {
 
+			Add(std::move(widget));
+				
+		}
+		void WidgetManager::Add(const std::shared_ptr<IWidget>& widget) {
+
 			// Set the renderer for child widgets before calling SetManager, since SetManager will trigger a OnRendererChanged event.
 			// By giving the children the renderer first, the parent can work on the assumption it's been set when that event triggered.
 			// E.g., it can update the layout of its child widgets.
@@ -146,6 +151,11 @@ namespace hvn3 {
 					return true;
 
 			return false;
+
+		}
+		void WidgetManager::Clear() {
+
+			_widgets.clear();
 
 		}
 		const WidgetManager::widget_collection_type& WidgetManager::Widgets() const {

@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/gui2/GuiTypeDefs.h"
+#include "hvn3/gui2/GuiDefs.h"
 #include "hvn3/gui2/WidgetEventArgs.h"
 #include "hvn3/math/Point2d.h"
 #include "hvn3/utility/Size.h"

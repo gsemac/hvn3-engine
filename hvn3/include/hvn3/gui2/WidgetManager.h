@@ -25,9 +25,9 @@ namespace hvn3 {
 			typedef int z_depth_type;
 
 			struct WidgetData {
-				WidgetData(std::unique_ptr<IWidget>& widget);
+				WidgetData(const std::shared_ptr<IWidget>& widget);
 				IWidget& GetRef();
-				std::unique_ptr<IWidget> widget;
+				std::shared_ptr<IWidget> widget;
 				WidgetRenderArgs rendererArgs;
 				bool removed;
 				z_depth_type z;
@@ -54,10 +54,13 @@ namespace hvn3 {
 			widget_collection_type::const_reverse_iterator rend() const;
 
 			void Add(IWidget* widget);
+			// #todo This method is now deprecated. Prefer to use the std::shared_ptr<IWidget> overload with make_widget.
 			void Add(std::unique_ptr<IWidget>& widget);
+			void Add(const std::shared_ptr<IWidget>& widget);
 			void Remove(IWidget* widget);
 			void Move(IWidget* widget, WidgetManager* to_manager);
 			bool Contains(IWidget* widget) const;
+			void Clear();
 			const widget_collection_type& Widgets() const;
 			widget_collection_type& GetWidgets();
 			widget_collection_type::size_type Count() const;
@@ -102,7 +105,7 @@ namespace hvn3 {
 			IWidget* _owner;
 			std::unordered_map<IWidget*, WidgetManager*> _child_managers;
 			bool _update_required_before_draw;
-			
+
 			float _modal_dialog_background_alpha; // stores alpha for background fading animation when showing modal dialog
 			std::vector<IWidget*> _modal_dialogs; // collection of modal dialogs currently being displayed
 
