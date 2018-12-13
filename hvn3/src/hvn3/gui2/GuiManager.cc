@@ -23,7 +23,7 @@ namespace hvn3 {
 			WidgetManager::OnKeyDown(e);
 		}
 		void GuiManager::OnKeyPressed(KeyPressedEventArgs& e) {
-			WidgetManager::OnKeyPressed(e);			
+			WidgetManager::OnKeyPressed(e);
 		}
 		void GuiManager::OnKeyUp(KeyUpEventArgs& e) {
 			WidgetManager::OnKeyUp(e);
@@ -43,7 +43,11 @@ namespace hvn3 {
 			WidgetManager::OnMouseReleased(e);
 		}
 		void GuiManager::OnMouseMove(MouseMoveEventArgs& e) {
+
+
+
 			WidgetManager::OnMouseMove(e);
+
 		}
 		void GuiManager::OnMouseScroll(MouseScrollEventArgs& e) {
 			WidgetManager::OnMouseScroll(e);

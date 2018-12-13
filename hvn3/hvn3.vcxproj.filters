@@ -582,9 +582,6 @@
     <ClInclude Include="include\hvn3\graphics\BitmapUtils.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\io\IoUtils.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\assets\SystemAssets.h">
       <Filter>include\assets</Filter>
     </ClInclude>
@@ -866,6 +863,12 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\core\Engine.h">
       <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\IODefs.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\IOUtils.h">
+      <Filter>include\io</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

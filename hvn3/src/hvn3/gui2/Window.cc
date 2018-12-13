@@ -1,4 +1,5 @@
 #include "hvn3/gui2/Window.h"
+#include "hvn3/math/GeometryUtils.h"
 
 namespace hvn3 {
 	namespace Gui {

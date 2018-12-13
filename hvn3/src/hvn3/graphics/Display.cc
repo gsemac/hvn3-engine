@@ -203,7 +203,7 @@ namespace hvn3 {
 			al_hide_mouse_cursor(get());
 
 	}
-	EventSource Display::EventSource() const {
+	EventSource Display::GetEventSource() const {
 		return class EventSource(al_get_display_event_source(get()));
 	}
 	Graphics::Bitmap& Display::BackBuffer() {

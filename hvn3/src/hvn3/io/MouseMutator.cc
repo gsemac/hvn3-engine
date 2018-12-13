@@ -1,6 +1,9 @@
+#include "hvn3/io/Mouse.h"
 #include "hvn3/io/MouseMutator.h"
 #include "hvn3/io/MouseListener.h"
+
 #include <allegro5/allegro.h>
+
 #define DBL_CLICK_SEC 0.5f
 
 namespace hvn3 {
@@ -104,11 +107,11 @@ namespace hvn3 {
 		void MouseMutator::DispatchAllMouseDownEvents() const {
 
 			if (Mouse::_left.held)
-				DispatchEvent(MouseDownEventArgs(MouseButton::Left));
+				DispatchEvent(MouseDownEventArgs(MouseButton::Left, Mouse::DisplayPosition(), Mouse::Position()));
 			if (Mouse::_right.held)
-				DispatchEvent(MouseDownEventArgs(MouseButton::Right));
+				DispatchEvent(MouseDownEventArgs(MouseButton::Right, Mouse::DisplayPosition(), Mouse::Position()));
 			if (Mouse::_middle.held)
-				DispatchEvent(MouseDownEventArgs(MouseButton::Middle));
+				DispatchEvent(MouseDownEventArgs(MouseButton::Middle, Mouse::DisplayPosition(), Mouse::Position()));
 
 		}
 		void MouseMutator::DispatchEvent(MouseDownEventArgs& e) const {

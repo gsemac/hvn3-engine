@@ -14,15 +14,10 @@ namespace hvn3 {
 			public IManager,
 			public WidgetManager,
 			public KeyboardListener,
-			public MouseListener
-			//public System::IContextReceiver 
-		{
+			public MouseListener {
 
 		public:
 			GuiManager();
-
-			//void SetContext(Context context) override;
-			//void OnContextChanged(ContextChangedEventArgs& e) override;
 
 			void OnDraw(DrawEventArgs& e) override;
 			void OnUpdate(UpdateEventArgs& e) override;
@@ -39,6 +34,12 @@ namespace hvn3 {
 			void OnMouseReleased(MouseReleasedEventArgs& e) override;
 			void OnMouseMove(MouseMoveEventArgs& e) override;
 			void OnMouseScroll(MouseScrollEventArgs& e) override;
+
+			//void SetMouseTransform(const Graphics::Transform& transform);
+
+		private:
+			Graphics::Transform _mouse_transform;
+			bool _using_mouse_transform;
 
 		};
 

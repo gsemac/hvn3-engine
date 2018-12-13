@@ -47,7 +47,7 @@ namespace hvn3 {
 			Graphics::Bitmap::ConvertMemoryBitmapsToVideoBitmaps();
 
 			// Initialize the event queue.
-			_event_queue.AddEventSource(context.Get<GAME_MANAGER>().Display().EventSource());
+			_event_queue.AddEventSource(context.Get<GAME_MANAGER>().Display().GetEventSource());
 			_event_queue.AddEventSource(_timer.EventSource());
 			_event_queue.AddEventSource(MouseMutator().GetEventSource());
 			_event_queue.AddEventSource(KeyboardMutator().GetEventSource());
@@ -361,7 +361,7 @@ namespace hvn3 {
 			con.SetButtonState(button, true);
 
 			if (Mouse::ButtonPressed(button))
-				con.DispatchEvent(MousePressedEventArgs(button, Mouse::ButtonDoubleClicked(button) ? 2 : 1));
+				con.DispatchEvent(MousePressedEventArgs(button, Mouse::DisplayPosition(), Mouse::Position(), Mouse::ButtonDoubleClicked(button) ? 2 : 1));
 
 		}
 		void Runner::OnMouseButtonUp(Event& ev) {
@@ -387,7 +387,7 @@ namespace hvn3 {
 
 			con.SetButtonState(button, false);
 
-			con.DispatchEvent(MouseReleasedEventArgs(button));
+			con.DispatchEvent(MouseReleasedEventArgs(button, Mouse::DisplayPosition(), Mouse::Position()));
 
 		}
 		void Runner::OnMouseAxes(Event& ev) {
@@ -395,21 +395,21 @@ namespace hvn3 {
 			if (!_isFrozen()) {
 
 				MouseMutator con;
+				ALLEGRO_MOUSE_EVENT& mouse = ev.AlPtr()->mouse;
 
 				// Set the Mouse' position relative to the display.
-				con.SetDisplayPosition(ev.AlPtr()->mouse.x, ev.AlPtr()->mouse.y);
+				con.SetDisplayPosition(mouse.x, mouse.y);
 
 				// Calculate the mouse position relative to the view that it's in.
 				_recalculateMousePosition();
 
 				// Dispatch event to all mouse listeners.
-				con.DispatchEvent(MouseMoveEventArgs());
+				con.DispatchEvent(MouseMoveEventArgs(Mouse::DisplayPosition(), Mouse::Position()));
 
 				// If the scroll wheel was moved, set the scroll state.
-				ALLEGRO_MOUSE_EVENT& mouse = ev.AlPtr()->mouse;
 				if (mouse.dw != 0 || mouse.dz != 0) {
 					con.SetScrollState(mouse.dz < 0, mouse.dz > 0);
-					con.DispatchEvent(MouseScrollEventArgs(mouse.w, mouse.z, mouse.dw, mouse.dz));
+					con.DispatchEvent(MouseScrollEventArgs(Mouse::DisplayPosition(), Mouse::Position(), PointI(mouse.w, mouse.z), mouse.dw, mouse.dz));
 				}
 
 			}

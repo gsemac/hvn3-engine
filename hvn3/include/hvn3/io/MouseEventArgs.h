@@ -1,34 +1,34 @@
 #pragma once
 #include "hvn3/events/EventArgs.h"
-#include "hvn3/io/Mouse.h"
+#include "hvn3/io/IODefs.h"
+#include "hvn3/math/Point2d.h"
 
 namespace hvn3 {
 
-	class MouseEventArgs : public System::EventArgs {
+	class MouseEventArgs :
+		public System::EventArgs {
 
 	public:
-		MouseEventArgs(MouseButton button);
+		MouseEventArgs(MouseButton button, const PointF& displayPosition, const PointF& worldPosition);
 
 		MouseButton Button() const;
 		const PointF& Position() const;
+		float X() const;
+		float Y() const;
+		const PointF& DisplayPosition() const;
 
 	private:
 		MouseButton _button;
 		PointF _position;
+		PointF _display_position;
 
 	};
 
-	class MouseDownEventArgs : public MouseEventArgs {
+	class MousePressedEventArgs :
+		public MouseEventArgs {
 
 	public:
-		using MouseEventArgs::MouseEventArgs;
-
-	};
-
-	class MousePressedEventArgs : public MouseEventArgs {
-
-	public:
-		MousePressedEventArgs(MouseButton button, int clicks);
+		MousePressedEventArgs(MouseButton button, const PointF& displayPosition, const PointF& worldPosition, int clicks);
 
 		int Clicks() const;
 
@@ -37,45 +37,45 @@ namespace hvn3 {
 
 	};
 
-	class MouseReleasedEventArgs : public MouseEventArgs {
+	class MouseScrollEventArgs :
+		public MouseEventArgs {
 
 	public:
-		using MouseEventArgs::MouseEventArgs;
+		MouseScrollEventArgs(const PointF& displayPosition, const PointF& worldPosition, const PointI& scrollPosition, int scrollDeltaX, int scrollDeltaY);
 
-	};
-
-	class MouseScrollEventArgs : public System::EventArgs {
-
-	public:
-		MouseScrollEventArgs(int x, int y, int x_delta, int y_delta);
-
+		const PointI& ScrollPosition() const;
 		int ScrollX() const;
 		int ScrollY() const;
 		int DeltaX() const;
 		int DeltaY() const;
 		MouseScrollDirection Direction() const;
-		const PointF& Position() const;
 
 	private:
 		MouseScrollDirection _direction;
-		int _x;
-		int _y;
+		PointI _scroll_position;
 		int _x_delta;
 		int _y_delta;
-		PointF _position;
 
 	};
 
-	class MouseMoveEventArgs : public System::EventArgs {
+	class MouseMoveEventArgs :
+		public MouseEventArgs {
 
 	public:
-		MouseMoveEventArgs();
+		MouseMoveEventArgs(const PointF& displayPosition, const PointF& worldPosition);
 
-		const PointF& Position() const;
+	};
 
-	private:
-		PointF _position;
+	class MouseDownEventArgs :
+		public MouseEventArgs {
+	public:
+		using MouseEventArgs::MouseEventArgs;
+	};
 
+	class MouseReleasedEventArgs :
+		public MouseEventArgs {
+	public:
+		using MouseEventArgs::MouseEventArgs;
 	};
 
 	typedef System::EventArgs MouseLostEventArgs;

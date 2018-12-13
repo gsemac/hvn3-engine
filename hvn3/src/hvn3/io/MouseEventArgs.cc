@@ -2,42 +2,44 @@
 
 namespace hvn3 {
 
-	MouseEventArgs::MouseEventArgs(MouseButton button) {
+	MouseEventArgs::MouseEventArgs(MouseButton button, const PointF& displayPosition, const PointF& worldPosition) {
 
 		_button = button;
-		_position = Mouse::Position();
+		_position = worldPosition;
+		_display_position = displayPosition;
 
 	}
 	MouseButton MouseEventArgs::Button() const {
-
 		return _button;
-
 	}
 	const PointF& MouseEventArgs::Position() const {
-
 		return _position;
-
+	}
+	float MouseEventArgs::X() const {
+		return _position.x;
+	}
+	float MouseEventArgs::Y() const {
+		return _position.y;
+	}
+	const PointF& MouseEventArgs::DisplayPosition() const {
+		return _display_position;
 	}
 
-	MousePressedEventArgs::MousePressedEventArgs(MouseButton button, int clicks) :
-		MouseEventArgs(button) {
+	MousePressedEventArgs::MousePressedEventArgs(MouseButton button, const PointF& displayPosition, const PointF& worldPosition, int clicks) :
+		MouseEventArgs(button, displayPosition, worldPosition) {
 
 		_clicks = clicks;
-
 	}
 	int MousePressedEventArgs::Clicks() const {
-
 		return _clicks;
-
 	}
 
-	MouseScrollEventArgs::MouseScrollEventArgs(int x, int y, int x_delta, int y_delta) {
+	MouseScrollEventArgs::MouseScrollEventArgs(const PointF& displayPosition, const PointF& worldPosition, const PointI& scrollPosition, int scrollDeltaX, int scrollDeltaY) :
+		MouseEventArgs(static_cast<MouseButton>(0), displayPosition, worldPosition) {
 
-		_x = x;
-		_y = y;
-		_x_delta = x_delta;
-		_y_delta = y_delta;
-		_position = Mouse::Position();
+		_scroll_position = scrollPosition;
+		_x_delta = scrollDeltaX;
+		_y_delta = scrollDeltaY;
 
 		_direction = (MouseScrollDirection)0;
 
@@ -51,45 +53,27 @@ namespace hvn3 {
 			_direction |= MouseScrollDirection::Up;
 
 	}
+	const PointI& MouseScrollEventArgs::ScrollPosition() const {
+		return _scroll_position;
+	}
 	int MouseScrollEventArgs::ScrollX() const {
-
-		return _x;
-
+		return _scroll_position.x;
 	}
 	int MouseScrollEventArgs::ScrollY() const {
-
-		return _y;
-
+		return _scroll_position.y;
 	}
 	int MouseScrollEventArgs::DeltaX() const {
-
 		return _x_delta;
-
 	}
 	int MouseScrollEventArgs::DeltaY() const {
-
 		return _y_delta;
-
 	}
 	MouseScrollDirection MouseScrollEventArgs::Direction() const {
-
 		return _direction;
-
-	}
-	const PointF& MouseScrollEventArgs::Position() const {
-
-		return _position;
-
 	}
 
-	MouseMoveEventArgs::MouseMoveEventArgs() {
-
-		_position = Mouse::Position();
-
+	MouseMoveEventArgs::MouseMoveEventArgs(const PointF& displayPosition, const PointF& worldPosition) :
+		MouseEventArgs(static_cast<MouseButton>(0), displayPosition, worldPosition) {
 	}
-	const PointF& MouseMoveEventArgs::Position() const {
 
-		return _position;
-
-	}
 }

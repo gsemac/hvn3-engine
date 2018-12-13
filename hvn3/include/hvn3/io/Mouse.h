@@ -1,6 +1,7 @@
 #pragma once
 #include "hvn3/events/EventSource.h"
 #include "hvn3/io/IMouseListener.h"
+#include "hvn3/io/IODefs.h"
 #include "hvn3/io/ListenerBase.h"
 #include "hvn3/math/GeometryUtils.h"
 #include "hvn3/utility/BitFlags.h"
@@ -11,44 +12,6 @@ namespace hvn3 {
 	namespace System {
 		class MouseMutator;
 	}
-
-	enum class MouseButton {
-		Left = 0x01,
-		Middle = 0x02,
-		Right = 0x04
-	};
-	ENABLE_BITFLAG_OPERATORS(MouseButton)
-
-	enum class MouseScrollDirection {
-		Up = 1,
-		Down = 2,
-		Left = 4,
-		Right = 8
-	};
-	ENABLE_BITFLAG_OPERATORS(MouseScrollDirection)
-
-	enum class SystemCursor {
-		None = 0,
-		Default = 1,
-		Arrow = 2,
-		Busy = 3,
-		Question = 4,
-		Edit = 5,
-		Move = 6,
-		ResizeN = 7,
-		ResizeW = 8,
-		ResizeS = 9,
-		ResizeE = 10,
-		ResizeNW = 11,
-		ResizeSW = 12,
-		ResizeSE = 13,
-		ResizeNE = 14,
-		Progress = 15,
-		Precision = 16,
-		Link = 17,
-		AltSelect = 18,
-		Unavailable = 19
-	};
 
 	class Mouse {
 		friend class System::MouseMutator;

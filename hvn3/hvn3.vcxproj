@@ -146,7 +146,8 @@
     <ClInclude Include="include\hvn3\io\IKeyboardListener.h" />
     <ClInclude Include="include\hvn3\io\IMouseListener.h" />
     <ClInclude Include="include\hvn3\io\IO.h" />
-    <ClInclude Include="include\hvn3\io\IoUtils.h" />
+    <ClInclude Include="include\hvn3\io\IODefs.h" />
+    <ClInclude Include="include\hvn3\io\IOUtils.h" />
     <ClInclude Include="include\hvn3\io\StreamBase.h" />
     <ClInclude Include="include\hvn3\io\Keyboard.h" />
     <ClInclude Include="include\hvn3\io\KeyboardMutator.h" />

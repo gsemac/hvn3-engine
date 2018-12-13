@@ -4,8 +4,11 @@
 #include "hvn3/gui2/IWidget.h"
 #include "hvn3/gui2/IWidgetRenderer.h"
 #include "hvn3/gui2/WidgetManager.h"
+#include "hvn3/io/Mouse.h"
+
 #include <algorithm>
 #include <cassert>
+
 #define HVN3_DEFAULT_WIDGET_Z 1
 
 namespace hvn3 {
