@@ -21,10 +21,7 @@ namespace hvn3 {
 			assert(!_initialized);
 
 			// Make sure nothing else is already locking components.
-			assert(_core_ref_count == 0);
-			assert(_io_ref_count == 0);
-			assert(_graphics_ref_count == 0);
-			assert(_audio_ref_count == 0);
+			assert(IsDeinitialized());
 
 			RequireComponent(EngineComponent::Full);
 
@@ -53,9 +50,13 @@ namespace hvn3 {
 			_initialized = false;
 
 		}
-		bool Engine::IsInitialized() {
+		bool Engine::IsDeinitialized() {
 
-			return _initialized;
+			return !_initialized &&
+				_core_ref_count == 0 &&
+				_io_ref_count == 0 &&
+				_graphics_ref_count == 0 &&
+				_audio_ref_count == 0;
 
 		}
 		void Engine::RequireComponent(EngineComponent component) {

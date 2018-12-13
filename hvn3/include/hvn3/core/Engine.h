@@ -28,7 +28,7 @@ namespace hvn3 {
 			static void Initialize();
 			static void Initialize(int argc, char *argv[]);
 			static void Deinitialize();
-			static bool IsInitialized();
+			static bool IsDeinitialized();
 
 			static void RequireComponent(EngineComponent component);
 			static void ReleaseComponent(EngineComponent component);
