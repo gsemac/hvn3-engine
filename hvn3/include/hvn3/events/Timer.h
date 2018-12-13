@@ -19,7 +19,7 @@ namespace hvn3 {
 		void AddCount(int64_t diff);
 		double SecondsPerTick() const;
 		void SetSecondsPerTick(double seconds_per_tick);
-		System::EventSource EventSource();
+		EventSource EventSource();
 
 	private:
 		ALLEGRO_TIMER* __timer;

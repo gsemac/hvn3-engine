@@ -113,7 +113,7 @@ namespace hvn3 {
 
 		}
 
-		System::EventSource KeyboardMutator::GetEventSource() const {
+		EventSource KeyboardMutator::GetEventSource() const {
 
 			return al_get_keyboard_event_source();
 

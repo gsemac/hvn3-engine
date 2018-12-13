@@ -11,7 +11,7 @@
 #include "hvn3/allegro/AllegroAdapter.h"
 #include "hvn3/core/Runner.h"
 #include "hvn3/core/DrawEventArgs.h"
-#include "hvn3/core/Framework.h"
+#include "hvn3/core/Engine.h"
 #include "hvn3/core/IGameManager.h"
 #include "hvn3/core/UpdateEventArgs.h"
 #include "hvn3/events/Event.h"
@@ -38,8 +38,7 @@ namespace hvn3 {
 			_fps_counter(0.25) {
 
 			// Make sure that the required framework components have been initialized.
-			System::Framework::Initialize(System::FrameworkComponent::Core);
-			System::Framework::Initialize(System::FrameworkComponent::IO);
+			Engine::RequireComponent(EngineComponent::Core | EngineComponent::IO);
 
 			// Take note of the full-screen state of the display (used for listening to full-screen changes).
 			_display_was_fullscreen = context.Get<GAME_MANAGER>().Display().IsFullscreen();
@@ -66,6 +65,8 @@ namespace hvn3 {
 			if (_default_font)
 				delete _default_font;
 			_default_font = nullptr;
+
+			Engine::ReleaseComponent(EngineComponent::Core | EngineComponent::IO);
 
 		}
 		void Runner::OnDraw(DrawEventArgs& e) {

@@ -152,7 +152,7 @@ namespace hvn3 {
 
 		}
 
-		System::EventSource MouseMutator::GetEventSource() const {
+		EventSource MouseMutator::GetEventSource() const {
 
 			return al_get_mouse_event_source();
 

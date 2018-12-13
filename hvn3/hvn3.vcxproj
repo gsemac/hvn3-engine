@@ -63,7 +63,7 @@
     <ClInclude Include="include\hvn3\core\ManagerRegistry.h" />
     <ClInclude Include="include\hvn3\core\SmartPointerToInterfaceWrapper.h" />
     <ClInclude Include="include\hvn3\core\ManagerDefs.h" />
-    <ClInclude Include="include\hvn3\core\Framework.h" />
+    <ClInclude Include="include\hvn3\core\Engine.h" />
     <ClInclude Include="include\hvn3\core\GameManager.h" />
     <ClInclude Include="include\hvn3\core\IDestroyable.h" />
     <ClInclude Include="include\hvn3\core\IDrawable.h" />
@@ -281,7 +281,7 @@
     <ClCompile Include="src\hvn3\collision\SpatialPartitioningGrid.cc" />
     <ClCompile Include="src\hvn3\core\Context.cc" />
     <ClCompile Include="src\hvn3\core\DrawEventArgs.cc" />
-    <ClCompile Include="src\hvn3\core\Framework.cc" />
+    <ClCompile Include="src\hvn3\core\Engine.cc" />
     <ClCompile Include="src\hvn3\core\GameManager.cc" />
     <ClCompile Include="src\hvn3\core\IUpdatable.cc" />
     <ClCompile Include="src\hvn3\core\GameProperties.cc" />

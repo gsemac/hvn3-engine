@@ -1,5 +1,5 @@
 #include "hvn3/allegro/AllegroAdapter.h"
-#include "hvn3/core/Framework.h"
+#include "hvn3/core/Engine.h"
 #include "hvn3/graphics/Display.h"
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/io/DisplayListener.h"
@@ -42,7 +42,7 @@ namespace hvn3 {
 		_size_before_fullscreen(0, 0) {
 
 		// Make sure that the framework has been initialized before attempting to create a display.
-		System::Framework::Initialize(System::FrameworkComponent::Core);
+		System::Engine::RequireComponent(System::EngineComponent::Core);
 
 		// Set the position at which new displays are created.
 		if (x != UNDEFINED_WINDOW_POSITION_X || y != UNDEFINED_WINDOW_POSITION_Y)
@@ -86,6 +86,8 @@ namespace hvn3 {
 
 		if (ActiveDisplay() == this)
 			_active_display = nullptr;
+
+		System::Engine::ReleaseComponent(System::EngineComponent::Core);
 
 	}
 
@@ -201,8 +203,8 @@ namespace hvn3 {
 			al_hide_mouse_cursor(get());
 
 	}
-	System::EventSource Display::EventSource() const {
-		return System::EventSource(al_get_display_event_source(get()));
+	EventSource Display::EventSource() const {
+		return class EventSource(al_get_display_event_source(get()));
 	}
 	Graphics::Bitmap& Display::BackBuffer() {
 		return _back_buffer;

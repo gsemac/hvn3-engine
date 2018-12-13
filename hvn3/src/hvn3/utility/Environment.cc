@@ -65,6 +65,12 @@ namespace hvn3 {
 		return args;
 
 	}
+	void Environment::SetCommandLineArgs(int argc, char *argv[]) {
+
+		Environment::argc = argc;
+		Environment::argv = argv;
+
+	}
 
 	int Environment::argc = 0;
 	char** Environment::argv = nullptr;

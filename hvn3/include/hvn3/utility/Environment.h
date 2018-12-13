@@ -25,11 +25,11 @@ namespace hvn3 {
 	ENABLE_BITFLAG_OPERATORS(OperatingSystem);
 
 	class Environment {
-		friend class System::Framework;
 
 	public:
 		static std::string CurrentDirectory();
 		static std::vector<std::string> GetCommandLineArgs();
+		static void SetCommandLineArgs(int argc, char *argv[]);
 
 		class Screen {
 

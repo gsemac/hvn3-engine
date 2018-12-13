@@ -46,7 +46,7 @@ namespace hvn3 {
 		void SetCursorVisible(bool value);
 		Graphics::Bitmap& BackBuffer();
 		void Refresh();
-		System::EventSource EventSource() const;
+		EventSource EventSource() const;
 		ALLEGRO_DISPLAY* get() const;
 
 		static Display* ActiveDisplay();

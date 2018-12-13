@@ -1,8 +1,10 @@
 #include "hvn3/core/GameManager.h"
-#include "hvn3/core/Framework.h"
+#include "hvn3/core/Engine.h"
 #include "hvn3/core/Runner.h"
 #include "hvn3/exceptions/Exception.h"
 #include "hvn3/graphics/Bitmap.h"
+#include "hvn3/utility/Environment.h"
+
 #include <cassert>
 
 namespace hvn3 {
@@ -18,18 +20,13 @@ namespace hvn3 {
 		ContextChangedEventArgs args(Context());
 		m->OnContextChanged(args);
 	}),
-		_properties(properties),
-		_display(properties.DisplaySize, properties.DisplayTitle, properties.DisplayFlags),
-		_runner(Context()) {
+		_properties(properties) {
 
 		_onInit();
 
 	}
 	GameManager::GameManager(int argc, char* argv[], const GameProperties& properties) :
 		GameManager(properties) {
-
-		Initialize(argc, argv);
-
 	}
 	GameManager::~GameManager() {
 
@@ -39,18 +36,17 @@ namespace hvn3 {
 
 	void GameManager::Initialize(int argc, char* argv[]) {
 
-		// Initialize the underlying framework.
-		System::Framework::Initialize(argc, argv);
+		Environment::SetCommandLineArgs(argc, argv);
 
 	}
 	void GameManager::Loop() {
 
 		// Execute the main game loop.
-		_runner.Loop();
+		_runner->Loop();
 
 	}
 	void GameManager::Exit() {
-		_runner.Stop();
+		_runner->Stop();
 	}
 	void GameManager::Shutdown() {
 
@@ -62,10 +58,10 @@ namespace hvn3 {
 		return _properties;
 	}
 	System::Runner& GameManager::Runner() {
-		return _runner;
+		return *_runner;
 	}
 	Display& GameManager::Display() {
-		return _display;
+		return *_display;
 	}
 
 	hvn3::Context GameManager::Context() {
@@ -78,18 +74,21 @@ namespace hvn3 {
 
 	void GameManager::_onInit() {
 
-		System::Framework::Initialize();
+		System::Engine::Initialize();
+
+		_display = std::make_unique<class Display>(_properties.DisplaySize, _properties.DisplayTitle, _properties.DisplayFlags);
+		_runner = std::make_unique<System::Runner>(Context());
 
 		// Enable smooth scaling of bitmaps by default.
 		// Graphics::Bitmap::SetNewBitmapFlags(Graphics::BitmapFlags::AllegroDefault | Graphics::BitmapFlags::MagLinear | Graphics::BitmapFlags::MinLinear);
 
 		// Full-screen the display if this was set in the game properties.
 		if (_properties.StartFullscreen)
-			_display.SetFullscreen(true);
+			_display->SetFullscreen(true);
 
 		// Hide the cursor if this was set in the game properties.
 		if (!_properties.DisplayCursor)
-			_display.SetCursorVisible(false);
+			_display->SetCursorVisible(false);
 
 		_global.Register<ROOM_MANAGER>(std::make_unique<RoomManager>());
 
@@ -99,11 +98,11 @@ namespace hvn3 {
 		// Call the destructors for all members that could possibly be hanging onto to framework objects.
 		// There should be a better way of dealing with this (reference counting?).
 		_global.Get<ROOM_MANAGER>().~IRoomManager();
-		_display.~Display();
-		_runner.~Runner();
+		_display.release();
+		_runner.release();
 
 		// Shutdown the framework. At this point, all other framework objects should be deinitialized (bitmaps, etc.).
-		System::Framework::Shutdown();
+		System::Engine::Deinitialize();
 
 	}
 

@@ -4,7 +4,7 @@
 
 #include "hvn3/assets/AssetManager.h"
 #include "hvn3/collision/ICollider.h"
-#include "hvn3/core/Framework.h"
+#include "hvn3/core/Engine.h"
 #include "hvn3/core/GameManager.h"
 #include "hvn3/core/DrawEventArgs.h"
 #include "hvn3/core/UpdateEventArgs.h"

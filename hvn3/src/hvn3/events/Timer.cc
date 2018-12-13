@@ -60,9 +60,9 @@ namespace hvn3 {
 		return al_set_timer_speed(__timer, seconds_per_tick);
 
 	}
-	System::EventSource Timer::EventSource() {
+	EventSource Timer::EventSource() {
 
-		return System::EventSource(al_get_timer_event_source(__timer));
+		return class EventSource(al_get_timer_event_source(__timer));
 
 	}
 

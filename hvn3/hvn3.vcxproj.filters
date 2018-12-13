@@ -231,9 +231,6 @@
     <ClInclude Include="include\hvn3\core\DrawEventArgs.h">
       <Filter>include\core</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\core\Framework.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\core\GameManager.h">
       <Filter>include\core</Filter>
     </ClInclude>
@@ -867,6 +864,9 @@
     <ClInclude Include="include\hvn3\gui2\GuiDefs.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\core\Engine.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -919,9 +919,6 @@
       <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\core\DrawEventArgs.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\core\Framework.cc">
       <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\events\EventSource.cc">
@@ -1307,6 +1304,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\gui2\DataGrid.cc">
       <Filter>src\gui2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\Engine.cc">
+      <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

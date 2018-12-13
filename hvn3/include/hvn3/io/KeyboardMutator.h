@@ -23,7 +23,7 @@ namespace hvn3 {
 			void DispatchKeyboardLostEvent(KeyboardLostEventArgs& e) const;
 			void DispatchKeyboardFoundEvent(KeyboardFoundEventArgs& e) const;
 			
-			System::EventSource GetEventSource() const;
+			EventSource GetEventSource() const;
 
 		};
 

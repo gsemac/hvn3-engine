@@ -6,6 +6,8 @@
 #include "hvn3/core/Runner.h"
 #include "hvn3/rooms/RoomManager.h"
 
+#include <memory>
+
 namespace hvn3 {
 
 	class GameManager :
@@ -41,8 +43,8 @@ namespace hvn3 {
 	private:
 		ManagerRegistry _global;
 		GameProperties _properties;
-		class Display _display;
-		System::Runner _runner;
+		std::unique_ptr<class Display> _display;
+		std::unique_ptr<System::Runner> _runner;
 
 		void _onInit();
 		void _onShutdown();

@@ -23,7 +23,7 @@ namespace hvn3 {
 			void DispatchEvent(MouseMoveEventArgs& e) const;
 			void DispatchEvent(MouseScrollEventArgs& e) const;
 
-			System::EventSource GetEventSource() const;
+			EventSource GetEventSource() const;
 
 		};
 
