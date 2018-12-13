@@ -35,7 +35,7 @@ namespace hvn3 {
 			void OnMouseMove(MouseMoveEventArgs& e) override;
 			void OnMouseScroll(MouseScrollEventArgs& e) override;
 
-			//void SetMouseTransform(const Graphics::Transform& transform);
+			void SetMouseTransform(const Graphics::Transform& transform);
 
 		private:
 			Graphics::Transform _mouse_transform;

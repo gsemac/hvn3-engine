@@ -524,7 +524,7 @@ namespace hvn3 {
 			The widgets are iterated over such that the highest ones are checked first.
 			This only needs to be done if the mouse is within the fixed region of the parent widget.
 			*/
-
+	
 			if (Math::Geometry::PointIn(e.Position(), fixed_parent_region)) {
 				for (auto i = _widgets.rbegin(); i != _widgets.rend(); ++i) {
 

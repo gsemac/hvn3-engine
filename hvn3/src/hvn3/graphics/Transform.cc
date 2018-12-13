@@ -103,14 +103,14 @@ namespace hvn3 {
 			al_transform_coordinates((ALLEGRO_TRANSFORM*)this, &x, &y);
 
 		}
-		void Transform::TransformPoint(PointF& point) const {
+		PointF Transform::TransformPoint(const PointF& point) const {
 
-			float x = point.X();
-			float y = point.Y();
-			TransformPoint(x, y);
+			PointF out = point;
 
-			point.SetX(x);
-			point.SetY(y);
+			TransformPoint(out.x, out.y);
+
+			return out;
+
 
 		}
 		Transform& Transform::operator=(const Transform& other) {

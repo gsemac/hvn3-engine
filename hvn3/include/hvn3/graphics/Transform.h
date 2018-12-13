@@ -28,7 +28,7 @@ namespace hvn3 {
 			void VerticalShear(float origin_x, float origin_y, float degrees);
 			void VerticalShear(const PointF& origin, float degrees);
 			void TransformPoint(float& x, float& y) const;
-			void TransformPoint(PointF& point) const;
+			PointF TransformPoint(const PointF& point) const;
 			Transform& operator=(const Transform& other);
 
 			hvn3::Scale GetScale() const;

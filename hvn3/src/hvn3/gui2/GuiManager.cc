@@ -4,15 +4,11 @@
 namespace hvn3 {
 	namespace Gui {
 
-		GuiManager::GuiManager() {}
-		//void GuiManager::SetContext(Context context) {
+		GuiManager::GuiManager() {
 
-		//	// Update the dockable region according to the display size.
-		//	RectangleF region(static_cast<SizeF>(context.GetDisplay().Size()));
-		//	SetDockableRegion(region);
+			_using_mouse_transform = false;
 
-		//}
-		//void GuiManager::OnContextChanged(ContextChangedEventArgs& e) {}
+		}
 		void GuiManager::OnDraw(DrawEventArgs& e) {
 			WidgetManager::OnDraw(e);
 		}
@@ -34,23 +30,66 @@ namespace hvn3 {
 		void GuiManager::OnKeyboardLost(KeyboardLostEventArgs& e) {}
 		void GuiManager::OnKeyboardFound(KeyboardFoundEventArgs& e) {}
 		void GuiManager::OnMouseDown(MouseDownEventArgs& e) {
-			WidgetManager::OnMouseDown(e);
+
+			if (_using_mouse_transform) {
+
+				MouseDownEventArgs args(e.Button(), e.DisplayPosition(), _mouse_transform.TransformPoint(e.DisplayPosition()));
+
+				WidgetManager::OnMouseDown(args);
+
+			}
+			else
+				WidgetManager::OnMouseDown(e);
+
 		}
 		void GuiManager::OnMousePressed(MousePressedEventArgs& e) {
-			WidgetManager::OnMousePressed(e);
+
+			if (_using_mouse_transform) {
+
+				MousePressedEventArgs args(e.Button(), e.DisplayPosition(), _mouse_transform.TransformPoint(e.DisplayPosition()), e.Clicks());
+
+				WidgetManager::OnMousePressed(args);
+
+			}
+			else
+				WidgetManager::OnMousePressed(e);
+
 		}
 		void GuiManager::OnMouseReleased(MouseReleasedEventArgs& e) {
-			WidgetManager::OnMouseReleased(e);
+
+			if (_using_mouse_transform) {
+
+				MouseReleasedEventArgs args(e.Button(), e.DisplayPosition(), _mouse_transform.TransformPoint(e.DisplayPosition()));
+
+				WidgetManager::OnMouseReleased(args);
+
+			}
+			else
+				WidgetManager::OnMouseReleased(e);
+
+
 		}
 		void GuiManager::OnMouseMove(MouseMoveEventArgs& e) {
 
+			if (_using_mouse_transform) {
 
+				MouseMoveEventArgs args(e.DisplayPosition(), _mouse_transform.TransformPoint(e.DisplayPosition()));
 
-			WidgetManager::OnMouseMove(e);
+				WidgetManager::OnMouseMove(args);
+
+			}
+			else
+				WidgetManager::OnMouseMove(e);
 
 		}
 		void GuiManager::OnMouseScroll(MouseScrollEventArgs& e) {
 			WidgetManager::OnMouseScroll(e);
+		}
+		void GuiManager::SetMouseTransform(const Graphics::Transform& transform) {
+
+			_mouse_transform = transform;
+			_using_mouse_transform = true;
+
 		}
 
 	}
