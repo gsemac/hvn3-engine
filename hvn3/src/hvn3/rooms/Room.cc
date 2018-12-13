@@ -85,8 +85,8 @@ namespace hvn3 {
 				// Set the clipping region according to the view port.
 				PointF p1 = CurrentView().Port().TopLeft();
 				PointF p2 = CurrentView().Port().BottomRight();
-				original_tranform.TransformPoint(p1);
-				original_tranform.TransformPoint(p2);
+				p1 = original_tranform.TransformPoint(p1);
+				p2 = original_tranform.TransformPoint(p2);
 				RectangleF clip(p1, p2);
 				e.Graphics().SetClip(clip);
 

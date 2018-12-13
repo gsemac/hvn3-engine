@@ -615,8 +615,8 @@ namespace hvn3 {
 					PointF pos = Mouse::DisplayPosition();
 					PointF port_p1 = view.Port().TopLeft();
 					PointF port_p2 = view.Port().BottomRight();
-					_graphics.GetTransform().TransformPoint(port_p1);
-					_graphics.GetTransform().TransformPoint(port_p2);
+					port_p1 = _graphics.GetTransform().TransformPoint(port_p1);
+					port_p2 = _graphics.GetTransform().TransformPoint(port_p2);
 					RectangleF viewport(port_p1, port_p2);
 					if (!Math::Geometry::PointIn(pos, viewport))
 						continue;
