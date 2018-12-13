@@ -1,7 +1,9 @@
-#include <allegro5/allegro.h>
-#include <limits>
+#include "hvn3/core/Engine.h"
 #include "hvn3/io/Mouse.h"
 #include "hvn3/graphics/Display.h"
+
+#include <allegro5/allegro.h>
+#include <limits>
 
 namespace hvn3 {
 
@@ -126,6 +128,17 @@ namespace hvn3 {
 	void Mouse::SetCursor(SystemCursor cursor) {
 
 		al_set_system_mouse_cursor(Display::ActiveDisplay()->get(), (ALLEGRO_SYSTEM_MOUSE_CURSOR)cursor);
+
+	}
+	EventSource Mouse::GetEventSource() {
+
+		static class ComponentLifetimeHelper {
+		public:
+			ComponentLifetimeHelper() { System::Engine::RequireComponent(System::EngineComponent::Core | System::EngineComponent::IO); }
+			~ComponentLifetimeHelper() { System::Engine::ReleaseComponent(System::EngineComponent::Core | System::EngineComponent::IO); }
+		} helper;
+
+		return al_get_mouse_event_source();
 
 	}
 
