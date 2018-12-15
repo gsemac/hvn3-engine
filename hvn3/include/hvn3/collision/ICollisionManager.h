@@ -43,20 +43,26 @@ namespace hvn3 {
 		// Sets the level of precision used for collision calculations, in pixels.
 		virtual void SetPrecision(float value) = 0;
 
-		// Returns true if the body collides with any other body at its current position.
-		virtual bool PlaceFree(ICollider* body) = 0;
-		// Returns true if the body collides with any other body at the given position.
-		virtual bool PlaceFree(ICollider* body, const PointF& position) = 0;
-		// Returns true if the body collides with any other body at the given position.
-		virtual bool PlaceFree(ICollider* body, float x, float y) = 0;
-		// Returns true if the body collides with a body with the given category at the given position.
-		virtual bool PlaceFree(ICollider* body, const PointF& position, int category) = 0;
-		// Returns true if the body collides with any other body at the given position.
-		virtual bool PlaceFree(ICollider* body, const PointF& position, CollisionResult& manifold) = 0;
-		// Returns true if the body collides with any other body at the given position for which the given condition is true.
-		virtual bool PlaceFreeIf(ICollider* body, const PointF& position, const condition_lambda_type& condition) = 0;
-		// Returns true if the body collides with any other body at the given position for which the given condition is true, and stores collision information.
-		virtual bool PlaceFreeIf(ICollider* body, const PointF& position, CollisionResult& manifold, const condition_lambda_type& condition) = 0;
+		// Returns true if the collider does not collide with any other collider at its current position.
+		virtual bool PlaceFree(ICollider& body) = 0;
+		// Returns true if the collider does not collide with any other collider at its current position, and stores information about the collision (if applicable).
+		virtual bool PlaceFree(ICollider& body, CollisionResult& manifold) = 0;
+		// Returns true if the collider does not collide with any other collider at the given position.
+		virtual bool PlaceFree(ICollider& body, const PointF& position) = 0;
+		// Returns true if the collider does not collide with any other collider at the given position, and stores information about the collision (if applicable).
+		virtual bool PlaceFree(ICollider& body, const PointF& position, CollisionResult& manifold) = 0;
+
+		// Returns true if the collider collides with any other collider with the given category at its current position.
+		virtual bool PlaceMeeting(ICollider& body, int category) = 0;
+		// Returns true if the collider collides with any other collider with the given category at its current position, and stores information about the collision (if applicable).
+		virtual bool PlaceMeeting(ICollider& body, int category, CollisionResult& manifold) = 0;
+		// Returns true if the collider collides with any other collider with the given category at the given position.
+		virtual bool PlaceMeeting(ICollider& body, const PointF& position, int category) = 0;
+		// Returns true if the collider collides with any other collider with the given category at the given position, and stores information about the collision (if applicable).
+		virtual bool PlaceMeeting(ICollider& body, const PointF& position, int category, CollisionResult& manifold) = 0;
+		// Returns true if the collider collides with any other collider with the given category at the given position which meets the given condition, and stores information about the collision (if applicable).
+		virtual bool PlaceMeeting(ICollider& body, const PointF& position, const condition_lambda_type& where, CollisionResult& manifold) = 0;
+
 		// Moves the body a set distance in a given direction (in degrees) until it collides with another body.
 		virtual bool MoveContact(ICollider* body, float direction, float distance) = 0;
 		// Moves the body a set distance in a given direction (in degrees) until it collides with a body with the given category.

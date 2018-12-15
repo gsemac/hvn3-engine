@@ -44,7 +44,17 @@ namespace hvn3 {
 
 		SpriteRenderer& Renderer();
 		const SpriteRenderer& Renderer() const;
-		ColliderPtr& Collider();
+		ICollider& Collider();
+
+		template<typename T>
+		void SetHitMask(const T& mask) {
+
+			Collider().SetHitMask(mask);
+
+		}
+
+		bool PlaceFree();
+		bool PlaceMeeting(int category);
 
 	private:
 		class Context _context;

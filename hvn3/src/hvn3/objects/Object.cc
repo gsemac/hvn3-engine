@@ -47,7 +47,8 @@ namespace hvn3 {
 
 		if (!HasFlag(Flags(), ObjectFlags::NoCollisions)) {
 
-			_collider = hvn3::make_collider<>(this);
+			if (!_collider)
+				_collider = hvn3::make_collider<>(this);
 
 			if (_context.Local().IsRegistered<hvn3::COLLISION_MANAGER>())
 				_context.Get<hvn3::COLLISION_MANAGER>().Add(_collider);
@@ -72,6 +73,7 @@ namespace hvn3 {
 	}
 	void Object::OnDraw(DrawEventArgs& e) {
 
+		// Notice the draw function takes the result of Sprite(), which takes the asset ID into consideration (if applicable).
 		_sprite_renderer.DrawSprite(e.Graphics(), Position(), Sprite());
 
 	}
@@ -119,6 +121,9 @@ namespace hvn3 {
 	}
 	const class Sprite& Object::Sprite() const {
 
+		// If the user specified an asset ID rather a sprite directly, the one stored in the asset manager will be returned.
+		// This has the benefit of allowing live updates of sprite resources.
+
 		if (_sprite_id != Preview::NULL_ASSET_ID && _context.IsRegistered<hvn3::ASSET_MANAGER>())
 			return _context.Get<hvn3::ASSET_MANAGER>().Sprites(_sprite_id);
 
@@ -143,8 +148,36 @@ namespace hvn3 {
 	const SpriteRenderer& Object::Renderer() const {
 		return _sprite_renderer;
 	}
-	ColliderPtr& Object::Collider() {
-		return _collider;
+	ICollider& Object::Collider() {
+
+		// If no collider has been created yet, create a default one.
+		if (!_collider)
+			_collider = hvn3::make_collider<>(this);
+
+		return *_collider;
+
+	}
+	bool Object::PlaceFree() {
+
+		if (!_collider)
+			return true;
+
+		if (!_context.IsRegistered<hvn3::COLLISION_MANAGER>())
+			return true;
+
+		return _context.Get<hvn3::COLLISION_MANAGER>().PlaceFree(Collider());
+
+	}
+	bool Object::PlaceMeeting(int category) {
+
+		if (!_collider)
+			return false;
+
+		if (!_context.IsRegistered<hvn3::COLLISION_MANAGER>())
+			return true;
+
+		return _context.Get<hvn3::COLLISION_MANAGER>().PlaceMeeting(Collider(), category);
+
 	}
 
 }

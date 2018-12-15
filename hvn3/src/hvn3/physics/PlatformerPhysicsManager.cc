@@ -91,7 +91,7 @@ namespace hvn3 {
 
 							PointF ptry = pprev + PointF(Math::Min(1.0f, xleft) * Math::Sign(xvel), -i);
 
-							if (_context.Get<COLLISION_MANAGER>().PlaceFree(collider, ptry)) {
+							if (_context.Get<COLLISION_MANAGER>().PlaceFree(*collider, ptry)) {
 
 								collider->SetPosition(ptry);
 								xleft -= Math::Geometry::PointDistance(ptry, pprev);

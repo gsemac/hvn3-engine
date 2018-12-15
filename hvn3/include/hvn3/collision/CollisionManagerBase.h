@@ -80,75 +80,77 @@ namespace hvn3 {
 
 		}
 
-		bool PlaceFree(ICollider* body) override {
+		bool PlaceFree(ICollider& body) override {
+			return PlaceFree(body, body.Position());
+		}
+		bool PlaceFree(ICollider& body, CollisionResult& manifold) override {
+			return PlaceFree(body, body.Position(), manifold);
+		}
+		bool PlaceFree(ICollider& body, const PointF& position) override {
 
-			return PlaceFree(body, body->Position());
+			CollisionResult dummy;
+
+			return PlaceFree(body, position, dummy);
 
 		}
-		bool PlaceFree(ICollider* body, const PointF& position) override {
+		bool PlaceFree(ICollider& body, const PointF& position, CollisionResult& manifold) override {
+			return !PlaceMeeting(body, position, [](const ICollider*) { return true; }, manifold);
+		}
 
-			return PlaceFreeIf(body, position, [](const ICollider*) { return true; });
+		bool PlaceMeeting(ICollider& body, int category) override {
+			return PlaceMeeting(body, body.Position(), category);
+		}
+		bool PlaceMeeting(ICollider& body, int category, CollisionResult& manifold) override {
+			return PlaceMeeting(body, body.Position(), category, manifold);
+		}
+		bool PlaceMeeting(ICollider& body, const PointF& position, int category) override {
+
+			CollisionResult dummy;
+
+			return PlaceMeeting(body, position, category, dummy);
 
 		}
-		bool PlaceFree(ICollider* body, float x, float y) override {
-
-			return PlaceFree(body, PointF(x, y));
-
+		bool PlaceMeeting(ICollider& body, const PointF& position, int category, CollisionResult& manifold) override {
+			return PlaceMeeting(body, position, [=](const ICollider* body) { return (body->Filter().CategoryBits() & category) != 0; }, manifold);
 		}
-		bool PlaceFree(ICollider* body, const PointF& position, int category) override {
+		bool PlaceMeeting(ICollider& body, const PointF& position, const condition_lambda_type& where, CollisionResult& manifold) override {
 
-			return PlaceFreeIf(body, position, [=](const ICollider* body) { return (body->Filter().CategoryBits() & category) != 0; });
-
-		}
-		bool PlaceFree(ICollider* body, const PointF& position, CollisionResult& manifold) override {
-
-			return PlaceFreeIf(body, position, manifold, [](const ICollider*) { return true; });
-
-		}
-		bool PlaceFreeIf(ICollider* body, const PointF& position, const condition_lambda_type& condition) override {
-
-			CollisionResult m;
-
-			return PlaceFreeIf(body, position, m, condition);
-
-		}
-		bool PlaceFreeIf(ICollider* body, const PointF& position, CollisionResult& manifold, const condition_lambda_type& condition) override {
-
-			// If the object does not have a collision mask, return true immediately (no collisions are possible).
-			if (!body->HitMask())
-				return true;
+			// If the object does not have a collision mask, return false immediately (no collisions are possible).
+			if (!body.HitMask())
+				return false;
 
 			// Create a vector to store the results.
 			IBroadPhase::collider_vector_type hits;
 
 			// Get a list of all colliders that could potentially collide with the collider.
-			RectangleF aabb = body->AABB();
-			aabb.Translate(-body->X(), -body->Y());
+			RectangleF aabb = body.AABB();
+			aabb.Translate(-body.X(), -body.Y());
 			aabb.Translate(position.X(), position.Y());
-			Broad().QueryRegion(aabb, hits, body->Filter().MaskBits());
+			Broad().QueryRegion(aabb, hits, body.Filter().MaskBits());
 
 			// If the list is empty, the place is free.
 			if (hits.size() == 0)
-				return true;
+				return false;
 
 			for (size_t i = 0; i < hits.size(); ++i) {
 
 				// Ignore self and objects that don't meet the given condition.
-				if (hits[i] == body || !condition(hits[i]))
+				if (hits[i] == &body || !where(hits[i]))
 					continue;
 
 				// Check for a collision.
-				if (Narrow().TestCollision(body, position, hits[i], hits[i]->Position(), manifold)) {
+				if (Narrow().TestCollision(&body, position, hits[i], hits[i]->Position(), manifold)) {
 					manifold.collider = hits[i];
-					return false;
+					return true;
 				}
 
 			}
 
 			// The collider did not collide with any other colliders, so the place is free.
-			return true;
+			return false;
 
 		}
+
 		bool MoveContact(ICollider* body, float direction, float distance) override {
 
 			return MoveContactIf(body, direction, distance, [](const ICollider*) { return true; });
@@ -176,7 +178,7 @@ namespace hvn3 {
 
 			// If the distance is 0, just return if the current position is free.
 			if (Math::IsZero(distance))
-				return !PlaceFreeIf(body, body->Position(), manifold, condition);
+				return PlaceMeeting(*body, body->Position(), condition, manifold);
 
 			float distance_per_step = Math::Min(body->AABB().Width(), body->AABB().Height(), distance);
 
@@ -194,7 +196,7 @@ namespace hvn3 {
 			while (distance_total < (std::abs)(distance)) {
 
 				PointF tentative_position = Math::Geometry::PointInDirection(new_position, direction, distance_per_step);
-				place_free = PlaceFreeIf(body, tentative_position, manifold, condition);
+				place_free = !PlaceMeeting(*body, tentative_position, condition, manifold);
 
 				// If we make contact with an object, start halving the movement distance so we can get close enough to satisfy the precision value.
 				if (!place_free) {
@@ -233,7 +235,7 @@ namespace hvn3 {
 			bool place_free;
 
 			// It's important that we check if the place is free before doing the distance check (what if the user passes in a distance of 0?).
-			while ((place_free = PlaceFree(body, pos), !place_free) && dist < max_distance) {
+			while ((place_free = PlaceFree(*body, pos), !place_free) && dist < max_distance) {
 
 				pos = Math::Geometry::PointInDirection(pos, direction, distance_per_step);
 

@@ -54,7 +54,7 @@ namespace hvn3 {
 				// If the current position isn't free, move until it is.
 				// #todo Need to check condition as below
 				CollisionResult manifold;
-				if (!_context.Get<COLLISION_MANAGER>().PlaceFreeIf(collision_body, collision_body->Position(), manifold, body_filter)) {
+				if (_context.Get<COLLISION_MANAGER>().PlaceMeeting(*collision_body, collision_body->Position(), body_filter, manifold)) {
 					_context.Get<COLLISION_MANAGER>().MoveOutside(collision_body, Math::Geometry::PointDirection(manifold.collider->AABB().Midpoint(), collision_body->AABB().Midpoint()), Math::Max(2.0f, manifold.penetrationDepth / 2.0f));
 				}
 
