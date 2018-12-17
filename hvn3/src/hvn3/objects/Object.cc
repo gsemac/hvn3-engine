@@ -167,13 +167,13 @@ namespace hvn3 {
 		_sprite_id = value;
 
 	}
-	SpriteRenderer& Object::Renderer() {
+	SpriteRenderer& Object::GetRenderer() {
 		return _sprite_renderer;
 	}
 	const SpriteRenderer& Object::Renderer() const {
 		return _sprite_renderer;
 	}
-	ICollider& Object::Collider() {
+	ICollider& Object::GetCollider() {
 
 		// If no collider has been created yet, create a default one.
 		if (!_collider)
@@ -190,7 +190,7 @@ namespace hvn3 {
 		if (!_context.IsRegistered<hvn3::COLLISION_MANAGER>())
 			return true;
 
-		return _context.Get<hvn3::COLLISION_MANAGER>().PlaceFree(Collider());
+		return _context.Get<hvn3::COLLISION_MANAGER>().PlaceFree(GetCollider());
 
 	}
 	bool Object::PlaceMeeting(int category) {
@@ -201,7 +201,7 @@ namespace hvn3 {
 		if (!_context.IsRegistered<hvn3::COLLISION_MANAGER>())
 			return true;
 
-		return _context.Get<hvn3::COLLISION_MANAGER>().PlaceMeeting(Collider(), category);
+		return _context.Get<hvn3::COLLISION_MANAGER>().PlaceMeeting(GetCollider(), category);
 
 	}
 

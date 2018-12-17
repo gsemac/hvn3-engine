@@ -44,14 +44,14 @@ namespace hvn3 {
 		void SetSprite(const class Sprite& value);
 		void SetSprite(Preview::AssetId value);
 
-		SpriteRenderer& Renderer();
+		SpriteRenderer& GetRenderer();
 		const SpriteRenderer& Renderer() const;
-		ICollider& Collider();
+		ICollider& GetCollider();
 
 		template<typename T>
 		void SetHitMask(const T& mask) {
 
-			Collider().SetHitMask(mask);
+			GetCollider().SetHitMask(mask);
 
 		}
 
