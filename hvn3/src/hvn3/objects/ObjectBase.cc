@@ -38,12 +38,12 @@ namespace hvn3 {
 		return _id;
 
 	}
-	int ObjectBase::Depth() const {
+	ObjectBase::depth_type ObjectBase::Depth() const {
 
 		return _depth;
 
 	}
-	void ObjectBase::SetDepth(int depth) {
+	void ObjectBase::SetDepth(depth_type depth) {
 
 		_depth = depth;
 

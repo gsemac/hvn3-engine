@@ -1,11 +1,20 @@
 #pragma once
+
 #include "hvn3/objects/IObject.h"
+
+#include <limits>
 
 namespace hvn3 {
 
-	class ObjectBase : public IObject {
-		 
+	class ObjectBase :
+		public IObject {
+
+		typedef int depth_type;
+
 	public:
+		static const depth_type MIN_DEPTH = std::numeric_limits<depth_type>::min();
+		static const depth_type MAX_DEPTH = std::numeric_limits<depth_type>::max();
+
 		ObjectBase(ObjectId id);
 		ObjectBase(ObjectId id, const PointF& position);
 		ObjectBase(ObjectId id, float x, float y);
@@ -18,8 +27,8 @@ namespace hvn3 {
 		void OnContextChanged(ContextChangedEventArgs& e) override;
 
 		ObjectId Id() const override;
-		int Depth() const override;
-		void SetDepth(int depth) override;
+		depth_type Depth() const override;
+		void SetDepth(depth_type depth) override;
 		bool IsDestroyed() const override;
 		void Destroy() override;
 		bool IsActive() const override;

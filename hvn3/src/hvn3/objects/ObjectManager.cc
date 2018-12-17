@@ -3,6 +3,7 @@
 #include "hvn3/objects/Object.h"
 #include "hvn3/objects/ObjectEventArgs.h"
 #include "hvn3/objects/ObjectManager.h"
+
 #include <algorithm>
 #include <cassert>
 #include <utility>
@@ -30,6 +31,7 @@ namespace hvn3 {
 
 		_last_found_id = NoOne;
 		_last_found_index = 0;
+		_resort_required = false;
 
 	}
 
@@ -198,6 +200,7 @@ namespace hvn3 {
 	void ObjectManager::OnUpdate(UpdateEventArgs& e) {
 
 		bool removed = false;
+		int last_depth = ObjectBase::MAX_DEPTH;
 
 		for (size_t i = 0; i < _objects.size(); ++i) {
 
@@ -206,6 +209,11 @@ namespace hvn3 {
 
 			if (_objects[i].object->IsDestroyed())
 				removed = true;
+			// If the objects are not ordered by depth (descending), set the resort flag.
+			else if (_objects[i].object->Depth() > last_depth)
+				_resort_required = true;
+
+			last_depth = _objects[i].object->Depth();
 
 		}
 
@@ -233,15 +241,21 @@ namespace hvn3 {
 	}
 	void ObjectManager::OnDraw(DrawEventArgs& e) {
 
-		// Draw all objects.
+		// If a resort is required, sort all objects by depth before drawing them.
+		// Objects should be sorted such that those with a lower depth are drawn first.
+		if (_resort_required)
+			std::sort(_objects.begin(), _objects.end(),
+				[](const ObjectListItem& lhs, const ObjectListItem& rhs) { return lhs.object->Depth() > rhs.object->Depth(); });
+
+		_resort_required = false;
+
+		// Don't draw any objects that haven't had their create event called yet, or inactive objects.
 
 		for (auto it = _objects.begin(); it != _objects.end(); ++it)
-			// Don't draw any objects that haven't had their create event called yet, or inactive objects.
 			if (!it->callOnCreateEvent && it->object->IsActive())
 				it->object->OnDraw(e);
 
 	}
-
 
 	void ObjectManager::OnContextChanged(ContextChangedEventArgs& e) {
 

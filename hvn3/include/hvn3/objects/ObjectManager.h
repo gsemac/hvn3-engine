@@ -55,6 +55,7 @@ namespace hvn3 {
 		ObjectId _last_found_id;
 		size_t _last_found_index;
 		Context _context;
+		bool _resort_required;
 
 		void _removeDestroyedObjects(object_list_type::iterator begin, object_list_type::iterator end);
 		// Updates the state of the given object, and calls the OnCreate or OnDestroy event where applicable. Returns true if the object should have its OnUpdate events called; returns false otherwise.
