@@ -29,6 +29,8 @@ namespace hvn3 {
 		void OnContextChanged(ContextChangedEventArgs& e) override;
 
 	protected:
+		virtual void OnAnimationEnd(AnimationEndEventArgs& e);
+
 		class Context& GetContext();
 		const class Context& GetContext() const;
 

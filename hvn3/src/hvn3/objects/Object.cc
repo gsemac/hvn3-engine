@@ -70,6 +70,21 @@ namespace hvn3 {
 
 		_sprite_renderer.UpdateAnimation(e.Delta());
 
+		if (Sprite() && Sprite().Length() > 0) {
+
+			if ((_sprite_renderer.AnimationSpeed() > 0.0f && (_sprite_renderer.AnimationIndex() + 1 > Sprite().Length())) ||
+				(_sprite_renderer.AnimationSpeed() < 0.0f && _sprite_renderer.AnimationIndex() == 0)) {
+
+				int end_index = (Sprite().Length() * (_sprite_renderer.AnimationIndex() / Sprite().Length())) - 1;
+
+				AnimationEndEventArgs args(end_index);
+
+				OnAnimationEnd(args);
+
+			}
+
+		}
+
 	}
 	void Object::OnDraw(DrawEventArgs& e) {
 
@@ -84,6 +99,7 @@ namespace hvn3 {
 
 	}
 
+	void Object::OnAnimationEnd(AnimationEndEventArgs& e) {}
 	class Context& Object::GetContext() {
 
 		return _context;

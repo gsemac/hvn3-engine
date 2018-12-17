@@ -4,7 +4,7 @@
 
 namespace hvn3 {
 
-	class CreateEventArgs : 
+	class CreateEventArgs :
 		public System::EventArgs {
 
 	public:
@@ -22,6 +22,22 @@ namespace hvn3 {
 	};
 
 	class DestroyEventArgs : public System::EventArgs {
+	};
+
+	class AnimationEndEventArgs :
+		public System::EventArgs {
+
+	public:
+		AnimationEndEventArgs(int endIndex) {
+			_end_index = endIndex;
+		}
+		int EndIndex() const {
+			return _end_index;
+		}
+
+	private:
+		int _end_index;
+
 	};
 
 }

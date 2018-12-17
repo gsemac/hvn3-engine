@@ -1,8 +1,7 @@
 #include "hvn3/math/MathUtils.h"
 #include "hvn3/sprites/SpriteRenderer.h"
-#include <limits>
 
-constexpr float DEFAULT_ANIMATION_SPEED = 60.0f;
+#include <limits>
 
 namespace hvn3 {
 
@@ -69,7 +68,7 @@ namespace hvn3 {
 	}
 
 	void SpriteRenderer::UpdateAnimation() {
-		_incrementImageIndex(_image_speed);
+		_incrementImageIndex(1.0f);
 	}
 	void SpriteRenderer::UpdateAnimation(double delta) {
 		_incrementImageIndex(_image_speed * static_cast<float>(delta));

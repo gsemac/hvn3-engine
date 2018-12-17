@@ -8,6 +8,8 @@ namespace hvn3 {
 	class SpriteRenderer {
 
 	public:
+		static constexpr float DEFAULT_ANIMATION_SPEED = 60.0f;
+
 		SpriteRenderer();
 		SpriteRenderer(const Sprite& sprite);
 
