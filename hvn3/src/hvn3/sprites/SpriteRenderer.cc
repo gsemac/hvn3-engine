@@ -2,13 +2,15 @@
 #include "hvn3/sprites/SpriteRenderer.h"
 #include <limits>
 
+constexpr float DEFAULT_ANIMATION_SPEED = 60.0f;
+
 namespace hvn3 {
 
 	SpriteRenderer::SpriteRenderer() :
 		_image_scale(1.0f) {
 
 		_image_index = 0;
-		_image_speed = 1.0f;
+		_image_speed = DEFAULT_ANIMATION_SPEED;
 		_image_alpha = 1.0f;
 		_image_angle = 0.0f;
 		_image_blend = Color::FromArgbf(1.0f, 1.0f, 1.0f);
