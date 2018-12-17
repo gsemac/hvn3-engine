@@ -1,5 +1,7 @@
 #pragma once
+
 #include <algorithm>
+#include <cassert>
 
 namespace hvn3 {
 	namespace Math {
@@ -334,6 +336,31 @@ namespace hvn3 {
 				return n - static_cast<T>(1);
 			else
 				return n + -static_cast<T>(1);
+
+		}
+
+		// Increments a value by the given amount and wraps the result in the range [min, max].
+		template <typename T>
+		T WrappedIncrement(T n, T min = std::numeric_limits<T>::min(), T max = std::numeric_limits<T>::max(), T amount = 1) {
+
+			// #todo This could be performed far more efficiently for the cases where abs(amount) > 1.
+
+			assert(n >= min);
+			assert(n <= max);
+			assert(min < max);
+
+			for (T i = 0; i < Abs(amount); i += 1) {
+
+				if (n == max && Sign(amount) > 0)
+					n = min;
+				else if (n == min && Sign(amount) < 0)
+					n = max;
+				else
+					n += Sign(amount);
+
+			}
+
+			return n;
 
 		}
 

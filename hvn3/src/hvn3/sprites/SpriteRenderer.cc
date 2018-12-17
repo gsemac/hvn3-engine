@@ -34,7 +34,12 @@ namespace hvn3 {
 		return _image_index;
 	}
 	void SpriteRenderer::SetAnimationIndex(int value) {
+
 		_image_index = value;
+
+		if (_sprite && _sprite.Length() > 0)
+			_image_index %= _sprite.Length();
+
 	}
 	float SpriteRenderer::AnimationSpeed() const {
 		return _image_speed;
@@ -64,14 +69,19 @@ namespace hvn3 {
 		return _sprite;
 	}
 	void SpriteRenderer::SetSprite(const class Sprite& value) {
+
 		_sprite = value;
+
+		// Calling this method will force the animation index to be within the bounds of the sprite's subimages.
+		SetAnimationIndex(_image_index);
+
 	}
 
-	void SpriteRenderer::UpdateAnimation() {
-		_incrementImageIndex(1.0f);
+	int SpriteRenderer::UpdateAnimation() {
+		return _incrementImageIndex(1.0f);
 	}
-	void SpriteRenderer::UpdateAnimation(double delta) {
-		_incrementImageIndex(_image_speed * static_cast<float>(delta));
+	int SpriteRenderer::UpdateAnimation(double delta) {
+		return _incrementImageIndex(_image_speed * static_cast<float>(delta));
 	}
 
 	void SpriteRenderer::DrawSprite(Graphics::Graphics& canvas, const PointF& position) const {
@@ -102,31 +112,36 @@ namespace hvn3 {
 
 	}
 
-	void SpriteRenderer::_incrementImageIndex(float delta) {
+	int SpriteRenderer::_incrementImageIndex(float delta) {
 
 		_image_index_timer += (std::abs)(delta);
+
+		int image_index_delta = 0;
 		int increment_dir = static_cast<int>(Math::Sign(AnimationSpeed()));
+		int max_index = _sprite ? _sprite.Length() : std::numeric_limits<int>::max();
+
+		// Return immediately if the sprite has too few subimages to be animated.
+		if (max_index <= 1)
+			return image_index_delta;
 
 		while (_image_index_timer >= 1.0f) {
 
 			switch (increment_dir) {
 			case -1:
-				if (AnimationIndex() == 0)
-					SetAnimationIndex(std::numeric_limits<int>::max());
-				else
-					SetAnimationIndex(AnimationIndex() - 1);
+				--image_index_delta;
+				_image_index = Math::WrappedIncrement(_image_index, 0, max_index, -1);
 				break;
 			case 1:
-				if (AnimationIndex() == std::numeric_limits<int>::max())
-					SetAnimationIndex(0);
-				else
-					SetAnimationIndex(AnimationIndex() + 1);
+				++image_index_delta;
+				_image_index = Math::WrappedIncrement(_image_index, 0, max_index, 1);
 				break;
 			}
 
 			_image_index_timer -= 1.0f;
 
 		}
+
+		return image_index_delta;
 
 	}
 

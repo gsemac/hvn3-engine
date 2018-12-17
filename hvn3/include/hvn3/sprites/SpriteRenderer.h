@@ -27,8 +27,8 @@ namespace hvn3 {
 		void SetBlend(const Color& value);
 		const Sprite& Sprite() const;
 		void SetSprite(const class Sprite& value);
-		void UpdateAnimation();
-		void UpdateAnimation(double delta);
+		int UpdateAnimation();
+		int UpdateAnimation(double delta);
 
 		void DrawSprite(Graphics::Graphics& canvas, const PointF& position) const;
 		void DrawSprite(Graphics::Graphics& canvas, const PointF& position, const class Sprite& sprite) const;
@@ -43,7 +43,7 @@ namespace hvn3 {
 		Color _image_blend;
 		float _image_index_timer;
 
-		void _incrementImageIndex(float delta);
+		int _incrementImageIndex(float delta);
 
 	};
 

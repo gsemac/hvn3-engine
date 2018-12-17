@@ -68,14 +68,23 @@ namespace hvn3 {
 			SetPosition(Position() + Velocity() * static_cast<float>(e.Delta()));
 		//}
 
-		_sprite_renderer.UpdateAnimation(e.Delta());
+		// Store the previous animation index so we can compare it to the new one to determine if a full animation has completed.
+		int prev_ani_index = _sprite_renderer.AnimationIndex();
+		int delta = _sprite_renderer.UpdateAnimation(e.Delta());
 
-		if (Sprite() && Sprite().Length() > 0) {
+		// Check if a full animation has completed to see if the OnAnimationEnd handler should be called.
 
-			if ((_sprite_renderer.AnimationSpeed() > 0.0f && (_sprite_renderer.AnimationIndex() + 1 > Sprite().Length())) ||
-				(_sprite_renderer.AnimationSpeed() < 0.0f && _sprite_renderer.AnimationIndex() == 0)) {
+		const class Sprite& sprite = Sprite();
 
-				int end_index = (Sprite().Length() * (_sprite_renderer.AnimationIndex() / Sprite().Length())) - 1;
+		if (sprite && sprite.Length() > 0) {
+
+			prev_ani_index %= sprite.Length();
+			int cur_ani_index = _sprite_renderer.AnimationIndex() % sprite.Length();
+
+			if ((delta > 0 && (static_cast<size_t>(cur_ani_index + 1) == Sprite().Length() || cur_ani_index < prev_ani_index)) ||
+				(delta < 0) && (cur_ani_index == 0 || cur_ani_index > prev_ani_index)) {
+
+				int end_index = (delta > 0) ? Sprite().Length() - 1 : 0;
 
 				AnimationEndEventArgs args(end_index);
 
