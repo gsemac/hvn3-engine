@@ -16,6 +16,7 @@ namespace hvn3 {
 			Window();
 			Window(const String& text);
 			Window(float x, float y, float width, float height, const String& text);
+			Window(float width, float height);
 			Window(float width, float height, const String& text);
 
 			bool TitleBarVisible() const;
@@ -23,6 +24,7 @@ namespace hvn3 {
 			void SetBorderStyle(BorderStyle value);
 			void Close();
 
+			void SetText(const String& text) override;
 			WidgetManager& GetChildren() override;
 			bool HasChildren() override;
 

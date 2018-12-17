@@ -29,6 +29,9 @@ namespace hvn3 {
 			_initializeMembers();
 
 		}
+		Window::Window(float width, float height) :
+			Window(width, height, "") {
+		}
 		Window::Window(float width, float height, const String& text) :
 			Window(0.0f, 0.0f, width, height, text) {
 		}
@@ -51,6 +54,13 @@ namespace hvn3 {
 
 		}
 
+		void Window::SetText(const String& text) {
+
+			WidgetBase::SetText(text);
+
+			_titlebar_visible = Text().Length() > 0;
+
+		}
 		WidgetManager& Window::GetChildren() {
 			return _child_manager;
 		}
