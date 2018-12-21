@@ -10,6 +10,10 @@ namespace hvn3 {
 		class IWidget;
 		class IWidgetEventArgs;
 
+		typedef std::shared_ptr<IWidget> IWidgetPtr;
+		template <typename WidgetType>
+		using WidgetPtr = std::shared_ptr<WidgetType>;
+
 		enum class Anchor {
 			Left = 1,
 			Right = 2,
@@ -96,9 +100,9 @@ namespace hvn3 {
 		};
 
 		template<typename WidgetType, typename... Args>
-		std::shared_ptr<WidgetType> make_widget(Args&&... args) {
+		WidgetPtr<WidgetType> make_widget(Args&&... args) {
 
-			std::shared_ptr<WidgetType> ptr = std::make_shared<WidgetType>(std::forward<Args>(args)...);
+			WidgetPtr<WidgetType> ptr = std::make_shared<WidgetType>(std::forward<Args>(args)...);
 
 			return ptr;
 

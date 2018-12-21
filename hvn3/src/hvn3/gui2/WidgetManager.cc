@@ -96,7 +96,7 @@ namespace hvn3 {
 			Add(std::move(widget));
 				
 		}
-		void WidgetManager::Add(const std::shared_ptr<IWidget>& widget) {
+		void WidgetManager::Add(const IWidgetPtr& widget) {
 
 			// Set the renderer for child widgets before calling SetManager, since SetManager will trigger a OnRendererChanged event.
 			// By giving the children the renderer first, the parent can work on the assumption it's been set when that event triggered.

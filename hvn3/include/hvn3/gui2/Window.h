@@ -22,6 +22,7 @@ namespace hvn3 {
 			bool TitleBarVisible() const;
 			void SetTitleBarVisible(bool value);
 			void SetBorderStyle(BorderStyle value);
+			void Add(const IWidgetPtr& widget);
 			void Close();
 
 			void SetText(const String& text) override;

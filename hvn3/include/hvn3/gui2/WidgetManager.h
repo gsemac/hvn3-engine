@@ -56,7 +56,7 @@ namespace hvn3 {
 			void Add(IWidget* widget);
 			// #todo This method is now deprecated. Prefer to use the std::shared_ptr<IWidget> overload with make_widget.
 			void Add(std::unique_ptr<IWidget>& widget);
-			void Add(const std::shared_ptr<IWidget>& widget);
+			void Add(const IWidgetPtr& widget);
 			void Remove(IWidget* widget);
 			void Move(IWidget* widget, WidgetManager* to_manager);
 			bool Contains(IWidget* widget) const;

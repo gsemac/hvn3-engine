@@ -45,6 +45,9 @@ namespace hvn3 {
 		void Window::SetBorderStyle(BorderStyle value) {
 			_border_style = value;
 		}
+		void Window::Add(const IWidgetPtr& widget) {
+			GetChildren().Add(widget);
+		}
 		void Window::Close() {
 
 			if (GetManager() == nullptr)
