@@ -3,7 +3,7 @@
 #include "hvn3/core/SizeableBase.h"
 #include "hvn3/events/EventSource.h"
 #include "hvn3/graphics/Bitmap.h"
-#include "hvn3/graphics/GraphicsTypeDefs.h"
+#include "hvn3/graphics/GraphicsDefs.h"
 #include "hvn3/graphics/Resolution.h"
 #include "hvn3/utility/Size.h"
 #include "hvn3/utility/Scale.h"

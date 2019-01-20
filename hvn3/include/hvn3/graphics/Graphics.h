@@ -1,7 +1,7 @@
 #pragma once
 #include "hvn3/graphics/Bitmap.h"
 #include "hvn3/graphics/GraphicsState.h"
-#include "hvn3/graphics/GraphicsTypeDefs.h"
+#include "hvn3/graphics/GraphicsDefs.h"
 #include "hvn3/graphics/LinearGradientBrush.h"
 #include "hvn3/graphics/Pen.h"
 #include "hvn3/math/Circle.h"

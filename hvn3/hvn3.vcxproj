@@ -92,7 +92,7 @@
     <ClInclude Include="include\hvn3\graphics\Display.h" />
     <ClInclude Include="include\hvn3\graphics\Graphics.h" />
     <ClInclude Include="include\hvn3\graphics\GraphicsState.h" />
-    <ClInclude Include="include\hvn3\graphics\GraphicsTypeDefs.h" />
+    <ClInclude Include="include\hvn3\graphics\GraphicsDefs.h" />
     <ClInclude Include="include\hvn3\graphics\GridRenderer.h" />
     <ClInclude Include="include\hvn3\graphics\GridRendererExt.h" />
     <ClInclude Include="include\hvn3\graphics\Imaging.h" />

@@ -1,6 +1,6 @@
 #pragma once
 #include "hvn3/graphics/Color.h"
-#include "hvn3/graphics/GraphicsTypeDefs.h"
+#include "hvn3/graphics/GraphicsDefs.h"
 #include <initializer_list>
 #include <vector>
 
