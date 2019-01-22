@@ -91,6 +91,8 @@ namespace hvn3 {
 
 			x += 1.0f;
 			y += 1.0f;
+			width -= 1.0f;
+			height -= 1.0f;
 
 			if (_canvas != nullptr) {
 
@@ -149,21 +151,17 @@ namespace hvn3 {
 		void Graphics::DrawRoundRectangle(float x, float y, float width, float height, const Color& color, float radius, float thickness) {
 
 			// Note: 0.5 is added to each coordinate to fix the uneven corners drawn by Allegro.
-			x += 0.5f;
-			y += 0.5f;
-			width -= 0.5f;
-			height -= 0.0f;
 
 			if (_canvas != nullptr) {
 
 				_makeThisActiveInstance(true);
 
-				al_draw_rounded_rectangle(x, y, width, height, radius, radius, System::AllegroAdapter::ToColor(color), thickness);
+				al_draw_rounded_rectangle(x + 0.5f, y + 0.5f, x + width - 0.5f, y + height - 0.5f, radius, radius, System::AllegroAdapter::ToColor(color), thickness);
 
 			}
 
 			else if (_path_canvas != nullptr)
-				_path_canvas->AddRectangle(x, y, width, height);
+				_path_canvas->AddRectangle(x + 0.5f, y + 0.5f, x + width - 0.5f, y + height - 0.5f);
 
 		}
 		void Graphics::DrawSolidRoundRectangle(const RectangleF& rect, const Color& color, float radius) {
