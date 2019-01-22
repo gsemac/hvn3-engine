@@ -2,6 +2,7 @@
 #include "hvn3/graphics/Bitmap.h"
 #include "hvn3/graphics/GraphicsState.h"
 #include "hvn3/graphics/GraphicsDefs.h"
+#include "hvn3/graphics/GraphicsPath.h"
 #include "hvn3/graphics/LinearGradientBrush.h"
 #include "hvn3/graphics/Pen.h"
 #include "hvn3/math/Circle.h"
@@ -20,6 +21,7 @@ namespace hvn3 {
 
 		public:
 			Graphics(Bitmap& surface);
+			Graphics(GraphicsPath& path);
 			~Graphics();
 
 			void DrawRectangle(const RectangleF& rect, const Color& color, float thickness = 1.0f);
@@ -91,9 +93,14 @@ namespace hvn3 {
 			void Restore(const GraphicsState& state);
 
 		private:
-			Bitmap& _canvas;
+			// Can draw to a Bitmap or a GraphicsPath
+			// #todo Create a common interface or wrapper for all objects that can be drawn to?
+			Bitmap* _canvas;
+			GraphicsPath* _path_canvas;
+
 			Transform _transform;
 			RectangleF _clipping_region;
+
 			static const Graphics* _last_to_draw;
 
 			// Called at the beginning of every drawing function to set the drawing target and its and tranforms/clipping region.

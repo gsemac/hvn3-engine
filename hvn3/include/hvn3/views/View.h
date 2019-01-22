@@ -1,7 +1,9 @@
 #pragma once
+
+#include "hvn3/graphics/Transform.h"
+#include "hvn3/math/Rectangle.h"
 #include "hvn3/objects/IObject.h"
 #include "hvn3/utility/Scale.h"
-#include "hvn3/graphics/Transform.h"
 
 namespace hvn3 {
 

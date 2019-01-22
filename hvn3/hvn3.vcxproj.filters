@@ -873,6 +873,9 @@
     <ClInclude Include="include\hvn3\graphics\GraphicsDefs.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\graphics\GraphicsPath.h">
+      <Filter>include\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1313,6 +1316,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\core\Engine.cc">
       <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\graphics\GraphicsPath.cc">
+      <Filter>src\graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

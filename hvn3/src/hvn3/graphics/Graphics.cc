@@ -10,6 +10,7 @@
 
 #include <cassert>
 #include <cmath>
+#include <limits>
 
 namespace hvn3 {
 
@@ -65,8 +66,13 @@ namespace hvn3 {
 		}
 
 		Graphics::Graphics(Bitmap& surface) :
-			_canvas(surface),
+			_canvas(&surface),
+			_path_canvas(nullptr),
 			_clipping_region(0.0f, 0.0f, surface.Width(), surface.Height()) {
+		}
+		Graphics::Graphics(GraphicsPath& path) :
+			_canvas(nullptr),
+			_path_canvas(&path) {
 		}
 		Graphics::~Graphics() {
 
@@ -83,16 +89,26 @@ namespace hvn3 {
 		}
 		void Graphics::DrawRectangle(float x, float y, float width, float height, const Color& color, float thickness) {
 
-			_makeThisActiveInstance(true);
+			x += 1.0f;
+			y += 1.0f;
 
-			al_draw_rectangle(
-				x + 1.0f,
-				y + 1.0f,
-				x + width,
-				y + height,
-				System::AllegroAdapter::ToColor(color),
-				thickness
-			);
+			if (_canvas != nullptr) {
+
+				_makeThisActiveInstance(true);
+
+				al_draw_rectangle(
+					x,
+					y,
+					x + width,
+					y + height,
+					System::AllegroAdapter::ToColor(color),
+					thickness
+				);
+
+			}
+
+			else if (_path_canvas != nullptr)
+				_path_canvas->AddRectangle(x, y, width, height);
 
 		}
 		void Graphics::DrawSolidRectangle(const RectangleF& rect, const Color& color) {
@@ -103,15 +119,22 @@ namespace hvn3 {
 		}
 		void Graphics::DrawSolidRectangle(float x, float y, float width, float height, const Color& color) {
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_draw_filled_rectangle(
-				x,
-				y,
-				x + width,
-				y + height,
-				System::AllegroAdapter::ToColor(color)
-			);
+				_makeThisActiveInstance(true);
+
+				al_draw_filled_rectangle(
+					x,
+					y,
+					x + width,
+					y + height,
+					System::AllegroAdapter::ToColor(color)
+				);
+
+			}
+
+			else if (_path_canvas != nullptr)
+				_path_canvas->AddRectangle(x, y, width, height);
 
 		}
 
@@ -125,10 +148,22 @@ namespace hvn3 {
 		}
 		void Graphics::DrawRoundRectangle(float x, float y, float width, float height, const Color& color, float radius, float thickness) {
 
-			_makeThisActiveInstance(true);
-
 			// Note: 0.5 is added to each coordinate to fix the uneven corners drawn by Allegro.
-			al_draw_rounded_rectangle(x + 0.5f, y + 0.5f, x + width - 0.5f, y + height - 0.5f, radius, radius, System::AllegroAdapter::ToColor(color), thickness);
+			x += 0.5f;
+			y += 0.5f;
+			width -= 0.5f;
+			height -= 0.0f;
+
+			if (_canvas != nullptr) {
+
+				_makeThisActiveInstance(true);
+
+				al_draw_rounded_rectangle(x, y, width, height, radius, radius, System::AllegroAdapter::ToColor(color), thickness);
+
+			}
+
+			else if (_path_canvas != nullptr)
+				_path_canvas->AddRectangle(x, y, width, height);
 
 		}
 		void Graphics::DrawSolidRoundRectangle(const RectangleF& rect, const Color& color, float radius) {
@@ -141,10 +176,17 @@ namespace hvn3 {
 		}
 		void Graphics::DrawSolidRoundRectangle(float x, float y, float width, float height, const Color& color, float radius) {
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			// Note: 0.5 is added to each coordinate to fix the uneven corners drawn by Allegro.
-			al_draw_filled_rounded_rectangle(x, y, x + width, y + height, radius, radius, System::AllegroAdapter::ToColor(color));
+				_makeThisActiveInstance(true);
+
+				// Note: 0.5 is added to each coordinate to fix the uneven corners drawn by Allegro.
+				al_draw_filled_rounded_rectangle(x, y, x + width, y + height, radius, radius, System::AllegroAdapter::ToColor(color));
+
+			}
+
+			else if (_path_canvas != nullptr)
+				_path_canvas->AddRectangle(x, y, width, height);
 
 		}
 
@@ -165,9 +207,16 @@ namespace hvn3 {
 		}
 		void Graphics::DrawLine(float x1, float y1, float x2, float y2, const Color& color, float thickness) {
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_draw_line(x1, y1, x2, y2, System::AllegroAdapter::ToColor(color), thickness);
+				_makeThisActiveInstance(true);
+
+				al_draw_line(x1, y1, x2, y2, System::AllegroAdapter::ToColor(color), thickness);
+
+			}
+
+			else if (_path_canvas != nullptr)
+				_path_canvas->AddLine(x1, y1, x2, y2);
 
 		}
 		void Graphics::DrawLine(float x1, float y1, float x2, float y2, const Pen& pen) {
@@ -231,9 +280,16 @@ namespace hvn3 {
 		}
 		void Graphics::DrawLine(float x1, float y1, float x2, float y2, const LinearGradientBrush& brush, float thickness) {
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_draw_line(x1, y1, x2, y2, System::AllegroAdapter::ToColor(brush.StartColor()), System::AllegroAdapter::ToColor(brush.EndColor()), thickness);
+				_makeThisActiveInstance(true);
+
+				al_draw_line(x1, y1, x2, y2, System::AllegroAdapter::ToColor(brush.StartColor()), System::AllegroAdapter::ToColor(brush.EndColor()), thickness);
+
+			}
+
+			else if (_path_canvas != nullptr)
+				_path_canvas->AddLine(x1, y1, x2, y2);
 
 		}
 
@@ -244,9 +300,16 @@ namespace hvn3 {
 		}
 		void Graphics::DrawPixel(float x, float y, const Color& color) {
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_draw_pixel(x, y, System::AllegroAdapter::ToColor(color));
+				_makeThisActiveInstance(true);
+
+				al_draw_pixel(x, y, System::AllegroAdapter::ToColor(color));
+
+			}
+
+			else if (_path_canvas != nullptr)
+				_path_canvas->AddPoint(x, y, GraphicsPath::VertexTag::Point);
 
 		}
 
@@ -257,15 +320,22 @@ namespace hvn3 {
 		}
 		void Graphics::DrawCircle(float x, float y, float radius, const Color& color, float thickness) {
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_draw_circle(
-				x,
-				y,
-				radius,
-				System::AllegroAdapter::ToColor(color),
-				thickness
-			);
+				_makeThisActiveInstance(true);
+
+				al_draw_circle(
+					x,
+					y,
+					radius,
+					System::AllegroAdapter::ToColor(color),
+					thickness
+				);
+
+			}
+
+			else if (_path_canvas != nullptr)
+				_path_canvas->AddCircle(x, y, radius);
 
 		}
 		void Graphics::DrawCircle(const CircleF& circle, const Color& color, float thickness) {
@@ -280,14 +350,21 @@ namespace hvn3 {
 		}
 		void Graphics::DrawSolidCircle(float x, float y, float radius, const Color& color) {
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_draw_filled_circle(
-				x,
-				y,
-				radius,
-				System::AllegroAdapter::ToColor(color)
-			);
+				_makeThisActiveInstance(true);
+
+				al_draw_filled_circle(
+					x,
+					y,
+					radius,
+					System::AllegroAdapter::ToColor(color)
+				);
+
+			}
+
+			else if (_path_canvas != nullptr)
+				_path_canvas->AddCircle(x, y, radius);
 
 		}
 		void Graphics::DrawSolidCircle(const CircleF& circle, const Color& color) {
@@ -298,22 +375,46 @@ namespace hvn3 {
 
 		void Graphics::Clear(const Color& color) {
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_clear_to_color(System::AllegroAdapter::ToColor(color));
+				_makeThisActiveInstance(true);
+
+				al_clear_to_color(System::AllegroAdapter::ToColor(color));
+
+			}
+
+			else if (_path_canvas != nullptr)
+				_path_canvas->AddRectangle(Clip().X(), Clip().Y(), Clip().Width(), Clip().Height());
 
 		}
 
 		void Graphics::DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment) {
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			if (HasFlag(alignment, Alignment::Middle))
-				y -= font.Ascent() / 2.0f;
-			else if (HasFlag(alignment, Alignment::Bottom))
-				y -= font.Ascent();
+				_makeThisActiveInstance(true);
 
-			al_draw_text(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, System::AllegroAdapter::ToAlignmentFlags(alignment), text);
+				if (HasFlag(alignment, Alignment::Middle))
+					y -= font.Ascent() / 2.0f;
+				else if (HasFlag(alignment, Alignment::Bottom))
+					y -= font.Ascent();
+
+				al_draw_text(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, System::AllegroAdapter::ToAlignmentFlags(alignment), text);
+
+			}
+
+			else if (_path_canvas != nullptr) {
+
+				int bbx, bby, bbw, bbh;
+				al_get_text_dimensions(System::AllegroAdapter::ToFont(font), text, &bbx, &bby, &bbw, &bbh);
+
+				_path_canvas->AddRectangle(
+					static_cast<float>(bbx),
+					static_cast<float>(bby),
+					static_cast<float>(bbw),
+					static_cast<float>(bbh));
+
+			}
 
 		}
 		void Graphics::DrawText(float x, float y, const std::string& text, const Font& font, const Color& color) {
@@ -323,45 +424,75 @@ namespace hvn3 {
 		}
 		void Graphics::DrawText(float x, float y, const String& text, const Font& font, const Color& color, Alignment alignment) {
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			if (HasFlag(alignment, Alignment::Middle))
-				y -= font.Height() / 2.0f;
-			else if (HasFlag(alignment, Alignment::Bottom))
-				y -= font.Height();
+				_makeThisActiveInstance(true);
 
-			al_draw_ustr(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, System::AllegroAdapter::ToAlignmentFlags(alignment), System::AllegroAdapter::ToUStr(text));
+				if (HasFlag(alignment, Alignment::Middle))
+					y -= font.Height() / 2.0f;
+				else if (HasFlag(alignment, Alignment::Bottom))
+					y -= font.Height();
+
+				al_draw_ustr(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, System::AllegroAdapter::ToAlignmentFlags(alignment), System::AllegroAdapter::ToUStr(text));
+
+			}
+
+			else if (_path_canvas != nullptr)
+				_path_canvas->AddRectangle(x, y, text.Width(font), text.Height(font));
 
 		}
 
 		void Graphics::DrawSprite(float x, float y, const Sprite& sprite, int subimage) {
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_draw_bitmap(
-				System::AllegroAdapter::ToBitmap((sprite)[subimage]),
-				x + sprite.Origin().X(),
-				y + sprite.Origin().Y(),
-				NULL
-			);
+				_makeThisActiveInstance(true);
+
+				al_draw_bitmap(
+					System::AllegroAdapter::ToBitmap((sprite)[subimage]),
+					x + sprite.Origin().X(),
+					y + sprite.Origin().Y(),
+					NULL
+				);
+
+			}
+
+			else if (_path_canvas != nullptr)
+				_path_canvas->AddRectangle(x - sprite.Origin().X(), y - sprite.Origin().Y(), sprite.Width(), sprite.Height());
 
 		}
 		void Graphics::DrawSprite(float x, float y, const Sprite& sprite, int subimage, float xscale, float yscale, float angle, const Color& blend) {
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_draw_tinted_scaled_rotated_bitmap(
-				System::AllegroAdapter::ToBitmap((sprite)[subimage]),
-				al_map_rgba_f(blend.Rf() * blend.Alphaf(), blend.Gf() * blend.Alphaf(), blend.Bf() * blend.Alphaf(), blend.Alphaf()),
-				sprite.Origin().X(),
-				sprite.Origin().Y(),
-				x,
-				y,
-				xscale,
-				yscale,
-				Math::DegreesToRadians(-angle),
-				NULL
-			);
+				_makeThisActiveInstance(true);
+
+				al_draw_tinted_scaled_rotated_bitmap(
+					System::AllegroAdapter::ToBitmap((sprite)[subimage]),
+					al_map_rgba_f(blend.Rf() * blend.Alphaf(), blend.Gf() * blend.Alphaf(), blend.Bf() * blend.Alphaf(), blend.Alphaf()),
+					sprite.Origin().X(),
+					sprite.Origin().Y(),
+					x,
+					y,
+					xscale,
+					yscale,
+					Math::DegreesToRadians(-angle),
+					NULL
+				);
+
+			}
+
+			else if (_path_canvas != nullptr) {
+
+				Transform transform;
+				transform.Rotate(sprite.Origin(), angle);
+				transform.Scale(xscale, yscale);
+
+				auto vertices = RectangleF(x, y, sprite.Width(), sprite.Height()).Transform(transform);
+
+				_path_canvas->AddPoints(vertices.begin(), vertices.end(), GraphicsPath::VertexTag::Polygon);
+
+			}
 
 		}
 
@@ -369,112 +500,192 @@ namespace hvn3 {
 
 			assert(static_cast<bool>(bitmap));
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_draw_bitmap(
-				System::AllegroAdapter::ToBitmap(bitmap),
-				x,
-				y,
-				NULL
-			);
+				_makeThisActiveInstance(true);
+
+				al_draw_bitmap(
+					System::AllegroAdapter::ToBitmap(bitmap),
+					x,
+					y,
+					NULL
+				);
+
+			}
+
+			else if (_path_canvas != nullptr)
+				_path_canvas->AddRectangle(x, y, bitmap.Width(), bitmap.Height());
 
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale) {
 
 			assert(static_cast<bool>(bitmap));
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_draw_scaled_bitmap(
-				System::AllegroAdapter::ToBitmap(bitmap),
-				0.0f,
-				0.0f,
-				bitmap.Width(),
-				bitmap.Height(),
-				x,
-				y,
-				bitmap.Width() * xscale,
-				bitmap.Height() * yscale,
-				NULL
-			);
+				_makeThisActiveInstance(true);
+
+				al_draw_scaled_bitmap(
+					System::AllegroAdapter::ToBitmap(bitmap),
+					0.0f,
+					0.0f,
+					bitmap.Width(),
+					bitmap.Height(),
+					x,
+					y,
+					bitmap.Width() * xscale,
+					bitmap.Height() * yscale,
+					NULL
+				);
+
+			}
+
+			else if (_path_canvas != nullptr) {
+
+				Transform transform;
+				transform.Scale(xscale, yscale);
+
+				auto vertices = RectangleF(x, y, bitmap.Width(), bitmap.Height()).Transform(transform);
+
+				_path_canvas->AddPoints(vertices.begin(), vertices.end(), GraphicsPath::VertexTag::Polygon);
+
+			}
 
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const Color& tint) {
 
 			assert(static_cast<bool>(bitmap));
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_draw_tinted_scaled_bitmap(
-				System::AllegroAdapter::ToBitmap(bitmap),
-				System::AllegroAdapter::ToColor(tint),
-				0.0f,
-				0.0f,
-				bitmap.Width(),
-				bitmap.Height(),
-				x,
-				y,
-				bitmap.Width() * xscale,
-				bitmap.Height() * yscale,
-				NULL
-			);
+				_makeThisActiveInstance(true);
+
+				al_draw_tinted_scaled_bitmap(
+					System::AllegroAdapter::ToBitmap(bitmap),
+					System::AllegroAdapter::ToColor(tint),
+					0.0f,
+					0.0f,
+					bitmap.Width(),
+					bitmap.Height(),
+					x,
+					y,
+					bitmap.Width() * xscale,
+					bitmap.Height() * yscale,
+					NULL
+				);
+
+			}
+
+			else if (_path_canvas != nullptr) {
+
+				Transform transform;
+				transform.Scale(xscale, yscale);
+
+				auto vertices = RectangleF(x, y, bitmap.Width(), bitmap.Height()).Transform(transform);
+
+				_path_canvas->AddPoints(vertices.begin(), vertices.end(), GraphicsPath::VertexTag::Polygon);
+
+			}
 
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const PointF& origin, float angle) {
 
 			assert(static_cast<bool>(bitmap));
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_draw_scaled_rotated_bitmap(
-				System::AllegroAdapter::ToBitmap(bitmap),
-				origin.X(),
-				origin.Y(),
-				x,
-				y,
-				xscale,
-				yscale,
-				Math::DegreesToRadians(-angle),
-				NULL
-			);
+				_makeThisActiveInstance(true);
+
+				al_draw_scaled_rotated_bitmap(
+					System::AllegroAdapter::ToBitmap(bitmap),
+					origin.X(),
+					origin.Y(),
+					x,
+					y,
+					xscale,
+					yscale,
+					Math::DegreesToRadians(-angle),
+					NULL
+				);
+
+			}
+
+			else if (_path_canvas != nullptr) {
+
+				Transform transform;
+				transform.Rotate(origin, angle);
+				transform.Scale(xscale, yscale);
+
+				auto vertices = RectangleF(x, y, bitmap.Width(), bitmap.Height()).Transform(transform);
+
+				_path_canvas->AddPoints(vertices.begin(), vertices.end(), GraphicsPath::VertexTag::Polygon);
+
+			}
 
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float xscale, float yscale, const PointF& origin, float angle, const Color& tint) {
 
 			assert(static_cast<bool>(bitmap));
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_draw_tinted_scaled_rotated_bitmap(
-				System::AllegroAdapter::ToBitmap(bitmap),
-				System::AllegroAdapter::ToColor(tint),
-				origin.X(),
-				origin.Y(),
-				x,
-				y,
-				xscale,
-				yscale,
-				Math::DegreesToRadians(angle),
-				NULL
-			);
+				_makeThisActiveInstance(true);
+
+				al_draw_tinted_scaled_rotated_bitmap(
+					System::AllegroAdapter::ToBitmap(bitmap),
+					System::AllegroAdapter::ToColor(tint),
+					origin.X(),
+					origin.Y(),
+					x,
+					y,
+					xscale,
+					yscale,
+					Math::DegreesToRadians(angle),
+					NULL);
+
+			}
+
+			else if (_path_canvas != nullptr) {
+
+				Transform transform;
+				transform.Rotate(origin, angle);
+				transform.Scale(xscale, yscale);
+
+				auto vertices = RectangleF(x, y, bitmap.Width(), bitmap.Height()).Transform(transform);
+
+				_path_canvas->AddPoints(vertices.begin(), vertices.end(), GraphicsPath::VertexTag::Polygon);
+
+			}
 
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, const RectangleF& region) {
 
 			assert(static_cast<bool>(bitmap));
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_draw_bitmap_region(System::AllegroAdapter::ToBitmap(bitmap), region.X(), region.Y(), region.Width(), region.Height(), x, y, NULL);
+				_makeThisActiveInstance(true);
+
+				al_draw_bitmap_region(System::AllegroAdapter::ToBitmap(bitmap), region.X(), region.Y(), region.Width(), region.Height(), x, y, NULL);
+
+			}
+			else if (_path_canvas != nullptr)
+				_path_canvas->AddRectangle(x, y, region.Width(), region.Height());
 
 		}
 		void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, const Color& tint) {
 
 			assert(static_cast<bool>(bitmap));
 
-			_makeThisActiveInstance(true);
+			if (_canvas != nullptr) {
 
-			al_draw_tinted_bitmap(System::AllegroAdapter::ToBitmap(bitmap), al_map_rgba_f(tint.Alphaf(), tint.Alphaf(), tint.Alphaf(), tint.Alphaf()), x, y, NULL);
+				_makeThisActiveInstance(true);
+
+				al_draw_tinted_bitmap(System::AllegroAdapter::ToBitmap(bitmap), al_map_rgba_f(tint.Alphaf(), tint.Alphaf(), tint.Alphaf(), tint.Alphaf()), x, y, NULL);
+
+			}
+			else if (_path_canvas != nullptr)
+				_path_canvas->AddRectangle(x, y, bitmap.Width(), bitmap.Height());
 
 		}
 
@@ -498,7 +709,10 @@ namespace hvn3 {
 		}
 		void Graphics::ResetClip() {
 
-			SetClip(0, 0, _canvas.Width(), _canvas.Height());
+			if (_canvas != nullptr)
+				SetClip(0, 0, _canvas->Width(), _canvas->Height());
+			else
+				SetClip(0, 0, std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
 
 		}
 
@@ -608,11 +822,11 @@ namespace hvn3 {
 		void Graphics::_makeThisActiveInstance(bool writing) const {
 
 			if (writing)
-				_canvas._perform_pre_write_operations();
+				_canvas->_perform_pre_write_operations();
 
 			if (!_isActiveInstance()) {
 
-				al_set_target_bitmap(System::AllegroAdapter::ToBitmap(_canvas));
+				al_set_target_bitmap(System::AllegroAdapter::ToBitmap(*_canvas));
 
 				_applyClip();
 				_applyTransform();

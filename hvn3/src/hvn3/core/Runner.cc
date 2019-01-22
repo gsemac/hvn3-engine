@@ -622,7 +622,7 @@ namespace hvn3 {
 						continue;
 
 					// Get the scale of the actual viewport relative to the view's port, as well as the view's scale.
-					Scale port_scale = Scale(viewport, view.Port());
+					Scale port_scale = view.Port().ScaleTo(viewport);
 					Scale view_scale(view.Scale());
 
 					// Get the mouse position relative to the viewport.

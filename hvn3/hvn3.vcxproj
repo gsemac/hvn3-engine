@@ -91,6 +91,7 @@
     <ClInclude Include="include\hvn3\graphics\Bitmap.h" />
     <ClInclude Include="include\hvn3\graphics\Display.h" />
     <ClInclude Include="include\hvn3\graphics\Graphics.h" />
+    <ClInclude Include="include\hvn3\graphics\GraphicsPath.h" />
     <ClInclude Include="include\hvn3\graphics\GraphicsState.h" />
     <ClInclude Include="include\hvn3\graphics\GraphicsDefs.h" />
     <ClInclude Include="include\hvn3\graphics\GridRenderer.h" />
@@ -301,6 +302,7 @@
     <ClCompile Include="src\hvn3\graphics\Bitmap.cc" />
     <ClCompile Include="src\hvn3\graphics\Display.cc" />
     <ClCompile Include="src\hvn3\graphics\Graphics.cc" />
+    <ClCompile Include="src\hvn3\graphics\GraphicsPath.cc" />
     <ClCompile Include="src\hvn3\graphics\GraphicsState.cc" />
     <ClCompile Include="src\hvn3\graphics\GridRenderer.cc" />
     <ClCompile Include="src\hvn3\graphics\GridRendererExt.cc" />

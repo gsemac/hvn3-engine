@@ -2,7 +2,10 @@
 #include "hvn3/core/Positionable2dBase.h"
 #include "hvn3/core/SizeableBase.h"
 #include "hvn3/exceptions/Exception.h"
+#include "hvn3/graphics/Transform.h"
 #include "hvn3/math/Line.h"
+
+#include <array>
 
 namespace hvn3 {
 
@@ -17,6 +20,8 @@ namespace hvn3 {
 	class Rectangle :
 		public Positionable2dBase<T>,
 		public SizeableBase<T> {
+
+		typedef Point2d<T> point_t;
 
 	public:
 		Rectangle() :
@@ -170,6 +175,26 @@ namespace hvn3 {
 			throw System::NotImplementedException();
 
 		}
+		// Returns an array of rotated points representing the vertices of the rectangle, ordered clockwise from the top-left vertex.
+		std::array<point_t, 4> Rotate(const point_t& origin, T degrees) {
+
+			Graphics::Transform transform;
+			transform.Rotate(origin, degrees);
+
+			return Transform(transform);
+
+		}
+		// Returns an array of transformed points representing the vertices of the rectangle, ordered clockwise from the top-left vertex.
+		std::array<point_t, 4> Transform(const Graphics::Transform& transform) {
+
+			point_t tl = transform.TransformPoint(TopLeft());
+			point_t tr = transform.TransformPoint(TopRight());
+			point_t br = transform.TransformPoint(BottomRight());
+			point_t bl = transform.TransformPoint(BottomLeft());
+
+			return { tl, tr, br, bl };
+
+		}
 
 		static Rectangle<T> Intersection(const Rectangle<T>& a, const Rectangle<T>& b) {
 
@@ -214,6 +239,9 @@ namespace hvn3 {
 
 		}
 
+		class Scale ScaleTo(const Rectangle<T>& other) {
+			return class Scale(other.Width() / Width(), other.Height() / Height());
+		}
 		T Area() const {
 
 			return Width() * Height();

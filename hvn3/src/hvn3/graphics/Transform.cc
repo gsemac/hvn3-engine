@@ -1,5 +1,6 @@
 #include "hvn3/graphics/Transform.h"
 #include "hvn3/utility/Utility.h"
+
 #include <allegro5/allegro.h>
 
 namespace hvn3 {

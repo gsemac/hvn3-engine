@@ -1,5 +1,7 @@
 #pragma once
+
 #include "hvn3/utility/Hash.h"
+
 #include <iostream>
 
 namespace hvn3 {

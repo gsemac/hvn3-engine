@@ -1,5 +1,6 @@
 #pragma once
-#include "hvn3/math/Rectangle.h"
+
+#include "hvn3/math/Point2d.h"
 #include "hvn3/utility/Size.h"
 
 namespace hvn3 {
@@ -13,15 +14,7 @@ namespace hvn3 {
 		Scale(value_type x_scale, value_type y_scale);
 
 		template <typename T>
-		Scale(const Rectangle<T>& a, const Rectangle<T>& b) :
-			Scale(a.Width() / b.Width(), a.Height() / b.Height()) {
-		}
-		template <typename T>
 		Scale(const Size<T>& a, const Size<T>& b) :
-			Scale(a.Width() / b.Width(), a.Height() / b.Height()) {
-		}
-		template <typename T>
-		Scale(const SizeableBase<T>& a, const SizeableBase<T>& b) :
 			Scale(a.Width() / b.Width(), a.Height() / b.Height()) {
 		}
 
