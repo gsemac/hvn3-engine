@@ -92,7 +92,7 @@ namespace hvn3 {
 
 		}
 		static typename listener_collection_type::size_type Count() {
-			return _registry.size();
+			return _registry.listeners.size();
 		}
 
 		static void SetBlocked(bool value) {

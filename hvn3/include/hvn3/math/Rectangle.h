@@ -248,6 +248,12 @@ namespace hvn3 {
 
 		}
 
+		bool ContainsPoint(const Point2d<T>& point) const {
+
+			return (point.x >= X() && point.x < X2() && point.y >= Y() && point.y < Y2());
+
+		}
+
 		template<typename U>
 		operator Rectangle<U>() {
 
