@@ -45,6 +45,7 @@ namespace hvn3 {
 		int Descent() const;
 		// Returns the font size that was passed in the constructor.
 		int Size() const;
+		FontFlags Flags() const;
 
 		// Instantiates the built-in font resource.
 		static Font BuiltIn();

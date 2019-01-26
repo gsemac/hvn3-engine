@@ -83,6 +83,9 @@ namespace hvn3 {
 		return _size;
 
 	}
+	FontFlags Font::Flags() const {
+		return _flags;
+	}
 
 	Font Font::BuiltIn() {
 

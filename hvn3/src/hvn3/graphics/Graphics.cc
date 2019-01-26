@@ -422,14 +422,25 @@ namespace hvn3 {
 		}
 		void Graphics::DrawText(float x, float y, const String& text, const Font& font, const Color& color, Alignment alignment) {
 
+			// Apply alignment flags.
+
+			if (HasFlag(alignment, Alignment::Middle))
+				y -= font.Height() / 2.0f;
+			else if (HasFlag(alignment, Alignment::Bottom))
+				y -= font.Height();
+
+			// If drawing a monochrome (pixel) font, round the drawing coordinates.
+
+			if (HasFlag(font.Flags(), FontFlags::Monochrome)) {
+
+				x = Math::Round(x);
+				y = Math::Round(y);
+
+			}
+
 			if (_canvas != nullptr) {
 
 				_makeThisActiveInstance(true);
-
-				if (HasFlag(alignment, Alignment::Middle))
-					y -= font.Height() / 2.0f;
-				else if (HasFlag(alignment, Alignment::Bottom))
-					y -= font.Height();
 
 				al_draw_ustr(System::AllegroAdapter::ToFont(font), System::AllegroAdapter::ToColor(color), x, y, System::AllegroAdapter::ToAlignmentFlags(alignment), System::AllegroAdapter::ToUStr(text));
 
