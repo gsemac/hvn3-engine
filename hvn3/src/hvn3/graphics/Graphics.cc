@@ -497,7 +497,7 @@ namespace hvn3 {
 				transform.Rotate(sprite.Origin(), angle);
 				transform.Scale(xscale, yscale);
 
-				auto vertices = RectangleF(x, y, sprite.Width(), sprite.Height()).Transform(transform);
+				auto vertices = RectangleF(x - sprite.Origin().x, y - sprite.Origin().y, sprite.Width(), sprite.Height()).Transform(transform);
 
 				_path_canvas->AddPoints(vertices.begin(), vertices.end(), GraphicsPath::VertexTag::Polygon);
 
