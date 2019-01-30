@@ -11,6 +11,7 @@ namespace hvn3 {
 			SetCellColor(Color::Transparent);
 
 			_cell_margin = 0.0f;
+			_lines_visible = true;
 			_buffer_invalidated = true;
 
 		}
@@ -72,7 +73,15 @@ namespace hvn3 {
 		void GridRendererExt::SetLineStyle(const Pen& value) {
 
 			_pen = value;
+			_buffer_invalidated = true;
 
+		}
+		void GridRendererExt::SetLinesVisible(bool value) {
+
+			if (_lines_visible == value)
+				return;
+
+			_lines_visible = value;
 			_buffer_invalidated = true;
 
 		}
@@ -143,8 +152,13 @@ namespace hvn3 {
 				float dy = 0.0f;
 
 				g.DrawSolidRectangle(dx, dy, cell_w, cell_h, _cell_colors[Math::Min(i, _cell_colors.size() - 1)]);
-				g.DrawLine(dx, dy + actual_cs.height - (_cell_margin / 2.0f), dx + actual_cs.width, dy + actual_cs.height - (_cell_margin / 2.0f), _pen); // bottom
-				g.DrawLine(dx + actual_cs.width - (_cell_margin / 2.0f), dy, dx + actual_cs.width - (_cell_margin / 2.0f), dy + actual_cs.height, _pen); // right
+
+				if (_lines_visible) {
+
+					g.DrawLine(dx, dy + actual_cs.height - (_cell_margin / 2.0f), dx + actual_cs.width, dy + actual_cs.height - (_cell_margin / 2.0f), _pen); // bottom
+					g.DrawLine(dx + actual_cs.width - (_cell_margin / 2.0f), dy, dx + actual_cs.width - (_cell_margin / 2.0f), dy + actual_cs.height, _pen); // right
+
+				}
 
 			}
 

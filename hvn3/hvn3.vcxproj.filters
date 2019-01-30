@@ -876,6 +876,9 @@
     <ClInclude Include="include\hvn3\graphics\GraphicsPath.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\gui2\DragOffset.h">
+      <Filter>include\gui2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1319,6 +1322,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\graphics\GraphicsPath.cc">
       <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui2\DragOffset.cc">
+      <Filter>src\gui2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

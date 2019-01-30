@@ -1,9 +1,13 @@
 #pragma once
+
 #include "hvn3/graphics/GridRendererExt.h"
+#include "hvn3/gui2/DragOffset.h"
 #include "hvn3/gui2/ScrollableWidgetBase.h"
+#include "hvn3/io/Mouse.h"
 #include "hvn3/objects/IObject.h"
 #include "hvn3/objects/IObjectManager.h"
 #include "hvn3/rooms/IRoom.h"
+
 #include <cassert>
 
 namespace hvn3 {
@@ -22,9 +26,15 @@ namespace hvn3 {
 				_draw_objects = true;
 				_draw_outside_room = true;
 
+				_dragging = false;
+				_drag_button_held = false;
+
 				Graphics::Pen pen(hvn3::Color(hvn3::Color::Black, 128));
 				pen.SetDashPattern({ 2.0f });
-				_grid_renderer.SetLineStyle(pen);
+				_fg_grid.SetLineStyle(pen);
+
+				_bg_grid.SetLinesVisible(false);
+				_bg_grid.SetCellColors({ Color::White, Color::Silver });
 
 			}
 			RoomView(const IRoomPtr& room) :
@@ -113,9 +123,61 @@ namespace hvn3 {
 
 			}
 
+			void OnKeyPressed(WidgetKeyPressedEventArgs& e) override {
+
+				if (e.Key() == Key::Space) {
+
+					_drag_button_held = true;
+
+					if (_dragging)
+						_drag_offset.SetClickedPosition(Mouse::Position());
+
+				}
+
+			}
+			void OnKeyUp(WidgetKeyUpEventArgs& e) override {
+
+				if (e.Key() == Key::Space)
+					_drag_button_held = false;
+
+			}
+			void OnMousePressed(WidgetMousePressedEventArgs& e) override {
+
+				if (e.Button() == MouseButton::Left) {
+
+					_dragging = true;
+
+					if (_drag_button_held)
+						_drag_offset.SetClickedPosition(e.Position());
+
+				}
+
+			}
+			void OnMouseReleased(WidgetMouseReleasedEventArgs& e) override {
+
+				if (e.Button() == MouseButton::Left)
+					_dragging = false;
+
+			}
+			void OnMouseMove(WidgetMouseMoveEventArgs& e) override {
+
+				if (_dragging && _drag_button_held) {
+
+					_drag_offset.SetDraggedPosition(e.Position());
+
+
+
+				}
+
+			}
 			void OnDraw(WidgetDrawEventArgs& e) override {
 
-				if (_room) {					
+				// Draw background grid.
+
+				Grid grid(Size(), SizeF(16.0f, 16.0f), true);
+				_bg_grid.Draw(e.Graphics(), Position(), grid);
+				
+				if (_room) {
 
 					DrawEventArgs args(e.Graphics());
 
@@ -124,15 +186,15 @@ namespace hvn3 {
 					Graphics::Transform t = e.Graphics().GetTransform();
 					RectangleF clip = e.Graphics().Clip();
 
-					float xoff = X() - VisibleRegion().X();
-					float yoff = Y() - VisibleRegion().Y();
+					float xoff = X() - VisibleRegion().X() + _drag_offset.X();
+					float yoff = Y() - VisibleRegion().Y() + _drag_offset.Y();
 					SizeF room_size = static_cast<SizeF>(_room->Size() * _room_scale);
 
 					t.Scale(_room_scale);
 					t.Translate(xoff, yoff);
 
 					e.Graphics().SetTransform(t);
-					e.Graphics().SetClip(RectangleF::Intersection(clip, RectangleF(FixedPosition(), room_size)));
+					e.Graphics().SetClip(RectangleF::Intersection(clip, RectangleF(FixedPosition() - VisibleRegion().Position() + _drag_offset.Offset(), room_size)));
 
 					_room->OnDraw(args);
 
@@ -151,7 +213,7 @@ namespace hvn3 {
 						SizeF cell_size = _grid_cell_size * _room_scale;
 						Grid grid(room_size, cell_size, true);
 
-						_grid_renderer.Draw(e.Graphics(), PointF(xoff, yoff), grid);
+						_fg_grid.Draw(e.Graphics(), PointF(xoff, yoff), grid);
 
 					}
 
@@ -166,7 +228,12 @@ namespace hvn3 {
 			bool _draw_outside_room;
 			SizeF _grid_cell_size;
 			Scale _room_scale;
-			hvn3::Graphics::GridRendererExt _grid_renderer;
+			hvn3::Graphics::GridRendererExt _fg_grid;
+			hvn3::Graphics::GridRendererExt _bg_grid;
+
+			bool _dragging;
+			bool _drag_button_held;
+			gui::DragOffset _drag_offset;
 
 			PointF _positionToRoomPosition(const PointF& position) const {
 

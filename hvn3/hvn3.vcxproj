@@ -107,6 +107,7 @@
     <ClInclude Include="include\hvn3\gui2\ContainerWidgetBase.h" />
     <ClInclude Include="include\hvn3\gui2\ContextMenu.h" />
     <ClInclude Include="include\hvn3\gui2\DataGrid.h" />
+    <ClInclude Include="include\hvn3\gui2\DragOffset.h" />
     <ClInclude Include="include\hvn3\gui2\gui.h" />
     <ClInclude Include="include\hvn3\gui2\GuiManager.h" />
     <ClInclude Include="include\hvn3\gui2\Label.h" />
@@ -314,6 +315,7 @@
     <ClCompile Include="src\hvn3\gui2\Button.cc" />
     <ClCompile Include="src\hvn3\gui2\ContextMenu.cc" />
     <ClCompile Include="src\hvn3\gui2\DataGrid.cc" />
+    <ClCompile Include="src\hvn3\gui2\DragOffset.cc" />
     <ClCompile Include="src\hvn3\gui2\GuiManager.cc" />
     <ClCompile Include="src\hvn3\gui2\MenuStrip.cc" />
     <ClCompile Include="src\hvn3\gui2\Scrollbar.cc" />

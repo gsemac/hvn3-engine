@@ -112,6 +112,11 @@ namespace hvn3 {
 				}
 
 			}
+			const SizeF& ScrollableSize() const {
+
+				return _scrollable_size;
+
+			}
 			void SetScrollableSize(const SizeF& scrollable_size) {
 				_scrollable_size = scrollable_size;
 			}
