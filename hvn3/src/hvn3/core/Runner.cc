@@ -629,7 +629,7 @@ namespace hvn3 {
 					pos -= port_p1;
 
 					// Scale it according to the view scale.
-					(view_scale * port_scale).Inverse().ScalePoint(pos);
+					pos = (view_scale * port_scale).Inverse().ScalePoint(pos);
 
 					// Rotate it against the view's angle.
 					pos = Math::Geometry::PointRotate(pos, view.Region().Midpoint() - view.Position(), -view.Angle());
@@ -659,7 +659,7 @@ namespace hvn3 {
 				pos -= _graphics.Clip().TopLeft();
 
 				if (_properties().ScalingMode != ScalingMode::Fixed)
-					Scale(SizeF(room.Width(), room.Height()), _graphics.Clip().Size()).ScalePoint(pos);
+					pos = Scale(SizeF(room.Width(), room.Height()), _graphics.Clip().Size()).ScalePoint(pos);
 
 				// Set the new mouse position.
 				MouseMutator().SetPosition(pos.X(), pos.Y());

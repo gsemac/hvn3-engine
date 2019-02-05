@@ -23,10 +23,12 @@ namespace hvn3 {
 		value_type Factor() const;
 
 		template <typename T>
-		Point2d<T>& ScalePoint(Point2d<T>& point) const {
+		Point2d<T> ScalePoint(const Point2d<T>& point) const {
 
-			point.SetX(point.X() * _scale_factor_x);
-			point.SetY(point.Y() * _scale_factor_y);
+			return Point2d<T>(
+				point.X() * _scale_factor_x,
+				point.Y() * _scale_factor_y
+				);
 
 			return point;
 
@@ -37,7 +39,7 @@ namespace hvn3 {
 
 		friend Scale operator*(const Scale& a, const Scale& b);
 		Scale& operator*=(const Scale& other);
-		
+
 	private:
 		value_type _scale_factor_x;
 		value_type _scale_factor_y;

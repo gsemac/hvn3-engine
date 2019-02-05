@@ -14,6 +14,8 @@ namespace hvn3 {
 			void SetClickedPosition(const PointF& clickedPosition);
 			void SetDraggedPosition(const PointF& draggedToPosition);
 			PointF Offset() const;
+			void SetOffset(const PointF& offset);
+			void SetOffset(float offsetX, float offsetY);
 			float X() const;
 			float Y() const;
 

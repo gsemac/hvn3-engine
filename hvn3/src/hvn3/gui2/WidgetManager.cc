@@ -94,7 +94,7 @@ namespace hvn3 {
 		void WidgetManager::Add(std::unique_ptr<IWidget>& widget) {
 
 			Add(std::move(widget));
-				
+
 		}
 		void WidgetManager::Add(const IWidgetPtr& widget) {
 
@@ -371,7 +371,13 @@ namespace hvn3 {
 
 		void WidgetManager::OnKeyDown(KeyDownEventArgs& e) {
 
-			if (_widget_focused == nullptr)
+			// Forward the event to all widgets that have key preview enabled.
+
+			for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
+				if (i->widget->KeyPreviewEnabled())
+					i->widget->HandleEvent(WidgetKeyDownEventArgs(i->widget.get(), e));
+
+			if (_widget_focused == nullptr || e.Handled())
 				return;
 
 			_widget_focused->HandleEvent(WidgetKeyDownEventArgs(_widget_focused, e));
@@ -379,6 +385,12 @@ namespace hvn3 {
 
 		}
 		void WidgetManager::OnKeyPressed(KeyPressedEventArgs& e) {
+
+			// Forward the event to all widgets that have key preview enabled.
+
+			for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
+				if (i->widget->KeyPreviewEnabled())
+					i->widget->HandleEvent(WidgetKeyPressedEventArgs(i->widget.get(), e));
 
 			if (_widget_focused == nullptr)
 				return;
@@ -437,6 +449,12 @@ namespace hvn3 {
 		}
 		void WidgetManager::OnKeyUp(KeyUpEventArgs& e) {
 
+			// Forward the event to all widgets that have key preview enabled.
+
+			for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
+				if (i->widget->KeyPreviewEnabled())
+					i->widget->HandleEvent(WidgetKeyUpEventArgs(i->widget.get(), e));
+
 			if (_widget_focused == nullptr)
 				return;
 
@@ -444,6 +462,12 @@ namespace hvn3 {
 
 		}
 		void WidgetManager::OnKeyChar(KeyCharEventArgs& e) {
+
+			// Forward the event to all widgets that have key preview enabled.
+
+			for (auto i = _widgets.begin(); i != _widgets.end(); ++i)
+				if (i->widget->KeyPreviewEnabled())
+					i->widget->HandleEvent(WidgetKeyCharEventArgs(i->widget.get(), e));
 
 			if (_widget_focused == nullptr)
 				return;
@@ -524,7 +548,7 @@ namespace hvn3 {
 			The widgets are iterated over such that the highest ones are checked first.
 			This only needs to be done if the mouse is within the fixed region of the parent widget.
 			*/
-	
+
 			if (Math::Geometry::PointIn(e.Position(), fixed_parent_region)) {
 				for (auto i = _widgets.rbegin(); i != _widgets.rend(); ++i) {
 

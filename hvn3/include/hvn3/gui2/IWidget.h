@@ -8,7 +8,7 @@
 
 namespace hvn3 {
 	namespace Gui {
-	
+
 		class ContextMenu;
 		class GuiManager;
 		class WidgetManager;
@@ -64,6 +64,8 @@ namespace hvn3 {
 			virtual void SetTabStop(bool value) = 0;
 			virtual bool HasFocus() const = 0;
 			virtual void Focus() = 0;
+			virtual bool KeyPreviewEnabled() const = 0;
+			virtual void SetKeyPreviewEnabled(bool value) = 0;
 
 			virtual ContextMenu* GetContextMenu() = 0;
 			virtual void SetContextMenu(ContextMenu* context_menu) = 0;

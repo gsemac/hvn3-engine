@@ -27,6 +27,16 @@ namespace hvn3 {
 			return _current_offset;
 
 		}
+		void DragOffset::SetOffset(const PointF& offset) {
+
+			_current_offset = offset;
+
+		}
+		void DragOffset::SetOffset(float offsetX, float offsetY) {
+
+			SetOffset(PointF(offsetX, offsetY));
+
+		}
 		float DragOffset::X() const {
 
 			return Offset().x;

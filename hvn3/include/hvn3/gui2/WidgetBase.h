@@ -57,6 +57,8 @@ namespace hvn3 {
 			void SetTabStop(bool value) override;
 			bool HasFocus() const override;
 			void Focus() override;
+			bool KeyPreviewEnabled() const override;
+			void SetKeyPreviewEnabled(bool value) override;
 
 			ContextMenu* GetContextMenu() override;
 			void SetContextMenu(ContextMenu* context_menu) override;
@@ -114,6 +116,7 @@ namespace hvn3 {
 			WidgetManager* _parent_manager;
 			callback_table_type _callbacks;
 			bool _tab_stop;
+			bool _key_preview_enabled;
 
 			ContextMenu* _context_menu;
 			bool _context_menu_managed;

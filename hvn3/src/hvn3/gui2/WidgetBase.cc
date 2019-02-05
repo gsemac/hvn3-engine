@@ -28,6 +28,7 @@ namespace hvn3 {
 			_visible = true;
 			_cursor = SystemCursor::Default;
 			_tab_stop = true;
+			_key_preview_enabled = false;
 
 			_context_menu = nullptr;
 			_context_menu_managed = false;
@@ -236,6 +237,16 @@ namespace hvn3 {
 				return;
 
 			_parent_manager->SetFocus(this);
+
+		}
+		bool WidgetBase::KeyPreviewEnabled() const {
+
+			return _key_preview_enabled;
+
+		}
+		void WidgetBase::SetKeyPreviewEnabled(bool value) {
+
+			_key_preview_enabled = value;
 
 		}
 

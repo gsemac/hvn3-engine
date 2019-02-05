@@ -14,11 +14,10 @@ namespace hvn3 {
 	namespace Gui {
 
 		class RoomView :
-			public ScrollableWidgetBase {
+			public WidgetBase {
 
 		public:
 			RoomView() :
-				ScrollableWidgetBase(SizeF(0.0f, 0.0f)),
 				_grid_cell_size(32.0f, 32.0f),
 				_room_scale(1.0f) {
 
@@ -28,6 +27,9 @@ namespace hvn3 {
 
 				_dragging = false;
 				_drag_button_held = false;
+
+				// Enable key preview so we can check for things like click+spacebar.
+				SetKeyPreviewEnabled(true);
 
 				Graphics::Pen pen(hvn3::Color(hvn3::Color::Black, 128));
 				pen.SetDashPattern({ 2.0f });
@@ -42,16 +44,11 @@ namespace hvn3 {
 
 				_room = room;
 
-				if (_room)
-					SetScrollableSize(SizeF(_room->Width(), _room->Height()));
-
 			}
 
 			void SetRoom(const IRoomPtr& room) {
 
 				_room = room;
-
-				_updateScrollableRegion();
 
 			}
 			void SetGridVisible(bool value) {
@@ -64,7 +61,7 @@ namespace hvn3 {
 
 			}
 
-			PointF GlobalPositionToRoomPosition(const PointF& position, bool snap_to_grid) const {
+			PointF DisplayPositionToWorldPosition(const PointF& position, bool snap_to_grid) const {
 
 				assert(static_cast<bool>(_room));
 
@@ -78,7 +75,7 @@ namespace hvn3 {
 				return p;
 
 			}
-			PointF GlobalPositionToGridCell(const PointF& position) const {
+			PointF DisplayPositionToGridCell(const PointF& position) const {
 
 				PointF p = _positionToRoomPosition(position);
 				p.x = Math::Floor(p.x / _grid_cell_size.width);
@@ -87,17 +84,17 @@ namespace hvn3 {
 				return p;
 
 			}
-			PointF RoomPositionToGlobalPosition(const PointF& position) const {
+			PointF WorldPositionToDisplayPosition(const PointF& position) const {
 
 				PointF global_pos = position;
 
 				global_pos *= _room_scale.Inverse();
-				global_pos += FixedPosition() - VisibleRegion().Position();
+				global_pos += FixedPosition();
 
 				return global_pos;
 
 			}
-			bool IsPositionInRoomBounds(const PointF& position) const {
+			bool IsPositionInRoom(const PointF& position) const {
 
 				if (position.x < 0.0f || position.y < 0.0f || position.x > _room->Width() || position.y > _room->Height())
 					return false;
@@ -112,6 +109,17 @@ namespace hvn3 {
 			const SizeF& GridCellSize() const {
 				return _grid_cell_size;
 			}
+
+			PointF RoomPosition() const {
+
+				return _drag_offset.Offset();
+
+			}
+			void SetRoomPosition(const PointF& position) {
+
+				_drag_offset.SetOffset(position);
+
+			}
 			Scale RoomScale() const {
 				return _room_scale;
 			}
@@ -119,9 +127,42 @@ namespace hvn3 {
 
 				_room_scale = value;
 
-				_updateScrollableRegion();
+			}
+			void SetZoom(float factor) {
+				SetZoom(PointF(0.0f, 0.0f), factor);
+			}
+			void SetZoom(const PointF& focus, float factor) {
+
+				float old_offset_x = _drag_offset.X();
+				float old_offset_y = _drag_offset.Y();
+				float old_factor = _room_scale.Factor();
+
+				// Calculate the position, in the room, that the cursor is hovering over.
+
+				float world_position_x = (focus.x - old_offset_x) / old_factor;
+				float world_position_y = (focus.y - old_offset_y) / old_factor;
+
+				// Adjust the room scale the new scale factor.
+
+				SetRoomScale(Scale(factor));
+
+				// Multiply the cursor's room position by the same scale factor.
+				// This represents the new position, in the room, that the cursor should be hovering over.
+
+				float new_world_position_x = world_position_x * factor;
+				float new_world_position_y = world_position_y * factor;
+
+				// Calculate the offset required so that the cursor is hovering over this new position.
+
+				float offset_x = focus.x - new_world_position_x;
+				float offset_y = focus.y - new_world_position_y;
+
+				// Offset the room by this amount.
+
+				_drag_offset.SetOffset(Math::Round(offset_x), Math::Round(offset_y));
 
 			}
+
 
 			void OnKeyPressed(WidgetKeyPressedEventArgs& e) override {
 
@@ -143,9 +184,12 @@ namespace hvn3 {
 			}
 			void OnMousePressed(WidgetMousePressedEventArgs& e) override {
 
-				if (e.Button() == MouseButton::Left) {
+				if (e.Button() == MouseButton::Left || e.Button() == MouseButton::Middle) {
 
 					_dragging = true;
+
+					if (e.Button() == MouseButton::Middle)
+						_drag_button_held = true;
 
 					if (_drag_button_held)
 						_drag_offset.SetClickedPosition(e.Position());
@@ -157,17 +201,14 @@ namespace hvn3 {
 
 				if (e.Button() == MouseButton::Left)
 					_dragging = false;
+				else if (e.Button() == MouseButton::Middle)
+					_drag_button_held = false;
 
 			}
 			void OnMouseMove(WidgetMouseMoveEventArgs& e) override {
 
-				if (_dragging && _drag_button_held) {
-
+				if (_dragging && _drag_button_held)
 					_drag_offset.SetDraggedPosition(e.Position());
-
-
-
-				}
 
 			}
 			void OnDraw(WidgetDrawEventArgs& e) override {
@@ -176,7 +217,7 @@ namespace hvn3 {
 
 				Grid grid(Size(), SizeF(16.0f, 16.0f), true);
 				_bg_grid.Draw(e.Graphics(), Position(), grid);
-				
+
 				if (_room) {
 
 					DrawEventArgs args(e.Graphics());
@@ -186,15 +227,15 @@ namespace hvn3 {
 					Graphics::Transform t = e.Graphics().GetTransform();
 					RectangleF clip = e.Graphics().Clip();
 
-					float xoff = X() - VisibleRegion().X() + _drag_offset.X();
-					float yoff = Y() - VisibleRegion().Y() + _drag_offset.Y();
+					float xoff = X() + _drag_offset.X();
+					float yoff = Y() + _drag_offset.Y();
 					SizeF room_size = static_cast<SizeF>(_room->Size() * _room_scale);
 
 					t.Scale(_room_scale);
 					t.Translate(xoff, yoff);
 
 					e.Graphics().SetTransform(t);
-					e.Graphics().SetClip(RectangleF::Intersection(clip, RectangleF(FixedPosition() - VisibleRegion().Position() + _drag_offset.Offset(), room_size)));
+					e.Graphics().SetClip(RectangleF::Intersection(clip, RectangleF(FixedPosition() + _drag_offset.Offset(), room_size)));
 
 					_room->OnDraw(args);
 
@@ -238,7 +279,6 @@ namespace hvn3 {
 			PointF _positionToRoomPosition(const PointF& position) const {
 
 				PointF room_origin = FixedPosition();
-				room_origin -= VisibleRegion().Position();
 
 				PointF pos = position - room_origin;
 				pos *= _room_scale.Inverse();
@@ -253,14 +293,6 @@ namespace hvn3 {
 				_room->Objects().ForEach([&](IObjectPtr& x) {
 					x->OnDraw(args);
 				});
-
-			}
-			void _updateScrollableRegion() {
-
-				if (_room)
-					SetScrollableSize(static_cast<SizeF>(_room->Size() * _room_scale));
-				else
-					SetScrollableSize(SizeF(0.0f, 0.0f));
 
 			}
 
