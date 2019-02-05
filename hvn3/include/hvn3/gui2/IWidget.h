@@ -92,6 +92,7 @@ namespace hvn3 {
 			virtual void OnKeyPressed(WidgetKeyPressedEventArgs& e) = 0;
 			virtual void OnKeyUp(WidgetKeyUpEventArgs& e) = 0;
 			virtual void OnKeyChar(WidgetKeyCharEventArgs& e) = 0;
+			virtual void OnMouseScroll(WidgetMouseScrollEventArgs& e) = 0;
 
 		protected:
 			virtual void SetManager(WidgetManager* value) = 0;

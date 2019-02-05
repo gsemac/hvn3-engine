@@ -16,7 +16,7 @@ namespace hvn3 {
 		ASSET_LOADER_EVENT_STATUS_ALREADY_LOADED
 	};
 
-	class AssetLoaderEventArgs : public System::EventArgs {
+	class AssetLoaderEventArgs : public EventArgs {
 
 	public:
 		AssetLoaderEventArgs(unsigned int assets_loaded, unsigned int total_assets, unsigned int size, ASSET_LOADER_EVENT_STATUS status, AssetId id, AssetGroupId group);

@@ -58,6 +58,7 @@ namespace hvn3 {
 			OnMouseMove,
 			OnMousePressed,
 			OnMouseReleased,
+			OnMouseScroll,
 			// Generated when the widget changes position.
 			OnMove,
 			OnUpdate,

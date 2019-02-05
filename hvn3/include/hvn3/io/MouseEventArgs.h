@@ -6,7 +6,7 @@
 namespace hvn3 {
 
 	class MouseEventArgs :
-		public System::EventArgs {
+		public EventArgs {
 
 	public:
 		MouseEventArgs(MouseButton button, const PointF& displayPosition, const PointF& worldPosition);
@@ -78,7 +78,7 @@ namespace hvn3 {
 		using MouseEventArgs::MouseEventArgs;
 	};
 
-	typedef System::EventArgs MouseLostEventArgs;
-	typedef System::EventArgs MouseFoundEventArgs;
+	typedef EventArgs MouseLostEventArgs;
+	typedef EventArgs MouseFoundEventArgs;
 
 }

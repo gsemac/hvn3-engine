@@ -624,7 +624,19 @@ namespace hvn3 {
 			_widget_hovered = new_widget_hovered;
 
 		}
-		void WidgetManager::OnMouseScroll(MouseScrollEventArgs& e) {}
+		void WidgetManager::OnMouseScroll(MouseScrollEventArgs& e) {
+
+			// We have two choices here-- Scrolling applies to the focused widget, or the hovered widget.
+			// For now, apply scrolling to the hovered widget.
+
+			if (_widget_hovered == nullptr)
+				return;
+
+			WidgetMouseScrollEventArgs args(_widget_hovered, e);
+
+			_widget_hovered->HandleEvent(args);
+
+		}
 
 		void WidgetManager::ShowDialog(std::unique_ptr<IWidget>&& widget) {
 

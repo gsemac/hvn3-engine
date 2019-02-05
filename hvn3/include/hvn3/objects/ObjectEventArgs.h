@@ -5,7 +5,7 @@
 namespace hvn3 {
 
 	class CreateEventArgs :
-		public System::EventArgs {
+		public EventArgs {
 
 	public:
 		CreateEventArgs(const Context& context) {
@@ -21,11 +21,11 @@ namespace hvn3 {
 
 	};
 
-	class DestroyEventArgs : public System::EventArgs {
+	class DestroyEventArgs : public EventArgs {
 	};
 
 	class AnimationEndEventArgs :
-		public System::EventArgs {
+		public EventArgs {
 
 	public:
 		AnimationEndEventArgs(int endIndex) {

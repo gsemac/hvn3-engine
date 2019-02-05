@@ -4,7 +4,7 @@
 
 namespace hvn3 {
 
-	class KeyboardEventArgs : public System::EventArgs {
+	class KeyboardEventArgs : public EventArgs {
 
 	public:
 		KeyboardEventArgs(Key key);
@@ -53,7 +53,7 @@ namespace hvn3 {
 
 	};
 
-	class KeyboardLostEventArgs : public System::EventArgs {};
-	class KeyboardFoundEventArgs : public System::EventArgs {};
+	class KeyboardLostEventArgs : public EventArgs {};
+	class KeyboardFoundEventArgs : public EventArgs {};
 
 }

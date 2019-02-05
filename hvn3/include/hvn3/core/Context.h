@@ -77,7 +77,7 @@ namespace hvn3 {
 	};
 
 	class ContextChangedEventArgs :
-		public System::EventArgs {
+		public EventArgs {
 
 	public:
 		ContextChangedEventArgs(const hvn3::Context& context) :

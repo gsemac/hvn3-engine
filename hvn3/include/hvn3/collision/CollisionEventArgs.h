@@ -6,7 +6,7 @@ namespace hvn3 {
 	class ICollider;
 
 	class CollisionEventArgs : 
-		public System::EventArgs {
+		public EventArgs {
 
 	public:
 		CollisionEventArgs(ICollider* other);

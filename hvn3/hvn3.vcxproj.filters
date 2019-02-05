@@ -879,6 +879,9 @@
     <ClInclude Include="include\hvn3\gui2\DragOffset.h">
       <Filter>include\gui2</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\events\IEventArgs.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

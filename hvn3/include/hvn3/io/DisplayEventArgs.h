@@ -4,7 +4,7 @@
 
 namespace hvn3 {
 
-	class DisplayEventArgs : public hvn3::System::EventArgs {
+	class DisplayEventArgs : public hvn3::EventArgs {
 	public:
 		DisplayEventArgs(Display* display) {
 			_display = display;

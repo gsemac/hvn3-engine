@@ -83,6 +83,7 @@
     <ClInclude Include="include\hvn3\events\EventArgs.h" />
     <ClInclude Include="include\hvn3\events\EventQueue.h" />
     <ClInclude Include="include\hvn3\events\EventSource.h" />
+    <ClInclude Include="include\hvn3\events\IEventArgs.h" />
     <ClInclude Include="include\hvn3\events\Timer.h" />
     <ClInclude Include="include\hvn3\exceptions\Exception.h" />
     <ClInclude Include="include\hvn3\fonts\Font.h" />

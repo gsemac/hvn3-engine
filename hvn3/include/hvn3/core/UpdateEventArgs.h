@@ -3,7 +3,7 @@
 
 namespace hvn3 {
 
-	class UpdateEventArgs : public System::EventArgs {
+	class UpdateEventArgs : public EventArgs {
 
 	public:
 		UpdateEventArgs(double dt);

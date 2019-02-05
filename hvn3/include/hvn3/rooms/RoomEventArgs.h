@@ -4,19 +4,19 @@
 namespace hvn3 {
 
 	class RoomCreateEventArgs :
-		public System::EventArgs {
+		public EventArgs {
 	public:
 		RoomCreateEventArgs() = default;
 	};
 
 	class RoomEnterEventArgs :
-		public System::EventArgs {
+		public EventArgs {
 	public:
 		RoomEnterEventArgs() = default;
 	};
 
 	class RoomExitEventArgs :
-		public System::EventArgs {
+		public EventArgs {
 	public:
 		RoomExitEventArgs() = default;
 	};

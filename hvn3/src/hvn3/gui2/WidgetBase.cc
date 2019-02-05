@@ -57,6 +57,7 @@ namespace hvn3 {
 				EVENT_HANDLER_CASE(WidgetEventType::OnKeyPressed, OnKeyPressed, ev);
 				EVENT_HANDLER_CASE(WidgetEventType::OnKeyReleased, OnKeyUp, ev);
 				EVENT_HANDLER_CASE(WidgetEventType::OnKeyChar, OnKeyChar, ev);
+				EVENT_HANDLER_CASE(WidgetEventType::OnMouseScroll, OnMouseScroll, ev);
 			}
 
 		}
@@ -333,7 +334,7 @@ namespace hvn3 {
 		void WidgetBase::OnKeyPressed(WidgetKeyPressedEventArgs& e) {}
 		void WidgetBase::OnKeyUp(WidgetKeyUpEventArgs& e) {}
 		void WidgetBase::OnKeyChar(WidgetKeyCharEventArgs& e) {}
-
+		void WidgetBase::OnMouseScroll(WidgetMouseScrollEventArgs& e) {}
 
 
 		WidgetManager* WidgetBase::GetManager() const {

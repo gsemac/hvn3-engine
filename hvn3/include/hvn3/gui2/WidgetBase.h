@@ -6,7 +6,8 @@
 namespace hvn3 {
 	namespace Gui {
 
-		class WidgetBase : public IWidget {
+		class WidgetBase :
+			public IWidget {
 
 			typedef std::unordered_map<WidgetEventType, std::function<void(IWidgetEventArgs&)>> callback_table_type;
 
@@ -85,6 +86,7 @@ namespace hvn3 {
 			void OnKeyPressed(WidgetKeyPressedEventArgs& e) override;
 			void OnKeyUp(WidgetKeyUpEventArgs& e) override;
 			void OnKeyChar(WidgetKeyCharEventArgs& e) override;
+			void OnMouseScroll(WidgetMouseScrollEventArgs& e) override;
 
 			template <WidgetEventType WIDGET_EVENT_TYPE>
 			void SetEventHandler(const std::function<void(typename WidgetEventTypeTraits<WIDGET_EVENT_TYPE>::type&)>& callback) {

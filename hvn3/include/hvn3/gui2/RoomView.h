@@ -28,6 +28,11 @@ namespace hvn3 {
 				_dragging = false;
 				_drag_button_held = false;
 
+				_zoom_level = 0;
+
+				_pan_enabled = true;
+				_zoom_enabled = true;
+
 				// Enable key preview so we can check for things like click+spacebar.
 				SetKeyPreviewEnabled(true);
 
@@ -163,6 +168,16 @@ namespace hvn3 {
 
 			}
 
+			void SetPanEnabled(bool value) {
+
+				_pan_enabled = value;
+
+			}
+			void SetZoomEnabled(bool value) {
+
+				_zoom_enabled = value;
+
+			}
 
 			void OnKeyPressed(WidgetKeyPressedEventArgs& e) override {
 
@@ -207,8 +222,10 @@ namespace hvn3 {
 			}
 			void OnMouseMove(WidgetMouseMoveEventArgs& e) override {
 
-				if (_dragging && _drag_button_held)
+				if (_pan_enabled && _dragging && _drag_button_held)
 					_drag_offset.SetDraggedPosition(e.Position());
+
+				_last_mouse_position = e.Position();
 
 			}
 			void OnDraw(WidgetDrawEventArgs& e) override {
@@ -261,6 +278,30 @@ namespace hvn3 {
 				}
 
 			}
+			void OnMouseScroll(WidgetMouseScrollEventArgs& e) override {
+
+				if (!_zoom_enabled)
+					return;
+
+				// The floating-point zoom factor is calculated on the spot rather than being incremented/decremented.
+				// This is to avoid errors resulting from repeated operations (e.g., adding the zoom increment on each scroll).
+
+				const int MAX_ZOOM_LEVEL = 10;
+				const float ZOOM_INCREMENT = 0.5f;
+
+				if (e.Direction() == MouseScrollDirection::Up)
+					_zoom_level = Math::Min(_zoom_level + 1, MAX_ZOOM_LEVEL);
+				else if (e.Direction() == MouseScrollDirection::Down)
+					_zoom_level = Math::Max(_zoom_level - 1, -MAX_ZOOM_LEVEL);
+
+				float zoom = 1.0f + (ZOOM_INCREMENT * static_cast<float>(Math::Abs(_zoom_level)));
+
+				if (_zoom_level < 0)
+					zoom = 1.0f / zoom;
+
+				SetZoom(_last_mouse_position - FixedPosition(), zoom);
+
+			}
 
 		private:
 			IRoomPtr _room;
@@ -275,6 +316,12 @@ namespace hvn3 {
 			bool _dragging;
 			bool _drag_button_held;
 			gui::DragOffset _drag_offset;
+
+			int _zoom_level;
+			PointF _last_mouse_position;
+
+			bool _pan_enabled;
+			bool _zoom_enabled;
 
 			PointF _positionToRoomPosition(const PointF& position) const {
 

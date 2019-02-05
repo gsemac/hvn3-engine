@@ -18,26 +18,34 @@ namespace hvn3 {
 		class WidgetManager;
 
 		// Base class for widget event args classes. The Type() method must be overridden to return the event ID.
-		class IWidgetEventArgs : public System::EventArgs {
+		class IWidgetEventArgs :
+			public EventArgs {
+
 		public:
 			virtual IWidget* Sender() const = 0;
 			virtual WidgetEventType Type() const = 0;
+
 		};
 
 		template <WidgetEventType EVENT_TYPE>
-		class WidgetEventArgsBase : public IWidgetEventArgs {
+		class WidgetEventArgsBase :
+			public IWidgetEventArgs {
+
 		public:
 			WidgetEventArgsBase(IWidget* sender) :
 				_sender(sender) {
 			}
+
 			IWidget* Sender() const override {
 				return _sender;
 			}
 			WidgetEventType Type() const override {
 				return EVENT_TYPE;
 			}
+
 		private:
 			IWidget* _sender;
+
 		};
 
 		class WidgetUpdateEventArgs : public WidgetEventArgsBase<WidgetEventType::OnUpdate> {
@@ -244,6 +252,42 @@ namespace hvn3 {
 			int _selected_index;
 		};
 
+		class WidgetMouseScrollEventArgs :
+			public WidgetEventArgsBase<WidgetEventType::OnMouseScroll> {
+
+		public:
+			WidgetMouseScrollEventArgs(IWidget* sender, const MouseScrollEventArgs& args) :
+				WidgetEventArgsBase(sender),
+				_args(args) {
+
+
+
+			}
+
+			const PointI& ScrollPosition() const {
+				return _args.ScrollPosition();
+			}
+			int ScrollX() const {
+				return _args.ScrollX();
+			}
+			int ScrollY() const {
+				return _args.ScrollY();
+			}
+			int DeltaX() const {
+				return _args.DeltaX();
+			}
+			int DeltaY() const {
+				return _args.DeltaY();
+			}
+			MouseScrollDirection Direction() const {
+				return _args.Direction();
+			}
+
+		private:
+			MouseScrollEventArgs _args;
+
+		};
+
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseReleased> WidgetMouseReleasedEventArgs;
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMouseDown> WidgetMouseDownEventArgs;
 		typedef WidgetMouseEventArgsBase<WidgetEventType::OnMousePressed> WidgetMousePressedEventArgs;
@@ -287,6 +331,7 @@ namespace hvn3 {
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnCheckedStateChanged, WidgetCheckedStateChangedEventArgs)
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnTextChanged, WidgetTextChangedEventArgs)
 			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnSelectedItemChanged, WidgetSelectedItemChangedEventArgs)
+			HVN3_DECLARE_WIDGET_EVENT_TYPE(WidgetEventType::OnMouseScroll, WidgetMouseScrollEventArgs)
 
 	}
 }
