@@ -124,12 +124,6 @@
     <Filter Include="src\assets">
       <UniqueIdentifier>{6568945e-8374-43c7-9c69-b59e5a7de7ac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\gui2">
-      <UniqueIdentifier>{ee673019-fb16-44a9-896e-41b8695c3ef7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\gui2">
-      <UniqueIdentifier>{b4840be0-2772-4c6d-8943-dfaf201bd26e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\exceptions">
       <UniqueIdentifier>{1a6ceb05-7a19-4f02-aeaa-88a3e8cd6d49}</UniqueIdentifier>
     </Filter>
@@ -159,6 +153,12 @@
     </Filter>
     <Filter Include="include\ecs">
       <UniqueIdentifier>{766147bb-76f0-405e-bf46-bbac8b827a02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\gui">
+      <UniqueIdentifier>{ee673019-fb16-44a9-896e-41b8695c3ef7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gui">
+      <UniqueIdentifier>{b4840be0-2772-4c6d-8943-dfaf201bd26e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -525,27 +525,6 @@
     <ClInclude Include="include\hvn3\physics\BasicPhysicsManager.h">
       <Filter>include\physics</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\IWidget.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\Button.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\WidgetBase.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\WidgetEventArgs.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\IWidgetRenderer.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\DefaultWidgetRenderer.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\WidgetManager.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\objects\IObject.h">
       <Filter>include\objects</Filter>
     </ClInclude>
@@ -560,12 +539,6 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\graphics\Tween.h">
       <Filter>include\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\Window.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\WidgetRenderArgs.h">
-      <Filter>include\gui2</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\core\Context.h">
       <Filter>include\core</Filter>
@@ -609,12 +582,6 @@
     <ClInclude Include="include\hvn3\graphics\Pen.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\MenuStrip.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\GuiManager.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\io\IKeyboardListener.h">
       <Filter>include\io</Filter>
     </ClInclude>
@@ -629,27 +596,6 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\io\DisplayEventArgs.h">
       <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\ContextMenu.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\TilesetView.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\Scrollbar.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\ScrollableWidgetBase.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\TabStrip.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\ContainerWidgetBase.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\ListBox.h">
-      <Filter>include\gui2</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\helper\DirectionalInputListener.h">
       <Filter>include\helper</Filter>
@@ -734,24 +680,6 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\graphics\GridRendererExt.h">
       <Filter>include\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\TextBox.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\Label.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\RoomView.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\WidgetStyle.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\WidgetLayoutBuilder.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\CheckBox.h">
-      <Filter>include\gui2</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\utility\Version.h">
       <Filter>include\utility</Filter>
@@ -852,12 +780,6 @@
     <ClInclude Include="include\hvn3\utility\PerlinNoise.h">
       <Filter>include\utility</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\DataGrid.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\GuiDefs.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\core\Engine.h">
       <Filter>include\core</Filter>
     </ClInclude>
@@ -867,17 +789,11 @@
     <ClInclude Include="include\hvn3\io\IOUtils.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\gui.h">
-      <Filter>include\gui2</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\graphics\GraphicsDefs.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\graphics\GraphicsPath.h">
       <Filter>include\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui2\DragOffset.h">
-      <Filter>include\gui2</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\events\IEventArgs.h">
       <Filter>include\events</Filter>
@@ -914,6 +830,90 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\io\Display.h">
       <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\Button.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\CheckBox.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\ContainerWidgetBase.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\ContextMenu.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\DataGrid.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\DefaultWidgetRenderer.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\DragOffset.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\gui.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\GuiDefs.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\GuiManager.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\IWidget.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\IWidgetRenderer.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\Label.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\ListBox.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\MenuStrip.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\RoomView.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\ScrollableWidgetBase.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\Scrollbar.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\TabStrip.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\TextBox.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\TilesetView.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\WidgetBase.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\WidgetEventArgs.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\WidgetLayoutBuilder.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\WidgetManager.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\WidgetRenderArgs.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\WidgetStyle.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\gui\Window.h">
+      <Filter>include\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1143,29 +1143,11 @@
     <ClCompile Include="src\hvn3\physics\BasicPhysicsManager.cc">
       <Filter>src\physics</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\WidgetBase.cc">
-      <Filter>src\gui2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\Button.cc">
-      <Filter>src\gui2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\DefaultWidgetRenderer.cc">
-      <Filter>src\gui2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\WidgetManager.cc">
-      <Filter>src\gui2</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\allegro\AllegroExt.cc">
       <Filter>src\allegro</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\graphics\Bitmap.cc">
       <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\WidgetRendererRenderArgs.cc">
-      <Filter>src\gui2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\Window.cc">
-      <Filter>src\gui2</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\core\Context.cc">
       <Filter>src\core</Filter>
@@ -1205,18 +1187,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\graphics\Pen.cc">
       <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\GuiManager.cc">
-      <Filter>src\gui2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\MenuStrip.cc">
-      <Filter>src\gui2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\Scrollbar.cc">
-      <Filter>src\gui2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\TabStrip.cc">
-      <Filter>src\gui2</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\helper\DirectionalInputListener.cc">
       <Filter>src\helper</Filter>
@@ -1281,12 +1251,6 @@
     <ClCompile Include="src\hvn3\graphics\GridRendererExt.cc">
       <Filter>src\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\WidgetStyle.cc">
-      <Filter>src\gui2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\WidgetLayoutBuilder.cc">
-      <Filter>src\gui2</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\utility\Version.cc">
       <Filter>src\utility</Filter>
     </ClCompile>
@@ -1344,23 +1308,59 @@
     <ClCompile Include="src\hvn3\utility\PerlinNoise.cc">
       <Filter>src\utility</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\ContextMenu.cc">
-      <Filter>src\gui2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\DataGrid.cc">
-      <Filter>src\gui2</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\core\Engine.cc">
       <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\graphics\GraphicsPath.cc">
       <Filter>src\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\gui2\DragOffset.cc">
-      <Filter>src\gui2</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\io\Display.cc">
       <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\Button.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\ContextMenu.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\DataGrid.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\DefaultWidgetRenderer.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\DragOffset.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\GuiManager.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\MenuStrip.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\Scrollbar.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\TabStrip.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\WidgetBase.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\WidgetLayoutBuilder.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\WidgetManager.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\WidgetRendererRenderArgs.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\WidgetStyle.cc">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\gui\Window.cc">
+      <Filter>src\gui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
