@@ -79,6 +79,15 @@
     <ClInclude Include="include\hvn3\core\SharedCreatableBase.h" />
     <ClInclude Include="include\hvn3\core\SizeableBase.h" />
     <ClInclude Include="include\hvn3\core\UpdateEventArgs.h" />
+    <ClInclude Include="include\hvn3\ecs\ComponentHandle.h" />
+    <ClInclude Include="include\hvn3\ecs\ComponentManager.h" />
+    <ClInclude Include="include\hvn3\ecs\ComponentPool.h" />
+    <ClInclude Include="include\hvn3\ecs\ComponentPoolBase.h" />
+    <ClInclude Include="include\hvn3\ecs\ComponentView.h" />
+    <ClInclude Include="include\hvn3\ecs\EcsDefs.h" />
+    <ClInclude Include="include\hvn3\ecs\EntityComponentPair.h" />
+    <ClInclude Include="include\hvn3\ecs\IComponent.h" />
+    <ClInclude Include="include\hvn3\ecs\IComponentPool.h" />
     <ClInclude Include="include\hvn3\events\Event.h" />
     <ClInclude Include="include\hvn3\events\EventArgs.h" />
     <ClInclude Include="include\hvn3\events\EventQueue.h" />
@@ -247,6 +256,7 @@
     <ClInclude Include="include\hvn3\utility\StringUtils.h" />
     <ClInclude Include="include\hvn3\utility\Thread.h" />
     <ClInclude Include="include\hvn3\utility\ThreadPool.h" />
+    <ClInclude Include="include\hvn3\utility\TypeIndexer.h" />
     <ClInclude Include="include\hvn3\utility\Utf8String.h" />
     <ClInclude Include="include\hvn3\utility\Utility.h" />
     <ClInclude Include="include\hvn3\utility\Version.h" />
