@@ -1,5 +1,5 @@
 #include "hvn3/allegro/AllegroAdapter.h"
-#include "hvn3/graphics/Display.h"
+#include "hvn3/io/Display.h"
 #include "hvn3/io/Directory.h"
 #include "hvn3/io/Path.h"
 #include "hvn3/native/FileDialog.h"

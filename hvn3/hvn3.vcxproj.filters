@@ -294,9 +294,6 @@
     <ClInclude Include="include\hvn3\graphics\Color.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\graphics\Display.h">
-      <Filter>include\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\graphics\Graphics.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
@@ -915,6 +912,9 @@
     <ClInclude Include="include\hvn3\utility\TypeIndexer.h">
       <Filter>include\utility</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\io\Display.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1006,9 +1006,6 @@
       <Filter>src\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\graphics\Color.cc">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\graphics\Display.cc">
       <Filter>src\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\io\Clipboard.cc">
@@ -1361,6 +1358,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\gui2\DragOffset.cc">
       <Filter>src\gui2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\Display.cc">
+      <Filter>src\io</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -99,7 +99,6 @@
     <ClInclude Include="include\hvn3\graphics\BitmapUtils.h" />
     <ClInclude Include="include\hvn3\graphics\Color.h" />
     <ClInclude Include="include\hvn3\graphics\Bitmap.h" />
-    <ClInclude Include="include\hvn3\graphics\Display.h" />
     <ClInclude Include="include\hvn3\graphics\Graphics.h" />
     <ClInclude Include="include\hvn3\graphics\GraphicsPath.h" />
     <ClInclude Include="include\hvn3\graphics\GraphicsState.h" />
@@ -151,6 +150,7 @@
     <ClInclude Include="include\hvn3\io\Clipboard.h" />
     <ClInclude Include="include\hvn3\io\Console.h" />
     <ClInclude Include="include\hvn3\io\Directory.h" />
+    <ClInclude Include="include\hvn3\io\Display.h" />
     <ClInclude Include="include\hvn3\io\DisplayEventArgs.h" />
     <ClInclude Include="include\hvn3\io\DisplayListener.h" />
     <ClInclude Include="include\hvn3\io\File.h" />
@@ -312,7 +312,6 @@
     <ClCompile Include="src\hvn3\graphics\BitmapUtils.cc" />
     <ClCompile Include="src\hvn3\graphics\Color.cc" />
     <ClCompile Include="src\hvn3\graphics\Bitmap.cc" />
-    <ClCompile Include="src\hvn3\graphics\Display.cc" />
     <ClCompile Include="src\hvn3\graphics\Graphics.cc" />
     <ClCompile Include="src\hvn3\graphics\GraphicsPath.cc" />
     <ClCompile Include="src\hvn3\graphics\GraphicsState.cc" />
@@ -348,6 +347,7 @@
     <ClCompile Include="src\hvn3\io\Clipboard.cc" />
     <ClCompile Include="src\hvn3\io\Console.cc" />
     <ClCompile Include="src\hvn3\io\Directory.cc" />
+    <ClCompile Include="src\hvn3\io\Display.cc" />
     <ClCompile Include="src\hvn3\io\File.cc" />
     <ClCompile Include="src\hvn3\io\FileStream.cc" />
     <ClCompile Include="src\hvn3\io\IoUtils.cc" />

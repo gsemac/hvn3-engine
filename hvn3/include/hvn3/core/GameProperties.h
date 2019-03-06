@@ -2,7 +2,7 @@
 #include "hvn3/core/CoreDefs.h"
 #include "hvn3/utility/Size.h"
 #include "hvn3/graphics/Color.h"
-#include "hvn3/graphics/Display.h"
+#include "hvn3/io/Display.h"
 #include <string>
 
 namespace hvn3 {

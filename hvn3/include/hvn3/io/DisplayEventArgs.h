@@ -1,6 +1,6 @@
 #pragma once
 #include "hvn3/events/EventArgs.h"
-#include "hvn3/graphics/Display.h"
+#include "hvn3/io/Display.h"
 
 namespace hvn3 {
 

@@ -1,4 +1,4 @@
-#include "hvn3/graphics/Display.h"
+#include "hvn3/io/Display.h"
 #include "hvn3/gui2/GuiManager.h"
 
 namespace hvn3 {

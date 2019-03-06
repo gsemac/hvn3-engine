@@ -1,6 +1,6 @@
 #include "hvn3/allegro/AllegroAdapter.h"
 #include "hvn3/core/Engine.h"
-#include "hvn3/graphics/Display.h"
+#include "hvn3/io/Display.h"
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/io/DisplayListener.h"
 #include <allegro5/allegro.h>
