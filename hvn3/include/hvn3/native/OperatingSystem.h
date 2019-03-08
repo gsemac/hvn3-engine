@@ -42,7 +42,7 @@ namespace hvn3 {
 			// Returns a value representing the platform.
 			environment::Platform Platform() const;
 			// Returns a string representing the name of the platform/operating system.
-			const std::string& Name() const;
+			const std::string& ApplicationName() const;
 			// Returns the version number of the installed service pack.
 			const hvn3::Version& ServicePack() const;
 			// Returns the version of the platform/operating system.

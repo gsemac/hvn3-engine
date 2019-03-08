@@ -6,7 +6,7 @@
 namespace hvn3 {
 
 	class Display;
-	class GameProperties;
+	class ApplicationProperties;
 	class RoomManager;
 
 	namespace System {
@@ -29,7 +29,7 @@ namespace hvn3 {
 		// Deinitializes the game and underlying framework.
 		virtual void Shutdown() = 0;
 
-		virtual GameProperties& Properties() = 0;
+		virtual ApplicationProperties& Properties() = 0;
 		virtual System::Runner& Runner() = 0;
 		virtual Display& Display() = 0;
 

@@ -10,12 +10,12 @@
 namespace hvn3 {
 
 	GameManager::GameManager() :
-		GameManager(GameProperties()) {
+		GameManager(ApplicationProperties()) {
 	}
 	GameManager::GameManager(int argc, char* argv[]) :
-		GameManager(argc, argv, GameProperties()) {
+		GameManager(argc, argv, ApplicationProperties()) {
 	}
-	GameManager::GameManager(const GameProperties& properties) :
+	GameManager::GameManager(const ApplicationProperties& properties) :
 		_global(this, [this](IManager* m) {
 		ContextChangedEventArgs args(Context());
 		m->OnContextChanged(args);
@@ -25,7 +25,7 @@ namespace hvn3 {
 		_onInit();
 
 	}
-	GameManager::GameManager(int argc, char* argv[], const GameProperties& properties) :
+	GameManager::GameManager(int argc, char* argv[], const ApplicationProperties& properties) :
 		GameManager(properties) {
 	}
 	GameManager::~GameManager() {
@@ -54,7 +54,7 @@ namespace hvn3 {
 
 	}
 
-	GameProperties& GameManager::Properties() {
+	ApplicationProperties& GameManager::Properties() {
 		return _properties;
 	}
 	System::Runner& GameManager::Runner() {
@@ -76,7 +76,7 @@ namespace hvn3 {
 
 		System::Engine::Initialize();
 
-		_display = std::make_unique<class Display>(_properties.DisplaySize, _properties.DisplayTitle, _properties.DisplayFlags);
+		_display = std::make_unique<class Display>(_properties.DisplaySize, _properties.ApplicationName, _properties.DisplayFlags);
 		_runner = std::make_unique<System::Runner>(Context());
 
 		// Enable smooth scaling of bitmaps by default.

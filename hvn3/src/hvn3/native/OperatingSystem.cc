@@ -138,7 +138,7 @@ namespace hvn3 {
 			return _os;
 
 		}
-		const std::string& PlatformInfo::Name() const {
+		const std::string& PlatformInfo::ApplicationName() const {
 
 			return _name;
 

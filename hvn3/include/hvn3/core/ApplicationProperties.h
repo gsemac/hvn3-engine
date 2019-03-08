@@ -7,14 +7,14 @@
 
 namespace hvn3 {
 
-	class GameProperties {
+	class ApplicationProperties {
 
 	public:
-		GameProperties();
+		ApplicationProperties();
 
 		// Display Properties
 
-		std::string DisplayTitle;
+		std::string ApplicationName;
 		SizeI DisplaySize;
 		bool StartFullscreen;
 		hvn3::ScalingMode ScalingMode;

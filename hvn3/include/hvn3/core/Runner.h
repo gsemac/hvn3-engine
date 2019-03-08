@@ -1,6 +1,6 @@
 #pragma once
 #include "hvn3/core/Context.h"
-#include "hvn3/core/GameProperties.h"
+#include "hvn3/core/ApplicationProperties.h"
 #include "hvn3/events/EventQueue.h"
 #include "hvn3/events/Timer.h"
 #include "hvn3/io/Display.h"
@@ -76,7 +76,7 @@ namespace hvn3 {
 			bool _isFrozen();
 			void _applyScalingMode();
 			void _recalculateMousePosition();
-			GameProperties& _properties();
+			ApplicationProperties& _properties();
 
 		};
 

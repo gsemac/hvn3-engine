@@ -1,11 +1,11 @@
-#include "hvn3/core/GameProperties.h"
+#include "hvn3/core/ApplicationProperties.h"
 
 namespace hvn3 {
 
-	GameProperties::GameProperties() :
+	ApplicationProperties::ApplicationProperties() :
 		DisplaySize(640, 480) {
 
-		DisplayTitle = "HVN3 Engine";
+		ApplicationName = "HVN3 Engine";
 		StartFullscreen = false;
 		ScalingMode = hvn3::ScalingMode::MaintainAspectRatio;
 		OutsideColor = Color::Black;

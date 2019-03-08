@@ -1,6 +1,6 @@
 #pragma once
 #include "hvn3/core/IGameManager.h"
-#include "hvn3/core/GameProperties.h"
+#include "hvn3/core/ApplicationProperties.h"
 #include "hvn3/core/ManagerDefs.h"
 #include "hvn3/core/ManagerRegistry.h"
 #include "hvn3/core/Runner.h"
@@ -16,8 +16,8 @@ namespace hvn3 {
 	public:
 		GameManager();
 		GameManager(int argc, char* argv[]);
-		GameManager(const GameProperties& properties);
-		GameManager(int argc, char* argv[], const GameProperties& properties);
+		GameManager(const ApplicationProperties& properties);
+		GameManager(int argc, char* argv[], const ApplicationProperties& properties);
 		~GameManager();
 
 		// Inherited from IGameManager
@@ -31,7 +31,7 @@ namespace hvn3 {
 		// Deinitializes the game and underlying framework.
 		void Shutdown() override;
 
-		GameProperties& Properties() override;
+		ApplicationProperties& Properties() override;
 		System::Runner& Runner() override;
 		class Display& Display() override;
 
@@ -42,7 +42,7 @@ namespace hvn3 {
 
 	private:
 		ManagerRegistry _global;
-		GameProperties _properties;
+		ApplicationProperties _properties;
 		std::unique_ptr<class Display> _display;
 		std::unique_ptr<System::Runner> _runner;
 

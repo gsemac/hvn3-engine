@@ -80,7 +80,7 @@ namespace hvn3 {
 
 				// Draw placeholder graphics.
 				SizeI size = _context.Get<GAME_MANAGER>().Display().Size();
-				e.Graphics().DrawText(Math::Round(size.width / 2.0f), Math::Round(size.height / 2.0f), _properties().DisplayTitle.c_str(), *SystemFont(), Color::White, Alignment::Center);
+				e.Graphics().DrawText(Math::Round(size.width / 2.0f), Math::Round(size.height / 2.0f), _properties().ApplicationName.c_str(), *SystemFont(), Color::White, Alignment::Center);
 
 			}
 
@@ -667,7 +667,7 @@ namespace hvn3 {
 			}
 
 		}
-		GameProperties& Runner::_properties() {
+		ApplicationProperties& Runner::_properties() {
 
 			return _context.Get<GAME_MANAGER>().Properties();
 

@@ -696,9 +696,6 @@
     <ClInclude Include="include\hvn3\io\ListenerBase.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\core\GameProperties.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\core\SmartPointerToInterfaceWrapper.h">
       <Filter>include\core</Filter>
     </ClInclude>
@@ -914,6 +911,12 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\gui\Window.h">
       <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\Application.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\ApplicationProperties.h">
+      <Filter>include\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1260,9 +1263,6 @@
     <ClCompile Include="src\hvn3\native\OperatingSystem.cc">
       <Filter>src\native</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\core\GameProperties.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\collision\Collider.cc">
       <Filter>src\collision</Filter>
     </ClCompile>
@@ -1361,6 +1361,12 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\gui\Window.cc">
       <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\ApplicationProperties.cc">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\Application.cc">
+      <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
