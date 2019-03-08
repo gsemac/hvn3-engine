@@ -27,7 +27,7 @@ namespace hvn3 {
 
 		private:
 			std::vector<Contact> _contacts;
-			Context _context;
+			ApplicationContext _context;
 
 		};
 

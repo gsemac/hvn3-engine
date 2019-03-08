@@ -68,10 +68,10 @@ namespace hvn3 {
 		_flags = value;
 	}
 
-	void PlatformerControlsHelper::Step(const Context& context) {
+	void PlatformerControlsHelper::Step(const ApplicationContext& context) {
 		Step(context, 1.0f);
 	}
-	void PlatformerControlsHelper::Step(const Context& context, double delta) {
+	void PlatformerControlsHelper::Step(const ApplicationContext& context, double delta) {
 
 		DirectionalControlsHelper::Step();
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/core/Context.h"
+#include "hvn3/core/ApplicationContext.h"
 #include "hvn3/core/IContextReceiver.h"
 #include "hvn3/collision/ICollidable.h"
 #include "hvn3/core/IDrawable.h"

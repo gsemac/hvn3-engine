@@ -54,7 +54,7 @@ namespace hvn3 {
 		object_list_type _objects;
 		ObjectId _last_found_id;
 		size_t _last_found_index;
-		Context _context;
+		ApplicationContext _context;
 		bool _resort_required;
 
 		void _removeDestroyedObjects(object_list_type::iterator begin, object_list_type::iterator end);

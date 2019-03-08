@@ -2,7 +2,7 @@
 #include "hvn3/collision/CollisionResult.h"
 #include "hvn3/collision/ICollider.h"
 #include "hvn3/collision/ICollisionManager.h"
-#include "hvn3/core/Context.h"
+#include "hvn3/core/ApplicationContext.h"
 #include "hvn3/math/GeometryUtils.h"
 #include "hvn3/physics/BasicPhysicsManager.h"
 #include "hvn3/physics/IPhysicsBody.h"

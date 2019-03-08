@@ -540,9 +540,6 @@
     <ClInclude Include="include\hvn3\graphics\Tween.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\core\Context.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\core\IContextProvider.h">
       <Filter>include\core</Filter>
     </ClInclude>
@@ -918,6 +915,15 @@
     <ClInclude Include="include\hvn3\core\ApplicationProperties.h">
       <Filter>include\core</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\io\DisplayManager.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\ManagerRegistry2.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\ApplicationContext.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1152,9 +1158,6 @@
     <ClCompile Include="src\hvn3\graphics\Bitmap.cc">
       <Filter>src\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\core\Context.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\rooms\BasicLightingManager.cc">
       <Filter>src\rooms</Filter>
     </ClCompile>
@@ -1366,6 +1369,9 @@
       <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\core\Application.cc">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\ApplicationContext.cc">
       <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>

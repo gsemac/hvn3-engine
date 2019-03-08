@@ -31,7 +31,7 @@
 namespace hvn3 {
 	namespace System {
 
-		Runner::Runner(Context context) :
+		Runner::Runner(ApplicationContext context) :
 			_context(context),
 			_timer(1.0 / context.Get<GAME_MANAGER>().Properties().FrameRate),
 			_graphics(context.Get<GAME_MANAGER>().Display().BackBuffer()),

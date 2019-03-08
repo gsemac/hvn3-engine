@@ -85,7 +85,7 @@ namespace hvn3 {
 		LightSourceId _getNextLightSourceId();
 		LightMapData* _findLightMapData(LightSourceType type);
 
-		Context _context;
+		ApplicationContext _context;
 		std::unordered_map<LightSourceId, LightSource> _light_sources;
 		LightSourceId _next_id;
 		bool _enabled;

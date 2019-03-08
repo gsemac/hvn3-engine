@@ -33,7 +33,7 @@ namespace hvn3 {
 		virtual System::Runner& Runner() = 0;
 		virtual Display& Display() = 0;
 
-		virtual hvn3::Context Context() = 0;
+		virtual hvn3::ApplicationContext Context() = 0;
 
 	};
 

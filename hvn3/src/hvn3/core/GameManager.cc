@@ -64,9 +64,9 @@ namespace hvn3 {
 		return *_display;
 	}
 
-	hvn3::Context GameManager::Context() {
+	hvn3::ApplicationContext GameManager::Context() {
 
-		hvn3::Context context(&_global, nullptr);
+		hvn3::ApplicationContext context(&_global, nullptr);
 
 		return context;
 

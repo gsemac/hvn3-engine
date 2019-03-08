@@ -44,7 +44,7 @@ namespace hvn3 {
 		ObjectId _target_id;
 		PanMode _pan_mode;
 		bool _tilt_enabled;
-		Context _context;
+		ApplicationContext _context;
 
 		float _shake_seed;
 		float _shake_max_angle;

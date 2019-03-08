@@ -10,12 +10,12 @@ namespace hvn3 {
 
 	class ManagerRegistry;
 
-	class Context {
+	class ApplicationContext {
 
 	public:
-		Context();
-		Context(ManagerRegistry* global, ManagerRegistry* local);
-		Context(const Context& copy_global, ManagerRegistry* local);
+		ApplicationContext();
+		ApplicationContext(ManagerRegistry* global, ManagerRegistry* local);
+		ApplicationContext(const ApplicationContext& copy_global, ManagerRegistry* local);
 
 		ManagerRegistry& Local() const;
 		ManagerRegistry& Global() const;
@@ -80,16 +80,16 @@ namespace hvn3 {
 		public EventArgs {
 
 	public:
-		ContextChangedEventArgs(const hvn3::Context& context) :
+		ContextChangedEventArgs(const hvn3::ApplicationContext& context) :
 			_context(context) {
 		}
 
-		const hvn3::Context& Context() const {
+		const hvn3::ApplicationContext& Context() const {
 			return _context;
 		}
 
 	private:
-		hvn3::Context _context;
+		hvn3::ApplicationContext _context;
 
 	};
 

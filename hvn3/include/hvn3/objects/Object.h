@@ -31,8 +31,8 @@ namespace hvn3 {
 	protected:
 		virtual void OnAnimationEnd(AnimationEndEventArgs& e);
 
-		class Context& GetContext();
-		const class Context& GetContext() const;
+		class ApplicationContext& GetContext();
+		const class ApplicationContext& GetContext() const;
 
 		const Vector2d& Velocity() const;
 		void SetVelocity(const Vector2d& other);
@@ -59,7 +59,7 @@ namespace hvn3 {
 		bool PlaceMeeting(int category);
 
 	private:
-		class Context _context;
+		class ApplicationContext _context;
 		Preview::AssetId _sprite_id;
 		SpriteRenderer _sprite_renderer;
 		Vector2d _velocity;

@@ -49,7 +49,7 @@ namespace hvn3 {
 		IRoomPtr _next_room;
 		ROOM_TRANSITION_STATE _room_transition_state;
 		std::unique_ptr<RoomTransitionBase> _transition;
-		Context _context;
+		ApplicationContext _context;
 
 	};
 

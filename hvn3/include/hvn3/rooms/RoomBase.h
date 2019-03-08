@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/core/Context.h"
+#include "hvn3/core/ApplicationContext.h"
 #include "hvn3/core/ManagerRegistry.h"
 #include "hvn3/rooms/IRoom.h"
 
@@ -56,14 +56,14 @@ namespace hvn3 {
 	protected:
 		const ManagerRegistry& Local() const;
 		ManagerRegistry& Local();
-		const Context& GetContext() const;
+		const ApplicationContext& GetContext() const;
 
 	private:
 		RoomId _id;
 		Color _background_color;
 		bool _set_up;
 		bool _persistent;
-		Context _context;
+		ApplicationContext _context;
 		class ManagerRegistry _local;
 
 	};

@@ -109,12 +109,12 @@ namespace hvn3 {
 	}
 
 	void Object::OnAnimationEnd(AnimationEndEventArgs& e) {}
-	class Context& Object::GetContext() {
+	class ApplicationContext& Object::GetContext() {
 
 		return _context;
 
 	}
-	const class Context& Object::GetContext() const {
+	const class ApplicationContext& Object::GetContext() const {
 
 		return _context;
 

@@ -19,7 +19,7 @@ namespace hvn3 {
 	}) {
 
 		_id = id;
-		_context = Context(nullptr, &_local);
+		_context = ApplicationContext(nullptr, &_local);
 
 		// Set the default background color.
 		_background_color = Color::Silver;
@@ -118,7 +118,7 @@ namespace hvn3 {
 
 	void RoomBase::OnContextChanged(ContextChangedEventArgs& e) {
 
-		_context = Context(e.Context(), &_local);
+		_context = ApplicationContext(e.Context(), &_local);
 
 		ContextChangedEventArgs args(_context);
 
@@ -153,7 +153,7 @@ namespace hvn3 {
 	ManagerRegistry& RoomBase::Local() {
 		return _local;
 	}
-	const Context& RoomBase::GetContext() const {
+	const ApplicationContext& RoomBase::GetContext() const {
 		return _context;
 	}
 

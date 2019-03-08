@@ -55,13 +55,14 @@
     <ClInclude Include="include\hvn3\collision\CollisionManager.h" />
     <ClInclude Include="include\hvn3\collision\SpatialPartitioningGrid.h" />
     <ClInclude Include="include\hvn3\core\Application.h" />
-    <ClInclude Include="include\hvn3\core\Context.h" />
+    <ClInclude Include="include\hvn3\core\ApplicationContext.h" />
     <ClInclude Include="include\hvn3\core\CoreDefs.h" />
     <ClInclude Include="include\hvn3\core\DrawEventArgs.h" />
     <ClInclude Include="include\hvn3\core\IContextProvider.h" />
     <ClInclude Include="include\hvn3\core\IContextReceiver.h" />
     <ClInclude Include="include\hvn3\core\IManager.h" />
     <ClInclude Include="include\hvn3\core\ManagerRegistry.h" />
+    <ClInclude Include="include\hvn3\core\ManagerRegistry2.h" />
     <ClInclude Include="include\hvn3\core\SmartPointerToInterfaceWrapper.h" />
     <ClInclude Include="include\hvn3\core\ManagerDefs.h" />
     <ClInclude Include="include\hvn3\core\Engine.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="include\hvn3\io\Display.h" />
     <ClInclude Include="include\hvn3\io\DisplayEventArgs.h" />
     <ClInclude Include="include\hvn3\io\DisplayListener.h" />
+    <ClInclude Include="include\hvn3\io\DisplayManager.h" />
     <ClInclude Include="include\hvn3\io\File.h" />
     <ClInclude Include="include\hvn3\io\FileStream.h" />
     <ClInclude Include="include\hvn3\io\IDisplayListener.h" />
@@ -296,7 +298,7 @@
     <ClCompile Include="src\hvn3\collision\Collider.cc" />
     <ClCompile Include="src\hvn3\collision\SpatialPartitioningGrid.cc" />
     <ClCompile Include="src\hvn3\core\Application.cc" />
-    <ClCompile Include="src\hvn3\core\Context.cc" />
+    <ClCompile Include="src\hvn3\core\ApplicationContext.cc" />
     <ClCompile Include="src\hvn3\core\DrawEventArgs.cc" />
     <ClCompile Include="src\hvn3\core\Engine.cc" />
     <ClCompile Include="src\hvn3\core\GameManager.cc" />

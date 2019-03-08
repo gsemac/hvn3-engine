@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/core/Context.h"
+#include "hvn3/core/ApplicationContext.h"
 #include "hvn3/core/ApplicationProperties.h"
 #include "hvn3/events/EventQueue.h"
 #include "hvn3/events/Timer.h"
@@ -21,7 +21,7 @@ namespace hvn3 {
 		class Runner {
 
 		public:
-			Runner(Context context);
+			Runner(ApplicationContext context);
 			virtual ~Runner();
 
 			// Processes the main game loop.
@@ -69,7 +69,7 @@ namespace hvn3 {
 			System::FpsCounter _fps_counter;
 			IRoom* _last_room;
 
-			Context _context;
+			ApplicationContext _context;
 			Font* _default_font;
 			Graphics::Graphics _graphics;
 

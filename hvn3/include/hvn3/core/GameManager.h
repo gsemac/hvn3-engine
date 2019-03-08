@@ -38,7 +38,7 @@ namespace hvn3 {
 		// Inherited from IContextProvider
 
 		// Returns an object representing the current game context.
-		hvn3::Context Context() override;
+		hvn3::ApplicationContext Context() override;
 
 	private:
 		ManagerRegistry _global;
