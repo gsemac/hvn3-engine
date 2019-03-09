@@ -11,6 +11,8 @@ namespace hvn3 {
 		Fade
 	};
 
+	class ISceneTransition {};
+
 	class RoomTransitionBase : public IDrawable {
 
 	public:

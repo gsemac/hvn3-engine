@@ -1,96 +1,57 @@
 #pragma once
-#include "hvn3/core/CoreDefs.h"
-#include "hvn3/core/ManagerDefs.h"
-#include "hvn3/core/ManagerRegistry.h"
 
-#include <exception>
-#include <type_traits>
+#include "hvn3/core/Application.h"
+
+#include <cassert>
 
 namespace hvn3 {
-
-	class ManagerRegistry;
 
 	class ApplicationContext {
 
 	public:
 		ApplicationContext();
-		ApplicationContext(ManagerRegistry* global, ManagerRegistry* local);
-		ApplicationContext(const ApplicationContext& copy_global, ManagerRegistry* local);
+		ApplicationContext(Application* application);
 
-		ManagerRegistry& Local() const;
-		ManagerRegistry& Global() const;
+		ApplicationProperties& GetProperties();
+		const std::vector<std::string>& CommandLineArguments() const;
 
-		bool HasLocalContext() const;
-		bool HasGlobalContext() const;
+		template<typename ManagerType, typename ...Args>
+		void Register(Args&&... args);
+		template<typename ManagerType>
+		ManagerType* Get();
+		template<typename ManagerType>
+		bool IsRegistered() const;
 
 		explicit operator bool() const;
 
-		template <ManagerId MANAGER_ID>
-		typename ManagerIdTraits<MANAGER_ID>::type& Get() const {
-
-			using interface_type = typename ManagerIdTraits<MANAGER_ID>::type;
-
-			return Get<interface_type>();
-
-		}
-		template <typename InterfaceType>
-		InterfaceType& Get() const {
-
-			if (HasLocalContext() && _local->IsRegistered<InterfaceType>())
-				return _local->Get<InterfaceType>();
-
-			if (HasGlobalContext() && _global->IsRegistered<InterfaceType>())
-				return _global->Get<InterfaceType>();
-
-			HVN3_ASSERT(false, "The requested manager was not registered in any context.");
-
-			// Prevents warning about no return value
-			throw std::logic_error("this should never be reached");
-
-		}
-
-		template <typename InterfaceType>
-		bool IsRegistered() const {
-
-			if (HasLocalContext() && _local->IsRegistered<InterfaceType>())
-				return true;
-
-			if (HasGlobalContext() && _global->IsRegistered<InterfaceType>())
-				return true;
-
-			return false;
-
-		}
-		template <ManagerId MANAGER_ID>
-		bool IsRegistered() const {
-
-			using interface_type = typename ManagerIdTraits<MANAGER_ID>::type;
-
-			return IsRegistered<interface_type>();
-
-		}
-
 	private:
-		ManagerRegistry* _global;
-		ManagerRegistry* _local;
+		Application* _application;
 
 	};
 
-	class ContextChangedEventArgs :
-		public EventArgs {
+	template<typename ManagerType, typename ...Args>
+	void ApplicationContext::Register(Args&&... args) {
 
-	public:
-		ContextChangedEventArgs(const hvn3::ApplicationContext& context) :
-			_context(context) {
-		}
+		assert(_application != nullptr);
 
-		const hvn3::ApplicationContext& Context() const {
-			return _context;
-		}
+		_application->_manager_registry.Register<ManagerType>(args);
 
-	private:
-		hvn3::ApplicationContext _context;
+	}
+	template<typename ManagerType>
+	ManagerType* ApplicationContext::Get() {
 
-	};
+		assert(_application != nullptr);
+
+		return _application->_manager_registry.GetManager<ManagerType>();
+
+	}
+	template<typename ManagerType>
+	bool ApplicationContext::IsRegistered() const {
+
+		assert(_application != nullptr);
+
+		return _application->_manager_registry.IsRegistered<ManagerType>();
+
+	}
 
 }

@@ -24,10 +24,6 @@ namespace hvn3 {
 		ColliderFlags Flags() const override;
 		void SetFlags(ColliderFlags flags) override;
 
-		void Destroy() override;
-		bool IsDestroyed() const override;
-		void OnDestroy(DestroyEventArgs& e) override;
-
 	private:
 		hvn3::HitMask _mask;
 		CollisionFilter _filter;

@@ -1,7 +1,6 @@
 #pragma once
 #include "hvn3/collision/ICollidable.h"
 #include "hvn3/core/IPositionable2d.h"
-#include "hvn3/core/IDestroyable.h"
 #include "hvn3/math/Rectangle.h"
 #include "hvn3/utility/BitFlags.h"
 
@@ -18,8 +17,7 @@ namespace hvn3 {
 	ENABLE_BITFLAG_OPERATORS(ColliderFlags);
 
 	class ICollider :
-		public IPositionable2d<float>,
-		public IDestroyable {
+		public IPositionable2d<float> {
 
 	public:
 		virtual ~ICollider() = default;

@@ -1,4 +1,5 @@
 #include "hvn3/core/Application.h" 
+#include "hvn3/core/ApplicationContext.h"
 #include "hvn3/io/DisplayManager.h"
 #include "hvn3/rooms/RoomManager.h"
 
@@ -37,20 +38,15 @@ namespace hvn3 {
 		return _command_line_arguments;
 
 	}
-	ApplicationContext Application::Context() const {
+	ApplicationContext Application::Context() {
 
-
+		return ApplicationContext(this);
 
 	}
 	void Application::Run() {
 
 		// Register required managers.
-
-		if (!_manager_registry.IsRegistered<DisplayManager>())
-			_manager_registry.Register<DisplayManager>();
-
-		if (!_manager_registry.IsRegistered<RoomManager>())
-			_manager_registry.Register<RoomManager>();
+		_registerCoreManagers();
 
 		// Create the primary display if no display has been created yet.
 
@@ -71,6 +67,15 @@ namespace hvn3 {
 
 		for (int i = 0; i < argc; ++i)
 			_command_line_arguments.push_back(std::string(argv[i]));
+
+	}
+	void Application::_registerCoreManagers() {
+
+		if (!_manager_registry.IsRegistered<DisplayManager>())
+			_manager_registry.Register<DisplayManager>();
+
+		if (!_manager_registry.IsRegistered<RoomManager>())
+			_manager_registry.Register<RoomManager>();
 
 	}
 

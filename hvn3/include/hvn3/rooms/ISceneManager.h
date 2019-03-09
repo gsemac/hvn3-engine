@@ -1,20 +1,22 @@
 #pragma once
+
 #include "hvn3/core/IDrawable.h"
 #include "hvn3/core/IManager.h"
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/rooms/IRoom.h"
 #include "hvn3/rooms/RoomDefs.h"
+
 #include <memory>
 
 namespace hvn3 {
 
-	class IRoomManager :
+	class ISceneManager :
 		public IManager,
 		public IDrawable,
 		public IUpdatable {
 
 	public:
-		virtual ~IRoomManager() = default;
+		virtual ~ISceneManager() = default;
 
 		// Sets the current room to the given room object, and begins running it immediately.
 		virtual void SetRoom(IRoomPtr& room) = 0;
@@ -28,11 +30,6 @@ namespace hvn3 {
 		virtual void ClearRoom() = 0;
 		virtual bool IsRoomNull() = 0;
 
-	};
-
-	template<>
-	struct ManagerIdTraits<ROOM_MANAGER> {
-		typedef IRoomManager type;
 	};
 
 }

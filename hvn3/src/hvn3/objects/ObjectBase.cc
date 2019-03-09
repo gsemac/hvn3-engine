@@ -1,7 +1,11 @@
 #include "hvn3/objects/ObjectBase.h"
-#define DEFAULT_OBJECTBASE_FLAGS static_cast<hvn3::ObjectFlags>(0)
 
 namespace hvn3 {
+
+	ObjectBase::ObjectBase() :
+	{}
+	ObjectBase::ObjectBase(const PointF& position);
+	ObjectBase::ObjectBase(float x, float y);
 
 	ObjectBase::ObjectBase(ObjectId id) :
 		ObjectBase(id, 0.0f, 0.0f) {
@@ -18,8 +22,9 @@ namespace hvn3 {
 	ObjectBase::ObjectBase(ObjectId id, const PointF& position, ObjectFlags flags) :
 		ObjectBase(id, position.X(), position.Y(), flags) {
 	}
-	ObjectBase::ObjectBase(ObjectId id, float x, float y, ObjectFlags flags) :
-		_position(x, y) {
+	ObjectBase::ObjectBase(ObjectId id, float x, float y, ObjectFlags flags) {
+
+		SetPosition(x, y);
 
 		_id = id;
 		_flags = flags;

@@ -55,12 +55,4 @@ namespace hvn3 {
 		_flags = flags;
 	}
 
-	void ColliderBase::Destroy() {
-		_is_destroyed = true;
-	}
-	bool ColliderBase::IsDestroyed() const {
-		return _is_destroyed;
-	}
-	void ColliderBase::OnDestroy(DestroyEventArgs& e) {}
-
 }

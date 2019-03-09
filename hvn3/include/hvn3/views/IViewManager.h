@@ -23,9 +23,4 @@ namespace hvn3 {
 
 	};
 
-	template<>
-	struct ManagerIdTraits<VIEW_MANAGER> {
-		typedef IViewManager type;
-	};
-
 }

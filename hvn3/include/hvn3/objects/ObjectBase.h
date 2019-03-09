@@ -6,57 +6,102 @@
 
 namespace hvn3 {
 
-	class ObjectBase :
+	template<typename DerivedObjectType>
+	class Object :
 		public IObject {
 
-		typedef int depth_type;
-
 	public:
-		static const depth_type MIN_DEPTH = std::numeric_limits<depth_type>::min();
-		static const depth_type MAX_DEPTH = std::numeric_limits<depth_type>::max();
+		Object();
 
-		ObjectBase(ObjectId id);
-		ObjectBase(ObjectId id, const PointF& position);
-		ObjectBase(ObjectId id, float x, float y);
-		ObjectBase(ObjectId id, ObjectFlags flags);
-		ObjectBase(ObjectId id, const PointF& position, ObjectFlags flags);
-		ObjectBase(ObjectId id, float x, float y, ObjectFlags flags);
+		IObject::object_id Id() const override;
+		ecs::EntityId EntityId() const override;
 
-		void OnCreate(CreateEventArgs& e) override;
-		void OnDestroy(DestroyEventArgs& e) override;
-		void OnContextChanged(ContextChangedEventArgs& e) override;
-
-		ObjectId Id() const override;
-		depth_type Depth() const override;
-		void SetDepth(depth_type depth) override;
 		bool IsDestroyed() const override;
 		void Destroy() override;
 		bool IsActive() const override;
 		void SetActive(bool value) override;
-		ObjectFlags Flags() const override;
-		void SetFlags(ObjectFlags flags) override;
 
-		void OnDraw(DrawEventArgs& e) override;
-		void OnUpdate(UpdateEventArgs& e) override;
+		// Returns the static object ID assigned to this type.
+		static IObject::object_id ObjectId();
 
-		void OnCollide(CollisionEventArgs& e) override;
+	protected:
+		void ReceiveContext(const ApplicationContext& context) override;
+		ApplicationContext Context();
 
-		float X() const override;
-		float Y() const override;
-		void SetX(float x) override;
-		void SetY(float y) override;
-		PointF Position() const override;
-		void SetPosition(const PointF& position) override;
-		void SetPosition(float x, float y) override;
+		void OnCreate(CreateEventArgs& e) override {};
+		void OnDestroy(DestroyEventArgs& e) override {};
 
 	private:
-		ObjectId _id;
-		PointF _position;
-		int _depth;
+		ecs::EntityId _entity_id;
 		bool _is_destroyed;
 		bool _is_active;
-		ObjectFlags _flags;
+		ApplicationContext _context;
+
+		void _init();
 
 	};
+
+	// Public methods
+
+	template<typename DerivedObjectType> Object<DerivedObjectType>::Object() {
+
+		_init();
+
+	}
+	template<typename DerivedObjectType> IObject::object_id Object<DerivedObjectType>::Id() const {
+
+		return DerivedObjectType::ObjectId();
+
+	}
+	template<typename DerivedObjectType> ecs::EntityId Object<DerivedObjectType>::EntityId() const {
+
+		return _entity_id;
+
+	}
+	template<typename DerivedObjectType> bool Object<DerivedObjectType>::IsDestroyed() const {
+
+		return _is_destroyed;
+
+	}
+	template<typename DerivedObjectType> void Object<DerivedObjectType>::Destroy() {
+
+		_is_destroyed = true;
+
+	}
+	template<typename DerivedObjectType> bool Object<DerivedObjectType>::IsActive() const {
+
+		return _is_active;
+
+	}
+	template<typename DerivedObjectType> void Object<DerivedObjectType>::SetActive(bool value) {
+
+		_is_active = value;
+
+	}
+	template<typename DerivedObjectType> void Object<DerivedObjectType>::ReceiveContext(const ApplicationContext& context) {
+
+
+
+	}
+	template<typename DerivedObjectType> ApplicationContext Object<DerivedObjectType>::Context() {
+
+		return _context;
+
+	}
+	template<typename DerivedObjectType> IObject::object_id Object<DerivedObjectType>::ObjectId() {
+
+		return IObject::object_indexer::GetIndex<DerivedObjectType>();
+
+	}
+
+	// Private methods
+
+	template<typename DerivedObjectType> void Object<DerivedObjectType>::_init() {
+
+		_entity_id = ecs::NULL_ENTITY_ID;
+		_is_destroyed = false;
+		_is_active = false;
+
+	}
 
 }

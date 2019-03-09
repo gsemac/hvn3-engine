@@ -1,44 +1,33 @@
 #include "hvn3/core/ApplicationContext.h"
 
-#include <cassert>
-
 namespace hvn3 {
 
 	ApplicationContext::ApplicationContext() :
-		ApplicationContext(nullptr, nullptr) {
-	}
-	ApplicationContext::ApplicationContext(ManagerRegistry* global, ManagerRegistry* local) {
+		_application(nullptr) {}
+	ApplicationContext::ApplicationContext(Application* application) :
+		_application(application) {
 
-		_global = global;
-		_local = local;
-
-	}
-	ApplicationContext::ApplicationContext(const ApplicationContext& copy_global, ManagerRegistry* local) :
-		ApplicationContext(copy_global.HasGlobalContext() ? &copy_global.Global() : nullptr, local) {
-	}
-	ManagerRegistry& ApplicationContext::Local() const {
-
-		assert(_local != nullptr);
-
-		return *_local;
+		assert(_application != nullptr);
 
 	}
-	ManagerRegistry& ApplicationContext::Global() const {
+	ApplicationProperties& ApplicationContext::GetProperties() {
 
-		assert(_global != nullptr);
+		assert(_application != nullptr);
 
-		return *_global;
+		return _application->GetProperties();
 
 	}
+	const std::vector<std::string>& ApplicationContext::CommandLineArguments() const {
 
-	bool ApplicationContext::HasLocalContext() const {
-		return _local != nullptr;
-	}
-	bool ApplicationContext::HasGlobalContext() const {
-		return _global != nullptr;
+		assert(_application != nullptr);
+
+		return _application->CommandLineArguments();
+
 	}
 	ApplicationContext::operator bool() const {
-		return !(_local == nullptr && _global == nullptr);
+
+		return _application != nullptr;
+
 	}
 
 }
