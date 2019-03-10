@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hvn3", "hvn3\hvn3.vcxproj", "{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hvn3-test", "hvn3-test\hvn3-test.vcxproj", "{49D0DFD5-2E84-49AD-AEAC-DBE30F0E6C10}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hvn3-examples", "hvn3-examples\hvn3-examples.vcxproj", "{5C0C644C-D847-4970-A097-4D985A3F6BBA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,8 +33,19 @@ Global
 		{49D0DFD5-2E84-49AD-AEAC-DBE30F0E6C10}.Release|x64.Build.0 = Release|x64
 		{49D0DFD5-2E84-49AD-AEAC-DBE30F0E6C10}.Release|x86.ActiveCfg = Release|Win32
 		{49D0DFD5-2E84-49AD-AEAC-DBE30F0E6C10}.Release|x86.Build.0 = Release|Win32
+		{5C0C644C-D847-4970-A097-4D985A3F6BBA}.Debug|x64.ActiveCfg = Debug|x64
+		{5C0C644C-D847-4970-A097-4D985A3F6BBA}.Debug|x64.Build.0 = Debug|x64
+		{5C0C644C-D847-4970-A097-4D985A3F6BBA}.Debug|x86.ActiveCfg = Debug|Win32
+		{5C0C644C-D847-4970-A097-4D985A3F6BBA}.Debug|x86.Build.0 = Debug|Win32
+		{5C0C644C-D847-4970-A097-4D985A3F6BBA}.Release|x64.ActiveCfg = Release|x64
+		{5C0C644C-D847-4970-A097-4D985A3F6BBA}.Release|x64.Build.0 = Release|x64
+		{5C0C644C-D847-4970-A097-4D985A3F6BBA}.Release|x86.ActiveCfg = Release|Win32
+		{5C0C644C-D847-4970-A097-4D985A3F6BBA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E5BEA0FB-EC1E-46CF-85E2-E3F0A4FA4149}
 	EndGlobalSection
 EndGlobal

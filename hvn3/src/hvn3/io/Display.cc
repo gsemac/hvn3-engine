@@ -27,6 +27,9 @@ namespace hvn3 {
 	Display::Display(const SizeI& size) :
 		Display(size.Width(), size.Height()) {
 	}
+	Display::Display(const SizeI& size, const std::string& title) :
+		Display::Display(size.width, size.height, title) {
+	}
 	Display::Display(const SizeI& size, const std::string& title, DisplayFlags flags) :
 		Display(size.Width(), size.Height(), title, flags) {
 	}
@@ -84,10 +87,16 @@ namespace hvn3 {
 	}
 	Display::~Display() {
 
-		if (ActiveDisplay() == this)
-			_active_display = nullptr;
+		if (_display) {
 
-		System::Engine::ReleaseComponent(System::EngineComponent::Core);
+			if (ActiveDisplay() == this)
+				_active_display = nullptr;
+
+			// Keep in mind that we might have a display constructed with the default move constructor. When that happens, we can end up releasing the component twice.
+			// To avoid that, we check here that we're actually deinitializing a display first.
+			System::Engine::ReleaseComponent(System::EngineComponent::Core);
+
+		}
 
 	}
 

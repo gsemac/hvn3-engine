@@ -1,7 +1,7 @@
 #include "hvn3/core/Application.h" 
 #include "hvn3/core/ApplicationContext.h"
 #include "hvn3/io/DisplayManager.h"
-#include "hvn3/rooms/RoomManager.h"
+#include "hvn3/rooms/SceneManager.h"
 
 namespace hvn3 {
 
@@ -45,15 +45,23 @@ namespace hvn3 {
 	}
 	void Application::Run() {
 
-		// Register required managers.
-		_registerCoreManagers();
-
 		// Create the primary display if no display has been created yet.
 
 		if (_manager_registry.GetManager<DisplayManager>()->Count() <= 0)
-			_manager_registry.GetManager<DisplayManager>()->CreateDisplay(_properties.DisplaySize);
+			_manager_registry.GetManager<DisplayManager>()->CreateDisplay(_properties.DisplaySize, _properties.ApplicationName);
+
+		while (true) {
+
+			UpdateEventArgs e(0.0001);
+			DrawEventArgs draw_args(Graphics::Graphics(_manager_registry.GetManager<DisplayManager>()->GetDisplay().BackBuffer()));
 
 
+			_manager_registry.GetManager<ISceneManager>()->OnUpdate(e);
+			_manager_registry.GetManager<ISceneManager>()->OnDraw(draw_args);
+
+			_manager_registry.GetManager<DisplayManager>()->GetDisplay().Refresh();
+
+		}
 
 	}
 
@@ -68,14 +76,17 @@ namespace hvn3 {
 		for (int i = 0; i < argc; ++i)
 			_command_line_arguments.push_back(std::string(argv[i]));
 
+		// Register required managers (the user should be allowed to replace them later).
+		_registerCoreManagers();
+
 	}
 	void Application::_registerCoreManagers() {
 
 		if (!_manager_registry.IsRegistered<DisplayManager>())
-			_manager_registry.Register<DisplayManager>();
+			RegisterManager<DisplayManager>();
 
-		if (!_manager_registry.IsRegistered<RoomManager>())
-			_manager_registry.Register<RoomManager>();
+		if (!_manager_registry.IsRegistered<SceneManager>())
+			RegisterManager<SceneManager>();
 
 	}
 

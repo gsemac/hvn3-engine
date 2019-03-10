@@ -1,16 +1,22 @@
 #pragma once
 
 #include "hvn3/core/IManager.h"
+#include "hvn3/core/ManagerDefs.h"
+#include "hvn3/utility/TypeIndexer.h"
 
 #include <cassert>
 #include <memory>
 #include <typeindex>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 namespace hvn3 {
 
 	class ManagerRegistry {
+
+		struct manager_indexer_family;
+		typedef TypeIndexer<manager_indexer_family> manager_indexer;
 
 	public:
 		template<typename ManagerType, typename ...Args>
@@ -26,6 +32,11 @@ namespace hvn3 {
 
 			std::unique_ptr<IManager> ptr = std::make_unique<ManagerType>(std::forward<Args>(args)...);
 
+			// If this manager implements an interface, it should also be added to the interface queues.
+			// This allows it to be looked up through its interface.
+			_registerManagerToInterfaceRegistry<ManagerType>(ptr.get());
+
+			// Add the manager to registry.
 			_registry[typeid(ManagerType)] = std::move(ptr);
 
 		}
@@ -35,6 +46,8 @@ namespace hvn3 {
 			auto iter = _registry.find(typeid(ManagerType));
 
 			if (iter != _registry.end()) {
+
+				_deregisterManagerFromInterfaceRegistry(iter->second.get());
 
 				_registry.erase(iter);
 
@@ -71,18 +84,21 @@ namespace hvn3 {
 
 	private:
 		std::unordered_map<std::type_index, std::unique_ptr<IManager>> _registry;
+		std::vector<std::vector<IManager*>> _inteface_registry;
 
 		template<typename ManagerType>
 		ManagerType* _findManager() {
 
-			// Attempt to find the manager directly (without having to do any dynamic casting).
+			// Attempt to find the manager directly.
 
 			auto iter = _registry.find(typeid(ManagerType));
 
 			if (iter != _registry.end())
 				return static_cast<ManagerType*>((*iter).second.get());
 
-			return nullptr;
+			// Check for the manager in the interface queues.
+
+			return static_cast<ManagerType*>(_getManagerFromInterfaceRegistry<ManagerType>());
 
 			//if (iter == _registry.end()) {
 
@@ -98,6 +114,50 @@ namespace hvn3 {
 			//	}
 
 			//}
+
+		}
+		template<typename ManagerType>
+		void _registerManagerToInterfaceRegistry(IManager* managerPtr) {
+
+			if (std::is_same<typename ManagerTraits<ManagerType>::interface, void>::value)
+				return;
+
+			manager_indexer::index_type index = manager_indexer::GetIndex<typename ManagerTraits<ManagerType>::interface>();
+
+			if (_inteface_registry.size() < index + 1)
+				_inteface_registry.resize(index + 1);
+
+			_inteface_registry[index].push_back(managerPtr);
+
+		}
+		template<typename ManagerType>
+		void _deregisterManagerFromInterfaceRegistry(IManager* managerPtr) {
+
+			if (std::is_same<typename ManagerTraits<ManagerType>::interface, void>::value)
+				return nullptr;
+
+			manager_indexer::index_type index = manager_indexer::GetIndex<typename ManagerTraits<ManagerType>::interface>();
+
+			if (index < 0 || index > _inteface_registry.size() || _inteface_registry[index].size() <= 0)
+				return;
+
+			_inteface_registry[index].erase(std::remove_if(_inteface_registry[index].begin(), _inteface_registry[index].end(); [=](IManager* i) {
+				i == managerPtr; 
+			}), _inteface_registry[index].end());
+
+		}
+		template<typename ManagerType>
+		IManager* _getManagerFromInterfaceRegistry() {
+
+			if (std::is_same<typename ManagerTraits<ManagerType>::interface, void>::value)
+				return nullptr;
+
+			manager_indexer::index_type index = manager_indexer::GetIndex<typename ManagerTraits<ManagerType>::interface>();
+
+			if (index < 0 || index > _inteface_registry.size() || _inteface_registry[index].size() <= 0)
+				return nullptr;
+
+			return _inteface_registry[index].front();
 
 		}
 

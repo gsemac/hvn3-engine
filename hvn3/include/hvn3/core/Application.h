@@ -51,7 +51,7 @@ namespace hvn3 {
 	template<typename ManagerType, typename ...Args>
 	void Application::RegisterManager(Args&&... args) {
 
-		_manager_registry.Register<ManagerType>(args);
+		_manager_registry.Register<ManagerType>(std::forward<Args>(args)...);
 
 		ProvideContext(_manager_registry.GetManager<ManagerType>(), Context());
 

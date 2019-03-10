@@ -1,6 +1,6 @@
 #pragma once
 
-#include "hvn3/core/IManager.h"
+#include "hvn3/core/ManagerBase.h"
 #include "hvn3/io/Display.h"
 
 #include <cstddef>
@@ -10,13 +10,21 @@
 namespace hvn3 {
 
 	class DisplayManager :
-		public IManager {
+		public ManagerBase {
 
 	public:
 		template<typename ...Args>
 		void CreateDisplay(Args&&... args) {
 
-			_displays.push_back(std::move(Display(std::forward<Args>(args)...)));
+			_displays.emplace_back(std::forward<Args>(args)...);
+
+		}
+
+		Display& GetDisplay() {
+
+			assert(_displays.size() > 0);
+
+			return _displays[0];
 
 		}
 

@@ -3,10 +3,11 @@
 #include "hvn3/core/IDrawable.h"
 #include "hvn3/core/IManager.h"
 #include "hvn3/core/IUpdatable.h"
-#include "hvn3/rooms/IRoom.h"
-#include "hvn3/rooms/RoomDefs.h"
+#include "hvn3/rooms/IScene.h"
+#include "hvn3/rooms/ISceneTransition.h"
 
 #include <memory>
+#include <utility>
 
 namespace hvn3 {
 
@@ -16,19 +17,25 @@ namespace hvn3 {
 		public IUpdatable {
 
 	public:
+		typedef size_t scene_index;
+
 		virtual ~ISceneManager() = default;
 
-		// Sets the current room to the given room object, and begins running it immediately.
-		virtual void SetRoom(IRoomPtr& room) = 0;
-		// Returns the current room.
-		virtual IRoomPtr& Room() = 0;
-		// Returns the current room.
-		virtual const IRoomPtr& Room() const = 0;
-		// Deinitializes and reinitializes the current room.
-		virtual void RestartRoom() = 0;
-		// Clears all objects, backgrounds, etc. from the current room.
-		virtual void ClearRoom() = 0;
-		virtual bool IsRoomNull() = 0;
+		virtual void LoadScene(std::unique_ptr<IScene>&& scene) = 0;
+		virtual scene_index AddScene(std::unique_ptr<IScene>&& scene) = 0;
+
+		virtual void GoToScene(scene_index sceneIndex) = 0;
+		virtual void GoToPreviousScene() = 0;
+		virtual void GoToNextScene() = 0;
+
+		virtual void SetSceneTransition(SceneTransition transition) = 0;
+		virtual void SetSceneTransition(std::unique_ptr<ISceneTransition>&& transition) = 0;
+
+		virtual void ResetScene() = 0;
+		virtual bool IsSceneLoaded() const = 0;
+		virtual const IScene& Scene() const = 0;
+		virtual const scene_index SceneIndex() const = 0;
+		virtual size_t Count() const = 0;
 
 	};
 

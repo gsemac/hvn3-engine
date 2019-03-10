@@ -240,7 +240,7 @@ namespace hvn3 {
 		}
 
 		class Scale ScaleTo(const Rectangle<T>& other) {
-			return class Scale(other.Width() / Width(), other.Height() / Height());
+			return Scale(other.Width() / Width(), other.Height() / Height());
 		}
 		T Area() const {
 

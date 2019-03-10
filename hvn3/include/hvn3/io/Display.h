@@ -24,6 +24,7 @@ namespace hvn3 {
 		Display(int width, int height, const std::string& title);
 		Display(int width, int height, const std::string& title, DisplayFlags flags);
 		Display(const SizeI& size);
+		Display(const SizeI& size, const std::string& title);
 		Display(const SizeI& size, const std::string& title, DisplayFlags flags);
 		Display(int x, int y, int width, int height);
 		Display(int x, int y, int width, int height, const std::string& title);
@@ -62,6 +63,7 @@ namespace hvn3 {
 		SizeI _original_size; // The size that the display was created with. Used to calculate scale factor when the display is resized.
 		SizeI _size_before_fullscreen; // The size of the window prior to being full-screen. Used to restore original size.		
 		PointI _position_before_fullscreen; // The position of the window prior to being full-screen. Used to restore original position.		
+
 		static Display* _active_display; // Pointer to the currently-active display.
 
 		// Sets a flag indicating whether or not the display currently has focus.

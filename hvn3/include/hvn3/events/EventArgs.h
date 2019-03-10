@@ -12,6 +12,9 @@ namespace hvn3 {
 	public:
 		EventArgs();
 		EventArgs(const EventSource& source);
+		EventArgs(const EventArgs& other);
+		EventArgs(EventArgs&& other);
+		~EventArgs();
 
 		const EventSource& Source() const override;
 		double Timestamp() const override;
@@ -19,9 +22,13 @@ namespace hvn3 {
 		void SetHandled(bool value) override;
 
 	private:
-		//EventSource __source;
-		double _timestamp;
-		bool _handled;
+		void _init();
+
+		struct {
+			//EventSource __source;
+			double timestamp;
+			bool handled;
+		} _members;
 
 	};
 

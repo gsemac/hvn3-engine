@@ -2,6 +2,18 @@
 
 namespace hvn3 {
 
+	// IScene::CreateEventArgs
+
+	// Public methods
+
+	IScene::CreateEventArgs::CreateEventArgs(const ApplicationContext& context) :
+		_context(context) {}
+	ApplicationContext IScene::CreateEventArgs::Context() const {
+
+		return _context;
+
+	}
+
 	// IScene::EnterEventArgs
 
 	// Public methods

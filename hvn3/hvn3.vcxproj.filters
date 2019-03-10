@@ -921,9 +921,6 @@
     <ClInclude Include="include\hvn3\rooms\SceneManager.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\rooms\SceneTransition.h">
-      <Filter>include\rooms</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\rooms\ISceneManager.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
@@ -944,6 +941,24 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\rooms\SceneBase.h">
       <Filter>include\rooms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\rooms\ISceneTransition.h">
+      <Filter>include\rooms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\rooms\SceneTransitionBase.h">
+      <Filter>include\rooms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\rooms\SceneTransitionFade.h">
+      <Filter>include\rooms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\rooms\SceneState.h">
+      <Filter>include\rooms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\rooms\SceneManagerBase.h">
+      <Filter>include\rooms</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\core\DrawableBase.h">
+      <Filter>include\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1395,12 +1410,6 @@
     <ClCompile Include="src\hvn3\core\ManagerBase.cc">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\rooms\SceneManager.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\rooms\SceneTransition.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\components\TransformComponent.cc">
       <Filter>src\components</Filter>
     </ClCompile>
@@ -1412,6 +1421,24 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\rooms\Scene.cc">
       <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\RoomManager.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\SceneManager.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\SceneTransitionBase.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\SceneTransitionFade.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\rooms\SceneManagerBase.cc">
+      <Filter>src\rooms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\DrawableBase.cc">
+      <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

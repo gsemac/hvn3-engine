@@ -1,7 +1,7 @@
 #pragma once
 #include "hvn3/collision/ICollisionManager.h"
-#include "hvn3/core/IContextProvider.h"
-#include "hvn3/core/IContextReceiver.h"
+#include "hvn3/core/ApplicationContextProvider.h"
+#include "hvn3/core/IApplicationContextReceiver.h"
 #include "hvn3/core/ManagerDefs.h"
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/core/IDrawable.h"
@@ -30,7 +30,7 @@ namespace hvn3 {
 
 	class IRoom :
 		public IUpdatable, public IDrawable,
-		public IContextReceiver,
+		public IApplicationContextReceiver,
 		public virtual ISizeable<int> {
 
 		friend class System::RoomProxy;
