@@ -10,10 +10,12 @@ namespace hvn3 {
 		public SceneBase {
 
 	public:
-		Scene(std::function<void(EnterEventArgs&)>&& onEnter);
+		Scene(std::function<void(CreateEventArgs&)>&& onCreate);
+		
+		void OnCreate(CreateEventArgs& e) override;
 
 	private:
-		std::function<void(EnterEventArgs&)> _on_enter;
+		std::function<void(CreateEventArgs&)> _on_create;
 
 	};
 

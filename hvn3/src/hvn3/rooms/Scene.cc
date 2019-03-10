@@ -2,8 +2,14 @@
 
 namespace hvn3 {
 
-	Scene::Scene(std::function<void(EnterEventArgs&)>&& onEnter) :
-		_on_enter(onEnter) {
+	Scene::Scene(std::function<void(CreateEventArgs&)>&& onCreate) :
+		_on_create(onCreate) {
+	}
+	void Scene::OnCreate(CreateEventArgs& e) {
+
+		if (_on_create)
+			_on_create(e);
+
 	}
 
 }

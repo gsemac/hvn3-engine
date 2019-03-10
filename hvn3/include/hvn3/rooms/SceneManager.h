@@ -84,7 +84,7 @@ namespace hvn3 {
 
 		static_assert(std::is_base_of<IScene, SceneType>::value, "Type must implement IScene");
 
-		std::unique_ptr<IScene> ptr = std::make_unique<SceneType>(std::forward<Args>...);
+		std::unique_ptr<IScene> ptr = std::make_unique<SceneType>(std::forward<Args>(args)...);
 
 		LoadScene(std::move(ptr));
 
@@ -94,7 +94,7 @@ namespace hvn3 {
 
 		static_assert(std::is_base_of<IScene, SceneType>::value, "Type must implement IScene");
 
-		std::unique_ptr<IScene> ptr = std::make_unique<SceneType>(std::forward<Args>...);
+		std::unique_ptr<IScene> ptr = std::make_unique<SceneType>(std::forward<Args>(args)...);
 
 		return AddScene(std::move(ptr));
 
@@ -104,7 +104,7 @@ namespace hvn3 {
 
 		static_assert(std::is_base_of<ISceneTransition, TransitionType>::value, "Type must implement ISceneTransition");
 
-		std::unique_ptr<ISceneTransition> ptr = std::make_unique<TransitionType>(std::forward<Args>...);
+		std::unique_ptr<ISceneTransition> ptr = std::make_unique<TransitionType>(std::forward<Args>(args)...);
 
 		SetSceneTransition(std::move(ptr));
 

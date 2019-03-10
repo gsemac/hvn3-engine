@@ -55,7 +55,6 @@ namespace hvn3 {
 			UpdateEventArgs e(0.0001);
 			DrawEventArgs draw_args(Graphics::Graphics(_manager_registry.GetManager<DisplayManager>()->GetDisplay().BackBuffer()));
 
-
 			_manager_registry.GetManager<ISceneManager>()->OnUpdate(e);
 			_manager_registry.GetManager<ISceneManager>()->OnDraw(draw_args);
 
