@@ -5,6 +5,7 @@
 #include "hvn3/core/IDrawable.h"
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/core/ManagerRegistry.h"
+#include "hvn3/events/Timer.h"
 
 #include <string>
 #include <utility>
@@ -43,8 +44,11 @@ namespace hvn3 {
 		std::vector<IUpdatable*> _updatable_managers;
 		std::vector<IDrawable*> _drawable_managers;
 
+		Timer _update_event_source;
+
 		void _init(int argc, char* argv[]);
 		void _registerCoreManagers();
+		void _setUpCoreManagers();
 
 	};
 
@@ -53,7 +57,17 @@ namespace hvn3 {
 
 		_manager_registry.Register<ManagerType>(std::forward<Args>(args)...);
 
-		ProvideContext(_manager_registry.GetManager<ManagerType>(), Context());
+		auto* registered_manager = _manager_registry.GetManager<ManagerType>();
+
+		ProvideContext(registered_manager, Context());
+
+		auto* event_manager = _manager_registry.GetManager<EventManager>();
+
+		if (event_manager != nullptr) {
+
+			event_manager->RegisterEventListener(registered_manager);
+
+		}
 
 	}
 

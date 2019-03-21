@@ -1,8 +1,11 @@
 #pragma once
+
 #include "hvn3/gui/IWidgetRenderer.h"
 #include "hvn3/gui/WidgetBase.h"
+#include "hvn3/io/IOUtils.h"
 #include "hvn3/utility/Range.h"
 #include "hvn3/utility/StringUtils.h"
+
 #include <algorithm>
 
 namespace hvn3 {
@@ -89,7 +92,7 @@ namespace hvn3 {
 			}
 			void OnKeyChar(WidgetKeyCharEventArgs& e) override {
 
-				if (Keyboard::IsPrintableChar(e.Key())) {
+				if (io::IOUtils::IsPrintableChar(e.Key())) {
 
 					if (_input_type == InputType::Numeric || _input_type == InputType::Decimal)
 						if (!StringUtils::IsNumeric(e.CharCode()) && !(e.Char() == '.' && _input_type == InputType::Decimal && std::count(Text().begin(), Text().end(), '.') == 0))

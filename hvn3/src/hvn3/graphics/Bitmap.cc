@@ -67,9 +67,13 @@ namespace hvn3 {
 			if (managed)
 				_src_bitmap = bitmap_ptr_type(bitmap, al_destroy_bitmap);
 			else {
+
 				// Uses the aliasing constructor to avoid both freeing the data and allocating a control block.
+				// https://stackoverflow.com/questions/27109379/what-is-shared-ptrs-aliasing-constructor-for
+
 				_src_bitmap = bitmap_ptr_type(bitmap_ptr_type{}, bitmap);
 				_managed = false;
+
 			}
 
 		}

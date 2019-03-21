@@ -40,7 +40,6 @@ namespace hvn3 {
 		Display(x, y, width, height, title, static_cast<DisplayFlags>(0)) {
 	}
 	Display::Display(int x, int y, int width, int height, const std::string& title, DisplayFlags flags) :
-		SizeableBase(width, height),
 		_original_size(width, height),
 		_size_before_fullscreen(0, 0) {
 
@@ -77,6 +76,7 @@ namespace hvn3 {
 		_fullscreen = false;
 		_has_focus = true;
 		_active_display = this;
+		_owns_display = true;
 
 		if (_display)
 			_back_buffer = Graphics::Bitmap(al_get_backbuffer(_display.get()), false);
@@ -85,9 +85,24 @@ namespace hvn3 {
 	Display::Display(Graphics::Resolution resolution) :
 		Display(Graphics::ResolutionToSize(resolution)) {
 	}
+	Display::Display(ALLEGRO_DISPLAY* allegroPointer) :
+		_original_size(al_get_display_width(allegroPointer), al_get_display_height(allegroPointer)),
+		_size_before_fullscreen(0, 0) {
+
+		assert(allegroPointer != nullptr);
+
+		// The class will act as an interface around the pointer, and will be non-owning and will not free the display upon destruction.
+
+		_display = std::shared_ptr<ALLEGRO_DISPLAY>(std::shared_ptr<ALLEGRO_DISPLAY>{}, allegroPointer);
+		_fullscreen = static_cast<bool>(al_get_display_flags(allegroPointer) & ALLEGRO_FULLSCREEN_WINDOW);
+		_has_focus = false;
+		_back_buffer = Graphics::Bitmap(al_get_backbuffer(allegroPointer), false);
+		_owns_display = false;
+
+	}
 	Display::~Display() {
 
-		if (_display) {
+		if (_display && _owns_display) {
 
 			if (ActiveDisplay() == this)
 				_active_display = nullptr;
@@ -118,25 +133,34 @@ namespace hvn3 {
 		al_set_display_icon(get(), System::AllegroAdapter::ToBitmap(_icon));
 
 	}
-	void Display::SetSize(int width, int height) {
+	void Display::Resize(const hvn3::Size<int>& newSize) {
+		Resize(newSize.width, newSize.height);
+	}
+	void Display::Resize(int width, int height) {
 
-		if (!_display)
-			return;
+		assert(static_cast<bool>(_display));
 
-		// Update the size values of the underlying sizeable class.
-		SizeableBase::SetSize(width, height);
-
-		// If the Display's actual size is the same as the sizes provided, just update width/height values. 
-		// This can occur when the Display is resized manually.
-		if (al_get_display_width(get()) == width && al_get_display_height(get()) == height)
-			return;
-
-		// Update the size of the underlying Allegro object.
+		// Update the size of the display.
 		al_resize_display(get(), width, height);
 
-		// Clear the new regions to black.
-		al_clear_to_color(al_map_rgb(0, 0, 0));
-		al_flip_display();
+	}
+	hvn3::Size<int> Display::Size() const {
+		return hvn3::Size<int>(Width(), Height());
+	}
+	int Display::Width() const {
+
+		if (_display)
+			return al_get_display_width(_display.get());
+
+		return 0;
+
+	}
+	int Display::Height() const {
+
+		if (_display)
+			return al_get_display_height(_display.get());
+
+		return 0;
 
 	}
 	Scale Display::Scale() const {
@@ -189,13 +213,11 @@ namespace hvn3 {
 			// Toggle the actual Display flag.
 			al_set_display_flag(get(), ALLEGRO_FULLSCREEN_WINDOW, _fullscreen);
 
-			if (_fullscreen)
-				// If we've gone fullscreen, update the size values to match the new window size.
-				SetSize(al_get_display_width(get()), al_get_display_height(get()));
-			else {
-				// If we've left fullscreen, restore the original size and position.
-				SetSize(_size_before_fullscreen.Width(), _size_before_fullscreen.Height());
+			if (!_fullscreen) {
+
+				// If we've left fullscreen, restore the original position.
 				SetPosition(_position_before_fullscreen);
+
 			}
 
 		}
@@ -211,6 +233,9 @@ namespace hvn3 {
 		else
 			al_hide_mouse_cursor(get());
 
+	}
+	void Display::SetCursor(SystemCursor cursor) {
+		al_set_system_mouse_cursor(get(), (ALLEGRO_SYSTEM_MOUSE_CURSOR)cursor);
 	}
 	EventSource Display::GetEventSource() const {
 		return class EventSource(al_get_display_event_source(get()));

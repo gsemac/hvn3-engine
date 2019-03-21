@@ -2,33 +2,32 @@
 #include "hvn3/utility/Stopwatch.h"
 
 namespace hvn3 {
-	namespace System {
 
-		class FpsCounter {
+	class FpsCounter {
 
-		public:
-			FpsCounter();
-			FpsCounter(double update_rate);
+	public:
+		FpsCounter();
+		FpsCounter(double updatesPerSecond);
 
-			// Returns the average FPS.
-			double AverageFps() const;
-			// Returns the aggregate FPS.
-			double AggregateFps() const;
-			// Advances the frame counter and returns the instantaneous FPS for the current frame.
-			double NextFrame();
+		// Returns the average frames per second rate.
+		double AverageFps() const;
+		// Returns the average number of seconds spent per frame.
+		double SecondsPerFrame() const;
 
-		private:
-			Stopwatch _frame_timer;
-			unsigned long _frame_count;
-			
-			double _update_rate;
-			double _time_elapsed;
+		// Resets the timer to begin timing the next frame, returning the time spent (in seconds) on the previous frame.
+		double NextFrame();
 
-			double _fps_sum;
-			double _average_fps;
-			double _aggregate_fps;
+	private:
+		Stopwatch _frame_timer;
+		unsigned long _frame_count;
 
-		};
+		double _updates_per_second;
+		double _seconds_elapsed;
 
-	}
+		double _fps_sum;
+		double _average_fps;
+		double _seconds_per_frame;
+
+	};
+
 }

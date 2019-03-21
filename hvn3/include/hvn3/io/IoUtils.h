@@ -1,11 +1,30 @@
 #pragma once
+
+#include "hvn3/events/EventSource.h"
+#include "hvn3/io/IODefs.h"
+
 #include <string>
 
 namespace hvn3 {
-	namespace IO {
+	namespace io {
 
-		// Converts a file into a string of bytes, and returns the result.
-		std::string FileToByteString(const std::string& path);
+		class IOUtils {
+
+		public:
+
+			// Converts a file into a byte string that can be directly embedded in source code.
+			static std::string FileToEmbeddableString(const std::string& path);
+
+			static bool IsPrintableChar(int keyCode);
+			static bool IsPrintableChar(Key key);
+			static bool IsNumeric(Key key);
+
+			static EventSource MouseEventSource();
+			static EventSource KeyboardEventSource();
+
+		};
+
+
 
 	}
 }

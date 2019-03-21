@@ -1,12 +1,15 @@
 #pragma once
+
 #include "hvn3/allegro/AllegroForwardDeclarations.h"
 #include "hvn3/core/SizeableBase.h"
 #include "hvn3/events/EventSource.h"
 #include "hvn3/graphics/Bitmap.h"
 #include "hvn3/graphics/GraphicsDefs.h"
 #include "hvn3/graphics/Resolution.h"
+#include "hvn3/io/IODefs.h"
 #include "hvn3/utility/Size.h"
 #include "hvn3/utility/Scale.h"
+
 #include <memory>
 #include <string>
 
@@ -16,7 +19,7 @@ namespace hvn3 {
 		class Runner;
 	}
 
-	class Display : public SizeableBase<int> {
+	class Display {
 		friend class System::Runner;
 
 	public:
@@ -30,12 +33,17 @@ namespace hvn3 {
 		Display(int x, int y, int width, int height, const std::string& title);
 		Display(int x, int y, int width, int height, const std::string& title, DisplayFlags flags);
 		Display(Graphics::Resolution resolution);
+		Display(ALLEGRO_DISPLAY* allegroPointer);
 		~Display();
 
 		void SetTitle(const std::string& value);
 		void SetIcon(const Graphics::Bitmap& icon);
 
-		void SetSize(int width, int height) override;
+		void Resize(const hvn3::Size<int>& newSize);
+		void Resize(int width, int height);
+		hvn3::Size<int> Size() const;
+		int Width() const;
+		int Height() const;
 		// Returns the current scale factor relative to the size at which the display was initialized.
 		Scale Scale() const;
 		PointI Position() const;
@@ -45,7 +53,10 @@ namespace hvn3 {
 		void SetFullscreen(bool value);
 		bool IsFocused() const;
 		void SetCursorVisible(bool value);
+		void SetCursor(SystemCursor cursor);
+
 		Graphics::Bitmap& BackBuffer();
+
 		void Refresh();
 		EventSource GetEventSource() const;
 		ALLEGRO_DISPLAY* get() const;
@@ -56,6 +67,7 @@ namespace hvn3 {
 
 	private:
 		std::shared_ptr<ALLEGRO_DISPLAY> _display; // Pointer to the underlying Allegro object.
+		bool _owns_display;
 		Graphics::Bitmap _back_buffer; // Non-owning bitmap representing the back-buffer
 		Graphics::Bitmap _icon; // The icon associated with the window
 		bool _has_focus; // Whether or not the display is the active window.

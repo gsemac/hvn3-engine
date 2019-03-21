@@ -1,4 +1,5 @@
 #pragma once
+
 #include "hvn3/allegro/AllegroForwardDeclarations.h"
 
 namespace hvn3 {

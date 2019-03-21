@@ -327,9 +327,6 @@
     <ClInclude Include="include\hvn3\io\IO.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\io\Keyboard.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\io\KeyboardEventArgs.h">
       <Filter>include\io</Filter>
     </ClInclude>
@@ -498,9 +495,6 @@
     <ClInclude Include="include\hvn3\math\Point2d.h">
       <Filter>include\math</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\io\KeyboardMutator.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\io\MouseMutator.h">
       <Filter>include\io</Filter>
     </ClInclude>
@@ -577,9 +571,6 @@
       <Filter>include\io</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\io\IDisplayListener.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\io\DisplayEventArgs.h">
       <Filter>include\io</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\helper\DirectionalInputListener.h">
@@ -758,9 +749,6 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\core\Engine.h">
       <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\io\IODefs.h">
-      <Filter>include\io</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\io\IOUtils.h">
       <Filter>include\io</Filter>
@@ -960,6 +948,21 @@
     <ClInclude Include="include\hvn3\core\DrawableBase.h">
       <Filter>include\core</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\events\IEventManager.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\events\EventManager.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\KeyboardState.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\IODefs.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\MouseState.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1063,9 +1066,6 @@
       <Filter>src\io</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\io\File.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\io\Keyboard.cc">
       <Filter>src\io</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\io\KeyboardEventArgs.cc">
@@ -1196,9 +1196,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\graphics\BitmapUtils.cc">
       <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\io\IoUtils.cc">
-      <Filter>src\io</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\assets\SystemAssets.cc">
       <Filter>src\assets</Filter>
@@ -1439,6 +1436,18 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\core\DrawableBase.cc">
       <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\events\EventManager.cc">
+      <Filter>src\events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\KeyboardState.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\MouseState.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\IOUtils.cc">
+      <Filter>src\io</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,28 +1,36 @@
 #include "hvn3/core/Application.h" 
 #include "hvn3/core/ApplicationContext.h"
+#include "hvn3/events/EventManager.h"
 #include "hvn3/io/DisplayManager.h"
+#include "hvn3/io/IOUtils.h"
 #include "hvn3/rooms/SceneManager.h"
+
+constexpr double DEFAULT_FPS = 1.0 / 60.0;
 
 namespace hvn3 {
 
-	Application::Application() {
+	Application::Application() :
+		_update_event_source(DEFAULT_FPS) {
 
 		_init(0, nullptr);
 
 	}
 	Application::Application(const ApplicationProperties& properties) :
-		_properties(properties) {
+		_properties(properties),
+		_update_event_source(DEFAULT_FPS) {
 
 		_init(0, nullptr);
 
 	}
-	Application::Application(int argc, char* argv[]) {
+	Application::Application(int argc, char* argv[]) :
+		_update_event_source(DEFAULT_FPS) {
 
 		_init(argc, argv);
 
 	}
 	Application::Application(int argc, char* argv[], const ApplicationProperties& properties) :
-		_properties(properties) {
+		_properties(properties),
+		_update_event_source(DEFAULT_FPS) {
 
 		_init(argc, argv);
 
@@ -45,19 +53,15 @@ namespace hvn3 {
 	}
 	void Application::Run() {
 
-		// Create the primary display if no display has been created yet.
-
-		if (_manager_registry.GetManager<DisplayManager>()->Count() <= 0)
-			_manager_registry.GetManager<DisplayManager>()->CreateDisplay(_properties.DisplaySize, _properties.ApplicationName);
+		_setUpCoreManagers();
 
 		while (true) {
 
-			UpdateEventArgs e(0.0001);
+			_manager_registry.GetManager<EventManager>()->DoEvents(true);
+
 			DrawEventArgs draw_args(Graphics::Graphics(_manager_registry.GetManager<DisplayManager>()->GetDisplay().BackBuffer()));
 
-			_manager_registry.GetManager<ISceneManager>()->OnUpdate(e);
 			_manager_registry.GetManager<ISceneManager>()->OnDraw(draw_args);
-
 			_manager_registry.GetManager<DisplayManager>()->GetDisplay().Refresh();
 
 		}
@@ -81,11 +85,30 @@ namespace hvn3 {
 	}
 	void Application::_registerCoreManagers() {
 
+		if (!_manager_registry.IsRegistered<EventManager>())
+			RegisterManager<EventManager>();
+
 		if (!_manager_registry.IsRegistered<DisplayManager>())
 			RegisterManager<DisplayManager>();
 
 		if (!_manager_registry.IsRegistered<SceneManager>())
 			RegisterManager<SceneManager>();
+
+	}
+	void Application::_setUpCoreManagers() {
+
+		// Create the primary display if no display has been created yet.
+
+		if (_manager_registry.GetManager<DisplayManager>()->Count() <= 0)
+			_manager_registry.GetManager<DisplayManager>()->CreateDisplay(_properties.DisplaySize, _properties.ApplicationName);
+
+		// Set up the event manager with basic event sources.
+
+		_update_event_source.Start();
+
+		_manager_registry.GetManager<EventManager>()->RegisterEventSource(_update_event_source.EventSource());
+		_manager_registry.GetManager<EventManager>()->RegisterEventSource(io::IOUtils::KeyboardEventSource());
+		_manager_registry.GetManager<EventManager>()->RegisterEventSource(io::IOUtils::MouseEventSource());
 
 	}
 

@@ -2,22 +2,10 @@
 
 namespace hvn3 {
 
-	KeyboardEventArgs::KeyboardEventArgs(hvn3::Key key) {
+	KeyboardEventArgs::KeyboardEventArgs(hvn3::Key key, KeyModifiers modifiers) {
 
 		_key = key;
-
-		_modifiers = (KeyModifiers)0;
-
-		if (Keyboard::KeyDown(Key::LShift))
-			_modifiers |= KeyModifiers::LShift;
-		if (Keyboard::KeyDown(Key::RShift))
-			_modifiers |= KeyModifiers::RShift;
-		if (Keyboard::KeyDown(Key::LControl))
-			_modifiers |= KeyModifiers::LControl;
-		if (Keyboard::KeyDown(Key::RControl))
-			_modifiers |= KeyModifiers::RControl;
-		if (Keyboard::KeyDown(Key::LAlt))
-			_modifiers |= KeyModifiers::RAlt;
+		_modifiers = modifiers;
 
 	}
 	Key KeyboardEventArgs::Key() const {
@@ -36,8 +24,8 @@ namespace hvn3 {
 
 	}
 
-	KeyCharEventArgs::KeyCharEventArgs(hvn3::Key key, int keychar) :
-		KeyboardEventArgs(key) {
+	KeyCharEventArgs::KeyCharEventArgs(hvn3::Key key, KeyModifiers modifiers, int keychar) :
+		KeyboardEventArgs(key, modifiers) {
 
 		_keychar = keychar;
 

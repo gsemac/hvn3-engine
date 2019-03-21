@@ -141,7 +141,7 @@ namespace hvn3 {
 			if (index < 0 || index > _inteface_registry.size() || _inteface_registry[index].size() <= 0)
 				return;
 
-			_inteface_registry[index].erase(std::remove_if(_inteface_registry[index].begin(), _inteface_registry[index].end(); [=](IManager* i) {
+			_inteface_registry[index].erase(std::remove_if(_inteface_registry[index].begin(), _inteface_registry[index].end(), [=](IManager* i) {
 				i == managerPtr; 
 			}), _inteface_registry[index].end());
 

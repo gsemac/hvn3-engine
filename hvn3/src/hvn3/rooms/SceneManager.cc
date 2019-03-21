@@ -152,7 +152,7 @@ namespace hvn3 {
 		case TRANSITION_PENDING:
 
 			if (!_transition) {
-				
+
 				// If the transition is null (no transition), just perform the change immediately.
 
 				_loadNextScene();
@@ -172,7 +172,7 @@ namespace hvn3 {
 
 			// Update the state of the scene transition. 
 			// If the transition is complete, load the next scene and begin the enter transition.
-			
+
 			if (_transition->ExitStep(e)) {
 
 				_transition->ExitEnd();

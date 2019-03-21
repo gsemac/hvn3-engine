@@ -15,7 +15,7 @@
 //	class Font;
 //	class IGameManager;
 //	class IRoom;
-//	
+//
 //	namespace System {
 //
 //		class Runner {
