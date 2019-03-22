@@ -57,6 +57,7 @@ namespace hvn3 {
 
 		while (true) {
 
+			// Handle all events that are currently sitting in the event queue.
 			_manager_registry.GetManager<EventManager>()->DoEvents(true);
 
 			DrawEventArgs draw_args(Graphics::Graphics(_manager_registry.GetManager<DisplayManager>()->GetDisplay().BackBuffer()));

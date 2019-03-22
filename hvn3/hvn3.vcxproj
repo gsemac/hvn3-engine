@@ -367,6 +367,7 @@
     <ClCompile Include="src\hvn3\io\Console.cc" />
     <ClCompile Include="src\hvn3\io\Directory.cc" />
     <ClCompile Include="src\hvn3\io\Display.cc" />
+    <ClCompile Include="src\hvn3\io\DisplayManager.cc" />
     <ClCompile Include="src\hvn3\io\File.cc" />
     <ClCompile Include="src\hvn3\io\FileStream.cc" />
     <ClCompile Include="src\hvn3\io\IOUtils.cc" />

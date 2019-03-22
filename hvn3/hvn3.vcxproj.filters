@@ -1449,5 +1449,8 @@
     <ClCompile Include="src\hvn3\io\IOUtils.cc">
       <Filter>src\io</Filter>
     </ClCompile>
+    <ClCompile Include="src\hvn3\io\DisplayManager.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

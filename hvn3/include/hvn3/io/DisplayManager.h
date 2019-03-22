@@ -20,19 +20,10 @@ namespace hvn3 {
 
 		}
 
-		Display& GetDisplay() {
+		// Returns the primary display.
+		Display& GetDisplay();
 
-			assert(_displays.size() > 0);
-
-			return _displays[0];
-
-		}
-
-		size_t Count() const {
-
-			return _displays.size();
-
-		}
+		size_t Count() const;
 
 	private:
 		std::vector<Display> _displays;
