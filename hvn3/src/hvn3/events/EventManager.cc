@@ -23,6 +23,7 @@ namespace hvn3 {
 
 		_is_first_update = true;
 		_frames_skipped = 0;
+		_redraw_required = false;
 		_max_frame_skip = 10;
 		_global_mouse_tracking_enabled = true;
 		_global_mouse_tracking_required = false;
@@ -46,10 +47,15 @@ namespace hvn3 {
 		return false;
 	}
 
+	bool EventManager::RedrawRequired() const {
+		return _redraw_required;
+	}
+
 	void EventManager::DoEvents(bool blocking) {
 
 		Event event;
 		_frames_skipped = 0;
+		_redraw_required = false;
 
 		while (true) {
 
@@ -69,6 +75,13 @@ namespace hvn3 {
 				break;
 
 		}
+
+	}
+
+	void EventManager::DispatchEvent(DrawEventArgs& event) {
+
+		for (auto i = _draw_listeners.begin(); i != _draw_listeners.end(); ++i)
+			(*i)->OnDraw(event);
 
 	}
 
@@ -205,6 +218,9 @@ namespace hvn3 {
 
 		// Reset the delta timer.
 		_update_delta_timer.Reset();
+
+		// Since the game state has been updated, it needs to be redrawn.
+		_redraw_required = true;
 
 	}
 	void EventManager::OnDisplayClose(Event& ev) {

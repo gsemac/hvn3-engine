@@ -194,7 +194,9 @@ namespace hvn3 {
 
 	// Public methods
 
-	KeyboardState::Iterator::Iterator(KeyboardState* state, size_t keyIndex) {
+	KeyboardState::Iterator::Iterator(KeyboardState* state, size_t keyIndex) :
+		_state(state),
+		_key_index(keyIndex) {
 	}
 
 	bool KeyboardState::Iterator::operator==(const Iterator& other) {

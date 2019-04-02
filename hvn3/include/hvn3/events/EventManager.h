@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hvn3/core/ApplicationContext.h"
+#include "hvn3/core/IDrawable.h"
 #include "hvn3/events/Event.h"
 #include "hvn3/events/EventQueue.h"
 #include "hvn3/events/EventSource.h"
@@ -38,6 +39,9 @@ namespace hvn3 {
 			if (std::is_base_of<IUpdatable, ListenerType>::value)
 				_update_listeners.push_back((IUpdatable*)listener);
 
+			if (std::is_base_of<IDrawable, ListenerType>::value)
+				_draw_listeners.push_back((IDrawable*)listener);
+
 		}
 		template<typename ListenerType>
 		void DeregisterEventListener(ListenerType* listener) {}
@@ -48,9 +52,13 @@ namespace hvn3 {
 		int MaxFrameSkip() const {}
 		void SetMaxFrameSkip(int value) {}
 
+		bool RedrawRequired() const;
+
 		// Handles all events in the event queue, dispatching them to the appropriate listeners.
 		// Does not return until all events have been handled.
 		void DoEvents(bool blocking);
+
+		void DispatchEvent(DrawEventArgs& event);
 
 	protected:
 		void DoEvent(Event& event);
@@ -78,6 +86,7 @@ namespace hvn3 {
 		bool _is_first_update;
 		EventQueue _event_queue;
 		int _frames_skipped;
+		bool _redraw_required;
 		int _max_frame_skip; // Used to decide when to skip updates to avoid overwhelming the event queue during consistently long updates
 		Stopwatch _update_delta_timer; // Used to measure the time between updates (passed in update args)
 
@@ -96,6 +105,7 @@ namespace hvn3 {
 		std::vector<IKeyboardListener*> _keyboard_listeners;
 		std::vector<IMouseListener*> _mouse_listeners;
 		std::vector<IUpdatable*> _update_listeners;
+		std::vector<IDrawable*> _draw_listeners;
 
 	};
 

@@ -30,7 +30,7 @@ namespace hvn3 {
 	}
 	Application::Application(int argc, char* argv[], const ApplicationProperties& properties) :
 		_properties(properties),
-		_update_event_source(DEFAULT_FPS) {
+		_update_event_source(1.0 / properties.FrameRate) {
 
 		_init(argc, argv);
 
@@ -57,13 +57,19 @@ namespace hvn3 {
 
 		while (true) {
 
-			// Handle all events that are currently sitting in the event queue.
-			_manager_registry.GetManager<EventManager>()->DoEvents(true);
+			auto* event_manager = _manager_registry.GetManager<EventManager>();
 
-			DrawEventArgs draw_args(Graphics::Graphics(_manager_registry.GetManager<DisplayManager>()->GetDisplay().BackBuffer()));
+			event_manager->DoEvents(true);
 
-			_manager_registry.GetManager<ISceneManager>()->OnDraw(draw_args);
-			_manager_registry.GetManager<DisplayManager>()->GetDisplay().Refresh();
+			if (event_manager->RedrawRequired()) {
+
+				DrawEventArgs draw_event(Graphics::Graphics(_manager_registry.GetManager<DisplayManager>()->GetDisplay().BackBuffer()));
+
+				event_manager->DispatchEvent(draw_event);
+
+				_manager_registry.GetManager<DisplayManager>()->GetDisplay().Refresh();
+
+			}
 
 		}
 
