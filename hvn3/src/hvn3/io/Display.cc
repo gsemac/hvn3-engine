@@ -77,6 +77,7 @@ namespace hvn3 {
 		_has_focus = true;
 		_active_display = this;
 		_owns_display = true;
+		_scaling_mode = ScalingMode::Fixed;
 
 		if (_display)
 			_back_buffer = Graphics::Bitmap(al_get_backbuffer(_display.get()), false);
@@ -163,9 +164,6 @@ namespace hvn3 {
 		return 0;
 
 	}
-	Scale Display::Scale() const {
-		return hvn3::Scale(static_cast<float>(Width()) / _original_size.Width(), static_cast<float>(Height()) / _original_size.Height());
-	}
 	PointI Display::Position() const {
 
 		if (!_display)
@@ -236,6 +234,12 @@ namespace hvn3 {
 	}
 	void Display::SetCursor(SystemCursor cursor) {
 		al_set_system_mouse_cursor(get(), (ALLEGRO_SYSTEM_MOUSE_CURSOR)cursor);
+	}
+	hvn3::ScalingMode Display::ScalingMode() const {
+		return _scaling_mode;
+	}
+	void Display::SetScalingMode(hvn3::ScalingMode value) {
+		_scaling_mode = value;
 	}
 	EventSource Display::GetEventSource() const {
 		return class EventSource(al_get_display_event_source(get()));

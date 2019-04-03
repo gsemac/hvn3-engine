@@ -10,8 +10,11 @@
 namespace hvn3 {
 
 	enum class ScalingMode {
+		//Display contents are not scaled.
 		Fixed,
+		// Display contents are stretched to fit the exact size of the display area.
 		Full,
+		// Display contents are scaled to maintain the original aspect ratio.
 		MaintainAspectRatio
 	};
 
