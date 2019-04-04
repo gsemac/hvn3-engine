@@ -210,7 +210,8 @@ namespace hvn3 {
 
 		e.Graphics().Clear(_getSceneInfo().scene->BackgroundColor());
 
-		_transition->OnDraw(e);
+		if (_isTransitioning() && _transition)
+			_transition->OnDraw(e);
 
 	}
 

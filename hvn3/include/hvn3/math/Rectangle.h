@@ -4,6 +4,7 @@
 #include "hvn3/exceptions/Exception.h"
 #include "hvn3/graphics/Transform.h"
 #include "hvn3/math/Line.h"
+#include "hvn3/utility/Scale.h"
 
 #include <array>
 
@@ -170,10 +171,15 @@ namespace hvn3 {
 		void Translate(const Point2d<T>& offset) {
 			Translate(offset.x, offset.y);
 		}
-		void Scale(T x_scale, T y_scale) {
+		template<typename U>
+		void Scale(U x_scale, U y_scale) {
 
-			throw System::NotImplementedException();
+			SetWidth(static_cast<T>(static_cast<U>(Width()) * x_scale));
+			SetHeight(static_cast<T>(static_cast<U>(Height()) * y_scale));
 
+		}
+		void Scale(const hvn3::Scale& scale) {
+			Scale(scale.XScale(), scale.YScale());
 		}
 		// Returns an array of rotated points representing the vertices of the rectangle, ordered clockwise from the top-left vertex.
 		std::array<point_t, 4> Rotate(const point_t& origin, T degrees) {

@@ -56,10 +56,11 @@ namespace hvn3 {
 		hvn3::ScalingMode ScalingMode() const;
 		void SetScalingMode(hvn3::ScalingMode value);
 
-		Graphics::Bitmap& BackBuffer();
+		Graphics::Bitmap& GetBackBuffer();
+		Graphics::Graphics Canvas();
 
 		void Refresh();
-		EventSource GetEventSource() const;
+		EventSource EventSource() const;
 		ALLEGRO_DISPLAY* get() const;
 
 		static Display* ActiveDisplay();
@@ -82,6 +83,7 @@ namespace hvn3 {
 
 		// Sets a flag indicating whether or not the display currently has focus.
 		void _setFocus(bool value);
+		Scale _scale() const;
 
 	};
 

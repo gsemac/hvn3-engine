@@ -63,7 +63,9 @@ namespace hvn3 {
 
 			if (event_manager->RedrawRequired()) {
 
-				DrawEventArgs draw_event(Graphics::Graphics(_manager_registry.GetManager<DisplayManager>()->GetDisplay().BackBuffer()));
+				Graphics::Graphics canvas = _manager_registry.GetManager<DisplayManager>()->GetDisplay().Canvas();
+
+				DrawEventArgs draw_event(canvas);
 
 				event_manager->DispatchEvent(draw_event);
 
@@ -107,7 +109,9 @@ namespace hvn3 {
 		// Create the primary display if no display has been created yet.
 
 		if (_manager_registry.GetManager<DisplayManager>()->Count() <= 0)
-			_manager_registry.GetManager<DisplayManager>()->CreateDisplay(_properties.DisplaySize, _properties.ApplicationName);
+			_manager_registry.GetManager<DisplayManager>()->CreateDisplay(_properties.DisplaySize, _properties.ApplicationName, _properties.DisplayFlags);
+
+		_manager_registry.GetManager<DisplayManager>()->GetDisplay().SetScalingMode(_properties.ScalingMode);
 
 		// Set up the event manager with basic event sources.
 
@@ -116,6 +120,7 @@ namespace hvn3 {
 		_manager_registry.GetManager<EventManager>()->RegisterEventSource(_update_event_source.EventSource());
 		_manager_registry.GetManager<EventManager>()->RegisterEventSource(io::IOUtils::KeyboardEventSource());
 		_manager_registry.GetManager<EventManager>()->RegisterEventSource(io::IOUtils::MouseEventSource());
+		_manager_registry.GetManager<EventManager>()->RegisterEventSource(_manager_registry.GetManager<DisplayManager>()->GetDisplay().EventSource());
 
 	}
 

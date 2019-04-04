@@ -3,9 +3,13 @@
 #include "hvn3/io/Display.h"
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/io/DisplayListener.h"
+
 #include <allegro5/allegro.h>
+
 #include <cassert>
 #include <limits>
+#include <cmath>
+
 #define UNDEFINED_WINDOW_POSITION_X INT_MAX
 #define UNDEFINED_WINDOW_POSITION_Y INT_MAX
 
@@ -241,11 +245,56 @@ namespace hvn3 {
 	void Display::SetScalingMode(hvn3::ScalingMode value) {
 		_scaling_mode = value;
 	}
-	EventSource Display::GetEventSource() const {
+	EventSource Display::EventSource() const {
 		return class EventSource(al_get_display_event_source(get()));
 	}
-	Graphics::Bitmap& Display::BackBuffer() {
+	Graphics::Bitmap& Display::GetBackBuffer() {
 		return _back_buffer;
+	}
+	Graphics::Graphics Display::Canvas() {
+
+		Graphics::Graphics canvas(GetBackBuffer());
+
+		if (_scaling_mode != ScalingMode::Fixed) {
+
+			Graphics::Transform transform = canvas.GetTransform();
+
+			if (_scaling_mode == ScalingMode::Full) {
+
+				transform.Scale(_scale());
+
+			}
+			else if (_scaling_mode == ScalingMode::MaintainAspectRatio) {
+
+				SizeI current_size = Size();
+				SizeI original_size = _original_size;
+
+				float h_scale = static_cast<float>(current_size.width) / original_size.width;
+				float v_scale = static_cast<float>(current_size.height) / original_size.height;
+				Scale min_scale((std::min)(h_scale, v_scale));
+
+				RectangleI clip(original_size);
+
+				clip.Scale(min_scale);
+
+				float offset_x = current_size.width / 2.0f - clip.Width() / 2.0f;
+				float offset_y = current_size.height / 2.0f - clip.Height() / 2.0f;
+
+				clip.Translate(offset_x, offset_y);
+
+				transform.Scale(min_scale);
+				transform.Translate(offset_x, offset_y);
+
+				canvas.SetClip(clip);
+
+			}
+
+			canvas.SetTransform(transform);
+
+		}
+
+		return canvas;
+
 	}
 	void Display::Refresh() {
 		al_flip_display();
@@ -288,6 +337,16 @@ namespace hvn3 {
 			Display::_active_display = nullptr;
 
 		}
+
+	}
+	Scale Display::_scale() const {
+
+		float w = static_cast<float>(Width());
+		float h = static_cast<float>(Height());
+		float ow = static_cast<float>(_original_size.Width());
+		float oh = static_cast<float>(_original_size.Height());
+
+		return hvn3::Scale(w / ow, h / oh);
 
 	}
 

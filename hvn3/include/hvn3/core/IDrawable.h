@@ -16,8 +16,8 @@ namespace hvn3 {
 
 		virtual void OnDraw(DrawEventArgs& e) = 0;
 
-		virtual depth_type Depth() const = 0;
-		virtual void SetDepth(depth_type value) = 0;
+		virtual depth_type Depth() const { return 0; }
+		virtual void SetDepth(depth_type value) {}
 
 	};
 
