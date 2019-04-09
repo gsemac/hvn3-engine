@@ -963,6 +963,9 @@
     <ClInclude Include="include\hvn3\io\MouseState.h">
       <Filter>include\io</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\utility\UniqueIntegerGenerator.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

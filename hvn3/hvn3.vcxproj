@@ -271,6 +271,7 @@
     <ClInclude Include="include\hvn3\utility\Thread.h" />
     <ClInclude Include="include\hvn3\utility\ThreadPool.h" />
     <ClInclude Include="include\hvn3\utility\TypeIndexer.h" />
+    <ClInclude Include="include\hvn3\utility\UniqueIntegerGenerator.h" />
     <ClInclude Include="include\hvn3\utility\Utf8String.h" />
     <ClInclude Include="include\hvn3\utility\Utility.h" />
     <ClInclude Include="include\hvn3\utility\Version.h" />
