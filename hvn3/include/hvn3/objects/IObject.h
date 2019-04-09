@@ -40,6 +40,8 @@ namespace hvn3 {
 	public:
 		typedef typename object_indexer::index_type object_id;
 
+		static const object_indexer::index_type NULL_OBJECT_ID;
+
 		virtual ~IObject() = default;
 
 		virtual object_id Id() const = 0;

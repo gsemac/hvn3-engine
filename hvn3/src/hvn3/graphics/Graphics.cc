@@ -385,6 +385,22 @@ namespace hvn3 {
 				_path_canvas->AddRectangle(Clip().X(), Clip().Y(), Clip().Width(), Clip().Height());
 
 		}
+		void Graphics::Fill(const Color& color) {
+		
+			if (_canvas != nullptr) {
+
+				Transform trans = GetTransform();
+
+				ResetTransform();
+
+				DrawSolidRectangle(0.0f, 0.0f, static_cast<float>(_canvas->Width()), static_cast<float>(_canvas->Height()), color);
+
+				SetTransform(trans);
+
+			}
+			else
+				Clear(color);
+		}
 
 		void Graphics::DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment) {
 

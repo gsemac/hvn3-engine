@@ -64,6 +64,11 @@ namespace hvn3 {
 			if (event_manager->RedrawRequired()) {
 
 				Graphics::Graphics canvas = _manager_registry.GetManager<DisplayManager>()->GetDisplay().Canvas();
+				RectangleI clip = canvas.Clip();
+
+				canvas.ResetClip();
+				canvas.Clear(_properties.OutsideColor);
+				canvas.SetClip(clip);
 
 				DrawEventArgs draw_event(canvas);
 
@@ -115,6 +120,7 @@ namespace hvn3 {
 
 		// Set up the event manager with basic event sources.
 
+		_update_event_source.SetSecondsPerTick(1.0 / _properties.FrameRate);
 		_update_event_source.Start();
 
 		_manager_registry.GetManager<EventManager>()->RegisterEventSource(_update_event_source.EventSource());

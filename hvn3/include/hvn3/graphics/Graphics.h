@@ -56,6 +56,7 @@ namespace hvn3 {
 			void DrawSolidCircle(const CircleF& circle, const Color& color);
 
 			void Clear(const Color& color);
+			void Fill(const Color& color);
 
 			void DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment = Alignment::Left);
 			void DrawText(float x, float y, const std::string& text, const Font& font, const Color& color);

@@ -13,7 +13,8 @@ namespace hvn3 {
 	class TypeIndexer {
 
 	public:
-		typedef size_t index_type;
+		typedef int index_type;
+		static const index_type NULL_INDEX;
 
 		// Returns the index of the given type.
 		template<typename T>
@@ -35,5 +36,8 @@ namespace hvn3 {
 		}
 
 	};
+
+	template<typename ...Family>
+	const typename TypeIndexer<Family...>::index_type TypeIndexer<Family...>::NULL_INDEX = -1;
 
 }
