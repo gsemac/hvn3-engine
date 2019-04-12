@@ -3,7 +3,7 @@
 #include "hvn3/exceptions/Exception.h"
 
 #include <cassert>
-#include <queue>
+#include <deque>
 #include <limits>
 
 namespace hvn3 {
@@ -22,7 +22,7 @@ namespace hvn3 {
 
 	private:
 		integer_type _current_value;
-		std::queue<integer_type> _freed_values;
+		std::deque<integer_type> _freed_values;
 
 	};
 
@@ -39,7 +39,7 @@ namespace hvn3 {
 
 			integer_type value = _freed_values.front();
 
-			_freed_values.pop();
+			_freed_values.pop_front();
 
 			return value;
 
@@ -63,7 +63,10 @@ namespace hvn3 {
 		// The value we're freeing should be one that was returned previously.
 		assert(value < _current_value);
 
-		_freed_values.push(value);
+		// The value we're freeing should not have been freed previously.
+		assert(std::find(_freed_values.begin(), _freed_values.end(), value) == _freed_values.end());
+
+		_freed_values.push_back(value);
 
 	}
 

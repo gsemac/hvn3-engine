@@ -5,6 +5,7 @@
 #include "hvn3/core/SizeableBase.h"
 #include "hvn3/events/EventSource.h"
 #include "hvn3/graphics/Bitmap.h"
+#include "hvn3/graphics/Graphics.h"
 #include "hvn3/graphics/GraphicsDefs.h"
 #include "hvn3/graphics/Resolution.h"
 #include "hvn3/io/IODefs.h"

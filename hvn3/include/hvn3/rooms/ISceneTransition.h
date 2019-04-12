@@ -1,7 +1,7 @@
 #pragma once
 
 #include "hvn3/core/DrawEventArgs.h"
-#include "hvn3/core/UpdateEventArgs.h"
+#include "hvn3/events/IUpdateListener.h"
 
 namespace hvn3 {
 
@@ -13,15 +13,18 @@ namespace hvn3 {
 	class ISceneTransition {
 
 	public:
+		typedef IUpdateListener::UpdateEventArgs ExitStepEventArgs;
+		typedef IUpdateListener::UpdateEventArgs EnterStepEventArgs;
+
 		virtual ~ISceneTransition() = default;
 
-		virtual void ExitBegin() = 0;
-		virtual bool ExitStep(UpdateEventArgs& e) = 0;
-		virtual void ExitEnd() = 0;
+		virtual void OnExitBegin() = 0;
+		virtual bool OnExitStep(ExitStepEventArgs& e) = 0;
+		virtual void OnExitEnd() = 0;
 
-		virtual void EnterBegin() = 0;
-		virtual bool EnterStep(UpdateEventArgs& e) = 0;
-		virtual void EnterEnd() = 0;
+		virtual void OnEnterBegin() = 0;
+		virtual bool OnEnterStep(EnterStepEventArgs& e) = 0;
+		virtual void OnEnterEnd() = 0;
 
 		virtual bool Blocking() const = 0;
 

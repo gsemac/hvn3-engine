@@ -2,6 +2,7 @@
 
 #include "hvn3/core/ApplicationContext.h"
 #include "hvn3/core/IDrawable.h"
+#include "hvn3/core/ManagerBase.h"
 #include "hvn3/events/Event.h"
 #include "hvn3/events/EventQueue.h"
 #include "hvn3/events/EventSource.h"
@@ -23,7 +24,7 @@ namespace hvn3 {
 	class IUpdatable;
 
 	class EventManager :
-		public IEventManager {
+		public ManagerBase<IEventManager> {
 
 	public:
 		EventManager();
@@ -47,7 +48,6 @@ namespace hvn3 {
 		void DeregisterEventListener(ListenerType* listener) {}
 
 		bool IsEmpty() const;
-		bool IsSuspendable() const override;
 
 		int MaxFrameSkip() const {}
 		void SetMaxFrameSkip(int value) {}
@@ -76,9 +76,6 @@ namespace hvn3 {
 		void OnDisplayResize(Event& ev);
 		void OnDisplaySwitchOut(Event& ev);
 		void OnDisplaySwitchIn(Event& ev);
-
-		void ReceiveContext(const ApplicationContext & context) override;
-		ApplicationContext Context() override;
 
 	private:
 		void _doGlobalMouseTracking();

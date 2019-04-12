@@ -1,8 +1,10 @@
 #pragma once
 
+#include "hvn3/core/ManagerBase.h"
+#include "hvn3/events/UpdateListenerBase.h"
 #include "hvn3/rooms/IScene.h"
+#include "hvn3/rooms/ISceneManager.h"
 #include "hvn3/rooms/ISceneTransition.h"
-#include "hvn3/rooms/SceneManagerBase.h"
 #include "hvn3/rooms/SceneState.h"
 
 #include <memory>
@@ -11,7 +13,8 @@
 namespace hvn3 {
 
 	class SceneManager :
-		public SceneManagerBase {
+		public ManagerBase<ISceneManager>,
+		public UpdateListenerBase {
 
 		enum TRANSITION_STATE {
 			NO_TRANSITION_PENDING,
@@ -28,6 +31,9 @@ namespace hvn3 {
 	public:
 		SceneManager();
 		~SceneManager();
+
+		void OnStart(StartEventArgs& e) override;
+		void OnUpdate(UpdateEventArgs& e) override;
 
 		void GoToScene(scene_index sceneIndex) override;
 		void GoToPreviousScene() override;
@@ -53,10 +59,9 @@ namespace hvn3 {
 		scene_index AddScene(std::unique_ptr<IScene>&& scene) override;
 		void SetSceneTransition(std::unique_ptr<ISceneTransition>&& transition) override;
 
-		void OnUpdate(UpdateEventArgs& e) override;
-		void OnDraw(DrawEventArgs& e) override;
-
 	private:
+		ApplicationContext _context;
+
 		bool _loaded_scene;
 		bool _loaded_temporary_scene;
 		size_t _scene_index;

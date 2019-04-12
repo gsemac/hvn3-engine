@@ -7,11 +7,14 @@
 #include <cassert>
 #include <memory>
 #include <typeindex>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
 namespace hvn3 {
+
+	class IManager;
 
 	class ManagerRegistry {
 
@@ -26,36 +29,23 @@ namespace hvn3 {
 			static_assert(std::is_base_of<IManager, ManagerType>::value, "Type must implement IManager");
 
 			// Make sure that we haven't already registered a manager of this type.
+			// Maybe it should be possible to register multiple instances of the same manager in the future?
 			assert(!IsRegistered<ManagerType>());
 
-			// Create a manager of the requested type.
-
+			// Create a manager of the given template type.
 			std::unique_ptr<IManager> ptr = std::make_unique<ManagerType>(std::forward<Args>(args)...);
 
-			// If this manager implements an interface, it should also be added to the interface queues.
-			// This allows it to be looked up through its interface.
-			_registerManagerToInterfaceRegistry<ManagerType>(ptr.get());
+			// If this manager implements an interface, we should register it under that interface.
+			_registerInterface<ManagerType>(ptr);
 
-			// Add the manager to registry.
-			_registry[typeid(ManagerType)] = std::move(ptr);
+			// Register the manager.
+			_registerManager<ManagerType>(std::move(ptr));
 
 		}
 		template<typename ManagerType>
 		bool Deregister() {
 
-			auto iter = _registry.find(typeid(ManagerType));
-
-			if (iter != _registry.end()) {
-
-				_deregisterManagerFromInterfaceRegistry(iter->second.get());
-
-				_registry.erase(iter);
-
-				return true;
-
-			}
-
-			return false;
+			return _deregisterManager<ManagerType>();
 
 		}
 
@@ -68,96 +58,142 @@ namespace hvn3 {
 
 		}
 		template<typename ManagerType>
-		bool IsRegistered() const {
+		bool IsRegistered() {
 
-			// Attempt to find the manager directly (without having to do any dynamic casting).
-			// Even though we can "get" a manager using dynamic casting, don't use that for checking if a manager exists (performance reasons).
+			return _findManager<ManagerType>() != nullptr;
 
-			auto iter = _registry.find(typeid(ManagerType));
+		}
 
-			if (iter != _registry.end())
-				return true;
-
-			return false;
-
+		size_t Count() const {
+			return _registry.size();
 		}
 
 	private:
 		std::unordered_map<std::type_index, std::unique_ptr<IManager>> _registry;
-		std::vector<std::vector<IManager*>> _inteface_registry;
+		std::unordered_map<std::type_index, std::vector<void*>> _inteface_registry;
 
 		template<typename ManagerType>
-		ManagerType* _findManager() {
+		void _registerManager(std::unique_ptr<IManager>& manager) {
+
+			_registry[typeid(ManagerType)] = std::move(manager);
+
+		}
+		template<typename ManagerType>
+		void _registerInterface(std::unique_ptr<IManager>& manager) {
+
+			// Get the interface type that this manager implements.
+
+			using interface = typename ManagerType::interface;
+
+			static_assert(std::is_base_of<interface, ManagerType>::value, "Manager type must implement its specified interface");
+
+			if (!std::is_same<interface, void>::value) {
+
+				// If the interface type is valid, get a pointer to this type in the manager object, and add it to the interface registry.
+
+				ManagerType* derived_ptr = static_cast<ManagerType*>(manager.get());
+				interface* interface_ptr = static_cast<interface*>(derived_ptr);
+
+				auto it = _inteface_registry.find(typeid(interface));
+
+				if (it == _inteface_registry.end())
+					it = _inteface_registry.insert({ typeid(interface), std::vector<void*>() }).first;
+
+				it->second.push_back(interface_ptr);
+
+			}
+
+		}
+
+		template<typename ManagerType> typename std::enable_if<std::is_base_of<IManager, ManagerType>::value, ManagerType*>::type
+			_findManager() {
 
 			// Attempt to find the manager directly.
 
-			auto iter = _registry.find(typeid(ManagerType));
+			auto manager_iter = _registry.find(typeid(ManagerType));
 
-			if (iter != _registry.end())
-				return static_cast<ManagerType*>((*iter).second.get());
+			if (manager_iter != _registry.end())
+				return static_cast<ManagerType*>((*manager_iter).second.get());
 
-			// Check for the manager in the interface queues.
+			// Attempt to find a manager implementing the given interface.
+			return _findInterface<ManagerType>();
 
-			return static_cast<ManagerType*>(_getManagerFromInterfaceRegistry<ManagerType>());
+		}
+		template<typename ManagerType> typename std::enable_if<!std::is_base_of<IManager, ManagerType>::value, ManagerType*>::type
+			_findManager() {
 
-			//if (iter == _registry.end()) {
+			// If the user has given us a type that doesn't inherit from IManager, they're probably trying to look up a manager by the interface it implements.
+			// Since the normal registry stores IManager pointers, which we can't cast to the interface type safely, this is our only option anyway.
 
-			//	// If we cannot find the manager directly, check for any managers that can be casted to the correct type.
+			return _findInterface<ManagerType>();
 
-			//	for (auto i = _registry.begin(); i != _registry.end(); ++i) {
+		}
+		template<typename InterfaceType>
+		InterfaceType* _findInterface() {
 
-			//		ManagerType* dynamic_ptr = dynamic_cast<ManagerType*>(i->second.get());
+			// Attempt to find a manager implementing the given interface.
 
-			//		if (dynamic_ptr != nullptr)
-			//			return dynamic_ptr;
+			auto interface_iter = _inteface_registry.find(typeid(InterfaceType));
 
-			//	}
+			if (interface_iter != _inteface_registry.end() && interface_iter->second.size() > 0)
+				return static_cast<InterfaceType*>(interface_iter->second.front());
 
-			//}
+			return nullptr;
+
+		}
+
+		template<typename ManagerType>
+		bool _deregisterManager() {
+
+			// For the time being, managers can not be deregistered by interface alone.
+			static_assert(std::is_base_of<IManager, ManagerType>::value, "Type must implement IManager");
+
+			// Find the manager in the registry.
+
+			auto it = _registry.find(typeid(ManagerType));
+
+			if (it == _registry.end())
+				return false;
+
+			// Deregister the interface (if it has been registered).
+			_deregisterInterface<ManagerType>(static_cast<ManagerType*>(it->second.get()));
+
+			// Deregister the manager.
+			_registry.erase(it);
+
+			return true;
 
 		}
 		template<typename ManagerType>
-		void _registerManagerToInterfaceRegistry(IManager* managerPtr) {
+		bool _deregisterInterface(ManagerType* managerPtr) {
 
-			if (std::is_same<typename ManagerTraits<ManagerType>::interface, void>::value)
-				return;
+			using interface = typename ManagerType::interface;
 
-			manager_indexer::index_type index = manager_indexer::GetIndex<typename ManagerTraits<ManagerType>::interface>();
+			static_assert(std::is_base_of<interface, ManagerType>::value, "Manager type must implement its specified interface");
 
-			if (_inteface_registry.size() < index + 1)
-				_inteface_registry.resize(index + 1);
+			// If this manager type doesn't implement an interface, there is nothing to do.
 
-			_inteface_registry[index].push_back(managerPtr);
+			if (std::is_same<interface, void>::value)
+				return false;
 
-		}
-		template<typename ManagerType>
-		void _deregisterManagerFromInterfaceRegistry(IManager* managerPtr) {
+			// Find the collection where the interface pointer is stored in the interface registry.
 
-			if (std::is_same<typename ManagerTraits<ManagerType>::interface, void>::value)
-				return nullptr;
+			auto it = _inteface_registry.find(typeid(interface));
 
-			manager_indexer::index_type index = manager_indexer::GetIndex<typename ManagerTraits<ManagerType>::interface>();
+			if (it == _inteface_registry.end())
+				return false;
 
-			if (index < 0 || index > _inteface_registry.size() || _inteface_registry[index].size() <= 0)
-				return;
+			// Remove the interface pointer from the registry (if it exists).
 
-			_inteface_registry[index].erase(std::remove_if(_inteface_registry[index].begin(), _inteface_registry[index].end(), [=](IManager* i) {
-				i == managerPtr; 
-			}), _inteface_registry[index].end());
+			interface* interface_ptr = static_cast<interface*>(managerPtr);
 
-		}
-		template<typename ManagerType>
-		IManager* _getManagerFromInterfaceRegistry() {
+			it->second.erase(std::remove(it->second.begin(), it->second.end(), interface_ptr), it->second.end());
 
-			if (std::is_same<typename ManagerTraits<ManagerType>::interface, void>::value)
-				return nullptr;
+			// Remove the collection altogether if it is now empty.
+			if (it->second.size() <= 0)
+				_inteface_registry.erase(it);
 
-			manager_indexer::index_type index = manager_indexer::GetIndex<typename ManagerTraits<ManagerType>::interface>();
-
-			if (index < 0 || index > _inteface_registry.size() || _inteface_registry[index].size() <= 0)
-				return nullptr;
-
-			return _inteface_registry[index].front();
+			return true;
 
 		}
 

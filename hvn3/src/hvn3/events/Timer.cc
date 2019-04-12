@@ -1,4 +1,5 @@
 #include "hvn3/events/Timer.h"
+
 #include <allegro5/allegro.h>
 
 namespace hvn3 {

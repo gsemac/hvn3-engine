@@ -40,16 +40,4 @@ namespace hvn3 {
 
 	}
 
-
-	class ISceneManager;
-
-	template<typename ManagerType, typename Enabled = void>
-	struct ManagerTraits {
-		typedef void interface;
-	};
-	template<typename ManagerType>
-	struct ManagerTraits<ManagerType, typename std::enable_if<std::is_base_of<ISceneManager, ManagerType>::value>::type> {
-		typedef ISceneManager interface;
-	};
-
 }

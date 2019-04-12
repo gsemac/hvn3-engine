@@ -43,9 +43,6 @@ namespace hvn3 {
 	bool EventManager::IsEmpty() const {
 		return _event_queue.IsEmpty();
 	}
-	bool EventManager::IsSuspendable() const {
-		return false;
-	}
 
 	bool EventManager::RedrawRequired() const {
 		return _redraw_required;
@@ -453,14 +450,6 @@ namespace hvn3 {
 		for (auto i = _display_listeners.begin(); i != _display_listeners.end(); ++i)
 			(*i)->OnDisplayFound(display_args);
 
-	}
-
-	// Protected methods
-
-	void EventManager::ReceiveContext(const ApplicationContext& context) {
-	}
-	ApplicationContext EventManager::Context() {
-		throw System::NotSupportedException();
 	}
 
 	// Private methods

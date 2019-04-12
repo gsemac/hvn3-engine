@@ -9,16 +9,25 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="src\utility">
+      <UniqueIdentifier>{8e127474-07b6-4df0-ad53-500897c51c95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{4e403c22-dad9-4c1d-aa1a-c55184f8bb7f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Utf8StringTests.cc">
-      <Filter>src</Filter>
+    <ClCompile Include="src\utility\StringUtilsTests.cc">
+      <Filter>src\utility</Filter>
     </ClCompile>
-    <ClCompile Include="StringUtilsTests.cc">
-      <Filter>src</Filter>
+    <ClCompile Include="src\utility\Utf8StringTests.cc">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\ManagerRegistryTests.cc">
+      <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

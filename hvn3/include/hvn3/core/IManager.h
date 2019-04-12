@@ -1,21 +1,51 @@
 #pragma once
 
-#include "hvn3/core/IApplicationContextReceiver.h"
-
 namespace hvn3 {
 
-	class IManager :
-		public IApplicationContextReceiver {
+	class ApplicationContext;
+
+	class IManager {
 
 	public:
+		typedef void interface;
+
+		/*
+		StartEventArgs and EndEventArgs both hold a reference to the ApplicationContext object instead of holding their own copy.
+		This isn't ideal, but was done to avoid a circular dependency (ApplicationContext needs to know about Application, Application needs to know about StartEventArgs, ...).
+		*/
+
+		class StartEventArgs {
+
+		public:
+			StartEventArgs(ApplicationContext* context) :
+				_context(context) {}
+			ApplicationContext& Context() {
+				return *_context;
+			}
+
+		private:
+			ApplicationContext* _context;
+
+		};
+
+		class EndEventArgs {
+
+		public:
+			EndEventArgs(ApplicationContext* context) :
+				_context(context) {}
+			ApplicationContext& Context() {
+				return *_context;
+			}
+
+		private:
+			ApplicationContext* _context;
+
+		};
+
 		virtual ~IManager() = default;
 
-		// Returns true if the manager state is able to be suspended.
-		virtual bool IsSuspendable() const = 0;
-
-	protected:
-		// Returns the application context assigned to this object.
-		virtual ApplicationContext Context() = 0;
+		virtual void OnEvent(StartEventArgs& e) = 0;
+		virtual void OnEvent(EndEventArgs& e) = 0;
 
 	};
 

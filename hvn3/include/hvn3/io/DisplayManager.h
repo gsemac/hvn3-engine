@@ -2,6 +2,7 @@
 
 #include "hvn3/core/ManagerBase.h"
 #include "hvn3/io/Display.h"
+#include "hvn3/io/IDisplayManager.h"
 
 #include <cstddef>
 #include <utility>
@@ -10,7 +11,7 @@
 namespace hvn3 {
 
 	class DisplayManager :
-		public ManagerBase {
+		public ManagerBase<IDisplayManager> {
 
 	public:
 		template<typename ...Args>

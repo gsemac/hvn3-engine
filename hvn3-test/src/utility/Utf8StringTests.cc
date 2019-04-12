@@ -1,7 +1,8 @@
-#include "CppUnitTest.h"
 #include "hvn3/allegro/AllegroAdapter.h"
-#include "hvn3/core/Framework.h"
 #include "hvn3/utility/Utf8String.h"
+
+#include "CppUnitTest.h"
+
 #include <string>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -12,26 +13,15 @@ namespace hvn3test {
 	TEST_CLASS(Utf8StringTests)
 	{
 
-		TEST_CLASS_INITIALIZE(initialization)
-		{
-			System::Framework::Initialize();
-		}
-		TEST_CLASS_CLEANUP(cleanup)
-		{
-			System::Framework::Shutdown();
-		}
-
 	public:
-		TEST_METHOD(TestConstructorDefault)
-		{
+		TEST_METHOD(TestConstructorDefault) {
 
 			String str;
 
 			Assert::IsTrue(String::IsNullOrEmpty(str));
 
 		}
-		TEST_METHOD(TestMemoryPointsToSameLocationAfterCopyAssignment)
-		{
+		TEST_METHOD(TestMemoryPointsToSameLocationAfterCopyAssignment) {
 
 			String str1 = "hello";
 			String str2 = str1;
@@ -39,8 +29,7 @@ namespace hvn3test {
 			Assert::IsTrue(System::AllegroAdapter::ToUStr(str1) == System::AllegroAdapter::ToUStr(str2));
 
 		}
-		TEST_METHOD(TestMemoryPointsToDifferentLocationAfterCopyAssignmentFollowedByWrite)
-		{
+		TEST_METHOD(TestMemoryPointsToDifferentLocationAfterCopyAssignmentFollowedByWrite) {
 
 			String str1 = "hello";
 			String str2 = str1;
@@ -50,8 +39,7 @@ namespace hvn3test {
 			Assert::IsTrue(System::AllegroAdapter::ToUStr(str1) != System::AllegroAdapter::ToUStr(str2));
 
 		}
-		TEST_METHOD(TestModifyingStringAfterCopyAssignmentDoesNotModifyOriginalString)
-		{
+		TEST_METHOD(TestModifyingStringAfterCopyAssignmentDoesNotModifyOriginalString) {
 
 			String str1 = "hello";
 			String str2 = str1;

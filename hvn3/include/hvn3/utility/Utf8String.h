@@ -1,9 +1,12 @@
 #pragma once
+
 #include "hvn3/utility/Utility.h"
 #include "hvn3/fonts/Font.h"
 #include "hvn3/allegro/AllegroForwardDeclarations.h"
 #include "hvn3/utility/IteratorTemplate.h"
+
 #include <allegro5/utf8.h>
+
 #include <initializer_list>
 #include <iostream>
 #include <iterator>

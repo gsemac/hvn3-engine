@@ -91,9 +91,12 @@
     <ClInclude Include="include\hvn3\ecs\ComponentPoolBase.h" />
     <ClInclude Include="include\hvn3\ecs\ComponentView.h" />
     <ClInclude Include="include\hvn3\ecs\EcsDefs.h" />
+    <ClInclude Include="include\hvn3\ecs\Entity.h" />
     <ClInclude Include="include\hvn3\ecs\EntityComponentPair.h" />
+    <ClInclude Include="include\hvn3\ecs\EntityManager.h" />
     <ClInclude Include="include\hvn3\ecs\IComponent.h" />
     <ClInclude Include="include\hvn3\ecs\IComponentPool.h" />
+    <ClInclude Include="include\hvn3\ecs\IEntityManager.h" />
     <ClInclude Include="include\hvn3\events\Event.h" />
     <ClInclude Include="include\hvn3\events\EventArgs.h" />
     <ClInclude Include="include\hvn3\events\EventManager.h" />
@@ -101,7 +104,9 @@
     <ClInclude Include="include\hvn3\events\EventSource.h" />
     <ClInclude Include="include\hvn3\events\IEventArgs.h" />
     <ClInclude Include="include\hvn3\events\IEventManager.h" />
+    <ClInclude Include="include\hvn3\events\IUpdateListener.h" />
     <ClInclude Include="include\hvn3\events\Timer.h" />
+    <ClInclude Include="include\hvn3\events\UpdateListenerBase.h" />
     <ClInclude Include="include\hvn3\exceptions\Exception.h" />
     <ClInclude Include="include\hvn3\fonts\Font.h" />
     <ClInclude Include="include\hvn3\graphics\BitmapUtils.h" />
@@ -164,6 +169,7 @@
     <ClInclude Include="include\hvn3\io\File.h" />
     <ClInclude Include="include\hvn3\io\FileStream.h" />
     <ClInclude Include="include\hvn3\io\IDisplayListener.h" />
+    <ClInclude Include="include\hvn3\io\IDisplayManager.h" />
     <ClInclude Include="include\hvn3\io\IKeyboardListener.h" />
     <ClInclude Include="include\hvn3\io\IMouseListener.h" />
     <ClInclude Include="include\hvn3\io\IO.h" />
@@ -225,7 +231,6 @@
     <ClInclude Include="include\hvn3\rooms\SceneManager.h" />
     <ClInclude Include="include\hvn3\rooms\RoomDefs.h" />
     <ClInclude Include="include\hvn3\rooms\Scene.h" />
-    <ClInclude Include="include\hvn3\rooms\SceneManagerBase.h" />
     <ClInclude Include="include\hvn3\rooms\SceneState.h" />
     <ClInclude Include="include\hvn3\rooms\SceneTransitionBase.h" />
     <ClInclude Include="include\hvn3\rooms\SceneTransitionFade.h" />
@@ -318,7 +323,6 @@
     <ClCompile Include="src\hvn3\core\GameManager.cc" />
     <ClCompile Include="src\hvn3\core\IUpdatable.cc" />
     <ClCompile Include="src\hvn3\core\ApplicationProperties.cc" />
-    <ClCompile Include="src\hvn3\core\ManagerBase.cc" />
     <ClCompile Include="src\hvn3\core\Runner.cc" />
     <ClCompile Include="src\hvn3\core\UpdateEventArgs.cc" />
     <ClCompile Include="src\hvn3\events\Event.cc" />
@@ -412,7 +416,6 @@
     <ClCompile Include="src\hvn3\rooms\SceneManager.cc" />
     <ClCompile Include="src\hvn3\rooms\Room.cc" />
     <ClCompile Include="src\hvn3\rooms\RoomManager.cc" />
-    <ClCompile Include="src\hvn3\rooms\SceneManagerBase.cc" />
     <ClCompile Include="src\hvn3\rooms\SceneTransitionBase.cc" />
     <ClCompile Include="src\hvn3\rooms\SceneTransitionFade.cc" />
     <ClCompile Include="src\hvn3\sound\Sound.cc" />

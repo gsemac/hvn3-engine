@@ -11,10 +11,7 @@
 
 namespace hvn3 {
 
-	class ISceneManager :
-		public IManager,
-		public IDrawable,
-		public IUpdatable {
+	class ISceneManager {
 
 	public:
 		typedef size_t scene_index;

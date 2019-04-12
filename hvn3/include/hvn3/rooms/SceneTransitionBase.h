@@ -8,16 +8,16 @@ namespace hvn3 {
 		public ISceneTransition {
 
 	public:
-		void ExitBegin() override;
-		bool ExitStep(UpdateEventArgs& e) override;
-		void ExitEnd() override;
+		void OnExitBegin() override;
+		bool OnExitStep(ExitStepEventArgs& e) override;
+		void OnExitEnd() override;
 
-		void EnterBegin()override;
-		bool EnterStep(UpdateEventArgs& e) override;
-		void EnterEnd() override;
+		void OnEnterBegin()override;
+		bool OnEnterStep(EnterStepEventArgs& e) override;
+		void OnEnterEnd() override;
 
 		bool Blocking() const override;
-		
+
 		void OnDraw(DrawEventArgs& e) override;
 
 	};

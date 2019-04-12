@@ -2,21 +2,21 @@
 
 namespace hvn3 {
 
-	void SceneTransitionBase::ExitBegin() {}
-	bool SceneTransitionBase::ExitStep(UpdateEventArgs& e) {
+	void SceneTransitionBase::OnExitBegin() {}
+	bool SceneTransitionBase::OnExitStep(ISceneTransition::ExitStepEventArgs& e) {
 
 		return true;
 
 	}
-	void SceneTransitionBase::ExitEnd() {}
+	void SceneTransitionBase::OnExitEnd() {}
 
-	void SceneTransitionBase::EnterBegin() {}
-	bool SceneTransitionBase::EnterStep(UpdateEventArgs& e) {
+	void SceneTransitionBase::OnEnterBegin() {}
+	bool SceneTransitionBase::OnEnterStep(ISceneTransition::EnterStepEventArgs& e) {
 
 		return true;
 
 	}
-	void SceneTransitionBase::EnterEnd() {}
+	void SceneTransitionBase::OnEnterEnd() {}
 
 	void SceneTransitionBase::OnDraw(DrawEventArgs& e) {}
 

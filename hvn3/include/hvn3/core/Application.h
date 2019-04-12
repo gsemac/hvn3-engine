@@ -59,15 +59,19 @@ namespace hvn3 {
 
 		auto* registered_manager = _manager_registry.GetManager<ManagerType>();
 
-		ProvideContext(registered_manager, Context());
+		ApplicationContext context = Context();
 
-		auto* event_manager = _manager_registry.GetManager<EventManager>();
+		IManager::StartEventArgs args(&context);
+
+		registered_manager->OnEvent(args);
+
+		/*auto* event_manager = _manager_registry.GetManager<EventManager>();
 
 		if (event_manager != nullptr) {
 
 			event_manager->RegisterEventListener(registered_manager);
 
-		}
+		}*/
 
 	}
 

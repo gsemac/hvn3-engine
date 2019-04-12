@@ -50,6 +50,10 @@ namespace hvn3 {
 			_initialized = false;
 
 		}
+
+		bool Engine::IsInitialized() {
+			return _initialized;
+		}
 		bool Engine::IsDeinitialized() {
 
 			return !_initialized &&
@@ -59,6 +63,7 @@ namespace hvn3 {
 				_audio_ref_count == 0;
 
 		}
+
 		void Engine::RequireComponent(EngineComponent component) {
 
 			// If the user has manually initialized the engine, do not do any reference counting.

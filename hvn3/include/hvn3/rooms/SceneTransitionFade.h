@@ -13,10 +13,10 @@ namespace hvn3 {
 		SceneTransitionFade(const Color& fade_to_color);
 		SceneTransitionFade(const Color& fade_to_color, bool blocking);
 
-		virtual void ExitBegin() override;
-		virtual bool ExitStep(UpdateEventArgs& e) override;
+		virtual void OnExitBegin() override;
+		virtual bool OnExitStep(ExitStepEventArgs& e) override;
 
-		virtual bool EnterStep(UpdateEventArgs& e) override;
+		virtual bool OnEnterStep(EnterStepEventArgs& e) override;
 
 		virtual void OnDraw(DrawEventArgs& e) override;
 

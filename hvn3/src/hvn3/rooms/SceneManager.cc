@@ -1,3 +1,4 @@
+#include "hvn3/events/IEventManager.h"
 #include "hvn3/rooms/SceneManager.h"
 #include "hvn3/rooms/SceneTransitionFade.h"
 
@@ -15,6 +16,83 @@ namespace hvn3 {
 		_transition_state(NO_TRANSITION_PENDING),
 		_transition(nullptr) {}
 	SceneManager::~SceneManager() {}
+
+	void SceneManager::OnStart(StartEventArgs& e) {
+
+		_context = e.Context();
+
+		//auto* event_manager = e.Context().Get<IEventManager>();
+
+	}
+	void SceneManager::OnUpdate(UpdateEventArgs& e) {
+
+		// Update the state of the room if there is nothing blocking updates.
+		if (IsSceneLoaded() && (!_isTransitioning() || !_transition || !_transition->Blocking()))
+			_updateScene();
+
+		else if (!IsSceneLoaded() && _scenes.size() > 0) {
+
+			// If no scene is loaded but scenes have been added, load the first scene.
+			GoToScene(0);
+
+		}
+
+		switch (_transition_state) {
+
+		case TRANSITION_PENDING:
+
+			if (!_transition) {
+
+				// If the transition is null (no transition), just perform the change immediately.
+
+				_loadNextScene();
+				_transition_state = NO_TRANSITION_PENDING;
+
+			}
+			else {
+
+				_transition->OnExitBegin();
+				_transition_state = EXIT_IN_PROGRESS;
+
+			}
+
+			break;
+
+		case EXIT_IN_PROGRESS:
+
+			// Update the state of the scene transition. 
+			// If the transition is complete, load the next scene and begin the enter transition.
+
+			if (_transition->OnExitStep(e)) {
+
+				_transition->OnExitEnd();
+
+				_loadNextScene();
+
+				_transition->OnEnterBegin();
+				_transition_state = ENTER_IN_PROGRESS;
+
+			}
+
+			break;
+
+		case ENTER_IN_PROGRESS:
+
+			// Update the state of the scene transition. 
+			// If the transition is complete, reset the transition state to allow future scene changes.
+
+			if (_transition->OnEnterStep(e)) {
+
+				_transition->OnEnterEnd();
+				_transition_state = NO_TRANSITION_PENDING;
+
+			}
+
+			break;
+
+		}
+
+	}
 
 	void SceneManager::GoToScene(scene_index sceneIndex) {
 
@@ -44,7 +122,7 @@ namespace hvn3 {
 
 		assert(IsSceneLoaded());
 
-		IScene::ExitEventArgs exit_args(Context());
+		IScene::ExitEventArgs exit_args(_context);
 
 		_getSceneInfo().scene->OnExit(exit_args);
 
@@ -52,8 +130,8 @@ namespace hvn3 {
 
 		// Call appropriate event handlers to set up the scene.
 
-		IScene::CreateEventArgs create_args(Context());
-		IScene::EnterEventArgs enter_args(Context());
+		IScene::CreateEventArgs create_args(_context);
+		IScene::EnterEventArgs enter_args(_context);
 
 		_getSceneInfo().scene->OnEnter(enter_args);
 		_getSceneInfo().scene->OnCreate(create_args);
@@ -134,73 +212,11 @@ namespace hvn3 {
 
 	}
 
+	/*
+
 	void SceneManager::OnUpdate(UpdateEventArgs& e) {
 
-		// Update the state of the room if there is nothing blocking updates.
-		if (IsSceneLoaded() && (!_isTransitioning() || !_transition || !_transition->Blocking()))
-			_updateScene();
 
-		else if (!IsSceneLoaded() && _scenes.size() > 0) {
-
-			// If no scene is loaded but scenes have been added, load the first scene.
-			GoToScene(0);
-
-		}
-
-		switch (_transition_state) {
-
-		case TRANSITION_PENDING:
-
-			if (!_transition) {
-
-				// If the transition is null (no transition), just perform the change immediately.
-
-				_loadNextScene();
-				_transition_state = NO_TRANSITION_PENDING;
-
-			}
-			else {
-
-				_transition->ExitBegin();
-				_transition_state = EXIT_IN_PROGRESS;
-
-			}
-
-			break;
-
-		case EXIT_IN_PROGRESS:
-
-			// Update the state of the scene transition. 
-			// If the transition is complete, load the next scene and begin the enter transition.
-
-			if (_transition->ExitStep(e)) {
-
-				_transition->ExitEnd();
-
-				_loadNextScene();
-
-				_transition->EnterBegin();
-				_transition_state = ENTER_IN_PROGRESS;
-
-			}
-
-			break;
-
-		case ENTER_IN_PROGRESS:
-
-			// Update the state of the scene transition. 
-			// If the transition is complete, reset the transition state to allow future scene changes.
-
-			if (_transition->EnterStep(e)) {
-
-				_transition->EnterEnd();
-				_transition_state = NO_TRANSITION_PENDING;
-
-			}
-
-			break;
-
-		}
 
 	}
 	void SceneManager::OnDraw(DrawEventArgs& e) {
@@ -214,6 +230,8 @@ namespace hvn3 {
 			_transition->OnDraw(e);
 
 	}
+
+	*/
 
 	// Private methods
 
@@ -250,7 +268,7 @@ namespace hvn3 {
 
 			// Call the exit event for the current scene.
 
-			IScene::ExitEventArgs exit_args(Context());
+			IScene::ExitEventArgs exit_args(_context);
 
 			_getSceneInfo().scene->OnExit(exit_args);
 
@@ -266,8 +284,8 @@ namespace hvn3 {
 
 		// Call the appropriate events on the new scene.
 
-		IScene::CreateEventArgs create_args(Context());
-		IScene::EnterEventArgs enter_args(Context());
+		IScene::CreateEventArgs create_args(_context);
+		IScene::EnterEventArgs enter_args(_context);
 
 		_getSceneInfo().scene->OnEnter(enter_args);
 		_getSceneInfo().scene->OnCreate(create_args);

@@ -5,18 +5,28 @@
 
 namespace hvn3 {
 
+	template<typename InterfaceType = void>
 	class ManagerBase :
-		public IManager {
+		public IManager,
+		public InterfaceType {
 
 	public:
-		bool IsSuspendable() const override;
+		typedef InterfaceType interface;
+
+		void OnEvent(StartEventArgs& e) override {
+
+			OnStart(e);
+
+		}
+		void OnEvent(EndEventArgs& e) override {
+
+			OnEnd(e);
+
+		}
 
 	protected:
-		void ReceiveContext(const ApplicationContext& context) override;
-		ApplicationContext Context() override;
-
-	private:
-		ApplicationContext _context;
+		virtual void OnStart(StartEventArgs& e) {}
+		virtual void OnEnd(EndEventArgs& e) {}
 
 	};
 

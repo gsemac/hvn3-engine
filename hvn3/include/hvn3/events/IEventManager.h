@@ -4,8 +4,7 @@
 
 namespace hvn3 {
 
-	class IEventManager :
-		public IManager {
+	class IEventManager {
 
 	public:
 

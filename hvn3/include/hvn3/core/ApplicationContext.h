@@ -3,6 +3,8 @@
 #include "hvn3/core/Application.h"
 
 #include <cassert>
+#include <string>
+#include <vector>
 
 namespace hvn3 {
 

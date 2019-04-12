@@ -16,19 +16,19 @@ namespace hvn3 {
 		_alpha(0.0f),
 		_fade_to_color(fade_to_color) {
 	}
-	void SceneTransitionFade::ExitBegin() {
+	void SceneTransitionFade::OnExitBegin() {
 
 		_alpha = 0.0f;
 
 	}
-	bool SceneTransitionFade::ExitStep(UpdateEventArgs& e) {
+	bool SceneTransitionFade::OnExitStep(ExitStepEventArgs& e) {
 
 		_alpha = static_cast<float>(Math::Min(_alpha + e.Delta(), 1.0));
 
 		return _alpha >= 1.0f;
 
 	}
-	bool SceneTransitionFade::EnterStep(UpdateEventArgs& e) {
+	bool SceneTransitionFade::OnEnterStep(EnterStepEventArgs& e) {
 
 		_alpha = static_cast<float>(Math::Max(_alpha - e.Delta(), 0.0));
 
