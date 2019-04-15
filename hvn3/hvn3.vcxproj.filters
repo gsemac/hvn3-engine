@@ -981,6 +981,30 @@
     <ClInclude Include="include\hvn3\io\IDisplayManager.h">
       <Filter>include\io</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\utility\TypeTraits.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\events\IUserEvent.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\events\EventListenerBase.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\events\EventListener.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\events\IListenerContainer.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\events\ListenerContainer.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\events\ListenerRegistry.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\events\UserEvent.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

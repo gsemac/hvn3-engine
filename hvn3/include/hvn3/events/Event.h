@@ -1,6 +1,8 @@
 #pragma once
-#include <allegro5/allegro.h>
+
 #include "hvn3/events/EventSource.h"
+
+#include <allegro5/allegro.h>
 
 namespace hvn3 {
 
