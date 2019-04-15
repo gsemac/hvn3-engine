@@ -41,7 +41,6 @@ namespace hvn3 {
 	};
 
 	class Event {
-		friend class EventQueue;
 
 	public:
 		Event();

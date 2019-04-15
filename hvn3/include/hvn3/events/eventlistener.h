@@ -37,7 +37,7 @@ namespace hvn3 {
 			static_assert(is_any<EventType, EventTypes...>::value, "The event listener does not handle this event type");
 
 			if (_listener_object != nullptr)
-				static_cast<impl::EventListenerBaseMethodHelper<EventType>*>(_listener_object)->OnEvent(ev);
+				static_cast<implementation::EventListenerBaseMethodHelper<EventType>*>(_listener_object)->OnEvent(ev);
 
 			auto& callback = _getHandler<EventType>();
 

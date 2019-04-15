@@ -106,11 +106,11 @@
     <ClInclude Include="include\hvn3\events\EventSource.h" />
     <ClInclude Include="include\hvn3\events\IEventArgs.h" />
     <ClInclude Include="include\hvn3\events\IEventManager.h" />
-    <ClInclude Include="include\hvn3\events\IListenerContainer.h" />
+    <ClInclude Include="include\hvn3\events\IEventListenerContainer.h" />
     <ClInclude Include="include\hvn3\events\IUpdateListener.h" />
     <ClInclude Include="include\hvn3\events\IUserEvent.h" />
-    <ClInclude Include="include\hvn3\events\ListenerContainer.h" />
-    <ClInclude Include="include\hvn3\events\ListenerRegistry.h" />
+    <ClInclude Include="include\hvn3\events\EventListenerContainer.h" />
+    <ClInclude Include="include\hvn3\events\EventListenerRegistry.h" />
     <ClInclude Include="include\hvn3\events\Timer.h" />
     <ClInclude Include="include\hvn3\events\UpdateListenerBase.h" />
     <ClInclude Include="include\hvn3\events\UserEvent.h" />
@@ -283,6 +283,7 @@
     <ClInclude Include="include\hvn3\utility\Thread.h" />
     <ClInclude Include="include\hvn3\utility\ThreadPool.h" />
     <ClInclude Include="include\hvn3\utility\TypeIndexer.h" />
+    <ClInclude Include="include\hvn3\utility\TypeList.h" />
     <ClInclude Include="include\hvn3\utility\TypeTraits.h" />
     <ClInclude Include="include\hvn3\utility\UniqueIntegerGenerator.h" />
     <ClInclude Include="include\hvn3\utility\Utf8String.h" />

@@ -1,10 +1,12 @@
 #pragma once
 
+#include "hvn3/utility/TypeList.h"
+
 #include <type_traits>
 
 namespace hvn3 {
 
-	namespace impl {
+	namespace implementation {
 
 		template<typename EventType>
 		class EventListenerBaseMethodHelper {
@@ -21,7 +23,12 @@ namespace hvn3 {
 	// Base class for event listeners to be passed into an EventListener object.
 	template<typename... EventTypes>
 	class EventListenerBase :
-		public impl::EventListenerBaseMethodHelper<EventTypes>... {
+		public implementation::EventListenerBaseMethodHelper<EventTypes>... {
+
+	public:
+		using event_types = TypeList<EventTypes...>;
+
 	};
+
 
 }

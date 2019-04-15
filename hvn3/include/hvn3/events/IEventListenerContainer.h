@@ -4,7 +4,7 @@
 
 namespace hvn3 {
 
-	class IListenerContainer {
+	class IEventListenerContainer {
 
 	public:
 		// Dispatches the given event to all listeners. Returns true if the listeners are capable of handling this event type, false otherwise.

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "hvn3/events/EventListener.h"
-#include "hvn3/events/IListenerContainer.h"
+#include "hvn3/events/IEventListenerContainer.h"
 #include "hvn3/utility/UniqueIntegerGenerator.h"
 
 #include <cassert>
@@ -11,8 +11,8 @@
 namespace hvn3 {
 
 	template<typename ...EventTypes>
-	class ListenerContainer :
-		public IListenerContainer {
+	class EventListenerContainer :
+		public IEventListenerContainer {
 
 	public:
 		typedef EventListener<EventTypes...> listener_type;
@@ -22,7 +22,7 @@ namespace hvn3 {
 		class ListenerHandle {
 
 		public:
-			typedef ListenerContainer<EventTypes...> parent_type;
+			typedef EventListenerContainer<EventTypes...> parent_type;
 
 			friend class parent_type;
 
