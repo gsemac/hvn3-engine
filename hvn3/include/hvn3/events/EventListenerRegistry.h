@@ -2,6 +2,7 @@
 
 #include "hvn3/events/EventListenerContainer.h"
 #include "hvn3/events/UserEvent.h"
+#include "hvn3/utility/TypeList.h"
 
 #include <memory>
 #include <typeindex>
@@ -15,6 +16,13 @@ namespace hvn3 {
 	class EventListenerRegistry {
 
 	public:
+		template<typename ...EventTypes>
+		using listener_type = EventListener<EventTypes...>;
+		template<typename ...EventTypes>
+		using registry_type = EventListenerContainer<EventTypes...>;
+		template<typename ...EventTypes>
+		using handle_type = typename registry_type<EventTypes...>::handle_type;
+
 		template<typename EventType> typename std::enable_if<!std::is_base_of<IUserEvent, EventType>::value, void>::type
 			Dispatch(const EventType& ev) {
 
@@ -31,31 +39,19 @@ namespace hvn3 {
 		}
 
 		template<typename ...EventTypes, typename ...Args>
-		typename EventListenerContainer<EventTypes...>::handle_type AddListener(Args... args) {
+		handle_type<EventTypes...> AddListener(Args... args) {
 
-			using listener_type = EventListener<EventTypes...>;
-			using registry_type = EventListenerContainer<EventTypes...>;
-			using handle_type = typename EventListenerContainer<EventTypes...>::handle_type;
+			using listener_type = listener_type<EventTypes...>;
+			using registry_type = registry_type<EventTypes...>;
 
 			listener_type listener(args...);
+			registry_type* registry = _getRegistry<EventTypes...>();
 
-			auto it = _registry.find(typeid(listener_type));
-
-			if (it == _registry.end()) {
-
-				std::unique_ptr<IEventListenerContainer> item = std::make_unique<registry_type>();
-
-				it = _registry.insert({ typeid(listener_type), std::move(item) }).first;
-
-			}
-
-			registry_type* listeners = static_cast<registry_type*>(it->second.get());
-
-			return listeners->AddListener(std::move(listener));
+			return registry->AddListener(std::move(listener));
 
 		}
 		template<typename... EventTypes, typename EventListenerType>
-		typename EventListenerContainer<EventTypes...>::handle_type AddListener(TypeList<EventTypes...>, EventListenerType* listener) {
+		handle_type<EventTypes...> AddListener(TypeList<EventTypes...>, EventListenerType* listener) {
 
 			return AddListener<EventTypes...>(listener);
 
@@ -67,11 +63,69 @@ namespace hvn3 {
 
 		}
 
-		template<typename A>
-		void f(A a) { f(typename A::args(), a); }
+		template<typename... EventTypes>
+		bool RemoveListener(handle_type<EventTypes...>& handle) {
 
+			using registry_type = registry_type<EventTypes...>;
+
+			registry_type* registry = _getRegistry<EventTypes...>();
+
+			return registry->RemoveListener(handle);
+
+		}
+		template<typename... EventTypes, typename EventListenerHandleType>
+		bool RemoveListener(TypeList<EventTypes...>, EventListenerHandleType& handle) {
+
+			return RemoveListener<EventTypes...>(handle);
+
+		}
+		template<typename EventListenerHandleType>
+		bool RemoveListener(EventListenerHandleType& handle) {
+
+			return RemoveListener(typename EventListenerHandleType::event_types(), handle);
+
+		}
+		template<typename... EventTypes, typename EventListenerType>
+		bool RemoveListener(TypeList<EventTypes...>, const EventListenerType* listener) {
+
+			using registry_type = registry_type<EventTypes...>;
+
+			registry_type* registry = _getRegistry<EventTypes...>();
+
+			return registry->RemoveListener(listener);
+
+		}
+		template<typename EventListenerType>
+		bool RemoveListener(const EventListenerType* listener) {
+
+			return RemoveListener(typename EventListenerType::event_types(), listener);
+
+		}
+		
 	private:
 		std::unordered_map<std::type_index, std::unique_ptr<IEventListenerContainer>> _registry;
+
+		template<typename ...EventTypes>
+		EventListenerContainer<EventTypes...>* _getRegistry() {
+
+			using listener_type = EventListener<EventTypes...>;
+			using registry_type = EventListenerContainer<EventTypes...>;
+
+			auto it = _registry.find(typeid(listener_type));
+
+			if (it == _registry.end()) {
+
+				std::unique_ptr<IEventListenerContainer> item = std::make_unique<registry_type>();
+
+				it = _registry.insert({ typeid(listener_type), std::move(item) }).first;
+
+			}
+
+			registry_type* registry = static_cast<registry_type*>(it->second.get());
+
+			return registry;
+
+		}
 
 	};
 

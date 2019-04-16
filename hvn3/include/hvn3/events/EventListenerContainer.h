@@ -2,8 +2,10 @@
 
 #include "hvn3/events/EventListener.h"
 #include "hvn3/events/IEventListenerContainer.h"
+#include "hvn3/utility/TypeList.h"
 #include "hvn3/utility/UniqueIntegerGenerator.h"
 
+#include <algorithm>
 #include <cassert>
 #include <utility>
 #include <vector>
@@ -16,13 +18,16 @@ namespace hvn3 {
 
 	public:
 		typedef EventListener<EventTypes...> listener_type;
+		typedef typename listener_type::listener_type listener_base_type;
 		typedef std::vector<std::pair<int, listener_type>> container_type;
 		typedef int listener_id;
+		typedef typename container_type::size_type size_type;
 
 		class ListenerHandle {
 
 		public:
 			typedef EventListenerContainer<EventTypes...> parent_type;
+			typedef TypeList<EventTypes...> event_types;
 
 			friend class parent_type;
 
@@ -78,8 +83,34 @@ namespace hvn3 {
 			return handle_type(this, id, Count() - 1);
 
 		}
+		bool RemoveListener(handle_type& handle) {
 
-		typename container_type::size_type Count() const {
+			size_type size_before = Count();
+
+			_listeners.erase(std::remove_if(_listeners.begin(), _listeners.end(), [&](typename container_type::value_type& n) {
+				return n.first == handle.id;
+			}), _listeners.end());
+
+			size_type size_now = Count();
+
+			return size_now < size_before;
+
+		}
+		bool RemoveListener(const listener_base_type* listener) {
+
+			size_type size_before = Count();
+
+			_listeners.erase(std::remove_if(_listeners.begin(), _listeners.end(), [&](typename container_type::value_type& n) {
+				return n.second.Object() == listener;
+			}), _listeners.end());
+
+			size_type size_now = Count();
+
+			return size_now < size_before;
+
+		}
+
+		size_type Count() const {
 			return _listeners.size();
 		}
 

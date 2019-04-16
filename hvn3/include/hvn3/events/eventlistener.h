@@ -4,6 +4,7 @@
 #include "hvn3/utility/TypeTraits.h"
 
 #include <functional>
+#include <memory>
 #include <tuple>
 #include <type_traits>
 
@@ -16,6 +17,7 @@ namespace hvn3 {
 		template<typename EventType>
 		using callback_type = std::function<void(typename std::conditional<std::is_fundamental<EventType>::value, EventType, EventType&>::type)>;
 		typedef EventListenerBase<EventTypes...> listener_type;
+		typedef std::tuple<callback_type<EventTypes>...> callback_tuple_type;
 
 		EventListener();
 		EventListener(listener_type* listener);
@@ -45,14 +47,23 @@ namespace hvn3 {
 				callback(ev);
 
 		}
+		
+		const listener_type* Object() const {
+			return _listener_object;
+		}
 
 	private:
 		listener_type* _listener_object;
-		std::tuple<callback_type<EventTypes>...> _callbacks;
+		std::unique_ptr<callback_tuple_type> _callbacks;
 
 		template<typename EventType>
 		callback_type<EventType>& _getHandler() {
-			return std::get<callback_type<EventType>>(_callbacks);
+
+			if (!_callbacks)
+				_callbacks = std::make_unique<callback_tuple_type>();
+
+			return std::get<callback_type<EventType>>(*_callbacks);
+
 		}
 
 	};
