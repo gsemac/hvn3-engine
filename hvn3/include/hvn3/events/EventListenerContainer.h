@@ -65,6 +65,59 @@ namespace hvn3 {
 
 		typedef ListenerHandle handle_type;
 
+		class Iterator {
+
+		public:
+			typedef listener_type value_type;
+
+			Iterator(typename container_type::iterator iterator) :
+				_it(iterator) {}
+
+			bool operator==(const Iterator& rhs) const {
+				return _it == rhs._it;
+			}
+			bool operator!=(const Iterator& rhs) const {
+				return !(*this == rhs);
+			}
+
+			Iterator& operator++() {
+
+				++_it;
+
+				return *this;
+
+			}
+			Iterator operator++(int) {
+
+				Iterator copy(_it);
+
+				++*this;
+
+				return copy;
+
+			}
+
+			value_type* operator->() {
+				return &_it->second;
+			}
+			const value_type* operator->() const {
+				return &_it->second;
+			}
+			value_type& operator*() {
+				return _it->second;
+			}
+			const value_type& operator*() const {
+				return _it->second;
+			}
+
+		private:
+			typename container_type::iterator _it;
+
+		};
+
+		typedef Iterator iterator;
+		typedef const Iterator const_iterator;
+
 		bool Dispatch(IUserEvent& ev) override {
 
 			bool successful = false;
@@ -110,13 +163,26 @@ namespace hvn3 {
 
 		}
 
-		size_type Count() const {
+		iterator begin() {
+			return iterator(_listeners.begin());
+		}
+		iterator end() {
+			return iterator(_listeners.end());
+		}
+		const_iterator begin() const {
+			return iterator(_listeners.begin());
+		}
+		const_iterator end() const {
+			return iterator(_listeners.end());
+		}
+
+		size_type Count() const override {
 			return _listeners.size();
 		}
 
 	private:
 		container_type _listeners;
-		hvn3::UniqueIntegerGenerator<listener_id> _id_generator;
+		UniqueIntegerGenerator<listener_id> _id_generator;
 
 		template<typename EventType>
 		bool _tryDispatch(IUserEvent& ev) {

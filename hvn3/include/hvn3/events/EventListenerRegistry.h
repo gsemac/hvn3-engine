@@ -22,6 +22,8 @@ namespace hvn3 {
 		using registry_type = EventListenerContainer<EventTypes...>;
 		template<typename ...EventTypes>
 		using handle_type = typename registry_type<EventTypes...>::handle_type;
+		typedef std::unordered_map<std::type_index, std::unique_ptr<IEventListenerContainer>> registry_container_type;
+		typedef typename registry_container_type::size_type size_type;
 
 		template<typename EventType> typename std::enable_if<!std::is_base_of<IUserEvent, EventType>::value, void>::type
 			Dispatch(const EventType& ev) {
@@ -101,9 +103,20 @@ namespace hvn3 {
 			return RemoveListener(typename EventListenerType::event_types(), listener);
 
 		}
-		
+
+		size_type Count() const {
+
+			size_type count = 0;
+
+			for (auto i = _registry.begin(); i != _registry.end(); ++i)
+				count += i->second->Count();
+
+			return count;
+
+		}
+
 	private:
-		std::unordered_map<std::type_index, std::unique_ptr<IEventListenerContainer>> _registry;
+		registry_container_type _registry;
 
 		template<typename ...EventTypes>
 		EventListenerContainer<EventTypes...>* _getRegistry() {

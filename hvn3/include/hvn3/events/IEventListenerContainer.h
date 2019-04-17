@@ -9,6 +9,8 @@ namespace hvn3 {
 	public:
 		// Dispatches the given event to all listeners. Returns true if the listeners are capable of handling this event type, false otherwise.
 		virtual bool Dispatch(IUserEvent& event) = 0;
+		// Returns the number of listeners in the container.
+		virtual size_t Count() const = 0;
 
 	};
 
