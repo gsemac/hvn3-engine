@@ -241,7 +241,7 @@ namespace hvn3 {
 
 	}
 	bool SceneManager::_beginTransitionTo(scene_index sceneIndex) {
-		std::cout << "is trans: " << _isTransitioning() << std::endl;
+	
 		if (_isTransitioning())
 			return false;
 

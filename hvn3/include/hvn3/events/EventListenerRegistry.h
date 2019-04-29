@@ -33,6 +33,16 @@ namespace hvn3 {
 			Dispatch(event);
 
 		}
+		template<typename EventType, typename ...Args> typename std::enable_if<!std::is_base_of<IUserEvent, EventType>::value, void>::type
+			Dispatch(Args&&... args) {
+
+			EventType data(args...);
+
+			UserEvent<EventType> event(std::move(data));
+
+			Dispatch(event);
+
+		}
 		void Dispatch(IUserEvent& ev) {
 
 			for (auto i = _registry.begin(); i != _registry.end(); ++i)

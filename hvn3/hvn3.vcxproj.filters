@@ -1008,6 +1008,12 @@
     <ClInclude Include="include\hvn3\events\EventListener.h">
       <Filter>include\events</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\graphics\RenderManager.h">
+      <Filter>include\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\events\UserEventSource.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1490,6 +1496,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\io\DisplayManager.cc">
       <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\events\UserEventSource.cc">
+      <Filter>src\events</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

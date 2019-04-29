@@ -28,6 +28,8 @@ namespace hvn3 {
 		_global_mouse_tracking_enabled = true;
 		_global_mouse_tracking_required = false;
 
+		RegisterEventSource(_user_event_source);
+
 	}
 	EventManager::~EventManager() {
 
@@ -51,6 +53,7 @@ namespace hvn3 {
 	void EventManager::DoEvents(bool blocking) {
 
 		Event event;
+
 		_frames_skipped = 0;
 		_redraw_required = false;
 
@@ -75,11 +78,8 @@ namespace hvn3 {
 
 	}
 
-	void EventManager::DispatchEvent(DrawEventArgs& event) {
-
-		for (auto i = _draw_listeners.begin(); i != _draw_listeners.end(); ++i)
-			(*i)->OnDraw(event);
-
+	EventListenerRegistry& EventManager::GetListenerRegistry() {
+		return *this;
 	}
 
 	// Protected methods
@@ -140,6 +140,10 @@ namespace hvn3 {
 			OnDisplaySwitchIn(event);
 			break;
 
+		case EventType::UserEvent:
+			OnUserEvent(event);
+			break;
+
 		}
 
 	}
@@ -165,47 +169,29 @@ namespace hvn3 {
 		UpdateEventArgs args(_update_delta_timer.SecondsElapsed());
 
 		// Pre-update
-
-		for (auto i = _update_listeners.begin(); i != _update_listeners.end(); ++i)
-			(*i)->OnBeginUpdate(args);
+		Dispatch(args); // #todo needs to be separate event type
 
 		// Update
-
-		for (auto i = _update_listeners.begin(); i != _update_listeners.end(); ++i)
-			(*i)->OnUpdate(args);
+		Dispatch(args);
 
 		// For any keys actively held, notify all keyboard listeners.
 
 		if (_keyboard_state.KeyDown(Key::Any)) {
 
 			for (auto i = _keyboard_state.begin(); i != _keyboard_state.end(); ++i)
-				if (i->Held()) {
-
-					KeyDownEventArgs args(i->Key(), _keyboard_state.Modifiers());
-
-					for (auto i = _keyboard_listeners.begin(); i != _keyboard_listeners.end(); ++i)
-						(*i)->OnKeyDown(args);
-
-				}
+				if (i->Held())
+					Dispatch<KeyDownEventArgs>(i->Key(), _keyboard_state.Modifiers());
 
 		}
 
 		// For any mouse buttons actively held, notify all mouse listeners.
 
 		for (auto i = _mouse_state.begin(); i != _mouse_state.end(); ++i)
-			if (i->Held()) {
-
-				MouseDownEventArgs args(i->Button(), _mouse_state.DisplayPosition(), _mouse_state.Position());
-
-				for (auto i = _mouse_listeners.begin(); i != _mouse_listeners.end(); ++i)
-					(*i)->OnMouseDown(args);
-
-			}
+			if (i->Held())
+				Dispatch<MouseDownEventArgs>(i->Button(), _mouse_state.DisplayPosition(), _mouse_state.Position());
 
 		// Post-update
-
-		for (auto i = _update_listeners.begin(); i != _update_listeners.end(); ++i)
-			(*i)->OnEndUpdate(args);
+		Dispatch(args); // #todo needs to be separate event type
 
 		// Unset all pressed/released keys so the values will be false until next triggered.
 		_keyboard_state.ClearKeyStates(true, true, false);
@@ -223,11 +209,7 @@ namespace hvn3 {
 	void EventManager::OnDisplayClose(Event& ev) {
 
 		// Notify all display listeners.
-
-		IDisplayListener::DisplayClosedEventArgs args(nullptr); // #todo should not be null, but the actual display
-
-		for (auto i = _display_listeners.begin(); i != _display_listeners.end(); ++i)
-			(*i)->OnDisplayClosed(args);
+		Dispatch<IDisplayListener::DisplayClosedEventArgs>(nullptr); // #todo should not be null, but the actual display
 
 	}
 	void EventManager::OnKeyDown(Event& ev) {
@@ -239,14 +221,8 @@ namespace hvn3 {
 
 		// Notify all keyboard listeners.
 
-		if (_keyboard_state.KeyPressed(key_code)) {
-
-			KeyPressedEventArgs args(static_cast<Key>(key_code), _keyboard_state.Modifiers());
-
-			for (auto i = _keyboard_listeners.begin(); i != _keyboard_listeners.end(); ++i)
-				(*i)->OnKeyPressed(args);
-
-		}
+		if (_keyboard_state.KeyPressed(key_code))
+			Dispatch<KeyPressedEventArgs>(static_cast<Key>(key_code), _keyboard_state.Modifiers());
 
 	}
 	void EventManager::OnKeyUp(Event& ev) {
@@ -257,11 +233,7 @@ namespace hvn3 {
 		_keyboard_state.SetKeyState(key_code, false);
 
 		// Notify all keyboard listeners.
-
-		KeyUpEventArgs args(static_cast<Key>(key_code), _keyboard_state.Modifiers());
-
-		for (auto i = _keyboard_listeners.begin(); i != _keyboard_listeners.end(); ++i)
-			(*i)->OnKeyUp(args);
+		Dispatch<KeyUpEventArgs>(static_cast<Key>(key_code), _keyboard_state.Modifiers());
 
 	}
 	void EventManager::OnKeyChar(Event& ev) {
@@ -277,11 +249,7 @@ namespace hvn3 {
 			_keyboard_state.SetLastChar(character);
 
 		// Notify all keyboard listeners.
-
-		KeyCharEventArgs args(static_cast<Key>(ev.AlPtr()->keyboard.keycode), _keyboard_state.Modifiers(), character);
-
-		for (auto i = _keyboard_listeners.begin(); i != _keyboard_listeners.end(); ++i)
-			(*i)->OnKeyChar(args);
+		Dispatch<KeyCharEventArgs>(static_cast<Key>(ev.AlPtr()->keyboard.keycode), _keyboard_state.Modifiers(), character);
 
 	}
 	void EventManager::OnMouseButtonDown(Event& ev) {
@@ -309,15 +277,7 @@ namespace hvn3 {
 		_mouse_state.SetButtonState(button, true);
 
 		// Notify all mouse listeners.
-
-		if (_mouse_state.ButtonPressed(button)) {
-
-			MousePressedEventArgs args(button, _mouse_state.DisplayPosition(), _mouse_state.Position(), _mouse_state.ButtonDoubleClicked(button) ? 2 : 1);
-
-			for (auto i = _mouse_listeners.begin(); i != _mouse_listeners.end(); ++i)
-				(*i)->OnMousePressed(args);
-
-		}
+		Dispatch<MousePressedEventArgs>(button, _mouse_state.DisplayPosition(), _mouse_state.Position(), _mouse_state.ButtonDoubleClicked(button) ? 2 : 1);
 
 	}
 	void EventManager::OnMouseButtonUp(Event& ev) {
@@ -345,11 +305,7 @@ namespace hvn3 {
 		_mouse_state.SetButtonState(button, false);
 
 		// Notify all mouse listeners.
-
-		MouseReleasedEventArgs args(button, _mouse_state.DisplayPosition(), _mouse_state.Position());
-
-		for (auto i = _mouse_listeners.begin(); i != _mouse_listeners.end(); ++i)
-			(*i)->OnMouseReleased(args);
+		Dispatch<MouseReleasedEventArgs>(button, _mouse_state.DisplayPosition(), _mouse_state.Position());
 
 	}
 	void EventManager::OnMouseAxes(Event& ev) {
@@ -366,19 +322,10 @@ namespace hvn3 {
 
 		// Notify all mouse listeners.
 
-		MouseMoveEventArgs args(_mouse_state.DisplayPosition(), _mouse_state.Position());
+		Dispatch<MouseMoveEventArgs>(_mouse_state.DisplayPosition(), _mouse_state.Position());
 
-		for (auto i = _mouse_listeners.begin(); i != _mouse_listeners.end(); ++i)
-			(*i)->OnMouseMove(args);
-
-		if (mouse.dw != 0 || mouse.dz != 0) {
-
-			MouseScrollEventArgs args(_mouse_state.DisplayPosition(), _mouse_state.Position(), PointI(mouse.w, mouse.z), mouse.dw, mouse.dz);
-
-			for (auto i = _mouse_listeners.begin(); i != _mouse_listeners.end(); ++i)
-				(*i)->OnMouseScroll(args);
-
-		}
+		if (mouse.dw != 0 || mouse.dz != 0)
+			Dispatch<MouseScrollEventArgs>(_mouse_state.DisplayPosition(), _mouse_state.Position(), PointI(mouse.w, mouse.z), mouse.dw, mouse.dz);
 
 	}
 	void EventManager::OnMouseEnterDisplay(Event& ev) {
@@ -394,26 +341,22 @@ namespace hvn3 {
 	void EventManager::OnDisplayResize(Event& ev) {
 
 		// Create a non-owning display for us to work with.
-		Display display(ev._ev.display.source);
+		Display display(ev.AlPtr()->display.source);
 
 		// Store the old size so that we can include it in the event args.
 		//SizeI old_size = display.Size();
 
 		// Acknowledge the resize.
-		al_acknowledge_resize(ev._ev.display.source);
+		al_acknowledge_resize(ev.AlPtr()->display.source);
 
 		// Notify all listeners.
-
-		IDisplayListener::DisplaySizeChangedEventArgs args(&display);
-
-		for (auto i = _display_listeners.begin(); i != _display_listeners.end(); ++i)
-			(*i)->OnDisplaySizeChanged(args);
+		Dispatch<IDisplayListener::DisplaySizeChangedEventArgs>(&display);
 
 	}
 	void EventManager::OnDisplaySwitchOut(Event& ev) {
 
 		// Create a non-owning display for us to work with.
-		Display display(ev._ev.display.source);
+		Display display(ev.AlPtr()->display.source);
 
 		// Reset mouse/keyboard IO so it's back to the default state when the display is switched back in.
 
@@ -424,31 +367,28 @@ namespace hvn3 {
 
 		KeyboardLostEventArgs keyboard_args;
 
-		for (auto i = _keyboard_listeners.begin(); i != _keyboard_listeners.end(); ++i)
-			(*i)->OnKeyboardLost(keyboard_args);
-
-		IDisplayListener::DisplayLostEventArgs display_args(&display);
-
-		for (auto i = _display_listeners.begin(); i != _display_listeners.end(); ++i)
-			(*i)->OnDisplayLost(display_args);
+		Dispatch<KeyboardLostEventArgs>();
+		Dispatch<IDisplayListener::DisplayLostEventArgs>(&display);
 
 	}
 	void EventManager::OnDisplaySwitchIn(Event& ev) {
 
 		// Create a non-owning display for us to work with.
-		Display display(ev._ev.display.source);
+		Display display(ev.AlPtr()->display.source);
 
 		// Notify all listeners.
 
-		KeyboardFoundEventArgs keyboard_args;
+		Dispatch<KeyboardFoundEventArgs>();
+		Dispatch<IDisplayListener::DisplayFoundEventArgs>(&display);
 
-		for (auto i = _keyboard_listeners.begin(); i != _keyboard_listeners.end(); ++i)
-			(*i)->OnKeyboardFound(keyboard_args);
+	}
+	void EventManager::OnUserEvent(Event& ev) {
 
-		IDisplayListener::DisplayFoundEventArgs display_args(&display);
+		IUserEvent* user_ev = ev.GetUserEvent();
 
-		for (auto i = _display_listeners.begin(); i != _display_listeners.end(); ++i)
-			(*i)->OnDisplayFound(display_args);
+		assert(user_ev != nullptr);
+
+		Dispatch(*user_ev);
 
 	}
 
@@ -469,8 +409,7 @@ namespace hvn3 {
 
 			MouseMoveEventArgs args(_mouse_state.DisplayPosition(), _mouse_state.Position());
 
-			for (auto i = _mouse_listeners.begin(); i != _mouse_listeners.end(); ++i)
-				(*i)->OnMouseMove(args);
+			Dispatch(args);
 
 		}
 

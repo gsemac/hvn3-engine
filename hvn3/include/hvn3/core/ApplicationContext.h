@@ -22,7 +22,7 @@ namespace hvn3 {
 		template<typename ManagerType, typename ...Args>
 		void Register(Args&&... args);
 		template<typename ManagerType>
-		ManagerType* Get();
+		ManagerHandle<ManagerType> Get();
 		template<typename ManagerType>
 		bool IsRegistered() const;
 
@@ -42,7 +42,7 @@ namespace hvn3 {
 
 	}
 	template<typename ManagerType>
-	ManagerType* ApplicationContext::Get() {
+	ManagerHandle<ManagerType> ApplicationContext::Get() {
 
 		assert(_application != nullptr);
 

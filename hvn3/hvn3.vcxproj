@@ -114,6 +114,7 @@
     <ClInclude Include="include\hvn3\events\Timer.h" />
     <ClInclude Include="include\hvn3\events\UpdateListenerBase.h" />
     <ClInclude Include="include\hvn3\events\UserEvent.h" />
+    <ClInclude Include="include\hvn3\events\UserEventSource.h" />
     <ClInclude Include="include\hvn3\exceptions\Exception.h" />
     <ClInclude Include="include\hvn3\fonts\Font.h" />
     <ClInclude Include="include\hvn3\graphics\BitmapUtils.h" />
@@ -128,6 +129,7 @@
     <ClInclude Include="include\hvn3\graphics\Imaging.h" />
     <ClInclude Include="include\hvn3\graphics\LinearGradientBrush.h" />
     <ClInclude Include="include\hvn3\graphics\Pen.h" />
+    <ClInclude Include="include\hvn3\graphics\RenderManager.h" />
     <ClInclude Include="include\hvn3\graphics\Resolution.h" />
     <ClInclude Include="include\hvn3\graphics\Transform.h" />
     <ClInclude Include="include\hvn3\graphics\Tween.h" />
@@ -340,6 +342,7 @@
     <ClCompile Include="src\hvn3\events\EventQueue.cc" />
     <ClCompile Include="src\hvn3\events\EventSource.cc" />
     <ClCompile Include="src\hvn3\events\Timer.cc" />
+    <ClCompile Include="src\hvn3\events\UserEventSource.cc" />
     <ClCompile Include="src\hvn3\exceptions\Exception.cc" />
     <ClCompile Include="src\hvn3\fonts\Font.cc" />
     <ClCompile Include="src\hvn3\graphics\BitmapUtils.cc" />

@@ -57,7 +57,7 @@ namespace hvn3 {
 
 		_manager_registry.Register<ManagerType>(std::forward<Args>(args)...);
 
-		auto* registered_manager = _manager_registry.GetManager<ManagerType>();
+		auto registered_manager = _manager_registry.GetManager<ManagerType>();
 
 		ApplicationContext context = Context();
 

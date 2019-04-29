@@ -4,15 +4,18 @@
 #include "hvn3/core/IDrawable.h"
 #include "hvn3/core/ManagerBase.h"
 #include "hvn3/events/Event.h"
+#include "hvn3/events/EventListenerRegistry.h"
 #include "hvn3/events/EventQueue.h"
 #include "hvn3/events/EventSource.h"
 #include "hvn3/events/IEventManager.h"
 #include "hvn3/events/Timer.h"
+#include "hvn3/events/UserEventSource.h"
 #include "hvn3/io/KeyboardState.h"
 #include "hvn3/io/MouseState.h"
 #include "hvn3/utility/FpsCounter.h"
 #include "hvn3/utility/Stopwatch.h"
 
+#include <new>
 #include <type_traits>
 #include <vector>
 
@@ -24,28 +27,14 @@ namespace hvn3 {
 	class IUpdatable;
 
 	class EventManager :
-		public ManagerBase<IEventManager> {
+		public ManagerBase<IEventManager>,
+		public EventListenerRegistry {
 
 	public:
 		EventManager();
 		~EventManager();
 
 		void RegisterEventSource(EventSource& eventSource);
-
-		template<typename ListenerType>
-		void RegisterEventListener(ListenerType* listener) {
-
-			// #todo Use enable_if or a similar mechanism to avoid having to use an unsafe cast.
-
-			if (std::is_base_of<IUpdatable, ListenerType>::value)
-				_update_listeners.push_back((IUpdatable*)listener);
-
-			if (std::is_base_of<IDrawable, ListenerType>::value)
-				_draw_listeners.push_back((IDrawable*)listener);
-
-		}
-		template<typename ListenerType>
-		void DeregisterEventListener(ListenerType* listener) {}
 
 		bool IsEmpty() const;
 
@@ -58,7 +47,10 @@ namespace hvn3 {
 		// Does not return until all events have been handled.
 		void DoEvents(bool blocking);
 
-		void DispatchEvent(DrawEventArgs& event);
+		template<typename EventType> typename std::enable_if<!std::is_base_of<IUserEvent, EventType>::value, void>::type
+			Push(const EventType& ev);
+
+		EventListenerRegistry& GetListenerRegistry() override;
 
 	protected:
 		void DoEvent(Event& event);
@@ -76,9 +68,13 @@ namespace hvn3 {
 		void OnDisplayResize(Event& ev);
 		void OnDisplaySwitchOut(Event& ev);
 		void OnDisplaySwitchIn(Event& ev);
+		void OnUserEvent(Event& ev);
 
 	private:
+		void _push(IUserEvent* ev);
+
 		void _doGlobalMouseTracking();
+
 
 		bool _is_first_update;
 		EventQueue _event_queue;
@@ -93,17 +89,26 @@ namespace hvn3 {
 		KeyboardState _keyboard_state;
 		MouseState _mouse_state;
 
+		UserEventSource _user_event_source;
+
 		//Timer _frame_rate_timer; // generates timer tick events
 		//bool _frame_rate_locked; // whether or not the frame rate is fixed
 		//Stopwatch _update_delta_timer; // used to measure the time between updates (passed in update args)
 		//FpsCounter _fps_counter; // used to measure frames per second
 
-		std::vector<IDisplayListener*> _display_listeners;
-		std::vector<IKeyboardListener*> _keyboard_listeners;
-		std::vector<IMouseListener*> _mouse_listeners;
-		std::vector<IUpdatable*> _update_listeners;
-		std::vector<IDrawable*> _draw_listeners;
+		//std::vector<IDisplayListener*> _display_listeners;
+		//std::vector<IKeyboardListener*> _keyboard_listeners;
+		//std::vector<IMouseListener*> _mouse_listeners;
+		//std::vector<IUpdatable*> _update_listeners;
+		//std::vector<IDrawable*> _draw_listeners;
 
 	};
+
+	template<typename EventType> typename std::enable_if<!std::is_base_of<IUserEvent, EventType>::value, void>::type
+		EventManager::Push(const EventType& ev) {
+
+		_user_event_source.Push(ev);
+
+	}
 
 }

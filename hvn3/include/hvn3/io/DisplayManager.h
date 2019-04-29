@@ -24,6 +24,8 @@ namespace hvn3 {
 		// Returns the primary display.
 		Display& GetDisplay();
 
+		void RefreshAll();
+
 		size_t Count() const;
 
 	private:

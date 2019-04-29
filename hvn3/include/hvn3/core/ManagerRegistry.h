@@ -5,6 +5,7 @@
 #include "hvn3/utility/TypeIndexer.h"
 
 #include <cassert>
+#include <iostream>
 #include <memory>
 #include <typeindex>
 #include <type_traits>
@@ -16,10 +17,31 @@ namespace hvn3 {
 
 	class IManager;
 
+	template<typename ManagerType>
+	class ManagerHandle {
+
+	public:
+		typedef ManagerType manager_type;
+
+		ManagerHandle(manager_type* manager) :
+			_manager(manager) {}
+
+		manager_type* operator->() { return _manager; }
+		const manager_type* operator->() const { return _manager; }
+		manager_type& operator*() { return *_manager; }
+		const manager_type& operator*() const { return *_manager; }
+
+	private:
+		manager_type* _manager;
+
+	};
+
 	class ManagerRegistry {
 
 		struct manager_indexer_family;
 		typedef TypeIndexer<manager_indexer_family> manager_indexer;
+		template<typename T>
+		using handle_type = ManagerHandle<T>;
 
 	public:
 		template<typename ManagerType, typename ...Args>
@@ -50,7 +72,7 @@ namespace hvn3 {
 		}
 
 		template<typename ManagerType>
-		ManagerType* GetManager() {
+		handle_type<ManagerType> GetManager() {
 
 			// #todo Instead of returning a raw pointer, this should return a manager handle.
 
@@ -198,5 +220,14 @@ namespace hvn3 {
 		}
 
 	};
+
+	template<typename T>
+	std::ostream& operator<<(std::ostream& lhs, const ManagerHandle<T>& rhs) {
+
+		lhs << &*rhs;
+
+		return lhs;
+
+	}
 
 }

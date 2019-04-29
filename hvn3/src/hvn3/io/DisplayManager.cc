@@ -14,6 +14,13 @@ namespace hvn3 {
 
 	}
 
+	void DisplayManager::RefreshAll() {
+
+		for (auto i = _displays.begin(); i != _displays.end(); ++i)
+			i->Refresh();
+
+	}
+
 	size_t DisplayManager::Count() const {
 
 		return _displays.size();

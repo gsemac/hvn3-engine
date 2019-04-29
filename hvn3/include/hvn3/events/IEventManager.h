@@ -4,10 +4,12 @@
 
 namespace hvn3 {
 
+	class EventListenerRegistry;
+
 	class IEventManager {
 
 	public:
-
+		virtual EventListenerRegistry& GetListenerRegistry() = 0;
 
 	};
 

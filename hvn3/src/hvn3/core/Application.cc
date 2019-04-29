@@ -57,13 +57,15 @@ namespace hvn3 {
 
 		while (true) {
 
-			auto* event_manager = _manager_registry.GetManager<EventManager>();
+			auto event_manager = _manager_registry.GetManager<EventManager>();
 
 			event_manager->DoEvents(true);
 
 			if (event_manager->RedrawRequired()) {
 
-				Graphics::Graphics canvas = _manager_registry.GetManager<DisplayManager>()->GetDisplay().Canvas();
+				auto display_manager = _manager_registry.GetManager<DisplayManager>();
+
+				Graphics::Graphics canvas = display_manager->GetDisplay().Canvas();
 				RectangleI clip = canvas.Clip();
 
 				canvas.ResetClip();
@@ -72,9 +74,9 @@ namespace hvn3 {
 
 				DrawEventArgs draw_event(canvas);
 
-				event_manager->DispatchEvent(draw_event);
+				event_manager->Dispatch(draw_event);
 
-				_manager_registry.GetManager<DisplayManager>()->GetDisplay().Refresh();
+				display_manager->RefreshAll();
 
 			}
 

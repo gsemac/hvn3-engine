@@ -6,6 +6,8 @@
 
 namespace hvn3 {
 
+	class IUserEvent;
+
 	enum class EventType {
 		Unknown = -1,
 		JoystickAxis,
@@ -37,21 +39,30 @@ namespace hvn3 {
 		DisplayHaltDrawing,
 		DisplayResumeDrawing,
 		DisplayConnected,
-		DisplayDisconnected
+		DisplayDisconnected,
+		UserEvent = 1024 // Allegro's reserved event types stop at 1024; allows it to be directly casted to ALLEGRO_EVENT_TYPE
 	};
 
 	class Event {
 
+		friend class EventQueue;
+
 	public:
 		Event();
+		~Event();
+		
 		EventType Type() const;
 		EventSource Source() const;
 		double Timestamp() const;
+		IUserEvent* GetUserEvent();
+
 		ALLEGRO_EVENT* AlPtr();
 
-		// Todo: Make this member private and derive specific event classes.
-	public:
+	private:
 		ALLEGRO_EVENT _ev;
+
+		void _beforeUnderlyingEventChanged();
+		void _unrefUserEvent();
 
 	};
 

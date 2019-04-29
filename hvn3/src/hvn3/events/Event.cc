@@ -2,7 +2,15 @@
 
 namespace hvn3 {
 
+	// Public methods
+
 	Event::Event() {}
+	Event::~Event() {
+
+		_unrefUserEvent();
+
+	}
+
 	EventType Event::Type() const {
 
 		switch (_ev.type) {
@@ -66,6 +74,8 @@ namespace hvn3 {
 			return EventType::DisplayConnected;
 		case ALLEGRO_EVENT_DISPLAY_DISCONNECTED:
 			return EventType::DisplayDisconnected;
+		case (ALLEGRO_EVENT_TYPE)EventType::UserEvent:
+			return EventType::UserEvent;
 		default:
 			return EventType::Unknown;
 		}
@@ -81,9 +91,34 @@ namespace hvn3 {
 		return _ev.any.timestamp;
 
 	}
+	IUserEvent* Event::GetUserEvent() {
+
+		IUserEvent* ptr = nullptr;
+
+		if (Type() == EventType::UserEvent)
+			ptr = reinterpret_cast<IUserEvent*>(_ev.user.data1);
+
+		return ptr;
+
+	}
+
 	ALLEGRO_EVENT* Event::AlPtr() {
 
 		return &_ev;
+
+	}
+
+	// Private methods
+
+	void Event::_beforeUnderlyingEventChanged() {
+
+		_unrefUserEvent();
+
+	}
+	void Event::_unrefUserEvent() {
+
+		if (Type() == EventType::UserEvent)
+			al_unref_user_event(&_ev.user);
 
 	}
 

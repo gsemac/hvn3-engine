@@ -28,10 +28,12 @@ namespace hvn3 {
 
 	template<typename EventType>
 	UserEvent<EventType>::UserEvent(const event_type& eventData) :
-		_data(eventData) {}
+		_data(eventData) {
+	}
 	template<typename EventType>
 	UserEvent<EventType>::UserEvent(event_type&& eventData) :
-		_data(eventData) {}
+		_data(eventData) {
+	}
 
 	template<typename EventType>
 	typename UserEvent<EventType>::event_id UserEvent<EventType>::Id() const {
