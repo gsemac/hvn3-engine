@@ -386,7 +386,7 @@ namespace hvn3 {
 
 		}
 		void Graphics::Fill(const Color& color) {
-		
+
 			if (_canvas != nullptr) {
 
 				Transform trans = GetTransform();
@@ -402,6 +402,17 @@ namespace hvn3 {
 				Clear(color);
 		}
 
+		void Graphics::DrawText(float x, float y, const std::string& text) {
+			DrawText(x, y, text, Color::Black);
+		}
+		void Graphics::DrawText(float x, float y, const std::string& text, const Color& color) {
+			DrawText(x, y, text, Font::BuiltIn(), color);
+		}
+		void Graphics::DrawText(float x, float y, const std::string& text, const Font& font, const Color& color) {
+
+			DrawText(x, y, text.c_str(), font, color);
+
+		}
 		void Graphics::DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment) {
 
 			if (_canvas != nullptr) {
@@ -429,11 +440,6 @@ namespace hvn3 {
 					static_cast<float>(bbh));
 
 			}
-
-		}
-		void Graphics::DrawText(float x, float y, const std::string& text, const Font& font, const Color& color) {
-
-			DrawText(x, y, text.c_str(), font, color);
 
 		}
 		void Graphics::DrawText(float x, float y, const String& text, const Font& font, const Color& color, Alignment alignment) {

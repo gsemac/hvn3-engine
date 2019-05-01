@@ -58,8 +58,10 @@ namespace hvn3 {
 			void Clear(const Color& color);
 			void Fill(const Color& color);
 
-			void DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment = Alignment::Left);
+			void DrawText(float x, float y, const std::string& text);
+			void DrawText(float x, float y, const std::string& text, const Color& color);
 			void DrawText(float x, float y, const std::string& text, const Font& font, const Color& color);
+			void DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment = Alignment::Left);
 			void DrawText(float x, float y, const String& text, const Font& font, const Color& color, Alignment alignment = Alignment::Left);
 
 			void DrawSprite(float x, float y, const Sprite& sprite, int subimage);
