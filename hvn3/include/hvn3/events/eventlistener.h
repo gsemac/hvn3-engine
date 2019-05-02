@@ -16,7 +16,7 @@ namespace hvn3 {
 	public:
 		template<typename EventType>
 		using callback_type = std::function<void(typename std::conditional<std::is_fundamental<EventType>::value, EventType, EventType&>::type)>;
-		typedef EventListenerBase<EventTypes...> listener_type;
+		typedef implementation::EventListenerFlatBase<TypeList<EventTypes...>> listener_type;
 		typedef std::tuple<callback_type<EventTypes>...> callback_tuple_type;
 
 		EventListener();

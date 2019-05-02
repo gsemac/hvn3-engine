@@ -14,7 +14,19 @@ namespace hvn3 {
 			typedef typename std::conditional<std::is_fundamental<EventType>::value, EventType, EventType&>::type parameter_type;
 
 		public:
-			virtual void OnEvent(parameter_type ev) = 0;
+			virtual void OnEvent(parameter_type ev) {};
+
+		};
+
+		template<typename... FlatEventTypes>
+		class EventListenerFlatBase;
+
+		template<typename... FlatEventTypes>
+		class EventListenerFlatBase<TypeList<FlatEventTypes...>> :
+			public EventListenerBaseMethodHelper<FlatEventTypes>... {
+
+		public:
+			using event_types = TypeList<FlatEventTypes...>;
 
 		};
 
@@ -23,11 +35,7 @@ namespace hvn3 {
 	// Base class for event listeners to be passed into an EventListener object.
 	template<typename... EventTypes>
 	class EventListenerBase :
-		public implementation::EventListenerBaseMethodHelper<EventTypes>... {
-
-	public:
-		using event_types = TypeList<EventTypes...>;
-
+		public implementation::EventListenerFlatBase<typename TypeList<EventTypes...>::flatten_type> {
 	};
 
 }
