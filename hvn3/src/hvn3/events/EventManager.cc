@@ -8,7 +8,6 @@
 #include "hvn3/io/IMouseListener.h"
 #include "hvn3/io/IOUtils.h"
 #include "hvn3/io/KeyboardEventArgs.h"
-#include "hvn3/io/MouseEventArgs.h"
 
 namespace hvn3 {
 
@@ -188,7 +187,7 @@ namespace hvn3 {
 
 		for (auto i = _mouse_state.begin(); i != _mouse_state.end(); ++i)
 			if (i->Held())
-				Dispatch<MouseDownEventArgs>(i->Button(), _mouse_state.DisplayPosition(), _mouse_state.Position());
+				Dispatch<IMouseListener::MouseDownEventArgs>(i->Button(), _mouse_state.DisplayPosition(), _mouse_state.Position());
 
 		// Post-update
 		Dispatch(args); // #todo needs to be separate event type
@@ -277,7 +276,7 @@ namespace hvn3 {
 		_mouse_state.SetButtonState(button, true);
 
 		// Notify all mouse listeners.
-		Dispatch<MousePressedEventArgs>(button, _mouse_state.DisplayPosition(), _mouse_state.Position(), _mouse_state.ButtonDoubleClicked(button) ? 2 : 1);
+		Dispatch<IMouseListener::MousePressedEventArgs>(button, _mouse_state.DisplayPosition(), _mouse_state.Position(), _mouse_state.ButtonDoubleClicked(button) ? 2 : 1);
 
 	}
 	void EventManager::OnMouseButtonUp(Event& ev) {
@@ -305,7 +304,7 @@ namespace hvn3 {
 		_mouse_state.SetButtonState(button, false);
 
 		// Notify all mouse listeners.
-		Dispatch<MouseReleasedEventArgs>(button, _mouse_state.DisplayPosition(), _mouse_state.Position());
+		Dispatch<IMouseListener::MouseReleasedEventArgs>(button, _mouse_state.DisplayPosition(), _mouse_state.Position());
 
 	}
 	void EventManager::OnMouseAxes(Event& ev) {
@@ -322,10 +321,10 @@ namespace hvn3 {
 
 		// Notify all mouse listeners.
 
-		Dispatch<MouseMoveEventArgs>(_mouse_state.DisplayPosition(), _mouse_state.Position());
+		Dispatch<IMouseListener::MouseMoveEventArgs>(_mouse_state.DisplayPosition(), _mouse_state.Position());
 
 		if (mouse.dw != 0 || mouse.dz != 0)
-			Dispatch<MouseScrollEventArgs>(_mouse_state.DisplayPosition(), _mouse_state.Position(), PointI(mouse.w, mouse.z), mouse.dw, mouse.dz);
+			Dispatch<IMouseListener::MouseScrollEventArgs>(_mouse_state.DisplayPosition(), _mouse_state.Position(), PointI(mouse.w, mouse.z), mouse.dw, mouse.dz);
 
 	}
 	void EventManager::OnMouseEnterDisplay(Event& ev) {
@@ -407,7 +406,7 @@ namespace hvn3 {
 
 			// Notify all mouse listeners.
 
-			MouseMoveEventArgs args(_mouse_state.DisplayPosition(), _mouse_state.Position());
+			IMouseListener::MouseMoveEventArgs args(_mouse_state.DisplayPosition(), _mouse_state.Position());
 
 			Dispatch(args);
 

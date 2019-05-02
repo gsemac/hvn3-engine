@@ -2,8 +2,8 @@
 #include "hvn3/core/DrawEventArgs.h"
 #include "hvn3/events/EventArgs.h"
 #include "hvn3/gui/GuiDefs.h"
+#include "hvn3/io/IMouseListener.h"
 #include "hvn3/io/KeyboardEventArgs.h"
-#include "hvn3/io/MouseEventArgs.h"
 #include "hvn3/math/Point2d.h"
 
 // Specializes the widget event type traits class for accessing a widget event type from a widget event ID.
@@ -64,7 +64,7 @@ namespace hvn3 {
 		template <WidgetEventType EVENT_TYPE>
 		class WidgetMouseEventArgsBase : public WidgetEventArgsBase<EVENT_TYPE> {
 		public:
-			WidgetMouseEventArgsBase(IWidget* sender, MouseEventArgs& e) :
+			WidgetMouseEventArgsBase(IWidget* sender, IMouseListener::MouseEventArgs& e) :
 				WidgetEventArgsBase(sender),
 				_args(e) {
 			}
@@ -75,7 +75,7 @@ namespace hvn3 {
 				return _args.Position();
 			}
 		private:
-			MouseEventArgs _args;
+			IMouseListener::MouseEventArgs _args;
 		};
 
 		class WidgetMouseHoverEventArgs : public WidgetUpdateEventArgs {
@@ -97,7 +97,7 @@ namespace hvn3 {
 		template <WidgetEventType EVENT_TYPE>
 		class WidgetMouseMoveEventArgsBase : public WidgetEventArgsBase<EVENT_TYPE> {
 		public:
-			WidgetMouseMoveEventArgsBase(IWidget* sender, MouseMoveEventArgs& e) :
+			WidgetMouseMoveEventArgsBase(IWidget* sender, IMouseListener::MouseMoveEventArgs& e) :
 				WidgetEventArgsBase(sender),
 				_position(e.Position()) {
 			}
@@ -256,7 +256,7 @@ namespace hvn3 {
 			public WidgetEventArgsBase<WidgetEventType::OnMouseScroll> {
 
 		public:
-			WidgetMouseScrollEventArgs(IWidget* sender, const MouseScrollEventArgs& args) :
+			WidgetMouseScrollEventArgs(IWidget* sender, const IMouseListener::MouseScrollEventArgs& args) :
 				WidgetEventArgsBase(sender),
 				_args(args) {
 
@@ -284,7 +284,7 @@ namespace hvn3 {
 			}
 
 		private:
-			MouseScrollEventArgs _args;
+			IMouseListener::MouseScrollEventArgs _args;
 
 		};
 

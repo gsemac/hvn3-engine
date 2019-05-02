@@ -336,12 +336,6 @@
     <ClInclude Include="include\hvn3\io\Mouse.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\io\MouseEventArgs.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\io\MouseListener.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\io\Path.h">
       <Filter>include\io</Filter>
     </ClInclude>
@@ -494,9 +488,6 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\math\Point2d.h">
       <Filter>include\math</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\io\MouseMutator.h">
-      <Filter>include\io</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\core\IGameManager.h">
       <Filter>include\core</Filter>
@@ -1014,6 +1005,9 @@
     <ClInclude Include="include\hvn3\events\UserEventSource.h">
       <Filter>include\events</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\io\MouseListenerBase.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1128,12 +1122,6 @@
     <ClCompile Include="src\hvn3\io\Mouse.cc">
       <Filter>src\io</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\io\MouseEventArgs.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\io\MouseListener.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\io\Path.cc">
       <Filter>src\io</Filter>
     </ClCompile>
@@ -1225,9 +1213,6 @@
       <Filter>src\utility</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\io\KeyboardMutator.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\io\MouseMutator.cc">
       <Filter>src\io</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\physics\PhysicsBodyBase.cc">
@@ -1499,6 +1484,12 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\events\UserEventSource.cc">
       <Filter>src\events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\IMouseListener.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\MouseListenerBase.cc">
+      <Filter>src\io</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

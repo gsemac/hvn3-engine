@@ -4,7 +4,7 @@
 #include "hvn3/core/ManagerDefs.h"
 #include "hvn3/gui/WidgetManager.h"
 #include "hvn3/io/KeyboardListener.h"
-#include "hvn3/io/MouseListener.h"
+#include "hvn3/io/MouseListenerBase.h"
 #include <vector>
 
 namespace hvn3 {
@@ -14,7 +14,7 @@ namespace hvn3 {
 			public IManager,
 			public WidgetManager,
 			public KeyboardListener,
-			public MouseListener {
+			public MouseListenerBase {
 
 		public:
 			GuiManager();

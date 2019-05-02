@@ -192,9 +192,7 @@
     <ClInclude Include="include\hvn3\io\ListenerBase.h" />
     <ClInclude Include="include\hvn3\io\MemoryStream.h" />
     <ClInclude Include="include\hvn3\io\Mouse.h" />
-    <ClInclude Include="include\hvn3\io\MouseMutator.h" />
-    <ClInclude Include="include\hvn3\io\MouseEventArgs.h" />
-    <ClInclude Include="include\hvn3\io\MouseListener.h" />
+    <ClInclude Include="include\hvn3\io\MouseListenerBase.h" />
     <ClInclude Include="include\hvn3\io\Path.h" />
     <ClInclude Include="include\hvn3\math\Circle.h" />
     <ClInclude Include="include\hvn3\math\GeometryUtils.h" />
@@ -387,6 +385,7 @@
     <ClCompile Include="src\hvn3\io\DisplayManager.cc" />
     <ClCompile Include="src\hvn3\io\File.cc" />
     <ClCompile Include="src\hvn3\io\FileStream.cc" />
+    <ClCompile Include="src\hvn3\io\IMouseListener.cc" />
     <ClCompile Include="src\hvn3\io\IOUtils.cc" />
     <ClCompile Include="src\hvn3\io\KeyboardState.cc" />
     <ClCompile Include="src\hvn3\io\MouseState.cc" />
@@ -396,9 +395,7 @@
     <ClCompile Include="src\hvn3\io\KeyboardListener.cc" />
     <ClCompile Include="src\hvn3\io\MemoryStream.cc" />
     <ClCompile Include="src\hvn3\io\Mouse.cc" />
-    <ClCompile Include="src\hvn3\io\MouseMutator.cc" />
-    <ClCompile Include="src\hvn3\io\MouseEventArgs.cc" />
-    <ClCompile Include="src\hvn3\io\MouseListener.cc" />
+    <ClCompile Include="src\hvn3\io\MouseListenerBase.cc" />
     <ClCompile Include="src\hvn3\io\Path.cc" />
     <ClCompile Include="src\hvn3\math\GeometryUtils.cc" />
     <ClCompile Include="src\hvn3\math\MathUtils.cc" />
