@@ -3,6 +3,7 @@
 #include "hvn3/ecs/ComponentHandle.h"
 #include "hvn3/ecs/ComponentPool.h"
 #include "hvn3/ecs/ComponentView.h"
+#include "hvn3/ecs/Entity.h"
 #include "hvn3/ecs/IComponent.h"	
 #include "hvn3/utility/TypeIndexer.h"
 
@@ -20,7 +21,8 @@ namespace hvn3 {
 
 			typedef struct default_component_family component_family_type;
 			typedef typename TypeIndexer<component_family_type>::index_type index_type;
-			typedef EntityId entity_type;
+			typedef Entity entity_type;
+			typedef size_t size_type;
 
 			template<typename ComponentType>
 			using pool_type = ComponentPool<ComponentType>;
@@ -32,7 +34,9 @@ namespace hvn3 {
 				// Generate and index for the given type.
 				index_type index = _getTypeIndex<ComponentType>();
 
-				if (index >= _pools.size()) {
+				assert(index >= 0);
+
+				if (static_cast<size_type>(index) >= _pools.size()) {
 
 					// If a pool for this type does not already exist, create it.
 
@@ -129,9 +133,9 @@ namespace hvn3 {
 			}
 
 			template<typename ComponentType = void>
-			size_t Count() const {
+			size_type Count() const {
 
-				size_t count = 0;
+				size_type count = 0;
 
 				for (auto i = _pools.begin(); i != _pools.end(); ++i)
 					if (_poolContainsType<ComponentType>(i->get()))
@@ -141,9 +145,9 @@ namespace hvn3 {
 
 			}
 			template<>
-			size_t Count() const {
+			size_type Count() const {
 
-				size_t count = 0;
+				size_type count = 0;
 
 				for (auto i = _pools.begin(); i != _pools.end(); ++i)
 					count += (*i)->Count();
@@ -184,7 +188,9 @@ namespace hvn3 {
 
 				index_type index = _getTypeIndex<ComponentType>();
 
-				if (index < _pools.size() && _pools[index])
+				assert(index >= 0);
+
+				if (static_cast<size_type>(index) < _pools.size() && _pools[index])
 					return static_cast<pool_type<ComponentType>*>(_pools[index].get());
 
 				return nullptr;

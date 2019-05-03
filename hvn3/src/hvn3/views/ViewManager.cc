@@ -1,3 +1,5 @@
+#include "hvn3/components/TransformComponent.h"
+#include "hvn3/ecs/ComponentManager.h"
 #include "hvn3/math/MathUtils.h"
 #include "hvn3/views/ViewManager.h"
 
@@ -56,9 +58,21 @@ namespace hvn3 {
 			if (!target || !view.Enabled())
 				continue;
 
+			// Get the transform component of the entity (if one exists).
+
+			auto component_manager = e.Context().Get<ecs::ComponentManager>();
+
+			if (!component_manager)
+				continue;
+
+			auto entity_transform = component_manager->GetComponent<TransformComponent>(target);
+
+			if (!entity_transform)
+				continue;
+
 			// Calculate the distance of the Object from the center of the view (to compare with borders).
-			float diff_x = 0.0f;// = (view.X() + view.Region().Width() / 2.0f) - obj->X();
-			float diff_y = 0.0f;// = (view.Y() + view.Region().Height() / 2.0f) - obj->Y();
+			float diff_x = (view.X() + view.Region().Width() / 2.0f) - entity_transform->X();
+			float diff_y = (view.Y() + view.Region().Height() / 2.0f) - entity_transform->Y();
 
 			// Check for overlap in view horizonal view border.
 			if ((std::abs)(diff_x) > (view.Region().Width() / 2.0f - view.HorizontalBorder())) {

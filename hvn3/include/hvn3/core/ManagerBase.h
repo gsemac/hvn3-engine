@@ -13,20 +13,8 @@ namespace hvn3 {
 	public:
 		typedef InterfaceType interface;
 
-		void OnEvent(StartEventArgs& e) override {
-
-			OnStart(e);
-
-		}
-		void OnEvent(EndEventArgs& e) override {
-
-			OnEnd(e);
-
-		}
-
-	protected:
-		virtual void OnStart(StartEventArgs& e) {}
-		virtual void OnEnd(EndEventArgs& e) {}
+		void OnStart(StartEventArgs& e) override {}
+		void OnEnd(EndEventArgs& e) override {}
 
 	};
 

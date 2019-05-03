@@ -38,7 +38,7 @@ namespace hvn3 {
 
 		assert(_application != nullptr);
 
-		_application->RegisterManager<ManagerType>(args);
+		_application->RegisterManager<ManagerType>(args...);
 
 	}
 	template<typename ManagerType>

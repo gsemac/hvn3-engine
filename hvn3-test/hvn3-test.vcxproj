@@ -190,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\ManagerRegistryTests.cc" />
+    <ClCompile Include="src\ecs\ComponentManagerTests.cc" />
     <ClCompile Include="src\utility\StringUtilsTests.cc" />
     <ClCompile Include="src\utility\Utf8StringTests.cc" />
   </ItemGroup>

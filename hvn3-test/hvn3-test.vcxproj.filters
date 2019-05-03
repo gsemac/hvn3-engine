@@ -15,6 +15,9 @@
     <Filter Include="src\core">
       <UniqueIdentifier>{4e403c22-dad9-4c1d-aa1a-c55184f8bb7f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ecs">
+      <UniqueIdentifier>{ebbd4ec8-a692-49dc-9b46-4ec12f365711}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -28,6 +31,9 @@
     </ClCompile>
     <ClCompile Include="src\core\ManagerRegistryTests.cc">
       <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ecs\ComponentManagerTests.cc">
+      <Filter>src\ecs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

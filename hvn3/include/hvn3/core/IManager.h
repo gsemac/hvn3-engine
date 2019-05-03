@@ -44,8 +44,8 @@ namespace hvn3 {
 
 		virtual ~IManager() = default;
 
-		virtual void OnEvent(StartEventArgs& e) = 0;
-		virtual void OnEvent(EndEventArgs& e) = 0;
+		virtual void OnStart(StartEventArgs& e) = 0;
+		virtual void OnEnd(EndEventArgs& e) = 0;
 
 	};
 

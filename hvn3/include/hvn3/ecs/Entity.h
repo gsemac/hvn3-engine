@@ -20,8 +20,10 @@ namespace hvn3 {
 
 		};
 
+		bool operator<(const Entity& lhs, const Entity& rhs);
+		bool operator>(const Entity& lhs, const Entity& rhs);
 		bool operator==(const Entity& lhs, const Entity& rhs);
 		bool operator!=(const Entity& lhs, const Entity& rhs);
 
 	}
-}
+} 

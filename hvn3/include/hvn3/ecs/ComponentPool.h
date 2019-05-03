@@ -16,7 +16,7 @@ namespace hvn3 {
 			public ComponentPoolBase<ComponentType> {
 
 		protected:
-			IComponent* FindAsIComponent(EntityId entity) override {
+			IComponent* FindAsIComponent(entity_type entity) override {
 
 				return static_cast<IComponent*>(Find(entity));
 

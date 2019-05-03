@@ -15,7 +15,7 @@ namespace hvn3 {
 			public IComponentPool {
 
 		public:
-			typedef EntityId entity_type;
+			typedef IComponentPool::entity_type entity_type;
 			typedef ComponentType component_type;
 			typedef std::vector<EntityComponentPair<ComponentType>> component_vector_type;
 
@@ -27,7 +27,7 @@ namespace hvn3 {
 
 			}
 
-			void Add(EntityId entity, ComponentType&& component) {
+			void Add(entity_type entity, ComponentType&& component) {
 
 				_components.push_back(EntityComponentPair<ComponentType>(entity, std::move(component), _nextTimestamp()));
 
@@ -38,7 +38,7 @@ namespace hvn3 {
 				_deduplicate_required = true;
 
 			}
-			bool Remove(EntityId entity) override {
+			bool Remove(entity_type entity) override {
 
 				// Erase all components that belong to the given entity.
 				// While there should normally only be 1, it's possible that more were added since the last deduplication.
@@ -59,7 +59,7 @@ namespace hvn3 {
 
 			}
 
-			bool Exists(EntityId entity) const override {
+			bool Exists(entity_type entity) const override {
 
 				return Find(entity) != nullptr;
 
@@ -70,7 +70,7 @@ namespace hvn3 {
 
 			}
 
-			ComponentType* Find(EntityId entity) const {
+			ComponentType* Find(entity_type entity) const {
 
 				_ensureSorted();
 
@@ -103,7 +103,7 @@ namespace hvn3 {
 				return _components;
 			}
 
-			IComponent* FindAsIComponent(EntityId entity) override {
+			IComponent* FindAsIComponent(entity_type entity) override {
 
 				// Unless overridden, this function will always return null (support must be added by the derived class).
 

@@ -63,7 +63,7 @@ namespace hvn3 {
 
 		IManager::StartEventArgs args(&context);
 
-		registered_manager->OnEvent(args);
+		registered_manager->OnStart(args);
 
 		/*auto* event_manager = _manager_registry.GetManager<EventManager>();
 

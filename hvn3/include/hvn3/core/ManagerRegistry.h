@@ -31,6 +31,8 @@ namespace hvn3 {
 		manager_type& operator*() { return *_manager; }
 		const manager_type& operator*() const { return *_manager; }
 
+		explicit operator bool() const { return _manager != nullptr; }
+
 	private:
 		manager_type* _manager;
 
