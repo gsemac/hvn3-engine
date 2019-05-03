@@ -1,20 +1,27 @@
 #pragma once
+
+#include "hvn3/core/ManagerBase.h"
+#include "hvn3/events/EventDefs.h"
+#include "hvn3/events/EventListenerBase.h"
 #include "hvn3/views/IViewManager.h"
+
 #include <vector>
 
 namespace hvn3 {
 
-	class ViewManager : 
-		public IViewManager {
+	class ViewManager :
+		public ManagerBase<IViewManager>,
+		public EventListenerBase<UpdateEvents> {
 
 	public:
-		virtual size_t Add(const View & view) override;
-		virtual void RemoveAt(size_t index) override;
-		virtual View& At(size_t index) override;
-		virtual const View& At(size_t index) const override;
-		virtual size_t Count() const override;
-		virtual void Clear() override;
-		virtual void Update(ViewUpdateEventArgs & e) override;
+		index_type AddView(const View & view) override;
+		void RemoveView(index_type index) override;
+		View& ViewAt(index_type index) override;
+		const View& ViewAt(index_type index) const override;
+		size_type Count() const override;
+		void Clear() override;
+
+		void OnEvent(UpdateEventArgs& e) override;
 
 		// Both of the "ForEach" methods iterate over the views such that top-most views are accessed first.
 

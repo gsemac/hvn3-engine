@@ -7,21 +7,24 @@
 
 namespace hvn3 {
 
+	// Public methods
+
 	View::View(float x, float y, float width, float height) :
 		View(x, y, width, height, 0.0f, 0.0f, width, height) {
 	}
-	View::View(float x, float y, float width, float height, float port_x, float port_y, float port_width, float port_height) :
-		View(PointF(x, y), SizeF(width, height), PointF(port_x, port_y), SizeF(port_width, port_height)) {
+	View::View(float x, float y, float width, float height, float portX, float portY, float portWidth, float portHeight) :
+		View(PointF(x, y), SizeF(width, height), PointF(portX, portY), SizeF(portWidth, portHeight)) {
 	}
 	View::View(const PointF& position, const SizeF& size) :
 		View(position, size, PointF(0.0f, 0.0f), size) {
 	}
-	View::View(const PointF& position, const SizeF& size, const PointF& port_position, const SizeF& port_size) :
-		_size(size),
-		_port_size(port_size) {
+	View::View(const PointF& position, const SizeF& size, const PointF& portPosition, const SizeF& portSize) :
+		View(RectangleF(position, size), RectangleF(portPosition, portSize)) {
+	}
+	View::View(const RectangleF& view, const RectangleF& port) {
 
-		_position = position;
-		_port_position = port_position;
+		_view = view;
+		_port = port;
 
 		_horizontal_border = 0.0f;
 		_vertical_border = 0.0f;
@@ -33,82 +36,60 @@ namespace hvn3 {
 		_tracks_mouse = true;
 
 	}
-	View::View(const PointF& position, const SizeF& size, const PointF& port_position, const SizeF& port_size, IObject* following, const SizeF& border) :
-		View(position, size, port_position, port_size) {
 
-		_following = following;
-		_horizontal_border = (std::min)(border.Width(), size.Width() / 2.0f);
-		_vertical_border = (std::min)(border.Height(), size.Height() / 2.0f);
+	void View::SetTarget(const ecs::Entity& target) {
+		_target = target;
+	}
+	void View::SetTarget(const ecs::Entity& target, float borderWidth, float borderHeight) {
+
+		SetTarget(target);
+
+		_horizontal_border = borderWidth;
+		_vertical_border = borderHeight;
 
 	}
-
-	void View::SetFollowing(IObject* following) {
-		_following = following;
+	void View::SetTarget(const ecs::Entity& target, const SizeF& border) {
+		SetTarget(target, border.width, border.height);
 	}
-	void View::SetFollowing(IObject* following, float border_width, float border_height) {
-		_following = following;
-		_horizontal_border = border_width;
-		_vertical_border = border_height;
+	void View::ResetTarget() {
+		_target.id = ecs::Entity::NULL_ENTITY_ID;
 	}
-	void View::SetFollowing(IObject* following, const SizeF& border) {
-		SetFollowing(following, border.Width(), border.Height());
-	}
-	const IObject* View::GetFollowing() const {
-		return _following;
-	}
-	IObject* View::GetFollowing() {
-		return _following;
+	const ecs::Entity& View::Target() const {
+		return _target;
 	}
 
-	RectangleF View::Region() const {
-
-		return RectangleF(_position.X(), _position.Y(), _size.Width(), _size.Height());
-
+	const RectangleF& View::Region() const {
+		return _view;
 	}
-	RectangleF View::Port() const {
-
-		return RectangleF(_port_position.X(), _port_position.Y(), _port_size.Width(), _port_size.Height());
-
+	const RectangleF& View::Port() const {
+		return _port;
 	}
 	SizeF View::Size() const {
 		return Region().Size();
 	}
 	const PointF& View::Position() const {
-
-		return _position;
-
+		return _view.Position();
 	}
 	void View::SetPosition(float x, float y) {
-
-		_position.SetX(x);
-		_position.SetY(y);
-
+		_view.SetPosition(x, y);
 	}
 	void View::SetPosition(const PointF& position) {
-
-		_position = position;
-
+		_view.SetPosition(position);
 	}
 	void View::SetX(float x) {
-		_position.SetX(x);
+		_view.SetX(x);
 	}
 	void View::SetY(float y) {
-		_position.SetY(y);
+		_view.SetY(y);
 	}
 	float View::X() const {
-
-		return _position.X();
-
+		return _view.X();
 	}
 	float View::Y() const {
-
-		return _position.Y();
-
+		return _view.Y();
 	}
 	Scale View::Scale() const {
-
 		return hvn3::Scale(Port().Width() / Region().Width(), Port().Height() / Region().Height());
-
 	}
 
 	float View::HorizontalBorder() const {

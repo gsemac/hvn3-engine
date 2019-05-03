@@ -1,9 +1,7 @@
 #pragma once
 
-#include "hvn3/graphics/Transform.h"
+#include "hvn3/ecs/Entity.h"
 #include "hvn3/math/Rectangle.h"
-#include "hvn3/objects/IObject.h"
-#include "hvn3/utility/Scale.h"
 
 namespace hvn3 {
 
@@ -11,19 +9,20 @@ namespace hvn3 {
 
 	public:
 		View(float x, float y, float width, float height);
-		View(float x, float y, float width, float height, float port_x, float port_y, float port_width, float port_height);
+		View(float x, float y, float width, float height, float portX, float portY, float portWidth, float portHeight);
 		View(const PointF& position, const SizeF& size);
-		View(const PointF& position, const SizeF& size, const PointF& port_position, const SizeF& port_size);
-		View(const PointF& view_position, const SizeF& view_size, const PointF& port_position, const SizeF& port_size, IObject* following, const SizeF& border);
+		View(const PointF& position, const SizeF& size, const PointF& portPosition, const SizeF& portSize);
+		View(const PointF& viewPosition, const SizeF& viewSize, const PointF& portPosition, const SizeF& portSize);
+		View(const RectangleF& view, const RectangleF& port);
 
-		void SetFollowing(IObject* following);
-		void SetFollowing(IObject* following, float border_width, float border_height);
-		void SetFollowing(IObject* following, const SizeF& border);
-		const IObject* GetFollowing() const;
-		IObject* GetFollowing();
+		void SetTarget(const ecs::Entity& target);
+		void SetTarget(const ecs::Entity& target, float borderWidth, float borderHeight);
+		void SetTarget(const ecs::Entity& target, const SizeF& border);
+		void ResetTarget();
+		const ecs::Entity& Target() const;
 
-		RectangleF Region() const;
-		RectangleF Port() const;
+		const RectangleF& Region() const;
+		const RectangleF& Port() const;
 		SizeF Size() const;
 		float X() const;
 		float Y() const;
@@ -49,12 +48,10 @@ namespace hvn3 {
 		Graphics::Transform GetTransform() const;
 
 	private:
-		PointF _position;
-		SizeF _size;
-		PointF _port_position;
-		SizeF _port_size;
+		RectangleF _view;
+		RectangleF _port;
 
-		IObject* _following;
+		ecs::Entity _target;
 		float _horizontal_border, _vertical_border;
 		float _vspeed, _hspeed;
 		float _angle;

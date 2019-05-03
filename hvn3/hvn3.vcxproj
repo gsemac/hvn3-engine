@@ -99,6 +99,7 @@
     <ClInclude Include="include\hvn3\ecs\IEntityManager.h" />
     <ClInclude Include="include\hvn3\events\Event.h" />
     <ClInclude Include="include\hvn3\events\EventArgs.h" />
+    <ClInclude Include="include\hvn3\events\EventDefs.h" />
     <ClInclude Include="include\hvn3\events\EventListener.h" />
     <ClInclude Include="include\hvn3\events\EventListenerBase.h" />
     <ClInclude Include="include\hvn3\events\EventManager.h" />

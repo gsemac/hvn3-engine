@@ -16,4 +16,14 @@ namespace hvn3 {
 
 	};
 
+	class UpdateBeginEventArgs : UpdateEventArgs {
+	public:
+		using UpdateEventArgs::UpdateEventArgs;
+	};
+
+	class UpdateEndEventArgs : UpdateEventArgs {
+	public:
+		using UpdateEventArgs::UpdateEventArgs;
+	};
+
 }
