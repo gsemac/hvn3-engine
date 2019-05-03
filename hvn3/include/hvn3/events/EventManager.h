@@ -45,7 +45,7 @@ namespace hvn3 {
 
 		// Handles all events in the event queue, dispatching them to the appropriate listeners.
 		// Does not return until all events have been handled.
-		void DoEvents(bool blocking);
+		void DoEvents(const ApplicationContext& context, bool blocking);
 
 		template<typename EventType> typename std::enable_if<!std::is_base_of<IUserEvent, EventType>::value, void>::type
 			Push(const EventType& ev);
@@ -53,22 +53,22 @@ namespace hvn3 {
 		EventListenerRegistry& GetListenerRegistry() override;
 
 	protected:
-		void DoEvent(Event& event);
+		void DoEvent(const ApplicationContext& context, Event& event);
 
-		void OnTimerTick(Event& ev);
-		void OnDisplayClose(Event& ev);
-		void OnKeyDown(Event& ev);
-		void OnKeyUp(Event& ev);
-		void OnKeyChar(Event& ev);
-		void OnMouseButtonDown(Event& ev);
-		void OnMouseButtonUp(Event& ev);
-		void OnMouseAxes(Event& ev);
-		void OnMouseEnterDisplay(Event& ev);
-		void OnMouseLeaveDisplay(Event& ev);
-		void OnDisplayResize(Event& ev);
-		void OnDisplaySwitchOut(Event& ev);
-		void OnDisplaySwitchIn(Event& ev);
-		void OnUserEvent(Event& ev);
+		void OnTimerTick(const ApplicationContext& context, Event& ev);
+		void OnDisplayClose(const ApplicationContext& context, Event& ev);
+		void OnKeyDown(const ApplicationContext& context, Event& ev);
+		void OnKeyUp(const ApplicationContext& context, Event& ev);
+		void OnKeyChar(const ApplicationContext& context, Event& ev);
+		void OnMouseButtonDown(const ApplicationContext& context, Event& ev);
+		void OnMouseButtonUp(const ApplicationContext& context, Event& ev);
+		void OnMouseAxes(const ApplicationContext& context, Event& ev);
+		void OnMouseEnterDisplay(const ApplicationContext& context, Event& ev);
+		void OnMouseLeaveDisplay(const ApplicationContext& context, Event& ev);
+		void OnDisplayResize(const ApplicationContext& context, Event& ev);
+		void OnDisplaySwitchOut(const ApplicationContext& context, Event& ev);
+		void OnDisplaySwitchIn(const ApplicationContext& context, Event& ev);
+		void OnUserEvent(const ApplicationContext& context, Event& ev);
 
 	private:
 		void _push(IUserEvent* ev);

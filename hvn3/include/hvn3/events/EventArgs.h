@@ -2,8 +2,6 @@
 
 #include "hvn3/events/IEventArgs.h"
 
-// This class will eventually replace Event as more specific event types are derived from it.
-
 namespace hvn3 {
 
 	class EventArgs :
@@ -11,21 +9,21 @@ namespace hvn3 {
 
 	public:
 		EventArgs();
-		EventArgs(const EventSource& source);
+		EventArgs(const ApplicationContext& context);
 		EventArgs(const EventArgs& other);
 		EventArgs(EventArgs&& other);
 		~EventArgs();
 
-		const EventSource& Source() const override;
 		double Timestamp() const override;
 		bool Handled() const override;
 		void SetHandled(bool value) override;
+		ApplicationContext Context() override;
 
 	private:
 		void _init();
 
 		struct {
-			//EventSource __source;
+			ApplicationContext context;
 			double timestamp;
 			bool handled;
 		} _members;

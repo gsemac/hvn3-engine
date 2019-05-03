@@ -49,7 +49,7 @@ namespace hvn3 {
 		return _redraw_required;
 	}
 
-	void EventManager::DoEvents(bool blocking) {
+	void EventManager::DoEvents(const ApplicationContext& context, bool blocking) {
 
 		Event event;
 
@@ -66,7 +66,7 @@ namespace hvn3 {
 				break;
 
 			// Handle the next event.
-			DoEvent(event);
+			DoEvent(context, event);
 
 			// When the event queue is empty, all events have been handled, so exit the loop.
 
@@ -83,71 +83,71 @@ namespace hvn3 {
 
 	// Protected methods
 
-	void EventManager::DoEvent(Event& event) {
+	void EventManager::DoEvent(const ApplicationContext& context, Event& event) {
 
 		switch (event.Type()) {
 
 		case EventType::Timer:
-			OnTimerTick(event);
+			OnTimerTick(context, event);
 			break;
 
 		case EventType::DisplayClose:
-			OnDisplayClose(event);
+			OnDisplayClose(context, event);
 			break;
 
 		case EventType::KeyDown:
-			OnKeyDown(event);
+			OnKeyDown(context, event);
 			break;
 
 		case EventType::KeyUp:
-			OnKeyUp(event);
+			OnKeyUp(context, event);
 			break;
 
 		case EventType::KeyChar:
-			OnKeyChar(event);
+			OnKeyChar(context, event);
 			break;
 
 		case EventType::MouseButtonDown:
-			OnMouseButtonDown(event);
+			OnMouseButtonDown(context, event);
 			break;
 
 		case EventType::MouseButtonUp:
-			OnMouseButtonUp(event);
+			OnMouseButtonUp(context, event);
 			break;
 
 		case EventType::MouseAxes:
-			OnMouseAxes(event);
+			OnMouseAxes(context, event);
 			break;
 
 		case EventType::MouseEnterDisplay:
-			OnMouseEnterDisplay(event);
+			OnMouseEnterDisplay(context, event);
 			break;
 
 		case EventType::MouseLeaveDisplay:
-			OnMouseLeaveDisplay(event);
+			OnMouseLeaveDisplay(context, event);
 			break;
 
 		case EventType::DisplayResize:
-			OnDisplayResize(event);
+			OnDisplayResize(context, event);
 			break;
 
 		case EventType::DisplaySwitchOut:
-			OnDisplaySwitchOut(event);
+			OnDisplaySwitchOut(context, event);
 			break;
 
 		case EventType::DisplaySwitchIn:
-			OnDisplaySwitchIn(event);
+			OnDisplaySwitchIn(context, event);
 			break;
 
 		case EventType::UserEvent:
-			OnUserEvent(event);
+			OnUserEvent(context, event);
 			break;
 
 		}
 
 	}
 
-	void EventManager::OnTimerTick(Event& ev) {
+	void EventManager::OnTimerTick(const ApplicationContext& context, Event& ev) {
 
 		// If this is the first update, reset the update delta timer.
 
@@ -165,13 +165,13 @@ namespace hvn3 {
 
 		// Notify all update listeners.
 
-		UpdateEventArgs args(_update_delta_timer.SecondsElapsed());
+		double seconds_elapsed = _update_delta_timer.SecondsElapsed();
 
 		// Pre-update
-		Dispatch(args); // #todo needs to be separate event type
+		Dispatch<UpdateBeginEventArgs>(context, seconds_elapsed);
 
 		// Update
-		Dispatch(args);
+		Dispatch<UpdateEventArgs>(context, seconds_elapsed);
 
 		// For any keys actively held, notify all keyboard listeners.
 
@@ -190,7 +190,7 @@ namespace hvn3 {
 				Dispatch<IMouseListener::MouseDownEventArgs>(i->Button(), _mouse_state.DisplayPosition(), _mouse_state.Position());
 
 		// Post-update
-		Dispatch(args); // #todo needs to be separate event type
+		Dispatch<UpdateEndEventArgs>(context, seconds_elapsed);
 
 		// Unset all pressed/released keys so the values will be false until next triggered.
 		_keyboard_state.ClearKeyStates(true, true, false);
@@ -205,13 +205,13 @@ namespace hvn3 {
 		_redraw_required = true;
 
 	}
-	void EventManager::OnDisplayClose(Event& ev) {
+	void EventManager::OnDisplayClose(const ApplicationContext& context, Event& ev) {
 
 		// Notify all display listeners.
 		Dispatch<IDisplayListener::DisplayClosedEventArgs>(nullptr); // #todo should not be null, but the actual display
 
 	}
-	void EventManager::OnKeyDown(Event& ev) {
+	void EventManager::OnKeyDown(const ApplicationContext& context, Event& ev) {
 
 		// Update the keyboard state.
 
@@ -224,7 +224,7 @@ namespace hvn3 {
 			Dispatch<KeyPressedEventArgs>(static_cast<Key>(key_code), _keyboard_state.Modifiers());
 
 	}
-	void EventManager::OnKeyUp(Event& ev) {
+	void EventManager::OnKeyUp(const ApplicationContext& context, Event& ev) {
 
 		// Update the keyboard state.
 
@@ -235,7 +235,7 @@ namespace hvn3 {
 		Dispatch<KeyUpEventArgs>(static_cast<Key>(key_code), _keyboard_state.Modifiers());
 
 	}
-	void EventManager::OnKeyChar(Event& ev) {
+	void EventManager::OnKeyChar(const ApplicationContext& context, Event& ev) {
 
 		// Note that non-printable key codes like arrows, delete, backspace, etc. are also returned here.
 		// https://liballeg.org/a5docs/trunk/events.html#allegro_event_key_char
@@ -251,7 +251,7 @@ namespace hvn3 {
 		Dispatch<KeyCharEventArgs>(static_cast<Key>(ev.AlPtr()->keyboard.keycode), _keyboard_state.Modifiers(), character);
 
 	}
-	void EventManager::OnMouseButtonDown(Event& ev) {
+	void EventManager::OnMouseButtonDown(const ApplicationContext& context, Event& ev) {
 
 		// Update the mouse state.
 
@@ -279,7 +279,7 @@ namespace hvn3 {
 		Dispatch<IMouseListener::MousePressedEventArgs>(button, _mouse_state.DisplayPosition(), _mouse_state.Position(), _mouse_state.ButtonDoubleClicked(button) ? 2 : 1);
 
 	}
-	void EventManager::OnMouseButtonUp(Event& ev) {
+	void EventManager::OnMouseButtonUp(const ApplicationContext& context, Event& ev) {
 
 		// Update the mouse state.
 
@@ -307,7 +307,7 @@ namespace hvn3 {
 		Dispatch<IMouseListener::MouseReleasedEventArgs>(button, _mouse_state.DisplayPosition(), _mouse_state.Position());
 
 	}
-	void EventManager::OnMouseAxes(Event& ev) {
+	void EventManager::OnMouseAxes(const ApplicationContext& context, Event& ev) {
 
 		ALLEGRO_MOUSE_EVENT& mouse = ev.AlPtr()->mouse;
 
@@ -327,17 +327,17 @@ namespace hvn3 {
 			Dispatch<IMouseListener::MouseScrollEventArgs>(_mouse_state.DisplayPosition(), _mouse_state.Position(), PointI(mouse.w, mouse.z), mouse.dw, mouse.dz);
 
 	}
-	void EventManager::OnMouseEnterDisplay(Event& ev) {
+	void EventManager::OnMouseEnterDisplay(const ApplicationContext& context, Event& ev) {
 
-		OnMouseAxes(ev);
+		OnMouseAxes(context, ev);
 
 		_global_mouse_tracking_required = false;
 
 	}
-	void EventManager::OnMouseLeaveDisplay(Event& ev) {
+	void EventManager::OnMouseLeaveDisplay(const ApplicationContext& context, Event& ev) {
 		_global_mouse_tracking_required = true;
 	}
-	void EventManager::OnDisplayResize(Event& ev) {
+	void EventManager::OnDisplayResize(const ApplicationContext& context, Event& ev) {
 
 		// Create a non-owning display for us to work with.
 		Display display(ev.AlPtr()->display.source);
@@ -352,7 +352,7 @@ namespace hvn3 {
 		Dispatch<IDisplayListener::DisplaySizeChangedEventArgs>(&display);
 
 	}
-	void EventManager::OnDisplaySwitchOut(Event& ev) {
+	void EventManager::OnDisplaySwitchOut(const ApplicationContext& context, Event& ev) {
 
 		// Create a non-owning display for us to work with.
 		Display display(ev.AlPtr()->display.source);
@@ -370,7 +370,7 @@ namespace hvn3 {
 		Dispatch<IDisplayListener::DisplayLostEventArgs>(&display);
 
 	}
-	void EventManager::OnDisplaySwitchIn(Event& ev) {
+	void EventManager::OnDisplaySwitchIn(const ApplicationContext& context, Event& ev) {
 
 		// Create a non-owning display for us to work with.
 		Display display(ev.AlPtr()->display.source);
@@ -381,7 +381,7 @@ namespace hvn3 {
 		Dispatch<IDisplayListener::DisplayFoundEventArgs>(&display);
 
 	}
-	void EventManager::OnUserEvent(Event& ev) {
+	void EventManager::OnUserEvent(const ApplicationContext& context, Event& ev) {
 
 		IUserEvent* user_ev = ev.GetUserEvent();
 

@@ -293,7 +293,6 @@
     <ClInclude Include="include\hvn3\views\IViewManager.h" />
     <ClInclude Include="include\hvn3\views\View.h" />
     <ClInclude Include="include\hvn3\views\ViewManager.h" />
-    <ClInclude Include="include\hvn3\views\ViewUpdateEventArgs.h" />
     <ClInclude Include="include\hvn3\xml\IXmlResourceAdapter.h" />
     <ClInclude Include="include\hvn3\xml\XmlElement.h" />
     <ClInclude Include="include\hvn3\xml\XmlLexer.h" />
@@ -335,6 +334,7 @@
     <ClCompile Include="src\hvn3\core\ApplicationProperties.cc" />
     <ClCompile Include="src\hvn3\core\Runner.cc" />
     <ClCompile Include="src\hvn3\core\UpdateEventArgs.cc" />
+    <ClCompile Include="src\hvn3\ecs\Entity.cc" />
     <ClCompile Include="src\hvn3\events\Event.cc" />
     <ClCompile Include="src\hvn3\events\EventArgs.cc" />
     <ClCompile Include="src\hvn3\events\EventManager.cc" />
@@ -461,7 +461,6 @@
     <ClCompile Include="src\hvn3\utility\Version.cc" />
     <ClCompile Include="src\hvn3\views\View.cc" />
     <ClCompile Include="src\hvn3\views\ViewManager.cc" />
-    <ClCompile Include="src\hvn3\views\ViewUpdateEventArgs.cc" />
     <ClCompile Include="src\hvn3\xml\XmlElement.cc" />
     <ClCompile Include="src\hvn3\xml\XmlUtils.cc" />
     <ClCompile Include="src\hvn3\xml\XmlDocument.cc" />

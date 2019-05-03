@@ -13,24 +13,15 @@ namespace hvn3 {
 
 			// #todo Add a timestamp member to detect if an entity with the same ID is newer than a previously-created entity.
 
-			Entity() :
-				Entity(NULL_ENTITY_ID) {}
-			Entity(entity_id id) :
-				id(id) {
-			}
+			Entity();
+			Entity(entity_id id);
 
-			explicit operator bool() const {
-				return *this == NULL_ENTITY;
-			}
+			explicit operator bool() const;
 
 		};
 
-		const int Entity::NULL_ENTITY_ID = -1;
-		Entity Entity::NULL_ENTITY = Entity(NULL_ENTITY_ID);
-
-		bool operator==(const Entity& lhs, const Entity& rhs) {
-			return lhs.id == rhs.id;
-		}
+		bool operator==(const Entity& lhs, const Entity& rhs);
+		bool operator!=(const Entity& lhs, const Entity& rhs);
 
 	}
 }

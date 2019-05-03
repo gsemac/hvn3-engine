@@ -57,8 +57,8 @@ namespace hvn3 {
 				continue;
 
 			// Calculate the distance of the Object from the center of the view (to compare with borders).
-			float diff_x = (view.X() + view.Region().Width() / 2.0f) - obj->X();
-			float diff_y = (view.Y() + view.Region().Height() / 2.0f) - obj->Y();
+			float diff_x = 0.0f;// = (view.X() + view.Region().Width() / 2.0f) - obj->X();
+			float diff_y = 0.0f;// = (view.Y() + view.Region().Height() / 2.0f) - obj->Y();
 
 			// Check for overlap in view horizonal view border.
 			if ((std::abs)(diff_x) > (view.Region().Width() / 2.0f - view.HorizontalBorder())) {

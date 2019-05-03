@@ -11,7 +11,6 @@ namespace hvn3 {
 		View(float x, float y, float width, float height);
 		View(float x, float y, float width, float height, float portX, float portY, float portWidth, float portHeight);
 		View(const PointF& position, const SizeF& size);
-		View(const PointF& position, const SizeF& size, const PointF& portPosition, const SizeF& portSize);
 		View(const PointF& viewPosition, const SizeF& viewSize, const PointF& portPosition, const SizeF& portSize);
 		View(const RectangleF& view, const RectangleF& port);
 

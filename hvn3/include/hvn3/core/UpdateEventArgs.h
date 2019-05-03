@@ -1,12 +1,14 @@
 #pragma once
+
 #include "hvn3/events/EventArgs.h"
 
 namespace hvn3 {
 
-	class UpdateEventArgs : public EventArgs {
+	class UpdateEventArgs : 
+		public EventArgs {
 
 	public:
-		UpdateEventArgs(double dt);
+		UpdateEventArgs(const ApplicationContext& context, double deltaTime);
 
 		// Returns the number of seconds elapsed since the last update.
 		double Delta() const;

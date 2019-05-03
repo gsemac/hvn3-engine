@@ -59,7 +59,7 @@ namespace hvn3 {
 
 			auto event_manager = _manager_registry.GetManager<EventManager>();
 
-			event_manager->DoEvents(true);
+			event_manager->DoEvents(Context(), true);
 
 			if (event_manager->RedrawRequired()) {
 

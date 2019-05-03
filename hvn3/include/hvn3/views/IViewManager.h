@@ -1,7 +1,7 @@
 #pragma once
+
 #include "hvn3/core/IManager.h"
 #include "hvn3/views/View.h"
-#include "hvn3/views/ViewUpdateEventArgs.h"
 
 namespace hvn3 {
 

@@ -166,6 +166,9 @@
     <Filter Include="include\components">
       <UniqueIdentifier>{0ba81c4d-820a-48ec-bc15-e46c0e81e857}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ecs">
+      <UniqueIdentifier>{e32d6756-db6c-4d52-a3d9-d934bb3841f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\hvn3\allegro\AllegroAdapter.h">
@@ -475,9 +478,6 @@
       <Filter>include\views</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\views\ViewManager.h">
-      <Filter>include\views</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\views\ViewUpdateEventArgs.h">
       <Filter>include\views</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\hvn3.h">
@@ -1209,9 +1209,6 @@
     <ClCompile Include="src\hvn3\views\ViewManager.cc">
       <Filter>src\views</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\views\ViewUpdateEventArgs.cc">
-      <Filter>src\views</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\utility\Utf8String.cc">
       <Filter>src\utility</Filter>
     </ClCompile>
@@ -1493,6 +1490,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\io\MouseListenerBase.cc">
       <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\ecs\Entity.cc">
+      <Filter>src\ecs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -16,12 +16,9 @@ namespace hvn3 {
 		_members.handled = false;
 
 	}
-	EventArgs::EventArgs(const EventSource& source) :
+	EventArgs::EventArgs(const ApplicationContext& context) :
 		EventArgs() {
-
-		//__source = source;
-
-
+		_members.context = context;
 	}
 	EventArgs::EventArgs(const EventArgs& other) {
 
@@ -42,27 +39,17 @@ namespace hvn3 {
 		hvn3::System::Engine::ReleaseComponent(hvn3::System::EngineComponent::Core);
 
 	}
-	const EventSource& EventArgs::Source() const {
-
-		throw System::NotImplementedException();
-
-		//return __source;
-
-	}
 	double EventArgs::Timestamp() const {
-
 		return _members.timestamp;
-
 	}
 	bool EventArgs::Handled() const {
-
 		return _members.handled;
-
 	}
 	void EventArgs::SetHandled(bool value) {
-
 		_members.handled = value;
-
+	}
+	ApplicationContext EventArgs::Context() {
+		return _members.context;
 	}
 
 	// Private methods
