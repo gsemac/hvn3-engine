@@ -30,7 +30,9 @@ namespace hvn3 {
 		using distinct_type = typename implementation::TypeListDistinctHelper<TypeList<>, TypeList<Types...>>::type;
 
 		template<typename T>
-		static constexpr bool contains = is_any<T, Types...>::value;
+		struct contains {
+			static constexpr bool value = is_any<T, Types...>::value;
+		};
 
 	};
 

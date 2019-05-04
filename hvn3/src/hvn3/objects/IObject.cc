@@ -14,6 +14,6 @@ namespace hvn3 {
 
 	// IObject
 
-	const typename IObject::object_indexer::index_type IObject::NULL_OBJECT_ID = IObject::object_indexer::NULL_INDEX;
+	const IObject::object_indexer::index_type IObject::NULL_OBJECT_ID = IObject::object_indexer::NULL_INDEX;
 
 }

@@ -38,7 +38,7 @@ namespace hvn3 {
 		virtual void OnDestroy(DestroyEventArgs& e) = 0;
 
 	public:
-		typedef typename object_indexer::index_type object_id;
+		typedef object_indexer::index_type object_id;
 
 		static const object_indexer::index_type NULL_OBJECT_ID;
 

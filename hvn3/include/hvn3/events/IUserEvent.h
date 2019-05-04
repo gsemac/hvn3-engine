@@ -8,7 +8,7 @@ namespace hvn3 {
 
 	public:
 		typedef TypeIndexer<struct event_indexer_family> event_indexer;
-		typedef typename event_indexer::index_type event_id;
+		typedef event_indexer::index_type event_id;
 
 		virtual ~IUserEvent() {}
 

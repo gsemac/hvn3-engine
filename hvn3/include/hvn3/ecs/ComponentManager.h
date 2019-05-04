@@ -20,7 +20,7 @@ namespace hvn3 {
 		class ComponentManager {
 
 			typedef struct default_component_family component_family_type;
-			typedef typename TypeIndexer<component_family_type>::index_type index_type;
+			typedef TypeIndexer<component_family_type>::index_type index_type;
 			typedef Entity entity_type;
 			typedef size_t size_type;
 

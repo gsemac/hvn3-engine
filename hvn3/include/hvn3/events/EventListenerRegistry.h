@@ -23,7 +23,7 @@ namespace hvn3 {
 		template<typename ...EventTypes>
 		using handle_type = typename registry_type<EventTypes...>::handle_type;
 		typedef std::unordered_map<std::type_index, std::unique_ptr<IEventListenerContainer>> registry_container_type;
-		typedef typename registry_container_type::size_type size_type;
+		typedef registry_container_type::size_type size_type;
 
 		template<typename EventType> typename std::enable_if<!std::is_base_of<IUserEvent, EventType>::value, void>::type
 			Dispatch(const EventType& ev) {
