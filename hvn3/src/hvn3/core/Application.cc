@@ -72,9 +72,7 @@ namespace hvn3 {
 				canvas.Clear(_properties.OutsideColor);
 				canvas.SetClip(clip);
 
-				DrawEventArgs draw_event(canvas);
-
-				event_manager->Dispatch(draw_event);
+				event_manager->Dispatch<DrawEventArgs>(Context(), canvas);
 
 				display_manager->RefreshAll();
 

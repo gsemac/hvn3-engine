@@ -3,7 +3,7 @@
 
 namespace hvn3 {
 
-	BackgroundDrawEventArgs::BackgroundDrawEventArgs(Graphics::Graphics& graphics, const SizeI& room_size, const View* current_view, bool draw_foregrounds) :
+	/*BackgroundDrawEventArgs::BackgroundDrawEventArgs(Graphics::Graphics& graphics, const SizeI& room_size, const View* current_view, bool draw_foregrounds) :
 		DrawEventArgs(graphics),
 		_room_size(room_size),
 		_current_view(current_view) {
@@ -25,6 +25,6 @@ namespace hvn3 {
 
 		return _draw_foregrounds;
 
-	}
+	}*/
 
 }

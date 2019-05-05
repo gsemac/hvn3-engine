@@ -15,24 +15,20 @@ namespace hvn3 {
 	public:
 		void OnStart(StartEventArgs& e) override {
 
-			auto event_manager = e.Context().Get<IEventManager>();
-
-			if (event_manager)
-				e.Context().Get<IEventManager>()->GetListenerRegistry().AddListener(this);
+			if (auto handle = e.Context().Get<IEventManager>())
+				handle->GetListenerRegistry().AddListener(this);
 
 		}
 		void OnEnd(EndEventArgs& e) override {
 
-			auto event_manager = e.Context().Get<IEventManager>();
-
-			if (event_manager)
-				e.Context().Get<IEventManager>()->GetListenerRegistry().RemoveListener(this);
+			if (auto handle = e.Context().Get<IEventManager>())
+				handle->GetListenerRegistry().RemoveListener(this);
 
 		}
 
 		void OnEvent(DrawEventArgs& e) override {
 
-			
+
 
 		}
 

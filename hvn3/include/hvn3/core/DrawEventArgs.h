@@ -4,10 +4,11 @@
 
 namespace hvn3 {
 
-	class DrawEventArgs : public EventArgs {
+	class DrawEventArgs :
+		public EventArgs {
 
 	public:
-		DrawEventArgs(Graphics::Graphics& graphics);
+		DrawEventArgs(const ApplicationContext& context, Graphics::Graphics& canvas);
 		Graphics::Graphics& Graphics();
 
 	private:
