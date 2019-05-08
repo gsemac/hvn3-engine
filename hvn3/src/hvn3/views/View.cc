@@ -9,6 +9,9 @@ namespace hvn3 {
 
 	// Public methods
 
+	View::View(float width, float height) :
+		View(0.0f, 0.0f, width, height) {
+	}
 	View::View(float x, float y, float width, float height) :
 		View(x, y, width, height, 0.0f, 0.0f, width, height) {
 	}
@@ -128,10 +131,12 @@ namespace hvn3 {
 		return _tracks_mouse;
 	}
 
-	Graphics::Transform View::GetTransform() const {
+	Graphics::Transform View::Transform() const {
+
+		Graphics::Transform transform;
 
 		PointF offset(X(), Y());
-		Graphics::Transform transform;
+
 		transform.Translate(-offset.X() + Port().X(), -offset.Y() + Port().Y());
 		transform.Rotate(Region().Midpoint() - offset, Angle());
 		transform.Scale(Scale());

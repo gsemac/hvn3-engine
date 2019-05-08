@@ -1,6 +1,7 @@
 #include "hvn3/core/Application.h" 
 #include "hvn3/core/ApplicationContext.h"
 #include "hvn3/events/EventManager.h"
+#include "hvn3/graphics/RenderManager.h"
 #include "hvn3/io/DisplayManager.h"
 #include "hvn3/io/IOUtils.h"
 #include "hvn3/rooms/SceneManager.h"
@@ -107,6 +108,9 @@ namespace hvn3 {
 
 		if (!_manager_registry.IsRegistered<SceneManager>())
 			RegisterManager<SceneManager>();
+
+		if (!_manager_registry.IsRegistered<RenderManager>())
+			RegisterManager<RenderManager>();
 
 	}
 	void Application::_setUpCoreManagers() {

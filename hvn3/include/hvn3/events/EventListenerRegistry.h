@@ -91,10 +91,10 @@ namespace hvn3 {
 			return RemoveListener<EventTypes...>(handle);
 
 		}
-		template<typename EventListenerHandleType>
-		bool RemoveListener(EventListenerHandleType& handle) {
+		template<typename EventListenerHandleType, typename EventTypes = EventListenerHandleType::event_types>
+		bool RemoveListener(const EventListenerHandleType& handle) {
 
-			return RemoveListener(typename EventListenerHandleType::event_types(), handle);
+			return RemoveListener(EventTypes(), handle);
 
 		}
 		template<typename... EventTypes, typename EventListenerType>
@@ -107,10 +107,10 @@ namespace hvn3 {
 			return registry->RemoveListener(listener);
 
 		}
-		template<typename EventListenerType>
+		template<typename EventListenerType, typename EventTypes = EventListenerType::event_types>
 		bool RemoveListener(const EventListenerType* listener) {
 
-			return RemoveListener(typename EventListenerType::event_types(), listener);
+			return RemoveListener(EventTypes(), listener);
 
 		}
 

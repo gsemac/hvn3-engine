@@ -8,6 +8,7 @@ namespace hvn3 {
 	class View {
 
 	public:
+		View(float width, float height);
 		View(float x, float y, float width, float height);
 		View(float x, float y, float width, float height, float portX, float portY, float portWidth, float portHeight);
 		View(const PointF& position, const SizeF& size);
@@ -44,7 +45,7 @@ namespace hvn3 {
 		bool MouseTrackingEnabled() const;
 		void SetMouseTrackingEnabled(bool value);
 
-		Graphics::Transform GetTransform() const;
+		Graphics::Transform Transform() const;
 
 	private:
 		RectangleF _view;
