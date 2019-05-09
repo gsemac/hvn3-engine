@@ -1011,6 +1011,9 @@
     <ClInclude Include="include\hvn3\events\EventDefs.h">
       <Filter>include\events</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\events\EventListenerPriority.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

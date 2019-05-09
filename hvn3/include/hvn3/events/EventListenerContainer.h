@@ -67,17 +67,25 @@ namespace hvn3 {
 
 		class Iterator {
 
+			typedef typename container_type::iterator underlying_type;
+
 		public:
 			typedef listener_type value_type;
+			typedef typename underlying_type::iterator_category iterator_category;
 
-			Iterator(typename container_type::iterator iterator) :
-				_it(iterator) {}
+			Iterator(underlying_type iterator) :
+				_it(iterator) {
+			}
 
 			bool operator==(const Iterator& rhs) const {
 				return _it == rhs._it;
 			}
 			bool operator!=(const Iterator& rhs) const {
 				return !(*this == rhs);
+			}
+
+			typename underlying_type::difference_type operator-(const Iterator& rhs) const {
+				return _it - rhs._it;
 			}
 
 			Iterator& operator++() {
@@ -111,7 +119,7 @@ namespace hvn3 {
 			}
 
 		private:
-			typename container_type::iterator _it;
+			underlying_type _it;
 
 		};
 

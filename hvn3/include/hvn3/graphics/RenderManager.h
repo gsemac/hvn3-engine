@@ -16,7 +16,7 @@ namespace hvn3 {
 		void OnStart(StartEventArgs& e) override {
 
 			if (auto handle = e.Context().Get<IEventManager>())
-				handle->GetListenerRegistry().AddListener(this);
+				handle->GetListenerRegistry().AddListener(this)->SetPriority(EventListenerPriority::HIGH_PRIORITY);
 
 		}
 		void OnEnd(EndEventArgs& e) override {

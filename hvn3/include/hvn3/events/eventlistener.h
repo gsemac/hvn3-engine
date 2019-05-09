@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hvn3/events/EventListenerBase.h"
+#include "hvn3/events/EventListenerPriority.h"
 #include "hvn3/utility/TypeTraits.h"
 
 #include <functional>
@@ -18,6 +19,7 @@ namespace hvn3 {
 		using callback_type = std::function<void(typename std::conditional<std::is_fundamental<EventType>::value, EventType, EventType&>::type)>;
 		typedef implementation::EventListenerFlatBase<TypeList<EventTypes...>> listener_type;
 		typedef std::tuple<callback_type<EventTypes>...> callback_tuple_type;
+		typedef EventListenerPriority priority_type;
 
 		EventListener();
 		EventListener(listener_type* listener);
@@ -47,14 +49,22 @@ namespace hvn3 {
 				callback(ev);
 
 		}
-		
+
 		const listener_type* Object() const {
 			return _listener_object;
+		}
+
+		priority_type Priority() const {
+			return _priority;
+		}
+		void SetPriority(const priority_type& priority) {
+			_priority = priority;
 		}
 
 	private:
 		listener_type* _listener_object;
 		std::unique_ptr<callback_tuple_type> _callbacks;
+		priority_type _priority;
 
 		template<typename EventType>
 		callback_type<EventType>& _getHandler() {
@@ -72,9 +82,11 @@ namespace hvn3 {
 
 	template<typename... EventTypes>
 	EventListener<EventTypes...>::EventListener() :
-		EventListener(nullptr) {}
+		EventListener(nullptr) {
+	}
 	template<typename... EventTypes>
 	EventListener<EventTypes...>::EventListener(listener_type* listener) :
-		_listener_object(listener) {}
+		_listener_object(listener) {
+	}
 
 }
