@@ -1,16 +1,16 @@
 #pragma once
 
-#include "hvn3/events/IUserEvent.h"
+#include <cstddef>
 
 namespace hvn3 {
 
 	class IEventListenerContainer {
 
 	public:
-		// Dispatches the given event to all listeners. Returns true if the listeners are capable of handling this event type, false otherwise.
-		virtual bool Dispatch(IUserEvent& event) = 0;
+		typedef size_t size_type;
+
 		// Returns the number of listeners in the container.
-		virtual size_t Count() const = 0;
+		virtual size_type Count() const = 0;
 
 	};
 

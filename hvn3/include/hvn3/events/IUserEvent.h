@@ -4,6 +4,8 @@
 
 namespace hvn3 {
 
+	class EventListenerRegistry;
+
 	class IUserEvent {
 
 	public:
@@ -14,6 +16,8 @@ namespace hvn3 {
 
 		virtual event_id Id() const = 0;
 		virtual void* Data() = 0;
+
+		virtual void Dispatch(EventListenerRegistry* registry) = 0;
 
 	};
 

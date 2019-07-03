@@ -11,7 +11,7 @@ namespace hvn3 {
 
 	class ViewManager :
 		public ManagerBase<IViewManager>,
-		public EventListenerBase<UpdateEvents> {
+		public EventListenerBase<events::UpdateEvents> {
 
 	public:
 		index_type AddView(const View & view) override;

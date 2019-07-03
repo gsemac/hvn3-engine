@@ -1,5 +1,6 @@
 #pragma once
 
+#include "hvn3/events/EventListenerRegistry.h"
 #include "hvn3/events/IUserEvent.h"
 
 namespace hvn3 {
@@ -16,6 +17,8 @@ namespace hvn3 {
 
 		event_id Id() const override;
 		void* Data() override;
+
+		void Dispatch(EventListenerRegistry* registry) override;
 
 		static event_id EventId();
 
@@ -42,6 +45,10 @@ namespace hvn3 {
 	template<typename EventType>
 	void* UserEvent<EventType>::Data() {
 		return &_data;
+	}
+	template<typename EventType>
+	void UserEvent<EventType>::Dispatch(EventListenerRegistry* registry) {
+		registry->Dispatch<EventType>(_data);
 	}
 
 	template<typename EventType>

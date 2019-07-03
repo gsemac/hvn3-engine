@@ -8,9 +8,12 @@ namespace hvn3 {
 
 	namespace implementation {
 
-		template<typename EventType>
-		class EventListenerBaseMethodHelper {
+		// This base class is used for each event handler method that should be present in the event listener.
 
+		template<typename EventType>
+		class EventListenerBaseMethodBase {
+
+		protected:
 			typedef typename std::conditional<std::is_fundamental<EventType>::value, EventType, EventType&>::type parameter_type;
 
 		public:
@@ -19,11 +22,11 @@ namespace hvn3 {
 		};
 
 		template<typename... FlatEventTypes>
-		class EventListenerFlatBase;
+		class EventListenerBaseBase;
 
 		template<typename... FlatEventTypes>
-		class EventListenerFlatBase<TypeList<FlatEventTypes...>> :
-			public EventListenerBaseMethodHelper<FlatEventTypes>... {
+		class EventListenerBaseBase<TypeList<FlatEventTypes...>> :
+			public EventListenerBaseMethodBase<FlatEventTypes>... {
 
 		public:
 			using event_types = TypeList<FlatEventTypes...>;
@@ -32,10 +35,9 @@ namespace hvn3 {
 
 	}
 
-	// Base class for event listeners to be passed into an EventListener object.
 	template<typename... EventTypes>
 	class EventListenerBase :
-		public implementation::EventListenerFlatBase<typename TypeList<EventTypes...>::flatten_type> {
+		public implementation::EventListenerBaseBase<typename TypeList<EventTypes...>::flatten_type> {
 	};
 
 }

@@ -16,21 +16,17 @@ namespace hvn3 {
 		void OnStart(StartEventArgs& e) override {
 
 			if (auto handle = e.Context().Get<IEventManager>())
-				handle->GetListenerRegistry().AddListener(this)->SetPriority(EventListenerPriority::HIGH_PRIORITY);
+				handle->GetListenerRegistry().SubscribeAll(this, EventListenerPriority::HIGH_PRIORITY);
 
 		}
 		void OnEnd(EndEventArgs& e) override {
 
 			if (auto handle = e.Context().Get<IEventManager>())
-				handle->GetListenerRegistry().RemoveListener(this);
+				handle->GetListenerRegistry().UnsubscribeAll(this);
 
 		}
 
-		void OnEvent(DrawEventArgs& e) override {
-
-
-
-		}
+		void OnEvent(DrawEventArgs& e) override {}
 
 	private:
 

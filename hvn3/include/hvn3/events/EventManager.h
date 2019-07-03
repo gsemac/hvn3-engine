@@ -71,10 +71,7 @@ namespace hvn3 {
 		void OnUserEvent(const ApplicationContext& context, Event& ev);
 
 	private:
-		void _push(IUserEvent* ev);
-
 		void _doGlobalMouseTracking();
-
 
 		bool _is_first_update;
 		EventQueue _event_queue;

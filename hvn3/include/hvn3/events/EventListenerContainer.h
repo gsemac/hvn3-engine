@@ -1,9 +1,8 @@
 #pragma once
 
-#include "hvn3/events/EventListener.h"
+#include "hvn3/events/EventListenerBase.h"
+#include "hvn3/events/EventListenerPriority.h"
 #include "hvn3/events/IEventListenerContainer.h"
-#include "hvn3/utility/TypeList.h"
-#include "hvn3/utility/UniqueIntegerGenerator.h"
 
 #include <algorithm>
 #include <cassert>
@@ -12,61 +11,49 @@
 
 namespace hvn3 {
 
-	template<typename ...EventTypes>
+	template<typename EventType>
 	class EventListenerContainer :
 		public IEventListenerContainer {
 
 	public:
-		typedef EventListener<EventTypes...> listener_type;
-		typedef typename listener_type::listener_type listener_base_type;
-		typedef std::vector<std::pair<int, listener_type>> container_type;
-		typedef int listener_id;
-		typedef typename container_type::size_type size_type;
+		// The type of event that this container stores listeners for
+		typedef EventType event_type;
+		// The type of the actual event handler
+		typedef implementation::EventListenerBaseMethodBase<event_type> handler_type;
 
-		class ListenerHandle {
+	private:
 
-		public:
-			typedef EventListenerContainer<EventTypes...> parent_type;
-			typedef TypeList<EventTypes...> event_types;
+		// The type stored inside of the underlying container
 
-			friend class parent_type;
+		struct Value {
 
-			ListenerHandle() :
-				parent(nullptr) {
-			}
-			ListenerHandle(parent_type* parent, typename container_type::size_type id, typename container_type::size_type index) :
-				parent(parent),
-				id(id),
-				index(index) {
+			Value() :
+				handler(nullptr),
+				enabled(true) {}
 
-				assert(parent != nullptr);
-				assert(index >= 0);
-
-			}
-
-			listener_type* operator->() {
-
-				assert(parent != nullptr);
-
-				listener_type* ptr = parent->_getPointerFromHandle(this);
-
-				assert(ptr != nullptr);
-
-				return ptr;
-
-			}
-
-		private:
-			typename container_type::size_type id;
-			typename container_type::size_type index;
-			parent_type* parent;
+			handler_type* handler;
+			EventListenerPriority priority;
+			bool enabled;
 
 		};
 
-		typedef ListenerHandle handle_type;
+		typedef Value value_type;
+
+		// The type of the underlying container
+		typedef std::vector<value_type> container_type;
+
+	public:
+		EventListenerContainer() :
+			_sort_required(false),
+			_remove_required(false),
+			_currently_dispatching(false) {
+		}
+
+		/*
 
 		class Iterator {
 
+			// The type of the underlying iterator
 			typedef typename container_type::iterator underlying_type;
 
 		public:
@@ -126,50 +113,64 @@ namespace hvn3 {
 		typedef Iterator iterator;
 		typedef const Iterator const_iterator;
 
-		bool Dispatch(IUserEvent& ev) override {
+		*/
 
-			bool successful = false;
+		void Dispatch(typename std::conditional<std::is_fundamental<event_type>::value, event_type, event_type&>::type ev) {
 
-			int dummy[] = { 0, (successful = _tryDispatch<EventTypes>(ev) || successful, 0)... };
+			// If the listener collection needs to be sorted, do that before dispatching.
+			if (_sort_required)
+				_sortListenersByPriority();
 
-			return successful;
+			// If there are listeners that need to be removed, do that before dispatching.
+			if (_remove_required)
+				_removeDisabledListeners();
 
-		}
-		handle_type AddListener(listener_type&& listener) {
+			// Notify all listeners.
+			// Listeners might be disabled by other listeners, so we still need to check for that.
 
-			listener_id id = _id_generator.Next();
+			_currently_dispatching = true;
 
-			_listeners.push_back(std::make_pair(id, std::move(listener)));
+			for (auto i = _listeners.begin(); i != _listeners.end(); ++i)
+				if (i->enabled)
+					i->handler->OnEvent(ev);
 
-			return handle_type(this, id, Count() - 1);
-
-		}
-		bool RemoveListener(handle_type& handle) {
-
-			size_type size_before = Count();
-
-			_listeners.erase(std::remove_if(_listeners.begin(), _listeners.end(), [&](typename container_type::value_type& n) {
-				return n.first == handle.id;
-			}), _listeners.end());
-
-			size_type size_now = Count();
-
-			return size_now < size_before;
+			_currently_dispatching = false;
 
 		}
-		bool RemoveListener(const listener_base_type* listener) {
+		void AddListener(handler_type* listener, EventListenerPriority priority) {
 
-			size_type size_before = Count();
+			// We would run into issues with iterators being invalidated if this were to be called inside of the event handler.
+			// This could be solved in a number of ways, but generally one would not attempt to subscribe to an event that's currently being handled.
+			// Therefore, we will simply forbid adding new listeners inside of event handlers.
+			assert(!_currently_dispatching);
 
-			_listeners.erase(std::remove_if(_listeners.begin(), _listeners.end(), [&](typename container_type::value_type& n) {
-				return n.second.Object() == listener;
-			}), _listeners.end());
+			value_type item;
+			item.handler = listener;
+			item.priority = priority;
 
-			size_type size_now = Count();
+			_listeners.push_back(item);
 
-			return size_now < size_before;
 
 		}
+		bool RemoveListener(handler_type* listener) {
+
+			// Find and disable the listener.
+			// Disabled listeners will be removed in one pass later, which allows this method to be called inside of event handlers.
+
+			auto it = std::find_if(_listeners.begin(), _listeners.end(), [=](const value_type& i) {
+				return i.handler == listener;
+			});
+
+			if (it == _listeners.end())
+				return false;
+
+			it->enabled = false;
+
+			return true;
+
+		}
+
+		/*
 
 		iterator begin() {
 			return iterator(_listeners.begin());
@@ -184,62 +185,30 @@ namespace hvn3 {
 			return iterator(_listeners.end());
 		}
 
+		*/
+
 		size_type Count() const override {
 			return _listeners.size();
 		}
 
 	private:
 		container_type _listeners;
-		UniqueIntegerGenerator<listener_id> _id_generator;
+		bool _sort_required;
+		bool _remove_required;
+		bool _currently_dispatching;
 
-		template<typename EventType>
-		bool _tryDispatch(IUserEvent& ev) {
+		void _sortListenersByPriority() {
 
-			if (ev.Id() != IUserEvent::event_indexer::GetIndex<EventType>())
-				return false;
-
-			EventType* data = static_cast<EventType*>(ev.Data());
-
-			for (auto i = _listeners.begin(); i != _listeners.end(); ++i)
-				i->second.OnEvent(*data);
-
-			return true;
+			std::sort(_listeners.begin(), _listeners.end(), [](const value_type& lhs, const value_type& rhs) {
+				return lhs.priority > rhs.priority;
+			});
 
 		}
-		listener_type* _getPointerFromHandle(handle_type* handle) {
+		void _removeDisabledListeners() {
 
-			// If the handle is still valid, don't modify it and just return the listener.
-
-			if (handle->index >= 0 && handle->index < Count()) {
-
-				auto it = _listeners.begin() + handle->index;
-
-				if (it->first == handle->id)
-					return &it->second;
-
-			}
-
-			// Check if the item the handle refers to is still in the container, and update the handle accordingly.
-
-			typename container_type::size_type index = 0;
-
-			for (auto i = _listeners.begin(); i != _listeners.begin(); ++i, ++index) {
-
-				if (handle->id == i->first) {
-
-					handle->index = index;
-
-					return &i->second;
-
-				}
-
-			}
-
-			// If the item doesn't exist, invalidate the handle.
-
-			*handle = handle_type();
-
-			return nullptr;
+			_listeners.erase(std::remove_if(_listeners.begin(), _listeners.end(), [](const value_type& i) {
+				return !i.enabled;
+			}), _listeners.end());
 
 		}
 

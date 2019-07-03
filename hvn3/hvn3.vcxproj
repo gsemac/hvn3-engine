@@ -338,6 +338,7 @@
     <ClCompile Include="src\hvn3\ecs\Entity.cc" />
     <ClCompile Include="src\hvn3\events\Event.cc" />
     <ClCompile Include="src\hvn3\events\EventArgs.cc" />
+    <ClCompile Include="src\hvn3\events\EventListenerRegistry.cc" />
     <ClCompile Include="src\hvn3\events\EventManager.cc" />
     <ClCompile Include="src\hvn3\events\EventQueue.cc" />
     <ClCompile Include="src\hvn3\events\EventSource.cc" />

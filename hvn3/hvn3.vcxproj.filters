@@ -978,9 +978,6 @@
     <ClInclude Include="include\hvn3\events\IUserEvent.h">
       <Filter>include\events</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\events\EventListenerBase.h">
-      <Filter>include\events</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\events\UserEvent.h">
       <Filter>include\events</Filter>
     </ClInclude>
@@ -1012,6 +1009,9 @@
       <Filter>include\events</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\events\EventListenerPriority.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\events\EventListenerBase.h">
       <Filter>include\events</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1496,6 +1496,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\ecs\Entity.cc">
       <Filter>src\ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\events\EventListenerRegistry.cc">
+      <Filter>src\events</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
