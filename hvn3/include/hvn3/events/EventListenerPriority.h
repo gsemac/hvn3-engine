@@ -59,10 +59,10 @@ namespace hvn3 {
 			return !(*this == rhs);
 		}
 		bool operator<(const EventListenerPriority& rhs) const {
-			return *this < value;
+			return *this < rhs.value;
 		}
 		bool operator>(const EventListenerPriority& rhs) const {
-			return *this > value;
+			return *this > rhs.value;
 		}
 
 		explicit operator value_type() const {

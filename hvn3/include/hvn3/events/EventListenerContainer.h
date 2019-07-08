@@ -125,6 +125,9 @@ namespace hvn3 {
 			if (_remove_required)
 				_removeDisabledListeners();
 
+			_sort_required = false;
+			_remove_required = false;
+
 			// Notify all listeners.
 			// Listeners might be disabled by other listeners, so we still need to check for that.
 
@@ -147,6 +150,9 @@ namespace hvn3 {
 			value_type item;
 			item.handler = listener;
 			item.priority = priority;
+
+			if (_listeners.size() > 0 && _listeners.back().priority < priority)
+				_sort_required = true;
 
 			_listeners.push_back(item);
 
