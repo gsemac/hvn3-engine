@@ -54,8 +54,6 @@ namespace hvn3 {
 		bool IsFocused() const;
 		void SetCursorVisible(bool value);
 		void SetCursor(SystemCursor cursor);
-		hvn3::ScalingMode ScalingMode() const;
-		void SetScalingMode(hvn3::ScalingMode value);
 
 		Graphics::Bitmap& GetBackBuffer();
 		Graphics::Graphics Canvas();
@@ -78,7 +76,6 @@ namespace hvn3 {
 		SizeI _original_size; // The size that the display was created with. Used to calculate scale factor when the display is resized.
 		SizeI _size_before_fullscreen; // The size of the window prior to being full-screen. Used to restore original size.		
 		PointI _position_before_fullscreen; // The position of the window prior to being full-screen. Used to restore original position.		
-		hvn3::ScalingMode _scaling_mode;
 
 		static Display* _active_display; // Pointer to the currently-active display.
 

@@ -95,6 +95,10 @@ namespace hvn3 {
 			GraphicsState Save() const;
 			void Restore(const GraphicsState& state);
 
+			int Width() const;
+			int Height() const;
+			SizeI Size() const;
+
 		private:
 			// Can draw to a Bitmap or a GraphicsPath
 			// #todo Create a common interface or wrapper for all objects that can be drawn to?

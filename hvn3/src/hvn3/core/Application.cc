@@ -5,6 +5,7 @@
 #include "hvn3/io/DisplayManager.h"
 #include "hvn3/io/IOUtils.h"
 #include "hvn3/rooms/SceneManager.h"
+#include "hvn3/views/IViewManager.h"
 
 constexpr double DEFAULT_FPS = 1.0 / 60.0;
 
@@ -67,13 +68,12 @@ namespace hvn3 {
 				auto display_manager = _manager_registry.GetManager<DisplayManager>();
 
 				Graphics::Graphics canvas = display_manager->GetDisplay().Canvas();
-				RectangleI clip = canvas.Clip();
 
-				canvas.ResetClip();
 				canvas.Clear(_properties.OutsideColor);
-				canvas.SetClip(clip);
 
-				event_manager->Dispatch<DrawEventArgs>(Context(), canvas);
+				auto render_manager = _manager_registry.GetManager<RenderManager>();
+
+				render_manager->Render(Context(), canvas);
 
 				display_manager->RefreshAll();
 
@@ -120,7 +120,7 @@ namespace hvn3 {
 		if (_manager_registry.GetManager<DisplayManager>()->Count() <= 0)
 			_manager_registry.GetManager<DisplayManager>()->CreateDisplay(_properties.DisplaySize, _properties.ApplicationName, _properties.DisplayFlags);
 
-		_manager_registry.GetManager<DisplayManager>()->GetDisplay().SetScalingMode(_properties.ScalingMode);
+		_manager_registry.GetManager<RenderManager>()->SetScalingMode(_properties.ScalingMode);
 
 		// Set up the event manager with basic event sources.
 

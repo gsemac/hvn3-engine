@@ -81,7 +81,6 @@ namespace hvn3 {
 		_has_focus = true;
 		_active_display = this;
 		_owns_display = true;
-		_scaling_mode = ScalingMode::Fixed;
 
 		if (_display)
 			_back_buffer = Graphics::Bitmap(al_get_backbuffer(_display.get()), false);
@@ -239,12 +238,6 @@ namespace hvn3 {
 	void Display::SetCursor(SystemCursor cursor) {
 		al_set_system_mouse_cursor(get(), (ALLEGRO_SYSTEM_MOUSE_CURSOR)cursor);
 	}
-	hvn3::ScalingMode Display::ScalingMode() const {
-		return _scaling_mode;
-	}
-	void Display::SetScalingMode(hvn3::ScalingMode value) {
-		_scaling_mode = value;
-	}
 	EventSource Display::EventSource() const {
 		return class EventSource(al_get_display_event_source(get()));
 	}
@@ -252,49 +245,7 @@ namespace hvn3 {
 		return _back_buffer;
 	}
 	Graphics::Graphics Display::Canvas() {
-
-		Graphics::Graphics canvas(GetBackBuffer());
-
-		if (_scaling_mode != ScalingMode::Fixed) {
-
-			Graphics::Transform transform = canvas.GetTransform();
-
-			if (_scaling_mode == ScalingMode::Full) {
-
-				transform.Scale(_scale());
-
-			}
-			else if (_scaling_mode == ScalingMode::MaintainAspectRatio) {
-
-				SizeI current_size = Size();
-				SizeI original_size = _original_size;
-
-				float h_scale = static_cast<float>(current_size.width) / original_size.width;
-				float v_scale = static_cast<float>(current_size.height) / original_size.height;
-				Scale min_scale((std::min)(h_scale, v_scale));
-
-				RectangleI clip(original_size);
-
-				clip.Scale(min_scale);
-
-				float offset_x = current_size.width / 2.0f - clip.Width() / 2.0f;
-				float offset_y = current_size.height / 2.0f - clip.Height() / 2.0f;
-
-				clip.Translate(offset_x, offset_y);
-
-				transform.Scale(min_scale);
-				transform.Translate(offset_x, offset_y);
-
-				canvas.SetClip(clip);
-
-			}
-
-			canvas.SetTransform(transform);
-
-		}
-
-		return canvas;
-
+		return Graphics::Graphics(GetBackBuffer());
 	}
 	void Display::Refresh() {
 		al_flip_display();

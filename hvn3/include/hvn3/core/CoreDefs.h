@@ -9,17 +9,6 @@
 
 namespace hvn3 {
 
-	enum class ScalingMode {
-		// No scaling is performed.
-		None,
-		//Display contents are not scaled, but are centered if the contents are smaller than the display area.
-		Fixed,
-		// Display contents are stretched to fit the exact size of the display area.
-		Full,
-		// Display contents are scaled to fit the display area while maintaining the aspect ratio.
-		MaintainAspectRatio
-	};
-
 	const bool BREAK = false;
 	const bool CONTINUE = true;
 

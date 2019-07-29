@@ -1,7 +1,12 @@
 #pragma once
 
+#include "hvn3/core/ApplicationContext.h"
 #include "hvn3/core/IManager.h"
+#include "hvn3/graphics/Graphics.h"
+#include "hvn3/math/Rectangle.h"
 #include "hvn3/views/View.h"
+
+#include <functional>
 
 namespace hvn3 {
 
@@ -18,8 +23,11 @@ namespace hvn3 {
 		virtual size_type Count() const = 0;
 		virtual void Clear() = 0;
 
-		virtual void ForEach(const std::function<void(View&)>& func) = 0;
-		virtual void ForEach(const std::function<void(const View&)>& func) const = 0;
+		virtual RectangleF Viewport() const = 0;
+
+		virtual void ForEach(const std::function<void(View&)>& callback) = 0;
+		virtual void ForEach(const std::function<void(const View&)>& callback) const = 0;
+
 
 	};
 

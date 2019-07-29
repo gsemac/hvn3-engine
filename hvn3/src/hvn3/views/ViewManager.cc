@@ -1,5 +1,6 @@
 #include "hvn3/components/TransformComponent.h"
 #include "hvn3/ecs/ComponentManager.h"
+#include "hvn3/events/EventManager.h"
 #include "hvn3/math/MathUtils.h"
 #include "hvn3/views/ViewManager.h"
 
@@ -8,6 +9,9 @@
 namespace hvn3 {
 
 	// Public methods
+
+	ViewManager::ViewManager() {
+	}
 
 	ViewManager::index_type ViewManager::AddView(const View& view) {
 
@@ -45,6 +49,40 @@ namespace hvn3 {
 	}
 	void ViewManager::Clear() {
 		_views.clear();
+	}
+
+	RectangleF ViewManager::Viewport() const {
+
+		RectangleF port;
+
+		ForEach([&](const View& view) {
+
+			if (view.Enabled()) {
+
+				port.SetX(Math::Min(port.X(), view.Port().X()));
+				port.SetY(Math::Min(port.Y(), view.Port().Y()));
+				port.SetX2(Math::Max(port.X2(), view.Port().X2()));
+				port.SetY2(Math::Max(port.Y2(), view.Port().Y2()));
+
+			}
+
+		});
+
+		return port;
+
+	}
+
+	void ViewManager::ForEach(const std::function<void(View&)>& callback) {
+
+		for (auto i = _views.begin(); i != _views.end(); ++i)
+			callback(*i);
+
+	}
+	void ViewManager::ForEach(const std::function<void(const View&)>& callback) const {
+
+		for (auto i = _views.begin(); i != _views.end(); ++i)
+			callback(*i);
+
 	}
 
 	void ViewManager::OnEvent(UpdateEventArgs& e) {
@@ -104,19 +142,6 @@ namespace hvn3 {
 
 
 		}
-
-	}
-
-	void ViewManager::ForEach(const std::function<void(View&)>& func) {
-
-		for (auto i = _views.rbegin(); i != _views.rend(); ++i)
-			func(*i);
-
-	}
-	void ViewManager::ForEach(const std::function<void(const View&)>& func) const {
-
-		for (auto i = _views.rbegin(); i != _views.rend(); ++i)
-			func(*i);
 
 	}
 

@@ -850,6 +850,16 @@ namespace hvn3 {
 
 		}
 
+		int Graphics::Width() const {
+			return _clipping_region.Width();
+		}
+		int Graphics::Height() const {
+			return _clipping_region.Height();
+		}
+		SizeI Graphics::Size() const {
+			return SizeI(Width(), Height());
+		}
+
 		void Graphics::_makeThisActiveInstance(bool writing) const {
 
 			if (writing)
