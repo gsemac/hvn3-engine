@@ -8,8 +8,7 @@ namespace hvn3 {
 	namespace ecs {
 
 		class EntityManager :
-			public IEntityManager,
-			public ManagerBase {
+			public ManagerBase<IEntityManager> {
 
 		public:
 			Entity CreateEntity() override {

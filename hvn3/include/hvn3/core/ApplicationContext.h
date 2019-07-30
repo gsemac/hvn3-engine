@@ -16,7 +16,7 @@ namespace hvn3 {
 		ApplicationContext();
 		ApplicationContext(Application* application);
 
-		ApplicationProperties& GetProperties();
+		const ApplicationProperties& ApplicationProperties() const;
 		const std::vector<std::string>& CommandLineArguments() const;
 
 		template<typename ManagerType, typename ...Args>

@@ -5,21 +5,23 @@
 #include "hvn3/collision/ICollidable.h"
 #include "hvn3/core/IPositionable2d.h"
 #include "hvn3/ecs/EcsDefs.h"
+#include "hvn3/ecs/Entity.h"
 #include "hvn3/utility/TypeIndexer.h"
 
 namespace hvn3 {
 
-	class IObject :
-		public IApplicationContextReceiver {
+	class IObject {
 
 	protected:
 		typedef TypeIndexer<struct object_indexer_family> object_indexer; // used to assign indices to object types 
 
 		class CreateEventArgs :
-			public EventArgs {};
+			public EventArgs {
+		};
 
 		class DestroyEventArgs :
-			public EventArgs {};
+			public EventArgs {
+		};
 
 		class AnimationEndEventArgs :
 			public EventArgs {
@@ -45,7 +47,7 @@ namespace hvn3 {
 		virtual ~IObject() = default;
 
 		virtual object_id Id() const = 0;
-		virtual ecs::EntityId EntityId() const = 0;
+		virtual ecs::Entity Entity() = 0;
 		virtual bool IsDestroyed() const = 0;
 		virtual void Destroy() = 0;
 		virtual bool IsActive() const = 0;

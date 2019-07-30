@@ -1,5 +1,6 @@
 #pragma once
 
+#include "hvn3/core/ManagerBase.h"
 #include "hvn3/ecs/ComponentHandle.h"
 #include "hvn3/ecs/ComponentPool.h"
 #include "hvn3/ecs/ComponentView.h"
@@ -17,7 +18,8 @@ namespace hvn3 {
 
 		// A component manager contains one or more component pools, created at runtime.
 
-		class ComponentManager {
+		class ComponentManager :
+			public ManagerBase<> {
 
 			typedef struct default_component_family component_family_type;
 			typedef TypeIndexer<component_family_type>::index_type index_type;

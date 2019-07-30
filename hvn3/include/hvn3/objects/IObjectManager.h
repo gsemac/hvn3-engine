@@ -1,11 +1,8 @@
 #pragma once
 
-#include "hvn3/core/IDrawable.h"
-#include "hvn3/core/IManager.h"
-#include "hvn3/core/IUpdatable.h"
-#include "hvn3/core/ManagerDefs.h"
 #include "hvn3/objects/IObject.h"
 #include "hvn3/objects/ObjectDefs.h"
+#include "hvn3/objects/ObjectHandle.h"
 
 #include <functional>
 #include <memory>
@@ -13,30 +10,25 @@
 
 namespace hvn3 {
 
-	class IObjectManager :
-		public IManager,
-		public IUpdatable,
-		public IDrawable {
+	class IObjectManager {
 
 	public:
+		typedef size_t size_type;
+
 		virtual ~IObjectManager() = default;
 
-		// Clears all instances without calling their destroy events.
+		// Clears all objects without calling event handlers.
 		virtual void Clear() = 0;
-		// Calls the destroy event for every instance, and clears all instances.
+		// Destroys all objects and calls the appropriate event handler(s).
 		virtual void DestroyAll() = 0;
 
-		// Finds and returns the first instance with the given id, or null if no such instance exists.
-		virtual IObject* Find(IObject::object_id id) = 0;
-		virtual IObject* FindNext(IObject::object_id id) = 0;
-
-		virtual size_t Count() const = 0;
-		virtual size_t Count(IObject::object_id id) const = 0;
+		// Returns a handle to the first object with the given ID.
+		virtual ObjectHandle Find(IObject::object_id id) = 0;
+		// Returns true if there are any objects with the given ID.
 		virtual bool Exists(IObject::object_id id) const = 0;
 
-	protected:
-		// Adds a new instance of an object to the manager. The manager assumes ownership.
-		virtual void AddObject(std::unique_ptr<IObject>&& object) = 0;
+		virtual size_type Count() const = 0;
+		virtual size_type Count(IObject::object_id id) const = 0;
 
 	};
 

@@ -26,7 +26,7 @@ namespace hvn3 {
 		Application(int argc, char* argv[]);
 		Application(int argc, char* argv[], const ApplicationProperties& properties);
 
-		ApplicationProperties& GetProperties();
+		const ApplicationProperties& Properties() const;
 		const std::vector<std::string>& CommandLineArguments() const;
 		ApplicationContext Context();
 

@@ -1,3 +1,105 @@
+#include "hvn3/objects/ObjectManager.h"
+
+#include <utility>
+
+namespace hvn3 {
+
+	// ObjectManager::ObjectInfo
+
+	// ObjectManager::ObjectInfo
+
+	// Public methods
+
+	ObjectManager::ObjectInfo::ObjectInfo(std::shared_ptr<IObject>&& object) :
+		object(std::move(object)) {
+
+		createEventCalled = false;
+		destroyEventCalled = false;
+
+	}
+	ObjectManager::ObjectInfo::ObjectInfo(ObjectInfo&& other) {
+
+		createEventCalled = other.createEventCalled;
+		destroyEventCalled = other.destroyEventCalled;
+		object = std::move(other.object);
+
+	}
+
+	// ObjectManager
+
+	// Public methods
+
+	ObjectManager::ObjectManager() {
+
+		_update_start_index = 0;
+
+	}
+
+	void ObjectManager::OnStart(StartEventArgs& e) {
+
+		_context = e.Context();
+
+	}
+	void ObjectManager::OnEnd(EndEventArgs& e) {
+
+		_context = ApplicationContext();
+
+	}
+
+	void ObjectManager::Clear() {
+
+		// Clear all objects without calling OnDestroy.
+		_objects.clear();
+
+	}
+	void ObjectManager::DestroyAll() {
+
+		// Flag all objects as destroyed; OnDestroy will be called next update.
+
+		for (auto it = _objects.begin(); it != _objects.end(); ++it)
+			if (!it->object->IsDestroyed())
+				it->object->Destroy();
+
+	}
+
+	ObjectHandle ObjectManager::Find(IObject::object_id id) {
+
+		for (auto it = _objects.begin(); it != _objects.end(); ++it)
+			if (it->object->Id() == id)
+				return ObjectHandle(std::weak_ptr<IObject>(it->object));
+
+		return ObjectHandle();
+
+	}
+
+	ObjectManager::size_type ObjectManager::Count() const {
+
+		return _objects.size();
+
+	}
+	ObjectManager::size_type ObjectManager::Count(IObject::object_id id) const {
+
+		return std::count_if(_objects.begin(), _objects.end(), [=](const ObjectInfo& info) {
+			return info.object->Id() == id;
+		});
+
+	}
+	bool ObjectManager::Exists(IObject::object_id id) const {
+
+		return std::any_of(_objects.begin(), _objects.end(), [=](const ObjectInfo& info) {
+			return info.object->Id() == id;
+		});
+
+	}
+
+	// Protected methods
+
+	ApplicationContext ObjectManager::Context() {
+		return _context;
+	}
+
+}
+
 //#include "hvn3/core/DrawEventArgs.h"
 //#include "hvn3/core/UpdateEventArgs.h"
 //#include "hvn3/objects/Object.h"
@@ -8,25 +110,6 @@
 //#include <utility>
 //
 //namespace hvn3 {
-//
-//	// ObjectManager::ObjectInfo
-//
-//	// Public methods
-//
-//	ObjectManager::ObjectInfo::ObjectInfo(std::unique_ptr<IObject>&& object) :
-//		object(std::move(object)) {
-//
-//		createEventCalled = false;
-//		destroyEventCalled = false;
-//
-//	}
-//	ObjectManager::ObjectInfo::ObjectInfo(ObjectInfo&& other) {
-//
-//		createEventCalled = other.createEventCalled;
-//		destroyEventCalled = other.destroyEventCalled;
-//		object = std::move(other.object);
-//
-//	}
 //
 //	// ObjectManager
 //

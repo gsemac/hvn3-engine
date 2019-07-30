@@ -1,5 +1,7 @@
 #include "hvn3/core/Application.h" 
 #include "hvn3/core/ApplicationContext.h"
+#include "hvn3/ecs/ComponentManager.h"
+#include "hvn3/ecs/EntityManager.h"
 #include "hvn3/events/EventManager.h"
 #include "hvn3/graphics/RenderManager.h"
 #include "hvn3/io/DisplayManager.h"
@@ -38,7 +40,7 @@ namespace hvn3 {
 
 	}
 
-	ApplicationProperties& Application::GetProperties() {
+	const ApplicationProperties& Application::Properties() const {
 
 		return _properties;
 
@@ -111,6 +113,12 @@ namespace hvn3 {
 
 		if (!_manager_registry.IsRegistered<RenderManager>())
 			RegisterManager<RenderManager>();
+
+		if (!_manager_registry.IsRegistered<ecs::EntityManager>())
+			RegisterManager<ecs::EntityManager>();
+
+		if (!_manager_registry.IsRegistered<ecs::ComponentManager>())
+			RegisterManager<ecs::ComponentManager>();
 
 	}
 	void Application::_setUpCoreManagers() {

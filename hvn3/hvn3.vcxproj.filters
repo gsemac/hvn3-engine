@@ -1014,6 +1014,9 @@
     <ClInclude Include="include\hvn3\events\EventListenerBase.h">
       <Filter>include\events</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\objects\ObjectHandle.h">
+      <Filter>include\objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

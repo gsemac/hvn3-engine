@@ -213,6 +213,7 @@
     <ClInclude Include="include\hvn3\objects\IObjectManager.h" />
     <ClInclude Include="include\hvn3\objects\Object.h" />
     <ClInclude Include="include\hvn3\objects\ObjectBase.h" />
+    <ClInclude Include="include\hvn3\objects\ObjectHandle.h" />
     <ClInclude Include="include\hvn3\objects\ObjectManager.h" />
     <ClInclude Include="include\hvn3\objects\ObjectDefs.h" />
     <ClInclude Include="include\hvn3\particles\ParticleDefs.h" />

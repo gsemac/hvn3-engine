@@ -3,18 +3,19 @@
 namespace hvn3 {
 
 	ApplicationContext::ApplicationContext() :
-		_application(nullptr) {}
+		_application(nullptr) {
+	}
 	ApplicationContext::ApplicationContext(Application* application) :
 		_application(application) {
 
 		assert(_application != nullptr);
 
 	}
-	ApplicationProperties& ApplicationContext::GetProperties() {
+	const ApplicationProperties& ApplicationContext::ApplicationProperties() const {
 
 		assert(_application != nullptr);
 
-		return _application->GetProperties();
+		return _application->Properties();
 
 	}
 	const std::vector<std::string>& ApplicationContext::CommandLineArguments() const {
