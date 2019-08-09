@@ -1,31 +1,51 @@
 #pragma once
 
 #include "hvn3/core/ManagerBase.h"
+#include "hvn3/events/EventDefs.h"
+#include "hvn3/events/EventListenerBase.h"
 #include "hvn3/objects/IObjectManager.h"
 
 #include <memory>
+#include <utility>
 #include <vector>
 
 namespace hvn3 {
 
 	class ObjectManager :
-		public ManagerBase<IObjectManager> {
+		public ManagerBase<IObjectManager>,
+		public EventListenerBase<events::UpdateEvents> {
 
 		struct ObjectInfo {
 
 			ObjectInfo(std::shared_ptr<IObject>&& object);
-			ObjectInfo(ObjectInfo&& other);
+			//ObjectInfo(ObjectInfo&& other);
+
+			//ObjectInfo& operator=(ObjectInfo& other);
 
 			std::shared_ptr<IObject> object;
-			// Set to true when the OnCreate event has been called.
-			bool createEventCalled;
-			// Set to true when the OnDestroy event has been called.
-			bool destroyEventCalled;
+			bool callCreateEvent;
+			bool callDestroyEvent;
+			bool destroyed;
 
 		};
 
 	public:
 		ObjectManager();
+
+		template<typename ObjectType, typename ...Args>
+		void AddObject(Args&&... args) {
+
+			std::shared_ptr<IObject> object = std::make_shared<ObjectType>(std::forward<Args>(args)...);
+
+			_addObject(std::move(object));
+		}
+
+		bool RemoveObject(ObjectHandle handle);
+		bool RemoveObject(IObject* object);
+		template<typename ObjectType>
+		bool RemoveObject() {
+			return _removeObject(ObjectType::ObjectId());
+		}
 
 		void OnStart(StartEventArgs& e) override;
 		void OnEnd(EndEventArgs& e) override;
@@ -36,20 +56,19 @@ namespace hvn3 {
 		ObjectHandle Find(IObject::object_id id) override;
 		bool Exists(IObject::object_id id) const override;
 
-		size_type Count() const = 0;
+		size_type Count() const override;
 		size_type Count(IObject::object_id id) const override;
 
-	protected:
-		ApplicationContext Context();
+		void OnEvent(UpdateEventArgs& e) override;
 
 	private:
 		std::vector<ObjectInfo> _objects;
-		ApplicationContext _context;
-		size_t _update_start_index;
+		bool _update_required;
 
-		void _removeDestroyedObjects(std::vector<ObjectInfo>::iterator begin, std::vector<ObjectInfo>::iterator end);
-		// Updates the state of the given object, and calls the OnCreate or OnDestroy event where applicable. Returns true if the object should have its OnUpdate events called; returns false otherwise.
-		bool _updateAndCheckObject(size_t item_index, UpdateEventArgs& e);
+		void _addObject(std::shared_ptr<IObject>&& object);
+		bool _removeObject(IObject::object_id id);
+		bool _removeObjectIf(const std::function<bool(const ObjectInfo&)>& func);
+		void _onUpdate(ApplicationContext context);
 
 	};
 

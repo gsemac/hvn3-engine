@@ -14,13 +14,18 @@ namespace hvn3 {
 
 	protected:
 		typedef TypeIndexer<struct object_indexer_family> object_indexer; // used to assign indices to object types 
-
+			
+	public:
 		class CreateEventArgs :
 			public EventArgs {
+		public:
+			using EventArgs::EventArgs;
 		};
 
 		class DestroyEventArgs :
 			public EventArgs {
+		public:
+			using EventArgs::EventArgs;
 		};
 
 		class AnimationEndEventArgs :
@@ -36,10 +41,6 @@ namespace hvn3 {
 
 		};
 
-		virtual void OnCreate(CreateEventArgs& e) = 0;
-		virtual void OnDestroy(DestroyEventArgs& e) = 0;
-
-	public:
 		typedef object_indexer::index_type object_id;
 
 		static const object_indexer::index_type NULL_OBJECT_ID;
@@ -48,10 +49,11 @@ namespace hvn3 {
 
 		virtual object_id Id() const = 0;
 		virtual ecs::Entity Entity() = 0;
-		virtual bool IsDestroyed() const = 0;
-		virtual void Destroy() = 0;
 		virtual bool IsActive() const = 0;
 		virtual void SetActive(bool value) = 0;
+
+		virtual void OnCreate(CreateEventArgs& e) = 0;
+		virtual void OnDestroy(DestroyEventArgs& e) = 0;
 
 	};
 

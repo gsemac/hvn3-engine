@@ -3,6 +3,7 @@
 #include "hvn3/math/Line.h"
 #include "hvn3/utility/Size.h"
 
+#include <cassert>
 #include <functional>
 #include <iterator>
 #include <unordered_map>
@@ -72,6 +73,16 @@ namespace hvn3 {
 				it_rhs = order_map.emplace(std::make_pair(rhs, ++i)).first;
 			return it_lhs->second < it_rhs->second;
 		});
+
+	}
+
+	template<typename VectorType, typename IteratorType>
+	void PopAndSwap(VectorType& vector, IteratorType removeAt) {
+
+		assert(vector.size() > 0);
+
+		std::iter_swap(removeAt, vector.end() - 1);
+		vector.pop_back();
 
 	}
 

@@ -36,7 +36,7 @@ namespace hvn3 {
 	}
 	EventArgs::~EventArgs() {
 
-		hvn3::System::Engine::ReleaseComponent(hvn3::System::EngineComponent::Core);
+		hvn3::Engine::ReleaseComponent(hvn3::EngineComponent::Core);
 
 	}
 	double EventArgs::Timestamp() const {
@@ -57,7 +57,7 @@ namespace hvn3 {
 	void EventArgs::_init() {
 
 		// Required for al_get_time()
-		hvn3::System::Engine::RequireComponent(hvn3::System::EngineComponent::Core);
+		hvn3::Engine::RequireComponent(hvn3::EngineComponent::Core);
 
 	}
 

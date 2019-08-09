@@ -16,7 +16,7 @@ namespace hvn3 {
 	EventManager::EventManager() {
 
 		// Initialize the required engine components (if necessary).
-		System::Engine::RequireComponent(System::EngineComponent::Core | System::EngineComponent::IO);
+		Engine::RequireComponent(EngineComponent::Core | EngineComponent::IO);
 
 		// Initialize other members.
 
@@ -33,7 +33,7 @@ namespace hvn3 {
 	EventManager::~EventManager() {
 
 		// Release the engine components.
-		System::Engine::ReleaseComponent(System::EngineComponent::Core | System::EngineComponent::IO);
+		Engine::ReleaseComponent(EngineComponent::Core | EngineComponent::IO);
 
 	}
 

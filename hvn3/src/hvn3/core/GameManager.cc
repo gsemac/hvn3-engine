@@ -74,7 +74,7 @@
 //
 //	void GameManager::_onInit() {
 //
-//		System::Engine::Initialize();
+//		Engine::Initialize();
 //
 //		_display = std::make_unique<class Display>(_properties.DisplaySize, _properties.ApplicationName, _properties.DisplayFlags);
 //		_runner = std::make_unique<System::Runner>(Context());
@@ -102,7 +102,7 @@
 //		_runner.release();
 //
 //		// Shutdown the framework. At this point, all other framework objects should be deinitialized (bitmaps, etc.).
-//		System::Engine::Deinitialize();
+//		Engine::Deinitialize();
 //
 //	}
 //

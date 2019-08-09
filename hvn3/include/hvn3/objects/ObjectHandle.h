@@ -23,7 +23,7 @@ namespace hvn3 {
 		}
 
 		explicit operator bool() const {
-			return static_cast<bool>(_object);
+			return !_object.expired();
 		}
 
 	private:

@@ -145,7 +145,14 @@ namespace hvn3 {
 			// We would run into issues with iterators being invalidated if this were to be called inside of the event handler.
 			// This could be solved in a number of ways, but generally one would not attempt to subscribe to an event that's currently being handled.
 			// Therefore, we will simply forbid adding new listeners inside of event handlers.
+
 			assert(!_currently_dispatching);
+
+			// Listeners should only be subscribed once.
+
+			assert(std::none_of(_listeners.begin(), _listeners.end(), [=](const value_type& x) {
+				return x.handler == listener && x.enabled;
+			}));
 
 			value_type item;
 			item.handler = listener;
@@ -163,14 +170,22 @@ namespace hvn3 {
 			// Find and disable the listener.
 			// Disabled listeners will be removed in one pass later, which allows this method to be called inside of event handlers.
 
+			// It's possible that a listener located at the same memory address is added more than once before we've done a pass to remove disabled listeners.
+			// For this reason, remove only the listener that matches the address and is currently enabled.
+			// Otherwise, we would keep disabling the same listener, which can cause problems if the intended listener gets allocated.
+
 			auto it = std::find_if(_listeners.begin(), _listeners.end(), [=](const value_type& i) {
-				return i.handler == listener;
+				return i.handler == listener && i.enabled;
 			});
+
+			assert(it != _listeners.end());
 
 			if (it == _listeners.end())
 				return false;
 
 			it->enabled = false;
+
+			_remove_required = true;
 
 			return true;
 

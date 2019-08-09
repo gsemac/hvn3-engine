@@ -18,8 +18,6 @@ namespace hvn3 {
 		IObject::object_id Id() const override;
 		ecs::Entity Entity() override;
 
-		bool IsDestroyed() const override;
-		void Destroy() override;
 		bool IsActive() const override;
 		void SetActive(bool value) override;
 
@@ -50,8 +48,8 @@ namespace hvn3 {
 
 	private:
 		ecs::Entity _entity;
-		bool _is_destroyed;
 		bool _is_active;
+
 	public:
 		ApplicationContext _context;
 
@@ -61,7 +59,7 @@ namespace hvn3 {
 
 	// Public methods
 
-	template<typename DerivedObjectType> ObjectBase<DerivedObjectType>::Object() {
+	template<typename DerivedObjectType> ObjectBase<DerivedObjectType>::ObjectBase() {
 
 		_init();
 
@@ -81,12 +79,6 @@ namespace hvn3 {
 
 	}
 
-	template<typename DerivedObjectType> bool ObjectBase<DerivedObjectType>::IsDestroyed() const {
-		return _is_destroyed;
-	}
-	template<typename DerivedObjectType> void ObjectBase<DerivedObjectType>::Destroy() {
-		_is_destroyed = true;
-	}
 	template<typename DerivedObjectType> bool ObjectBase<DerivedObjectType>::IsActive() const {
 		return _is_active;
 	}
@@ -119,7 +111,7 @@ namespace hvn3 {
 
 	template<typename DerivedObjectType> void ObjectBase<DerivedObjectType>::_init() {
 
-		_is_destroyed = false;
+		//_is_destroyed = false;
 		_is_active = false;
 
 	}

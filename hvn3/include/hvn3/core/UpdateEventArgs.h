@@ -4,7 +4,7 @@
 
 namespace hvn3 {
 
-	class UpdateEventArgs : 
+	class UpdateEventArgs :
 		public EventArgs {
 
 	public:
@@ -18,12 +18,14 @@ namespace hvn3 {
 
 	};
 
-	class UpdateBeginEventArgs : UpdateEventArgs {
+	class UpdateBeginEventArgs :
+		public UpdateEventArgs {
 	public:
 		using UpdateEventArgs::UpdateEventArgs;
 	};
 
-	class UpdateEndEventArgs : UpdateEventArgs {
+	class UpdateEndEventArgs :
+		public UpdateEventArgs {
 	public:
 		using UpdateEventArgs::UpdateEventArgs;
 	};

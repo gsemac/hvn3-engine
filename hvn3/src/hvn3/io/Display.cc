@@ -48,7 +48,7 @@ namespace hvn3 {
 		_size_before_fullscreen(0, 0) {
 
 		// Make sure that the framework has been initialized before attempting to create a display.
-		System::Engine::RequireComponent(System::EngineComponent::Core);
+		Engine::RequireComponent(EngineComponent::Core);
 
 		// Set the position at which new displays are created.
 		if (x != UNDEFINED_WINDOW_POSITION_X || y != UNDEFINED_WINDOW_POSITION_Y)
@@ -113,7 +113,7 @@ namespace hvn3 {
 
 			// Keep in mind that we might have a display constructed with the default move constructor. When that happens, we can end up releasing the component twice.
 			// To avoid that, we check here that we're actually deinitializing a display first.
-			System::Engine::ReleaseComponent(System::EngineComponent::Core);
+			Engine::ReleaseComponent(EngineComponent::Core);
 
 		}
 

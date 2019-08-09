@@ -134,8 +134,8 @@ namespace hvn3 {
 
 		static class ComponentLifetimeHelper {
 		public:
-			ComponentLifetimeHelper() { System::Engine::RequireComponent(System::EngineComponent::Core | System::EngineComponent::IO); }
-			~ComponentLifetimeHelper() { System::Engine::ReleaseComponent(System::EngineComponent::Core | System::EngineComponent::IO); }
+			ComponentLifetimeHelper() { Engine::RequireComponent(EngineComponent::Core | EngineComponent::IO); }
+			~ComponentLifetimeHelper() { Engine::ReleaseComponent(EngineComponent::Core | EngineComponent::IO); }
 		} helper;
 
 		return al_get_mouse_event_source();
