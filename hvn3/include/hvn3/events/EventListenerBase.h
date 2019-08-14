@@ -21,6 +21,8 @@ namespace hvn3 {
 
 		};
 
+		// This base class is used to flatten the list of event types.
+
 		template<typename... FlatEventTypes>
 		class EventListenerBaseBase;
 
