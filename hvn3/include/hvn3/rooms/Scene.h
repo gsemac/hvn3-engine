@@ -10,6 +10,7 @@ namespace hvn3 {
 		public SceneBase {
 
 	public:
+		Scene() = default;
 		Scene(std::function<void(CreateEventArgs&)>&& onCreate);
 		
 		void OnCreate(CreateEventArgs& e) override;

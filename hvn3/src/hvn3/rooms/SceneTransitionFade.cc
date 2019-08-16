@@ -1,4 +1,4 @@
-#include "hvn3/core/DrawEventArgs.h"
+#include "hvn3/events/DrawEventArgs.h"
 #include "hvn3/graphics/Graphics.h" 
 #include "hvn3/math/Rectangle.h"
 #include "hvn3/rooms/SceneTransitionFade.h"

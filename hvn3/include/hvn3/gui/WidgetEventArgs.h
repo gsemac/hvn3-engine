@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/core/DrawEventArgs.h"
+#include "hvn3/events/DrawEventArgs.h"
 #include "hvn3/events/EventArgs.h"
 #include "hvn3/gui/GuiDefs.h"
 #include "hvn3/io/IMouseListener.h"

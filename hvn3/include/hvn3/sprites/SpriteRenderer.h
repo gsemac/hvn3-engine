@@ -1,7 +1,7 @@
 #pragma once
 #include "hvn3/sprites/Sprite.h"
 #include "hvn3/utility/Scale.h"
-#include "hvn3/core/DrawEventArgs.h"
+#include "hvn3/events/DrawEventArgs.h"
 
 namespace hvn3 {
 

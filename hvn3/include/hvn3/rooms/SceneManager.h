@@ -1,7 +1,8 @@
 #pragma once
 
 #include "hvn3/core/ManagerBase.h"
-#include "hvn3/events/UpdateListenerBase.h"
+#include "hvn3/events/EventDefs.h"
+#include "hvn3/events/EventListenerBase.h"
 #include "hvn3/rooms/IScene.h"
 #include "hvn3/rooms/ISceneManager.h"
 #include "hvn3/rooms/ISceneTransition.h"
@@ -14,7 +15,7 @@ namespace hvn3 {
 
 	class SceneManager :
 		public ManagerBase<ISceneManager>,
-		public UpdateListenerBase {
+		public EventListenerBase<events::UpdateEvents> {
 
 		enum TRANSITION_STATE {
 			NO_TRANSITION_PENDING,
@@ -33,7 +34,8 @@ namespace hvn3 {
 		~SceneManager();
 
 		void OnStart(StartEventArgs& e) override;
-		void OnUpdate(UpdateEventArgs& e) override;
+		void OnEnd(EndEventArgs& e) override;
+		void OnEvent(UpdateEventArgs& e) override;
 
 		void GoToScene(scene_index sceneIndex) override;
 		void GoToPreviousScene() override;

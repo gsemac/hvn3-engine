@@ -1,5 +1,5 @@
 #include "hvn3/core/IUpdatable.h"
-#include "hvn3/core/UpdateEventArgs.h"
+#include "hvn3/events/UpdateEventArgs.h"
 
 namespace hvn3 {
 

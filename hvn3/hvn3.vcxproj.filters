@@ -240,9 +240,6 @@
     <ClInclude Include="include\hvn3\collision\NarrowPhase.h">
       <Filter>include\collision</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\core\DrawEventArgs.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\core\GameManager.h">
       <Filter>include\core</Filter>
     </ClInclude>
@@ -271,9 +268,6 @@
       <Filter>include\core</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\core\SizeableBase.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\core\UpdateEventArgs.h">
       <Filter>include\core</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\events\Event.h">
@@ -963,12 +957,6 @@
     <ClInclude Include="include\hvn3\ecs\Entity.h">
       <Filter>include\ecs</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\events\IUpdateListener.h">
-      <Filter>include\events</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\events\UpdateListenerBase.h">
-      <Filter>include\events</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\io\IDisplayManager.h">
       <Filter>include\io</Filter>
     </ClInclude>
@@ -1017,6 +1005,12 @@
     <ClInclude Include="include\hvn3\objects\ObjectHandle.h">
       <Filter>include\objects</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\events\UpdateEventArgs.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\events\DrawEventArgs.h">
+      <Filter>include\events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1063,12 +1057,6 @@
       <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\core\Runner.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\core\UpdateEventArgs.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\core\DrawEventArgs.cc">
       <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\events\EventSource.cc">
@@ -1501,6 +1489,12 @@
       <Filter>src\ecs</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\events\EventListenerRegistry.cc">
+      <Filter>src\events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\events\UpdateEventArgs.cc">
+      <Filter>src\events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\events\DrawEventArgs.cc">
       <Filter>src\events</Filter>
     </ClCompile>
   </ItemGroup>

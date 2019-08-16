@@ -1,7 +1,7 @@
 #pragma once
 
-#include "hvn3/core/DrawEventArgs.h"
-#include "hvn3/core/UpdateEventArgs.h"
+#include "hvn3/events/DrawEventArgs.h"
+#include "hvn3/events/UpdateEventArgs.h"
 #include "hvn3/utility/TypeList.h"
 
 namespace hvn3 {

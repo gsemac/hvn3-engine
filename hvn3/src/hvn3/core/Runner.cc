@@ -10,10 +10,10 @@
 //#include <sstream>
 //#include "hvn3/allegro/AllegroAdapter.h"
 //#include "hvn3/core/Runner.h"
-//#include "hvn3/core/DrawEventArgs.h"
+//#include "hvn3/events/DrawEventArgs.h"
 //#include "hvn3/core/Engine.h"
 //#include "hvn3/core/IGameManager.h"
-//#include "hvn3/core/UpdateEventArgs.h"
+//#include "hvn3/events/UpdateEventArgs.h"
 //#include "hvn3/events/Event.h"
 //#include "hvn3/fonts/Font.h"
 //#include "hvn3/io/DisplayListener.h"

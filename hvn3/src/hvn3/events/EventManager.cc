@@ -1,7 +1,7 @@
 #include "hvn3/core/Engine.h"
 #include "hvn3/exceptions/Exception.h"
 #include "hvn3/core/IUpdatable.h"
-#include "hvn3/core/UpdateEventArgs.h"
+#include "hvn3/events/UpdateEventArgs.h"
 #include "hvn3/events/EventManager.h"
 #include "hvn3/io/IDisplayListener.h"
 #include "hvn3/io/IKeyboardListener.h"

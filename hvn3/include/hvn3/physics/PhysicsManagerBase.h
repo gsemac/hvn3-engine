@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/core/UpdateEventArgs.h"
+#include "hvn3/events/UpdateEventArgs.h"
 #include "hvn3/physics/IPhysicsManager.h"
 #include "hvn3/physics/PhysicsUtils.h"
 

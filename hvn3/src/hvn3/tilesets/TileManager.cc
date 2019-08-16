@@ -1,4 +1,4 @@
-#include "hvn3/core/DrawEventArgs.h"
+#include "hvn3/events/DrawEventArgs.h"
 #include "hvn3/math/MathUtils.h"
 #include "hvn3/tilesets/TileManager.h"
 

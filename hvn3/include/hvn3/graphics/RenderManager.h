@@ -1,6 +1,6 @@
 #pragma once
 
-#include <hvn3/core/DrawEventArgs.h>
+#include <hvn3/events/DrawEventArgs.h>
 #include <hvn3/core/ManagerBase.h>
 #include <hvn3/events/EventListenerBase.h>
 #include <hvn3/events/IEventManager.h>

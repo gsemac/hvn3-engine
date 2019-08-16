@@ -62,7 +62,6 @@
     <ClInclude Include="include\hvn3\core\ApplicationContext.h" />
     <ClInclude Include="include\hvn3\core\CoreDefs.h" />
     <ClInclude Include="include\hvn3\core\DrawableBase.h" />
-    <ClInclude Include="include\hvn3\core\DrawEventArgs.h" />
     <ClInclude Include="include\hvn3\core\ApplicationContextProvider.h" />
     <ClInclude Include="include\hvn3\core\IApplicationContextReceiver.h" />
     <ClInclude Include="include\hvn3\core\IManager.h" />
@@ -84,7 +83,6 @@
     <ClInclude Include="include\hvn3\core\Runner.h" />
     <ClInclude Include="include\hvn3\core\SharedCreatableBase.h" />
     <ClInclude Include="include\hvn3\core\SizeableBase.h" />
-    <ClInclude Include="include\hvn3\core\UpdateEventArgs.h" />
     <ClInclude Include="include\hvn3\ecs\ComponentHandle.h" />
     <ClInclude Include="include\hvn3\ecs\ComponentManager.h" />
     <ClInclude Include="include\hvn3\ecs\ComponentPool.h" />
@@ -97,6 +95,7 @@
     <ClInclude Include="include\hvn3\ecs\IComponent.h" />
     <ClInclude Include="include\hvn3\ecs\IComponentPool.h" />
     <ClInclude Include="include\hvn3\ecs\IEntityManager.h" />
+    <ClInclude Include="include\hvn3\events\DrawEventArgs.h" />
     <ClInclude Include="include\hvn3\events\Event.h" />
     <ClInclude Include="include\hvn3\events\EventArgs.h" />
     <ClInclude Include="include\hvn3\events\EventDefs.h" />
@@ -109,12 +108,11 @@
     <ClInclude Include="include\hvn3\events\IEventArgs.h" />
     <ClInclude Include="include\hvn3\events\IEventManager.h" />
     <ClInclude Include="include\hvn3\events\IEventListenerContainer.h" />
-    <ClInclude Include="include\hvn3\events\IUpdateListener.h" />
     <ClInclude Include="include\hvn3\events\IUserEvent.h" />
     <ClInclude Include="include\hvn3\events\EventListenerContainer.h" />
     <ClInclude Include="include\hvn3\events\EventListenerRegistry.h" />
     <ClInclude Include="include\hvn3\events\Timer.h" />
-    <ClInclude Include="include\hvn3\events\UpdateListenerBase.h" />
+    <ClInclude Include="include\hvn3\events\UpdateEventArgs.h" />
     <ClInclude Include="include\hvn3\events\UserEvent.h" />
     <ClInclude Include="include\hvn3\events\UserEventSource.h" />
     <ClInclude Include="include\hvn3\exceptions\Exception.h" />
@@ -329,14 +327,13 @@
     <ClCompile Include="src\hvn3\core\Application.cc" />
     <ClCompile Include="src\hvn3\core\ApplicationContext.cc" />
     <ClCompile Include="src\hvn3\core\DrawableBase.cc" />
-    <ClCompile Include="src\hvn3\core\DrawEventArgs.cc" />
     <ClCompile Include="src\hvn3\core\Engine.cc" />
     <ClCompile Include="src\hvn3\core\GameManager.cc" />
     <ClCompile Include="src\hvn3\core\IUpdatable.cc" />
     <ClCompile Include="src\hvn3\core\ApplicationProperties.cc" />
     <ClCompile Include="src\hvn3\core\Runner.cc" />
-    <ClCompile Include="src\hvn3\core\UpdateEventArgs.cc" />
     <ClCompile Include="src\hvn3\ecs\Entity.cc" />
+    <ClCompile Include="src\hvn3\events\DrawEventArgs.cc" />
     <ClCompile Include="src\hvn3\events\Event.cc" />
     <ClCompile Include="src\hvn3\events\EventArgs.cc" />
     <ClCompile Include="src\hvn3\events\EventListenerRegistry.cc" />
@@ -344,6 +341,7 @@
     <ClCompile Include="src\hvn3\events\EventQueue.cc" />
     <ClCompile Include="src\hvn3\events\EventSource.cc" />
     <ClCompile Include="src\hvn3\events\Timer.cc" />
+    <ClCompile Include="src\hvn3\events\UpdateEventArgs.cc" />
     <ClCompile Include="src\hvn3\events\UserEventSource.cc" />
     <ClCompile Include="src\hvn3\exceptions\Exception.cc" />
     <ClCompile Include="src\hvn3\fonts\Font.cc" />

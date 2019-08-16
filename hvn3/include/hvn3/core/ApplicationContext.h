@@ -46,7 +46,11 @@ namespace hvn3 {
 
 		assert(_application != nullptr);
 
-		return _application->_manager_registry.GetManager<ManagerType>();
+		ManagerHandle<ManagerType> handle(_application->_manager_registry.GetManager<ManagerType>());
+
+		assert(static_cast<bool>(handle));
+
+		return handle;
 
 	}
 	template<typename ManagerType>

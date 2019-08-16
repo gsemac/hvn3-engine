@@ -1,7 +1,7 @@
 //#pragma once
 //#include "hvn3/backgrounds/IBackgroundManager.h"
 //#include "hvn3/collision/ICollisionManager.h"
-//#include "hvn3/core/DrawEventArgs.h"
+//#include "hvn3/events/DrawEventArgs.h"
 //#include "hvn3/graphics/Graphics.h"
 //#include "hvn3/objects/IObjectManager.h"
 //#include "hvn3/physics/IPhysicsManager.h"

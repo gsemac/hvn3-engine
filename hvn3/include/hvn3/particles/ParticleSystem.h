@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/core/DrawEventArgs.h"
+#include "hvn3/events/DrawEventArgs.h"
 #include "hvn3/core/IDrawable.h"
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/math/Rectangle.h"

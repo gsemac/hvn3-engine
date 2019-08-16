@@ -1,3 +1,4 @@
+#include "hvn3/events/EventManager.h"
 #include "hvn3/events/IEventManager.h"
 #include "hvn3/rooms/SceneManager.h"
 #include "hvn3/rooms/SceneTransitionFade.h"
@@ -14,17 +15,23 @@ namespace hvn3 {
 		_scene_index(0),
 		_transitioning_to_index(0),
 		_transition_state(NO_TRANSITION_PENDING),
-		_transition(nullptr) {}
+		_transition(nullptr) {
+	}
 	SceneManager::~SceneManager() {}
 
 	void SceneManager::OnStart(StartEventArgs& e) {
 
 		_context = e.Context();
 
-		//auto* event_manager = e.Context().Get<IEventManager>();
+		e.Context().Get<EventManager>()->SubscribeAll(this);
 
 	}
-	void SceneManager::OnUpdate(UpdateEventArgs& e) {
+	void SceneManager::OnEnd(EndEventArgs& e) {
+
+		e.Context().Get<EventManager>()->UnsubscribeAll(this);
+
+	}
+	void SceneManager::OnEvent(UpdateEventArgs& e) {
 
 		// Update the state of the room if there is nothing blocking updates.
 		if (IsSceneLoaded() && (!_isTransitioning() || !_transition || !_transition->Blocking()))
@@ -241,7 +248,7 @@ namespace hvn3 {
 
 	}
 	bool SceneManager::_beginTransitionTo(scene_index sceneIndex) {
-	
+
 		if (_isTransitioning())
 			return false;
 

@@ -39,10 +39,7 @@ namespace hvn3 {
 	private:
 		ApplicationProperties _properties;
 		std::vector<std::string> _command_line_arguments;
-
 		ManagerRegistry _manager_registry;
-		std::vector<IUpdatable*> _updatable_managers;
-		std::vector<IDrawable*> _drawable_managers;
 
 		Timer _update_event_source;
 

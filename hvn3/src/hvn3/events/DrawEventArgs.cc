@@ -1,4 +1,4 @@
-#include "hvn3/core/DrawEventArgs.h"
+#include "hvn3/events/DrawEventArgs.h"
 
 namespace hvn3 {
 

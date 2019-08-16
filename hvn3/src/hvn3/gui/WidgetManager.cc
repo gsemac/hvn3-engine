@@ -1,5 +1,5 @@
-#include "hvn3/core/DrawEventArgs.h"
-#include "hvn3/core/UpdateEventArgs.h"
+#include "hvn3/events/DrawEventArgs.h"
+#include "hvn3/events/UpdateEventArgs.h"
 #include "hvn3/gui/DefaultWidgetRenderer.h"
 #include "hvn3/gui/IWidget.h"
 #include "hvn3/gui/IWidgetRenderer.h"
