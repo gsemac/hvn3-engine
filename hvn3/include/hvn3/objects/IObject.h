@@ -14,7 +14,7 @@ namespace hvn3 {
 
 	protected:
 		typedef TypeIndexer<struct object_indexer_family> object_indexer; // used to assign indices to object types 
-			
+
 	public:
 		class CreateEventArgs :
 			public EventArgs {
@@ -52,8 +52,8 @@ namespace hvn3 {
 		virtual bool IsActive() const = 0;
 		virtual void SetActive(bool value) = 0;
 
-		virtual void OnCreate(CreateEventArgs& e) = 0;
-		virtual void OnDestroy(DestroyEventArgs& e) = 0;
+		virtual void HandleEvent(CreateEventArgs& e) = 0;
+		virtual void HandleEvent(DestroyEventArgs& e) = 0;
 
 	};
 

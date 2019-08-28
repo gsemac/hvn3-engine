@@ -172,7 +172,7 @@ namespace hvn3 {
 					assert(!_objects[i].callDestroyEvent);
 					assert(!_objects[i].destroyed);
 
-					_objects[i].object->OnCreate(IObject::CreateEventArgs(context));
+					_objects[i].object->HandleEvent(IObject::CreateEventArgs(context));
 					_objects[i].callCreateEvent = false;
 
 				}
@@ -182,7 +182,7 @@ namespace hvn3 {
 					assert(!_objects[i].callCreateEvent);
 					assert(!_objects[i].destroyed);
 
-					_objects[i].object->OnDestroy(IObject::DestroyEventArgs(context));
+					_objects[i].object->HandleEvent(IObject::DestroyEventArgs(context));
 					_objects[i].callDestroyEvent = false;
 					_objects[i].destroyed = true;
 

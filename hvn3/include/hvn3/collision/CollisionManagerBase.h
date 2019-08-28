@@ -54,7 +54,7 @@ namespace hvn3 {
 
 		}
 		const std::vector<CollisionResult>& CollidingPairs() const override {
-			return _pairs;
+			return _pair_buffer;
 		}
 		size_t Count() const override {
 			return _broad_phase->Count();
@@ -272,20 +272,20 @@ namespace hvn3 {
 		// Returns the vector of colliding pairs from the last update.
 		std::vector<CollisionResult>& GetPairs() {
 
-			return _pairs;
+			return _pair_buffer;
 
 		}
 		// Returns the vector of colliding pairs from the last update.
 		const std::vector<CollisionResult>& Pairs() const {
 
-			return _pairs;
+			return _pair_buffer;
 
 		}
 		// Checks all potentially-colliding pairs and triggers events as needed.
 		virtual void CheckPairs(const IBroadPhase::collider_pair_vector_type& pairs) = 0;
 
 	private:
-		std::vector<CollisionResult> _pairs;
+		std::vector<CollisionResult> _pair_buffer;
 		std::unique_ptr<IBroadPhase> _broad_phase;
 		std::unique_ptr<INarrowPhase> _narrow_phase;
 		float _precision;

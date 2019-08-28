@@ -28,27 +28,66 @@ namespace hvn3 {
 		ApplicationContext Context();
 
 		template<typename ComponentType, typename ...Args>
-		void AddComponent(Args&&... args) {
+		ecs::ComponentHandle<ComponentType> AddComponent(Args&&... args) {
+
+			auto m = _getComponentManager();
+
+			ComponentType component(std::forward<Args>(args)...);
+
+			return m->AddComponent(Entity(), std::move(component));
+
+		}
+		template<typename ComponentType>
+		ecs::ComponentHandle<ComponentType> GetComponent() {
+
+			auto m = _getComponentManager();
+
+			return m->GetComponent<ComponentType>(Entity());
+
+		}
+		template<typename ComponentType>
+		bool HasComponent() {
+
+			auto m = _getComponentManager();
+
+			return m->HasComponent<ComponentType>(Entity());
+
+		}
+
+		void HandleEvent(CreateEventArgs& e) override {
+
+			// When the object is created, assign it the current context.
+			_context = e.Context();
+
+			OnCreate(e);
+
+		}
+		void HandleEvent(DestroyEventArgs& e) override {
+
+			OnDestroy(e);
+
+			// When the object is destroyed, reset its context.
+			_context = ApplicationContext();
+
+		}
+
+		virtual void OnCreate(CreateEventArgs& e) {}
+		virtual void OnDestroy(DestroyEventArgs& e) {}
+
+	private:
+		ecs::Entity _entity;
+		bool _is_active;
+
+		ManagerHandle<ecs::ComponentManager> _getComponentManager() {
 
 			assert(static_cast<bool>(Context()));
 			assert(static_cast<bool>(Entity()));
 
 			auto component_m = Context().Get<ecs::ComponentManager>();
 
-			assert(static_cast<bool>(component_m));
-
-			ComponentType component(std::forward<Args>(args)...);
-
-			component_m->AddComponent(Entity(), std::move(component));
+			return component_m;
 
 		}
-
-		void OnCreate(CreateEventArgs& e) override;
-		void OnDestroy(DestroyEventArgs& e) override;
-
-	private:
-		ecs::Entity _entity;
-		bool _is_active;
 
 	public:
 		ApplicationContext _context;
@@ -84,19 +123,6 @@ namespace hvn3 {
 	}
 	template<typename DerivedObjectType> void ObjectBase<DerivedObjectType>::SetActive(bool value) {
 		_is_active = value;
-	}
-
-	template<typename DerivedObjectType> void ObjectBase<DerivedObjectType>::OnCreate(CreateEventArgs& e) {
-
-		// When the object is created, assign it the current context.
-		_context = e.Context();
-
-	}
-	template<typename DerivedObjectType> void ObjectBase<DerivedObjectType>::OnDestroy(DestroyEventArgs& e) {
-
-		// When the object is destroyed, reset its context.
-		_context = ApplicationContext();
-
 	}
 
 	template<typename DerivedObjectType> ApplicationContext ObjectBase<DerivedObjectType>::Context() {

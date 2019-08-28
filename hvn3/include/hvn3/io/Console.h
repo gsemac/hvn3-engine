@@ -32,12 +32,17 @@ namespace hvn3 {
 			std::cout << value;
 
 		}
+		template <>
+		static void Write<bool>(const bool& value) {
+
+			std::cout << (value ? "True" : "False");
+
+		}
 		// Writes the text representation of the specified values to the standard output stream.
 		template <typename T, typename... Args>
 		static void Write(const T& value, Args... args) {
 
-			std::cout << value;
-
+			Write(value);
 			Write(args...);
 
 		}
@@ -45,7 +50,8 @@ namespace hvn3 {
 		template<typename T>
 		static void WriteLine(const T& value) {
 
-			std::cout << value << '\n';
+			Write(value);
+			WriteLine();
 
 		}
 		// Writes the text representation of the specified values, followed by the current line terminator, to the standard output stream.

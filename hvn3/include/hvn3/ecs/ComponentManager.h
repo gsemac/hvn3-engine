@@ -7,6 +7,7 @@
 #include "hvn3/ecs/Entity.h"
 #include "hvn3/ecs/IComponent.h"	
 #include "hvn3/utility/TypeIndexer.h"
+#include "hvn3/utility/TypeList.h"
 
 #include <cassert>
 #include <memory>
@@ -31,7 +32,11 @@ namespace hvn3 {
 
 		public:
 			template <typename ComponentType>
-			void AddComponent(entity_type entity, ComponentType&& component) {
+			ComponentHandle<ComponentType> AddComponent(entity_type entity) {
+				return AddComponent(entity, ComponentType());
+			}
+			template <typename ComponentType>
+			ComponentHandle<ComponentType> AddComponent(entity_type entity, ComponentType&& component) {
 
 				// Generate and index for the given type.
 				index_type index = _getTypeIndex<ComponentType>();
@@ -49,7 +54,12 @@ namespace hvn3 {
 
 				// Add the component to its respective pool.
 				// Note that the component is moved into the pool, and therefore the component instance passed in should not be accessed afterward.
-				_getPool<ComponentType>()->Add(entity, std::move(component));
+				ComponentHandle<ComponentType> handle(_getPool<ComponentType>()->Add(entity, std::move(component)));
+
+				// Add this component's dependencies.
+				_addComponentDependencies<ComponentType>(entity);
+
+				return handle;
 
 			}
 
@@ -117,6 +127,15 @@ namespace hvn3 {
 			}
 
 			template<typename ComponentType>
+			bool HasComponent(entity_type entity) {
+
+				auto handle = GetComponent<ComponentType>(entity);
+
+				return static_cast<bool>(handle);
+
+			}
+
+			template<typename ComponentType>
 			bool RemoveComponent(entity_type entity) {
 
 				auto pool_ptr = _getPool<ComponentType>();
@@ -177,6 +196,23 @@ namespace hvn3 {
 			}
 
 		private:
+			template <typename T>
+			struct has_component_dependencies {
+
+			private:
+				template <typename T1>
+				static typename T1::required_component_types _test(int);
+
+				template <typename>
+				static void _test(...);
+
+			public:
+				enum {
+					value = !std::is_void<decltype(_test<T>(0))>::value
+				};
+
+			};
+
 			std::vector<std::unique_ptr<IComponentPool>> _pools;
 
 			template<typename ComponentType>
@@ -249,6 +285,23 @@ namespace hvn3 {
 				for (auto i = _pools.begin(); i != _pools.end(); ++i)
 					if (_poolContainsType<ComponentType>(i->get()))
 						view._dynamic_pools.push_back(i->get());
+
+			}
+
+			template<typename ComponentType> typename std::enable_if<!has_component_dependencies<ComponentType>::value, void>::type
+				_addComponentDependencies(entity_type entity) {
+			}
+			template<typename ComponentType> typename std::enable_if<has_component_dependencies<ComponentType>::value, void>::type
+				_addComponentDependencies(entity_type entity) {
+
+				_addComponentDependencies<ComponentType>(entity, typename ComponentType::required_component_types());
+
+			}
+
+			template<typename ComponentType, typename ...Types>
+			void _addComponentDependencies(entity_type entity, TypeList<Types...> typeList) {
+
+				int dummy[] = { 0, (!(std::is_same<Types, ComponentType>::value || HasComponent<Types>(entity)) ? AddComponent<Types>(entity) : 0, 0)... };
 
 			}
 

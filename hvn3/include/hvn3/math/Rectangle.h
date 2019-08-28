@@ -26,7 +26,8 @@ namespace hvn3 {
 
 	public:
 		Rectangle() :
-			Rectangle(0, 0) {}
+			Rectangle(0, 0) {
+		}
 		Rectangle(T width, T height) :
 			Rectangle<T>(0, 0, width, height) {
 		}
@@ -258,6 +259,10 @@ namespace hvn3 {
 
 			return (point.x >= X() && point.x < X2() && point.y >= Y() && point.y < Y2());
 
+		}
+
+		bool Intersects(const Rectangle<T>& other) {
+			return X() < other.X2() && X2() > other.X() && Y() < other.Y2() && Y2() > other.Y();
 		}
 
 		template<typename U>

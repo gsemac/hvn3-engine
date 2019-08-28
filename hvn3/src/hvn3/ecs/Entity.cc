@@ -5,14 +5,15 @@ namespace hvn3 {
 
 		// Public constants
 
-		const int Entity::NULL_ENTITY_ID = -1;
+		const int Entity::NULL_ENTITY_ID = ecs::NULL_ENTITY_ID;
 		Entity Entity::NULL_ENTITY = Entity(NULL_ENTITY_ID);
 
 		// Public methods
 
 		Entity::Entity() :
-			Entity(NULL_ENTITY_ID) {}
-		Entity::Entity(entity_id id) :
+			Entity(NULL_ENTITY_ID) {
+		}
+		Entity::Entity(EntityId id) :
 			id(id) {
 		}
 

@@ -23,7 +23,7 @@ namespace hvn3 {
 			}
 
 		private:
-			UniqueIntegerGenerator<Entity::entity_id> _entity_generator;
+			UniqueIntegerGenerator<EntityId> _entity_generator;
 
 		};
 

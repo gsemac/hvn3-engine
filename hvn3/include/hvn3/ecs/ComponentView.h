@@ -1,6 +1,6 @@
 #pragma once
 
-#include "hvn3/ecs/EcsDefs.h"
+#include "hvn3/ecs/Entity.h"
 #include "hvn3/ecs/ComponentPool.h"
 
 #include <array>
@@ -19,7 +19,7 @@ namespace hvn3 {
 			// This is the number of static pools held by the view.
 			static constexpr size_t STATIC_POOL_COUNT = sizeof...(Components);
 
-			typedef EntityId entity_type;
+			typedef Entity entity_type;
 
 			template<typename T>
 			using pool_type = ComponentPool<T>;
@@ -43,9 +43,15 @@ namespace hvn3 {
 
 				}
 				template<typename Component>
-				Component* GetComponent() const {
+				Component& GetComponent() const {
 
-					return std::get<Component*>(_components);
+					return *std::get<Component*>(_components);
+
+				}
+				template<std::size_t I>
+				typename std::tuple_element<I, std::tuple<Components...>>::type& GetComponent() const {
+
+					return *std::get<I>(_components);
 
 				}
 
@@ -141,7 +147,7 @@ namespace hvn3 {
 						// Construct a tuple containing all components belonging to this entity.
 						// In the process, we store whether or not we hav come across any null components (which occurs if an entity does not have one of the requested components).
 						// When this happens, the entity will simply be skipped.
-						std::tuple<Components*...> components({ _view->_getComponentFromIndex<Components>(entity, _indices[index_index++], has_null_component)... });
+						std::tuple<Components*...> components{ _view->_getComponentFromIndex<Components>(entity, _indices[index_index++], has_null_component)... };
 
 						if (!has_null_component) {
 
@@ -232,7 +238,7 @@ namespace hvn3 {
 			void ForEach(Func callback) {
 
 				for (auto i = begin(); i != end(); ++i)
-					callback(*i);
+					callback(i->GetComponent<Components>()...);
 
 			}
 

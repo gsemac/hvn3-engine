@@ -2,39 +2,46 @@
 
 namespace hvn3 {
 
+	TransformComponent::TransformComponent() :
+		x(0.0f),
+		y(0.0f) {
+	}
+
 	float TransformComponent::X() const {
 
-		return _position.x;
+		return x;
 
 	}
 	float TransformComponent::Y() const {
 
-		return _position.y;
+		return y;
 
 	}
 	void TransformComponent::SetX(float value) {
 
-		_position.x = value;
+		x = value;
 
 	}
 	void TransformComponent::SetY(float value) {
 
-		_position.y = value;
+		y = value;
 
 	}
-	const PointF& TransformComponent::Position() const {
+	PointF TransformComponent::Position() const {
 
-		return _position;
+		return PointF(x, y);
 
 	}
 	void TransformComponent::SetPosition(const PointF& value) {
 
-		_position = value;
+		x = value.x;
+		y = value.y;
 
 	}
 	void TransformComponent::SetPosition(float x, float y) {
 
-		_position = PointF(x, y);
+		this->x = x;
+		this->y = y;
 
 	}
 

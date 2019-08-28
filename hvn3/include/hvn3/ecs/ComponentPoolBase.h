@@ -27,7 +27,7 @@ namespace hvn3 {
 
 			}
 
-			void Add(entity_type entity, ComponentType&& component) {
+			ComponentType* Add(entity_type entity, ComponentType&& component) {
 
 				_components.push_back(EntityComponentPair<ComponentType>(entity, std::move(component), _nextTimestamp()));
 
@@ -36,6 +36,8 @@ namespace hvn3 {
 
 				// In case the entity already exists, we will need to deduplicate the collection.
 				_deduplicate_required = true;
+
+				return &_components.back().component;
 
 			}
 			bool Remove(entity_type entity) override {
