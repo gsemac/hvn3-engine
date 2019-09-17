@@ -25,7 +25,7 @@ namespace hvn3 {
 
 		typedef PointI cell_type;
 
-		typedef std::pair<std::reference_wrapper<value_type>, std::reference_wrapper<value_type>> pair_type;
+		typedef std::pair<value_type*, value_type*> pair_type;
 		typedef std::vector<pair_type> pair_result_type;
 
 	private:
@@ -191,7 +191,7 @@ namespace hvn3 {
 				// Copy the pairs to the result buffer.
 
 				for (auto i = pairs.begin(); i != pairs.end(); ++i)
-					_pair_buffer.push_back(pair_type(*i->first, *i->second));
+					_pair_buffer.push_back(pair_type(i->first, i->second));
 
 				_recheck_required = false;
 

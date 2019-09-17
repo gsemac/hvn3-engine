@@ -1020,6 +1020,15 @@
     <ClInclude Include="include\hvn3\collision\SpatialGrid.h">
       <Filter>include\collision</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\collision\BroadphasePair.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\physics\PhysicsManager_.h">
+      <Filter>include\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\collision\CohenSutherland.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1507,6 +1516,9 @@
       <Filter>src\components</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\collision\CollisionManager_.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\CollisionUtils.cc">
       <Filter>src\collision</Filter>
     </ClCompile>
   </ItemGroup>

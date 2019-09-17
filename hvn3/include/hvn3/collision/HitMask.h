@@ -10,6 +10,11 @@ namespace hvn3 {
 
 	class HitMask {
 
+	public:
+		typedef RectangleF rectangle_type;
+		typedef CircleF circle_type;
+		typedef LineF line_type;
+
 		enum HITMASK_TYPE {
 			HITMASK_TYPE_NULL,
 			HITMASK_TYPE_RECTANGLE,
@@ -17,39 +22,68 @@ namespace hvn3 {
 			HITMASK_TYPE_LINE
 		};
 
-		union mask_data_type  {
+	private:
+		union union_type {
 
-			RectangleF rectangle;
-			CircleF circle;
-			LineF line;
+			rectangle_type rectangle;
+			circle_type circle;
+			line_type line;
 
-			mask_data_type() {}
+			union_type() {}
 
 		};
 
 	public:
 		HitMask();
-		HitMask(const RectangleF& mask);
-		HitMask(const CircleF& mask);
-		HitMask(const LineF& mask);
+		HitMask(const rectangle_type& mask);
+		HitMask(const circle_type& mask);
+		HitMask(const line_type& mask);
 		HitMask(const HitMask& other);
 
 		void SetOffset(const PointF& offset);
 		PointF Offset() const;
 
-		RectangleF AABB() const;
+		RectangleF Aabb() const;
+		HITMASK_TYPE Type() const;
 
-		bool TestCollision(const HitMask& other, CollisionResult& manifold) const;
-		bool TestCollision(const RectangleF& other, CollisionResult& manifold) const;
-		bool TestCollision(const CircleF& other, CollisionResult& manifold) const;
-		bool TestCollision(const LineF& other, CollisionResult& manifold) const;
-		bool TestCollisionAt(const PointF& at, const HitMask& other, CollisionResult& manifold);
+		template<typename T> const T& GetBody(const PointF& offset = PointF(0.0f, 0.0f)) const {
+
+			static_assert(false, "Invalid body type provided.");
+
+			throw;
+
+		}
+		template<> const rectangle_type& GetBody(const PointF& offset) const {
+
+			if (Type() == HITMASK_TYPE::HITMASK_TYPE_RECTANGLE)
+				return _mask.rectangle;
+
+			throw System::ArgumentException("HitMask type did not match.");
+
+		}
+		template<> const circle_type& GetBody(const PointF& offset) const {
+
+			if (Type() == HITMASK_TYPE::HITMASK_TYPE_CIRCLE)
+				return _mask.circle;
+
+			throw System::ArgumentException("HitMask type did not match.");
+
+		}
+		template<> const line_type& GetBody(const PointF& offset) const {
+
+			if (Type() == HITMASK_TYPE::HITMASK_TYPE_LINE)
+				return _mask.line;
+
+			throw System::ArgumentException("HitMask type did not match.");
+
+		}
 
 		HitMask& operator=(const HitMask& other);
+
 		explicit operator bool() const;
 
 	private:
-		mask_data_type _mask;
+		union_type _mask;
 		HITMASK_TYPE _type;
 
 		void _copyAssign(const HitMask& other);

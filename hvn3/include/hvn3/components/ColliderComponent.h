@@ -25,7 +25,7 @@ namespace hvn3 {
 		ColliderComponent();
 
 		// Returns the body's axis-aligned bounding box.
-		RectangleF AABB() const;
+		RectangleF Aabb() const;
 
 		// Returns the collision filter associated with this body.
 		CollisionFilter& GetFilter();

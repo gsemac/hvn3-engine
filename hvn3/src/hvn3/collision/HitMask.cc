@@ -12,162 +12,114 @@ namespace hvn3 {
 		_type = HITMASK_TYPE_NULL;
 
 	}
-	HitMask::HitMask(const RectangleF& mask) {
+	HitMask::HitMask(const rectangle_type& mask) {
 
 		_type = HITMASK_TYPE_RECTANGLE;
-		new(&_mask.rectangle) RectangleF(mask);
+		new(&_mask.rectangle) rectangle_type(mask);
 
 	}
-	HitMask::HitMask(const CircleF& mask) {
+	HitMask::HitMask(const circle_type& mask) {
 
 		_type = HITMASK_TYPE_CIRCLE;
-		new(&_mask.circle) CircleF(mask);
+		new(&_mask.circle) circle_type(mask);
 
 	}
-	HitMask::HitMask(const LineF& mask) {
+	HitMask::HitMask(const line_type& mask) {
 
 		_type = HITMASK_TYPE_LINE;
-		new(&_mask.line) LineF(mask);
+		new(&_mask.line) line_type(mask);
 
 	}
 	HitMask::HitMask::HitMask(const HitMask& other) {
 		_copyAssign(other);
 	}
+
 	void HitMask::SetOffset(const PointF& offset) {
 
 		assert(_type != HITMASK_TYPE_NULL);
 
 		switch (_type) {
+
 		case HITMASK_TYPE_RECTANGLE:
+
 			_mask.rectangle.SetPosition(offset);
+
 			break;
+
 		case HITMASK_TYPE_CIRCLE:
+
 			_mask.circle.SetPosition(offset);
+
 			break;
+
 		case HITMASK_TYPE_LINE:
+
 			_mask.line = LineF(offset, (_mask.line.Second() - _mask.line.First()) + offset);
+
 			break;
+
+		default:
+			throw System::Exception("Invalid hitmask type.");
+
 		}
 
 	}
 	PointF HitMask::Offset() const {
 
 		switch (_type) {
-		case HITMASK_TYPE_RECTANGLE:
-			return _mask.rectangle.Position();
-			break;
-		case HITMASK_TYPE_CIRCLE:
-			return _mask.circle.Position();
-			break;
-		case HITMASK_TYPE_LINE:
-			return _mask.line.First();
-			break;
-		default:
+
+		case HITMASK_TYPE_NULL:
 			return PointF(0.0f, 0.0f);
+
+		case HITMASK_TYPE_RECTANGLE:
+
+			return _mask.rectangle.Position();
+
 			break;
+
+		case HITMASK_TYPE_CIRCLE:
+
+			return _mask.circle.Position();
+
+			break;
+
+		case HITMASK_TYPE_LINE:
+
+			return _mask.line.First();
+
+			break;
+
+		default:
+			throw System::Exception("Invalid hitmask type.");
+
 		}
 
 	}
-	RectangleF HitMask::AABB() const {
+
+	RectangleF HitMask::Aabb() const {
 
 		switch (_type) {
-		case HITMASK_TYPE_RECTANGLE:
-			return _mask.rectangle;
-			break;
-		case HITMASK_TYPE_CIRCLE:
-			return RectangleF(
-				PointF(_mask.circle.X() - _mask.circle.Radius(), _mask.circle.Y() - _mask.circle.Radius()),
-				PointF(_mask.circle.X() + _mask.circle.Radius(), _mask.circle.Y() + _mask.circle.Radius())
-			);
-			break;
-		case HITMASK_TYPE_LINE:
-			return RectangleF(_mask.line.First(), _mask.line.Second());
-			break;
-		default:
+
+		case HITMASK_TYPE_NULL:
 			return RectangleF(0.0f, 0.0f, 0.0f, 0.0f);
-			break;
-		}
 
-	}
-	bool HitMask::TestCollision(const HitMask& other, CollisionResult& manifold) const {
-
-		if (_type == HITMASK_TYPE_NULL)
-			return false;
-
-		switch (other._type) {
 		case HITMASK_TYPE_RECTANGLE:
-			return TestCollision(other._mask.rectangle, manifold);
-			break;
+			return CalculateAabb(_mask.rectangle);
+
 		case HITMASK_TYPE_CIRCLE:
-			return TestCollision(other._mask.circle, manifold);
-			break;
+			return CalculateAabb(_mask.circle);
+
 		case HITMASK_TYPE_LINE:
-			return TestCollision(other._mask.line, manifold);
-			break;
+			return CalculateAabb(_mask.line);
+
 		default:
-			return false;
-			break;
+			throw System::Exception("Invalid hitmask type.");
+
 		}
 
 	}
-	bool HitMask::TestCollision(const RectangleF& other, CollisionResult& manifold) const {
-
-		switch (_type) {
-		case HITMASK_TYPE_RECTANGLE:
-			return ResolveCollision(_mask.rectangle, other, manifold);
-		case HITMASK_TYPE_CIRCLE:
-			return Math::Geometry::TestIntersection(other, _mask.circle);
-		case HITMASK_TYPE_LINE:
-			return ResolveCollision(other, _mask.line, manifold);
-		default:
-			throw System::NotImplementedException();
-		}
-
-	}
-	bool HitMask::TestCollision(const CircleF& other, CollisionResult& manifold) const {
-
-		switch (_type) {
-		case HITMASK_TYPE_RECTANGLE:
-			return Math::Geometry::TestIntersection(_mask.rectangle, other);
-			break;
-		case HITMASK_TYPE_CIRCLE:
-			return Math::Geometry::TestIntersection(_mask.circle, other);
-			break;
-		case HITMASK_TYPE_LINE:
-			return Math::Geometry::TestIntersection(other, _mask.line);
-			break;
-		default:
-			throw System::NotImplementedException();
-			break;
-		}
-
-	}
-	bool HitMask::TestCollision(const LineF& other, CollisionResult& manifold) const {
-
-		switch (_type) {
-		case HITMASK_TYPE_RECTANGLE:
-			return ResolveCollision(_mask.rectangle, other, manifold);
-		case HITMASK_TYPE_CIRCLE:
-			return Math::Geometry::TestIntersection(_mask.circle, other);
-		case HITMASK_TYPE_LINE:
-			return ResolveCollision(_mask.line, other, manifold);
-		default:
-			throw System::NotImplementedException();
-		}
-
-	}
-	bool HitMask::TestCollisionAt(const PointF& at, const HitMask& other, CollisionResult& manifold) {
-
-		PointF offset = Offset();
-
-		SetOffset(offset + at);
-
-		bool result = TestCollision(other, manifold);
-
-		SetOffset(offset);
-
-		return result;
-
+	HitMask::HITMASK_TYPE HitMask::Type() const {
+		return _type;
 	}
 
 	HitMask& HitMask::operator=(const HitMask& other) {
@@ -186,15 +138,31 @@ namespace hvn3 {
 		_type = other._type;
 
 		switch (_type) {
+
+		case HITMASK_TYPE_NULL:
+			break;
+
 		case HITMASK_TYPE_RECTANGLE:
-			new(&_mask.rectangle) RectangleF(other._mask.rectangle);
+
+			new(&_mask.rectangle) rectangle_type(other._mask.rectangle);
+
 			break;
+
 		case HITMASK_TYPE_CIRCLE:
-			new(&_mask.circle) CircleF(other._mask.circle);
+
+			new(&_mask.circle) circle_type(other._mask.circle);
+
 			break;
+
 		case HITMASK_TYPE_LINE:
-			new(&_mask.line) LineF(other._mask.line);
+
+			new(&_mask.line) line_type(other._mask.line);
+
 			break;
+
+		default:
+			throw System::Exception("Invalid hitmask type.");
+
 		}
 
 	}

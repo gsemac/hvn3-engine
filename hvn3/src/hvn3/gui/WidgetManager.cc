@@ -676,7 +676,7 @@ namespace hvn3 {
 
 			Graphics::GraphicsState state = e.Graphics().Save();
 
-			e.Graphics().SetClip(RectangleF::Intersection(data.widget->Bounds(), e.Graphics().Clip()));
+			e.Graphics().SetClip(data.widget->Bounds().Intersection(e.Graphics().Clip()));
 
 			// Render the widget.
 			_getRenderer()->DrawWidget(e.Graphics(), data.GetRef(), data.rendererArgs);
@@ -714,25 +714,25 @@ namespace hvn3 {
 			case DockStyle::Top:
 				widget->SetPosition(region.Position());
 				widget->SetWidth(region.Width());
-				region = RectangleF::Crop(region, hvn3::CropSide::Top, widget->Height());
+				region = region.Crop(hvn3::CropSide::Top, widget->Height());
 				break;
 
 			case DockStyle::Bottom:
 				widget->SetPosition(region.X(), region.Y() + region.Height() - widget->Height());
 				widget->SetWidth(region.Width());
-				region = RectangleF::Crop(region, hvn3::CropSide::Bottom, widget->Height());
+				region = region.Crop(hvn3::CropSide::Bottom, widget->Height());
 				break;
 
 			case DockStyle::Left:
 				widget->SetPosition(region.Position());
 				widget->SetHeight(region.Height());
-				region = RectangleF::Crop(region, hvn3::CropSide::Left, widget->Width());
+				region = region.Crop(hvn3::CropSide::Left, widget->Width());
 				break;
 
 			case DockStyle::Right:
 				widget->SetPosition(region.Width() - widget->Width(), region.Y());
 				widget->SetHeight(region.Height());
-				region = RectangleF::Crop(region, hvn3::CropSide::Right, widget->Width());
+				region = region.Crop(hvn3::CropSide::Right, widget->Width());
 				break;
 
 			case DockStyle::Fill:

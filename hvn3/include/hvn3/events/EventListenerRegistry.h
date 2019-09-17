@@ -27,7 +27,7 @@ namespace hvn3 {
 
 		template<typename ...EventTypes, typename EventListenerType>
 		void Subscribe(EventListenerType* listener, EventListenerPriority priority = EventListenerPriority::NORMAL_PRIORITY) {
-			SubscribeAll(TypeList<EventTypes...>(), listener, priority);
+			SubscribeAll(typename TypeList<EventTypes...>::flatten_type(), listener, priority);
 		}
 		template<typename EventListenerType>
 		void SubscribeAll(EventListenerType* listener, EventListenerPriority priority = EventListenerPriority::NORMAL_PRIORITY) {
@@ -43,7 +43,7 @@ namespace hvn3 {
 
 		template<typename ...EventTypes, typename EventListenerType>
 		void Unsubscribe(EventListenerType* listener) {
-			UnsubscribeAll(TypeList<EventTypes...>(), listener);
+			UnsubscribeAll(typename TypeList<EventTypes...>::flatten_type(), listener);
 		}
 		template<typename EventListenerType>
 		void UnsubscribeAll(EventListenerType* listener) {

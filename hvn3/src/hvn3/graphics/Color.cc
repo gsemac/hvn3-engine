@@ -1,10 +1,14 @@
-#include <allegro5/allegro.h>
 #include "hvn3/graphics/Color.h"
+
+#include "hvn3/utility/Random.h"
 #include "hvn3/utility/StringUtils.h"
+
 #include <algorithm>
 #include <cctype>
 #include <cmath>
 #include <cstdlib>
+
+#include <allegro5/allegro.h>
 
 namespace hvn3 {
 
@@ -60,6 +64,9 @@ namespace hvn3 {
 
 		return Color(integer & 255, (integer >> 8) & 255, (integer >> 16) & 255);
 
+	}
+	Color Color::Random() {
+		return Color::FromArgb(Random::Byte(), Random::Byte(), Random::Byte());
 	}
 
 	unsigned char Color::R() const {
@@ -405,7 +412,6 @@ namespace hvn3 {
 	// Color constants from Game Maker
 	const Color Color::LtGrey = FromArgbf(0.7f, 0.7f, 0.7f);
 	const Color Color::DkGrey = FromRgbInt(4210752);
-
 
 	Color operator*(const Color& lhs, float rhs) {
 		return Color::FromArgbf(lhs.Rf(), lhs.Gf(), lhs.Bf(), lhs.Alphaf() * rhs);

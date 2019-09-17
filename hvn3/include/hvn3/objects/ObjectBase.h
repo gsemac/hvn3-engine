@@ -1,5 +1,6 @@
 #pragma once
 
+#include "hvn3/components/TransformComponent.h"
 #include "hvn3/ecs/ComponentManager.h"
 #include "hvn3/ecs/EntityManager.h"
 #include "hvn3/objects/IObject.h"
@@ -26,6 +27,32 @@ namespace hvn3 {
 
 	protected:
 		ApplicationContext Context();
+
+		PointF Position() {
+
+			auto c = GetComponent<TransformComponent>();
+
+			if (!c)
+				return PointF(0.0f, 0.0f);
+
+			return c->Position();
+
+		}
+		void SetPosition(const PointF& position) {
+			SetPosition(position.x, position.y);
+		}
+		void SetPosition(float x, float y) {
+
+			auto c = GetComponent<TransformComponent>();
+
+			if (!c)
+				c = AddComponent<TransformComponent>();
+
+			assert(static_cast<bool>(c));
+
+			c->SetPosition(x, y);
+
+		}
 
 		template<typename ComponentType, typename ...Args>
 		ecs::ComponentHandle<ComponentType> AddComponent(Args&&... args) {
@@ -113,6 +140,8 @@ namespace hvn3 {
 
 		if (!_entity && Context())
 			_entity = Context().Get<ecs::EntityManager>()->CreateEntity();
+
+		assert(static_cast<bool>(_entity));
 
 		return _entity;
 

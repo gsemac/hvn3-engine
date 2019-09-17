@@ -10,8 +10,8 @@ namespace hvn3 {
 		_flags(DEFAULT_COLLISION_BODY_FLAGS) {
 	}
 
-	RectangleF ColliderComponent::AABB() const {
-		return _hitmask.AABB();
+	RectangleF ColliderComponent::Aabb() const {
+		return _hitmask.Aabb();
 	}
 
 	CollisionFilter& ColliderComponent::GetFilter() {
@@ -39,7 +39,7 @@ namespace hvn3 {
 	}
 
 	void ColliderComponent::OnCollision(CollisionEventArgs& e) {
-
+	
 	}
 
 }

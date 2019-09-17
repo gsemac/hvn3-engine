@@ -23,6 +23,8 @@ namespace hvn3 {
 		public SizeableBase<T> {
 
 		typedef Point2d<T> point_t;
+		typedef Line<T> line_t;
+		typedef Rectangle<T> rectangle_t;
 
 	public:
 		Rectangle() :
@@ -126,62 +128,64 @@ namespace hvn3 {
 				SetX2(value);
 
 		}
-		Point2d<T> TopLeft() const {
+		point_t TopLeft() const {
 
 			return Point2d<T>(Left(), Top());
 
 		}
-		Point2d<T> TopRight() const {
+		point_t TopRight() const {
 
-			return Point2d<T>(Right(), Top());
-
-		}
-		Point2d<T> BottomLeft() const {
-
-			return Point2d<T>(Left(), Bottom());
+			return point_t(Right(), Top());
 
 		}
-		Point2d<T> BottomRight() const {
+		point_t BottomLeft() const {
 
-			return Point2d<T>(Right(), Bottom());
-
-		}
-		Point2d<T> Midpoint() const {
-
-			return Point2d<T>(X() + static_cast<T>(Width() / 2.0), Y() + static_cast<T>(Height() / 2.0));
+			return point_t(Left(), Bottom());
 
 		}
-		Line<T> BottomEdge() const {
-			return Line<T>(BottomLeft(), BottomRight());
-		}
-		Line<T> TopEdge() const {
-			return Line<T>(TopLeft(), TopRight());
-		}
-		Line<T> LeftEdge() const {
-			return Line<T>(TopLeft(), BottomLeft());
-		}
-		Line<T> RightEdge() const {
-			return Line<T>(TopRight(), BottomRight());
-		}
+		point_t BottomRight() const {
 
-		void Translate(T x_offset, T y_offset) {
-
-			Positionable2dBase<T>::SetPosition(X() + x_offset, Y() + y_offset);
+			return point_t(Right(), Bottom());
 
 		}
-		void Translate(const Point2d<T>& offset) {
-			Translate(offset.x, offset.y);
+		point_t Midpoint() const {
+
+			return point_t(X() + static_cast<T>(Width() / 2.0), Y() + static_cast<T>(Height() / 2.0));
+
 		}
+		line_t BottomEdge() const {
+			return line_t(BottomLeft(), BottomRight());
+		}
+		line_t TopEdge() const {
+			return line_t(TopLeft(), TopRight());
+		}
+		line_t LeftEdge() const {
+			return line_t(TopLeft(), BottomLeft());
+		}
+		line_t RightEdge() const {
+			return line_t(TopRight(), BottomRight());
+		}
+
+		rectangle_t Translate(T offsetX, T offsetY) const {
+			return rectangle_t(X() + offsetX, Y() + offsetY, Width(), Height());
+		}
+		rectangle_t Translate(const point_t& offset) const {
+			return Translate(offset.x, offset.y);
+		}
+
 		template<typename U>
-		void Scale(U x_scale, U y_scale) {
+		rectangle_t Scale(U scaleX, U scaleY) const {
 
-			SetWidth(static_cast<T>(static_cast<U>(Width()) * x_scale));
-			SetHeight(static_cast<T>(static_cast<U>(Height()) * y_scale));
+			T width = static_cast<T>(static_cast<U>(Width()) * x_scale);
+			T height = static_cast<T>(static_cast<U>(Height()) * y_scale);
+
+			return rectangle_t(X(), Y(), width, height);
 
 		}
-		void Scale(const hvn3::Scale& scale) {
-			Scale(scale.XScale(), scale.YScale());
+		rectangle_t Scale(const hvn3::Scale& scale) {
+			return Scale(scale.XScale(), scale.YScale());
 		}
+
 		// Returns an array of rotated points representing the vertices of the rectangle, ordered clockwise from the top-left vertex.
 		std::array<point_t, 4> Rotate(const point_t& origin, T degrees) {
 
@@ -203,46 +207,46 @@ namespace hvn3 {
 
 		}
 
-		static Rectangle<T> Intersection(const Rectangle<T>& a, const Rectangle<T>& b) {
+		rectangle_t Intersection(const rectangle_t& other) const {
 
-			Point2d<T> tl((std::max)(a.Left(), b.Left()), (std::max)(a.Top(), b.Top()));
-			Point2d<T> br((std::min)(a.Right(), b.Right()), (std::min)(a.Bottom(), b.Bottom()));
+			point_t tl((std::max)(Left(), other.Left()), (std::max)(Top(), other.Top()));
+			point_t br((std::min)(Right(), other.Right()), (std::min)(Bottom(), other.Bottom()));
 
-			return Rectangle<T>(tl, br);
+			return rectangle_t(tl, br);
 
 		}
-		static Rectangle<T> Crop(const Rectangle<T>& rect, CropSide side, T amount) {
+		rectangle_t Crop(CropSide side, T amount) const {
 
 			switch (side) {
 
 			case CropSide::Top:
-				return Rectangle<T>(rect.X(), rect.Y() + amount, rect.Width(), rect.Height() - amount);
+				return rectangle_t(X(), Y() + amount, Width(), Height() - amount);
 				break;
 
 			case CropSide::Left:
-				return Rectangle<T>(rect.X() + amount, rect.Y(), rect.Width() - amount, rect.Height());
+				return rectangle_t(X() + amount, Y(), Width() - amount, Height());
 				break;
 
 			case CropSide::Right:
-				return Rectangle<T>(rect.X(), rect.Y(), rect.Width() - amount, rect.Height());
+				return rectangle_t(X(), Y(), Width() - amount, Height());
 				break;
 
 			case CropSide::Bottom:
-				return Rectangle<T>(rect.X(), rect.Y(), rect.Width(), rect.Height() - amount);
+				return rectangle_t(X(), Y(), Width(), Height() - amount);
 				break;
 
 			}
 
 			// If no valid crop side was provided, return the unmodified rectangle.
-			return rect;
+			return rectangle_t(*this);
 
 		}
-		static Rectangle<T> Union(const Rectangle<T>& rect_a, const Rectangle<T>& rect_b) {
+		rectangle_t Union(const rectangle_t& other) const {
 
-			Point2d<T> point_a(Math::Min(rect_a.Left(), rect_b.Left()), Math::Min(rect_a.Top(), rect_b.Top()));
-			Point2d<T> point_b(Math::Max(rect_a.Right(), rect_b.Right()), Math::Max(rect_a.Bottom(), rect_b.Bottom()));
+			point_t point_a(Math::Min(Left(), other.Left()), Math::Min(Top(), other.Top()));
+			point_t point_b(Math::Max(Right(), other.Right()), Math::Max(Bottom(), other.Bottom()));
 
-			return Rectangle<T>(point_a, point_b);
+			return rectangle_t(point_a, point_b);
 
 		}
 

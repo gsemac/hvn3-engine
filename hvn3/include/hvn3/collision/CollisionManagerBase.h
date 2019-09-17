@@ -123,9 +123,7 @@ namespace hvn3 {
 			IBroadPhase::collider_vector_type hits;
 
 			// Get a list of all colliders that could potentially collide with the collider.
-			RectangleF aabb = body.AABB();
-			aabb.Translate(-body.X(), -body.Y());
-			aabb.Translate(position.X(), position.Y());
+			RectangleF aabb = body.AABB().Translate(-body.X(), -body.Y()).Translate(position.X(), position.Y());
 			Broad().QueryRegion(aabb, hits, body.Filter().MaskBits());
 
 			// If the list is empty, the place is free.

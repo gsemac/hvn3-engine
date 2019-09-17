@@ -26,9 +26,8 @@ namespace hvn3 {
 	}
 	RectangleF ColliderBase::AABB() const {
 
-		RectangleF aabb = HitMask().AABB();
-		aabb.Translate(X(), Y());
-
+		RectangleF aabb = HitMask().Aabb().Translate(X(), Y());
+		
 		return aabb;
 
 	}

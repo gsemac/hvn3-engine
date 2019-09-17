@@ -37,6 +37,8 @@
     <ClInclude Include="include\hvn3\backgrounds\BackgroundDrawEventArgs.h" />
     <ClInclude Include="include\hvn3\backgrounds\BackgroundManager.h" />
     <ClInclude Include="include\hvn3\backgrounds\IBackgroundManager.h" />
+    <ClInclude Include="include\hvn3\collision\BroadphasePair.h" />
+    <ClInclude Include="include\hvn3\collision\CohenSutherland.h" />
     <ClInclude Include="include\hvn3\collision\ColliderBase.h" />
     <ClInclude Include="include\hvn3\collision\CollisionDefs.h" />
     <ClInclude Include="include\hvn3\collision\CollisionEventArgs.h" />
@@ -229,6 +231,7 @@
     <ClInclude Include="include\hvn3\physics\Material.h" />
     <ClInclude Include="include\hvn3\physics\PhysicsDefs.h" />
     <ClInclude Include="include\hvn3\physics\PhysicsManagerBase.h" />
+    <ClInclude Include="include\hvn3\physics\PhysicsManager_.h" />
     <ClInclude Include="include\hvn3\physics\PhysicsUtils.h" />
     <ClInclude Include="include\hvn3\physics\PlatformerPhysicsManager.h" />
     <ClInclude Include="include\hvn3\rooms\BasicLightingManager.h" />
@@ -323,6 +326,7 @@
     <ClCompile Include="src\hvn3\collision\CollisionFilter.cc" />
     <ClCompile Include="src\hvn3\collision\CollisionManager_.cc" />
     <ClCompile Include="src\hvn3\collision\CollisionResult.cc" />
+    <ClCompile Include="src\hvn3\collision\CollisionUtils.cc" />
     <ClCompile Include="src\hvn3\collision\HitMask.cc" />
     <ClCompile Include="src\hvn3\collision\NarrowPhase.cc" />
     <ClCompile Include="src\hvn3\collision\Collider.cc" />

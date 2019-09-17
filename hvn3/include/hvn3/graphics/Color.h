@@ -19,6 +19,7 @@ namespace hvn3 {
 		static Color FromHex(unsigned long hex);
 		static Color FromHex(const std::string& hex);
 		static Color FromRgbInt(unsigned int integer);
+		static Color Random();
 
 		unsigned char R() const;
 		unsigned char G() const;

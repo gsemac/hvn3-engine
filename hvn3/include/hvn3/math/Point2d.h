@@ -51,6 +51,7 @@ namespace hvn3 {
 			return (x == 0 && y == 0);
 
 		}
+
 		bool In(const Rectangle<T>& rectangle) const {
 			return (x >= rectangle.X() && x < rectangle.X2() && y >= rectangle.Y() && y < rectangle.Y2());
 		}

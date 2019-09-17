@@ -18,7 +18,7 @@ namespace hvn3 {
 		}
 
 		Entity::operator bool() const {
-			return *this == NULL_ENTITY;
+			return *this != NULL_ENTITY;
 		}
 
 		// Free functions

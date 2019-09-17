@@ -1,14 +1,192 @@
 #pragma once
+
+#include "hvn3/collision/CohenSutherland.h"
+#include "hvn3/collision/CollisionResult.h"
+#include "hvn3/collision/HitMask.h"
 #include "hvn3/math/Rectangle.h"
 #include "hvn3/math/Circle.h"
-#include "hvn3/math/Line.h"
-#include "hvn3/collision/CollisionResult.h"
 #include "hvn3/math/GeometryUtils.h"
+#include "hvn3/math/Line.h"
 #include "hvn3/math/MathUtils.h"
 
 namespace hvn3 {
 
-	// #todo Move all "TestIntersection"-etc. functions into here?
+	// Tests for intersection between two rectangles, and returns true if they are intersecting.
+	template <typename T>
+	bool TestIntersection(const Rectangle<T>& body1, const Rectangle<T>& body2) {
+
+		return (body1.X() < body2.X2() && body1.X2() > body2.X() && body1.Y() < body2.Y2() && body1.Y2() > body2.Y());
+
+
+	}
+
+	// Tests for intersection between a circle and a line, and returns true if they are intersecting.
+	template <typename T>
+	bool TestIntersection(const Circle<T>& body1, const Line<T>& body2) {
+
+		// Note: This procedure uses the same logic as PointDistance, but avoids using the costly sqrt function.
+
+		float _a = body1.X() - body2.First().X();
+		float _b = body1.Y() - body2.First().Y();
+		float _c = body2.Second().X() - body2.First().X();
+		float _d = body2.Second().Y() - body2.First().Y();
+
+		float dot = _a * _c + _b * _d;
+		float len_sq = _c * _c + _d * _d;
+		float param = -1.0f;
+		if (len_sq != 0)
+			param = dot / len_sq;
+
+		float xx, yy;
+
+		if (param < 0) {
+			xx = body2.First().X();
+			yy = body2.First().Y();
+		}
+		else if (param > 1) {
+			xx = body2.Second().X();
+			yy = body2.Second().Y();
+		}
+		else {
+			xx = body2.First().X() + param * _c;
+			yy = body2.First().Y() + param * _d;
+		}
+
+		float dx = body1.X() - xx;
+		float dy = body1.Y() - yy;
+
+		return (dx * dx + dy * dy) < (std::pow)(body1.Radius(), 2.0f);
+
+		// return PointDistance(Point(a.X(), a.Y), b) <= a.Radius();
+
+	}
+	// Tests for intersection between a circle and a line, and returns true if they are intersecting.
+	template <typename T>
+	bool TestIntersection(const Line<T>& body1, const Circle<T>& body2) {
+		return TestIntersection(body2, body1);
+	}
+
+	// Tests for intersection between two lines, and returns true if they are intersecting.
+	template <typename T>
+	bool TestIntersection(const Line<T>& body1, const Line<T>& body2) {
+
+		T x1 = body1.First().X();
+		T x2 = body1.Second().X();
+		T x3 = body2.First().X();
+		T x4 = body2.Second().X();
+		T y1 = body1.First().Y();
+		T y2 = body1.Second().Y();
+		T y3 = body2.First().Y();
+		T y4 = body2.Second().Y();
+
+		T det = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+
+		// If the determinant is 0, then there is no intersection.
+		if (Math::IsZero(det))
+			return false;
+
+		// Calculate the (potential) point of intersection.
+		T pre = (x1 * y2 - y1 * x2);
+		T post = (x3 * y4 - y3 * x4);
+		T x = (pre * (x3 - x4) - (x1 - x2) * post) / det;
+		T y = (pre * (y3 - y4) - (y1 - y2) * post) / det;
+
+		// Check that the point is on the lines.
+		if (Math::IsLessThan(x, Math::Min(x1, x2)) ||
+			Math::IsGreaterThan(x, Math::Max(x1, x2)) ||
+			Math::IsLessThan(x, Math::Min(x3, x4)) ||
+			Math::IsGreaterThan(x, Math::Max(x3, x4)))
+			return false;
+		if (Math::IsLessThan(y, Math::Min(y1, y2)) ||
+			Math::IsGreaterThan(y, Math::Max(y1, y2)) ||
+			Math::IsLessThan(y, Math::Min(y3, y4)) ||
+			Math::IsGreaterThan(y, Math::Max(y3, y4)))
+			return false;
+
+		return true;
+
+	}
+
+	// Tests for intersection between a rectangle and a circle, and returns true if they are intersecting.
+	template <typename T>
+	bool TestIntersection(const Rectangle<T>& body1, const Circle<T>& body2) {
+
+		return body1.ContainsPoint(body2.Position()) ||
+			TestIntersection(body2, Line<T>(body1.X(), body1.Y(), body1.X2(), body1.Y())) || // top
+			TestIntersection(body2, Line<T>(body1.X(), body1.Y2(), body1.X2(), body1.Y2())) || // bottom 
+			TestIntersection(body2, Line<T>(body1.X(), body1.Y(), body1.X(), body1.Y2())) || // left
+			TestIntersection(body2, Line<T>(body1.X2(), body1.Y(), body1.X2(), body1.Y2())); // right
+
+	}
+	// Tests for intersection between a rectangle and a circle, and returns true if they are intersecting.
+	template <typename T>
+	bool TestIntersection(const Circle<T>& body1, const Rectangle<T>& body2) {
+		return TestIntersection(body2, body1);
+	}
+
+	// Tests for intersection between a rectangle and a line, and returns true if they are intersecting.
+	template <typename T>
+	bool TestIntersection(const Rectangle<T>& body1, const Line<T>& body2) {
+
+		// https://en.wikipedia.org/wiki/Cohen%E2%80%93Sutherland_algorithm
+
+		auto out_codes = GetCohenSutherlandOutCodes(body1, body2);
+
+		// One of the points is inside of the rectangle.
+		if (out_codes.first == CohenSutherlandOutCode::Inside || out_codes.second == CohenSutherlandOutCode::Inside)
+			return true;
+
+		// Both points on one side of the rectangle (top, left, bottom, or right).
+		if (static_cast<int>(out_codes.first & out_codes.second) != 0)
+			return false;
+
+		// Line passes through the rectangle (top/bottom or left/right).
+		if (((out_codes.first | out_codes.second) == (CohenSutherlandOutCode::Left | CohenSutherlandOutCode::Right)) ||
+			((out_codes.first | out_codes.second) == (CohenSutherlandOutCode::Top | CohenSutherlandOutCode::Bottom)))
+			return true;
+
+		// At this point, we know one point is to the left or the right, and one is to the top or the bottom.
+		// We only need to test the two corresponding edges. 
+		Line<T> edge1 = HasFlag(out_codes.first | out_codes.second, CohenSutherlandOutCode::Left) ? body1.LeftEdge() : body1.RightEdge();
+		Line<T> edge2 = HasFlag(out_codes.first | out_codes.second, CohenSutherlandOutCode::Top) ? body1.TopEdge() : body1.BottomEdge();
+
+		return TestIntersection(body2, edge1) || TestIntersection(body2, edge2);
+
+	}
+	// Tests for intersection between a rectangle and a line, and returns true if they are intersecting.
+	template <typename T>
+	bool TestIntersection(const Line<T>& body1, const Rectangle<T>& body2) {
+		return TestIntersection(body2, body1);
+	}
+
+	// Tests for intersection between two circles, and returns true if they are intersecting.
+	template <typename T>
+	bool TestIntersection(const Circle<T>& body1, const Circle<T>& body2) {
+
+		return Math::Geometry::PointDistance(Point2d<T>(body1.X(), body1.Y()), Point2d<T>(body2.X(), body2.Y())) < (body1.Radius() + body2.Radius());
+
+	}
+
+	bool TestIntersection(HitMask& body1, HitMask& body2);
+	bool TestIntersectionAt(HitMask& body1, const PointF& at1, HitMask& body2, const PointF& at2);
+
+	template<typename T>
+	Rectangle<T> CalculateAabb(const Rectangle<T>& body) {
+		return body;
+	}
+	template<typename T>
+	Rectangle<T> CalculateAabb(const Line<T>& body) {
+		return RectangleF(body.First(), body.Second());
+	}
+	template<typename T>
+	Rectangle<T> CalculateAabb(const Circle<T>& body) {
+
+		return RectangleF(
+			PointF(body.X() - body.Radius(), body.Y() - body.Radius()),
+			PointF(body.X() + body.Radius(), body.Y() + body.Radius())
+		);
+
+	}
 
 	// Tests for a collision between two rectangles. If they are colliding, returns true and sets the collision manifold information. Otherwise, returns false.
 	template<typename T>
@@ -99,7 +277,6 @@ namespace hvn3 {
 
 	}
 
-
 	// Tests for a collision between a circle and a line. If they are colliding, returns true and sets the collision manifold information relative to the circle. Otherwise, returns false.
 	template <typename T>
 	bool ResolveCollision(const Circle<T>& body_1, const Line<T> body_2, CollisionResult& manifold) {
@@ -121,10 +298,10 @@ namespace hvn3 {
 	}
 	template<typename ValueType>
 	bool ResolveCollision(const Line<ValueType>& mask1, const Rectangle<ValueType>& mask2, CollisionResult& manifold) {
-		
+
 		// Check if the line is entirely inside of the rectangle. If so, trivially accept.
 
-		auto out_codes = Math::Geometry::GetCohenSutherlandOutCodes(mask2, mask1);
+		auto out_codes = GetCohenSutherlandOutCodes(mask2, mask1);
 
 		if (static_cast<int>(out_codes.first | out_codes.second) == 0) {
 

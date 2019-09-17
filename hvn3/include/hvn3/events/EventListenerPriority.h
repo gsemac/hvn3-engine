@@ -13,9 +13,15 @@ namespace hvn3 {
 
 		enum : value_type {
 
-			LOW_PRIORITY = std::numeric_limits<value_type>::min(),
-			NORMAL_PRIORITY = 0,
-			HIGH_PRIORITY = std::numeric_limits<value_type>::max()
+			HIGH_PRIORITY = std::numeric_limits<value_type>::max(),
+
+			COLLISIONS_UPDATE_PRIORITY = 0,
+			OBJECTS_UPDATE_PRIORITY,
+			PHYSICS_UPDATE_PRIORITY,
+
+			NORMAL_PRIORITY,
+
+			LOW_PRIORITY = std::numeric_limits<value_type>::min()
 
 		};
 
