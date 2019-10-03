@@ -16,6 +16,8 @@ namespace hvn3 {
 		public EventListenerBase<events::UpdateEvents, events::DrawEvents> {
 
 	public:
+		using pair_buffer_type = std::vector<BroadphasePair>;
+
 		CollisionManager_();
 
 		void OnStart(StartEventArgs& e) override;
@@ -24,13 +26,15 @@ namespace hvn3 {
 		void OnEvent(UpdateEventArgs& e) override;
 		void OnEvent(DrawEventArgs& e) override;
 
-		void GetBroadphasePairs(std::vector<BroadphasePair>& output, bool ignoreCache = false);
+		const pair_buffer_type& GetBroadphasePairs(bool ignoreCache = false);
+		const pair_buffer_type& GetCollidingPairs(bool ignoreCache = false);
 
 		void SetDebugModeEnabled(bool value);
 
 	private:
 		ApplicationContext _context;
 		SpatialGrid<BroadphasePair::value_type> _broadphase;
+		pair_buffer_type _pair_buffer;
 		bool _debug_mode_enabled;
 
 		void _refreshBroadphase();

@@ -51,17 +51,28 @@ namespace hvn3 {
 
 	}
 
-	void CollisionManager_::GetBroadphasePairs(std::vector<BroadphasePair>& output, bool ignoreCache) {
+	const CollisionManager_::pair_buffer_type& CollisionManager_::GetBroadphasePairs(bool ignoreCache) {
 
 		if (ignoreCache)
 			_refreshBroadphase();
 
 		// Copy all broadphase pairs to the output buffer.
 
-		output.reserve(_broadphase.IntersectingPairs().size());
+		_pair_buffer.clear();
+
+		_pair_buffer.reserve(_broadphase.IntersectingPairs().size());
 
 		for (auto i = _broadphase.IntersectingPairs().begin(); i != _broadphase.IntersectingPairs().end(); ++i)
-			output.push_back(BroadphasePair(*i->first, *i->second));
+			_pair_buffer.push_back(BroadphasePair(*i->first, *i->second));
+
+		return _pair_buffer;
+
+	}
+	const CollisionManager_::pair_buffer_type& CollisionManager_::GetCollidingPairs(bool ignoreCache) {
+
+		// ...
+
+		throw System::NotImplementedException();
 
 	}
 

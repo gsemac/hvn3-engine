@@ -194,8 +194,10 @@ namespace hvn3 {
 					return static_cast<T>(0);
 
 			}
-
-			
+			template<typename T>
+			T Distance(const Point2d<T>& a, const Point2d<T>& b) {
+				return PointDistance(a, b);
+			}
 
 			template<typename ValueType>
 			IntersectionPointsResult<ValueType, 1> GetIntersectionPoints(const Line<ValueType>& line1, const Line<ValueType>& line2) {

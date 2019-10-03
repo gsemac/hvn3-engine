@@ -375,9 +375,6 @@
     <ClInclude Include="include\hvn3\physics\IPhysicsManager.h">
       <Filter>include\physics</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\physics\Material.h">
-      <Filter>include\physics</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\physics\PhysicsUtils.h">
       <Filter>include\physics</Filter>
     </ClInclude>
@@ -698,9 +695,6 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\physics\PhysicsDefs.h">
       <Filter>include\physics</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\collision\CollisionResult.h">
-      <Filter>include\collision</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\collision\CollisionFilter.h">
       <Filter>include\collision</Filter>
@@ -1029,6 +1023,12 @@
     <ClInclude Include="include\hvn3\collision\CohenSutherland.h">
       <Filter>include\collision</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\collision\CollisionInfo.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\physics\PhysicsMaterial.h">
+      <Filter>include\physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1160,9 +1160,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\objects\ObjectManager.cc">
       <Filter>src\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\physics\Material.cc">
-      <Filter>src\physics</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\physics\PhysicsUtils.cc">
       <Filter>src\physics</Filter>
@@ -1365,9 +1362,6 @@
     <ClCompile Include="src\hvn3\utility\Algorithm.cc">
       <Filter>src\utility</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\collision\CollisionResult.cc">
-      <Filter>src\collision</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\particles\ParticleSystem.cc">
       <Filter>src\particles</Filter>
     </ClCompile>
@@ -1520,6 +1514,18 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\collision\CollisionUtils.cc">
       <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\physics\PhysicsManager_.cc">
+      <Filter>src\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\components\PhysicsComponent.cc">
+      <Filter>src\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\collision\CollisionInfo.cc">
+      <Filter>src\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\physics\PhysicsMaterial.cc">
+      <Filter>src\physics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

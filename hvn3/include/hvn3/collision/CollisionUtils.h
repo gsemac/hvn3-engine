@@ -1,7 +1,7 @@
 #pragma once
 
 #include "hvn3/collision/CohenSutherland.h"
-#include "hvn3/collision/CollisionResult.h"
+#include "hvn3/collision/CollisionInfo.h"
 #include "hvn3/collision/HitMask.h"
 #include "hvn3/math/Rectangle.h"
 #include "hvn3/math/Circle.h"
@@ -169,6 +169,37 @@ namespace hvn3 {
 
 	bool TestIntersection(HitMask& body1, HitMask& body2);
 	bool TestIntersectionAt(HitMask& body1, const PointF& at1, HitMask& body2, const PointF& at2);
+
+	CollisionInfo TestCollision(HitMask& body1, HitMask& body2);
+	CollisionInfo TestCollisionAt(HitMask& body1, const PointF& at1, HitMask& body2, const PointF& at2);
+
+	template<typename T>
+	CollisionInfo TestCollision(const Circle<T>& body1, const Circle<T>& body2) {
+
+		T centerDistance = Math::Geometry::Distance(body1.Position(), body2.Position());
+		T radiiSum = body1.Radius() + body2.Radius();
+
+		if (centerDistance > radiiSum)
+			return CollisionInfo(false);
+
+		if (centerDistance == 0.0f) {
+
+			// The circles are centered on top of one another.
+			// Just pick a direction and radius to use.
+
+			return CollisionInfo(Vector2d(1.0f, 0.0f), body1.Radius());
+
+		}
+		else {
+
+			Vector2d normal = Vector2d(body1.Position(), body2.Position()) / centerDistance; // unit vector
+			float penetrationDepth = radiiSum - centerDistance;
+
+			return CollisionInfo(normal, penetrationDepth);
+
+		}
+
+	}
 
 	template<typename T>
 	Rectangle<T> CalculateAabb(const Rectangle<T>& body) {

@@ -45,7 +45,7 @@
     <ClInclude Include="include\hvn3\collision\CollisionFilter.h" />
     <ClInclude Include="include\hvn3\collision\CollisionManagerBase.h" />
     <ClInclude Include="include\hvn3\collision\CollisionManager_.h" />
-    <ClInclude Include="include\hvn3\collision\CollisionResult.h" />
+    <ClInclude Include="include\hvn3\collision\CollisionInfo.h" />
     <ClInclude Include="include\hvn3\collision\CollisionUtils.h" />
     <ClInclude Include="include\hvn3\collision\IBroadPhase.h" />
     <ClInclude Include="include\hvn3\collision\ICollidable.h" />
@@ -228,7 +228,7 @@
     <ClInclude Include="include\hvn3\physics\PhysicsBodyBase.h" />
     <ClInclude Include="include\hvn3\physics\IPhysicsBody.h" />
     <ClInclude Include="include\hvn3\physics\IPhysicsManager.h" />
-    <ClInclude Include="include\hvn3\physics\Material.h" />
+    <ClInclude Include="include\hvn3\physics\PhysicsMaterial.h" />
     <ClInclude Include="include\hvn3\physics\PhysicsDefs.h" />
     <ClInclude Include="include\hvn3\physics\PhysicsManagerBase.h" />
     <ClInclude Include="include\hvn3\physics\PhysicsManager_.h" />
@@ -325,12 +325,13 @@
     <ClCompile Include="src\hvn3\collision\CollisionEventArgs.cc" />
     <ClCompile Include="src\hvn3\collision\CollisionFilter.cc" />
     <ClCompile Include="src\hvn3\collision\CollisionManager_.cc" />
-    <ClCompile Include="src\hvn3\collision\CollisionResult.cc" />
+    <ClCompile Include="src\hvn3\collision\CollisionInfo.cc" />
     <ClCompile Include="src\hvn3\collision\CollisionUtils.cc" />
     <ClCompile Include="src\hvn3\collision\HitMask.cc" />
     <ClCompile Include="src\hvn3\collision\NarrowPhase.cc" />
     <ClCompile Include="src\hvn3\collision\Collider.cc" />
     <ClCompile Include="src\hvn3\components\ColliderComponent.cc" />
+    <ClCompile Include="src\hvn3\components\PhysicsComponent.cc" />
     <ClCompile Include="src\hvn3\components\TransformComponent.cc" />
     <ClCompile Include="src\hvn3\core\Application.cc" />
     <ClCompile Include="src\hvn3\core\ApplicationContext.cc" />
@@ -423,7 +424,8 @@
     <ClCompile Include="src\hvn3\particles\ParticleSystem.cc" />
     <ClCompile Include="src\hvn3\physics\BasicPhysicsManager.cc" />
     <ClCompile Include="src\hvn3\physics\PhysicsBodyBase.cc" />
-    <ClCompile Include="src\hvn3\physics\Material.cc" />
+    <ClCompile Include="src\hvn3\physics\PhysicsMaterial.cc" />
+    <ClCompile Include="src\hvn3\physics\PhysicsManager_.cc" />
     <ClCompile Include="src\hvn3\physics\PhysicsUtils.cc" />
     <ClCompile Include="src\hvn3\physics\PlatformerPhysicsManager.cc" />
     <ClCompile Include="src\hvn3\rooms\BasicLightingManager.cc" />

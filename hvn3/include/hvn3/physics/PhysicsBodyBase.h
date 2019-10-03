@@ -27,10 +27,10 @@ namespace hvn3 {
 			void SetForce(const Vector2d& force) override;
 			void ApplyForce(const Vector2d& force) override;
 			void ApplyForce(const Vector2d& force, const PointF& point) override;
-			Physics::Material Material() const override;
-			void SetMaterial(const Physics::Material& material) override;
-			BodyType Type() const override;
-			void SetType(BodyType type) override;
+			PhysicsMaterial Material() const override;
+			void SetMaterial(const PhysicsMaterial& material) override;
+			PhysicsBodyType Type() const override;
+			void SetType(PhysicsBodyType type) override;
 			ICollider* GetCollisionBody() override;
 			const ICollider* CollisionBody() const override;
 			CollisionFilter& GetCategory() override;
@@ -39,9 +39,9 @@ namespace hvn3 {
 		private:
 			Physics::MassData _mass_data;
 			Vector2d _linear_velocity;
-			BodyType _type;
+			PhysicsBodyType _type;
 			Vector2d _force;
-			Physics::Material _material;
+			PhysicsMaterial _material;
 			IColliderPtr _collision_body;
 			CollisionFilter _filter;
 
