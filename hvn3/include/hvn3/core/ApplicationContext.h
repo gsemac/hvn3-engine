@@ -48,8 +48,6 @@ namespace hvn3 {
 
 		ManagerHandle<ManagerType> handle(_application->_manager_registry.GetManager<ManagerType>());
 
-		assert(static_cast<bool>(handle));
-
 		return handle;
 
 	}

@@ -26,12 +26,38 @@ namespace hvn3 {
 		ManagerHandle(manager_type* manager) :
 			_manager(manager) {}
 
-		manager_type* operator->() { return _manager; }
-		const manager_type* operator->() const { return _manager; }
-		manager_type& operator*() { return *_manager; }
-		const manager_type& operator*() const { return *_manager; }
+		manager_type* operator->() {
 
-		explicit operator bool() const { return _manager != nullptr; }
+			assert(_manager != nullptr);
+
+			return _manager;
+
+		}
+		const manager_type* operator->() const {
+
+			assert(_manager != nullptr);
+
+			return _manager;
+
+		}
+		manager_type& operator*() {
+
+			assert(_manager != nullptr);
+
+			return *_manager;
+
+		}
+		const manager_type& operator*() const {
+
+			assert(_manager != nullptr);
+
+			return *_manager;
+
+		}
+
+		explicit operator bool() const {
+			return _manager != nullptr;
+		}
 
 	private:
 		manager_type* _manager;
