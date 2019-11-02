@@ -1,4 +1,4 @@
-#include "hvn3/exceptions/Exception.h"
+#include "hvn3/io/IOException.h"
 #include "hvn3/io/BitReader.h"
 
 namespace hvn3 {
@@ -25,7 +25,7 @@ namespace hvn3 {
 
 			// If there is no stream, throw an exception.
 			if (!_stream)
-				throw System::IO::IOException();
+				throw IO::IOException();
 
 			return *_stream;
 
@@ -35,7 +35,7 @@ namespace hvn3 {
 
 			// If there is no stream, throw an exception.
 			if (!_stream)
-				throw System::IO::IOException();
+				throw IO::IOException();
 
 			// Flush reads performed on the read buffer.
 			if (_stream->CanSeek())
@@ -52,7 +52,7 @@ namespace hvn3 {
 
 			// If there is no stream, throw an exception.
 			if (!_stream)
-				throw System::IO::IOException();
+				throw IO::IOException();
 
 			// Flush the read buffer.
 			if (_stream->CanSeek())

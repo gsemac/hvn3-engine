@@ -3,7 +3,7 @@
 #include "hvn3/gui/IWidgetRenderer.h"
 #include "hvn3/gui/ScrollableWidgetBase.h"
 #include "hvn3/utility/StringUtils.h"
-#include "hvn3/tilesets/Tileset.h"
+#include "hvn3/tiles/Tileset.h"
 
 namespace hvn3 {
 	namespace Gui {

@@ -1,5 +1,5 @@
 #include "hvn3/exceptions/Exception.h"
-#include "hvn3/tilesets/TileMap.h"
+#include "hvn3/tiles/TileMap.h"
 #include "hvn3/utility/BitUtils.h"
 #include <cassert>
 #include <iostream>

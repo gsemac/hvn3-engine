@@ -102,7 +102,7 @@ namespace hvn3 {
 		auto it = _emitters.find(key);
 
 		if (it == _emitters.end())
-			throw System::NullReferenceException("No sound emitter exists with this key.");
+			throw KeyNotFoundException("No sound emitter exists with this key.");
 
 		return it->second.emitter;
 
@@ -152,7 +152,7 @@ namespace hvn3 {
 
 		// If a unique key could not be generated, throw an exception.
 		if (!is_unique)
-			throw System::Exception("The maximum number of sound emitters has been reached.");
+			throw Exception("The maximum number of sound emitters has been reached.");
 
 		// Update the value used for generating the next key.
 		if (_internal)
@@ -245,7 +245,7 @@ namespace hvn3 {
 		SoundInstance instance(sound);
 
 		if (!instance)
-			throw System::Exception("The sound instance could not be created.");
+			throw Exception("The sound instance could not be created.");
 
 		al_attach_sample_instance_to_mixer(instance.get(), al_get_default_mixer());
 

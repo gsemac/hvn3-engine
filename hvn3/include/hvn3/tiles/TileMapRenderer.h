@@ -1,6 +1,6 @@
 #pragma once
-#include "hvn3/tilesets/AutoTileRenderer.h"
-#include "hvn3/tilesets/Tileset.h"
+#include "hvn3/tiles/AutoTileRenderer.h"
+#include "hvn3/tiles/Tileset.h"
 #include <vector>
 
 namespace hvn3 {

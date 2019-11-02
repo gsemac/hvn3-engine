@@ -1,5 +1,7 @@
-#include "hvn3/exceptions/Exception.h"
 #include "hvn3/io/MemoryStream.h"
+
+#include "hvn3/io/IOException.h"
+
 #include <algorithm>
 #include <cstdlib>
 #include <cstring>
@@ -59,7 +61,7 @@ namespace hvn3 {
 
 			// Throw error if the stream does not support writing or seeking.
 			if (!CanWrite() || !CanSeek())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// If the new length is larger than the current capacity, resize the buffer.
 			if (length > _capacity)
@@ -77,7 +79,7 @@ namespace hvn3 {
 
 			// Throw an exception of the stream is not readable.
 			if (!CanRead())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// Return false if the buffer does not contain enough bytes to read.
 			if (_position + sizeof(Byte) > _length)
@@ -97,7 +99,7 @@ namespace hvn3 {
 
 			// Throw an exception of the stream is not writeable.
 			if (!CanWrite())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// Make enough room in the buffer for new data.
 			AllocateBytes(sizeof(Byte));
@@ -117,7 +119,7 @@ namespace hvn3 {
 
 			// Throw an exception of the stream is not readable.
 			if (!CanRead())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// Calculate new length if necessary (if length is greater than buffer size).
 			size_t len = length;
@@ -146,7 +148,7 @@ namespace hvn3 {
 
 			// Throw an exception of the stream is not writeable.
 			if (!CanWrite())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// Make enough room in the buffer for new data.
 			AllocateBytes(length);
@@ -173,7 +175,7 @@ namespace hvn3 {
 
 			// Throw an exception of the stream is not readable.
 			if (!CanRead())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// If the seek position is greater than or equal to the length of the stream, do nothing.
 			if (_position >= _length)
@@ -193,7 +195,7 @@ namespace hvn3 {
 
 			// Throw an exception of the stream is not seekable.
 			if (!CanSeek())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// Get the origin position from the seek origin.
 			size_t origin_position = 0;
@@ -211,7 +213,7 @@ namespace hvn3 {
 
 			// Throw an error if the new position is less than 0.
 			if (offset + origin_position < 0)
-				throw System::IO::IOException("An attempt was made to move the position before the beginning of the stream.");
+				throw IO::IOException("An attempt was made to move the position before the beginning of the stream.");
 
 			// Apply the new position.
 			_position = (size_t)(offset + origin_position);
@@ -266,7 +268,7 @@ namespace hvn3 {
 
 			// If we don't own the buffer, don't attempt to resize it.
 			if (!_owns_buffer)
-				throw System::NotSupportedException("Memory stream is not expandable.");
+				throw NotSupportedException("Memory stream is not expandable.");
 
 			// If the new capacity is less than the current capacity, do nothing.
 			if (_capacity >= capacity)
@@ -283,7 +285,7 @@ namespace hvn3 {
 
 			// If we don't own the buffer, don't attempt to resize it.
 			if (!_owns_buffer)
-				throw System::NotSupportedException("Memory stream is not expandable.");
+				throw NotSupportedException("Memory stream is not expandable.");
 
 			// Adjust the size of the buffer.
 			_buffer = (Byte*)realloc(_buffer, size);

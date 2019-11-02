@@ -17,7 +17,7 @@
 //#include "hvn3/rooms/Room.h"
 //#include "hvn3/rooms/RoomTransition.h"
 //#include "hvn3/sprites/SpriteRenderer.h"
-//#include "hvn3/tilesets/Tileset.h"
+//#include "hvn3/tiles/Tileset.h"
 //#include "hvn3/utility/Environment.h"
 //#include "hvn3/utility/Direction8.h"
 //#include "hvn3/utility/Random.h"

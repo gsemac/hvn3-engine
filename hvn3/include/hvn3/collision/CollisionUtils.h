@@ -281,7 +281,7 @@ namespace hvn3 {
 	// Tests for a collision between two rectangles. If they are colliding, returns true and sets the collision manifold information, taking into account the direction of movement. Otherwise, returns false.
 	bool ResolveCollision(const Rectangle<T>& hitmask_1, const Rectangle<T>& hitmask_2, T direction, CollisionResult& manifold) {
 
-		throw System::NotImplementedException();
+		throw NotImplementedException();
 
 		//// Resolve the collision without consideration for direction first, which will generate the face normal.
 		//if (!(ResolveCollision(hitmask_1, hitmask_2, manifold)))
@@ -312,7 +312,7 @@ namespace hvn3 {
 	template <typename T>
 	bool ResolveCollision(const Circle<T>& body_1, const Line<T> body_2, CollisionResult& manifold) {
 
-		throw System::NotImplementedException();
+		throw NotImplementedException();
 
 	}
 

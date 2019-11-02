@@ -1,4 +1,4 @@
-#include "hvn3/tilesets/AutoTileRenderer.h"
+#include "hvn3/tiles/AutoTileRenderer.h"
 
 namespace hvn3 {
 

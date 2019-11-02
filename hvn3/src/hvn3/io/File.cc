@@ -1,4 +1,5 @@
 #include "hvn3/io/File.h"
+#include "hvn3/io/IOException.h"
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_physfs.h>
 #include <physfs.h>
@@ -10,11 +11,11 @@ namespace hvn3 {
 
 		// Public methods
 
-		std::vector<std::string> File::ReadAllLines(const char* filename) {
+		std::vector<std::string> File::ReadAllLines(const char* filePath) {
 
 			// Open the file.
-			if (!Exists(filename)) throw System::IO::FileNotFoundException();
-			ALLEGRO_FILE* file = al_fopen(filename, "r");
+			if (!Exists(filePath)) throw IO::FileNotFoundException(filePath);
+			ALLEGRO_FILE* file = al_fopen(filePath, "r");
 
 			// Determine the encoding, and seek past the BOM bytes if needed.
 			TextEncoding encoding = GetEncoding(file);
@@ -45,11 +46,11 @@ namespace hvn3 {
 			return lines;
 
 		}
-		std::string File::ReadAllText(const char* filename) {
+		std::string File::ReadAllText(const char* filePath) {
 
 			// Open the file.
-			if (!Exists(filename)) throw System::IO::FileNotFoundException();
-			ALLEGRO_FILE* file = al_fopen(filename, "r");
+			if (!Exists(filePath)) throw IO::FileNotFoundException(filePath);
+			ALLEGRO_FILE* file = al_fopen(filePath, "r");
 
 			// Determine the encoding, and seek past the BOM bytes if needed.
 			TextEncoding encoding = GetEncoding(file);

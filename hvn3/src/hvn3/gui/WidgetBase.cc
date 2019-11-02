@@ -184,7 +184,7 @@
 //
 //		}
 //		WidgetManager& WidgetBase::GetChildren() {
-//			throw System::NotSupportedException("This widget does not support child widgets.");
+//			throw NotSupportedException("This widget does not support child widgets.");
 //		}
 //		bool WidgetBase::HasChildren() {
 //			return false;

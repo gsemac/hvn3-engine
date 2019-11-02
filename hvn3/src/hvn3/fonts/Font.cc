@@ -40,7 +40,7 @@ namespace hvn3 {
 
 		default:
 			al_fclose(file);
-			throw System::NotImplementedException();
+			throw NotImplementedException();
 
 		}
 

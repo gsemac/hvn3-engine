@@ -28,7 +28,7 @@ namespace hvn3 {
 		private:
 			template<typename T>
 			std::unordered_map<WidgetProperty, TransitionData<T>>* _getPropertyTransitionMap() {
-				throw System::NotImplementedException();
+				throw NotImplementedException();
 			}
 
 			template<>

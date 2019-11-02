@@ -49,7 +49,7 @@ namespace hvn3 {
 			// Make sure we haven't exhausted the entire unique range.
 
 			if (_current_value >= std::numeric_limits<integer_type>::max())
-				throw System::Exception("Unique range has been exhausted.");
+				throw Exception("Unique range has been exhausted.");
 
 			// Return the next value.
 			return _current_value++;

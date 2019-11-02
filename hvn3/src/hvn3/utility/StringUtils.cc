@@ -223,7 +223,7 @@ namespace hvn3 {
 		uint64_t ParseHex(const std::string hex) {
 
 			if (hex.length() <= 0)
-				throw System::ArgumentException();
+				throw ArgumentException();
 
 			size_t i = 0;
 			bool enable_shorthand = false;
@@ -258,7 +258,7 @@ namespace hvn3 {
 				return out;
 			}
 			else
-				throw System::ArgumentException();
+				throw ArgumentException();
 
 		}
 

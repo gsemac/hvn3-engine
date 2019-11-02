@@ -1,4 +1,4 @@
-#include "hvn3/exceptions/Exception.h"
+#include "hvn3/io/IOException.h"
 #include "hvn3/io/FileStream.h"
 #include <algorithm>
 #include <sys/stat.h>
@@ -41,7 +41,7 @@ namespace hvn3 {
 
 			// If the stream does not support reading, throw an error.
 			if (!CanRead())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// Preserve the current seek position.
 			std::streampos pos = _stream.tellg();
@@ -71,7 +71,7 @@ namespace hvn3 {
 
 			// Throw error if the stream does not support writing or seeking.
 			if (!CanWrite() || !CanSeek())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// Get the current length.
 			size_t clength = Length();
@@ -120,7 +120,7 @@ namespace hvn3 {
 
 			// Throw an exception of the stream is not readable.
 			if (!CanRead())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// If the last action was not a read, seek to refresh the stream.
 			if (!_last_read) _stream.seekg(_position);
@@ -146,7 +146,7 @@ namespace hvn3 {
 
 			// Throw an exception of the stream is not writeable.
 			if (!CanWrite())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// If the last action was not a write, seek to refresh the stream.
 			if (_last_read) _stream.seekg(_position);
@@ -160,7 +160,7 @@ namespace hvn3 {
 
 			// Throw an exception of the stream is not readable.
 			if (!CanRead())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// If the last action was not a read, seek to refresh the stream.
 			if (!_last_read) _stream.seekg(_position);
@@ -180,7 +180,7 @@ namespace hvn3 {
 
 			// Throw an exception of the stream is not writeable.
 			if (!CanWrite())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// If the last action was not a write, seek to refresh the stream.
 			if (_last_read) _stream.seekg(_position);
@@ -211,7 +211,7 @@ namespace hvn3 {
 
 			// Throw an exception of the stream is not seekable.
 			if (!CanSeek()) throw
-				System::IO::IOException();
+				IO::IOException();
 
 			// For fstream, seekg and seekp refer to the same pointer, and do not need to be considered separately.
 
@@ -293,7 +293,7 @@ namespace hvn3 {
 
 			case FileMode::Open:
 				if (!FileExists(_path.c_str()))
-					throw System::IO::FileNotFoundException();
+					throw IO::FileNotFoundException(_path);
 				_flags |= _access_flags;
 				break;
 
@@ -306,7 +306,7 @@ namespace hvn3 {
 
 			case FileMode::CreateNew:
 				if (FileExists(_path.c_str()))
-					throw System::IO::IOException();
+					throw IO::IOException();
 
 			case FileMode::Create:
 

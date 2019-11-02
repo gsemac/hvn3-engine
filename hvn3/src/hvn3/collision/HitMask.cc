@@ -59,7 +59,7 @@ namespace hvn3 {
 			break;
 
 		default:
-			throw System::Exception("Invalid hitmask type.");
+			throw Exception("Invalid hitmask type.");
 
 		}
 
@@ -90,7 +90,7 @@ namespace hvn3 {
 			break;
 
 		default:
-			throw System::Exception("Invalid hitmask type.");
+			throw Exception("Invalid hitmask type.");
 
 		}
 
@@ -113,7 +113,7 @@ namespace hvn3 {
 			return CalculateAabb(_mask.line);
 
 		default:
-			throw System::Exception("Invalid hitmask type.");
+			throw Exception("Invalid hitmask type.");
 
 		}
 
@@ -161,7 +161,7 @@ namespace hvn3 {
 			break;
 
 		default:
-			throw System::Exception("Invalid hitmask type.");
+			throw Exception("Invalid hitmask type.");
 
 		}
 

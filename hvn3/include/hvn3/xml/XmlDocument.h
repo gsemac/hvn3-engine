@@ -14,10 +14,10 @@ namespace hvn3 {
 			XmlElement& Root();
 			const XmlElement& Root() const;
 
-			bool Save(const std::string& file_path) const;
+			bool Save(const std::string& filePath) const;
 			std::string ToString() const;
 
-			static XmlDocument Open(const std::string& file_path);
+			static XmlDocument Open(const std::string& filePath);
 			static XmlDocument Parse(const std::string& xml);
 
 		private:

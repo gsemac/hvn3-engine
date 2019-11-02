@@ -9,7 +9,7 @@ namespace hvn3 {
 		size_t StreamBase::Read(void* buffer, size_t offset, size_t length) {
 
 			if (!CanRead())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			Byte* addr = (Byte*)buffer + offset * sizeof(Byte);
 
@@ -26,7 +26,7 @@ namespace hvn3 {
 		void StreamBase::Write(const void* buffer, size_t offset, size_t length) {
 
 			if (!CanWrite())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			Byte* addr = (Byte*)buffer + offset * sizeof(Byte);
 
@@ -38,7 +38,7 @@ namespace hvn3 {
 		void StreamBase::CopyTo(StreamBase& stream) {
 
 			if (!CanRead() || !stream.CanWrite())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			Byte byte;
 			while (ReadByte(byte))
@@ -49,7 +49,7 @@ namespace hvn3 {
 
 			// Throw an exception of the stream is not readable, or the output stream is not writeable.
 			if (!CanRead() || !stream.CanWrite())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// Create a buffer of the required size.
 			Byte* buf = new Byte[buffer_size];

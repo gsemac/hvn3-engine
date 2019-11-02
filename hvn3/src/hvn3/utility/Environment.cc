@@ -1,4 +1,4 @@
-#include "hvn3/exceptions/Exception.h"
+#include "hvn3/io/IOException.h"
 #include "hvn3/io/Path.h"
 #include "hvn3/native/OperatingSystemDefs.h"
 #include "hvn3/utility/Environment.h"
@@ -45,7 +45,7 @@ namespace hvn3 {
 		}
 		else
 			// Otherwise, throw an exception.
-			throw System::IO::IOException("Failed to get the current working directory.");
+			throw IO::IOException("Failed to get the current working directory.");
 
 	}
 	std::vector<std::string> Environment::GetCommandLineArgs() {
@@ -88,7 +88,7 @@ namespace hvn3 {
 			return std::string(cwd);
 		else
 			// Otherwise, throw an exception.
-			throw System::Exception("Unable to get the current directory (getcwd returned null).");
+			throw Exception("Unable to get the current directory (getcwd returned null).");
 
 	}
 	bool strncmp(const char* str_1, const char* str_2, size_t n) {
@@ -132,7 +132,7 @@ namespace hvn3 {
 				if (info.x1 == 0 && info.y1 == 0)
 					return Screen(Rectangle<int>(info.x1, info.y1, info.x2 - info.x1, info.y2 - info.y1));
 
-		throw System::Exception("Could not find primary display.");
+		throw Exception("Could not find primary display.");
 
 	}
 	Environment::Screen Environment::Screen::VirtualScreen() {

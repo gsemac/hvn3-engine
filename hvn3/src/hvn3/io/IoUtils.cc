@@ -1,6 +1,7 @@
-#include "hvn3/core/Engine.h"
-#include "hvn3/exceptions/Exception.h"
 #include "hvn3/io/IOUtils.h"
+
+#include "hvn3/core/Engine.h"
+#include "hvn3/io/IOException.h"
 
 #include <allegro5/mouse.h>
 #include <allegro5/keyboard.h>
@@ -11,13 +12,13 @@
 namespace hvn3 {
 	namespace io {
 
-		std::string IOUtils::FileToEmbeddableString(const std::string& path) {
+		std::string IOUtils::FileToEmbeddableString(const std::string& filePath) {
 
-			std::ifstream fstream(path, std::ios::in | std::ios::binary);
+			std::ifstream fstream(filePath, std::ios::in | std::ios::binary);
 			std::stringstream byte_string;
 
 			if (!fstream.is_open())
-				throw System::IO::FileNotFoundException();
+				throw IO::FileNotFoundException(filePath);
 
 			unsigned char next_byte;
 			while (fstream >> next_byte) {

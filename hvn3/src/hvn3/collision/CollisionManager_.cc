@@ -72,7 +72,7 @@ namespace hvn3 {
 
 		// ...
 
-		throw System::NotImplementedException();
+		throw NotImplementedException();
 
 	}
 

@@ -58,7 +58,7 @@ namespace hvn3 {
 			if (Type() == HITMASK_TYPE::HITMASK_TYPE_RECTANGLE)
 				return _mask.rectangle;
 
-			throw System::ArgumentException("HitMask type did not match.");
+			throw ArgumentException("HitMask type did not match.");
 
 		}
 		template<> const circle_type& GetBody(const PointF& offset) const {
@@ -66,7 +66,7 @@ namespace hvn3 {
 			if (Type() == HITMASK_TYPE::HITMASK_TYPE_CIRCLE)
 				return _mask.circle;
 
-			throw System::ArgumentException("HitMask type did not match.");
+			throw ArgumentException("HitMask type did not match.");
 
 		}
 		template<> const line_type& GetBody(const PointF& offset) const {
@@ -74,7 +74,7 @@ namespace hvn3 {
 			if (Type() == HITMASK_TYPE::HITMASK_TYPE_LINE)
 				return _mask.line;
 
-			throw System::ArgumentException("HitMask type did not match.");
+			throw ArgumentException("HitMask type did not match.");
 
 		}
 

@@ -13,7 +13,7 @@ namespace hvn3 {
 		public:
 
 			// Converts a file into a byte string that can be directly embedded in source code.
-			static std::string FileToEmbeddableString(const std::string& path);
+			static std::string FileToEmbeddableString(const std::string& filePath);
 
 			static bool IsPrintableChar(int keyCode);
 			static bool IsPrintableChar(Key key);

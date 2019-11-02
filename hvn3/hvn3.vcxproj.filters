@@ -55,9 +55,6 @@
     <Filter Include="include\sprites">
       <UniqueIdentifier>{e61ac12e-6839-47c6-b685-10d6a13fa015}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\tilesets">
-      <UniqueIdentifier>{24698ac1-cfc1-4b59-8a30-9882a4b65d2e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include\utility">
       <UniqueIdentifier>{3c38617f-9617-4464-a81e-7db8dcff843a}</UniqueIdentifier>
     </Filter>
@@ -99,9 +96,6 @@
     </Filter>
     <Filter Include="src\utility">
       <UniqueIdentifier>{cca1d72e-2c7a-49a6-8ac7-edd2558a7855}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\tilesets">
-      <UniqueIdentifier>{0d4c92d7-5fa1-4d61-9d23-600aad30f4b3}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\sprites">
       <UniqueIdentifier>{ada9d54e-ac77-4b8f-ba1f-bcf236f7709d}</UniqueIdentifier>
@@ -168,6 +162,12 @@
     </Filter>
     <Filter Include="src\ecs">
       <UniqueIdentifier>{e32d6756-db6c-4d52-a3d9-d934bb3841f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\tiles">
+      <UniqueIdentifier>{24698ac1-cfc1-4b59-8a30-9882a4b65d2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\tiles">
+      <UniqueIdentifier>{0d4c92d7-5fa1-4d61-9d23-600aad30f4b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -393,9 +393,6 @@
     <ClInclude Include="include\hvn3\sprites\SpriteRenderer.h">
       <Filter>include\sprites</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\tilesets\Tileset.h">
-      <Filter>include\tilesets</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\utility\BitFlags.h">
       <Filter>include\utility</Filter>
     </ClInclude>
@@ -558,20 +555,11 @@
     <ClInclude Include="include\hvn3\helper\DirectionalInputListener.h">
       <Filter>include\helper</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\tilesets\TileMap.h">
-      <Filter>include\tilesets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\tilesets\TileMapRenderer.h">
-      <Filter>include\tilesets</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\math\Matrix.h">
       <Filter>include\math</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\utility\BitUtils.h">
       <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\tilesets\AutoTileRenderer.h">
-      <Filter>include\tilesets</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\native\FileDialog.h">
       <Filter>include\native</Filter>
@@ -593,9 +581,6 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\io\StreamBase.h">
       <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\tilesets\TileManager.h">
-      <Filter>include\tilesets</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\xml\XmlUtils.h">
       <Filter>include\xml</Filter>
@@ -686,9 +671,6 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\rooms\RoomDefs.h">
       <Filter>include\rooms</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\tilesets\EdgeTileFinder.h">
-      <Filter>include\tilesets</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\physics\PlatformerPhysicsManager.h">
       <Filter>include\physics</Filter>
@@ -1029,6 +1011,33 @@
     <ClInclude Include="include\hvn3\physics\PhysicsMaterial.h">
       <Filter>include\physics</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\tiles\AutoTileRenderer.h">
+      <Filter>include\tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\tiles\EdgeTileFinder.h">
+      <Filter>include\tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\tiles\TileManager.h">
+      <Filter>include\tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\tiles\TileMap.h">
+      <Filter>include\tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\tiles\TileMapRenderer.h">
+      <Filter>include\tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\tiles\Tileset.h">
+      <Filter>include\tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\exceptions\IException.h">
+      <Filter>include\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\exceptions\ExceptionBase.h">
+      <Filter>include\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\IOException.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1173,9 +1182,6 @@
     <ClCompile Include="src\hvn3\sprites\SpriteRenderer.cc">
       <Filter>src\sprites</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\tilesets\Tileset.cc">
-      <Filter>src\tilesets</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\utility\Direction8.cc">
       <Filter>src\utility</Filter>
     </ClCompile>
@@ -1272,15 +1278,6 @@
     <ClCompile Include="src\hvn3\helper\DirectionalInputListener.cc">
       <Filter>src\helper</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\tilesets\TileMap.cc">
-      <Filter>src\tilesets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\tilesets\TileMapRenderer.cc">
-      <Filter>src\tilesets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\tilesets\AutoTileRenderer.cc">
-      <Filter>src\tilesets</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\native\FileDialog.cc">
       <Filter>src\native</Filter>
     </ClCompile>
@@ -1307,9 +1304,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\rooms\RoomBase.cc">
       <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\tilesets\TileManager.cc">
-      <Filter>src\tilesets</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\xml\XmlUtils.cc">
       <Filter>src\xml</Filter>
@@ -1352,9 +1346,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\rooms\RoomEventArgs.cc">
       <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\tilesets\EdgeTileFinder.cc">
-      <Filter>src\tilesets</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\physics\PlatformerPhysicsManager.cc">
       <Filter>src\physics</Filter>
@@ -1526,6 +1517,27 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\physics\PhysicsMaterial.cc">
       <Filter>src\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tiles\EdgeTileFinder.cc">
+      <Filter>src\tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tiles\TileManager.cc">
+      <Filter>src\tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tiles\TileMap.cc">
+      <Filter>src\tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tiles\TileMapRenderer.cc">
+      <Filter>src\tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tiles\Tileset.cc">
+      <Filter>src\tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tiles\AutoTileRenderer.cc">
+      <Filter>src\tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\IOException.cc">
+      <Filter>src\io</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-#include "hvn3/exceptions/Exception.h"
+#include "hvn3/io/IOException.h"
 #include "hvn3/io/Directory.h"
 #include "hvn3/io/Path.h"
 #include "hvn3/native/OperatingSystemDefs.h"
@@ -63,7 +63,7 @@ namespace hvn3 {
 
 			// Set the new working directory.
 			if (!al_change_directory(StringUtils::RTrim(path, { IO::Path::DirectorySeparatorChar() }).c_str()))
-				throw System::IO::IOException("Failed to set the working directory.");
+				throw IO::IOException("Failed to set the working directory.");
 
 		}
 

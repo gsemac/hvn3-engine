@@ -89,7 +89,7 @@ namespace hvn3 {
 		}
 		void PhysicsBodyBase::ApplyForce(const Vector2d& force, const PointF& point) {
 
-			throw System::NotImplementedException();
+			throw NotImplementedException();
 
 		}
 		PhysicsMaterial PhysicsBodyBase::Material() const {

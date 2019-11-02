@@ -133,7 +133,7 @@ namespace hvn3 {
 	}
 	Sprite Sprite::FromSpriteSheet(const Graphics::Bitmap& bitmap, int frame_width, int frame_height, int frame_x_offset, int frame_y_offset, int frame_x_separation, int frame_y_separation, int frame_number, int origin_x, int origin_y) {
 
-		throw System::NotImplementedException();
+		throw NotImplementedException();
 
 	}
 

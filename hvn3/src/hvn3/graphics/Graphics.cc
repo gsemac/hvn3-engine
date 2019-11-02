@@ -841,7 +841,7 @@ namespace hvn3 {
 		}
 		void Graphics::SetBlendMode(BlendOperation operation, const Color& source, const Color& destination) {
 
-			throw System::NotImplementedException();
+			throw NotImplementedException();
 
 		}
 		void Graphics::ResetBlendMode() {

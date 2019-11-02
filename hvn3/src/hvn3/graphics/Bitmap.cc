@@ -181,7 +181,7 @@ namespace hvn3 {
 			ALLEGRO_BITMAP* ptr = _get_bitmap_ptr();
 
 			if (ptr == nullptr)
-				throw System::NotSupportedException("Cannot lock a null bitmap.");
+				throw NotSupportedException("Cannot lock a null bitmap.");
 
 			_perform_pre_write_operations();
 

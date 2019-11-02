@@ -1,7 +1,9 @@
-#include "hvn3/exceptions/Exception.h"
 #include "hvn3/xml/XmlDocument.h"
+
+#include "hvn3/io/IOException.h"
 #include "hvn3/xml/XmlLexer.h"
 #include "hvn3/xml/XmlUtils.h"
+
 #include <fstream>
 #include <sstream>
 #include <stack>
@@ -44,12 +46,12 @@ namespace hvn3 {
 
 		}
 
-		XmlDocument XmlDocument::Open(const std::string& file_path) {
+		XmlDocument XmlDocument::Open(const std::string& filePath) {
 
-			std::ifstream buf(file_path.c_str());
+			std::ifstream buf(filePath.c_str());
 
 			if (!buf.is_open())
-				throw System::IO::IOException("File could not be opened.");
+				throw IO::IOException(filePath);
 
 			XmlDocument doc("");
 			doc._read(buf);

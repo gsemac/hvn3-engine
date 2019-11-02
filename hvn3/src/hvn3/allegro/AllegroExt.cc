@@ -6,7 +6,7 @@ namespace hvn3 {
 
 	void al_draw_wrapped_text(const ALLEGRO_FONT *font, ALLEGRO_COLOR color, float x, float y, float w, float h, int flags, char const *text) {
 
-		throw System::NotImplementedException();
+		throw NotImplementedException();
 
 	}
 	void al_draw_shadow_ustr(const ALLEGRO_FONT *font, ALLEGRO_COLOR color, ALLEGRO_COLOR shadow_color, float x, float y, int flags, const ALLEGRO_USTR* ustr) {

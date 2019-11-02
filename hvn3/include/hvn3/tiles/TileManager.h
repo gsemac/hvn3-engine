@@ -2,8 +2,8 @@
 #include "hvn3/core/IDrawable.h"
 #include "hvn3/core/IManager.h"
 #include "hvn3/core/ManagerDefs.h"
-#include "hvn3/tilesets/TileMap.h"
-#include "hvn3/tilesets/TileMapRenderer.h"
+#include "hvn3/tiles/TileMap.h"
+#include "hvn3/tiles/TileMapRenderer.h"
 #include "hvn3/utility/Size.h"
 
 namespace hvn3 {

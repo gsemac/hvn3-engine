@@ -1,4 +1,4 @@
-#include "hvn3/tilesets/EdgeTileFinder.h"
+#include "hvn3/tiles/EdgeTileFinder.h"
 
 namespace hvn3 {
 

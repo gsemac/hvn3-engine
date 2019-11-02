@@ -1,4 +1,4 @@
-#include "hvn3/exceptions/Exception.h"
+#include "hvn3/io/IOException.h"
 #include "hvn3/io/BitWriter.h"
 
 namespace hvn3 {
@@ -39,7 +39,7 @@ namespace hvn3 {
 
 			// If there is no stream, throw an exception.
 			if (!_stream)
-				throw System::IO::IOException();
+				throw IO::IOException();
 
 			return *_stream;
 
@@ -49,7 +49,7 @@ namespace hvn3 {
 
 			// If there is no stream, throw an exception.
 			if (!_stream)
-				throw System::IO::IOException();
+				throw IO::IOException();
 
 			// Flush writes to the underlying stream.
 			FlushWrite();
@@ -65,7 +65,7 @@ namespace hvn3 {
 
 			// If there is no stream, throw an exception.
 			if (!_stream)
-				throw System::IO::IOException();
+				throw IO::IOException();
 
 			// Flush the write buffer.
 			FlushWrite();
@@ -78,7 +78,7 @@ namespace hvn3 {
 
 			// If there is no stream or the stream does not support seeking, throw error.
 			if (!_stream || !_stream->CanSeek())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// Flush any data in the write buffer to the stream before seeking to a new position.
 			FlushWrite();
@@ -97,7 +97,7 @@ namespace hvn3 {
 			// Throw an exception of the underlying stream does not support reading.
 			// We will need to read from the stream into the write buffer in order to modify individual bits.
 			if (!_stream || !_stream->CanRead())
-				throw System::NotSupportedException();
+				throw NotSupportedException();
 
 			// Convert the offset into one relative to the start of the stream.
 			switch (offset) {

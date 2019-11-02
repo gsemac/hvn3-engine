@@ -6,7 +6,7 @@
 //#include "hvn3/objects/IObjectManager.h"
 //#include "hvn3/physics/IPhysicsManager.h"
 //#include "hvn3/rooms/RoomBase.h"
-//#include "hvn3/tilesets/TileManager.h"
+//#include "hvn3/tiles/TileManager.h"
 //#include "hvn3/views/IViewManager.h"
 //
 //namespace hvn3 {
@@ -91,7 +91,7 @@
 //		return _background_color;
 //	}
 //	void RoomBase::SetBackground(const Background& value) {
-//		throw System::NotImplementedException();
+//		throw NotImplementedException();
 //	}
 //
 //	const View& RoomBase::CurrentView() const {

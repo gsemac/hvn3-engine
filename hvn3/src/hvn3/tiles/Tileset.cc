@@ -2,7 +2,7 @@
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/io/Path.h"
 #include "hvn3/utility/StringUtils.h"
-#include "hvn3/tilesets/Tileset.h"
+#include "hvn3/tiles/Tileset.h"
 #include "hvn3/xml/XmlDocument.h"
 
 #include <cassert>
@@ -130,7 +130,7 @@ namespace hvn3 {
 
 	//	//// If the dimensions of the tileset don't match, through an exception.
 	//	//if (autotiles.Rows() % 2 != 0 || autotiles.Columns() % 3 != 0 || (autotiles.TileSize().width != autotiles.TileSize().height))
-	//	//	throw System::ArgumentException("The width of the tileset must be a multiple of 2 and the height a multiple of 3, and tiles must be square.");
+	//	//	throw ArgumentException("The width of the tileset must be a multiple of 2 and the height a multiple of 3, and tiles must be square.");
 
 	//	//// We will store the 48 generated tiles in 1 1/2 rows of 32 tiles (width of 1024px for 32px tiles).
 	//	//int autotile_count = (autotiles.Rows() / 2) * (autotiles.Columns() / 3);

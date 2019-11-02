@@ -1,6 +1,6 @@
 #include "hvn3/exceptions/Exception.h"
-#include "hvn3/tilesets/AutoTileRenderer.h"
-#include "hvn3/tilesets/TileMapRenderer.h"
+#include "hvn3/tiles/AutoTileRenderer.h"
+#include "hvn3/tiles/TileMapRenderer.h"
 
 namespace hvn3 {
 
@@ -52,12 +52,12 @@ namespace hvn3 {
 	}
 	void TileMapRenderer::Draw(Graphics::Graphics& canvas, const TileMap& tilemap, float x, float y) {
 
-		throw System::NotImplementedException();
+		throw NotImplementedException();
 
 	}
 	void TileMapRenderer::Draw(Graphics::Graphics& canvas, const TileMap& tilemap, const RectangleF& region) {
 
-		throw System::NotImplementedException();
+		throw NotImplementedException();
 
 	}
 	const SizeI& TileMapRenderer::TileSize() const {

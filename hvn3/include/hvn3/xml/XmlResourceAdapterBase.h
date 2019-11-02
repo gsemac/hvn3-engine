@@ -4,7 +4,7 @@
 #include "hvn3/objects/IObjectManager.h"
 #include "hvn3/objects/Object.h"
 #include "hvn3/rooms/Room.h"
-#include "hvn3/tilesets/TileManager.h"
+#include "hvn3/tiles/TileManager.h"
 #include "hvn3/utility/StringUtils.h"
 #include "hvn3/views/IViewManager.h"
 #include "hvn3/views/View.h"
