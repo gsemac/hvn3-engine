@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/utility/IteratorWrapper.h"
+
 #include <memory>
 #include <sstream>
 #include <string>
@@ -15,13 +15,12 @@ namespace hvn3 {
 			typedef std::vector<std::unique_ptr<XmlElement>> child_collection_type;
 
 		public:
-
-
 			typedef child_collection_type::iterator child_iterator;
 			typedef child_collection_type::const_iterator const_child_iterator;
 			typedef attributes_collection_type::iterator attribute_iterator;
 			typedef attributes_collection_type::const_iterator const_attribute_iterator;
 
+			XmlElement();
 			explicit XmlElement(const std::string& tag);
 
 			const std::string& Tag() const;
@@ -29,37 +28,44 @@ namespace hvn3 {
 			const std::string& Text() const;
 			void SetText(const std::string& value);
 			bool HasText() const;
+
 			const std::string& GetAttribute(const std::string& attribute) const;
 			template<typename T>
 			void SetAttribute(const std::string& attribute, const T& value) {
 
-				std::stringstream buf;
-				buf << value;
+				std::ostringstream outputStream;
 
-				_attributes[attribute] = buf.str();
+				outputStream << value;
+
+				_attributes[attribute] = outputStream.str();
+
 			}
 			template <>
 			void SetAttribute(const std::string& attribute, const std::string& value) {
+
 				_attributes[attribute] = value;
+
 			}
 			template<std::size_t N>
 			void SetAttribute(const std::string& attribute, const char(&value)[N]) {
+
 				_attributes[attribute] = value;
+
 			}
 			bool HasAttribute(const std::string& attribute) const;
-			attribute_iterator AttributesBegin();
-			attribute_iterator AttributesEnd();
-			const_attribute_iterator AttributesBegin() const;
-			const_attribute_iterator AttributesEnd() const;
+			bool HasAttributes() const;
 
-			XmlElement* AddChild(const std::string& tag);
-			XmlElement* GetChild(const std::string& tag);
-			const XmlElement* GetChild(const std::string& tag) const;
+			const attributes_collection_type& Attributes() const;
+
+			XmlElement& AddChild(const std::string& tag);
+			XmlElement& GetChild(const std::string& tag);
+			bool GetChild(const std::string& tag, XmlElement*& result);
+			const XmlElement& GetChild(const std::string& tag) const;
+			bool GetChild(const std::string& tag, const XmlElement*& result) const;
+
 			bool HasChildren() const;
-			child_iterator ChildrenBegin();
-			child_iterator ChildrenEnd();
-			const_child_iterator ChildrenBegin() const;
-			const_child_iterator ChildrenEnd() const;
+
+			const child_collection_type& Children() const;
 
 			std::string& operator[](const std::string& attribute);
 			const std::string& operator[](const std::string& attribute) const;
@@ -68,7 +74,7 @@ namespace hvn3 {
 			std::string _tag;
 			std::string _text;
 			attributes_collection_type _attributes;
-			std::vector<std::unique_ptr<XmlElement>> _child_nodes;
+			child_collection_type _childNodes;
 
 		};
 

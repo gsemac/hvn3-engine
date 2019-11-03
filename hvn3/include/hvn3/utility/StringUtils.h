@@ -1,4 +1,6 @@
 #pragma once
+
+#include <algorithm>
 #include <cassert>
 #include <cctype>
 #include <cstdint>
@@ -75,7 +77,7 @@ namespace hvn3 {
 
 				auto i2 = i;
 				auto j = substring.begin();
-				
+
 				for (; i2 != input.end() && j != substring.end(); ++i2, ++j)
 					if (*i2 != *j)
 						break;
@@ -237,7 +239,7 @@ namespace hvn3 {
 		}
 		template<typename T>
 		void MakeStringArray(std::vector<std::string>& strings, const T& arg) {
-			strings.push_back(ToString(arg));
+			strings.push_back(StringUtils::ToString(arg));
 		}
 		template<typename... Args>
 		std::vector<std::string> MakeStringArray(Args... args) {
@@ -286,6 +288,9 @@ namespace hvn3 {
 			return out.str();
 
 		}
+
+		std::string ToLower(const std::string& input);
+		std::string ToUpper(const std::string& input);
 
 	};
 

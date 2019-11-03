@@ -1038,6 +1038,9 @@
     <ClInclude Include="include\hvn3\io\IOException.h">
       <Filter>include\io</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\xml\XmlException.h">
+      <Filter>include\xml</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

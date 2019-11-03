@@ -11,10 +11,12 @@
 namespace hvn3 {
 	namespace Xml {
 
+		// Public members
+
 		XmlDocument::XmlDocument() :
 			XmlDocument("") {}
-		XmlDocument::XmlDocument(const std::string& root_tag) :
-			_root(root_tag) {
+		XmlDocument::XmlDocument(const std::string& rootTag) :
+			_root(rootTag) {
 		}
 		XmlElement& XmlDocument::Root() {
 			return _root;
@@ -22,27 +24,25 @@ namespace hvn3 {
 		const XmlElement& XmlDocument::Root() const {
 			return _root;
 		}
-		bool XmlDocument::Save(const std::string& file_path) const {
+		bool XmlDocument::Save(const std::string& filePath) const {
 
-			std::ofstream buf(file_path.c_str());
+			std::ofstream outputStream(filePath.c_str());
 
-			if (!buf.is_open())
+			if (!outputStream.is_open())
 				return false;
 
-			_write(buf);
+			writeDocument(outputStream);
 
 			return true;
 
 		}
 		std::string XmlDocument::ToString() const {
 
-			_write_depth = 0;
+			std::ostringstream outputStream;
 
-			std::stringstream buf;
+			writeDocument(outputStream);
 
-			_write(buf);
-
-			return buf.str();
+			return outputStream.str();
 
 		}
 
@@ -51,98 +51,114 @@ namespace hvn3 {
 			std::ifstream buf(filePath.c_str());
 
 			if (!buf.is_open())
-				throw IO::IOException(filePath);
+				throw IO::FileNotFoundException(filePath);
 
-			XmlDocument doc("");
-			doc._read(buf);
+			XmlDocument document;
 
-			return doc;
+			document.readDocument(buf);
 
-		}
-		XmlDocument XmlDocument::Parse(const std::string& xml) {
-
-			std::stringstream buf(xml);
-
-			XmlDocument doc("");
-			doc._read(buf);
-
-			return doc;
+			return document;
 
 		}
+		XmlDocument XmlDocument::Parse(const std::string& xmlString) {
 
-		void XmlDocument::_write(std::ostream& buf) const {
+			std::istringstream inputStream(xmlString);
 
-			_write_depth = 0;
+			XmlDocument document;
 
-			_writeProlog(buf);
-			_writeNode(buf, _root);
+			document.readDocument(inputStream);
+
+			return document;
 
 		}
-		void XmlDocument::_writeProlog(std::ostream& buf) const {
-			buf << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+
+		// Private members
+
+		void XmlDocument::writeDocument(std::ostream& outputStream) const {
+
+			writeProlog(outputStream);
+			writeNode(outputStream, _root, 0);
+
 		}
-		void XmlDocument::_writeNode(std::ostream& buf, const XmlElement& node) const {
+		void XmlDocument::writeProlog(std::ostream& outputStream) const {
+
+			outputStream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+
+		}
+		void XmlDocument::writeNode(std::ostream& outputStream, const XmlElement& node, int depth) const {
 
 			// Write the opening tag and attributes.
-			_writeIndent(buf);
-			buf << "<" << node.Tag();
-			for (auto i = node.AttributesBegin(); i != node.AttributesEnd(); ++i)
-				buf << " " << i->first << "=\"" << Xml::EscapeXmlString(i->second) << "\"";
-			buf << '>';
 
-			_write_depth += 1;
+			writeIndent(outputStream, depth);
+
+			outputStream << "<" << node.Tag();
+
+			for (auto i = node.Attributes().begin(); i != node.Attributes().end(); ++i)
+				outputStream << " " << i->first << "=\"" << Xml::EscapeXmlString(i->second) << "\"";
+
+			outputStream << '>';
+
+			depth += 1;
 
 			// Write text.
+
 			if (node.HasText()) {
+
 				if (node.HasChildren())
-					_writeNewLine(buf);
-				buf << Xml::EscapeXmlString(node.Text());
+					writeNewline(outputStream, depth);
+
+				outputStream << Xml::EscapeXmlString(node.Text());
+
 			}
 
 			// Write all child nodes.
+
 			if (node.HasChildren()) {
 
-				buf << '\n';
+				outputStream << '\n';
 
-				for (auto i = node.ChildrenBegin(); i != node.ChildrenEnd(); ++i) {
+				for (auto i = node.Children().begin(); i != node.Children().end(); ++i) {
 
-					_writeNode(buf, *i->get());
+					writeNode(outputStream, *i->get(), depth);
 
-					if (std::next(i) != node.ChildrenEnd())
-						buf << '\n';
+					if (std::next(i) != node.Children().end())
+						outputStream << '\n';
 
 				}
 
 			}
 
-			_write_depth -= 1;
+			depth -= 1;
 
 			if (node.HasChildren())
-				_writeNewLine(buf);
+				writeNewline(outputStream, depth);
 
-			buf << "</" << node.Tag() << '>';
-
-		}
-		void XmlDocument::_writeIndent(std::ostream& buf) const {
-
-			for (unsigned int i = 0; i < _write_depth; ++i)
-				buf << '\t';
+			outputStream << "</" << node.Tag() << '>';
 
 		}
-		void XmlDocument::_writeNewLine(std::ostream& buf) const {
 
-			buf << '\n';
-			_writeIndent(buf);
+		void XmlDocument::writeIndent(std::ostream& outputStream, int depth) const {
+
+			for (int i = 0; i < depth; ++i)
+				outputStream << '\t';
 
 		}
-		void XmlDocument::_read(std::istream& buf) {
+		void XmlDocument::writeNewline(std::ostream& outputStream, int depth) const {
+
+			outputStream << '\n';
+
+			writeIndent(outputStream, depth);
+
+		}
+
+		void XmlDocument::readDocument(std::istream& inputStream) {
 
 			std::stack<XmlElement*> nodes;
 			std::string current_attribute;
 			bool parsing_error = false;
 
 			XmlLexerToken token;
-			XmlLexer lexer(buf);
+			XmlLexer lexer(inputStream);
 
 			while (!parsing_error && lexer >> token) {
 
@@ -154,7 +170,7 @@ namespace hvn3 {
 						nodes.top()->SetTag(token.value);
 					}
 					else
-						nodes.push(nodes.top()->AddChild(token.value));
+						nodes.push(&(nodes.top()->AddChild(token.value)));
 					break;
 
 				case XmlLexerTokenType::CloseTag:

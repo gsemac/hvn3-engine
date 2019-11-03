@@ -1,5 +1,7 @@
 #pragma once
+
 #include "hvn3/xml/XmlElement.h"
+
 #include <iostream>
 
 namespace hvn3 {
@@ -9,7 +11,7 @@ namespace hvn3 {
 
 		public:
 			XmlDocument();
-			XmlDocument(const std::string& root_tag);
+			XmlDocument(const std::string& rootTag);
 
 			XmlElement& Root();
 			const XmlElement& Root() const;
@@ -18,19 +20,19 @@ namespace hvn3 {
 			std::string ToString() const;
 
 			static XmlDocument Open(const std::string& filePath);
-			static XmlDocument Parse(const std::string& xml);
+			static XmlDocument Parse(const std::string& xmlString);
 
 		private:
 			XmlElement _root;
-			mutable unsigned int _write_depth;
 
-			void _write(std::ostream& buf) const;
-			void _writeProlog(std::ostream& buf) const;
-			void _writeNode(std::ostream& buf, const XmlElement& node) const;
-			void _writeIndent(std::ostream& buf) const;
-			void _writeNewLine(std::ostream& buf) const;
+			void writeDocument(std::ostream& outputStream) const;
+			void writeProlog(std::ostream& outputStream) const;
+			void writeNode(std::ostream& outputStream, const XmlElement& node, int depth) const;
 
-			void _read(std::istream& buf);
+			void writeIndent(std::ostream& outputStream, int depth) const;
+			void writeNewline(std::ostream& outputStream, int depth) const;
+
+			void readDocument(std::istream& inputStream);
 
 		};
 

@@ -1,13 +1,20 @@
-#include "hvn3/exceptions/Exception.h"
 #include "hvn3/xml/XmlElement.h"
+
+#include "hvn3/utility/StringUtils.h"
+#include "hvn3/xml/XmlException.h"
+
 #include <cassert>
 
 namespace hvn3 {
 	namespace Xml {
 
+		// Public members
+
+		XmlElement::XmlElement() {}
 		XmlElement::XmlElement(const std::string& tag) :
 			_tag(tag) {
 		}
+
 		const std::string& XmlElement::Tag() const {
 			return _tag;
 		}
@@ -23,6 +30,7 @@ namespace hvn3 {
 		bool XmlElement::HasText() const {
 			return _text.length() > 0;
 		}
+
 		const std::string& XmlElement::GetAttribute(const std::string& attribute) const {
 
 			auto iter = _attributes.find(attribute);
@@ -35,58 +43,79 @@ namespace hvn3 {
 		bool XmlElement::HasAttribute(const std::string& attribute) const {
 			return _attributes.count(attribute) > 0;
 		}
-		XmlElement::attribute_iterator XmlElement::AttributesBegin() {
-			return _attributes.begin();
+		bool XmlElement::HasAttributes() const {
+			return _attributes.size() > 0;
 		}
-		XmlElement::attribute_iterator XmlElement::AttributesEnd() {
-			return _attributes.end();
-		}
-		XmlElement::const_attribute_iterator XmlElement::AttributesBegin() const {
-			return _attributes.begin();
-		}
-		XmlElement::const_attribute_iterator XmlElement::AttributesEnd() const {
-			return _attributes.end();
-		}
-		XmlElement* XmlElement::AddChild(const std::string& tag) {
 
-			_child_nodes.push_back(std::move(std::make_unique<XmlElement>(tag)));
+		const XmlElement::attributes_collection_type& XmlElement::Attributes() const {
+			return _attributes;
+		}
 
-			return _child_nodes.back().get();
+		XmlElement& XmlElement::AddChild(const std::string& tag) {
+
+			_childNodes.push_back(std::move(std::make_unique<XmlElement>(tag)));
+
+			return *_childNodes.back().get();
 
 		}
-		XmlElement* XmlElement::GetChild(const std::string& tag) {
+		XmlElement& XmlElement::GetChild(const std::string& tag) {
 
-			for (auto i = _child_nodes.begin(); i != _child_nodes.end(); ++i)
+			for (auto i = _childNodes.begin(); i != _childNodes.end(); ++i)
 				if (i->get()->Tag() == tag)
-					return i->get();
+					return *i->get();
 
-			return nullptr;
+			throw XmlException(StringUtils::Format("No child node exists with tag \"{0}\".", tag));
 
 		}
-		const XmlElement* XmlElement::GetChild(const std::string& tag) const {
+		bool XmlElement::GetChild(const std::string& tag, XmlElement*& result) {
 
-			for (auto i = _child_nodes.begin(); i != _child_nodes.end(); ++i)
+			result = nullptr;
+
+			for (auto i = _childNodes.begin(); i != _childNodes.end(); ++i)
+				if (i->get()->Tag() == tag) {
+
+					result = i->get();
+
+					break;
+
+				}
+
+			return result != nullptr;
+
+		}
+		const XmlElement& XmlElement::GetChild(const std::string& tag) const {
+
+			for (auto i = _childNodes.begin(); i != _childNodes.end(); ++i)
 				if (i->get()->Tag() == tag)
-					return i->get();
+					return *i->get();
 
-			return nullptr;
+			throw XmlException(StringUtils::Format("No child node exists with tag \"{0}\".", tag));
+
+		}
+		bool XmlElement::GetChild(const std::string& tag, const XmlElement*& result) const {
+
+			result = nullptr;
+
+			for (auto i = _childNodes.begin(); i != _childNodes.end(); ++i)
+				if (i->get()->Tag() == tag) {
+
+					result = i->get();
+
+					break;
+
+				}
+
+			return result != nullptr;
 
 		}
 		bool XmlElement::HasChildren() const {
-			return _child_nodes.size() > 0;
+			return _childNodes.size() > 0;
 		}
-		XmlElement::child_iterator XmlElement::ChildrenBegin() {
-			return _child_nodes.begin();
+
+		const XmlElement::child_collection_type& XmlElement::Children() const {
+			return _childNodes;
 		}
-		XmlElement::child_iterator XmlElement::ChildrenEnd() {
-			return _child_nodes.end();
-		}
-		XmlElement::const_child_iterator XmlElement::ChildrenBegin() const {
-			return _child_nodes.begin();
-		}
-		XmlElement::const_child_iterator XmlElement::ChildrenEnd() const {
-			return _child_nodes.end();
-		}
+
 		std::string& XmlElement::operator[](const std::string& attribute) {
 			return _attributes[attribute];
 		}

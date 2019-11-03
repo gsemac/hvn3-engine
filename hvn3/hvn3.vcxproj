@@ -304,6 +304,7 @@
     <ClInclude Include="include\hvn3\views\ViewManager.h" />
     <ClInclude Include="include\hvn3\xml\IXmlResourceAdapter.h" />
     <ClInclude Include="include\hvn3\xml\XmlElement.h" />
+    <ClInclude Include="include\hvn3\xml\XmlException.h" />
     <ClInclude Include="include\hvn3\xml\XmlLexer.h" />
     <ClInclude Include="include\hvn3\xml\XmlResourceAdapterBase.h" />
     <ClInclude Include="include\hvn3\xml\XmlUtils.h" />

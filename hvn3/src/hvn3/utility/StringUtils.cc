@@ -291,5 +291,33 @@ namespace hvn3 {
 
 		}
 
+		std::string ToLower(const std::string& input) {
+
+			std::string result;
+
+			result.reserve(input.length());
+
+			std::transform(input.begin(), input.end(), result.begin(), [](const char c) {
+				return std::tolower(c);
+			});
+
+			return result;
+
+		}
+		std::string ToUpper(const std::string& input) {
+
+			std::string result;
+
+			result.reserve(input.length());
+
+			std::transform(input.begin(), input.end(), result.begin(), [](const char c) {
+				return std::toupper(c);
+			});
+
+			return result;
+
+		}
+
 	}
+
 }

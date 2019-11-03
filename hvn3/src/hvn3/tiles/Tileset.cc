@@ -100,7 +100,7 @@ namespace hvn3 {
 			Tileset tileset(image, SizeI(tile_width, tile_height));
 
 			std::stringstream flags;
-			flags << meta.Root().GetChild("flags")->Text();
+			flags << meta.Root().GetChild("flags").Text();
 			
 			for (size_t i = 0; i < tileset.Count(); ++i) {
 				flags >> tileset.GetAt(i).flag;
