@@ -30,6 +30,8 @@ namespace hvn3 {
 			bool HasText() const;
 
 			const std::string& GetAttribute(const std::string& attribute) const;
+			bool GetAttribute(const std::string& attribute, std::string& result) const;
+
 			template<typename T>
 			void SetAttribute(const std::string& attribute, const T& value) {
 
@@ -52,6 +54,7 @@ namespace hvn3 {
 				_attributes[attribute] = value;
 
 			}
+			
 			bool HasAttribute(const std::string& attribute) const;
 			bool HasAttributes() const;
 

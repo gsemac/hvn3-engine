@@ -1041,6 +1041,9 @@
     <ClInclude Include="include\hvn3\xml\XmlException.h">
       <Filter>include\xml</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\utility\Convert.h">
+      <Filter>include\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

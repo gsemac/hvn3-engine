@@ -31,7 +31,7 @@ namespace hvn3 {
 			if (!outputStream.is_open())
 				return false;
 
-			writeDocument(outputStream);
+			WriteDocument(outputStream);
 
 			return true;
 
@@ -40,7 +40,7 @@ namespace hvn3 {
 
 			std::ostringstream outputStream;
 
-			writeDocument(outputStream);
+			WriteDocument(outputStream);
 
 			return outputStream.str();
 
@@ -55,7 +55,7 @@ namespace hvn3 {
 
 			XmlDocument document;
 
-			document.readDocument(buf);
+			document.ReadDocument(buf);
 
 			return document;
 
@@ -66,7 +66,7 @@ namespace hvn3 {
 
 			XmlDocument document;
 
-			document.readDocument(inputStream);
+			document.ReadDocument(inputStream);
 
 			return document;
 
@@ -74,22 +74,22 @@ namespace hvn3 {
 
 		// Private members
 
-		void XmlDocument::writeDocument(std::ostream& outputStream) const {
+		void XmlDocument::WriteDocument(std::ostream& outputStream) const {
 
-			writeProlog(outputStream);
-			writeNode(outputStream, _root, 0);
+			WriteProlog(outputStream);
+			WriteNode(outputStream, _root, 0);
 
 		}
-		void XmlDocument::writeProlog(std::ostream& outputStream) const {
+		void XmlDocument::WriteProlog(std::ostream& outputStream) const {
 
 			outputStream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 
 		}
-		void XmlDocument::writeNode(std::ostream& outputStream, const XmlElement& node, int depth) const {
+		void XmlDocument::WriteNode(std::ostream& outputStream, const XmlElement& node, int depth) const {
 
 			// Write the opening tag and attributes.
 
-			writeIndent(outputStream, depth);
+			WriteIndent(outputStream, depth);
 
 			outputStream << "<" << node.Tag();
 
@@ -105,7 +105,7 @@ namespace hvn3 {
 			if (node.HasText()) {
 
 				if (node.HasChildren())
-					writeNewline(outputStream, depth);
+					WriteNewline(outputStream, depth);
 
 				outputStream << Xml::EscapeXmlString(node.Text());
 
@@ -119,7 +119,7 @@ namespace hvn3 {
 
 				for (auto i = node.Children().begin(); i != node.Children().end(); ++i) {
 
-					writeNode(outputStream, *i->get(), depth);
+					WriteNode(outputStream, *i->get(), depth);
 
 					if (std::next(i) != node.Children().end())
 						outputStream << '\n';
@@ -131,27 +131,27 @@ namespace hvn3 {
 			depth -= 1;
 
 			if (node.HasChildren())
-				writeNewline(outputStream, depth);
+				WriteNewline(outputStream, depth);
 
 			outputStream << "</" << node.Tag() << '>';
 
 		}
 
-		void XmlDocument::writeIndent(std::ostream& outputStream, int depth) const {
+		void XmlDocument::WriteIndent(std::ostream& outputStream, int depth) const {
 
 			for (int i = 0; i < depth; ++i)
 				outputStream << '\t';
 
 		}
-		void XmlDocument::writeNewline(std::ostream& outputStream, int depth) const {
+		void XmlDocument::WriteNewline(std::ostream& outputStream, int depth) const {
 
 			outputStream << '\n';
 
-			writeIndent(outputStream, depth);
+			WriteIndent(outputStream, depth);
 
 		}
 
-		void XmlDocument::readDocument(std::istream& inputStream) {
+		void XmlDocument::ReadDocument(std::istream& inputStream) {
 
 			std::stack<XmlElement*> nodes;
 			std::string current_attribute;

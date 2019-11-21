@@ -36,8 +36,22 @@ namespace hvn3 {
 			auto iter = _attributes.find(attribute);
 
 			assert(iter != _attributes.end());
-
+			
 			return iter->second;
+
+		}
+		bool XmlElement::GetAttribute(const std::string& attribute, std::string& result) const {
+
+			result = "";
+
+			auto iter = _attributes.find(attribute);
+
+			if (iter == _attributes.end())
+				return false;
+
+			result = iter->second;
+
+			return true;
 
 		}
 		bool XmlElement::HasAttribute(const std::string& attribute) const {

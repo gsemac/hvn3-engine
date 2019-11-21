@@ -11,11 +11,11 @@ namespace hvn3 {
 
 		// Public methods
 
-		std::vector<std::string> File::ReadAllLines(const char* filePath) {
+		std::vector<std::string> File::ReadAllLines(const std::string& filePath) {
 
 			// Open the file.
 			if (!Exists(filePath)) throw IO::FileNotFoundException(filePath);
-			ALLEGRO_FILE* file = al_fopen(filePath, "r");
+			ALLEGRO_FILE* file = al_fopen(filePath.c_str(), "r");
 
 			// Determine the encoding, and seek past the BOM bytes if needed.
 			TextEncoding encoding = GetEncoding(file);
@@ -46,11 +46,11 @@ namespace hvn3 {
 			return lines;
 
 		}
-		std::string File::ReadAllText(const char* filePath) {
+		std::string File::ReadAllText(const std::string& filePath) {
 
 			// Open the file.
 			if (!Exists(filePath)) throw IO::FileNotFoundException(filePath);
-			ALLEGRO_FILE* file = al_fopen(filePath, "r");
+			ALLEGRO_FILE* file = al_fopen(filePath.c_str(), "r");
 
 			// Determine the encoding, and seek past the BOM bytes if needed.
 			TextEncoding encoding = GetEncoding(file);

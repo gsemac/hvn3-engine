@@ -21,8 +21,8 @@ namespace hvn3 {
 		class File {
 
 		public:
-			static std::vector<std::string> ReadAllLines(const char* filename);
-			static std::string ReadAllText(const char* filename);
+			static std::vector<std::string> ReadAllLines(const std::string& filename);
+			static std::string ReadAllText(const std::string& filename);
 			static bool Exists(const std::string& filename);
 
 		private:

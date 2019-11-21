@@ -25,14 +25,14 @@ namespace hvn3 {
 		private:
 			XmlElement _root;
 
-			void writeDocument(std::ostream& outputStream) const;
-			void writeProlog(std::ostream& outputStream) const;
-			void writeNode(std::ostream& outputStream, const XmlElement& node, int depth) const;
+			void WriteDocument(std::ostream& outputStream) const;
+			void WriteProlog(std::ostream& outputStream) const;
+			void WriteNode(std::ostream& outputStream, const XmlElement& node, int depth) const;
 
-			void writeIndent(std::ostream& outputStream, int depth) const;
-			void writeNewline(std::ostream& outputStream, int depth) const;
+			void WriteIndent(std::ostream& outputStream, int depth) const;
+			void WriteNewline(std::ostream& outputStream, int depth) const;
 
-			void readDocument(std::istream& inputStream);
+			void ReadDocument(std::istream& inputStream);
 
 		};
 

@@ -269,6 +269,7 @@
     <ClInclude Include="include\hvn3\utility\Base64.h" />
     <ClInclude Include="include\hvn3\utility\BitFlags.h" />
     <ClInclude Include="include\hvn3\utility\BitUtils.h" />
+    <ClInclude Include="include\hvn3\utility\Convert.h" />
     <ClInclude Include="include\hvn3\utility\DataGrid.h" />
     <ClInclude Include="include\hvn3\utility\Direction8.h" />
     <ClInclude Include="include\hvn3\utility\Encryption.h" />
