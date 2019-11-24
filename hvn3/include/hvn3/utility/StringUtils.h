@@ -27,6 +27,8 @@ namespace hvn3 {
 			Upper = 0x02
 		};
 
+		extern const std::string EmptyString;
+
 		std::vector<std::string> Split(const std::string& str, char delimiter);
 		std::vector<std::shared_ptr<String>> Break(const std::shared_ptr<String>& ustr, const Font& font, float width);
 		bool IsNullOrEmpty(const String& str);

@@ -60,9 +60,14 @@ namespace hvn3 {
 			std::string file_contents;
 
 			// Read the file bytes.
+
 			while (!al_feof(file)) {
-				char next_byte = al_fgetc(file);
-				file_contents.push_back(next_byte);
+
+				int nextByte = al_fgetc(file);
+
+				if (!al_feof(file))
+					file_contents.push_back(nextByte);
+
 			};
 
 			// Return the result.

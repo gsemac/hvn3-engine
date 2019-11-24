@@ -35,23 +35,22 @@ namespace hvn3 {
 
 			auto iter = _attributes.find(attribute);
 
-			assert(iter != _attributes.end());
-			
+			if (iter == _attributes.end())
+				throw XmlException(StringUtils::Format("The attribute \"{0}\" was not found.", attribute));
+
 			return iter->second;
 
 		}
-		bool XmlElement::GetAttribute(const std::string& attribute, std::string& result) const {
-
-			result = "";
+		bool XmlElement::TryGetAttribute(const std::string& attribute, std::string& out) const {
 
 			auto iter = _attributes.find(attribute);
 
 			if (iter == _attributes.end())
 				return false;
 
-			result = iter->second;
+			out = iter->second;
 
-			return true;
+			return false;
 
 		}
 		bool XmlElement::HasAttribute(const std::string& attribute) const {

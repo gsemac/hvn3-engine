@@ -3,12 +3,14 @@
 #include "hvn3/exceptions/Exception.h"
 
 namespace hvn3 {
+	namespace Xml {
 
-	class XmlException :
-		public Exception {
+		class XmlException :
+			public Exception {
 
-		using Exception::Exception;
+			using Exception::Exception;
 
-	};
+		};
 
+	}
 }

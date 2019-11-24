@@ -39,6 +39,8 @@ namespace hvn3 {
 		Color Darker(float factor = 0.05f) const;
 		Color Inverse() const;
 
+		std::string ToString() const;
+
 		static bool IsTransparent(const ALLEGRO_COLOR& color);
 		static bool IsTransparent(const Color& color);
 		static bool IsTranluscent(const Color& color);
@@ -99,5 +101,7 @@ namespace hvn3 {
 	};
 
 	Color operator*(const Color& lhs, float rhs);
+
+	std::ostream& operator<<(std::ostream& stream, const Color& value);
 
 }

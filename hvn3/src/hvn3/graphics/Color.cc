@@ -7,6 +7,8 @@
 #include <cctype>
 #include <cmath>
 #include <cstdlib>
+#include <iomanip>
+#include <sstream>
 
 #include <allegro5/allegro.h>
 
@@ -214,6 +216,22 @@ namespace hvn3 {
 
 	}
 
+	std::string Color::ToString() const {
+
+		std::ostringstream buffer;
+
+		buffer << std::setfill('0') << std::hex << std::left;
+
+		buffer << "#";
+
+		buffer << std::hex << std::setw(2) << (int)R();
+		buffer << std::hex << std::setw(2) << (int)G();
+		buffer << std::hex << std::setw(2) << (int)B();
+
+		return buffer.str();
+
+	}
+
 	bool Color::IsTransparent(const ALLEGRO_COLOR& color) {
 
 		return !(color.a > 0.0f);
@@ -415,6 +433,14 @@ namespace hvn3 {
 
 	Color operator*(const Color& lhs, float rhs) {
 		return Color::FromArgbf(lhs.Rf(), lhs.Gf(), lhs.Bf(), lhs.Alphaf() * rhs);
+	}
+
+	std::ostream& operator<<(std::ostream& stream, const Color& value) {
+
+		stream << value.ToString();
+
+		return stream;
+
 	}
 
 }

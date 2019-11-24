@@ -1,5 +1,7 @@
 #pragma once
 
+#include "hvn3/utility/Convert.h"
+
 #include <memory>
 #include <sstream>
 #include <string>
@@ -12,7 +14,7 @@ namespace hvn3 {
 		class XmlElement {
 
 			typedef std::unordered_map<std::string, std::string> attributes_collection_type;
-			typedef std::vector<std::unique_ptr<XmlElement>> child_collection_type;
+			typedef std::vector<std::shared_ptr<XmlElement>> child_collection_type;
 
 		public:
 			typedef child_collection_type::iterator child_iterator;
@@ -30,16 +32,32 @@ namespace hvn3 {
 			bool HasText() const;
 
 			const std::string& GetAttribute(const std::string& attribute) const;
-			bool GetAttribute(const std::string& attribute, std::string& result) const;
+			template<typename T>
+			T GetAttribute(const std::string& attribute) const {
+
+				return Convert::To<T>(GetAttribute(attribute));
+
+			}
+			bool TryGetAttribute(const std::string& attribute, std::string& out) const;
+			template<typename T>
+			bool TryGetAttribute(const std::string& attribute, T& out) const {
+
+				auto iter = _attributes.find(attribute);
+
+				if (iter == _attributes.end())
+					return false;
+
+
+				out = Convert::To<T>(iter->second);
+
+				return true;
+
+			}
 
 			template<typename T>
 			void SetAttribute(const std::string& attribute, const T& value) {
 
-				std::ostringstream outputStream;
-
-				outputStream << value;
-
-				_attributes[attribute] = outputStream.str();
+				_attributes[attribute] = Convert::ToString(value);
 
 			}
 			template <>
@@ -51,10 +69,10 @@ namespace hvn3 {
 			template<std::size_t N>
 			void SetAttribute(const std::string& attribute, const char(&value)[N]) {
 
-				_attributes[attribute] = value;
+				SetAttribute(attribute, std::string(value));
 
 			}
-			
+
 			bool HasAttribute(const std::string& attribute) const;
 			bool HasAttributes() const;
 

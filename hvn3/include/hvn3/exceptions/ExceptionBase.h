@@ -23,6 +23,11 @@ namespace hvn3 {
 		virtual const std::string Message() const override {
 			return std::string(what());
 		}
+		const std::string ToString() const {
+
+			return Message();
+
+		}
 
 	};
 

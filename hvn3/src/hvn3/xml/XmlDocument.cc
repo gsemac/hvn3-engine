@@ -1,6 +1,8 @@
 #include "hvn3/xml/XmlDocument.h"
 
 #include "hvn3/io/IOException.h"
+#include "hvn3/utility/StringUtils.h"
+#include "hvn3/xml/XmlException.h"
 #include "hvn3/xml/XmlLexer.h"
 #include "hvn3/xml/XmlUtils.h"
 
@@ -154,48 +156,72 @@ namespace hvn3 {
 		void XmlDocument::ReadDocument(std::istream& inputStream) {
 
 			std::stack<XmlElement*> nodes;
-			std::string current_attribute;
-			bool parsing_error = false;
+			std::string currentAttributeName;
+			bool gotUnexpectedToken = false;
 
 			XmlLexerToken token;
 			XmlLexer lexer(inputStream);
 
-			while (!parsing_error && lexer >> token) {
+			while (!gotUnexpectedToken && lexer >> token) {
 
 				switch (token.type) {
 
 				case XmlLexerTokenType::OpenTag:
+
 					if (nodes.size() <= 0) {
+
 						nodes.push(&Root());
 						nodes.top()->SetTag(token.value);
+
 					}
-					else
+					else {
+
 						nodes.push(&(nodes.top()->AddChild(token.value)));
+
+					}
+
 					break;
 
 				case XmlLexerTokenType::CloseTag:
+
 					nodes.pop();
+
 					break;
 
 				case XmlLexerTokenType::AttributeName:
-					current_attribute = token.value;
+
+					currentAttributeName = token.value;
+
 					break;
 
 				case XmlLexerTokenType::AttributeValue:
-					if (current_attribute.length() <= 0)
-						parsing_error = true;
-					else if (nodes.size() > 0) {
-						nodes.top()->SetAttribute(current_attribute, token.value);
-						current_attribute.clear();
+
+					if (currentAttributeName.length() <= 0) {
+
+						gotUnexpectedToken = true;
+
 					}
+					else if (nodes.size() > 0) {
+
+						nodes.top()->SetAttribute(currentAttributeName, token.value);
+
+						currentAttributeName.clear();
+
+					}
+
 					break;
 
 				case XmlLexerTokenType::Text:
+
 					if (nodes.size() <= 0)
-						parsing_error = true;
+						gotUnexpectedToken = true;
 					else
 						nodes.top()->SetText(token.value);
+
 					break;
+
+				case XmlLexerTokenType::Undefined:
+					throw XmlException(StringUtils::Format("Encountered unexpected token: {0}", token.value));
 
 				}
 
