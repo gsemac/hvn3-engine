@@ -22,6 +22,7 @@
     <ClInclude Include="include\hvn3\allegro\AllegroAdapter.h" />
     <ClInclude Include="include\hvn3\allegro\AllegroExt.h" />
     <ClInclude Include="include\hvn3\allegro\AllegroForwardDeclarations.h" />
+    <ClInclude Include="include\hvn3\allegro\allegro_ustr_iterator.h" />
     <ClInclude Include="include\hvn3\assets\AssetHandle.h" />
     <ClInclude Include="include\hvn3\assets\AssetLoaderEventArgs.h" />
     <ClInclude Include="include\hvn3\assets\AssetManager.h" />
@@ -202,6 +203,9 @@
     <ClInclude Include="include\hvn3\io\Mouse.h" />
     <ClInclude Include="include\hvn3\io\MouseListenerBase.h" />
     <ClInclude Include="include\hvn3\io\Path.h" />
+    <ClInclude Include="include\hvn3\iterators\output_transform_iterator.h" />
+    <ClInclude Include="include\hvn3\iterators\reverse_iterator.h" />
+    <ClInclude Include="include\hvn3\iterators\transform_iterator.h" />
     <ClInclude Include="include\hvn3\math\Circle.h" />
     <ClInclude Include="include\hvn3\math\GeometryUtils.h" />
     <ClInclude Include="include\hvn3\math\Line.h" />
@@ -277,9 +281,7 @@
     <ClInclude Include="include\hvn3\utility\FpsCounter.h" />
     <ClInclude Include="include\hvn3\utility\Grid.h" />
     <ClInclude Include="include\hvn3\utility\Hash.h" />
-    <ClInclude Include="include\hvn3\utility\AbstractIterator.h" />
-    <ClInclude Include="include\hvn3\utility\IteratorTemplate.h" />
-    <ClInclude Include="include\hvn3\utility\IteratorWrapper.h" />
+    <ClInclude Include="include\hvn3\utility\ReverseIterator.h" />
     <ClInclude Include="include\hvn3\utility\MD5.h" />
     <ClInclude Include="include\hvn3\utility\Padding.h" />
     <ClInclude Include="include\hvn3\utility\PerlinNoise.h" />
@@ -305,6 +307,7 @@
     <ClInclude Include="include\hvn3\views\ViewManager.h" />
     <ClInclude Include="include\hvn3\xml\IXmlResourceAdapter.h" />
     <ClInclude Include="include\hvn3\xml\XmlElement.h" />
+    <ClInclude Include="include\hvn3\xml\XmlElementCollection.h" />
     <ClInclude Include="include\hvn3\xml\XmlException.h" />
     <ClInclude Include="include\hvn3\xml\XmlLexer.h" />
     <ClInclude Include="include\hvn3\xml\XmlResourceAdapterBase.h" />
@@ -318,6 +321,7 @@
   <ItemGroup>
     <ClCompile Include="src\hvn3\allegro\AllegroAdapter.cc" />
     <ClCompile Include="src\hvn3\allegro\AllegroExt.cc" />
+    <ClCompile Include="src\hvn3\allegro\allegro_ustr_iterator.cc" />
     <ClCompile Include="src\hvn3\assets\AssetLoaderEventArgs.cc" />
     <ClCompile Include="src\hvn3\assets\BitmapAssetLoader.cc" />
     <ClCompile Include="src\hvn3\assets\FileAssetLoader.cc" />
@@ -479,39 +483,40 @@
     <ClCompile Include="src\hvn3\views\View.cc" />
     <ClCompile Include="src\hvn3\views\ViewManager.cc" />
     <ClCompile Include="src\hvn3\xml\XmlElement.cc" />
+    <ClCompile Include="src\hvn3\xml\XmlElementCollection.cc" />
     <ClCompile Include="src\hvn3\xml\XmlUtils.cc" />
     <ClCompile Include="src\hvn3\xml\XmlDocument.cc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}</ProjectGuid>
     <RootNamespace>HVN3Engine</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>hvn3</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -639,14 +644,14 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets')" />
-    <Import Project="..\packages\Allegro.5.2.4.0\build\native\Allegro.targets" Condition="Exists('..\packages\Allegro.5.2.4.0\build\native\Allegro.targets')" />
+    <Import Project="..\packages\AllegroDeps.1.10.0.0\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.10.0.0\build\native\AllegroDeps.targets')" />
+    <Import Project="..\packages\Allegro.5.2.5.2\build\native\Allegro.targets" Condition="Exists('..\packages\Allegro.5.2.5.2\build\native\Allegro.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets'))" />
-    <Error Condition="!Exists('..\packages\Allegro.5.2.4.0\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Allegro.5.2.4.0\build\native\Allegro.targets'))" />
+    <Error Condition="!Exists('..\packages\AllegroDeps.1.10.0.0\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AllegroDeps.1.10.0.0\build\native\AllegroDeps.targets'))" />
+    <Error Condition="!Exists('..\packages\Allegro.5.2.5.2\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Allegro.5.2.5.2\build\native\Allegro.targets'))" />
   </Target>
 </Project>

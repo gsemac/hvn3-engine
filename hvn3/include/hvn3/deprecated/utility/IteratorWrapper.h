@@ -1,5 +1,7 @@
 #pragma once
+
 #include "hvn3/utility/IteratorTemplate.h"
+
 #include <functional>
 
 namespace hvn3 {

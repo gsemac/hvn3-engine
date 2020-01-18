@@ -4,66 +4,70 @@ namespace hvn3 {
 
 	typedef std::chrono::high_resolution_clock clock_type;
 
-	Stopwatch::Stopwatch(bool start_immediately) {
+	Stopwatch::Stopwatch() :
+		Stopwatch(false) {
+	}
+	Stopwatch::Stopwatch(bool start) {
 
 		// Initialize the starting duration to 0 ns.
-		_nanoseconds_elapsed = 0;
+		_nanosecondsElapsed = 0;
 
 		// The stopwatch is not currently running.
-		_running = false;
+		_started = false;
 
 		// Start the stopwatch immediately if requested.
-		if (start_immediately)
+
+		if (start)
 			Start();
 
 	}
 	void Stopwatch::Start() {
 
-		// If the stopwatch is running, do nothing.
-		if (_running)
-			return;
+		if (!_started) {
 
-		// The stopwatch is now running.
-		_running = true;
+			// The stopwatch is now running.
+			_started = true;
 
-		// Set the starting time.
-		_start = clock_type::now();
+			// Set the starting time.
+			_start = clock_type::now();
+
+		}
 
 	}
 	void Stopwatch::Stop() {
 
 		// If the stopwatch is not running, do nothing.
-		if (!_running)
+		if (!_started)
 			return;
 
 		// The stopwatch is no longer running.
-		_running = false;
+		_started = false;
 
 		// Update the time elapsed.
-		_nanoseconds_elapsed += std::chrono::duration_cast<std::chrono::nanoseconds>(clock_type::now() - _start).count();
+		_nanosecondsElapsed += std::chrono::duration_cast<std::chrono::nanoseconds>(clock_type::now() - _start).count();
 
 	}
-	void Stopwatch::Reset() {
+	void Stopwatch::Clear() {
 
 		// Reset the time elapsed.
-		_nanoseconds_elapsed = 0;
+		_nanosecondsElapsed = 0;
 
 		// Reset the starting time, in case the stopwatch is running.
 		_start = clock_type::now();
-		
-	}
-	bool Stopwatch::IsTiming() const {
 
-		return _running;
+	}
+	bool Stopwatch::IsStarted() const {
+
+		return _started;
 
 	}
 
 	int64_t Stopwatch::NanoSecondsElapsed() {
 
-		if (_running)
-			return _nanoseconds_elapsed + std::chrono::duration_cast<std::chrono::nanoseconds>(clock_type::now() - _start).count();
+		if (_started)
+			return _nanosecondsElapsed + std::chrono::duration_cast<std::chrono::nanoseconds>(clock_type::now() - _start).count();
 		else
-			return _nanoseconds_elapsed;
+			return _nanosecondsElapsed;
 
 	}
 	double Stopwatch::MicroSecondsElapsed() {

@@ -10,7 +10,7 @@ namespace hvn3 {
 		Transform::Transform() {
 
 			// Initialize the transform.
-			Reset();
+			Clear();
 
 		}
 		Transform::Transform(const Transform& other) {
@@ -18,7 +18,7 @@ namespace hvn3 {
 			al_copy_transform((ALLEGRO_TRANSFORM*)this, (ALLEGRO_TRANSFORM*)&other);
 
 		}
-		void Transform::Reset() {
+		void Transform::Clear() {
 
 			al_identity_transform((ALLEGRO_TRANSFORM*)this);
 

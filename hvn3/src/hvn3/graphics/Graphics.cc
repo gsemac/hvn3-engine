@@ -794,7 +794,7 @@ namespace hvn3 {
 		}
 		void Graphics::ResetTransform() {
 
-			_transform.Reset();
+			_transform.Clear();
 
 			if (_isActiveInstance())
 				_applyTransform();

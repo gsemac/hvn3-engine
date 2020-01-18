@@ -1,5 +1,7 @@
 #include "hvn3/math/MathUtils.h"
 
+#include <cmath>
+
 namespace hvn3 {
 	namespace Math {
 

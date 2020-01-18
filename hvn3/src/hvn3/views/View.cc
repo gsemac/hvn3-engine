@@ -70,7 +70,7 @@ namespace hvn3 {
 	SizeF View::Size() const {
 		return Region().Size();
 	}
-	const PointF& View::Position() const {
+	PointF View::Position() const {
 		return _view.Position();
 	}
 	void View::SetPosition(float x, float y) {

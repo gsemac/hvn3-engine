@@ -136,7 +136,7 @@ namespace hvn3 {
 			else
 				mb->dbl_waiting_allowed = true;
 
-			mb->last_release.Reset();
+			mb->last_release.Clear();
 
 		}
 		else if (mb->pressed && mb->dbl_waiting) {

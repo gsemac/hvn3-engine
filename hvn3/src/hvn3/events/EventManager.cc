@@ -153,7 +153,7 @@ namespace hvn3 {
 
 		if (_is_first_update) {
 
-			_update_delta_timer.Reset();
+			_update_delta_timer.Clear();
 			_update_delta_timer.Start();
 
 			_is_first_update = false;
@@ -199,7 +199,7 @@ namespace hvn3 {
 		_mouse_state.ClearButtonStates(true, true, false);
 
 		// Reset the delta timer.
-		_update_delta_timer.Reset();
+		_update_delta_timer.Clear();
 
 		// Since the game state has been updated, it needs to be redrawn.
 		_redraw_required = true;

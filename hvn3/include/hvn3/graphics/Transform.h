@@ -13,7 +13,7 @@ namespace hvn3 {
 			Transform(const Transform& other);
 
 			// Resets the transformation back to its default state.
-			void Reset();
+			void Clear();
 			void Invert();
 			void Translate(float x_offset, float y_offset);
 			void Scale(float x_factor, float y_factor);

@@ -1,5 +1,7 @@
 #include "hvn3/utility/BitUtils.h"
 
+#include <cmath>
+
 namespace hvn3 {
 	namespace BitUtils {
 

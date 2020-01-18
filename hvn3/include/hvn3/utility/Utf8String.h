@@ -1,12 +1,14 @@
 #pragma once
 
-#include "hvn3/utility/Utility.h"
-#include "hvn3/fonts/Font.h"
+#include "hvn3/allegro/allegro_ustr_iterator.h"
 #include "hvn3/allegro/AllegroForwardDeclarations.h"
-#include "hvn3/utility/IteratorTemplate.h"
+#include "hvn3/fonts/Font.h"
+#include "hvn3/iterators/output_transform_iterator.h"
+#include "hvn3/utility/Utility.h"
 
 #include <allegro5/utf8.h>
 
+#include <cassert>
 #include <initializer_list>
 #include <iostream>
 #include <iterator>
@@ -21,85 +23,29 @@ namespace hvn3 {
 	}
 
 	class String {
+
 		friend class System::AllegroAdapter;
 
+		int32_t OnWrite(const int32_t valueWritten) const;
+
 	public:
-		struct IteratorCharacterAdapter {
+		using iterator = decltype(make_output_transform_iterator(allegro::al_ustr_begin((ALLEGRO_USTR*)nullptr), std::bind1st(std::mem_fun(&String::OnWrite), nullptr)));
+		using const_iterator = decltype(make_output_transform_iterator(allegro::al_ustr_cbegin((ALLEGRO_USTR*)nullptr), std::bind1st(std::mem_fun(&String::OnWrite), nullptr)));
+		using reverse_iterator = decltype(make_output_transform_iterator(allegro::al_ustr_rbegin((ALLEGRO_USTR*)nullptr), std::bind1st(std::mem_fun(&String::OnWrite), nullptr)));
+		using const_reverse_iterator = decltype(make_output_transform_iterator(allegro::al_ustr_crbegin((ALLEGRO_USTR*)nullptr), std::bind1st(std::mem_fun(&String::OnWrite), nullptr)));
 
-			IteratorCharacterAdapter(const String* ustr, int index);
-			IteratorCharacterAdapter& operator=(int32_t value);
-			operator int32_t() const;
+		using size_type = size_t;
+		using value_type = int32_t;
 
-			const String* ustr;
-			int index;
-
-		};
-
-		class ReverseIterator;
-
-		class Iterator :
-			public IteratorTemplate<Iterator, IteratorCharacterAdapter> {
-			friend class base_type;
-			friend class ReverseIterator;
-
-		public:
-			typedef std::bidirectional_iterator_tag iterator_category;
-
-			Iterator(const String* ustr, int index);
-
-		private:
-			IteratorCharacterAdapter _adapter;
-
-			void increment();
-			void decrement();
-			reference dereference();
-			bool equal(const derived_type& rhs) const;
-			void advance(difference_type n);		
-
-		};
-
-		class ReverseIterator :
-			public IteratorTemplate<ReverseIterator, IteratorCharacterAdapter> {
-			friend class base_type;
-
-		public:
-			typedef std::bidirectional_iterator_tag iterator_category;
-
-			ReverseIterator(const Iterator& forward_iterator);
-
-		private:
-			Iterator _forward_iterator;
-
-			void increment();
-			void decrement();
-			reference dereference();
-			bool equal(const derived_type& rhs) const;
-			void advance(difference_type n);
-
-		};
-
-		typedef Iterator iterator;
-		typedef Iterator const_iterator;
-		typedef ReverseIterator reverse_iterator;
-		typedef ReverseIterator const_reverse_iterator;
-		typedef size_t size_type;
-		typedef int32_t value_type;
+		static const String Empty;
+		static const size_type npos;
 
 		String();
 		String(const char* value);
 		String(const std::string& value);
 		String(const char* value, size_t size);
-		String(const String& other);
-		String(String&& other);
-
-		iterator begin();
-		iterator end();
-		const_iterator begin() const;
-		const_iterator end() const;
-		reverse_iterator rbegin();
-		reverse_iterator rend();
-		const_reverse_iterator rbegin() const;
-		const_reverse_iterator rend() const;
+		String(const String& other) noexcept;
+		String(String&& other) noexcept;
 
 		String SubString(int length) const;
 		String SubString(int index, int length) const;
@@ -142,8 +88,6 @@ namespace hvn3 {
 		String ToUpper() const;
 		String ToLower() const;
 
-		const char* c_str() const;
-		
 		static bool IsNullOrEmpty(const String& str);
 
 		String& operator=(const char* other);
@@ -154,10 +98,70 @@ namespace hvn3 {
 
 		operator std::string() const;
 
-		static const String Empty;
-		static const size_type npos;
+		const_iterator cbegin() const {
+
+			return MakeIterator(allegro::al_ustr_cbegin(GetUstrPointer()));
+
+		}
+		const_iterator cend() const {
+
+			return MakeIterator(allegro::al_ustr_cend(GetUstrPointer()));
+
+		}
+		iterator begin() {
+
+			return MakeIterator(allegro::al_ustr_begin(GetUstrPointer()));
+
+		}
+		iterator end() {
+
+			return MakeIterator(allegro::al_ustr_end(GetUstrPointer()));
+
+		}
+		const_iterator begin() const {
+
+			return cbegin();
+
+		}
+		const_iterator end() const {
+
+			return cend();
+
+		}
+		const_reverse_iterator crbegin() const {
+
+			return MakeIterator(allegro::al_ustr_crbegin(GetUstrPointer()));
+
+		}
+		const_reverse_iterator crend() const {
+
+			return MakeIterator(allegro::al_ustr_crend(GetUstrPointer()));
+
+		}
+		reverse_iterator rbegin() {
+
+			return MakeIterator(allegro::al_ustr_rbegin(GetUstrPointer()));
+
+		}
+		reverse_iterator rend() {
+
+			return MakeIterator(allegro::al_ustr_rend(GetUstrPointer()));
+
+		}
+		const_reverse_iterator rbegin() const {
+
+			return crbegin();
+
+		}
+		const_reverse_iterator rend() const {
+
+			return crend();
+
+		}
 
 		size_type size() const;
+
+		const char* c_str() const;
 
 	private:
 		typedef std::shared_ptr<ALLEGRO_USTR> ustr_ptr_t;
@@ -167,10 +171,16 @@ namespace hvn3 {
 		mutable ref_ustr_ptr_t _ref_ustr; // pointer to reference substring (if applicable)
 		mutable std::unique_ptr<ALLEGRO_USTR_INFO> _info; // required for storing reference string information; must not be deleted while _ref_ustr is in use
 
-		ALLEGRO_USTR* _getUstrPointer() const;
-		ALLEGRO_USTR* _getUstrPointerAndCreateIfNull();
-		int _getCodePointByteOffset(size_type index) const;
-		void _onWrite() const;
+		ALLEGRO_USTR* GetUstrPointer() const;
+		ALLEGRO_USTR* GetUstrPointer(bool createIfNull);
+		int GetByteOffsetFromCodePointOffset(size_type index) const;
+
+		template<typename Iter>
+		auto MakeIterator(Iter iter) const {
+
+			return make_output_transform_iterator(std::forward<Iter>(iter), std::bind1st(std::mem_fun(&String::OnWrite), this));
+
+		}
 
 	};
 

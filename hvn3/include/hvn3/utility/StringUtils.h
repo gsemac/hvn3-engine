@@ -154,7 +154,7 @@ namespace hvn3 {
 			auto i = input.rbegin();
 			auto j = suffix.rbegin();
 
-			for (; j != suffix.rend(); ++i, ++j)
+			for (; i != input.rend() && j != suffix.rend(); ++i, ++j)
 				if (*i != *j)
 					return false;
 

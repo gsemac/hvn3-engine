@@ -1,15 +1,18 @@
 #include "hvn3/allegro/AllegroExt.h"
 #include "hvn3/exceptions/Exception.h"
+
 #include <allegro5/allegro_image.h>
+
+#include <cmath>
 
 namespace hvn3 {
 
-	void al_draw_wrapped_text(const ALLEGRO_FONT *font, ALLEGRO_COLOR color, float x, float y, float w, float h, int flags, char const *text) {
+	void al_draw_wrapped_text(const ALLEGRO_FONT* font, ALLEGRO_COLOR color, float x, float y, float w, float h, int flags, char const* text) {
 
 		throw NotImplementedException();
 
 	}
-	void al_draw_shadow_ustr(const ALLEGRO_FONT *font, ALLEGRO_COLOR color, ALLEGRO_COLOR shadow_color, float x, float y, int flags, const ALLEGRO_USTR* ustr) {
+	void al_draw_shadow_ustr(const ALLEGRO_FONT* font, ALLEGRO_COLOR color, ALLEGRO_COLOR shadow_color, float x, float y, int flags, const ALLEGRO_USTR* ustr) {
 
 		al_draw_ustr(font, shadow_color, x + 1, y + 1, flags, ustr);
 		al_draw_ustr(font, color, x, y, flags, ustr);
@@ -46,7 +49,7 @@ namespace hvn3 {
 	}
 
 	void al_draw_line(float x1, float y1, float x2, float y2, ALLEGRO_COLOR start_color, ALLEGRO_COLOR end_color, float thickness) {
-		
+
 		// This is the implementation for al_draw_line, modified to have different colors for the start and end points.
 
 		// Original implementation:

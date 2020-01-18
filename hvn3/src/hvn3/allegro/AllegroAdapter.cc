@@ -122,10 +122,14 @@ namespace hvn3 {
 
 		}
 		ALLEGRO_SAMPLE* AllegroAdapter::ToSample(const Sound& sound) {
+
 			return sound._getPtr();
+
 		}
 		ALLEGRO_USTR* AllegroAdapter::ToUStr(const String& input) {
-			return input._getUstrPointer();
+
+			return input.GetUstrPointer();
+
 		}
 
 	}

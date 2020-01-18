@@ -18,9 +18,9 @@
     <Filter Include="src\ecs">
       <UniqueIdentifier>{ebbd4ec8-a692-49dc-9b46-4ec12f365711}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Filter Include="src\allegro">
+      <UniqueIdentifier>{ae2cb694-adf2-47fa-b94d-b6571a7019f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\utility\StringUtilsTests.cc">
@@ -35,5 +35,11 @@
     <ClCompile Include="src\ecs\ComponentManagerTests.cc">
       <Filter>src\ecs</Filter>
     </ClCompile>
+    <ClCompile Include="src\allegro\AllegroUstrIteratorTests.cc">
+      <Filter>src\allegro</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

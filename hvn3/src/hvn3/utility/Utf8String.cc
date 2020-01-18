@@ -11,81 +11,10 @@ namespace hvn3 {
 
 	// Nested class definitions
 
-	String::IteratorCharacterAdapter::IteratorCharacterAdapter(const String* ustr, int index) : ustr(ustr), index(index) {}
-	String::IteratorCharacterAdapter& String::IteratorCharacterAdapter::operator=(int32_t value) {
+	// Public members
 
-		assert(ustr != nullptr);
-		assert(index >= 0);
-
-		ustr->_onWrite();
-
-		al_ustr_set_chr(ustr->_getUstrPointer(), index, value);
-
-		return *this;
-
-	}
-	String::IteratorCharacterAdapter::operator int32_t() const {
-
-		assert(ustr != nullptr);
-		assert(index >= 0);
-
-		return al_ustr_get(ustr->_getUstrPointer(), index);
-
-	}
-
-	String::Iterator::Iterator(const String* ustr, int index) :
-		_adapter(ustr, index) {
-	}
-	void String::Iterator::increment() {
-		al_ustr_next(_adapter.ustr->_getUstrPointer(), &_adapter.index);
-	}
-	void String::Iterator::decrement() {
-		al_ustr_prev(_adapter.ustr->_getUstrPointer(), &_adapter.index);
-	}
-	String::Iterator::reference String::Iterator::dereference() {
-		return _adapter;
-	}
-	bool String::Iterator::equal(const derived_type& rhs) const {
-		return _adapter.index == rhs._adapter.index;
-	}
-	void String::Iterator::advance(difference_type n) {
-
-		if (n > 0)
-			for (auto i = 0; i < n; ++i)
-				increment();
-		else if (n < 0)
-			for (auto i = 0; i < (std::abs)(n); ++i)
-				decrement();
-
-	}
-
-	String::ReverseIterator::ReverseIterator(const Iterator& forward_iterator) :
-		_forward_iterator(forward_iterator) {
-	}
-	void String::ReverseIterator::increment() {
-
-		if (_forward_iterator._adapter.index == 0)
-			_forward_iterator = Iterator(_forward_iterator._adapter.ustr, -1);
-		else
-			_forward_iterator.decrement();
-
-	}
-	void String::ReverseIterator::decrement() {
-
-		_forward_iterator.increment();
-
-	}
-	String::ReverseIterator::reference String::ReverseIterator::dereference() {
-		return _forward_iterator.dereference();
-	}
-	bool String::ReverseIterator::equal(const derived_type& rhs) const {
-		return _forward_iterator == rhs._forward_iterator;
-	}
-	void String::ReverseIterator::advance(difference_type n) {
-		_forward_iterator.advance(-n);
-	}
-
-	// Public methods
+	const String String::Empty;
+	const String::size_type String::npos = -1;
 
 	String::String() :
 		_ref_ustr(nullptr, al_ustr_free) {
@@ -105,13 +34,13 @@ namespace hvn3 {
 		_ustr = ustr_ptr_t(al_ustr_new_from_buffer(value, size), al_ustr_free);
 
 	}
-	String::String(const String& other) :
+	String::String(const String& other) noexcept :
 		String() {
 
 		_ustr = other._ustr;
 
 	}
-	String::String(String&& other) :
+	String::String(String&& other) noexcept :
 		String() {
 
 		_ustr = std::move(other._ustr);
@@ -119,42 +48,11 @@ namespace hvn3 {
 		_info = std::move(other._info);
 
 	}
-	String::iterator String::begin() {
-		return iterator(this, 0);
-	}
-	String::iterator String::end() {
 
-		int len = static_cast<int>(Length());
-
-		assert(len > 0);
-
-		return iterator(this, len);
-
-	}
-	String::const_iterator String::begin() const {
-		return iterator(this, 0);
-	}
-	String::const_iterator String::end() const {
-
-		int len = static_cast<int>(Length());
-
-		return iterator(this, len);
-
-	}
-	String::reverse_iterator String::rbegin() {
-		return reverse_iterator(end() - 1u);
-	}
-	String::reverse_iterator String::rend() {
-		return reverse_iterator(iterator(this, -1));
-	}
-	String::const_reverse_iterator String::rbegin() const {
-		return const_reverse_iterator(end() - 1u);
-	}
-	String::const_reverse_iterator String::rend() const {
-		return const_reverse_iterator(const_iterator(this, -1));
-	}
 	String String::SubString(int length) const {
+
 		return SubString(0, length);
+
 	}
 	String String::SubString(int index, int length) const {
 
@@ -167,20 +65,21 @@ namespace hvn3 {
 		// #todo This could be made more efficient since end > begin is a guarantee.
 		// Note that we could be creating a substring from a reference substring, so we need to make sure we use the correct pointer.
 
-		int begin = al_ustr_offset(_getUstrPointer(), index);
-		int end = al_ustr_offset(_getUstrPointer(), index + length);
+		int begin = al_ustr_offset(GetUstrPointer(), index);
+		int end = al_ustr_offset(GetUstrPointer(), index + length);
 
 		String substr;
 		substr._ustr = _ustr;
 		substr._info = std::make_unique<ALLEGRO_USTR_INFO>();
-		substr._ref_ustr = ref_ustr_ptr_t(const_cast<ALLEGRO_USTR*>(al_ref_ustr(substr._info.get(), _getUstrPointer(), begin, end)), al_ustr_free);
+		substr._ref_ustr = ref_ustr_ptr_t(const_cast<ALLEGRO_USTR*>(al_ref_ustr(substr._info.get(), GetUstrPointer(), begin, end)), al_ustr_free);
 
 		return substr;
 
 	}
+
 	String::size_type String::Length() const {
 
-		ALLEGRO_USTR* ptr = _getUstrPointer();
+		ALLEGRO_USTR* ptr = GetUstrPointer();
 
 		if (ptr == nullptr)
 			return 0;
@@ -189,16 +88,17 @@ namespace hvn3 {
 
 	}
 	int String::Width(const Font& font) const {
-		return al_get_ustr_width(System::AllegroAdapter::ToFont(font), _getUstrPointer());
+		return al_get_ustr_width(System::AllegroAdapter::ToFont(font), GetUstrPointer());
 	}
 	int String::Height(const Font& font) const {
 
 		int bbx, bby, bbw, bbh;
-		al_get_ustr_dimensions(System::AllegroAdapter::ToFont(font), _getUstrPointer(), &bbx, &bby, &bbw, &bbh);
+		al_get_ustr_dimensions(System::AllegroAdapter::ToFont(font), GetUstrPointer(), &bbx, &bby, &bbw, &bbh);
 
 		return bby + bbh;
 
 	}
+
 	String::size_type String::IndexOf(value_type character) const {
 		return IndexOf(character, 0);
 	}
@@ -215,12 +115,12 @@ namespace hvn3 {
 	}
 	String::size_type String::IndexOf(const char* value) const {
 
-		ALLEGRO_USTR* ptr = _getUstrPointer();
+		ALLEGRO_USTR* ptr = GetUstrPointer();
 
 		if (ptr == nullptr)
 			return npos;
 
-		int pos = al_ustr_find_cstr(_getUstrPointer(), 0, value);
+		int pos = al_ustr_find_cstr(GetUstrPointer(), 0, value);
 
 		if (pos < 0)
 			return npos;
@@ -286,17 +186,19 @@ namespace hvn3 {
 		return npos;
 
 	}
+
 	String::value_type String::CharAt(size_type index) const {
 
 		assert(index < Length());
 
-		ALLEGRO_USTR* ptr = _getUstrPointer();
+		ALLEGRO_USTR* ptr = GetUstrPointer();
 
-		int pos = al_ustr_offset(ptr, _getCodePointByteOffset(index));
+		int pos = al_ustr_offset(ptr, GetByteOffsetFromCodePointOffset(index));
 
 		return al_ustr_get(ptr, pos);
 
 	}
+
 	bool String::Equals(const char* str) const {
 
 		// Note that String instances are allowed to contain the null byte, and may not always be null-terminated.
@@ -317,11 +219,11 @@ namespace hvn3 {
 
 	}
 	bool String::Equals(const String& value) const {
-		return al_ustr_equal(_getUstrPointer(), value._getUstrPointer());
+		return al_ustr_equal(GetUstrPointer(), value.GetUstrPointer());
 	}
 	bool String::Contains(const char* value) const {
 
-		ALLEGRO_USTR* ptr = _getUstrPointer();
+		ALLEGRO_USTR* ptr = GetUstrPointer();
 
 		if (ptr == nullptr)
 			return false;
@@ -335,30 +237,31 @@ namespace hvn3 {
 	bool String::EndsWith(const char* value) const {
 		return StringUtils::EndsWith(*this, value);
 	}
+
 	void String::Append(const char* str) {
 
-		_onWrite();
+		OnWrite(0);
 
-		ALLEGRO_USTR* ptr = _getUstrPointerAndCreateIfNull();
+		ALLEGRO_USTR* ptr = GetUstrPointer(true);
 
 		al_ustr_append_cstr(ptr, str);
 
 	}
 	void String::Append(value_type character) {
 
-		_onWrite();
+		OnWrite(0);
 
-		ALLEGRO_USTR* ptr = _getUstrPointerAndCreateIfNull();
+		ALLEGRO_USTR* ptr = GetUstrPointer(true);
 
 		al_ustr_append_chr(ptr, character);
 
 	}
 	void String::Append(const String& value) {
 
-		_onWrite();
+		OnWrite(0);
 
-		ALLEGRO_USTR* ptr = _getUstrPointerAndCreateIfNull();
-		ALLEGRO_USTR* other_ptr = value._getUstrPointer();
+		ALLEGRO_USTR* ptr = GetUstrPointer(true);
+		ALLEGRO_USTR* other_ptr = value.GetUstrPointer();
 
 		if (other_ptr != nullptr)
 			al_ustr_append(ptr, other_ptr);
@@ -366,47 +269,50 @@ namespace hvn3 {
 	}
 	void String::Insert(size_type index, const char* str) {
 
-		_onWrite();
+		OnWrite(0);
 
-		ALLEGRO_USTR* ptr = _getUstrPointerAndCreateIfNull();
-		int pos = _getCodePointByteOffset(index);
+		ALLEGRO_USTR* ptr = GetUstrPointer(true);
+		int pos = GetByteOffsetFromCodePointOffset(index);
 
 		al_ustr_insert_cstr(ptr, pos, str);
 
 	}
 	void String::Insert(size_type index, value_type character) {
 
-		_onWrite();
+		OnWrite(0);
 
-		ALLEGRO_USTR* ptr = _getUstrPointerAndCreateIfNull();
-		int pos = _getCodePointByteOffset(index);
+		ALLEGRO_USTR* ptr = GetUstrPointer(true);
+		int pos = GetByteOffsetFromCodePointOffset(index);
 
 		al_ustr_insert_chr(ptr, pos, character);
 
 	}
 	void String::Insert(size_type index, const String& str) {
 
-		_onWrite();
+		OnWrite(0);
 
-		ALLEGRO_USTR* ptr = _getUstrPointerAndCreateIfNull();
-		int pos = _getCodePointByteOffset(index);
+		ALLEGRO_USTR* ptr = GetUstrPointer(true);
+		int pos = GetByteOffsetFromCodePointOffset(index);
 
-		al_ustr_insert(ptr, pos, str._getUstrPointer());
+		al_ustr_insert(ptr, pos, str.GetUstrPointer());
 
 	}
 	void String::Insert(size_type index, const std::string& str) {
+
 		Insert(index, str.c_str());
+
 	}
+
 	void String::RemoveAt(size_type index) {
 
-		_onWrite();
+		OnWrite(0);
 
-		ALLEGRO_USTR* ptr = _getUstrPointer();
+		ALLEGRO_USTR* ptr = GetUstrPointer();
 
 		if (ptr == nullptr)
 			return;
 
-		int pos = _getCodePointByteOffset(index);
+		int pos = GetByteOffsetFromCodePointOffset(index);
 
 		al_ustr_remove_chr(ptr, pos);
 
@@ -418,27 +324,30 @@ namespace hvn3 {
 		assert(index + length >= 0);
 		assert(index + length < Length());
 
-		_onWrite();
+		OnWrite(0);
 
-		ALLEGRO_USTR* ptr = _getUstrPointer();
+		ALLEGRO_USTR* ptr = GetUstrPointer();
 
 		if (ptr == nullptr)
 			return;
 
-		int start_pos = _getCodePointByteOffset(index);
-		int end_pos = _getCodePointByteOffset(index + length);
+		int start_pos = GetByteOffsetFromCodePointOffset(index);
+		int end_pos = GetByteOffsetFromCodePointOffset(index + length);
 
 		al_ustr_remove_range(ptr, start_pos, end_pos);
 
 	}
 	void String::Clear() {
+
 		*this = String();
+
 	}
+
 	void String::Trim() {
 
-		_onWrite();
+		OnWrite(0);
 
-		ALLEGRO_USTR* ptr = _getUstrPointer();
+		ALLEGRO_USTR* ptr = GetUstrPointer();
 
 		if (ptr == nullptr)
 			return;
@@ -448,9 +357,9 @@ namespace hvn3 {
 	}
 	void String::LTrim() {
 
-		_onWrite();
+		OnWrite(0);
 
-		ALLEGRO_USTR* ptr = _getUstrPointer();
+		ALLEGRO_USTR* ptr = GetUstrPointer();
 
 		if (ptr == nullptr)
 			return;
@@ -460,9 +369,9 @@ namespace hvn3 {
 	}
 	void String::RTrim() {
 
-		_onWrite();
+		OnWrite(0);
 
-		ALLEGRO_USTR* ptr = _getUstrPointer();
+		ALLEGRO_USTR* ptr = GetUstrPointer();
 
 		if (ptr == nullptr)
 			return;
@@ -490,19 +399,10 @@ namespace hvn3 {
 		return lower;
 
 	}
-	const char* String::c_str() const {
 
-		ALLEGRO_USTR* ptr = _getUstrPointer();
-
-		if (ptr == nullptr)
-			return nullptr;
-
-		return al_cstr(ptr);
-
-	}
 	bool String::IsNullOrEmpty(const String& str) {
 
-		return (str._getUstrPointer() == nullptr || str.Length() == 0);
+		return (str.GetUstrPointer() == nullptr || str.Length() == 0);
 
 	}
 
@@ -600,34 +500,52 @@ namespace hvn3 {
 
 	}
 
-	const String String::Empty;
-	const String::size_type String::npos = -1;
-
 	String::size_type String::size() const {
+
 		return Length();
-	}
-
-	// Private methods
-
-	ALLEGRO_USTR* String::_getUstrPointer() const {
-
-		if (_ref_ustr)
-			return _ref_ustr.get();
-
-		return _ustr.get();
 
 	}
-	ALLEGRO_USTR* String::_getUstrPointerAndCreateIfNull() {
+	const char* String::c_str() const {
 
-		ALLEGRO_USTR* ptr = _getUstrPointer();
+		ALLEGRO_USTR* ptr = GetUstrPointer();
 
 		if (ptr == nullptr)
-			*this = String("");
+			return nullptr;
 
-		return _getUstrPointer();
+		return al_cstr(ptr);
 
 	}
-	int String::_getCodePointByteOffset(size_type index) const {
+
+	// Private members
+
+	ALLEGRO_USTR* String::GetUstrPointer() const {
+
+		ALLEGRO_USTR* ptr = nullptr;
+
+		if (_ref_ustr)
+			ptr = _ref_ustr.get();
+		else
+			ptr = _ustr.get();
+
+		return ptr;
+
+	}
+	ALLEGRO_USTR* String::GetUstrPointer(bool createIfNull) {
+
+		ALLEGRO_USTR* ptr = GetUstrPointer();
+
+		if (createIfNull && ptr == nullptr) {
+
+			*this = String("");
+
+			ptr = GetUstrPointer();
+
+		}
+
+		return ptr;
+
+	}
+	int String::GetByteOffsetFromCodePointOffset(size_type index) const {
 
 		assert(index >= 0);
 
@@ -638,9 +556,10 @@ namespace hvn3 {
 		return index_i;
 
 	}
-	void String::_onWrite() const {
+	int32_t String::OnWrite(const int32_t valueWritten) const {
 
 		// Reference substrings can't be written to, so we need to copy.
+
 		if (_ref_ustr) {
 
 			_ustr = ustr_ptr_t(al_ustr_dup(_ref_ustr.get()), al_ustr_free);
@@ -649,14 +568,15 @@ namespace hvn3 {
 			_info.release();
 
 		}
-		else
+		else if (_ustr && _ustr.use_count() > 1) {
 
 			// We need to copy if any other instances are using the same memory.
-			if (_ustr && _ustr.use_count() > 1) {
 
-				_ustr = ustr_ptr_t(al_ustr_dup(_ustr.get()), al_ustr_free);
+			_ustr = ustr_ptr_t(al_ustr_dup(_ustr.get()), al_ustr_free);
 
-			}
+		}
+
+		return valueWritten;
 
 	}
 

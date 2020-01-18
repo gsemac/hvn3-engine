@@ -46,7 +46,8 @@ namespace hvn3test {
 
 			str2.Append('w');
 
-			Assert::IsTrue(str1 == "hello" && str2 == "hellow");
+			Assert::IsTrue(str1 == "hello");
+			Assert::IsTrue(str2 == "hellow");
 
 		}
 		TEST_METHOD(TestForwardIteration) {

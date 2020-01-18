@@ -26,7 +26,7 @@ namespace hvn3 {
 		SizeF Size() const;
 		float X() const;
 		float Y() const;
-		const PointF& Position() const;
+		PointF Position() const;
 		void SetPosition(float x, float y);
 		void SetPosition(const PointF& position);
 		void SetX(float x);

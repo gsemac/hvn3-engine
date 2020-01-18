@@ -28,7 +28,7 @@ namespace hvn3 {
 
 		// If the timer hasn't started yet, start it.
 
-		if (!_frame_timer.IsTiming())
+		if (!_frame_timer.IsStarted())
 			_frame_timer.Start();
 
 		++_frame_count;
@@ -56,7 +56,7 @@ namespace hvn3 {
 		}
 
 		// Reset the frame timer for the next frame.
-		_frame_timer.Reset();
+		_frame_timer.Clear();
 
 		return instantaneous_fps;
 
