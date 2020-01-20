@@ -3,7 +3,7 @@
 #include "hvn3/io/Path.h"
 #include "hvn3/utility/StringUtils.h"
 #include "hvn3/tiles/Tileset.h"
-#include "hvn3/xml/XmlDocument.h"
+#include "hvn3/xml/xml_document.h"
 
 #include <cassert>
 #include <sstream>
@@ -92,16 +92,16 @@ namespace hvn3 {
 
 		if (IO::File::Exists(meta_path)) {
 
-			Xml::XmlDocument meta = Xml::XmlDocument::Open(IO::Path::SetExtension(file, ".xml"));
+			xml::XmlDocument meta = xml::XmlDocument::Open(IO::Path::SetExtension(file, ".xml"));
 
 			int tile_width = StringUtils::Parse<int>(meta.Root().GetAttribute("tile_width"));
 			int tile_height = StringUtils::Parse<int>(meta.Root().GetAttribute("tile_height"));
-			
+
 			Tileset tileset(image, SizeI(tile_width, tile_height));
 
 			std::stringstream flags;
 			flags << meta.Root().GetChild("flags").Text();
-			
+
 			for (size_t i = 0; i < tileset.Count(); ++i) {
 				flags >> tileset.GetAt(i).flag;
 				flags.ignore(1);

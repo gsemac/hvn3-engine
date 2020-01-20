@@ -1,11 +1,11 @@
 #pragma once
 
-#include "hvn3/xml/XmlElement.h"
+#include "hvn3/xml/xml_element.h"
 
 #include <iostream>
 
 namespace hvn3 {
-	namespace Xml {
+	namespace xml {
 
 		class XmlDocument {
 
@@ -23,7 +23,7 @@ namespace hvn3 {
 			static XmlDocument Parse(const std::string& xmlString);
 
 		private:
-			XmlElement _root;
+			XmlElement root;
 
 			void WriteDocument(std::ostream& outputStream) const;
 			void WriteProlog(std::ostream& outputStream) const;

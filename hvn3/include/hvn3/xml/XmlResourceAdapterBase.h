@@ -12,7 +12,7 @@
 #include "hvn3/xml/IXmlResourceAdapter.h"
 
 namespace hvn3 {
-	namespace Xml {
+	namespace xml {
 
 		template<typename RoomType = Room>
 		class XmlResourceAdapterBase :

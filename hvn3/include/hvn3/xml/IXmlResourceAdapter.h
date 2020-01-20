@@ -12,7 +12,7 @@ namespace hvn3 {
 	class TileManager;
 	class View;
 
-	namespace Xml {
+	namespace xml {
 
 		class XmlElement;
 

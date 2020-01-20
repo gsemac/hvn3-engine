@@ -3,7 +3,7 @@
 #include "hvn3/exceptions/Exception.h"
 
 namespace hvn3 {
-	namespace Xml {
+	namespace xml {
 
 		class XmlException :
 			public Exception {

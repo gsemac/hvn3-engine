@@ -205,6 +205,7 @@
     <ClInclude Include="include\hvn3\io\Path.h" />
     <ClInclude Include="include\hvn3\iterators\output_transform_iterator.h" />
     <ClInclude Include="include\hvn3\iterators\reverse_iterator.h" />
+    <ClInclude Include="include\hvn3\iterators\stashing_transform_iterator.h" />
     <ClInclude Include="include\hvn3\iterators\transform_iterator.h" />
     <ClInclude Include="include\hvn3\math\Circle.h" />
     <ClInclude Include="include\hvn3\math\GeometryUtils.h" />
@@ -281,7 +282,7 @@
     <ClInclude Include="include\hvn3\utility\FpsCounter.h" />
     <ClInclude Include="include\hvn3\utility\Grid.h" />
     <ClInclude Include="include\hvn3\utility\Hash.h" />
-    <ClInclude Include="include\hvn3\utility\ReverseIterator.h" />
+    <ClInclude Include="include\hvn3\iterators\iterator_range.h" />
     <ClInclude Include="include\hvn3\utility\MD5.h" />
     <ClInclude Include="include\hvn3\utility\Padding.h" />
     <ClInclude Include="include\hvn3\utility\PerlinNoise.h" />
@@ -305,14 +306,15 @@
     <ClInclude Include="include\hvn3\views\IViewManager.h" />
     <ClInclude Include="include\hvn3\views\View.h" />
     <ClInclude Include="include\hvn3\views\ViewManager.h" />
+    <ClInclude Include="include\hvn3\xml\xml_attribute.h" />
     <ClInclude Include="include\hvn3\xml\IXmlResourceAdapter.h" />
-    <ClInclude Include="include\hvn3\xml\XmlElement.h" />
-    <ClInclude Include="include\hvn3\xml\XmlElementCollection.h" />
-    <ClInclude Include="include\hvn3\xml\XmlException.h" />
-    <ClInclude Include="include\hvn3\xml\XmlLexer.h" />
+    <ClInclude Include="include\hvn3\xml\xml_element.h" />
+    <ClInclude Include="include\hvn3\xml\xml_exception.h" />
+    <ClInclude Include="include\hvn3\xml\xml_lexer.h" />
     <ClInclude Include="include\hvn3\xml\XmlResourceAdapterBase.h" />
-    <ClInclude Include="include\hvn3\xml\XmlUtils.h" />
-    <ClInclude Include="include\hvn3\xml\XmlDocument.h" />
+    <ClInclude Include="include\hvn3\xml\xml_lexer_token.h" />
+    <ClInclude Include="include\hvn3\xml\xml_utilities.h" />
+    <ClInclude Include="include\hvn3\xml\xml_document.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
@@ -482,10 +484,12 @@
     <ClCompile Include="src\hvn3\utility\Version.cc" />
     <ClCompile Include="src\hvn3\views\View.cc" />
     <ClCompile Include="src\hvn3\views\ViewManager.cc" />
-    <ClCompile Include="src\hvn3\xml\XmlElement.cc" />
-    <ClCompile Include="src\hvn3\xml\XmlElementCollection.cc" />
-    <ClCompile Include="src\hvn3\xml\XmlUtils.cc" />
-    <ClCompile Include="src\hvn3\xml\XmlDocument.cc" />
+    <ClCompile Include="src\hvn3\xml\xml_element.cc" />
+    <ClCompile Include="src\hvn3\xml\xml_attribute.cc" />
+    <ClCompile Include="src\hvn3\xml\xml_lexer.cc" />
+    <ClCompile Include="src\hvn3\xml\xml_lexer_token.cc" />
+    <ClCompile Include="src\hvn3\xml\xml_utilities.cc" />
+    <ClCompile Include="src\hvn3\xml\xml_document.cc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}</ProjectGuid>

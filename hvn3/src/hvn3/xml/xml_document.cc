@@ -1,30 +1,34 @@
-#include "hvn3/xml/XmlDocument.h"
+#include "hvn3/xml/xml_document.h"
 
 #include "hvn3/io/IOException.h"
 #include "hvn3/utility/StringUtils.h"
-#include "hvn3/xml/XmlException.h"
-#include "hvn3/xml/XmlLexer.h"
-#include "hvn3/xml/XmlUtils.h"
+#include "hvn3/xml/xml_exception.h"
+#include "hvn3/xml/xml_lexer.h"
+#include "hvn3/xml/xml_utilities.h"
 
 #include <fstream>
 #include <sstream>
 #include <stack>
 
 namespace hvn3 {
-	namespace Xml {
+	namespace xml {
 
 		// Public members
 
 		XmlDocument::XmlDocument() :
 			XmlDocument("") {}
 		XmlDocument::XmlDocument(const std::string& rootTag) :
-			_root(rootTag) {
+			root(rootTag) {
 		}
 		XmlElement& XmlDocument::Root() {
-			return _root;
+
+			return root;
+
 		}
 		const XmlElement& XmlDocument::Root() const {
-			return _root;
+
+			return root;
+
 		}
 		bool XmlDocument::Save(const std::string& filePath) const {
 
@@ -79,7 +83,7 @@ namespace hvn3 {
 		void XmlDocument::WriteDocument(std::ostream& outputStream) const {
 
 			WriteProlog(outputStream);
-			WriteNode(outputStream, _root, 0);
+			WriteNode(outputStream, root, 0);
 
 		}
 		void XmlDocument::WriteProlog(std::ostream& outputStream) const {
@@ -95,8 +99,8 @@ namespace hvn3 {
 
 			outputStream << "<" << node.Tag();
 
-			for (auto i = node.Attributes().begin(); i != node.Attributes().end(); ++i)
-				outputStream << " " << i->first << "=\"" << Xml::EscapeXmlString(i->second) << "\"";
+			for (auto& attribute : node.Attributes())
+				outputStream << " " << attribute.Name() << "=\"" << xml::EscapeXmlString(attribute.Value()) << "\"";
 
 			outputStream << '>';
 
@@ -109,7 +113,7 @@ namespace hvn3 {
 				if (node.HasChildren())
 					WriteNewline(outputStream, depth);
 
-				outputStream << Xml::EscapeXmlString(node.Text());
+				outputStream << xml::EscapeXmlString(node.Text());
 
 			}
 
@@ -121,7 +125,7 @@ namespace hvn3 {
 
 				for (auto i = node.Children().begin(); i != node.Children().end(); ++i) {
 
-					WriteNode(outputStream, *i->get(), depth);
+					WriteNode(outputStream, *i, depth);
 
 					if (std::next(i) != node.Children().end())
 						outputStream << '\n';

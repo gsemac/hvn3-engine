@@ -1,8 +1,8 @@
 #include "hvn3/utility/StringUtils.h"
-#include "hvn3/xml/XmlUtils.h"
+#include "hvn3/xml/xml_utilities.h"
 
 namespace hvn3 {
-	namespace Xml {
+	namespace xml {
 
 		std::string EscapeXmlString(const std::string& str) {
 
@@ -48,11 +48,11 @@ namespace hvn3 {
 
 			std::string buf;
 			buf.reserve(str.length());
-			
+
 			for (size_t i = 0; i < str.size(); ++i) {
 
 				if (str[i] == '&') {
-					
+
 					if (StringUtils::NextSubstringEquals(str, i + 1, "quot;")) {
 						buf.push_back('"');
 						i += 4;
@@ -73,7 +73,7 @@ namespace hvn3 {
 						buf.push_back('&');
 						i += 3;
 					}
-					
+
 					continue;
 
 				}

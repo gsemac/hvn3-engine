@@ -172,6 +172,9 @@
     <Filter Include="include\iterators">
       <UniqueIdentifier>{ccaa8296-f324-4b04-8e43-4c37617ea4a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\xml\internal">
+      <UniqueIdentifier>{649f39c5-1997-41ac-a8db-4b94ba7f8976}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\hvn3\allegro\AllegroAdapter.h">
@@ -585,20 +588,8 @@
     <ClInclude Include="include\hvn3\io\StreamBase.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\xml\XmlUtils.h">
-      <Filter>include\xml</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\utility\Assert.h">
       <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\xml\XmlDocument.h">
-      <Filter>include\xml</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\xml\XmlElement.h">
-      <Filter>include\xml</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\xml\XmlLexer.h">
-      <Filter>include\xml</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\xml\IXmlResourceAdapter.h">
       <Filter>include\xml</Filter>
@@ -1032,16 +1023,7 @@
     <ClInclude Include="include\hvn3\io\IOException.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\xml\XmlException.h">
-      <Filter>include\xml</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\utility\Convert.h">
-      <Filter>include\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\xml\XmlElementCollection.h">
-      <Filter>include\xml</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\utility\ReverseIterator.h">
       <Filter>include\utility</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\iterators\output_transform_iterator.h">
@@ -1055,6 +1037,27 @@
     </ClInclude>
     <ClInclude Include="include\hvn3\allegro\allegro_ustr_iterator.h">
       <Filter>include\allegro</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\xml\xml_utilities.h">
+      <Filter>include\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\xml\xml_attribute.h">
+      <Filter>include\xml\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\xml\xml_document.h">
+      <Filter>include\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\xml\xml_element.h">
+      <Filter>include\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\iterators\iterator_range.h" />
+    <ClInclude Include="include\hvn3\iterators\stashing_transform_iterator.h" />
+    <ClInclude Include="include\hvn3\xml\xml_lexer.h">
+      <Filter>include\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\xml\xml_lexer_token.h" />
+    <ClInclude Include="include\hvn3\xml\xml_exception.h">
+      <Filter>include\xml</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1323,15 +1326,6 @@
     <ClCompile Include="src\hvn3\rooms\RoomBase.cc">
       <Filter>src\rooms</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\xml\XmlUtils.cc">
-      <Filter>src\xml</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\xml\XmlDocument.cc">
-      <Filter>src\xml</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\xml\XmlElement.cc">
-      <Filter>src\xml</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\helper\DirectionalControlsHelper.cc">
       <Filter>src\helper</Filter>
     </ClCompile>
@@ -1557,11 +1551,20 @@
     <ClCompile Include="src\hvn3\io\IOException.cc">
       <Filter>src\io</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\xml\XmlElementCollection.cc">
-      <Filter>src\xml</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\allegro\allegro_ustr_iterator.cc">
       <Filter>src\allegro</Filter>
     </ClCompile>
+    <ClCompile Include="src\hvn3\xml\xml_utilities.cc">
+      <Filter>src\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\xml\xml_attribute.cc" />
+    <ClCompile Include="src\hvn3\xml\xml_document.cc">
+      <Filter>src\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\xml\xml_element.cc">
+      <Filter>src\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\xml\xml_lexer.cc" />
+    <ClCompile Include="src\hvn3\xml\xml_lexer_token.cc" />
   </ItemGroup>
 </Project>
