@@ -19,8 +19,8 @@ namespace hvn3 {
 			bool Save(const std::string& filePath) const;
 			std::string ToString() const;
 
-			static XmlDocument Open(const std::string& filePath);
-			static XmlDocument Parse(const std::string& xmlString);
+			static XmlDocument FromFile(const std::string& filePath);
+			static XmlDocument FromXml(const std::string& xmlString);
 
 		private:
 			XmlElement root;

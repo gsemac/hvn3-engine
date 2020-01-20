@@ -92,7 +92,7 @@ namespace hvn3 {
 
 		if (IO::File::Exists(meta_path)) {
 
-			xml::XmlDocument meta = xml::XmlDocument::Open(IO::Path::SetExtension(file, ".xml"));
+			xml::XmlDocument meta = xml::XmlDocument::FromFile(IO::Path::SetExtension(file, ".xml"));
 
 			int tile_width = StringUtils::Parse<int>(meta.Root().GetAttribute("tile_width"));
 			int tile_height = StringUtils::Parse<int>(meta.Root().GetAttribute("tile_height"));

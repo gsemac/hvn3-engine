@@ -28,6 +28,12 @@ namespace hvn3 {
 	Color::Color(const Color& base_color, unsigned char alpha) :
 		Color(base_color.R(), base_color.G(), base_color.B(), alpha) {
 	}
+	Color::Color(const std::string& hexString) :
+		Color() {
+
+		*this = Color::FromHex(StringUtils::ParseHex(hexString));
+
+	}
 	Color Color::FromArgb(unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
 
 		return Color(r, g, b, a);
@@ -136,9 +142,9 @@ namespace hvn3 {
 		// Calculate hue.
 		float h;
 		if (s > 0.0f) {
-			if (_r > _g && _r > _b)
+			if (_r > _g&& _r > _b)
 				h = (_g - _b) / (max - min);
-			else if (_g > _r && _g > _b)
+			else if (_g > _r&& _g > _b)
 				h = 2.0f + (_b - _r) / (max - min);
 			else
 				h = 4.0f + (_r - _g) / (max - min);
@@ -287,9 +293,9 @@ namespace hvn3 {
 
 		// Calculate hue.
 		if (s > 0.0f) {
-			if (_r > _g && _r > _b)
+			if (_r > _g&& _r > _b)
 				h = (_g - _b) / (max - min);
-			else if (_g > _r && _g > _b)
+			else if (_g > _r&& _g > _b)
 				h = 2.0f + (_b - _r) / (max - min);
 			else
 				h = 4.0f + (_r - _g) / (max - min);

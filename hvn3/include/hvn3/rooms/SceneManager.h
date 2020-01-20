@@ -51,6 +51,8 @@ namespace hvn3 {
 
 		template<typename SceneType, typename ...Args>
 		void LoadScene(Args&&... args);
+		template<typename SceneType>
+		void LoadScene(const SceneType& scene);
 		template<typename SceneType, typename ...Args>
 		scene_index AddScene(Args&&... args);
 		template<typename TransitionType, typename ...Args>
@@ -92,6 +94,16 @@ namespace hvn3 {
 		static_assert(std::is_base_of<IScene, SceneType>::value, "Type must implement IScene");
 
 		std::unique_ptr<IScene> ptr = std::make_unique<SceneType>(std::forward<Args>(args)...);
+
+		LoadScene(std::move(ptr));
+
+	}
+	template<typename SceneType>
+	void SceneManager::LoadScene(const SceneType& scene) {
+
+		static_assert(std::is_base_of<IScene, SceneType>::value, "Type must implement IScene");
+
+		std::unique_ptr<IScene> ptr = std::make_unique<SceneType>(scene);
 
 		LoadScene(std::move(ptr));
 

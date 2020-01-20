@@ -33,12 +33,12 @@ namespace hvn3 {
 			bool HasText() const;
 
 			const string_type& GetAttribute(const string_type& name) const;
-			bool GetAttribute(const string_type& name, string_type& value) const;
+			string_type GetAttribute(const string_type& name, const string_type& defaultValue) const;
 
 			template<typename OutputType>
 			OutputType GetAttribute(const string_type& name) const;
 			template<typename OutputType>
-			bool GetAttribute(const string_type& name, OutputType& value) const;
+			OutputType GetAttribute(const string_type& name, const OutputType& defaultValue) const;
 
 			template<typename InputType>
 			void SetAttribute(const string_type& name, const InputType& value);
@@ -89,17 +89,14 @@ namespace hvn3 {
 
 		}
 		template<typename OutputType>
-		bool XmlElement::GetAttribute(const string_type& attribute, OutputType& out) const {
+		OutputType XmlElement::GetAttribute(const string_type& attribute, const OutputType& defaultValue) const {
 
 			auto iter = attributes.find(attribute);
 
 			if (iter == attributes.end())
-				return false;
+				return defaultValue;
 
-
-			out = Convert::To<OutputType>(iter->second);
-
-			return true;
+			return Convert::To<OutputType>(iter->second);
 
 		}
 

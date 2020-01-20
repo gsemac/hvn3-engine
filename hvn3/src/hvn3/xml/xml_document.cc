@@ -52,7 +52,7 @@ namespace hvn3 {
 
 		}
 
-		XmlDocument XmlDocument::Open(const std::string& filePath) {
+		XmlDocument XmlDocument::FromFile(const std::string& filePath) {
 
 			std::ifstream buf(filePath.c_str());
 
@@ -66,7 +66,7 @@ namespace hvn3 {
 			return document;
 
 		}
-		XmlDocument XmlDocument::Parse(const std::string& xmlString) {
+		XmlDocument XmlDocument::FromXml(const std::string& xmlString) {
 
 			std::istringstream inputStream(xmlString);
 

@@ -11,13 +11,14 @@ namespace hvn3 {
 	public:
 		Color();
 		Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255u);
-		Color(const Color& base_color, unsigned char alpha);
+		Color(const Color& baseColor, unsigned char alpha);
+		Color(const std::string& hexString);
 
 		static Color FromArgb(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255u);
 		static Color FromArgbf(float r, float g, float b, float a = 1.0f);
 		static Color FromHsl(float h, float s, float l, float a = 1.0f);
 		static Color FromHex(unsigned long hex);
-		static Color FromHex(const std::string& hex);
+		static Color FromHex(const std::string& hexString);
 		static Color FromRgbInt(unsigned int integer);
 		static Color Random();
 

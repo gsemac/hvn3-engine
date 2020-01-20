@@ -41,16 +41,14 @@ namespace hvn3 {
 			return iter->second;
 
 		}
-		bool XmlElement::GetAttribute(const string_type& attribute, string_type& out) const {
+		XmlElement::string_type XmlElement::GetAttribute(const string_type& attribute, const string_type& defaultValue) const {
 
 			auto iter = attributes.find(attribute);
 
 			if (iter == attributes.end())
-				return false;
+				return defaultValue;
 
-			out = iter->second;
-
-			return false;
+			return iter->second;
 
 		}
 		bool XmlElement::HasAttribute(const string_type& attribute) const {
