@@ -1059,6 +1059,7 @@
     <ClInclude Include="include\hvn3\xml\xml_exception.h">
       <Filter>include\xml</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\services\service_container.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
@@ -1566,5 +1567,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\xml\xml_lexer.cc" />
     <ClCompile Include="src\hvn3\xml\xml_lexer_token.cc" />
+    <ClCompile Include="src\hvn3\services\service_container.cc" />
   </ItemGroup>
 </Project>
