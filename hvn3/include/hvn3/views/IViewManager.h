@@ -1,6 +1,5 @@
 #pragma once
 
-#include "hvn3/core/ApplicationContext.h"
 #include "hvn3/core/IManager.h"
 #include "hvn3/graphics/Graphics.h"
 #include "hvn3/math/Rectangle.h"

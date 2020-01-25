@@ -1,6 +1,5 @@
 #pragma once
 
-#include "hvn3/core/ApplicationContext.h"
 #include "hvn3/events/EventArgs.h"
 #include "hvn3/graphics/Color.h"
 #include "hvn3/utility/Size.h"
@@ -12,38 +11,14 @@ namespace hvn3 {
 	public:
 		class CreateEventArgs :
 			public EventArgs {
-
-		public:
-			CreateEventArgs(const ApplicationContext& context);
-			ApplicationContext Context() const;
-
-		private:
-			ApplicationContext _context;
-
 		};
 
 		class EnterEventArgs :
 			public EventArgs {
-
-		public:
-			EnterEventArgs(const ApplicationContext& context);
-			ApplicationContext Context() const;
-
-		private:
-			ApplicationContext _context;
-
 		};
 
 		class ExitEventArgs :
 			public EventArgs {
-
-		public:
-			ExitEventArgs(const ApplicationContext& context);
-			ApplicationContext Context() const;
-
-		private:
-			ApplicationContext _context;
-
 		};
 
 		virtual bool IsPersistent() const = 0;

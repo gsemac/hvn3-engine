@@ -16,10 +16,6 @@ namespace hvn3 {
 		_members.handled = false;
 
 	}
-	EventArgs::EventArgs(const ApplicationContext& context) :
-		EventArgs() {
-		_members.context = context;
-	}
 	EventArgs::EventArgs(const EventArgs& other) {
 
 		_init();
@@ -47,9 +43,6 @@ namespace hvn3 {
 	}
 	void EventArgs::SetHandled(bool value) {
 		_members.handled = value;
-	}
-	ApplicationContext EventArgs::Context() {
-		return _members.context;
 	}
 
 	// Private methods

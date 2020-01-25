@@ -1,7 +1,5 @@
 #pragma once
 
-#include "hvn3/core/ApplicationContext.h"
-#include "hvn3/core/IApplicationContextReceiver.h"
 #include "hvn3/collision/ICollidable.h"
 #include "hvn3/core/IPositionable2d.h"
 #include "hvn3/ecs/EcsDefs.h"

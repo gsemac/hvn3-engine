@@ -1,6 +1,5 @@
 #pragma once
 
-#include "hvn3/core/ApplicationContext.h"
 #include "hvn3/core/IManager.h"
 
 #include <type_traits>

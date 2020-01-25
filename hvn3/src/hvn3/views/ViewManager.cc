@@ -1,6 +1,4 @@
 #include "hvn3/components/TransformComponent.h"
-#include "hvn3/ecs/ComponentManager.h"
-#include "hvn3/events/EventManager.h"
 #include "hvn3/math/MathUtils.h"
 #include "hvn3/views/ViewManager.h"
 
@@ -10,7 +8,9 @@ namespace hvn3 {
 
 	// Public methods
 
-	ViewManager::ViewManager() {
+	ViewManager::ViewManager(IEventManager& eventManager, ecs::ComponentManager* componentManager) :
+		eventManager(&eventManager),
+		componentManager(componentManager) {
 	}
 
 	ViewManager::index_type ViewManager::AddView(const View& view) {
@@ -66,7 +66,7 @@ namespace hvn3 {
 
 			}
 
-		});
+			});
 
 		return port;
 
@@ -98,12 +98,10 @@ namespace hvn3 {
 
 			// Get the transform component of the entity (if one exists).
 
-			auto component_manager = e.Context().Get<ecs::ComponentManager>();
-
-			if (!component_manager)
+			if (!componentManager)
 				continue;
 
-			auto entity_transform = component_manager->GetComponent<TransformComponent>(target);
+			auto entity_transform = componentManager->GetComponent<TransformComponent>(target);
 
 			if (!entity_transform)
 				continue;

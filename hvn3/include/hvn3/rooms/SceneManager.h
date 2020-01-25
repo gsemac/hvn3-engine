@@ -3,10 +3,12 @@
 #include "hvn3/core/ManagerBase.h"
 #include "hvn3/events/EventDefs.h"
 #include "hvn3/events/EventListenerBase.h"
+#include "hvn3/events/EventManager.h"
 #include "hvn3/rooms/IScene.h"
 #include "hvn3/rooms/ISceneManager.h"
 #include "hvn3/rooms/ISceneTransition.h"
 #include "hvn3/rooms/SceneState.h"
+#include "hvn3/services/di_service_container.h"
 
 #include <memory>
 #include <vector>
@@ -14,7 +16,7 @@
 namespace hvn3 {
 
 	class SceneManager :
-		public ManagerBase<ISceneManager>,
+		ISceneManager,
 		public EventListenerBase<events::UpdateEvents> {
 
 		enum TRANSITION_STATE {
@@ -30,11 +32,9 @@ namespace hvn3 {
 		};
 
 	public:
-		SceneManager();
+		HVN3_INJECT(SceneManager(IEventManager& eventManager));
 		~SceneManager();
 
-		void OnStart(StartEventArgs& e) override;
-		void OnEnd(EndEventArgs& e) override;
 		void OnEvent(UpdateEventArgs& e) override;
 
 		void GoToScene(scene_index sceneIndex) override;
@@ -64,8 +64,7 @@ namespace hvn3 {
 		void SetSceneTransition(std::unique_ptr<ISceneTransition>&& transition) override;
 
 	private:
-		ApplicationContext _context;
-
+		IEventManager* eventManager;
 		bool _loaded_scene;
 		bool _loaded_temporary_scene;
 		size_t _scene_index;

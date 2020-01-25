@@ -9,7 +9,6 @@ namespace hvn3 {
 
 	public:
 		EventArgs();
-		EventArgs(const ApplicationContext& context);
 		EventArgs(const EventArgs& other);
 		EventArgs(EventArgs&& other);
 		~EventArgs();
@@ -17,13 +16,11 @@ namespace hvn3 {
 		double Timestamp() const override;
 		bool Handled() const override;
 		void SetHandled(bool value) override;
-		ApplicationContext Context() override;
 
 	private:
 		void _init();
 
 		struct {
-			ApplicationContext context;
 			double timestamp;
 			bool handled;
 		} _members;

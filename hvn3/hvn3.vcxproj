@@ -64,14 +64,13 @@
     <ClInclude Include="include\hvn3\components\SpriteComponent.h" />
     <ClInclude Include="include\hvn3\components\TransformComponent.h" />
     <ClInclude Include="include\hvn3\core\Application.h" />
-    <ClInclude Include="include\hvn3\core\ApplicationContext.h" />
     <ClInclude Include="include\hvn3\core\CoreDefs.h" />
     <ClInclude Include="include\hvn3\core\DrawableBase.h" />
-    <ClInclude Include="include\hvn3\core\ApplicationContextProvider.h" />
-    <ClInclude Include="include\hvn3\core\IApplicationContextReceiver.h" />
     <ClInclude Include="include\hvn3\core\IManager.h" />
     <ClInclude Include="include\hvn3\core\ManagerBase.h" />
     <ClInclude Include="include\hvn3\core\ManagerRegistry.h" />
+    <ClInclude Include="include\hvn3\services\di_service_container.h" />
+    <ClInclude Include="include\hvn3\services\services.h" />
     <ClInclude Include="include\hvn3\services\service_container.h" />
     <ClInclude Include="include\hvn3\core\SmartPointerToInterfaceWrapper.h" />
     <ClInclude Include="include\hvn3\core\ManagerDefs.h" />
@@ -346,7 +345,6 @@
     <ClCompile Include="src\hvn3\components\PhysicsComponent.cc" />
     <ClCompile Include="src\hvn3\components\TransformComponent.cc" />
     <ClCompile Include="src\hvn3\core\Application.cc" />
-    <ClCompile Include="src\hvn3\core\ApplicationContext.cc" />
     <ClCompile Include="src\hvn3\core\DrawableBase.cc" />
     <ClCompile Include="src\hvn3\core\Engine.cc" />
     <ClCompile Include="src\hvn3\core\GameManager.cc" />

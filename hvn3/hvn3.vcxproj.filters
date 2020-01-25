@@ -831,19 +831,10 @@
     <ClInclude Include="include\hvn3\io\DisplayManager.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\core\ApplicationContext.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\core\ManagerRegistry.h">
       <Filter>include\core</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\core\ManagerBase.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\core\IApplicationContextReceiver.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\core\ApplicationContextProvider.h">
       <Filter>include\core</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\rooms\Scene.h">
@@ -1060,6 +1051,8 @@
       <Filter>include\xml</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\services\service_container.h" />
+    <ClInclude Include="include\hvn3\services\di_service_container.h" />
+    <ClInclude Include="include\hvn3\services\services.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
@@ -1439,9 +1432,6 @@
       <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\core\Application.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\core\ApplicationContext.cc">
       <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\objects\IObject.cc">

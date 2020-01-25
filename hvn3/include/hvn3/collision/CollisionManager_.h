@@ -4,8 +4,10 @@
 #include "hvn3/collision/SpatialGrid.h"
 #include "hvn3/components/ColliderComponent.h"
 #include "hvn3/core/ManagerBase.h"
+#include "hvn3/ecs/ComponentManager.h"
 #include "hvn3/events/EventDefs.h"
 #include "hvn3/events/EventListenerBase.h"
+#include "hvn3/events/IEventManager.h"
 
 #include <vector>
 
@@ -18,7 +20,9 @@ namespace hvn3 {
 	public:
 		using pair_buffer_type = std::vector<BroadphasePair>;
 
-		CollisionManager_();
+		CollisionManager_(IEventManager* eventManager, ecs::ComponentManager* componentManager);
+
+		~CollisionManager_();
 
 		void OnStart(StartEventArgs& e) override;
 		void OnEnd(EndEventArgs& e) override;
@@ -32,7 +36,8 @@ namespace hvn3 {
 		void SetDebugModeEnabled(bool value);
 
 	private:
-		ApplicationContext _context;
+		IEventManager* eventManager;
+		ecs::ComponentManager* componentManager;
 		SpatialGrid<BroadphasePair::value_type> _broadphase;
 		pair_buffer_type _pair_buffer;
 		bool _debug_mode_enabled;

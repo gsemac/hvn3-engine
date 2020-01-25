@@ -2,8 +2,7 @@
 
 namespace hvn3 {
 
-	UpdateEventArgs::UpdateEventArgs(const ApplicationContext& context, double deltaTime) :
-		EventArgs(context),
+	UpdateEventArgs::UpdateEventArgs(double deltaTime) :
 		_delta_time(deltaTime) {
 	}
 

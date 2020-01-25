@@ -1,5 +1,5 @@
 #pragma once
-#include "hvn3/core/IApplicationContextReceiver.h"
+
 #include "hvn3/core/IManager.h"
 #include "hvn3/core/ManagerDefs.h"
 #include "hvn3/gui/WidgetManager.h"

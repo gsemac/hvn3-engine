@@ -1,4 +1,3 @@
-#include "hvn3/events/EventManager.h"
 #include "hvn3/objects/ObjectManager.h"
 #include "hvn3/utility/Algorithm.h"
 
@@ -43,9 +42,18 @@ namespace hvn3 {
 
 	// Public methods
 
-	ObjectManager::ObjectManager() {
+	ObjectManager::ObjectManager(IEventManager& eventManager) :
+		eventManager(&eventManager) {
+
+		this->eventManager->GetListenerRegistry().SubscribeAll(this);
 
 		_update_required = false;
+
+	}
+
+	ObjectManager::~ObjectManager() {
+
+		eventManager->GetListenerRegistry().UnsubscribeAll(this);
 
 	}
 
@@ -56,18 +64,7 @@ namespace hvn3 {
 
 		return _removeObjectIf([=](const ObjectInfo& x) {
 			return !x.destroyed && x.object.get() == object;
-		});
-
-	}
-
-	void ObjectManager::OnStart(StartEventArgs& e) {
-
-		e.Context().Get<EventManager>()->SubscribeAll(this);
-
-	}
-	void ObjectManager::OnEnd(EndEventArgs& e) {
-
-		e.Context().Get<EventManager>()->UnsubscribeAll(this);
+			});
 
 	}
 
@@ -106,19 +103,19 @@ namespace hvn3 {
 
 		return std::count_if(_objects.begin(), _objects.end(), [=](const ObjectInfo& info) {
 			return info.object->Id() == id;
-		});
+			});
 
 	}
 	bool ObjectManager::Exists(IObject::object_id id) const {
 
 		return std::any_of(_objects.begin(), _objects.end(), [=](const ObjectInfo& info) {
 			return info.object->Id() == id;
-		});
+			});
 
 	}
 
 	void ObjectManager::OnEvent(UpdateEventArgs& e) {
-		_onUpdate(e.Context());
+		_onUpdate();
 	}
 
 	// Private methods
@@ -134,7 +131,7 @@ namespace hvn3 {
 
 		return _removeObjectIf([=](const ObjectInfo& x) {
 			return !x.destroyed && x.object->Id() == id;
-		});
+			});
 
 	}
 	bool ObjectManager::_removeObjectIf(const std::function<bool(const ObjectInfo&)>& func) {
@@ -154,7 +151,7 @@ namespace hvn3 {
 		return true;
 
 	}
-	void ObjectManager::_onUpdate(ApplicationContext context) {
+	void ObjectManager::_onUpdate() {
 
 		if (_update_required) {
 
@@ -172,7 +169,7 @@ namespace hvn3 {
 					assert(!_objects[i].callDestroyEvent);
 					assert(!_objects[i].destroyed);
 
-					_objects[i].object->HandleEvent(IObject::CreateEventArgs(context));
+					_objects[i].object->HandleEvent(IObject::CreateEventArgs());
 					_objects[i].callCreateEvent = false;
 
 				}
@@ -182,7 +179,7 @@ namespace hvn3 {
 					assert(!_objects[i].callCreateEvent);
 					assert(!_objects[i].destroyed);
 
-					_objects[i].object->HandleEvent(IObject::DestroyEventArgs(context));
+					_objects[i].object->HandleEvent(IObject::DestroyEventArgs());
 					_objects[i].callDestroyEvent = false;
 					_objects[i].destroyed = true;
 
@@ -194,7 +191,7 @@ namespace hvn3 {
 
 			_objects.erase(std::remove_if(_objects.begin(), _objects.end(), [](const ObjectInfo& x) {
 				return x.destroyed;
-			}), _objects.end());
+				}), _objects.end());
 
 		}
 

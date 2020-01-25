@@ -4,20 +4,21 @@
 #include "hvn3/core/ManagerBase.h"
 #include "hvn3/events/EventDefs.h"
 #include "hvn3/events/EventListenerBase.h"
+#include "hvn3/events/IEventManager.h"
 
 #include <vector>
 
 namespace hvn3 {
 
 	class BackgroundManager :
-		public ManagerBase<IBackgroundManager>,
-		public EventListenerBase<hvn3::events::DrawEvents, hvn3::events::UpdateEvents> {
+		public IBackgroundManager,
+		public EventListenerBase<events::DrawEvents, events::UpdateEvents> {
 
 	public:
-		BackgroundManager();
+		BackgroundManager(IEventManager* eventManager);
 
-		void OnStart(StartEventArgs& e) override;
-		void OnEnd(EndEventArgs& e) override;
+		~BackgroundManager();
+
 		void OnEvent(DrawEventArgs& e) override;
 		void OnEvent(UpdateEventArgs& e) override;
 
@@ -32,8 +33,9 @@ namespace hvn3 {
 		void Clear() override;
 
 	private:
-		std::vector<Background> _backgrounds;
-		Color _background_color;
+		IEventManager* eventManager;
+		std::vector<Background> backgrounds;
+		Color backgroundColor;
 
 	};
 

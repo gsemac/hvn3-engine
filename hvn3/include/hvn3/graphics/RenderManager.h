@@ -1,42 +1,47 @@
 #pragma once
 
-#include <hvn3/events/DrawEventArgs.h>
-#include <hvn3/core/ManagerBase.h>
-#include <hvn3/events/EventListenerBase.h>
-#include <hvn3/events/IEventManager.h>
-#include <hvn3/events/EventListenerRegistry.h>
-#include <hvn3/rooms/ISceneManager.h>
-#include <hvn3/views/IViewManager.h>
+#include "hvn3/events/DrawEventArgs.h"
+#include "hvn3/core/ManagerBase.h"
+#include "hvn3/events/EventListenerBase.h"
+#include "hvn3/events/IEventManager.h"
+#include "hvn3/events/EventListenerRegistry.h"
+#include "hvn3/rooms/ISceneManager.h"
+#include "hvn3/services/di_service_container.h"
+#include "hvn3/views/IViewManager.h"
 
 namespace hvn3 {
 
-	class RenderManager :
-		public ManagerBase<> {
+	class RenderManager {
 
 	public:
-		RenderManager() :
+		HVN3_INJECT(RenderManager(IEventManager& eventManager, IViewManager* viewManager)) :
+			eventManager(&eventManager),
+			viewManager(viewManager),
 			_scaling_mode(ScalingMode::MaintainAspectRatio) {
 		}
 
 		ScalingMode ScalingMode() const {
+
 			return _scaling_mode;
+
 		}
 		void SetScalingMode(enum class ScalingMode scalingMode) {
+
 			_scaling_mode = scalingMode;
+
 		}
 
-		void Render(ApplicationContext context, Graphics::Graphics& canvas) {
+		void Render(Graphics::Graphics& canvas) {
 
 			// Apply the currently-selected scaling mode before rendering the scene.
-			_applyScalingMode(context, canvas);
 
-			auto event_m = context.Get<EventManager>();
-			auto view_m = context.Get<IViewManager>();
+			_applyScalingMode(canvas);
 
-			if (!view_m || view_m->Count() <= 0) {
+			if (!viewManager || viewManager->Count() <= 0) {
 
 				// If the user is not using views, just render everything as-is.
-				event_m->Dispatch<DrawEventArgs>(context, canvas);
+
+				eventManager->GetListenerRegistry().Dispatch<DrawEventArgs>(canvas);
 
 			}
 			else {
@@ -46,7 +51,7 @@ namespace hvn3 {
 				Graphics::Transform original_tranform(canvas.GetTransform());
 				RectangleF original_clip(canvas.Clip());
 
-				view_m->ForEach([&](const View& view) {
+				viewManager->ForEach([&](const View& view) {
 
 					if (!view.Enabled())
 						return;
@@ -71,18 +76,20 @@ namespace hvn3 {
 					canvas.SetTransform(transform);
 
 					// Dispatch the draw event to all listeners.
-					event_m->Dispatch<DrawEventArgs>(context, canvas);
+					eventManager->GetListenerRegistry().Dispatch<DrawEventArgs>(canvas);
 
-				});
+					});
 
 			}
 
 		}
 
 	private:
+		IEventManager* eventManager;
+		IViewManager* viewManager;
 		enum class ScalingMode _scaling_mode;
 
-		void _applyScalingMode(ApplicationContext context, Graphics::Graphics& canvas) {
+		void _applyScalingMode(Graphics::Graphics& canvas) {
 
 			// If no scaling mode is set, do nothing.
 
@@ -91,12 +98,10 @@ namespace hvn3 {
 
 			// To decide how to scale, we need to determine the port comprised of all views.
 
-			auto view_m = context.Get<IViewManager>();
-
-			if (!view_m || view_m->Count() <= 0)
+			if (!viewManager || viewManager->Count() <= 0)
 				return;
 
-			RectangleF region = view_m->Viewport();
+			RectangleF region = viewManager->Viewport();
 
 			// Set the transform and clipping area according to the scaling mode.
 

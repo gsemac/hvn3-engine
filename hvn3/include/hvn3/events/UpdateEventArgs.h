@@ -8,7 +8,7 @@ namespace hvn3 {
 		public EventArgs {
 
 	public:
-		UpdateEventArgs(const ApplicationContext& context, double deltaTime);
+		UpdateEventArgs(double deltaTime);
 
 		// Returns the number of seconds elapsed since the last update.
 		double Delta() const;

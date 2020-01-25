@@ -8,7 +8,7 @@ namespace hvn3 {
 		public EventArgs {
 
 	public:
-		DrawEventArgs(const ApplicationContext& context, Graphics::Graphics& canvas);
+		DrawEventArgs(Graphics::Graphics& canvas);
 		Graphics::Graphics& Graphics();
 
 	private:

@@ -2,8 +2,7 @@
 
 namespace hvn3 {
 
-	DrawEventArgs::DrawEventArgs(const ApplicationContext& context, Graphics::Graphics& canvas) :
-		EventArgs(context),
+	DrawEventArgs::DrawEventArgs(Graphics::Graphics& canvas) :
 		_graphics(canvas) {
 	}
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cassert>
+#include <cstddef>
 #include <memory>
 #include <type_traits>
 #include <typeindex>
@@ -12,16 +13,15 @@ namespace hvn3 {
 		class ServiceContainer final {
 
 		public:
-			ServiceContainer();
+			using size_type = std::size_t;
 
-			template<typename ServiceType>
-			ServiceType& AddService(const ServiceType& service);
-			template<typename InterfaceType, typename ServiceType>
-			ServiceType& AddService(const ServiceType& service);
+			ServiceContainer();
+			~ServiceContainer();
+
 			template<typename ServiceType, typename ...Args>
-			ServiceType& AddService(Args&&... args);
+			ServiceContainer& AddService(Args&&... args);
 			template<typename InterfaceType, typename ServiceType, typename ...Args>
-			ServiceType& AddService(Args&&... args);
+			ServiceContainer& AddService(Args&&... args);
 
 			template <typename ServiceType>
 			ServiceType& GetService();
@@ -31,41 +31,44 @@ namespace hvn3 {
 			template<typename ServiceType>
 			bool HasService() const;
 
-		private:
-			using void_deleter = void(*)(void*);
+			size_type size() const;
 
-			std::multimap<std::type_index, std::unique_ptr<void, void_deleter>> services;
+		private:
+			using void_deleter_type = void(*)(void*);
+			using service_pointer_type = std::unique_ptr<void, void_deleter_type>;
+
+			struct ServiceInfo {
+
+				ServiceInfo(std::size_t index, service_pointer_type&& service);
+
+				std::size_t index;
+				service_pointer_type service;
+
+			};
+
+			std::multimap<std::type_index, ServiceInfo> services;
 
 		};
 
 		// Public members
 
-		template<typename ServiceType>
-		ServiceType& ServiceContainer::AddService(const ServiceType& service) {
-
-			return AddService<ServiceType, ServiceType>(service);
-
-		}
-		template<typename InterfaceType, typename ServiceType>
-		ServiceType& ServiceContainer::AddService(const ServiceType& service) {
-
-			return AddService<ServiceType, ServiceType, const ServiceType&>(service);
-
-		}
 		template<typename ServiceType, typename ...Args>
-		ServiceType& ServiceContainer::AddService(Args&&... args) {
+		ServiceContainer& ServiceContainer::AddService(Args&&... args) {
 
 			return AddService<ServiceType, ServiceType, Args...>(std::forward<Args>(args)...);
 
 		}
 		template<typename InterfaceType, typename ServiceType, typename ...Args>
-		ServiceType& ServiceContainer::AddService(Args&&... args) {
+		ServiceContainer& ServiceContainer::AddService(Args&&... args) {
 
-			using interface_type = InterfaceType;
-			using service_type = ServiceType;
+			using interface_type = std::remove_reference_t<InterfaceType>;
+			using service_type = std::remove_reference_t<ServiceType>;
 
-			static_assert(std::is_same_v<InterfaceType, ServiceType> || std::is_base_of_v<interface_type, service_type>,
+			static_assert(std::is_same_v<interface_type, service_type> || std::is_base_of_v<interface_type, service_type>,
 				"Service must implement the given interface");
+
+			static_assert(std::is_constructible_v<service_type, Args &&...>,
+				"Service cannot be constructed from the given arguments");
 
 			auto deleter = [](void* ptr) {
 				std::default_delete<service_type>()(static_cast<service_type*>(ptr));
@@ -77,7 +80,7 @@ namespace hvn3 {
 
 			services.emplace(std::make_pair(
 				std::type_index(typeid(service_type)),
-				std::unique_ptr<service_type, void_deleter>(servicePtr, deleter)
+				ServiceInfo(services.size(), service_pointer_type(servicePtr, deleter))
 			));
 
 			if (!std::is_same_v<InterfaceType, ServiceType>) {
@@ -87,40 +90,46 @@ namespace hvn3 {
 
 				services.emplace(std::make_pair(
 					std::type_index(typeid(interface_type)),
-					std::unique_ptr<interface_type, void_deleter>(servicePtr, [](void*) {})
+					ServiceInfo(services.size(), service_pointer_type(servicePtr, [](void*) {}))
 				));
 
 			}
 
-			return *servicePtr;
+			return *this;
 
 		}
 
 		template <typename ServiceType>
 		ServiceType& ServiceContainer::GetService() {
 
-			assert(HasService<ServiceType>());
+			using service_type = std::remove_reference_t<ServiceType>;
 
-			auto it = services.find(typeid(ServiceType));
+			assert(HasService<service_type>());
 
-			return *static_cast<ServiceType*>(it->second.get());
+			auto it = services.find(typeid(service_type));
+
+			return *static_cast<service_type*>(it->second.service.get());
 
 		}
 		template <typename ServiceType>
 		const ServiceType& ServiceContainer::GetService() const {
 
-			assert(HasService<ServiceType>());
+			using service_type = std::remove_reference_t<ServiceType>;
 
-			auto it = services.find(typeid(ServiceType));
+			assert(HasService<service_type>());
 
-			return *static_cast<ServiceType*>(it->second.get());
+			auto it = services.find(typeid(service_type));
+
+			return *static_cast<service_type*>(it->second.service.get());
 
 		}
 
 		template<typename ServiceType>
 		bool ServiceContainer::HasService() const {
 
-			auto it = services.find(typeid(ServiceType));
+			using service_type = std::remove_reference_t<ServiceType>;
+
+			auto it = services.find(typeid(service_type));
 
 			return it != services.end();
 

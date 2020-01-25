@@ -152,7 +152,7 @@ namespace hvn3 {
 
 			assert(std::none_of(_listeners.begin(), _listeners.end(), [=](const value_type& x) {
 				return x.handler == listener && x.enabled;
-			}));
+				}));
 
 			value_type item;
 			item.handler = listener;
@@ -176,7 +176,7 @@ namespace hvn3 {
 
 			auto it = std::find_if(_listeners.begin(), _listeners.end(), [=](const value_type& i) {
 				return i.handler == listener && i.enabled;
-			});
+				});
 
 			assert(it != _listeners.end());
 
@@ -222,14 +222,14 @@ namespace hvn3 {
 
 			std::sort(_listeners.begin(), _listeners.end(), [](const value_type& lhs, const value_type& rhs) {
 				return lhs.priority > rhs.priority;
-			});
+				});
 
 		}
 		void _removeDisabledListeners() {
 
 			_listeners.erase(std::remove_if(_listeners.begin(), _listeners.end(), [](const value_type& i) {
 				return !i.enabled;
-			}), _listeners.end());
+				}), _listeners.end());
 
 		}
 

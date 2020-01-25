@@ -239,7 +239,7 @@ namespace hvn3 {
 		void WidgetManager::OnDraw(DrawEventArgs& e) {
 
 			if (_update_required_before_draw)
-				OnUpdate(UpdateEventArgs(ApplicationContext(), 0.0)); // #todo This shouldn't be a default-constructed ApplicationContext
+				OnUpdate(UpdateEventArgs(0.0)); // #todo This shouldn't be a default-constructed ApplicationContext
 
 			for (auto i = _widgets.begin(); i != _widgets.end(); ++i) {
 

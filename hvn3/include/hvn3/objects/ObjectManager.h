@@ -3,7 +3,9 @@
 #include "hvn3/core/ManagerBase.h"
 #include "hvn3/events/EventDefs.h"
 #include "hvn3/events/EventListenerBase.h"
+#include "hvn3/events/EventManager.h"
 #include "hvn3/objects/IObjectManager.h"
+#include "hvn3/services/di_service_container.h"
 
 #include <memory>
 #include <utility>
@@ -12,7 +14,7 @@
 namespace hvn3 {
 
 	class ObjectManager :
-		public ManagerBase<IObjectManager>,
+		public IObjectManager,
 		public EventListenerBase<events::UpdateEvents> {
 
 		struct ObjectInfo {
@@ -30,7 +32,8 @@ namespace hvn3 {
 		};
 
 	public:
-		ObjectManager();
+		HVN3_INJECT(ObjectManager(IEventManager& eventManager));
+		~ObjectManager();
 
 		template<typename ObjectType, typename ...Args>
 		void AddObject(Args&&... args) {
@@ -47,9 +50,6 @@ namespace hvn3 {
 			return _removeObject(ObjectType::ObjectId());
 		}
 
-		void OnStart(StartEventArgs& e) override;
-		void OnEnd(EndEventArgs& e) override;
-
 		void Clear() override;
 		void DestroyAll() override;
 
@@ -62,13 +62,14 @@ namespace hvn3 {
 		void OnEvent(UpdateEventArgs& e) override;
 
 	private:
+		IEventManager* eventManager;
 		std::vector<ObjectInfo> _objects;
 		bool _update_required;
 
 		void _addObject(std::shared_ptr<IObject>&& object);
 		bool _removeObject(IObject::object_id id);
 		bool _removeObjectIf(const std::function<bool(const ObjectInfo&)>& func);
-		void _onUpdate(ApplicationContext context);
+		void _onUpdate();
 
 	};
 

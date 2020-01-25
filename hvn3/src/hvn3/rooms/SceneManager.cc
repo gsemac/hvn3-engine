@@ -1,5 +1,3 @@
-#include "hvn3/events/EventManager.h"
-#include "hvn3/events/IEventManager.h"
 #include "hvn3/rooms/SceneManager.h"
 #include "hvn3/rooms/SceneTransitionFade.h"
 
@@ -9,28 +7,24 @@ namespace hvn3 {
 
 	// Public methods
 
-	SceneManager::SceneManager() :
+	SceneManager::SceneManager(IEventManager& eventManager) :
+		eventManager(&eventManager),
 		_loaded_scene(false),
 		_loaded_temporary_scene(false),
 		_scene_index(0),
 		_transitioning_to_index(0),
 		_transition_state(NO_TRANSITION_PENDING),
 		_transition(nullptr) {
-	}
-	SceneManager::~SceneManager() {}
 
-	void SceneManager::OnStart(StartEventArgs& e) {
-
-		_context = e.Context();
-
-		e.Context().Get<EventManager>()->SubscribeAll(this);
+		this->eventManager->GetListenerRegistry().SubscribeAll(this);
 
 	}
-	void SceneManager::OnEnd(EndEventArgs& e) {
+	SceneManager::~SceneManager() {
 
-		e.Context().Get<EventManager>()->UnsubscribeAll(this);
+		eventManager->GetListenerRegistry().UnsubscribeAll(this);
 
 	}
+
 	void SceneManager::OnEvent(UpdateEventArgs& e) {
 
 		// Update the state of the room if there is nothing blocking updates.
@@ -129,7 +123,7 @@ namespace hvn3 {
 
 		assert(IsSceneLoaded());
 
-		IScene::ExitEventArgs exit_args(_context);
+		IScene::ExitEventArgs exit_args;
 
 		_getSceneInfo().scene->OnExit(exit_args);
 
@@ -137,8 +131,8 @@ namespace hvn3 {
 
 		// Call appropriate event handlers to set up the scene.
 
-		IScene::CreateEventArgs create_args(_context);
-		IScene::EnterEventArgs enter_args(_context);
+		IScene::CreateEventArgs create_args;
+		IScene::EnterEventArgs enter_args;
 
 		_getSceneInfo().scene->OnEnter(enter_args);
 		_getSceneInfo().scene->OnCreate(create_args);
@@ -275,7 +269,7 @@ namespace hvn3 {
 
 			// Call the exit event for the current scene.
 
-			IScene::ExitEventArgs exit_args(_context);
+			IScene::ExitEventArgs exit_args;
 
 			_getSceneInfo().scene->OnExit(exit_args);
 
@@ -291,8 +285,8 @@ namespace hvn3 {
 
 		// Call the appropriate events on the new scene.
 
-		IScene::CreateEventArgs create_args(_context);
-		IScene::EnterEventArgs enter_args(_context);
+		IScene::CreateEventArgs create_args;
+		IScene::EnterEventArgs enter_args;
 
 		_getSceneInfo().scene->OnEnter(enter_args);
 		_getSceneInfo().scene->OnCreate(create_args);

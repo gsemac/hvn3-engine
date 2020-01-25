@@ -1,6 +1,5 @@
 #include "hvn3/backgrounds/BackgroundManager.h"
 #include "hvn3/core/CoreDefs.h"
-#include "hvn3/events/IEventManager.h"
 #include "hvn3/events/EventListenerRegistry.h"
 #include "hvn3/views/View.h"
 
@@ -8,45 +7,39 @@
 
 namespace hvn3 {
 
-	// Public methods
+	// Public members
 
-	BackgroundManager::BackgroundManager() :
-		_background_color(Color::Black) {
-	}
+	BackgroundManager::BackgroundManager(IEventManager* eventManager) :
+		eventManager(eventManager),
+		backgroundColor(Color::Black) {
 
-	void BackgroundManager::OnStart(StartEventArgs& e) {
-
-		// Subscribe to events.
-
-		if (auto handle = e.Context().Get<IEventManager>())
-			handle->GetListenerRegistry().SubscribeAll(this, EventListenerPriority::HIGH_PRIORITY);
+		eventManager->GetListenerRegistry().SubscribeAll(this, EventListenerPriority::NORMAL_PRIORITY);
 
 	}
-	void BackgroundManager::OnEnd(EndEventArgs& e) {
 
-		// Unsubscribe from events.
+	BackgroundManager::~BackgroundManager() {
 
-		if (auto handle = e.Context().Get<IEventManager>())
-			handle->GetListenerRegistry().UnsubscribeAll(this);
+		eventManager->GetListenerRegistry().UnsubscribeAll(this);
 
 	}
+
 	void BackgroundManager::OnEvent(DrawEventArgs& e) {
 
-		e.Graphics().Clear(_background_color);
+		e.Graphics().Clear(backgroundColor);
 
 	}
 	void BackgroundManager::OnEvent(UpdateEventArgs& e) {
 
 		// Update the offsets of all moving backgrounds.
 
-		for (size_t i = 0; i < _backgrounds.size(); ++i)
-			_backgrounds[i].SetOffset(_backgrounds[i].Offset().X() + _backgrounds[i].Velocity().X(), _backgrounds[i].Offset().Y() + _backgrounds[i].Velocity().Y());
+		for (size_t i = 0; i < backgrounds.size(); ++i)
+			backgrounds[i].SetOffset(backgrounds[i].Offset().X() + backgrounds[i].Velocity().X(), backgrounds[i].Offset().Y() + backgrounds[i].Velocity().Y());
 
 	}
 
 	BackgroundManager::index_type BackgroundManager::AddBackground(const Background& background) {
 
-		_backgrounds.push_back(background);
+		backgrounds.push_back(background);
 
 		return Count() - 1;
 
@@ -62,32 +55,38 @@ namespace hvn3 {
 	void BackgroundManager::RemoveBackgroundAt(index_type index) {
 
 		assert(index >= 0);
-		assert(index < _backgrounds.size());
+		assert(index < backgrounds.size());
 
-		if (index >= _backgrounds.size())
+		if (index >= backgrounds.size())
 			return;
 
-		_backgrounds.erase(_backgrounds.begin() + index);
+		backgrounds.erase(backgrounds.begin() + index);
 
 	}
 	const Background& BackgroundManager::BackgroundAt(index_type index) const {
 
 		assert(index >= 0);
-		assert(index < _backgrounds.size());
+		assert(index < backgrounds.size());
 
-		return _backgrounds[index];
+		return backgrounds[index];
 
 	}
 
 	void BackgroundManager::SetBackgroundColor(const Color& color) {
-		_background_color = color;
+
+		backgroundColor = color;
+
 	}
 
 	BackgroundManager::size_type BackgroundManager::Count() const {
-		return _backgrounds.size();
+
+		return backgrounds.size();
+
 	}
 	void BackgroundManager::Clear() {
-		_backgrounds.clear();
+
+		backgrounds.clear();
+
 	}
 
 	/*

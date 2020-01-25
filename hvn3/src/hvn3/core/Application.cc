@@ -1,5 +1,4 @@
 #include "hvn3/core/Application.h" 
-#include "hvn3/core/ApplicationContext.h"
 #include "hvn3/ecs/ComponentManager.h"
 #include "hvn3/ecs/EntityManager.h"
 #include "hvn3/events/EventManager.h"
@@ -13,71 +12,78 @@ constexpr double DEFAULT_FPS = 1.0 / 60.0;
 
 namespace hvn3 {
 
-	Application::Application() :
-		_update_event_source(DEFAULT_FPS) {
+	// Public members
 
-		_init(0, nullptr);
+	Application::Application() :
+		updateEventSource(DEFAULT_FPS) {
+
+		Initialize(0, nullptr);
 
 	}
 	Application::Application(const ApplicationProperties& properties) :
-		_properties(properties),
-		_update_event_source(DEFAULT_FPS) {
+		properties(properties),
+		updateEventSource(DEFAULT_FPS) {
 
-		_init(0, nullptr);
+		Initialize(0, nullptr);
 
 	}
 	Application::Application(int argc, char* argv[]) :
-		_update_event_source(DEFAULT_FPS) {
+		updateEventSource(DEFAULT_FPS) {
 
-		_init(argc, argv);
+		Initialize(argc, argv);
 
 	}
 	Application::Application(int argc, char* argv[], const ApplicationProperties& properties) :
-		_properties(properties),
-		_update_event_source(1.0 / properties.FrameRate) {
+		properties(properties),
+		updateEventSource(1.0 / properties.FrameRate) {
 
-		_init(argc, argv);
+		Initialize(argc, argv);
 
 	}
 
 	const ApplicationProperties& Application::Properties() const {
 
-		return _properties;
+		return properties;
 
 	}
 	const std::vector<std::string>& Application::CommandLineArguments() const {
 
-		return _command_line_arguments;
+		return commandLineArguments;
 
 	}
-	ApplicationContext Application::Context() {
+	services::DIServiceContainer& Application::Services() {
 
-		return ApplicationContext(this);
+		return services;
+
+	}
+	const services::DIServiceContainer& Application::Services() const {
+
+		return services;
 
 	}
 	void Application::Run() {
 
-		_setUpCoreManagers();
+		ConfigureServices();
 
 		while (true) {
 
-			auto event_manager = _manager_registry.GetManager<EventManager>();
+			auto& event_manager = services.GetService<EventManager>();
 
-			event_manager->DoEvents(Context(), true);
+			event_manager.DoEvents(true);
 
-			if (event_manager->RedrawRequired()) {
+			if (event_manager.RedrawRequired()) {
 
-				auto display_manager = _manager_registry.GetManager<DisplayManager>();
+				auto& display_manager = services.GetService<DisplayManager>();
 
-				Graphics::Graphics canvas = display_manager->GetDisplay().Canvas();
+				Graphics::Graphics canvas = display_manager.GetDisplay().Canvas();
 
-				canvas.Clear(_properties.OutsideColor);
+				canvas.Clear(properties.OutsideColor);
 
-				auto render_manager = _manager_registry.GetManager<RenderManager>();
+				auto& render_manager = services.GetService<RenderManager>();
 
-				render_manager->Render(Context(), canvas);
+				render_manager.Render(canvas);
 
-				display_manager->RefreshAll();
+				display_manager.RefreshAll();
 
 			}
 
@@ -85,60 +91,61 @@ namespace hvn3 {
 
 	}
 
+	// Private members
 
-	void Application::_init(int argc, char* argv[]) {
+	void Application::Initialize(int argc, char* argv[]) {
 
 		// Store all command line arguments passed in.
 
 		if (argc > 0)
-			_command_line_arguments.reserve(argc);
+			commandLineArguments.reserve(argc);
 
 		for (int i = 0; i < argc; ++i)
-			_command_line_arguments.push_back(std::string(argv[i]));
+			commandLineArguments.push_back(std::string(argv[i]));
 
 		// Register required managers (the user should be allowed to replace them later).
-		_registerCoreManagers();
+		BuildServices();
 
 	}
-	void Application::_registerCoreManagers() {
+	void Application::BuildServices() {
 
-		if (!_manager_registry.IsRegistered<EventManager>())
-			RegisterManager<EventManager>();
+		if (!services.HasService<IEventManager>())
+			services.AddService<IEventManager, EventManager>();
 
-		if (!_manager_registry.IsRegistered<DisplayManager>())
-			RegisterManager<DisplayManager>();
+		if (!services.HasService<DisplayManager>())
+			services.AddService<DisplayManager>();
 
-		if (!_manager_registry.IsRegistered<SceneManager>())
-			RegisterManager<SceneManager>();
+		if (!services.HasService<SceneManager>())
+			services.AddService<SceneManager>();
 
-		if (!_manager_registry.IsRegistered<RenderManager>())
-			RegisterManager<RenderManager>();
+		if (!services.HasService<RenderManager>())
+			services.AddService<RenderManager>();
 
-		if (!_manager_registry.IsRegistered<ecs::EntityManager>())
-			RegisterManager<ecs::EntityManager>();
+		if (!services.HasService<ecs::EntityManager>())
+			services.AddService<ecs::EntityManager>();
 
-		if (!_manager_registry.IsRegistered<ecs::ComponentManager>())
-			RegisterManager<ecs::ComponentManager>();
+		if (!services.HasService<ecs::ComponentManager>())
+			services.AddService<ecs::ComponentManager>();
 
 	}
-	void Application::_setUpCoreManagers() {
+	void Application::ConfigureServices() {
 
 		// Create the primary display if no display has been created yet.
 
-		if (_manager_registry.GetManager<DisplayManager>()->Count() <= 0)
-			_manager_registry.GetManager<DisplayManager>()->CreateDisplay(_properties.DisplaySize, _properties.ApplicationName, _properties.DisplayFlags);
+		if (services.GetService<DisplayManager>().Count() <= 0)
+			services.GetService<DisplayManager>().CreateDisplay(properties.DisplaySize, properties.ApplicationName, properties.DisplayFlags);
 
-		_manager_registry.GetManager<RenderManager>()->SetScalingMode(_properties.ScalingMode);
+		services.GetService<RenderManager>().SetScalingMode(properties.ScalingMode);
 
 		// Set up the event manager with basic event sources.
 
-		_update_event_source.SetSecondsPerTick(1.0 / _properties.FrameRate);
-		_update_event_source.Start();
+		updateEventSource.SetSecondsPerTick(1.0 / properties.FrameRate);
+		updateEventSource.Start();
 
-		_manager_registry.GetManager<EventManager>()->RegisterEventSource(_update_event_source.EventSource());
-		_manager_registry.GetManager<EventManager>()->RegisterEventSource(io::IOUtils::KeyboardEventSource());
-		_manager_registry.GetManager<EventManager>()->RegisterEventSource(io::IOUtils::MouseEventSource());
-		_manager_registry.GetManager<EventManager>()->RegisterEventSource(_manager_registry.GetManager<DisplayManager>()->GetDisplay().EventSource());
+		services.GetService<EventManager>().RegisterEventSource(updateEventSource.EventSource());
+		services.GetService<EventManager>().RegisterEventSource(io::IOUtils::KeyboardEventSource());
+		services.GetService<EventManager>().RegisterEventSource(io::IOUtils::MouseEventSource());
+		services.GetService<EventManager>().RegisterEventSource(services.GetService<DisplayManager>().GetDisplay().EventSource());
 
 	}
 

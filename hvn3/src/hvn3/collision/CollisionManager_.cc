@@ -10,26 +10,22 @@ namespace hvn3 {
 
 	// Public methods
 
-	CollisionManager_::CollisionManager_() :
+	CollisionManager_::CollisionManager_(IEventManager* eventManager, ecs::ComponentManager* componentManager) :
+		eventManager(eventManager),
+		componentManager(componentManager),
 		_broadphase(32, 32),
 		_debug_mode_enabled(true) {
-	}
 
-	void CollisionManager_::OnStart(StartEventArgs& e) {
-
-		e.Context().Get<EventManager>()->Subscribe<events::UpdateEvents>(this, EventListenerPriority::COLLISIONS_UPDATE_PRIORITY);
-
-		_context = e.Context();
+		eventManager->GetListenerRegistry().Subscribe<events::UpdateEvents>(this, EventListenerPriority::COLLISIONS_UPDATE_PRIORITY);
 
 		if (_debug_mode_enabled)
 			SetDebugModeEnabled(true);
 
 	}
-	void CollisionManager_::OnEnd(EndEventArgs& e) {
 
-		e.Context().Get<EventManager>()->UnsubscribeAll(this);
+	CollisionManager_::~CollisionManager_() {
 
-		_context = e.Context();
+		eventManager->GetListenerRegistry().UnsubscribeAll(this);
 
 	}
 
@@ -41,13 +37,13 @@ namespace hvn3 {
 	}
 	void CollisionManager_::OnEvent(DrawEventArgs& e) {
 
-		_context.Get<ecs::ComponentManager>()->View<TransformComponent, ColliderComponent>().ForEach([&](TransformComponent& transform, ColliderComponent& collider) {
+		componentManager->View<TransformComponent, ColliderComponent>().ForEach([&](TransformComponent& transform, ColliderComponent& collider) {
 
 			RectangleF aabb = collider.Aabb().Translate(transform.Position());
 
 			e.Graphics().DrawRectangle(aabb, Color::Red, 1.0f);
 
-		});
+			});
 
 	}
 
@@ -80,14 +76,10 @@ namespace hvn3 {
 
 		_debug_mode_enabled = value;
 
-		if (_context) {
-
-			if (_debug_mode_enabled)
-				_context.Get<EventManager>()->Subscribe<events::DrawEvents>(this, EventListenerPriority::LOW_PRIORITY);
-			else
-				_context.Get<EventManager>()->Unsubscribe<events::DrawEvents>(this);
-
-		}
+		if (_debug_mode_enabled)
+			eventManager->GetListenerRegistry().Subscribe<events::DrawEvents>(this, EventListenerPriority::LOW_PRIORITY);
+		else
+			eventManager->GetListenerRegistry().Unsubscribe<events::DrawEvents>(this);
 
 	}
 
@@ -97,19 +89,16 @@ namespace hvn3 {
 
 		_broadphase.Clear();
 
-		if (auto m = _context.Get<ecs::ComponentManager>()) {
+		// Insert all colliders into the spatial partition.
 
-			// Insert all colliders into the spatial partition.
+		componentManager->View<TransformComponent, ColliderComponent>().ForEach([this](TransformComponent& transform, ColliderComponent& collider) {
 
-			m->View<TransformComponent, ColliderComponent>().ForEach([this](TransformComponent& transform, ColliderComponent& collider) {
+			RectangleF aabb = collider.Aabb().Translate(transform.Position());
 
-				RectangleF aabb = collider.Aabb().Translate(transform.Position());
-
-				_broadphase.Insert(BroadphasePair::value_type(&transform, &collider), aabb);
+			_broadphase.Insert(BroadphasePair::value_type(&transform, &collider), aabb);
 
 			});
 
-		}
 
 	}
 	void CollisionManager_::_refreshCollisions() {
