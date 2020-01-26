@@ -1053,6 +1053,7 @@
     <ClInclude Include="include\hvn3\services\service_container.h" />
     <ClInclude Include="include\hvn3\services\di_service_container.h" />
     <ClInclude Include="include\hvn3\services\services.h" />
+    <ClInclude Include="include\hvn3\services\service_builder.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
@@ -1558,5 +1559,6 @@
     <ClCompile Include="src\hvn3\xml\xml_lexer.cc" />
     <ClCompile Include="src\hvn3\xml\xml_lexer_token.cc" />
     <ClCompile Include="src\hvn3\services\service_container.cc" />
+    <ClCompile Include="src\hvn3\services\di_service_container.cc" />
   </ItemGroup>
 </Project>

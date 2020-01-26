@@ -147,12 +147,6 @@ namespace hvn3 {
 
 		}
 
-		ServiceContainer::size_type DIServiceContainer::size() const {
-
-			return services.size();
-
-		}
-
 		template<typename ResolveType, std::enable_if_t<DIServiceContainer::has_injected_constructor_typedef<ResolveType>::value, int>>
 		ResolveType DIServiceContainer::Resolve() {
 
@@ -168,7 +162,7 @@ namespace hvn3 {
 		template<typename ResolveType, std::enable_if_t<!DIServiceContainer::has_injected_constructor_typedef<ResolveType>::value && !std::is_default_constructible_v<ResolveType>, int>>
 		ResolveType DIServiceContainer::Resolve() {
 
-			static_assert(false, "Dependencies could not be resolved for this type.");
+			static_assert(false, "Dependencies could not be resolved for this type");
 
 		}
 
@@ -177,7 +171,7 @@ namespace hvn3 {
 		template<typename InterfaceType, typename ServiceType, typename ...ConstructorArgs>
 		DIServiceContainer& DIServiceContainer::AddService(ServiceType(*)(ConstructorArgs...)) {
 
-			static_assert(std::is_constructible_v<ServiceType, ConstructorArgs...>, "Service does not have an appropriate constructor taking its required services.");
+			static_assert(std::is_constructible_v<ServiceType, ConstructorArgs...>, "Service does not have an appropriate constructor taking its required services");
 
 			// Add the required services that don't already exist.
 
@@ -209,7 +203,7 @@ namespace hvn3 {
 		template<typename ResolveType, typename ...ConstructorArgs>
 		ResolveType DIServiceContainer::Resolve(ResolveType(*)(ConstructorArgs...)) {
 
-			static_assert(std::is_constructible_v<ResolveType, ConstructorArgs...>, "Service does not have an appropriate constructor taking its required services.");
+			static_assert(std::is_constructible_v<ResolveType, ConstructorArgs...>, "Service does not have an appropriate constructor taking its dependencies");
 
 			return ResolveType((HasService<ConstructorArgs>() ? GetService<ConstructorArgs>() : Resolve<ConstructorArgs>())...);
 

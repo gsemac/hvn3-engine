@@ -71,6 +71,7 @@
     <ClInclude Include="include\hvn3\core\ManagerRegistry.h" />
     <ClInclude Include="include\hvn3\services\di_service_container.h" />
     <ClInclude Include="include\hvn3\services\services.h" />
+    <ClInclude Include="include\hvn3\services\service_builder.h" />
     <ClInclude Include="include\hvn3\services\service_container.h" />
     <ClInclude Include="include\hvn3\core\SmartPointerToInterfaceWrapper.h" />
     <ClInclude Include="include\hvn3\core\ManagerDefs.h" />
@@ -450,6 +451,7 @@
     <ClCompile Include="src\hvn3\rooms\RoomManager.cc" />
     <ClCompile Include="src\hvn3\rooms\SceneTransitionBase.cc" />
     <ClCompile Include="src\hvn3\rooms\SceneTransitionFade.cc" />
+    <ClCompile Include="src\hvn3\services\di_service_container.cc" />
     <ClCompile Include="src\hvn3\services\service_container.cc" />
     <ClCompile Include="src\hvn3\sound\Sound.cc" />
     <ClCompile Include="src\hvn3\sound\SoundEmitter.cc" />

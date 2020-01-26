@@ -90,7 +90,7 @@ namespace hvn3 {
 
 				services.emplace(std::make_pair(
 					std::type_index(typeid(interface_type)),
-					ServiceInfo(services.size(), service_pointer_type(servicePtr, [](void*) {}))
+					ServiceInfo(services.size(), service_pointer_type(static_cast<interface_type*>(servicePtr), [](void*) {}))
 				));
 
 			}
