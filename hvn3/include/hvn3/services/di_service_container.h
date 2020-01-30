@@ -12,25 +12,25 @@ signature
 namespace hvn3 {
 	namespace services {
 
-		class DIServiceContainer final {
+		template <typename T>
+		class has_injectable_constructor {
 
-			template <typename T>
-			class has_injected_constructor_typedef {
-
-				template <typename T1>
-				static typename T1::injected_constructor* test(int);
-				template <typename>
-				static void test(...);
-
-			public:
-				static constexpr bool value = !std::is_void<decltype(test<T>(0))>::value;
-
-			};
+			template <typename T1>
+			static typename T1::injected_constructor* test(int);
+			template <typename>
+			static void test(...);
 
 		public:
-			template<typename ServiceType, std::enable_if_t<has_injected_constructor_typedef<ServiceType>::value, int> = 0>
+			static constexpr bool value = !std::is_void<decltype(test<T>(0))>::value;
+
+		};
+
+		class DIServiceContainer final {
+
+		public:
+			template<typename ServiceType, std::enable_if_t<has_injectable_constructor<ServiceType>::value, int> = 0>
 			DIServiceContainer& AddService();
-			template<typename InterfaceType, typename ServiceType, std::enable_if_t<has_injected_constructor_typedef<ServiceType>::value, int> = 0>
+			template<typename InterfaceType, typename ServiceType, std::enable_if_t<has_injectable_constructor<ServiceType>::value, int> = 0>
 			DIServiceContainer& AddService();
 			template<typename ServiceType, typename ...Args>
 			DIServiceContainer& AddService(Args&&... args);
@@ -51,11 +51,11 @@ namespace hvn3 {
 
 			ServiceContainer::size_type size() const;
 
-			template<typename ResolveType, std::enable_if_t<has_injected_constructor_typedef<ResolveType>::value, int> = 0>
+			template<typename ResolveType, std::enable_if_t<has_injectable_constructor<ResolveType>::value, int> = 0>
 			ResolveType Resolve();
-			template<typename ResolveType, std::enable_if_t<!has_injected_constructor_typedef<ResolveType>::value && std::is_default_constructible_v<ResolveType>, int> = 0>
+			template<typename ResolveType, std::enable_if_t<!has_injectable_constructor<ResolveType>::value && std::is_default_constructible_v<ResolveType>, int> = 0>
 			ResolveType Resolve();
-			template<typename ResolveType, std::enable_if_t<!has_injected_constructor_typedef<ResolveType>::value && !std::is_default_constructible_v<ResolveType>, int> = 0>
+			template<typename ResolveType, std::enable_if_t<!has_injectable_constructor<ResolveType>::value && !std::is_default_constructible_v<ResolveType>, int> = 0>
 			ResolveType Resolve();
 
 		private:
@@ -76,13 +76,13 @@ namespace hvn3 {
 
 		// Public members
 
-		template<typename ServiceType, std::enable_if_t<DIServiceContainer::has_injected_constructor_typedef<ServiceType>::value, int>>
+		template<typename ServiceType, std::enable_if_t<has_injectable_constructor<ServiceType>::value, int>>
 		DIServiceContainer& DIServiceContainer::AddService() {
 
 			return AddService<ServiceType, ServiceType>();
 
 		}
-		template<typename InterfaceType, typename ServiceType, std::enable_if_t<DIServiceContainer::has_injected_constructor_typedef<ServiceType>::value, int>>
+		template<typename InterfaceType, typename ServiceType, std::enable_if_t<has_injectable_constructor<ServiceType>::value, int>>
 		DIServiceContainer& DIServiceContainer::AddService() {
 
 			return AddService<InterfaceType, ServiceType>(static_cast<typename ServiceType::injected_constructor*>(nullptr));
@@ -147,19 +147,19 @@ namespace hvn3 {
 
 		}
 
-		template<typename ResolveType, std::enable_if_t<DIServiceContainer::has_injected_constructor_typedef<ResolveType>::value, int>>
+		template<typename ResolveType, std::enable_if_t<has_injectable_constructor<ResolveType>::value, int>>
 		ResolveType DIServiceContainer::Resolve() {
 
 			return Resolve<ResolveType>(static_cast<typename ResolveType::injected_constructor*>(nullptr));
 
 		}
-		template<typename ResolveType, std::enable_if_t<!DIServiceContainer::has_injected_constructor_typedef<ResolveType>::value && std::is_default_constructible_v<ResolveType>, int>>
+		template<typename ResolveType, std::enable_if_t<!has_injectable_constructor<ResolveType>::value && std::is_default_constructible_v<ResolveType>, int>>
 		ResolveType DIServiceContainer::Resolve() {
 
 			return ResolveType();
 
 		}
-		template<typename ResolveType, std::enable_if_t<!DIServiceContainer::has_injected_constructor_typedef<ResolveType>::value && !std::is_default_constructible_v<ResolveType>, int>>
+		template<typename ResolveType, std::enable_if_t<!has_injectable_constructor<ResolveType>::value && !std::is_default_constructible_v<ResolveType>, int>>
 		ResolveType DIServiceContainer::Resolve() {
 
 			static_assert(false, "Dependencies could not be resolved for this type");
