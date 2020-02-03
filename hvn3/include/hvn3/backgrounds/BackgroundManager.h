@@ -5,6 +5,7 @@
 #include "hvn3/events/EventDefs.h"
 #include "hvn3/events/EventListenerBase.h"
 #include "hvn3/events/IEventManager.h"
+#include "hvn3/services/di_service_container.h"
 
 #include <vector>
 
@@ -15,7 +16,7 @@ namespace hvn3 {
 		public EventListenerBase<events::DrawEvents, events::UpdateEvents> {
 
 	public:
-		BackgroundManager(IEventManager* eventManager);
+		HVN3_INJECT(BackgroundManager(IEventManager* eventManager));
 
 		~BackgroundManager();
 
