@@ -4,6 +4,7 @@
 #include "hvn3/core/ManagerDefs.h"
 #include "hvn3/utility/TypeIndexer.h"
 
+#include <algorithm>
 #include <cassert>
 #include <iostream>
 #include <memory>

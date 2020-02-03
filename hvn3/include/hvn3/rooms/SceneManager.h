@@ -13,17 +13,17 @@
 #include <memory>
 #include <vector>
 
-namespace hvn3 {
+namespace hvn3::scenes {
 
 	class SceneManager :
 		ISceneManager,
 		public EventListenerBase<events::UpdateEvents> {
 
-		enum TRANSITION_STATE {
-			NO_TRANSITION_PENDING,
-			TRANSITION_PENDING,
-			EXIT_IN_PROGRESS,
-			ENTER_IN_PROGRESS
+		enum class TransitionState {
+			NoTransitionPending,
+			TransitionPending,
+			ExitInProgress,
+			EnterInProgress
 		};
 
 		struct SceneInfo {
@@ -32,52 +32,56 @@ namespace hvn3 {
 		};
 
 	public:
-		HVN3_INJECT(SceneManager(IEventManager& eventManager));
+		HVN3_INJECT(SceneManager(services::DIServiceContainer& services, IEventManager& eventManager));
+
 		~SceneManager();
 
 		void OnEvent(UpdateEventArgs& e) override;
 
-		void GoToScene(scene_index sceneIndex) override;
+		void LoadScene(scene_handle&& scene) override;
+		index_type AddScene(scene_handle&& scene) override;
+
+		void GoToScene(index_type sceneIndex) override;
 		void GoToPreviousScene() override;
 		void GoToNextScene() override;
 
-		void ResetScene() override;
-		bool IsSceneLoaded() const override;
-		const IScene& Scene() const override;
-		const scene_index SceneIndex() const override;
-		size_t Count() const override;
-
 		void SetSceneTransition(SceneTransition transition) override;
+		void SetSceneTransition(transition_handle&& transition) override;
+
+		const IScene& CurrentScene() const override;
+		const index_type CurrentIndex() const override;
+
+		void ReloadScene() override;
+		bool IsSceneLoaded() const override;
+
+		size_t Count() const override;
 
 		template<typename SceneType, typename ...Args>
 		void LoadScene(Args&&... args);
 		template<typename SceneType>
 		void LoadScene(const SceneType& scene);
 		template<typename SceneType, typename ...Args>
-		scene_index AddScene(Args&&... args);
+		index_type AddScene(Args&&... args);
 		template<typename TransitionType, typename ...Args>
 		void SetSceneTransition(Args&&... args);
 
-	protected:
-		void LoadScene(std::unique_ptr<IScene>&& scene) override;
-		scene_index AddScene(std::unique_ptr<IScene>&& scene) override;
-		void SetSceneTransition(std::unique_ptr<ISceneTransition>&& transition) override;
-
 	private:
 		IEventManager* eventManager;
+		services::DIServiceContainer* services;
+
 		bool _loaded_scene;
 		bool _loaded_temporary_scene;
 		size_t _scene_index;
 		std::vector<SceneInfo> _scenes;
 
-		TRANSITION_STATE _transition_state;
+		TransitionState _transition_state;
 		std::unique_ptr<ISceneTransition> _transition;
 		size_t _transitioning_to_index;
 
 		// Returns true if the manager is currently transitioning to a new scene.
 		bool _isTransitioning() const;
 		// If another transition is not already in progress, begins transitioning to the scene at the given index.
-		bool _beginTransitionTo(scene_index sceneIndex);
+		bool _beginTransitionTo(index_type sceneIndex);
 		void _loadNextScene();
 
 		SceneInfo& _getSceneInfo();
@@ -108,7 +112,7 @@ namespace hvn3 {
 
 	}
 	template<typename SceneType, typename ...Args>
-	SceneManager::scene_index SceneManager::AddScene(Args&&... args) {
+	SceneManager::index_type SceneManager::AddScene(Args&&... args) {
 
 		static_assert(std::is_base_of<IScene, SceneType>::value, "Type must implement IScene");
 

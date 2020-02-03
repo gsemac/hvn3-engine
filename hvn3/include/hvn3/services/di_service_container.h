@@ -49,7 +49,7 @@ namespace hvn3 {
 			template<typename ServiceType>
 			bool HasService() const;
 
-			ServiceContainer::size_type size() const;
+			ServiceContainer::size_type Count() const;
 
 			template<typename ResolveType, std::enable_if_t<has_injectable_constructor<ResolveType>::value, int> = 0>
 			ResolveType Resolve();

@@ -1,19 +1,18 @@
 #include "hvn3/rooms/SceneManager.h"
 #include "hvn3/rooms/SceneTransitionFade.h"
 
-namespace hvn3 {
+namespace hvn3::scenes {
 
-	// SceneManager
+	// Public members
 
-	// Public methods
-
-	SceneManager::SceneManager(IEventManager& eventManager) :
+	SceneManager::SceneManager(services::DIServiceContainer& services, IEventManager& eventManager) :
 		eventManager(&eventManager),
+		services(&services),
 		_loaded_scene(false),
 		_loaded_temporary_scene(false),
 		_scene_index(0),
 		_transitioning_to_index(0),
-		_transition_state(NO_TRANSITION_PENDING),
+		_transition_state(TransitionState::NoTransitionPending),
 		_transition(nullptr) {
 
 		this->eventManager->GetListenerRegistry().SubscribeAll(this);
@@ -40,26 +39,26 @@ namespace hvn3 {
 
 		switch (_transition_state) {
 
-		case TRANSITION_PENDING:
+		case TransitionState::TransitionPending:
 
 			if (!_transition) {
 
 				// If the transition is null (no transition), just perform the change immediately.
 
 				_loadNextScene();
-				_transition_state = NO_TRANSITION_PENDING;
+				_transition_state = TransitionState::NoTransitionPending;
 
 			}
 			else {
 
 				_transition->OnExitBegin();
-				_transition_state = EXIT_IN_PROGRESS;
+				_transition_state = TransitionState::ExitInProgress;
 
 			}
 
 			break;
 
-		case EXIT_IN_PROGRESS:
+		case TransitionState::ExitInProgress:
 
 			// Update the state of the scene transition. 
 			// If the transition is complete, load the next scene and begin the enter transition.
@@ -71,13 +70,13 @@ namespace hvn3 {
 				_loadNextScene();
 
 				_transition->OnEnterBegin();
-				_transition_state = ENTER_IN_PROGRESS;
+				_transition_state = TransitionState::EnterInProgress;
 
 			}
 
 			break;
 
-		case ENTER_IN_PROGRESS:
+		case TransitionState::EnterInProgress:
 
 			// Update the state of the scene transition. 
 			// If the transition is complete, reset the transition state to allow future scene changes.
@@ -85,7 +84,7 @@ namespace hvn3 {
 			if (_transition->OnEnterStep(e)) {
 
 				_transition->OnEnterEnd();
-				_transition_state = NO_TRANSITION_PENDING;
+				_transition_state = TransitionState::NoTransitionPending;
 
 			}
 
@@ -95,7 +94,32 @@ namespace hvn3 {
 
 	}
 
-	void SceneManager::GoToScene(scene_index sceneIndex) {
+	void SceneManager::LoadScene(scene_handle&& scene) {
+
+		// Scenes loaded in this way will be temporary, and won't be permanently part of the scene collection.
+
+		_loaded_temporary_scene = true;
+
+		SceneInfo info;
+		info.scene = std::move(scene);
+
+		_scenes.push_back(std::move(info));
+
+		_beginTransitionTo(_scenes.size() - 1);
+
+	}
+	SceneManager::index_type SceneManager::AddScene(scene_handle&& scene) {
+
+		SceneInfo info;
+		info.scene = std::move(scene);
+
+		_scenes.push_back(std::move(info));
+
+		return _scenes.size() - 1;
+
+	}
+
+	void SceneManager::GoToScene(index_type sceneIndex) {
 
 		assert(sceneIndex >= 0);
 		assert(sceneIndex < _scenes.size());
@@ -117,53 +141,7 @@ namespace hvn3 {
 		_beginTransitionTo(_getNextSceneIndex());
 
 	}
-	void SceneManager::ResetScene() {
 
-		// Resets the current scene by exiting it, resetting the room state, and then entering it again.
-
-		assert(IsSceneLoaded());
-
-		IScene::ExitEventArgs exit_args;
-
-		_getSceneInfo().scene->OnExit(exit_args);
-
-		// #todo Reset the state of all relevant managers before re-entering the scene.
-
-		// Call appropriate event handlers to set up the scene.
-
-		IScene::CreateEventArgs create_args;
-		IScene::EnterEventArgs enter_args;
-
-		_getSceneInfo().scene->OnEnter(enter_args);
-		_getSceneInfo().scene->OnCreate(create_args);
-
-	}
-	bool SceneManager::IsSceneLoaded() const {
-
-		return _loaded_scene;
-
-	}
-	const IScene& SceneManager::Scene() const {
-
-		assert(IsSceneLoaded());
-
-		assert(_scenes.size() > 0);
-		assert(_scene_index >= 0);
-		assert(_scene_index < _scenes.size());
-
-		return *_scenes[_scene_index].scene.get();
-
-	}
-	const SceneManager::scene_index SceneManager::SceneIndex() const {
-
-		return _scene_index;
-
-	}
-	size_t SceneManager::Count() const {
-
-		return _scenes.size();
-
-	}
 	void SceneManager::SetSceneTransition(SceneTransition transition) {
 
 		switch (transition) {
@@ -179,69 +157,70 @@ namespace hvn3 {
 
 		}
 
-	}
-
-	// Protected methods
-
-	void SceneManager::LoadScene(std::unique_ptr<IScene>&& scene) {
-
-		// Scenes loaded in this way will be temporary, and won't be permanently part of the scene collection.
-
-		_loaded_temporary_scene = true;
-
-		SceneInfo info;
-		info.scene = std::move(scene);
-
-		_scenes.push_back(std::move(info));
-
-		_beginTransitionTo(_scenes.size() - 1);
 
 	}
-	SceneManager::scene_index SceneManager::AddScene(std::unique_ptr<IScene>&& scene) {
-
-		SceneInfo info;
-		info.scene = std::move(scene);
-
-		_scenes.push_back(std::move(info));
-
-		return _scenes.size() - 1;
-
-	}
-	void SceneManager::SetSceneTransition(std::unique_ptr<ISceneTransition>&& transition) {
+	void SceneManager::SetSceneTransition(transition_handle&& transition) {
 
 		_transition = std::move(transition);
 
 	}
 
-	/*
+	const IScene& SceneManager::CurrentScene() const {
 
-	void SceneManager::OnUpdate(UpdateEventArgs& e) {
+		assert(IsSceneLoaded());
 
+		assert(_scenes.size() > 0);
+		assert(_scene_index >= 0);
+		assert(_scene_index < _scenes.size());
 
+		return *_scenes[_scene_index].scene.get();
 
 	}
-	void SceneManager::OnDraw(DrawEventArgs& e) {
+	const SceneManager::index_type SceneManager::CurrentIndex() const {
 
-		if (!IsSceneLoaded())
-			return;
-
-		e.Graphics().Clear(_getSceneInfo().scene->BackgroundColor());
-
-		if (_isTransitioning() && _transition)
-			_transition->OnDraw(e);
+		return _scene_index;
 
 	}
 
-	*/
+	void SceneManager::ReloadScene() {
 
-	// Private methods
+		// Resets the current scene by exiting it, resetting the room state, and then entering it again.
+
+		assert(IsSceneLoaded());
+
+		IScene::ExitEventArgs exit_args(*services);
+
+		_getSceneInfo().scene->OnExit(exit_args);
+
+		// #todo Reset the state of all relevant managers before re-entering the scene.
+
+		// Call appropriate event handlers to set up the scene.
+
+		IScene::EnterEventArgs enter_args(*services);
+
+		_getSceneInfo().scene->OnEnter(enter_args);
+
+	}
+	bool SceneManager::IsSceneLoaded() const {
+
+		return _loaded_scene;
+
+	}
+
+	size_t SceneManager::Count() const {
+
+		return _scenes.size();
+
+	}
+
+	// Private members
 
 	bool SceneManager::_isTransitioning() const {
 
-		return _transition_state != NO_TRANSITION_PENDING;
+		return _transition_state != TransitionState::NoTransitionPending;
 
 	}
-	bool SceneManager::_beginTransitionTo(scene_index sceneIndex) {
+	bool SceneManager::_beginTransitionTo(index_type sceneIndex) {
 
 		if (_isTransitioning())
 			return false;
@@ -258,7 +237,7 @@ namespace hvn3 {
 
 		}
 		else
-			_transition_state = TRANSITION_PENDING;
+			_transition_state = TransitionState::TransitionPending;
 
 		return true;
 
@@ -269,7 +248,7 @@ namespace hvn3 {
 
 			// Call the exit event for the current scene.
 
-			IScene::ExitEventArgs exit_args;
+			IScene::ExitEventArgs exit_args(*services);
 
 			_getSceneInfo().scene->OnExit(exit_args);
 
@@ -285,11 +264,9 @@ namespace hvn3 {
 
 		// Call the appropriate events on the new scene.
 
-		IScene::CreateEventArgs create_args;
-		IScene::EnterEventArgs enter_args;
+		IScene::EnterEventArgs enter_args(*services);
 
 		_getSceneInfo().scene->OnEnter(enter_args);
-		_getSceneInfo().scene->OnCreate(create_args);
 
 	}
 

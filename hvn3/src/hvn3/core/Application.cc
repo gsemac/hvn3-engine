@@ -115,8 +115,8 @@ namespace hvn3 {
 		if (!services.HasService<DisplayManager>())
 			services.AddService<DisplayManager>();
 
-		if (!services.HasService<SceneManager>())
-			services.AddService<SceneManager>();
+		if (!services.HasService<scenes::SceneManager>())
+			services.AddService<scenes::SceneManager>();
 
 		if (!services.HasService<RenderManager>())
 			services.AddService<RenderManager>();

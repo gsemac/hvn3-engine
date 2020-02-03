@@ -29,10 +29,10 @@ namespace hvn3 {
 		int32_t OnWrite(const int32_t valueWritten) const;
 
 	public:
-		using iterator = decltype(make_output_transform_iterator(allegro::al_ustr_begin((ALLEGRO_USTR*)nullptr), std::bind1st(std::mem_fun(&String::OnWrite), nullptr)));
-		using const_iterator = decltype(make_output_transform_iterator(allegro::al_ustr_cbegin((ALLEGRO_USTR*)nullptr), std::bind1st(std::mem_fun(&String::OnWrite), nullptr)));
-		using reverse_iterator = decltype(make_output_transform_iterator(allegro::al_ustr_rbegin((ALLEGRO_USTR*)nullptr), std::bind1st(std::mem_fun(&String::OnWrite), nullptr)));
-		using const_reverse_iterator = decltype(make_output_transform_iterator(allegro::al_ustr_crbegin((ALLEGRO_USTR*)nullptr), std::bind1st(std::mem_fun(&String::OnWrite), nullptr)));
+		using iterator = decltype(make_output_transform_iterator(allegro::al_ustr_begin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
+		using const_iterator = decltype(make_output_transform_iterator(allegro::al_ustr_cbegin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
+		using reverse_iterator = decltype(make_output_transform_iterator(allegro::al_ustr_rbegin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
+		using const_reverse_iterator = decltype(make_output_transform_iterator(allegro::al_ustr_crbegin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
 
 		using size_type = size_t;
 		using value_type = int32_t;
@@ -178,7 +178,7 @@ namespace hvn3 {
 		template<typename Iter>
 		auto MakeIterator(Iter iter) const {
 
-			return make_output_transform_iterator(std::forward<Iter>(iter), std::bind1st(std::mem_fun(&String::OnWrite), this));
+			return make_output_transform_iterator(std::forward<Iter>(iter), std::bind(std::mem_fn(&String::OnWrite), this, std::placeholders::_1));
 
 		}
 

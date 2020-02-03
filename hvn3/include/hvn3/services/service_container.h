@@ -31,7 +31,7 @@ namespace hvn3 {
 			template<typename ServiceType>
 			bool HasService() const;
 
-			size_type size() const;
+			size_type Count() const;
 
 		private:
 			using void_deleter_type = void(*)(void*);

@@ -837,9 +837,6 @@
     <ClInclude Include="include\hvn3\core\ManagerBase.h">
       <Filter>include\core</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\rooms\Scene.h">
-      <Filter>include\rooms</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\rooms\SceneManager.h">
       <Filter>include\rooms</Filter>
     </ClInclude>
@@ -1445,9 +1442,6 @@
       <Filter>src\rooms</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\rooms\SceneBase.cc">
-      <Filter>src\rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\rooms\Scene.cc">
       <Filter>src\rooms</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\rooms\RoomManager.cc">

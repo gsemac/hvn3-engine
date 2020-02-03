@@ -9,29 +9,33 @@
 #include <memory>
 #include <utility>
 
-namespace hvn3 {
+namespace hvn3::scenes {
 
 	class ISceneManager {
 
 	public:
-		typedef size_t scene_index;
+		typedef size_t index_type;
+		typedef std::unique_ptr<IScene> scene_handle;
+		typedef std::unique_ptr<ISceneTransition> transition_handle;
 
 		virtual ~ISceneManager() = default;
 
-		virtual void LoadScene(std::unique_ptr<IScene>&& scene) = 0;
-		virtual scene_index AddScene(std::unique_ptr<IScene>&& scene) = 0;
+		virtual void LoadScene(scene_handle&& scene) = 0;
+		virtual index_type AddScene(scene_handle&& scene) = 0;
 
-		virtual void GoToScene(scene_index sceneIndex) = 0;
+		virtual void GoToScene(index_type sceneIndex) = 0;
 		virtual void GoToPreviousScene() = 0;
 		virtual void GoToNextScene() = 0;
 
 		virtual void SetSceneTransition(SceneTransition transition) = 0;
-		virtual void SetSceneTransition(std::unique_ptr<ISceneTransition>&& transition) = 0;
+		virtual void SetSceneTransition(transition_handle&& transition) = 0;
 
-		virtual void ResetScene() = 0;
+		virtual const IScene& CurrentScene() const = 0;
+		virtual const index_type CurrentIndex() const = 0;
+
+		virtual void ReloadScene() = 0;
 		virtual bool IsSceneLoaded() const = 0;
-		virtual const IScene& Scene() const = 0;
-		virtual const scene_index SceneIndex() const = 0;
+
 		virtual size_t Count() const = 0;
 
 	};

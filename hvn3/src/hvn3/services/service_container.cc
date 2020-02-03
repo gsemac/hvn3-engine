@@ -51,7 +51,7 @@ namespace hvn3 {
 
 		}
 
-		ServiceContainer::size_type ServiceContainer::size() const {
+		ServiceContainer::size_type ServiceContainer::Count() const {
 
 			return services.size();
 

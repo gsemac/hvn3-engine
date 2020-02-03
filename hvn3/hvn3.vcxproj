@@ -253,7 +253,6 @@
     <ClInclude Include="include\hvn3\rooms\RoomBase.h" />
     <ClInclude Include="include\hvn3\rooms\SceneManager.h" />
     <ClInclude Include="include\hvn3\rooms\RoomDefs.h" />
-    <ClInclude Include="include\hvn3\rooms\Scene.h" />
     <ClInclude Include="include\hvn3\rooms\SceneState.h" />
     <ClInclude Include="include\hvn3\rooms\SceneTransitionBase.h" />
     <ClInclude Include="include\hvn3\rooms\SceneTransitionFade.h" />
@@ -444,7 +443,6 @@
     <ClCompile Include="src\hvn3\rooms\IScene.cc" />
     <ClCompile Include="src\hvn3\rooms\RoomBase.cc" />
     <ClCompile Include="src\hvn3\rooms\RoomEventArgs.cc" />
-    <ClCompile Include="src\hvn3\rooms\Scene.cc" />
     <ClCompile Include="src\hvn3\rooms\SceneBase.cc" />
     <ClCompile Include="src\hvn3\rooms\SceneManager.cc" />
     <ClCompile Include="src\hvn3\rooms\Room.cc" />
@@ -597,6 +595,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HVN3_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

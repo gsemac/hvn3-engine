@@ -176,8 +176,8 @@ namespace hvn3 {
 		template<typename U>
 		rectangle_t Scale(U scaleX, U scaleY) const {
 
-			T width = static_cast<T>(static_cast<U>(Width()) * x_scale);
-			T height = static_cast<T>(static_cast<U>(Height()) * y_scale);
+			T width = static_cast<T>(static_cast<U>(Width())* x_scale);
+			T height = static_cast<T>(static_cast<U>(Height())* y_scale);
 
 			return rectangle_t(X(), Y(), width, height);
 
@@ -273,6 +273,22 @@ namespace hvn3 {
 		operator Rectangle<U>() {
 
 			return Rectangle<U>(static_cast<U>(X()), static_cast<U>(Y()), static_cast<U>(Width()), static_cast<U>(Height()));
+
+		}
+
+		static rectangle_t Min() {
+
+			T w = static_cast<T>(0);
+
+			return rectangle_t(w, w);
+
+		}
+		static rectangle_t Max() {
+
+			T xy = std::numeric_limits<T>::min();
+			T w = std::max(static_cast<T>(0), std::numeric_limits<T>::max());
+
+			return rectangle_t(xy, xy, w, w);
 
 		}
 
