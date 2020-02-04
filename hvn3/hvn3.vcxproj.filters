@@ -210,18 +210,6 @@
     <ClInclude Include="include\hvn3\assets\IBinaryAssetLoader.h">
       <Filter>include\assets</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\backgrounds\Background.h">
-      <Filter>include\backgrounds</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\backgrounds\BackgroundDrawEventArgs.h">
-      <Filter>include\backgrounds</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\backgrounds\BackgroundManager.h">
-      <Filter>include\backgrounds</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\backgrounds\IBackgroundManager.h">
-      <Filter>include\backgrounds</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\collision\CollisionEventArgs.h">
       <Filter>include\collision</Filter>
     </ClInclude>
@@ -1038,7 +1026,6 @@
     <ClInclude Include="include\hvn3\xml\xml_element.h">
       <Filter>include\xml</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\iterators\iterator_range.h" />
     <ClInclude Include="include\hvn3\iterators\stashing_transform_iterator.h" />
     <ClInclude Include="include\hvn3\xml\xml_lexer.h">
       <Filter>include\xml</Filter>
@@ -1051,6 +1038,16 @@
     <ClInclude Include="include\hvn3\services\di_service_container.h" />
     <ClInclude Include="include\hvn3\services\services.h" />
     <ClInclude Include="include\hvn3\services\service_builder.h" />
+    <ClInclude Include="include\hvn3\backgrounds\background_manager.h">
+      <Filter>include\backgrounds</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\backgrounds\ibackground_manager.h">
+      <Filter>include\backgrounds</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\backgrounds\background.h">
+      <Filter>include\backgrounds</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\iterators\iterable_range.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
@@ -1071,15 +1068,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\assets\FontAssetLoader.cc">
       <Filter>src\assets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\backgrounds\BackgroundDrawEventArgs.cc">
-      <Filter>src\backgrounds</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\backgrounds\BackgroundManager.cc">
-      <Filter>src\backgrounds</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\backgrounds\Background.cc">
-      <Filter>src\backgrounds</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\collision\CollisionEventArgs.cc">
       <Filter>src\collision</Filter>
@@ -1554,5 +1542,11 @@
     <ClCompile Include="src\hvn3\xml\xml_lexer_token.cc" />
     <ClCompile Include="src\hvn3\services\service_container.cc" />
     <ClCompile Include="src\hvn3\services\di_service_container.cc" />
+    <ClCompile Include="src\hvn3\backgrounds\background_manager.cc">
+      <Filter>src\backgrounds</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\backgrounds\background.cc">
+      <Filter>src\backgrounds</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

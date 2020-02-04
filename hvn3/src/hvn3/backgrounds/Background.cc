@@ -1,6 +1,6 @@
-#include "hvn3/backgrounds/Background.h"
+#include "hvn3/backgrounds/background.h"
 
-namespace hvn3 {
+namespace hvn3::backgrounds {
 
 	Background::Background(const Graphics::Bitmap& bitmap) :
 		_bitmap(bitmap),
@@ -12,7 +12,7 @@ namespace hvn3 {
 		_tile_v = false;
 		_visible = true;
 		_fixed = false;
-		
+
 	}
 
 	unsigned int Background::Width() const {
@@ -50,7 +50,7 @@ namespace hvn3 {
 	const Scale& Background::Scale() const {
 
 		return _scale;
-		
+
 	}
 	void Background::SetScale(const hvn3::Scale& scale) {
 
@@ -113,7 +113,7 @@ namespace hvn3 {
 
 	}
 	bool Background::Fixed() const {
-	
+
 		return _fixed;
 
 	}

@@ -4,7 +4,7 @@
 #include "hvn3/math/Point2d.h"
 #include "hvn3/utility/Scale.h"
 
-namespace hvn3 {
+namespace hvn3::backgrounds {
 
 	class Background {
 

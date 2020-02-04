@@ -94,36 +94,36 @@ namespace hvn3 {
 			return GetAttribute(attribute);
 		}
 
-		IteratorRange<XmlElement::attribute_iterator> XmlElement::Attributes() {
+		IterableRange<XmlElement::attribute_iterator> XmlElement::Attributes() {
 
 			auto begin = make_stashing_transform_iterator(attributes.begin(), AttributeTransformFunc);
 			auto end = make_stashing_transform_iterator(attributes.end(), AttributeTransformFunc);
 
-			return make_iterator_range(begin, end);
+			return make_iterable_range(begin, end);
 
 		}
-		IteratorRange<XmlElement::const_attribute_iterator> XmlElement::Attributes() const {
+		IterableRange<XmlElement::const_attribute_iterator> XmlElement::Attributes() const {
 
 			auto begin = make_stashing_transform_iterator(attributes.cbegin(), ConstAttributeTransformFunc);
 			auto end = make_stashing_transform_iterator(attributes.cend(), ConstAttributeTransformFunc);
 
-			return make_iterator_range(begin, end);
+			return make_iterable_range(begin, end);
 
 		}
-		IteratorRange<XmlElement::child_iterator> XmlElement::Children() {
+		IterableRange<XmlElement::child_iterator> XmlElement::Children() {
 
 			auto begin = make_transform_iterator(childNodes.begin(), ChildTransformFunc);
 			auto end = make_transform_iterator(childNodes.end(), ChildTransformFunc);
 
-			return make_iterator_range(begin, end);
+			return make_iterable_range(begin, end);
 
 		}
-		IteratorRange<XmlElement::const_child_iterator> XmlElement::Children() const {
+		IterableRange<XmlElement::const_child_iterator> XmlElement::Children() const {
 
 			auto begin = make_transform_iterator(childNodes.cbegin(), ConstChildTransformFunc);
 			auto end = make_transform_iterator(childNodes.cend(), ConstChildTransformFunc);
 
-			return make_iterator_range(begin, end);
+			return make_iterable_range(begin, end);
 
 		}
 

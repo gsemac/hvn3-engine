@@ -34,10 +34,9 @@
     <ClInclude Include="include\hvn3\assets\IBinaryAssetLoader.h" />
     <ClInclude Include="include\hvn3\assets\ImprovedAssetManager.h" />
     <ClInclude Include="include\hvn3\assets\SystemAssets.h" />
-    <ClInclude Include="include\hvn3\backgrounds\Background.h" />
-    <ClInclude Include="include\hvn3\backgrounds\BackgroundDrawEventArgs.h" />
-    <ClInclude Include="include\hvn3\backgrounds\BackgroundManager.h" />
-    <ClInclude Include="include\hvn3\backgrounds\IBackgroundManager.h" />
+    <ClInclude Include="include\hvn3\backgrounds\background.h" />
+    <ClInclude Include="include\hvn3\backgrounds\background_manager.h" />
+    <ClInclude Include="include\hvn3\backgrounds\ibackground_manager.h" />
     <ClInclude Include="include\hvn3\collision\BroadphasePair.h" />
     <ClInclude Include="include\hvn3\collision\CohenSutherland.h" />
     <ClInclude Include="include\hvn3\collision\ColliderBase.h" />
@@ -282,7 +281,7 @@
     <ClInclude Include="include\hvn3\utility\FpsCounter.h" />
     <ClInclude Include="include\hvn3\utility\Grid.h" />
     <ClInclude Include="include\hvn3\utility\Hash.h" />
-    <ClInclude Include="include\hvn3\iterators\iterator_range.h" />
+    <ClInclude Include="include\hvn3\iterators\iterable_range.h" />
     <ClInclude Include="include\hvn3\utility\MD5.h" />
     <ClInclude Include="include\hvn3\utility\Padding.h" />
     <ClInclude Include="include\hvn3\utility\PerlinNoise.h" />
@@ -329,9 +328,8 @@
     <ClCompile Include="src\hvn3\assets\FileAssetLoader.cc" />
     <ClCompile Include="src\hvn3\assets\FontAssetLoader.cc" />
     <ClCompile Include="src\hvn3\assets\SystemAssets.cc" />
-    <ClCompile Include="src\hvn3\backgrounds\Background.cc" />
-    <ClCompile Include="src\hvn3\backgrounds\BackgroundDrawEventArgs.cc" />
-    <ClCompile Include="src\hvn3\backgrounds\BackgroundManager.cc" />
+    <ClCompile Include="src\hvn3\backgrounds\background.cc" />
+    <ClCompile Include="src\hvn3\backgrounds\background_manager.cc" />
     <ClCompile Include="src\hvn3\collision\ColliderBase.cc" />
     <ClCompile Include="src\hvn3\collision\CollisionEventArgs.cc" />
     <ClCompile Include="src\hvn3\collision\CollisionFilter.cc" />

@@ -3,11 +3,11 @@
 namespace hvn3 {
 
 	template<typename Iter>
-	class IteratorRange {
+	class IterableRange {
 
 	public:
 		template<typename Iter>
-		IteratorRange(Iter begin, Iter end) :
+		IterableRange(Iter begin, Iter end) :
 			_begin(begin),
 			_end(end) {
 		}
@@ -30,9 +30,9 @@ namespace hvn3 {
 	};
 
 	template<typename Iter>
-	IteratorRange<Iter> make_iterator_range(Iter begin, Iter end) {
+	IterableRange<Iter> make_iterable_range(Iter begin, Iter end) {
 
-		return IteratorRange<Iter>(begin, end);
+		return IterableRange<Iter>(begin, end);
 
 	}
 

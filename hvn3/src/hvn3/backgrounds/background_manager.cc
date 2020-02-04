@@ -1,11 +1,11 @@
-#include "hvn3/backgrounds/BackgroundManager.h"
+#include "hvn3/backgrounds/background_manager.h"
 #include "hvn3/core/CoreDefs.h"
 #include "hvn3/events/EventListenerRegistry.h"
 #include "hvn3/views/View.h"
 
 #include <cassert>
 
-namespace hvn3 {
+namespace hvn3::backgrounds {
 
 	// Public members
 
@@ -37,38 +37,11 @@ namespace hvn3 {
 
 	}
 
-	BackgroundManager::index_type BackgroundManager::AddBackground(const Background& background) {
+	Background& BackgroundManager::AddBackground(const Background& background) {
 
 		backgrounds.push_back(background);
 
-		return Count() - 1;
-
-	}
-	BackgroundManager::index_type BackgroundManager::AddBackground(const Background& background, bool foreground) {
-
-		Background bg(background);
-		bg.SetForeground(foreground);
-
-		return AddBackground(bg);
-
-	}
-	void BackgroundManager::RemoveBackgroundAt(index_type index) {
-
-		assert(index >= 0);
-		assert(index < backgrounds.size());
-
-		if (index >= backgrounds.size())
-			return;
-
-		backgrounds.erase(backgrounds.begin() + index);
-
-	}
-	const Background& BackgroundManager::BackgroundAt(index_type index) const {
-
-		assert(index >= 0);
-		assert(index < backgrounds.size());
-
-		return backgrounds[index];
+		return backgrounds.back();
 
 	}
 

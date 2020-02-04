@@ -1,6 +1,6 @@
 #pragma once
 
-#include "hvn3/iterators/iterator_range.h"
+#include "hvn3/iterators/iterable_range.h"
 #include "hvn3/iterators/stashing_transform_iterator.h"
 #include "hvn3/utility/Convert.h"
 #include "hvn3/xml/xml_attribute.h"
@@ -75,10 +75,10 @@ namespace hvn3 {
 			using child_iterator = decltype(make_transform_iterator(childNodes.begin(), ChildTransformFunc));
 			using const_child_iterator = decltype(make_transform_iterator(childNodes.cbegin(), ConstChildTransformFunc));
 
-			IteratorRange<attribute_iterator> Attributes();
-			IteratorRange<const_attribute_iterator> Attributes() const;
-			IteratorRange<child_iterator> Children();
-			IteratorRange<const_child_iterator> Children() const;
+			IterableRange<attribute_iterator> Attributes();
+			IterableRange<const_attribute_iterator> Attributes() const;
+			IterableRange<child_iterator> Children();
+			IterableRange<const_child_iterator> Children() const;
 
 		};
 
