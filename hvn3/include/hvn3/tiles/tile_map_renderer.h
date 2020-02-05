@@ -3,7 +3,7 @@
 #include "hvn3/tiles/Tileset.h"
 #include <vector>
 
-namespace hvn3 {
+namespace hvn3::tiles {
 
 	class TileMapRenderer {
 

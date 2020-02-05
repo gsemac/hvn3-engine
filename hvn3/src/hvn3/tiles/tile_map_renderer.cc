@@ -2,7 +2,7 @@
 #include "hvn3/tiles/AutoTileRenderer.h"
 #include "hvn3/tiles/TileMapRenderer.h"
 
-namespace hvn3 {
+namespace hvn3::tiles {
 
 	TileMapRenderer::TileMapRenderer(const SizeI& tile_size) :
 		_tile_size(tile_size) {}

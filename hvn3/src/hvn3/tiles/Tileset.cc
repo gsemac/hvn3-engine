@@ -8,76 +8,109 @@
 #include <cassert>
 #include <sstream>
 
-namespace hvn3 {
+namespace hvn3::tiles {
 
-	Tileset::Tileset(const Graphics::Bitmap& tileset, const SizeI& tile_size) :
-		Tileset(tileset, tile_size, PointI(0, 0), PointI(0, 0)) {
+	// Public members
+
+	Tileset::Tile::Tile(Graphics::Bitmap&& image) :
+		image(std::move(image)) {
 	}
-	Tileset::Tileset(const Graphics::Bitmap& tileset, const SizeI& tile_size, const PointI& offset, const PointI& separation) :
-		_bitmap(tileset),
-		_tile_size(tile_size) {
+	const Graphics::Bitmap& Tileset::Tile::Image() const {
+
+		return image;
+
+	}
+
+	Tileset::Tileset(const Graphics::Bitmap& image, const SizeI& tileSize) :
+		Tileset(image, tileSize, PointI(0, 0), PointI(0, 0)) {
+	}
+	Tileset::Tileset(const Graphics::Bitmap& image, const SizeI& tileSize, const PointI& offset, const PointI& separation) :
+		image(image),
+		tileSize(tileSize) {
 
 		// Initialize column count.
-		_rows = 0;
+
+		rows = 0;
 
 		// Get width/height as unsigned integers.
-		int w = tile_size.Width();
-		int h = tile_size.Height();
+
+		int w = tileSize.Width();
+		int h = tileSize.Height();
 
 		assert(w > 0);
 		assert(w > 0);
 
 		// Generate a vector of sub-bitmaps to represent each tile.
-		for (int y = offset.Y(); y < _bitmap.Height(); y += h + separation.Y()) {
+
+		for (int y = offset.Y(); y < image.Height(); y += h + separation.Y()) {
 
 			// Insert the next row of tiles.
-			for (int x = offset.X(); x < _bitmap.Width(); x += w + separation.X())
-				_tiles.push_back(Tile(std::move(Graphics::Bitmap(_bitmap, RectangleI(x, y, Math::Min(w, _bitmap.Width() - x), Math::Min(h, _bitmap.Height() - y))))));
+
+			for (int x = offset.X(); x < image.Width(); x += w + separation.X())
+				tiles.push_back(Tile(Graphics::Bitmap(image, RectangleI(x, y, Math::Min(w, image.Width() - x), Math::Min(h, image.Height() - y)))));
 
 			// Increment the number of rows.
-			++_rows;
+
+			++rows;
 
 		}
 
 	}
-	const Tileset::Tile& Tileset::At(unsigned int x, unsigned int y) const {
-		return _tiles[y * Columns() + x];
+	Tileset::Tileset(const Graphics::Bitmap& image, int tileWidth, int tileHeight) :
+		Tileset(image, SizeI(tileWidth, tileHeight)) {
 	}
-	const Tileset::Tile& Tileset::At(unsigned int n) const {
-		return _tiles[n];
-	}
-	Tileset::Tile& Tileset::GetAt(unsigned int x, unsigned int y) {
-		return _tiles[y * Columns() + x];
-	}
-	Tileset::Tile& Tileset::GetAt(unsigned int n) {
-		return _tiles[n];
-	}
-	size_t Tileset::Count() const {
 
-		return _tiles.size();
+	const Tileset::Tile& Tileset::GetTile(int x, int y) const {
+
+		assert(x >= 0);
+		assert(y >= 0);
+
+		return tiles[y * Columns() + x];
 
 	}
-	size_t Tileset::Rows() const {
-		return _rows;
-	}
-	size_t Tileset::Columns() const {
-		return _tiles.size() / _rows;
-	}
-	const Graphics::Bitmap& Tileset::Bitmap() const {
+	const Tileset::Tile& Tileset::GetTile(int n) const {
 
-		return _bitmap;
+		assert(n >= 0);
+
+		return tiles[n];
 
 	}
-	const SizeI& Tileset::GridSize() const {
 
-		return _tile_size;
+	Tileset::size_type Tileset::Rows() const {
+
+		return rows;
+
+	}
+	Tileset::size_type Tileset::Columns() const {
+
+		return tiles.size() / rows;
+
+	}
+
+	Tileset::size_type Tileset::Count() const {
+
+		return tiles.size();
+
+	}
+
+	const Graphics::Bitmap& Tileset::Image() const {
+
+		return image;
+
+	}
+
+	const SizeI& Tileset::Size() const {
+
+		return SizeI(Rows(), Columns());
 
 	}
 	const SizeI& Tileset::TileSize() const {
-		return _tile_size;
+
+		return tileSize;
+
 	}
 
-	Tileset Tileset::FromFile(const std::string& file) {
+	/*Tileset Tileset::FromFile(const std::string& file) {
 
 		return FromFile(file, SizeI(0, 0));
 
@@ -103,7 +136,7 @@ namespace hvn3 {
 			flags << meta.Root().GetChild("flags").Text();
 
 			for (size_t i = 0; i < tileset.Count(); ++i) {
-				flags >> tileset.GetAt(i).flag;
+				flags >> tileset.TileAt(i).flag;
 				flags.ignore(1);
 			}
 
@@ -113,15 +146,7 @@ namespace hvn3 {
 
 		return Tileset(image, tile_size);
 
-	}
-
-
-	Tileset::Tile::Tile(Graphics::Bitmap&& bitmap) :
-		bitmap(std::move(bitmap)) {
-
-		this->flag = 0;
-
-	}
+	}*/
 
 	//Tileset Tileset::GenerateAutoTiles(const Tileset& autotiles) {
 

@@ -72,7 +72,7 @@ namespace hvn3 {
 			if (it_rhs == order_map.end())
 				it_rhs = order_map.emplace(std::make_pair(rhs, ++i)).first;
 			return it_lhs->second < it_rhs->second;
-		});
+			});
 
 	}
 
@@ -141,5 +141,14 @@ namespace hvn3 {
 	void SupercoverLineAlgorithm(float x1, float y1, float x2, float y2, const SizeF& cell_size, const std::function<bool(int, int)>& plot);
 	void SupercoverLineAlgorithm(const LineF& line, const SizeF& cell_size, const std::function<bool(int, int)>& plot);
 	void SupercoverLineAlgorithm(const PointF& begin, const PointF& end, const SizeF& cell_size, const std::function<bool(int, int)>& plot);
+
+	template<typename ContainerType, typename ValueType>
+	typename ContainerType::iterator EmplaceSorted(ContainerType& container, ValueType&& item) {
+
+		auto position = std::upper_bound(container.begin(), container.end(), item);
+
+		return container.emplace(position, std::move(item));
+
+	}
 
 }

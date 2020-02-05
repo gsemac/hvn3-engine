@@ -1,8 +1,10 @@
 #pragma once
+
 #include "hvn3/graphics/Bitmap.h"
+
 #include <vector>
 
-namespace hvn3 {
+namespace hvn3::tiles {
 
 	class Tileset {
 
@@ -10,39 +12,44 @@ namespace hvn3 {
 		class Tile {
 
 		public:
-			Tile(Graphics::Bitmap&& bitmap);
+			Tile(Graphics::Bitmap&& image);
 
-			Graphics::Bitmap bitmap;
-			int flag;
+			const Graphics::Bitmap& Image() const;
+
+		private:
+			Graphics::Bitmap image;
 
 		};
 
-		Tileset(const Graphics::Bitmap& tileset, const SizeI& tile_size);
-		Tileset(const Graphics::Bitmap& tileset, int tile_width, int tile_height);
-		Tileset(const Graphics::Bitmap& tileset, const SizeI& tile_size, const PointI& offset, const PointI& separation);
+		using size_type = size_t;
 
-		const Tile& At(unsigned int x, unsigned int y) const;
-		const Tile& At(unsigned int n) const;
-		Tile& GetAt(unsigned int x, unsigned int y);
-		Tile& GetAt(unsigned int n);
-		size_t Count() const;
-		size_t Rows() const;
-		size_t Columns() const;
+		Tileset(const Graphics::Bitmap& image, const SizeI& tileSize);
+		Tileset(const Graphics::Bitmap& image, const SizeI& tileSize, const PointI& offset, const PointI& separation);
+		Tileset(const Graphics::Bitmap& image, int tileWidth, int tileHeight);
 
-		const Graphics::Bitmap& Bitmap() const;
-		const SizeI& GridSize() const;
+		//Tile& TileAt(int x, int y);
+		//Tile& TileAt(int n);
+		const Tile& GetTile(int x, int y) const;
+		const Tile& GetTile(int n) const;
+
+		size_type Rows() const;
+		size_type Columns() const;
+
+		size_type Count() const;
+
+		const Graphics::Bitmap& Image() const;
+
+		const SizeI& Size() const;
 		const SizeI& TileSize() const;
 
-		static Tileset FromFile(const std::string& file);
-		static Tileset FromFile(const std::string& file, const SizeI& tile_size);
-
-		//static Tileset GenerateAutoTiles(const Tileset& autotiles);
+		//static Tileset FromFile(const std::string& file);
+		//static Tileset FromFile(const std::string& file, const SizeI& tileSize);
 
 	private:
-		Graphics::Bitmap _bitmap;
-		std::vector<Tile> _tiles;
-		size_t _rows;
-		SizeI _tile_size;
+		Graphics::Bitmap image;
+		std::vector<Tile> tiles;
+		size_type rows;
+		SizeI tileSize;
 
 	};
 

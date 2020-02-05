@@ -978,18 +978,6 @@
     <ClInclude Include="include\hvn3\tiles\EdgeTileFinder.h">
       <Filter>include\tiles</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\tiles\TileManager.h">
-      <Filter>include\tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\tiles\TileMap.h">
-      <Filter>include\tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\tiles\TileMapRenderer.h">
-      <Filter>include\tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\tiles\Tileset.h">
-      <Filter>include\tiles</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\exceptions\IException.h">
       <Filter>include\exceptions</Filter>
     </ClInclude>
@@ -1048,6 +1036,19 @@
       <Filter>include\backgrounds</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\iterators\iterable_range.h" />
+    <ClInclude Include="include\hvn3\tiles\tile_manager.h">
+      <Filter>include\tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\tiles\itile_manager.h" />
+    <ClInclude Include="include\hvn3\tiles\tile_map.h">
+      <Filter>include\tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\tiles\tileset.h">
+      <Filter>include\tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\tiles\tile_map_renderer.h">
+      <Filter>include\tiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
@@ -1507,18 +1508,6 @@
     <ClCompile Include="src\hvn3\tiles\EdgeTileFinder.cc">
       <Filter>src\tiles</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\tiles\TileManager.cc">
-      <Filter>src\tiles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\tiles\TileMap.cc">
-      <Filter>src\tiles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\tiles\TileMapRenderer.cc">
-      <Filter>src\tiles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\tiles\Tileset.cc">
-      <Filter>src\tiles</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\tiles\AutoTileRenderer.cc">
       <Filter>src\tiles</Filter>
     </ClCompile>
@@ -1547,6 +1536,18 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\backgrounds\background.cc">
       <Filter>src\backgrounds</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tiles\tile_manager.cc">
+      <Filter>src\tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tiles\tile_map.cc">
+      <Filter>src\tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tiles\tileset.cc">
+      <Filter>src\tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\tiles\tile_map_renderer.cc">
+      <Filter>src\tiles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
