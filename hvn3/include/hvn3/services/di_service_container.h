@@ -204,7 +204,7 @@ namespace hvn3::services {
 
 		// Add the service.
 
-		AddService<InterfaceType, ServiceType>(GetService<ConstructorArgs>()...);
+		services.AddService<InterfaceType, ServiceType>(GetService<ConstructorArgs>()...);
 
 		return *this;
 

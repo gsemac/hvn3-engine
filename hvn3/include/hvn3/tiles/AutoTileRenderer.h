@@ -1,16 +1,16 @@
 #pragma once
 #include "hvn3/graphics/Graphics.h"
-#include "hvn3/tiles/TileMap.h"
-#include "hvn3/tiles/Tileset.h"
+#include "hvn3/tiles/tile_map.h"
+#include "hvn3/tiles/tileset.h"
 #include <array>
 #include <cstddef>
 
-namespace hvn3 {
+namespace hvn3::tiles {
 
 	class AutoTileRenderer {
 
 	public:
-		enum AUTOTILE_INDEX : TileMap::tile_id {
+		enum AUTOTILE_INDEX : TileMap::Tile::tile_id {
 			AUTOTILE_INDEX_ALL = 1, // surrounded
 			AUTOTILE_INDEX_N,
 			AUTOTILE_INDEX_W,
@@ -66,21 +66,21 @@ namespace hvn3 {
 		// Sets the layout used to determine where related tiles are relative to the primary tile when drawing auto-tiles.
 		void SetAutoTileLayout(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t x3, uint8_t y3, uint8_t x4, uint8_t y4);
 		// Applies an auto-tile index to the tile at the given position, and updates surrounding tiles accordingly.
-		void ApplyAutoTilingAt(TileMap& map, int x, int y, TileMap::layer_id depth);
+		void ApplyAutoTilingAt(TileMap& map, int x, int y, int depth);
 		// Applies an auto-tile index to all tiles in the map.
-		void ApplyAutoTiling(TileMap& map, TileMap::layer_id depth);
+		void ApplyAutoTiling(TileMap& map, int depth);
 		void DrawAutoTile(Graphics::Graphics& canvas, TileMap::Tile tile_data, const Tileset& tileset, float draw_x, float draw_y);
 
 		// Computes the auto-tile index for the tile at the given position and returns the result.
-		static AUTOTILE_INDEX ComputeAutoTileIndex(TileMap& map, int x, int y, TileMap::layer_id depth);
+		static AUTOTILE_INDEX ComputeAutoTileIndex(TileMap& map, int x, int y, int depth);
 
 	private:
 		// Autotiles are in sets of 6. For a given autotile, these 5 points define the offsets to each of the remaining autotiles.
 		std::array<Point2d<uint8_t>, 5> _auto_tile_layout;
 
-		void _applyAutoMappingAt(TileMap& map, int x, int y, TileMap::layer_id depth);
+		void _applyAutoMappingAt(TileMap& map, int x, int y, int depth);
 		// Applies auto-tile indices to the tiles surrounding the tile at the given position, without affecting the given tile.
-		void _applyAutoTileSurrounding(TileMap& map, int x, int y, TileMap::layer_id depth);
+		void _applyAutoTileSurrounding(TileMap& map, int x, int y, int depth);
 
 	};
 

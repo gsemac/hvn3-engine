@@ -1,10 +1,12 @@
 #pragma once
+
 #include "hvn3/math/Point2d.h"
-#include "hvn3/tiles/TileMap.h"
+#include "hvn3/tiles/tile_map.h"
+
 #include <functional>
 #include <vector>
 
-namespace hvn3 {
+namespace hvn3::tiles {
 
 	class EdgeTileFinder {
 
@@ -15,7 +17,7 @@ namespace hvn3 {
 			Simple
 		};
 
-		void FindEdgeTiles(std::vector<PointI>& out, const TileMap& map, TileMap::layer_id layer, std::function<bool(TileMap::Tile)> is_solid) const;
+		void FindEdgeTiles(std::vector<PointI>& out, const TileMap& map, int layer, std::function<bool(TileMap::Tile)> is_solid) const;
 
 	};
 

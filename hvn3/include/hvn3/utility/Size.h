@@ -13,6 +13,9 @@ namespace hvn3 {
 	public:
 		typedef T value_type;
 
+		Size() :
+			Size(0, 0) {
+		}
 		Size(T width, T height) {
 			SetSize(width, height);
 		}
@@ -92,7 +95,7 @@ namespace hvn3 {
 	template <typename T>
 	bool operator>(const Size<T>& a, const Size<T>& b) {
 
-		return (a.Width() * b.Height() > b.Width() * b.Height());
+		return (a.Width() * b.Height() > b.Width()* b.Height());
 
 	}
 	template <typename T>

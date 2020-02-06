@@ -42,7 +42,7 @@ namespace hvn3 {
 
 			GraphicsState state = canvas.Save();
 
-			canvas.SetBitmapDrawingHeld(true);
+			canvas.SuspendBitmapDrawing();
 			//canvas.SetClip(static_cast<int>(x), static_cast<int>(y), static_cast<int>(w), static_cast<int>(h));
 
 			for (unsigned int cy = 0; cy < grid.Rows(); ++cy) {
@@ -66,7 +66,7 @@ namespace hvn3 {
 
 			}
 
-			canvas.SetBitmapDrawingHeld(false);
+			canvas.ResumeBitmapDrawing();
 			canvas.Restore(state);
 
 		}

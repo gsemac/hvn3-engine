@@ -126,7 +126,7 @@ namespace hvn3::tiles {
 
 		size_t columns = tiles.size() / static_cast<size_t>(rows);
 
-		assert(columns <= std::numeric_limits<int>::max());
+		assert(columns <= static_cast<size_t>(std::numeric_limits<int>::max()));
 
 		return static_cast<int>(columns);
 
@@ -139,6 +139,17 @@ namespace hvn3::tiles {
 	void TileMap::Layer::Clear() {
 
 		std::fill(tiles.begin(), tiles.end(), Tile());
+
+	}
+
+	bool TileMap::Layer::operator<(const Layer& rhs) const {
+
+		return Depth() < rhs.Depth();
+
+	}
+	bool TileMap::Layer::operator>(const Layer& rhs) const {
+
+		return Depth() > rhs.Depth();
 
 	}
 
@@ -192,7 +203,7 @@ namespace hvn3::tiles {
 
 		auto it = std::remove_if(layers.begin(), layers.end(),
 			[=](const Layer& layer) {
-				layer.Depth() == depth;
+				return layer.Depth() == depth;
 			});
 
 		if (it == layers.end())
@@ -208,7 +219,37 @@ namespace hvn3::tiles {
 		return layers;
 
 	}
+
+	void TileMap::SetTile(int x, int y, int depth, const TileMap::Tile& tile) {
+
+		GetLayer(depth).SetTile(x, y, tile);
+
+	}
+	TileMap::Tile& TileMap::GetTile(int x, int y, int depth) {
+
+		return GetLayer(depth).GetTile(x, y);
+
+	}
+	const TileMap::Tile& TileMap::GetTile(int x, int y, int depth) const {
+
+		return GetLayer(depth).GetTile(x, y);
+
+	}
+	bool TileMap::CheckTile(int x, int y, int depth) const {
+
+		return GetLayer(depth).CheckTile(x, y);
+
+	}
+	bool TileMap::CheckTile(int x, int y, int depth, const TileMap::Tile& tile) const {
+
+		return GetLayer(depth).CheckTile(x, y, tile);
+
+	}
+
 	void TileMap::Resize(int rows, int columns) {
+
+		if (rows == Rows() && columns == Columns())
+			return;
 
 		for (auto i = layers.begin(); i != layers.end(); ++i) {
 

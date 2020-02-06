@@ -1,6 +1,6 @@
 #include "hvn3/tiles/AutoTileRenderer.h"
 
-namespace hvn3 {
+namespace hvn3::tiles {
 
 	AutoTileRenderer::AutoTileRenderer() {
 
@@ -22,13 +22,13 @@ namespace hvn3 {
 		_auto_tile_layout[4] = Point2d<uint8_t>(x4, y4);
 
 	}
-	void AutoTileRenderer::ApplyAutoTilingAt(TileMap& map, int x, int y, TileMap::layer_id depth) {
+	void AutoTileRenderer::ApplyAutoTilingAt(TileMap& map, int x, int y, int depth) {
 
 		_applyAutoMappingAt(map, x, y, depth);
 		_applyAutoTileSurrounding(map, x, y, depth);
 
 	}
-	void AutoTileRenderer::ApplyAutoTiling(TileMap& map, TileMap::layer_id depth) {
+	void AutoTileRenderer::ApplyAutoTiling(TileMap& map, int depth) {
 
 		for (int y = 0; y < map.Rows(); ++y)
 			for (int x = 0; x < map.Columns(); ++x)
@@ -37,80 +37,80 @@ namespace hvn3 {
 	}
 	void AutoTileRenderer::DrawAutoTile(Graphics::Graphics& canvas, TileMap::Tile tile_data, const Tileset& tileset, float draw_x, float draw_y) {
 
-		TileMap::tile_id tile_index = tile_data.TileIndex() - 1;
-		TileMap::tile_id auto_tile_index = tile_data.AutoTileIndex();
+		TileMap::Tile::tile_id tile_index = tile_data.TileIndex() - 1;
+		TileMap::Tile::tile_id auto_tile_index = tile_data.AutoTileIndex();
 
 		// These are the actual coordinates where the tile is drawn.
 		float dx = draw_x;
 		float dy = draw_y;
 
 		// These are the coordinates of the tile graphic in the tileset.
-		TileMap::tile_id x = tile_index % tileset.Columns();
-		TileMap::tile_id y = tile_index / tileset.Columns();
+		TileMap::Tile::tile_id x = tile_index % tileset.Columns();
+		TileMap::Tile::tile_id y = tile_index / tileset.Columns();
 
 		// If this is not an auto-tile, draw it without any extra processing.
-		/*if (tileset.At(tile_index).flags != Tileset::TileFlags::AutoTile) {
-			canvas.DrawBitmap(dx, dy, tileset.At(tile_index).bitmap);
+		/*if (tileset.GetTile(tile_index).flags != Tileset::TileFlags::AutoTile) {
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(tile_index).Image());
 			return;
 		}*/
 
 		switch (auto_tile_index) {
 		case AUTOTILE_INDEX_ALL:
-			canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
-			canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
-			canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
-			canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(16, 16, 16, 16));
+			canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(0, 16, 16, 16));
+			canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(16, 0, 16, 16));
+			canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(0, 0, 16, 16));
 			break;
 		case AUTOTILE_INDEX_N:
-			canvas.DrawBitmap(dx, dy, tileset.At(x, y + 2).bitmap, RectangleF(0, 0, 16, 32));
-			canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 2).bitmap, RectangleF(16, 0, 16, 32));
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 2).Image(), RectangleF(0, 0, 16, 32));
+			canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(16, 0, 16, 32));
 			break;
 		case AUTOTILE_INDEX_W:
-			canvas.DrawBitmap(dx, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(0, 0, 32, 16));
-			canvas.DrawBitmap(dx, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(0, 16, 32, 16));
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(0, 0, 32, 16));
+			canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(0, 16, 32, 16));
 			break;
 		case AUTOTILE_INDEX_N_W:
-			canvas.DrawBitmap(dx, dy, tileset.At(x + 1, y + 2).bitmap);
-			canvas.DrawBitmap(dx, dy, tileset.At(x + 1, y).bitmap, RectangleF(0, 0, 16, 16));
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x + 1, y + 2).Image());
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x + 1, y).Image(), RectangleF(0, 0, 16, 16));
 			break;
 		case AUTOTILE_INDEX_N_W_NW:
-			canvas.DrawBitmap(dx, dy, tileset.At(x + 1, y + 2).bitmap);
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x + 1, y + 2).Image());
 			break;
 		case AUTOTILE_INDEX_E:
-			canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(0, 0, 32, 16));
-			canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(0, 16, 32, 16));
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(0, 0, 32, 16));
+			canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(0, 16, 32, 16));
 			break;
 		case AUTOTILE_INDEX_N_E:
-			canvas.DrawBitmap(dx, dy, tileset.At(x, y + 2).bitmap);
-			canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y).bitmap, RectangleF(16, 0, 16, 16));
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 2).Image());
+			canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y).Image(), RectangleF(16, 0, 16, 16));
 			break;
 		case AUTOTILE_INDEX_N_E_NE:
-			canvas.DrawBitmap(dx, dy, tileset.At(x, y + 2).bitmap);
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 2).Image());
 			break;
 		case AUTOTILE_INDEX_E_W:
 		case AUTOTILE_INDEX_E_S_W:
 		case AUTOTILE_INDEX_E_S_W_SW:
 		case AUTOTILE_INDEX_E_S_W_SE:
 		case AUTOTILE_INDEX_E_S_W_SW_SE:
-			canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(16, 0, 16, 16));
-			canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(0, 0, 16, 16));
-			canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(16, 16, 16, 16));
-			canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(0, 16, 16, 16));
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(16, 0, 16, 16));
+			canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(0, 0, 16, 16));
+			canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(16, 16, 16, 16));
+			canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(0, 16, 16, 16));
 			switch (auto_tile_index) {
 			case AUTOTILE_INDEX_E_S_W:
-				canvas.DrawBitmap(dx, dy + 16, tileset.At(x + 1, y).bitmap, RectangleF(0, 16, 32, 16));
+				canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x + 1, y).Image(), RectangleF(0, 16, 32, 16));
 				break;
 			case AUTOTILE_INDEX_E_S_W_SW:
-				canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y).bitmap, RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y).Image(), RectangleF(16, 16, 16, 16));
 				break;
 			case AUTOTILE_INDEX_E_S_W_SE:
-				canvas.DrawBitmap(dx, dy + 16, tileset.At(x + 1, y).bitmap, RectangleF(0, 16, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x + 1, y).Image(), RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(0, 0, 16, 16));
 				break;
 			case AUTOTILE_INDEX_E_S_W_SW_SE:
-				canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(0, 0, 16, 16));
 				break;
 			}
 			break;
@@ -118,25 +118,25 @@ namespace hvn3 {
 		case AUTOTILE_INDEX_N_E_W_NW:
 		case AUTOTILE_INDEX_N_E_W_NE:
 		case AUTOTILE_INDEX_N_E_W_NE_NW:
-			canvas.DrawBitmap(dx, dy, tileset.At(x + 1, y).bitmap, RectangleF(0, 0, 32, 16));
-			canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(16, 16, 16, 16));
-			canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(0, 16, 16, 16));
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x + 1, y).Image(), RectangleF(0, 0, 32, 16));
+			canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(16, 16, 16, 16));
+			canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(0, 16, 16, 16));
 			switch (auto_tile_index) {
 			case AUTOTILE_INDEX_N_E_W_NW:
-				canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(16, 16, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_W_NE:
-				canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(0, 16, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_W_NE_NW:
-				canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(0, 16, 16, 16));
 				break;
 			}
 			break;
 		case AUTOTILE_INDEX_S:
-			canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(0, 0, 16, 32));
-			canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(16, 0, 16, 32));
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(0, 0, 16, 32));
+			canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(16, 0, 16, 32));
 			break;
 		case AUTOTILE_INDEX_N_S:
 		case AUTOTILE_INDEX_N_S_W:
@@ -147,51 +147,51 @@ namespace hvn3 {
 		case AUTOTILE_INDEX_N_S_W_NW_SW:
 		case AUTOTILE_INDEX_N_E_S_SE:
 		case AUTOTILE_INDEX_N_E_S_NE_SE:
-			canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(0, 16, 16, 16));
-			canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(16, 16, 16, 16));
-			canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(0, 0, 16, 16));
-			canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(0, 16, 16, 16));
+			canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(16, 16, 16, 16));
+			canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(0, 0, 16, 16));
+			canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(16, 0, 16, 16));
 			switch (auto_tile_index) {
 			case AUTOTILE_INDEX_N_S_W:
-				canvas.DrawBitmap(dx, dy, tileset.At(x + 1, y).bitmap, RectangleF(0, 0, 16, 16));
-				canvas.DrawBitmap(dx, dy + 16, tileset.At(x + 1, y).bitmap, RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy, tileset.GetTile(x + 1, y).Image(), RectangleF(0, 0, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x + 1, y).Image(), RectangleF(0, 16, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_S_W_NW:
-				canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
-				canvas.DrawBitmap(dx, dy + 16, tileset.At(x + 1, y).bitmap, RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x + 1, y).Image(), RectangleF(0, 16, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S:
-				canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y).bitmap, RectangleF(16, 0, 16, 32));
+				canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y).Image(), RectangleF(16, 0, 16, 32));
 				break;
 			case AUTOTILE_INDEX_N_E_S_NE:
-				canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y).bitmap, RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y).Image(), RectangleF(16, 16, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_S_W_SW:
-				canvas.DrawBitmap(dx, dy, tileset.At(x + 1, y).bitmap, RectangleF(0, 0, 16, 16));
-				canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx, dy, tileset.GetTile(x + 1, y).Image(), RectangleF(0, 0, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(16, 0, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_S_W_NW_SW:
-				canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
-				canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(16, 0, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S_SE:
-				canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y).bitmap, RectangleF(16, 0, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y).Image(), RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(0, 0, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S_NE_SE:
-				canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(0, 0, 16, 16));
 				break;
 			}
 			break;
 		case AUTOTILE_INDEX_S_W:
-			canvas.DrawBitmap(dx, dy, tileset.At(x + 1, y + 1).bitmap);
-			canvas.DrawBitmap(dx, dy + 16, tileset.At(x + 1, y).bitmap, RectangleF(0, 16, 16, 16));
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x + 1, y + 1).Image());
+			canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x + 1, y).Image(), RectangleF(0, 16, 16, 16));
 			break;
 		case AUTOTILE_INDEX_E_S:
-			canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap);
-			canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y).bitmap, RectangleF(16, 16, 16, 16));
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image());
+			canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y).Image(), RectangleF(16, 16, 16, 16));
 			break;
 		case AUTOTILE_INDEX_N_E_S_W:
 		case AUTOTILE_INDEX_N_E_S_W_NW_SE:
@@ -208,94 +208,94 @@ namespace hvn3 {
 		case AUTOTILE_INDEX_N_E_S_W_NW_SW_SE:
 		case AUTOTILE_INDEX_N_E_S_W_NE_SW_SE:
 		case AUTOTILE_INDEX_N_E_S_W_NW:
-			canvas.DrawBitmap(dx, dy, tileset.At(x + 1, y).bitmap);
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x + 1, y).Image());
 			switch (auto_tile_index) {
 			case AUTOTILE_INDEX_N_E_S_W_NW_SE:
-				canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(0, 0, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S_W_NE:
-				canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(0, 16, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S_W_NE_NW:
-				canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(0, 16, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S_W_NE_SW:
-				canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
-				canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(16, 0, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S_W_NW_SW:
-				canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
-				canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(16, 0, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S_W_SW:
-				canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(16, 0, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S_W_NE_NW_SW:
-				canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
-				canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(16, 0, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S_W_SE:
-				canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(0, 0, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S_W_NE_SE:
-				canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(0, 0, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S_W_NW_NE_SE:
-				canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(0, 0, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S_W_SW_SE:
-				canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(0, 0, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S_W_NW_SW_SE:
-				canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
-				canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(0, 0, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S_W_NE_SW_SE:
-				canvas.DrawBitmap(dx + 16, dy, tileset.At(x + 1, y + 1).bitmap, RectangleF(0, 16, 16, 16));
-				canvas.DrawBitmap(dx, dy + 16, tileset.At(x, y + 2).bitmap, RectangleF(16, 0, 16, 16));
-				canvas.DrawBitmap(dx + 16, dy + 16, tileset.At(x + 1, y + 2).bitmap, RectangleF(0, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy, tileset.GetTile(x + 1, y + 1).Image(), RectangleF(0, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy + 16, tileset.GetTile(x, y + 2).Image(), RectangleF(16, 0, 16, 16));
+				canvas.DrawBitmap(dx + 16, dy + 16, tileset.GetTile(x + 1, y + 2).Image(), RectangleF(0, 0, 16, 16));
 				break;
 			case AUTOTILE_INDEX_N_E_S_W_NW:
-				canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap, RectangleF(16, 16, 16, 16));
+				canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image(), RectangleF(16, 16, 16, 16));
 				break;
 			}
 			break;
 		case AUTOTILE_INDEX_S_W_SW:
-			canvas.DrawBitmap(dx, dy, tileset.At(x + 1, y + 1).bitmap);
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x + 1, y + 1).Image());
 			break;
 		case AUTOTILE_INDEX_E_S_SE:
-			canvas.DrawBitmap(dx, dy, tileset.At(x, y + 1).bitmap);
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y + 1).Image());
 			break;
 		case AUTOTILE_INDEX_NONE:
-			canvas.DrawBitmap(dx, dy, tileset.At(x, y).bitmap);
+			canvas.DrawBitmap(dx, dy, tileset.GetTile(x, y).Image());
 			break;
 		}
 
 	}
 
-	AutoTileRenderer::AUTOTILE_INDEX AutoTileRenderer::ComputeAutoTileIndex(TileMap& map, int x, int y, TileMap::layer_id depth) {
+	AutoTileRenderer::AUTOTILE_INDEX AutoTileRenderer::ComputeAutoTileIndex(TileMap& map, int x, int y, int depth) {
 
 		// Get the tile data.
-		TileMap::Tile tile = map.At(x, y, depth);
-		TileMap::tile_id tile_index = tile.TileIndex();
-	
+		TileMap::Tile tile = map.GetTile(x, y, depth);
+		TileMap::Tile::tile_id tile_index = tile.TileIndex();
+
 		// Check surrounding tiles for the same tile index.
-		bool n = map.Exists(x, y - 1, depth, tile_index);
-		bool e = map.Exists(x + 1, y, depth, tile_index);
-		bool w = map.Exists(x - 1, y, depth, tile_index);
-		bool s = map.Exists(x, y + 1, depth, tile_index);
-		bool ne = map.Exists(x + 1, y - 1, depth, tile_index);
-		bool nw = map.Exists(x - 1, y - 1, depth, tile_index);
-		bool se = map.Exists(x + 1, y + 1, depth, tile_index);
-		bool sw = map.Exists(x - 1, y + 1, depth, tile_index);
+		bool n = map.CheckTile(x, y - 1, depth, tile_index);
+		bool e = map.CheckTile(x + 1, y, depth, tile_index);
+		bool w = map.CheckTile(x - 1, y, depth, tile_index);
+		bool s = map.CheckTile(x, y + 1, depth, tile_index);
+		bool ne = map.CheckTile(x + 1, y - 1, depth, tile_index);
+		bool nw = map.CheckTile(x - 1, y - 1, depth, tile_index);
+		bool se = map.CheckTile(x + 1, y + 1, depth, tile_index);
+		bool sw = map.CheckTile(x - 1, y + 1, depth, tile_index);
 
 		AUTOTILE_INDEX auto_tile_index = static_cast<AUTOTILE_INDEX>(0);
 
@@ -401,11 +401,11 @@ namespace hvn3 {
 
 	}
 
-	void AutoTileRenderer::_applyAutoMappingAt(TileMap& map, int x, int y, TileMap::layer_id depth) {
+	void AutoTileRenderer::_applyAutoMappingAt(TileMap& map, int x, int y, int depth) {
 
 		// Generate the autotile index for the tile at this position.
-		TileMap::Tile tile = map.At(x, y, depth);
-		TileMap::tile_id auto_tile_index = ComputeAutoTileIndex(map, x, y, depth);
+		TileMap::Tile tile = map.GetTile(x, y, depth);
+		TileMap::Tile::tile_id auto_tile_index = ComputeAutoTileIndex(map, x, y, depth);
 
 		tile.SetAutoTileIndex(auto_tile_index);
 
@@ -413,24 +413,24 @@ namespace hvn3 {
 		map.SetTile(x, y, tile.id, depth);
 
 	}
-	void AutoTileRenderer::_applyAutoTileSurrounding(TileMap& map, int x, int y, TileMap::layer_id depth) {
+	void AutoTileRenderer::_applyAutoTileSurrounding(TileMap& map, int x, int y, int depth) {
 
 		// Surrounding tiles may need to be updated.
-		if (map.Exists(x - 1, y - 1, depth))
+		if (map.CheckTile(x - 1, y - 1, depth))
 			_applyAutoMappingAt(map, x - 1, y - 1, depth); // nw
-		if (map.Exists(x, y - 1, depth))
+		if (map.CheckTile(x, y - 1, depth))
 			_applyAutoMappingAt(map, x, y - 1, depth); // n
-		if (map.Exists(x + 1, y - 1, depth))
+		if (map.CheckTile(x + 1, y - 1, depth))
 			_applyAutoMappingAt(map, x + 1, y - 1, depth); // ne
-		if (map.Exists(x + 1, y, depth))
+		if (map.CheckTile(x + 1, y, depth))
 			_applyAutoMappingAt(map, x + 1, y, depth); // e
-		if (map.Exists(x + 1, y + 1, depth))
+		if (map.CheckTile(x + 1, y + 1, depth))
 			_applyAutoMappingAt(map, x + 1, y + 1, depth); // se
-		if (map.Exists(x, y + 1, depth))
+		if (map.CheckTile(x, y + 1, depth))
 			_applyAutoMappingAt(map, x, y + 1, depth); // s
-		if (map.Exists(x - 1, y + 1, depth))
+		if (map.CheckTile(x - 1, y + 1, depth))
 			_applyAutoMappingAt(map, x - 1, y + 1, depth); // sw
-		if (map.Exists(x - 1, y, depth))
+		if (map.CheckTile(x - 1, y, depth))
 			_applyAutoMappingAt(map, x - 1, y, depth); // w
 
 	}

@@ -99,7 +99,7 @@ namespace hvn3::tiles {
 
 	}
 
-	const SizeI& Tileset::Size() const {
+	SizeI Tileset::Size() const {
 
 		return SizeI(Rows(), Columns());
 

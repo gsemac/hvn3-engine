@@ -39,7 +39,7 @@ namespace hvn3::tiles {
 
 		const Graphics::Bitmap& Image() const;
 
-		const SizeI& Size() const;
+		SizeI Size() const;
 		const SizeI& TileSize() const;
 
 		//static Tileset FromFile(const std::string& file);

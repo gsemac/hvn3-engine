@@ -747,14 +747,21 @@ namespace hvn3 {
 
 		}
 
-		void Graphics::SetBitmapDrawingHeld(bool value) {
+		void Graphics::SuspendBitmapDrawing() {
 
 			_makeThisActiveInstance(false);
 
-			al_hold_bitmap_drawing(value);
+			al_hold_bitmap_drawing(true);
 
 		}
-		bool Graphics::BitmapDrawingHeld() const {
+		void Graphics::ResumeBitmapDrawing() {
+
+			_makeThisActiveInstance(false);
+
+			al_hold_bitmap_drawing(false);
+
+		}
+		bool Graphics::BitmapDrawingSuspended() const {
 
 			_makeThisActiveInstance(false);
 

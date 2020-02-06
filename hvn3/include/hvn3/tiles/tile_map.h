@@ -46,6 +46,9 @@ namespace hvn3::tiles {
 
 			void Clear();
 
+			bool operator<(const Layer& rhs) const;
+			bool operator>(const Layer& rhs) const;
+
 		private:
 			int rows;
 			int depth;
@@ -62,6 +65,12 @@ namespace hvn3::tiles {
 		Layer& GetLayer(int depth);
 		const Layer& GetLayer(int depth) const;
 		bool RemoveLayer(int depth);
+
+		void SetTile(int x, int y, int depth, const Tile& tile);
+		Tile& GetTile(int x, int y, int depth);
+		const Tile& GetTile(int x, int y, int depth) const;
+		bool CheckTile(int x, int y, int depth) const;
+		bool CheckTile(int x, int y, int depth, const Tile& tile) const;
 
 		const std::vector<Layer>& Layers() const;
 
