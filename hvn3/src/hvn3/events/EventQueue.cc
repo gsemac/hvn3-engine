@@ -10,7 +10,7 @@ namespace hvn3 {
 
 	EventQueue::EventQueue() {
 
-		Engine::RequireComponent(EngineComponent::Core);
+		core::Engine::Initialize(core::EngineModules::Core);
 
 		_event_queue = al_create_event_queue();
 
@@ -31,7 +31,7 @@ namespace hvn3 {
 
 		_event_queue = nullptr;
 
-		Engine::ReleaseComponent(EngineComponent::Core);
+		core::Engine::Initialize(core::EngineModules::Core);
 
 	}
 	void EventQueue::Pause() {

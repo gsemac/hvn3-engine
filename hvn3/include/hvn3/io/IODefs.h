@@ -9,7 +9,7 @@ namespace hvn3 {
 		Middle = 0x02,
 		Right = 0x04
 	};
-	ENABLE_BITFLAG_OPERATORS(MouseButton);
+	HVN3_ENABLE_BITFLAGS(MouseButton);
 
 	enum class MouseScrollDirection {
 		Up = 1,
@@ -17,7 +17,7 @@ namespace hvn3 {
 		Left = 4,
 		Right = 8
 	};
-	ENABLE_BITFLAG_OPERATORS(MouseScrollDirection);
+	HVN3_ENABLE_BITFLAGS(MouseScrollDirection);
 
 	enum class SystemCursor {
 		None = 0,
@@ -218,6 +218,6 @@ namespace hvn3 {
 		Control = LControl | RControl,
 		Alt = LAlt | RAlt
 	};
-	ENABLE_BITFLAG_OPERATORS(KeyModifiers);
+	HVN3_ENABLE_BITFLAGS(KeyModifiers);
 
 }

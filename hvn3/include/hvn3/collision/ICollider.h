@@ -14,7 +14,7 @@ namespace hvn3 {
 		Static,
 		Solid
 	};
-	ENABLE_BITFLAG_OPERATORS(ColliderFlags);
+	HVN3_ENABLE_BITFLAGS(ColliderFlags);
 
 	class ICollider :
 		public IPositionable2d<float> {

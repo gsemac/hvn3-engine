@@ -54,8 +54,8 @@ namespace hvn3 {
 
 			static class ComponentLifetimeHelper {
 			public:
-				ComponentLifetimeHelper() { Engine::RequireComponent(EngineComponent::Core | EngineComponent::IO); }
-				~ComponentLifetimeHelper() { Engine::ReleaseComponent(EngineComponent::Core | EngineComponent::IO); }
+				ComponentLifetimeHelper() { core::Engine::Initialize(core::EngineModules::Core | core::EngineModules::IO); }
+				~ComponentLifetimeHelper() { core::Engine::Initialize(core::EngineModules::Core | core::EngineModules::IO); }
 			} helper;
 
 			return al_get_mouse_event_source();
@@ -65,8 +65,8 @@ namespace hvn3 {
 
 			static class ComponentLifetimeHelper {
 			public:
-				ComponentLifetimeHelper() { Engine::RequireComponent(EngineComponent::Core | EngineComponent::IO); }
-				~ComponentLifetimeHelper() { Engine::ReleaseComponent(EngineComponent::Core | EngineComponent::IO); }
+				ComponentLifetimeHelper() { core::Engine::Initialize(core::EngineModules::Core | core::EngineModules::IO); }
+				~ComponentLifetimeHelper() { core::Engine::Initialize(core::EngineModules::Core | core::EngineModules::IO); }
 			} helper;
 
 			return al_get_keyboard_event_source();

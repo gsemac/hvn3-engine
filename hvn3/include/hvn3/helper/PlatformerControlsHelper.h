@@ -12,7 +12,7 @@ namespace hvn3 {
 		SnapOnDownslope = 1,
 		EasySlopes = SnapOnDownslope | 2
 	};
-	ENABLE_BITFLAG_OPERATORS(PlatformerControlsHelperFlags)
+	HVN3_ENABLE_BITFLAGS(PlatformerControlsHelperFlags)
 
 	class PlatformerControlsHelper : public DirectionalControlsHelper {
 

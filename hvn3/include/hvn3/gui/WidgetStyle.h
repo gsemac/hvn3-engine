@@ -82,7 +82,7 @@ namespace hvn3 {
 
 		};
 
-		ENABLE_BITFLAG_OPERATORS(WidgetStyle::PositionFlags)
+		HVN3_ENABLE_BITFLAGS(WidgetStyle::PositionFlags)
 
 	}
 }

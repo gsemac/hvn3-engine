@@ -14,7 +14,7 @@ namespace hvn3 {
 		Bottom = 0b0100,
 		Top = 0b1000
 	};
-	ENABLE_BITFLAG_OPERATORS(CohenSutherlandOutCode);
+	HVN3_ENABLE_BITFLAGS(CohenSutherlandOutCode);
 
 	template <typename T>
 	CohenSutherlandOutCode GetCohenSutherlandOutCode(const Rectangle<T>& rectangle, const Point2d<T>& point) {

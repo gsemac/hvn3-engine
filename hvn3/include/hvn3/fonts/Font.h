@@ -17,7 +17,7 @@ namespace hvn3 {
 		Monochrome = 2,
 		AutoScale = 4
 	};
-	ENABLE_BITFLAG_OPERATORS(FontFlags)
+	HVN3_ENABLE_BITFLAGS(FontFlags)
 
 	enum class FontFormat {
 		TrueTypeFont,

@@ -14,7 +14,7 @@ namespace hvn3 {
 		ShowHidden = 16,
 		MultiSelect = 32
 	};
-	ENABLE_BITFLAG_OPERATORS(FileDialogFlags)
+	HVN3_ENABLE_BITFLAGS(FileDialogFlags)
 
 	class FileDialog {
 

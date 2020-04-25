@@ -20,7 +20,7 @@ namespace hvn3 {
 			Top = 4,
 			Bottom = 8
 		};
-		ENABLE_BITFLAG_OPERATORS(Anchor);
+		HVN3_ENABLE_BITFLAGS(Anchor);
 
 		enum class DockStyle {
 			None = 0,
@@ -92,7 +92,7 @@ namespace hvn3 {
 			Selected = 4096,
 			Valid = 8192
 		};
-		ENABLE_BITFLAG_OPERATORS(WidgetState);
+		HVN3_ENABLE_BITFLAGS(WidgetState);
 
 		enum class InputType {
 			Default,

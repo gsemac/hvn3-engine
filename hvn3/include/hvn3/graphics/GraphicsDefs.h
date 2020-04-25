@@ -13,7 +13,7 @@ namespace hvn3 {
 		FullscreenWindow = 512, // ALLEGRO_FULLSCREEN_WINDOW
 		AntiAlias = 1024
 	};
-	ENABLE_BITFLAG_OPERATORS(DisplayFlags)
+	HVN3_ENABLE_BITFLAGS(DisplayFlags)
 
 		enum class DisplayOption {
 		VsyncEnabled

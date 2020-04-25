@@ -24,7 +24,7 @@ namespace hvn3 {
 			MagLinear = 128,
 			AntiAlias = MinLinear | MagLinear
 		};
-		ENABLE_BITFLAG_OPERATORS(BitmapFlags)
+		HVN3_ENABLE_BITFLAGS(BitmapFlags)
 
 		struct BitmapData {
 			BitmapData();

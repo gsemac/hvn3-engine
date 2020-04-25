@@ -15,7 +15,7 @@ namespace hvn3 {
 		Static,
 		Solid
 	};
-	ENABLE_BITFLAG_OPERATORS(ColliderFlags);
+	HVN3_ENABLE_BITFLAGS(ColliderFlags);
 
 	class ColliderComponent :
 		public ecs::ComponentBase<TypeList<TransformComponent>> {

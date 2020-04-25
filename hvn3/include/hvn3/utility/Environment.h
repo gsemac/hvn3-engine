@@ -22,7 +22,7 @@ namespace hvn3 {
 		Windows = Windows32 | Windows64,
 		UnixBased = Unix | MacOSX | Linux | FreeBSD
 	};
-	ENABLE_BITFLAG_OPERATORS(OperatingSystem);
+	HVN3_ENABLE_BITFLAGS(OperatingSystem);
 
 	class Environment {
 

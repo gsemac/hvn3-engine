@@ -2,7 +2,7 @@
 #include <type_traits>
 
 // Define to quickly enable bitmask operators.
-#define ENABLE_BITFLAG_OPERATORS(x) \
+#define HVN3_ENABLE_BITFLAGS(x) \
 template<> struct EnableBitFlagOperators<x> {  \
 	static const bool enable = true;  \
 }; \

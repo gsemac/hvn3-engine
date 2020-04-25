@@ -74,7 +74,7 @@
     <ClInclude Include="include\hvn3\services\service_container.h" />
     <ClInclude Include="include\hvn3\core\SmartPointerToInterfaceWrapper.h" />
     <ClInclude Include="include\hvn3\core\ManagerDefs.h" />
-    <ClInclude Include="include\hvn3\core\Engine.h" />
+    <ClInclude Include="include\hvn3\core\engine.h" />
     <ClInclude Include="include\hvn3\core\GameManager.h" />
     <ClInclude Include="include\hvn3\core\IDrawable.h" />
     <ClInclude Include="include\hvn3\core\IGameManager.h" />
@@ -345,7 +345,7 @@
     <ClCompile Include="src\hvn3\components\TransformComponent.cc" />
     <ClCompile Include="src\hvn3\core\Application.cc" />
     <ClCompile Include="src\hvn3\core\DrawableBase.cc" />
-    <ClCompile Include="src\hvn3\core\Engine.cc" />
+    <ClCompile Include="src\hvn3\core\engine.cc" />
     <ClCompile Include="src\hvn3\core\GameManager.cc" />
     <ClCompile Include="src\hvn3\core\IUpdatable.cc" />
     <ClCompile Include="src\hvn3\core\ApplicationProperties.cc" />
@@ -494,7 +494,7 @@
     <ProjectGuid>{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8}</ProjectGuid>
     <RootNamespace>HVN3Engine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>hvn3</ProjectName>
+    <ProjectName>hvn3-engine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -594,7 +594,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HVN3_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -607,6 +607,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>HVN3_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

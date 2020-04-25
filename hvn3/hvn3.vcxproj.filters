@@ -678,9 +678,6 @@
     <ClInclude Include="include\hvn3\utility\PerlinNoise.h">
       <Filter>include\utility</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\core\Engine.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\io\IOUtils.h">
       <Filter>include\io</Filter>
     </ClInclude>
@@ -1049,6 +1046,9 @@
     <ClInclude Include="include\hvn3\tiles\tile_map_renderer.h">
       <Filter>include\tiles</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\core\engine.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
@@ -1361,9 +1361,6 @@
     <ClCompile Include="src\hvn3\utility\PerlinNoise.cc">
       <Filter>src\utility</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\core\Engine.cc">
-      <Filter>src\core</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\graphics\GraphicsPath.cc">
       <Filter>src\graphics</Filter>
     </ClCompile>
@@ -1548,6 +1545,9 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\tiles\tile_map_renderer.cc">
       <Filter>src\tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\core\engine.cc">
+      <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

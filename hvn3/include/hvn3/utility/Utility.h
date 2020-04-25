@@ -55,7 +55,7 @@ namespace hvn3 {
 		// Aligns vertically to the bottom.
 		Bottom = 32
 	};
-	ENABLE_BITFLAG_OPERATORS(Alignment)
+	HVN3_ENABLE_BITFLAGS(Alignment)
 
 	enum class SizeMode {
 		Normal,
