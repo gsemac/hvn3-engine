@@ -52,8 +52,8 @@ namespace hvn3 {
 			RectangleF Bounds() const override;
 			bool Visible() const override;
 			void SetVisible(bool value) override;
-			SystemCursor Cursor() const override;
-			void SetCursor(SystemCursor cursor) override;
+			io::SystemCursor Cursor() const override;
+			void SetCursor(io::SystemCursor cursor) override;
 			bool TabStop() const override;
 			void SetTabStop(bool value) override;
 			bool HasFocus() const override;
@@ -114,7 +114,7 @@ namespace hvn3 {
 			Gui::DockStyle _dock_style;
 			IWidget* _parent;
 			bool _visible;
-			SystemCursor _cursor;
+			io::SystemCursor _cursor;
 			WidgetManager* _parent_manager;
 			callback_table_type _callbacks;
 			bool _tab_stop;

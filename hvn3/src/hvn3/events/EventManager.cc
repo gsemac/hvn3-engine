@@ -3,11 +3,11 @@
 #include "hvn3/core/IUpdatable.h"
 #include "hvn3/events/UpdateEventArgs.h"
 #include "hvn3/events/EventManager.h"
-#include "hvn3/io/IDisplayListener.h"
 #include "hvn3/io/IKeyboardListener.h"
 #include "hvn3/io/IMouseListener.h"
 #include "hvn3/io/IOUtils.h"
 #include "hvn3/io/KeyboardEventArgs.h"
+#include "hvn3/io/window_events.h"
 
 namespace hvn3 {
 
@@ -210,7 +210,7 @@ namespace hvn3 {
 	void EventManager::OnDisplayClose(Event& ev) {
 
 		// Notify all display listeners.
-		Dispatch<IDisplayListener::DisplayClosedEventArgs>(nullptr); // #todo should not be null, but the actual display
+		Dispatch<io::WindowClosedEventArgs>(io::Window(nullptr, false)); // #todo should not be null, but the actual display
 
 	}
 	void EventManager::OnKeyDown(Event& ev) {
@@ -342,22 +342,26 @@ namespace hvn3 {
 	void EventManager::OnDisplayResize(Event& ev) {
 
 		// Create a non-owning display for us to work with.
-		Display display(ev.AlPtr()->display.source);
+
+		io::Window display(ev.AlPtr()->display.source, false);
 
 		// Store the old size so that we can include it in the event args.
 		//SizeI old_size = display.Size();
 
 		// Acknowledge the resize.
+
 		al_acknowledge_resize(ev.AlPtr()->display.source);
 
 		// Notify all listeners.
-		Dispatch<IDisplayListener::DisplaySizeChangedEventArgs>(&display);
+
+		Dispatch<io::WindowSizeChangedEventArgs>(display);
 
 	}
 	void EventManager::OnDisplaySwitchOut(Event& ev) {
 
 		// Create a non-owning display for us to work with.
-		Display display(ev.AlPtr()->display.source);
+
+		io::Window display(ev.AlPtr()->display.source, false);
 
 		// Reset mouse/keyboard IO so it's back to the default state when the display is switched back in.
 
@@ -369,18 +373,19 @@ namespace hvn3 {
 		KeyboardLostEventArgs keyboard_args;
 
 		Dispatch<KeyboardLostEventArgs>();
-		Dispatch<IDisplayListener::DisplayLostEventArgs>(&display);
+		Dispatch<io::WindowLostEventArgs>(display);
 
 	}
 	void EventManager::OnDisplaySwitchIn(Event& ev) {
 
 		// Create a non-owning display for us to work with.
-		Display display(ev.AlPtr()->display.source);
+
+		io::Window display(ev.AlPtr()->display.source, false);
 
 		// Notify all listeners.
 
 		Dispatch<KeyboardFoundEventArgs>();
-		Dispatch<IDisplayListener::DisplayFoundEventArgs>(&display);
+		Dispatch<io::WindowFoundEventArgs>(display);
 
 	}
 	void EventManager::OnUserEvent(Event& ev) {

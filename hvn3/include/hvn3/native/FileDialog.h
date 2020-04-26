@@ -1,6 +1,9 @@
 #pragma once
+
 #include "hvn3/allegro/AllegroForwardDeclarations.h"
+#include "hvn3/io/window.h"
 #include "hvn3/utility/BitFlags.h"
+
 #include <string>
 #include <vector>
 
@@ -16,38 +19,38 @@ namespace hvn3 {
 	};
 	HVN3_ENABLE_BITFLAGS(FileDialogFlags)
 
-	class FileDialog {
+		class FileDialog {
 
-	public:
-		FileDialog();
-		FileDialog(FileDialogFlags flags);
+		public:
+			FileDialog();
+			FileDialog(FileDialogFlags flags);
 
-		const std::string& InitialDirectory() const;
-		void SetInitialDirectory(const std::string& value);
-		const std::string& FileName() const;
-		void SetFileName(const std::string& value);
-		const std::string& Title() const;
-		void SetTitle(const std::string& value);
-		const std::string& Filter() const;
-		void SetFilter(const std::string& value);
+			const std::string& InitialDirectory() const;
+			void SetInitialDirectory(const std::string& value);
+			const std::string& FileName() const;
+			void SetFileName(const std::string& value);
+			const std::string& Title() const;
+			void SetTitle(const std::string& value);
+			const std::string& Filter() const;
+			void SetFilter(const std::string& value);
 
-		void SetDefaultExtension(const std::string& value);
-		void SetAddExtensionEnabled(bool value);
+			void SetDefaultExtension(const std::string& value);
+			void SetAddExtensionEnabled(bool value);
 
-		bool ShowDialog();
+			bool ShowDialog(const io::Window& window);
 
-	private:
-		std::string _initial_directory;
-		std::string _filename;
-		std::string _title;
-		std::string _filter;
-		std::string _default_extension;
-		bool _add_extension_enabled;
-		std::vector<std::string> _selected_files;
-		FileDialogFlags _flags;
+		private:
+			std::string _initial_directory;
+			std::string _filename;
+			std::string _title;
+			std::string _filter;
+			std::string _default_extension;
+			bool _add_extension_enabled;
+			std::vector<std::string> _selected_files;
+			FileDialogFlags _flags;
 
-		ALLEGRO_FILECHOOSER* _createDialog();
-		void _freeDialog(ALLEGRO_FILECHOOSER* dialog);
+			ALLEGRO_FILECHOOSER* _createDialog();
+			void _freeDialog(ALLEGRO_FILECHOOSER* dialog);
 
 	};
 

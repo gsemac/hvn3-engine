@@ -189,7 +189,7 @@ namespace hvn3 {
 
 			// If the mouse is on one of the header dividers, switch to resize cursor.
 
-			SetCursor(SystemCursor::Default);
+			SetCursor(io::SystemCursor::Default);
 
 			PointF p = FixedPosition();
 			float resize_region_padding = 2.0f;
@@ -200,7 +200,7 @@ namespace hvn3 {
 
 				if (e.Position().In(resize_region)) {
 
-					SetCursor(SystemCursor::ResizeE);
+					SetCursor(io::SystemCursor::ResizeE);
 
 					break;
 

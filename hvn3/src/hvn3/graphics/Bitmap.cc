@@ -58,13 +58,13 @@ namespace hvn3 {
 			SetDefaultBitmapFlags(old_flags);
 
 		}
-		Bitmap::Bitmap(ALLEGRO_BITMAP* bitmap, bool managed) :
+		Bitmap::Bitmap(ALLEGRO_BITMAP* bitmap, bool takeOwnership) :
 			Bitmap() {
 
 			if (bitmap == nullptr)
 				return;
 
-			if (managed)
+			if (takeOwnership)
 				_src_bitmap = bitmap_ptr_type(bitmap, al_destroy_bitmap);
 			else {
 
@@ -365,26 +365,32 @@ namespace hvn3 {
 		void Bitmap::_copy_assign(const Bitmap& other) {
 
 			// Free existing sub-bitmap.
+
 			if (_sub_bitmap != nullptr)
 				al_destroy_bitmap(_sub_bitmap);
 
 			// Note that al_clone_bitmap will call al_create_bitmap for the new bitmap.
 			// For them to have the same flags, we need to set the new bitmap flags.
+
 			int old_flags = al_get_new_bitmap_flags();
+
 			if (other)
 				al_set_new_bitmap_flags(al_get_bitmap_flags(other._get_bitmap_ptr()));
 
 			// If the other bitmap is managed, we can share memory with it. Otherwise, it must be copied.
+
 			if (other._managed)
 				_src_bitmap = other._src_bitmap;
 			else
 				_src_bitmap = bitmap_ptr_type(al_clone_bitmap(other._src_bitmap.get()), al_destroy_bitmap);
 
 			// Copy the other bitmap's sub-bitmap.
+
 			if (other._sub_bitmap != nullptr)
 				_sub_bitmap = al_clone_sub_bitmap(other._sub_bitmap);
 
 			// Restore the previous bitmap flags.
+
 			al_set_new_bitmap_flags(old_flags);
 
 		}

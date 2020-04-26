@@ -68,6 +68,9 @@
     <ClInclude Include="include\hvn3\core\IManager.h" />
     <ClInclude Include="include\hvn3\core\ManagerBase.h" />
     <ClInclude Include="include\hvn3\core\ManagerRegistry.h" />
+    <ClInclude Include="include\hvn3\io\system_cursor.h" />
+    <ClInclude Include="include\hvn3\io\window_events.h" />
+    <ClInclude Include="include\hvn3\io\window_options.h" />
     <ClInclude Include="include\hvn3\services\di_service_container.h" />
     <ClInclude Include="include\hvn3\services\services.h" />
     <ClInclude Include="include\hvn3\services\service_builder.h" />
@@ -168,7 +171,7 @@
     <ClInclude Include="include\hvn3\gui\WidgetManager.h" />
     <ClInclude Include="include\hvn3\gui\WidgetRenderArgs.h" />
     <ClInclude Include="include\hvn3\gui\WidgetStyle.h" />
-    <ClInclude Include="include\hvn3\gui\Window.h" />
+    <ClInclude Include="include\hvn3\gui\gui_window.h" />
     <ClInclude Include="include\hvn3\helper\Camera2d.h" />
     <ClInclude Include="include\hvn3\helper\DirectionalControlsHelper.h" />
     <ClInclude Include="include\hvn3\helper\DirectionalInputListener.h" />
@@ -177,15 +180,12 @@
     <ClInclude Include="include\hvn3\io\BitReader.h" />
     <ClInclude Include="include\hvn3\io\BitWriter.h" />
     <ClInclude Include="include\hvn3\io\Buffer.h" />
-    <ClInclude Include="include\hvn3\io\Clipboard.h" />
     <ClInclude Include="include\hvn3\io\Console.h" />
     <ClInclude Include="include\hvn3\io\Directory.h" />
-    <ClInclude Include="include\hvn3\io\Display.h" />
-    <ClInclude Include="include\hvn3\io\DisplayListener.h" />
+    <ClInclude Include="include\hvn3\io\window.h" />
     <ClInclude Include="include\hvn3\io\DisplayManager.h" />
     <ClInclude Include="include\hvn3\io\File.h" />
     <ClInclude Include="include\hvn3\io\FileStream.h" />
-    <ClInclude Include="include\hvn3\io\IDisplayListener.h" />
     <ClInclude Include="include\hvn3\io\IDisplayManager.h" />
     <ClInclude Include="include\hvn3\io\IKeyboardListener.h" />
     <ClInclude Include="include\hvn3\io\IMouseListener.h" />
@@ -390,7 +390,7 @@
     <ClCompile Include="src\hvn3\gui\WidgetManager.cc" />
     <ClCompile Include="src\hvn3\gui\WidgetRendererRenderArgs.cc" />
     <ClCompile Include="src\hvn3\gui\WidgetStyle.cc" />
-    <ClCompile Include="src\hvn3\gui\Window.cc" />
+    <ClCompile Include="src\hvn3\gui\gui_window.cc" />
     <ClCompile Include="src\hvn3\helper\Camera2d.cc" />
     <ClCompile Include="src\hvn3\helper\DirectionalControlsHelper.cc" />
     <ClCompile Include="src\hvn3\helper\DirectionalInputListener.cc" />
@@ -398,10 +398,9 @@
     <ClCompile Include="src\hvn3\io\BitReader.cc" />
     <ClCompile Include="src\hvn3\io\BitWriter.cc" />
     <ClCompile Include="src\hvn3\io\Buffer.cc" />
-    <ClCompile Include="src\hvn3\io\Clipboard.cc" />
     <ClCompile Include="src\hvn3\io\Console.cc" />
     <ClCompile Include="src\hvn3\io\Directory.cc" />
-    <ClCompile Include="src\hvn3\io\Display.cc" />
+    <ClCompile Include="src\hvn3\io\window.cc" />
     <ClCompile Include="src\hvn3\io\DisplayManager.cc" />
     <ClCompile Include="src\hvn3\io\File.cc" />
     <ClCompile Include="src\hvn3\io\FileStream.cc" />
@@ -418,6 +417,7 @@
     <ClCompile Include="src\hvn3\io\Mouse.cc" />
     <ClCompile Include="src\hvn3\io\MouseListenerBase.cc" />
     <ClCompile Include="src\hvn3\io\Path.cc" />
+    <ClCompile Include="src\hvn3\io\window_events.cc" />
     <ClCompile Include="src\hvn3\math\GeometryUtils.cc" />
     <ClCompile Include="src\hvn3\math\MathUtils.cc" />
     <ClCompile Include="src\hvn3\math\Vector2d.cc" />
@@ -595,6 +595,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HVN3_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

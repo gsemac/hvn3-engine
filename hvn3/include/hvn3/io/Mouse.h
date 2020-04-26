@@ -1,8 +1,10 @@
 #pragma once
+
 #include "hvn3/events/EventSource.h"
 #include "hvn3/io/IMouseListener.h"
 #include "hvn3/io/IODefs.h"
 #include "hvn3/io/ListenerBase.h"
+#include "hvn3/io/system_cursor.h"
 #include "hvn3/math/GeometryUtils.h"
 #include "hvn3/utility/BitFlags.h"
 #include "hvn3/utility/Stopwatch.h"
@@ -36,7 +38,7 @@ namespace hvn3 {
 		static const PointF& DisplayPosition();
 		static void ShowCursor();
 		static void HideCursor();
-		static void SetCursor(SystemCursor cursor);
+		static void SetCursor(io::SystemCursor cursor);
 		static EventSource GetEventSource();
 
 	private:

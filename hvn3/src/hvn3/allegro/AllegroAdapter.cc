@@ -54,9 +54,6 @@ namespace hvn3 {
 			return al_flags;
 
 		}
-		ALLEGRO_DISPLAY* AllegroAdapter::ToDisplay(const Display& display) {
-			return display.get();
-		}
 		Graphics::BitmapFlags AllegroAdapter::FromBitmapFlags(int flags) {
 
 			int al_flags = flags;

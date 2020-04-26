@@ -75,7 +75,7 @@ namespace hvn3 {
 
 				auto& display_manager = services.GetService<DisplayManager>();
 
-				Graphics::Graphics canvas = display_manager.GetDisplay().Canvas();
+				Graphics::Graphics canvas = display_manager.GetDisplay().GetCanvas();
 
 				canvas.Clear(properties.OutsideColor);
 
@@ -133,7 +133,7 @@ namespace hvn3 {
 		// Create the primary display if no display has been created yet.
 
 		if (services.GetService<DisplayManager>().Count() <= 0)
-			services.GetService<DisplayManager>().CreateDisplay(properties.DisplaySize, properties.ApplicationName, properties.DisplayFlags);
+			services.GetService<DisplayManager>().CreateDisplay(properties.DisplaySize, properties.ApplicationName);
 
 		services.GetService<RenderManager>().SetScalingMode(properties.ScalingMode);
 
@@ -145,7 +145,7 @@ namespace hvn3 {
 		services.GetService<EventManager>().RegisterEventSource(updateEventSource.EventSource());
 		services.GetService<EventManager>().RegisterEventSource(io::IOUtils::KeyboardEventSource());
 		services.GetService<EventManager>().RegisterEventSource(io::IOUtils::MouseEventSource());
-		services.GetService<EventManager>().RegisterEventSource(services.GetService<DisplayManager>().GetDisplay().EventSource());
+		services.GetService<EventManager>().RegisterEventSource(services.GetService<DisplayManager>().GetDisplay().GetEventSource());
 
 	}
 

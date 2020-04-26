@@ -103,7 +103,7 @@ namespace hvn3 {
 		private:
 			// Can draw to a Bitmap or a GraphicsPath
 			// #todo Create a common interface or wrapper for all objects that can be drawn to?
-			Bitmap* _canvas;
+			mutable Bitmap _canvas;
 			GraphicsPath* _path_canvas;
 
 			Transform _transform;

@@ -66,12 +66,12 @@ namespace hvn3 {
 		}
 
 		Graphics::Graphics(Bitmap& surface) :
-			_canvas(&surface),
+			_canvas(surface),
 			_path_canvas(nullptr),
 			_clipping_region(0.0f, 0.0f, surface.Width(), surface.Height()) {
 		}
 		Graphics::Graphics(GraphicsPath& path) :
-			_canvas(nullptr),
+			_canvas(nullptr, false),
 			_path_canvas(&path) {
 		}
 		Graphics::~Graphics() {
@@ -393,7 +393,7 @@ namespace hvn3 {
 
 				ResetTransform();
 
-				DrawSolidRectangle(0.0f, 0.0f, static_cast<float>(_canvas->Width()), static_cast<float>(_canvas->Height()), color);
+				DrawSolidRectangle(0.0f, 0.0f, static_cast<float>(_canvas.Width()), static_cast<float>(_canvas.Height()), color);
 
 				SetTransform(trans);
 
@@ -741,7 +741,7 @@ namespace hvn3 {
 		void Graphics::ResetClip() {
 
 			if (_canvas != nullptr)
-				SetClip(0, 0, _canvas->Width(), _canvas->Height());
+				SetClip(0, 0, _canvas.Width(), _canvas.Height());
 			else
 				SetClip(0, 0, std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
 
@@ -870,11 +870,11 @@ namespace hvn3 {
 		void Graphics::_makeThisActiveInstance(bool writing) const {
 
 			if (writing)
-				_canvas->_perform_pre_write_operations();
+				_canvas._perform_pre_write_operations();
 
 			if (!_isActiveInstance()) {
 
-				al_set_target_bitmap(System::AllegroAdapter::ToBitmap(*_canvas));
+				al_set_target_bitmap(System::AllegroAdapter::ToBitmap(_canvas));
 
 				_applyClip();
 				_applyTransform();

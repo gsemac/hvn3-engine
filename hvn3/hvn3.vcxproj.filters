@@ -303,9 +303,6 @@
     <ClInclude Include="include\hvn3\graphics\Transform.h">
       <Filter>include\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\io\Clipboard.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\io\Console.h">
       <Filter>include\io</Filter>
     </ClInclude>
@@ -540,12 +537,6 @@
     <ClInclude Include="include\hvn3\io\IMouseListener.h">
       <Filter>include\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\io\DisplayListener.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\io\IDisplayListener.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\helper\DirectionalInputListener.h">
       <Filter>include\helper</Filter>
     </ClInclude>
@@ -720,9 +711,6 @@
     <ClInclude Include="include\hvn3\utility\TypeIndexer.h">
       <Filter>include\utility</Filter>
     </ClInclude>
-    <ClInclude Include="include\hvn3\io\Display.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
     <ClInclude Include="include\hvn3\gui\Button.h">
       <Filter>include\gui</Filter>
     </ClInclude>
@@ -802,9 +790,6 @@
       <Filter>include\gui</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\gui\WidgetStyle.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hvn3\gui\Window.h">
       <Filter>include\gui</Filter>
     </ClInclude>
     <ClInclude Include="include\hvn3\core\Application.h">
@@ -1049,6 +1034,15 @@
     <ClInclude Include="include\hvn3\core\engine.h">
       <Filter>include\core</Filter>
     </ClInclude>
+    <ClInclude Include="include\hvn3\io\window.h">
+      <Filter>include\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\window_options.h" />
+    <ClInclude Include="include\hvn3\io\system_cursor.h" />
+    <ClInclude Include="include\hvn3\gui\gui_window.h">
+      <Filter>include\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hvn3\io\window_events.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
@@ -1126,9 +1120,6 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\graphics\Color.cc">
       <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\io\Clipboard.cc">
-      <Filter>src\io</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\io\Console.cc">
       <Filter>src\io</Filter>
@@ -1364,9 +1355,6 @@
     <ClCompile Include="src\hvn3\graphics\GraphicsPath.cc">
       <Filter>src\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\hvn3\io\Display.cc">
-      <Filter>src\io</Filter>
-    </ClCompile>
     <ClCompile Include="src\hvn3\gui\Button.cc">
       <Filter>src\gui</Filter>
     </ClCompile>
@@ -1407,9 +1395,6 @@
       <Filter>src\gui</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\gui\WidgetStyle.cc">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hvn3\gui\Window.cc">
       <Filter>src\gui</Filter>
     </ClCompile>
     <ClCompile Include="src\hvn3\core\ApplicationProperties.cc">
@@ -1548,6 +1533,13 @@
     </ClCompile>
     <ClCompile Include="src\hvn3\core\engine.cc">
       <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\window.cc">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hvn3\io\window_events.cc" />
+    <ClCompile Include="src\hvn3\gui\gui_window.cc">
+      <Filter>src\gui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

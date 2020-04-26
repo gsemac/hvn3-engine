@@ -47,7 +47,7 @@ namespace hvn3 {
 			Bitmap(const SizeI& size, BitmapFlags flags);
 			Bitmap(int width, int height);
 			Bitmap(int width, int height, BitmapFlags flags);
-			Bitmap(ALLEGRO_BITMAP* bitmap, bool managed = true);
+			Bitmap(ALLEGRO_BITMAP* bitmap, bool takeOwnership);
 
 			Bitmap(const Bitmap& other);
 			Bitmap(const Bitmap& other, const RectangleI& region);

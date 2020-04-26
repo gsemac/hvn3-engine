@@ -1,5 +1,5 @@
 #include "hvn3/allegro/AllegroAdapter.h"
-#include "hvn3/io/Display.h"
+#include "hvn3/io/window.h"
 #include "hvn3/io/Directory.h"
 #include "hvn3/io/Path.h"
 #include "hvn3/native/FileDialog.h"
@@ -69,9 +69,9 @@ namespace hvn3 {
 		_filter = formatting_string.str();
 
 	}
-	bool FileDialog::ShowDialog() {
+	bool FileDialog::ShowDialog(const io::Window& window) {
 
-		ALLEGRO_DISPLAY* display = Display::ActiveDisplay() == nullptr ? nullptr : System::AllegroAdapter::ToDisplay(*Display::ActiveDisplay());
+		ALLEGRO_DISPLAY* display = window.GetAllegroPointer();
 		ALLEGRO_FILECHOOSER* dialog = _createDialog();
 
 		bool result = al_show_native_file_dialog(display, dialog);
@@ -95,7 +95,7 @@ namespace hvn3 {
 
 			// Add the default file extension to all files if enabled.
 			if (_add_extension_enabled && _default_extension.size() > 0)
-				for (auto i = _selected_files.begin(); i != _selected_files.end(); ++i) 
+				for (auto i = _selected_files.begin(); i != _selected_files.end(); ++i)
 					if (!StringUtils::EndsWith(*i, _default_extension))
 						*i += _default_extension;
 

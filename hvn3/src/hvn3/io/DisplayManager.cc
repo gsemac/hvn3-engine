@@ -6,7 +6,7 @@ namespace hvn3 {
 
 	// Public methods
 
-	Display& DisplayManager::GetDisplay() {
+	io::Window& DisplayManager::GetDisplay() {
 
 		assert(_displays.size() > 0);
 

@@ -1,6 +1,7 @@
 #include "hvn3/core/Engine.h"
+#include "hvn3/exceptions/Exception.h"
 #include "hvn3/io/Mouse.h"
-#include "hvn3/io/Display.h"
+#include "hvn3/io/window.h"
 
 #include <allegro5/allegro.h>
 #include <limits>
@@ -117,17 +118,23 @@ namespace hvn3 {
 	}
 	void Mouse::ShowCursor() {
 
-		al_show_mouse_cursor(Display::ActiveDisplay()->get());
+		//al_show_mouse_cursor(Display::ActiveDisplay()->get());
+
+		throw NotImplementedException();
 
 	}
 	void Mouse::HideCursor() {
 
-		al_hide_mouse_cursor(Display::ActiveDisplay()->get());
+		//al_hide_mouse_cursor(Display::ActiveDisplay()->get());
+
+		throw NotImplementedException();
 
 	}
-	void Mouse::SetCursor(SystemCursor cursor) {
+	void Mouse::SetCursor(io::SystemCursor cursor) {
 
-		al_set_system_mouse_cursor(Display::ActiveDisplay()->get(), (ALLEGRO_SYSTEM_MOUSE_CURSOR)cursor);
+		//al_set_system_mouse_cursor(Display::ActiveDisplay()->get(), (ALLEGRO_SYSTEM_MOUSE_CURSOR)cursor);
+
+		throw NotImplementedException();
 
 	}
 	EventSource Mouse::GetEventSource() {

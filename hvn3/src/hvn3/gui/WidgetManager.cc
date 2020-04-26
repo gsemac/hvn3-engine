@@ -608,8 +608,11 @@ namespace hvn3 {
 
 			if (!e.Handled()) {
 
-				if (new_widget_hovered == nullptr)
-					Mouse::SetCursor(SystemCursor::Default);
+				if (new_widget_hovered == nullptr) {
+
+					Mouse::SetCursor(io::SystemCursor::Default);
+
+				}
 				else {
 
 					Mouse::SetCursor(new_widget_hovered->Cursor());

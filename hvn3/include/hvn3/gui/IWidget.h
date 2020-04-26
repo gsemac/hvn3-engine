@@ -1,9 +1,12 @@
 #pragma once
+
 #include "hvn3/gui/GuiDefs.h"
 #include "hvn3/gui/WidgetEventArgs.h"
+#include "hvn3/io/system_cursor.h"
 #include "hvn3/math/Point2d.h"
 #include "hvn3/utility/Size.h"
 #include "hvn3/utility/Utf8String.h"
+
 #include <string>
 
 namespace hvn3 {
@@ -58,8 +61,8 @@ namespace hvn3 {
 			virtual RectangleF Bounds() const = 0;
 			virtual bool Visible() const = 0;
 			virtual void SetVisible(bool value) = 0;
-			virtual SystemCursor Cursor() const = 0;
-			virtual void SetCursor(SystemCursor cursor) = 0;
+			virtual io::SystemCursor Cursor() const = 0;
+			virtual void SetCursor(io::SystemCursor cursor) = 0;
 			virtual bool TabStop() const = 0;
 			virtual void SetTabStop(bool value) = 0;
 			virtual bool HasFocus() const = 0;

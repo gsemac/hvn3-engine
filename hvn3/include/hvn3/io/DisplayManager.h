@@ -1,7 +1,7 @@
 #pragma once
 
 #include "hvn3/core/ManagerBase.h"
-#include "hvn3/io/Display.h"
+#include "hvn3/io/window.h"
 #include "hvn3/io/IDisplayManager.h"
 
 #include <cstddef>
@@ -22,14 +22,14 @@ namespace hvn3 {
 		}
 
 		// Returns the primary display.
-		Display& GetDisplay();
+		io::Window& GetDisplay();
 
 		void RefreshAll();
 
 		size_t Count() const;
 
 	private:
-		std::vector<Display> _displays;
+		std::vector<io::Window> _displays;
 
 	};
 
