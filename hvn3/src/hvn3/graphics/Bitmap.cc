@@ -379,10 +379,12 @@ namespace hvn3 {
 
 			// If the other bitmap is managed, we can share memory with it. Otherwise, it must be copied.
 
-			if (other._managed)
+			/*if (other._managed)
 				_src_bitmap = other._src_bitmap;
 			else
-				_src_bitmap = bitmap_ptr_type(al_clone_bitmap(other._src_bitmap.get()), al_destroy_bitmap);
+				_src_bitmap = bitmap_ptr_type(al_clone_bitmap(other._src_bitmap.get()), al_destroy_bitmap);*/
+
+			_src_bitmap = other._src_bitmap;
 
 			// Copy the other bitmap's sub-bitmap.
 

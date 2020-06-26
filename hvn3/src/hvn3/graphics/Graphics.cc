@@ -94,7 +94,7 @@ namespace hvn3 {
 			width -= 1.0f;
 			height -= 1.0f;
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -121,7 +121,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawSolidRectangle(float x, float y, float width, float height, const Color& color) {
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -152,7 +152,7 @@ namespace hvn3 {
 
 			// Note: 0.5 is added to each coordinate to fix the uneven corners drawn by Allegro.
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -174,7 +174,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawSolidRoundRectangle(float x, float y, float width, float height, const Color& color, float radius) {
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -205,7 +205,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawLine(float x1, float y1, float x2, float y2, const Color& color, float thickness) {
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -278,7 +278,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawLine(float x1, float y1, float x2, float y2, const LinearGradientBrush& brush, float thickness) {
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -298,7 +298,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawPixel(float x, float y, const Color& color) {
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -318,7 +318,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawCircle(float x, float y, float radius, const Color& color, float thickness) {
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -348,7 +348,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawSolidCircle(float x, float y, float radius, const Color& color) {
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -373,7 +373,7 @@ namespace hvn3 {
 
 		void Graphics::Clear(const Color& color) {
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -387,7 +387,7 @@ namespace hvn3 {
 		}
 		void Graphics::Fill(const Color& color) {
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				Transform trans = GetTransform();
 
@@ -415,7 +415,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment) {
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -460,7 +460,7 @@ namespace hvn3 {
 
 			}
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -475,7 +475,7 @@ namespace hvn3 {
 
 		void Graphics::DrawSprite(float x, float y, const Sprite& sprite, int subimage) {
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -494,7 +494,7 @@ namespace hvn3 {
 		}
 		void Graphics::DrawSprite(float x, float y, const Sprite& sprite, int subimage, float xscale, float yscale, float angle, const Color& blend) {
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -531,7 +531,7 @@ namespace hvn3 {
 
 			assert(static_cast<bool>(bitmap));
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -552,7 +552,7 @@ namespace hvn3 {
 
 			assert(static_cast<bool>(bitmap));
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -587,7 +587,7 @@ namespace hvn3 {
 
 			assert(static_cast<bool>(bitmap));
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -623,7 +623,7 @@ namespace hvn3 {
 
 			assert(static_cast<bool>(bitmap));
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -658,7 +658,7 @@ namespace hvn3 {
 
 			assert(static_cast<bool>(bitmap));
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -693,7 +693,7 @@ namespace hvn3 {
 
 			assert(static_cast<bool>(bitmap));
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -708,7 +708,7 @@ namespace hvn3 {
 
 			assert(static_cast<bool>(bitmap));
 
-			if (_canvas != nullptr) {
+			if (_canvas) {
 
 				_makeThisActiveInstance(true);
 
@@ -740,7 +740,7 @@ namespace hvn3 {
 		}
 		void Graphics::ResetClip() {
 
-			if (_canvas != nullptr)
+			if (_canvas)
 				SetClip(0, 0, _canvas.Width(), _canvas.Height());
 			else
 				SetClip(0, 0, std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
