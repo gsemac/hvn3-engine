@@ -1,6 +1,6 @@
-#include "utility/hash_builder.h"
+#include "utilities/hash_builder.h"
 
-namespace hvn3::utility {
+namespace hvn3::utilities {
 
 	HashBuilder::HashBuilder() :
 		HashBuilder(0) {

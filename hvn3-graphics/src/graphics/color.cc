@@ -1,7 +1,7 @@
 #include "graphics/color.h"
 #include "math/math.h"
-#include "utility/convert.h"
-#include "utility/random.h"
+#include "utilities/convert.h"
+#include "utilities/random.h"
 
 #include <algorithm>
 #include <cmath>
@@ -299,13 +299,13 @@ namespace hvn3::graphics {
 	}
 	Color Color::FromHex(const std::string& hex) {
 
-		return FromHex(utility::Convert::To<uint32_t>(hex));
+		return FromHex(utilities::Convert::To<uint32_t>(hex));
 
 	}
 
 	static Color Random() {
 
-		return Color(utility::Random::Byte(), utility::Random::Byte(), utility::Random::Byte());
+		return Color(utilities::Random::Byte(), utilities::Random::Byte(), utilities::Random::Byte());
 
 	}
 

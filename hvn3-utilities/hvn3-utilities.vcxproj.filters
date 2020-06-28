@@ -15,33 +15,33 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\utility\hash_builder.h">
+    <ClInclude Include="include\utilities\bitflags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\utility\random.h">
+    <ClInclude Include="include\utilities\convert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\utility\string_utilities.h">
+    <ClInclude Include="include\utilities\hash_builder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\utility\string_comparison.h">
+    <ClInclude Include="include\utilities\random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\utility\convert.h">
+    <ClInclude Include="include\utilities\string_comparison.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\utility\bitflags.h">
+    <ClInclude Include="include\utilities\string_utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\utility\hash_builder.cc">
+    <ClCompile Include="src\utilities\hash_builder.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\utility\random.cc">
+    <ClCompile Include="src\utilities\random.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\utility\string_utilities.cc">
+    <ClCompile Include="src\utilities\string_utilities.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

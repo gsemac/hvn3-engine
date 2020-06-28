@@ -1,7 +1,7 @@
 #pragma once
 
 #include "math/vector.h"
-#include "utility/hash_builder.h"
+#include "utilities/hash_builder.h"
 
 #include <cstddef>
 #include <functional>
@@ -223,7 +223,7 @@ namespace std {
 
 		size_t operator()(const hvn3::math::Point2<T>& point) const {
 
-			hvn3::utility::HashBuilder hashBuilder;
+			hvn3::utilities::HashBuilder hashBuilder;
 
 			hashBuilder.Add(point.X());
 			hashBuilder.Add(point.Y());

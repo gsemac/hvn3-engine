@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <random>
 
-namespace hvn3::utility {
+namespace hvn3::utilities {
 
 	class Random {
 

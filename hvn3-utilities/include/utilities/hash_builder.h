@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <functional>
 
-namespace hvn3::utility {
+namespace hvn3::utilities {
 
 	class HashBuilder {
 

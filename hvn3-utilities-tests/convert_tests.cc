@@ -1,13 +1,13 @@
 #include "CppUnitTest.h"
 
-#include "utility/convert.h"
+#include "utilities/convert.h"
 
 #include <cstdint>
 #include <string>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace hvn3::utility::tests {
+namespace hvn3::utilities::tests {
 
 	TEST_CLASS(ConvertTests) {
 
