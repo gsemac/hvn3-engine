@@ -1,21 +1,8 @@
 #pragma once
 
-#include "hvn3/core/Runner.h"
-#include "hvn3/utility/BitFlags.h"
+#include "core/engine_modules.h"
 
 namespace hvn3::core {
-
-	enum class EngineModules {
-		// The core engine module, enabling primary engine features.
-		Core = 1,
-		// The I/O engine module, enabling keyboard and mouse input.
-		IO = 2,
-		Graphics = 4,
-		Audio = 8,
-		All = Core | IO | Graphics | Audio
-	};
-
-	HVN3_ENABLE_BITFLAGS(EngineModules);
 
 	class Engine {
 

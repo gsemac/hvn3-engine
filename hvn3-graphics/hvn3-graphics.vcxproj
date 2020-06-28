@@ -164,6 +164,7 @@
     <ClInclude Include="include\graphics\color.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\graphics\bitmap.cc" />
     <ClCompile Include="src\graphics\bitmap_data.cc" />
     <ClCompile Include="src\graphics\color.cc" />
   </ItemGroup>

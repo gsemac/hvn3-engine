@@ -2,7 +2,9 @@
 
 #include "graphics/bitmap_data.h"
 #include "graphics/bitmap_options.h"
+#include "graphics/color.h"
 #include "io/file_access.h"
+#include "io/image_format.h"
 #include "math/rectangle.h"
 
 #include <allegro5/allegro.h>
@@ -35,6 +37,26 @@ namespace hvn3::graphics {
 		void Unlock();
 		void IsLocked() const;
 
+		void SetPixel(int x, int y, const Color& color);
+		Color GetPixel(int x, int y) const;
+
+		underlying_bitmap_t* GetUnderlyingBitmap(bool performPreWriteOperations);
+
+		Bitmap& operator=(const Bitmap& other);
+		Bitmap& operator=(Bitmap&& other);
+
+		explicit operator bool() const;
+
+		static Bitmap FromBuffer(const uint8_t* buffer, size_t buffer_size, io::ImageFormat format);
+		static Bitmap FromFile(const std::string& file);
+		static Bitmap FromFile(const std::string& file, const Color& alpha_color);
+
+	private:
+		void InitializeAllegro();
+
 	};
+
+	bool operator==(const Bitmap& lhs, const Bitmap& rhs);
+	bool operator!=(const Bitmap& lhs, const Bitmap& rhs);
 
 }

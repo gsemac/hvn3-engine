@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hvn3-math-tests", "hvn3-mat
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "utility-tests", "utility-tests\utility-tests.vcxproj", "{8FA337CC-2586-47A8-84ED-6BD601EC772D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hvn3-core", "hvn3-core\hvn3-core.vcxproj", "{DE8FB63C-A6BE-4CA8-B3B1-3D66C9F7CB41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -105,6 +107,14 @@ Global
 		{8FA337CC-2586-47A8-84ED-6BD601EC772D}.Release|x64.Build.0 = Release|x64
 		{8FA337CC-2586-47A8-84ED-6BD601EC772D}.Release|x86.ActiveCfg = Release|Win32
 		{8FA337CC-2586-47A8-84ED-6BD601EC772D}.Release|x86.Build.0 = Release|Win32
+		{DE8FB63C-A6BE-4CA8-B3B1-3D66C9F7CB41}.Debug|x64.ActiveCfg = Debug|x64
+		{DE8FB63C-A6BE-4CA8-B3B1-3D66C9F7CB41}.Debug|x64.Build.0 = Debug|x64
+		{DE8FB63C-A6BE-4CA8-B3B1-3D66C9F7CB41}.Debug|x86.ActiveCfg = Debug|Win32
+		{DE8FB63C-A6BE-4CA8-B3B1-3D66C9F7CB41}.Debug|x86.Build.0 = Debug|Win32
+		{DE8FB63C-A6BE-4CA8-B3B1-3D66C9F7CB41}.Release|x64.ActiveCfg = Release|x64
+		{DE8FB63C-A6BE-4CA8-B3B1-3D66C9F7CB41}.Release|x64.Build.0 = Release|x64
+		{DE8FB63C-A6BE-4CA8-B3B1-3D66C9F7CB41}.Release|x86.ActiveCfg = Release|Win32
+		{DE8FB63C-A6BE-4CA8-B3B1-3D66C9F7CB41}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,6 +128,7 @@ Global
 		{0674E07A-822E-40CE-8FF2-FC9F6373BD09} = {6F1CD3C4-7C22-40D4-8038-8440D4F4BB65}
 		{AE81FD29-6DE8-46BF-B56A-41A9219B42F1} = {FCE45FD6-0ECE-499D-9254-EFA052AD89BF}
 		{8FA337CC-2586-47A8-84ED-6BD601EC772D} = {FCE45FD6-0ECE-499D-9254-EFA052AD89BF}
+		{DE8FB63C-A6BE-4CA8-B3B1-3D66C9F7CB41} = {6F1CD3C4-7C22-40D4-8038-8440D4F4BB65}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E5BEA0FB-EC1E-46CF-85E2-E3F0A4FA4149}

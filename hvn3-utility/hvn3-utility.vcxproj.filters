@@ -30,12 +30,18 @@
     <ClInclude Include="include\utility\convert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\utility\bitflags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\utility\hash_builder.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\utility\random.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\string_utilities.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

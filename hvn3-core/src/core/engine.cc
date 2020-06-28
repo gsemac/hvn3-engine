@@ -1,4 +1,6 @@
-#include "hvn3/core/engine.h"
+#include "core/engine.h"
+
+#include <cassert>
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_audio.h>
@@ -170,7 +172,7 @@ namespace hvn3::core {
 
 		al_install_audio();
 		al_init_acodec_addon();
-		
+
 		// Reserve sound effect sample instances.
 
 		al_reserve_samples(3);
