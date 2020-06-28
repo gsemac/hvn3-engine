@@ -147,8 +147,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\utility\convert.h" />
     <ClInclude Include="include\utility\hash_builder.h" />
     <ClInclude Include="include\utility\random.h" />
+    <ClInclude Include="include\utility\string_comparison.h" />
+    <ClInclude Include="include\utility\string_utilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\utility\hash_builder.cc" />

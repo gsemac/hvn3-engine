@@ -35,5 +35,8 @@
     <ClCompile Include="src\graphics\bitmap_data.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphics\color.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
