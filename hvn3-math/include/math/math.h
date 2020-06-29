@@ -27,6 +27,12 @@ namespace hvn3::math {
 		return (radians * static_cast<T>(180)) / static_cast<T>(Pi);
 
 	}
+	template <typename T>
+	T DegreesToRadians(T degrees) {
+
+		return (degrees * (static_cast<T>(Pi) / static_cast<T>(180)));
+
+	}
 
 	template<typename T>
 	T Clamp(T value, T min, T max) {

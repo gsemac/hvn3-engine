@@ -200,6 +200,7 @@
     <ClInclude Include="include\graphics\ipen.h" />
     <ClInclude Include="include\graphics\pen.h" />
     <ClInclude Include="include\graphics\pixel_format.h" />
+    <ClInclude Include="include\graphics\transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\graphics\bitmap.cc" />
@@ -208,6 +209,7 @@
     <ClCompile Include="src\graphics\font.cc" />
     <ClCompile Include="src\graphics\image_format.cc" />
     <ClCompile Include="src\graphics\pen.cc" />
+    <ClCompile Include="src\graphics\transform.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
