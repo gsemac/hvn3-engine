@@ -23,9 +23,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hvn3-utilities", "hvn3-util
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hvn3-math-tests", "hvn3-math-tests\hvn3-math-tests.vcxproj", "{AE81FD29-6DE8-46BF-B56A-41A9219B42F1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hvn3-utilities-tests", "hvn3-utilities-tests\hvn3-utilities-tests.vcxproj", "{8FA337CC-2586-47A8-84ED-6BD601EC772D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hvn3-utility-tests", "hvn3-utilities-tests\hvn3-utilities-tests.vcxproj", "{8FA337CC-2586-47A8-84ED-6BD601EC772D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hvn3-core", "hvn3-core\hvn3-core.vcxproj", "{DE8FB63C-A6BE-4CA8-B3B1-3D66C9F7CB41}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "old", "old", "{858D1D2B-CB8E-422F-B646-8D3725256DCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,7 +122,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8} = {6F1CD3C4-7C22-40D4-8038-8440D4F4BB65}
+		{1D5F29A7-5C84-4C6F-8529-47DB56F3EED8} = {858D1D2B-CB8E-422F-B646-8D3725256DCC}
 		{49D0DFD5-2E84-49AD-AEAC-DBE30F0E6C10} = {FCE45FD6-0ECE-499D-9254-EFA052AD89BF}
 		{70883697-7E8F-422D-8707-BEE2A4393438} = {6F1CD3C4-7C22-40D4-8038-8440D4F4BB65}
 		{EBC20F96-5926-4DA1-820C-8A46EBBD1FBA} = {6F1CD3C4-7C22-40D4-8038-8440D4F4BB65}
