@@ -186,18 +186,28 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\graphics\alignment.h" />
     <ClInclude Include="include\graphics\bitmap.h" />
     <ClInclude Include="include\graphics\bitmap_data.h" />
     <ClInclude Include="include\graphics\bitmap_options.h" />
     <ClInclude Include="include\graphics\color.h" />
+    <ClInclude Include="include\graphics\font.h" />
+    <ClInclude Include="include\graphics\font_format.h" />
+    <ClInclude Include="include\graphics\font_options.h" />
+    <ClInclude Include="include\graphics\ibrush.h" />
+    <ClInclude Include="include\graphics\igraphics.h" />
     <ClInclude Include="include\graphics\image_format.h" />
+    <ClInclude Include="include\graphics\ipen.h" />
+    <ClInclude Include="include\graphics\pen.h" />
     <ClInclude Include="include\graphics\pixel_format.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\graphics\bitmap.cc" />
     <ClCompile Include="src\graphics\bitmap_data.cc" />
     <ClCompile Include="src\graphics\color.cc" />
+    <ClCompile Include="src\graphics\font.cc" />
     <ClCompile Include="src\graphics\image_format.cc" />
+    <ClCompile Include="src\graphics\pen.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

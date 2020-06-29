@@ -9,7 +9,7 @@
 
 #include <memory>
 
-#include <allegro5/allegro.h>
+struct ALLEGRO_BITMAP;
 
 namespace hvn3::graphics {
 
@@ -24,7 +24,7 @@ namespace hvn3::graphics {
 		Bitmap(underlying_bitmap_t* bitmap, bool takeOwnership);
 		Bitmap(const Bitmap& other);
 		Bitmap(const Bitmap& other, const math::RectangleI& region);
-		Bitmap(Bitmap&& other);
+		Bitmap(Bitmap&& other) noexcept;
 
 		int Width() const;
 		int Height() const;
@@ -40,16 +40,16 @@ namespace hvn3::graphics {
 		void SetPixel(int x, int y, const Color& color);
 		Color GetPixel(int x, int y) const;
 
-		underlying_bitmap_t* GetUnderlyingBitmap() const;
-		underlying_bitmap_t* GetUnderlyingBitmap(bool performPreWriteOperations);
+		underlying_bitmap_t* GetUnderlyingData() const;
+		underlying_bitmap_t* GetUnderlyingData(bool performPreWriteOperations);
 
 		Bitmap& operator=(const Bitmap& other);
-		Bitmap& operator=(Bitmap&& other);
+		Bitmap& operator=(Bitmap&& other) noexcept;
 
 		explicit operator bool() const;
 
 		static Bitmap FromBuffer(const uint8_t* buffer, size_t bufferSize, ImageFormat format);
-		static Bitmap FromFile(const std::string& file);
+		static Bitmap FromFile(const std::string& filePath);
 
 	private:
 		struct SubBitmapDeleter {

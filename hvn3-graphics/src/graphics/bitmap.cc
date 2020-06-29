@@ -5,7 +5,8 @@
 #include <cassert>
 #include <utility>
 
-#include "allegro5/allegro_memfile.h"
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_memfile.h>
 
 namespace hvn3::graphics {
 
@@ -29,7 +30,8 @@ namespace hvn3::graphics {
 			this->bitmap = std::shared_ptr<underlying_bitmap_t>(CreateBitmap(width, height, options), FreeBitmap);
 
 	}
-	Bitmap::Bitmap(underlying_bitmap_t* bitmap, bool takeOwnership) {
+	Bitmap::Bitmap(underlying_bitmap_t* bitmap, bool takeOwnership) :
+		Bitmap() {
 
 		if (bitmap != nullptr) {
 
@@ -66,7 +68,7 @@ namespace hvn3::graphics {
 		this->subBitmap = std::unique_ptr<underlying_bitmap_t, SubBitmapDeleter>(al_create_sub_bitmap(other.bitmap.get(), region.X(), region.Y(), region.Width(), region.Height()));
 
 	}
-	Bitmap::Bitmap(Bitmap&& other) {
+	Bitmap::Bitmap(Bitmap&& other) noexcept {
 
 		MoveAssignFrom(std::move(other));
 
@@ -74,7 +76,7 @@ namespace hvn3::graphics {
 
 	int Bitmap::Width() const {
 
-		underlying_bitmap_t* bitmap = GetUnderlyingBitmap();
+		underlying_bitmap_t* bitmap = GetUnderlyingData();
 
 		return (bitmap != nullptr) ?
 			al_get_bitmap_width(bitmap) :
@@ -83,7 +85,7 @@ namespace hvn3::graphics {
 	}
 	int Bitmap::Height() const {
 
-		underlying_bitmap_t* bitmap = GetUnderlyingBitmap();
+		underlying_bitmap_t* bitmap = GetUnderlyingData();
 
 		return (bitmap != nullptr) ?
 			al_get_bitmap_height(bitmap) :
@@ -96,7 +98,7 @@ namespace hvn3::graphics {
 		// Note that al_clone_bitmap calls al_create_bitmap, which uses the current new bitmap flags.
 		// In order to preserve the flags the other bitmap was created with, we need to set them first.
 
-		underlying_bitmap_t* underlyingBitmap = GetUnderlyingBitmap();
+		underlying_bitmap_t* underlyingBitmap = GetUnderlyingData();
 
 		assert(underlyingBitmap != nullptr);
 
@@ -124,7 +126,7 @@ namespace hvn3::graphics {
 
 	BitmapData Bitmap::Lock(io::FileAccess access) {
 
-		underlying_bitmap_t* bitmap = GetUnderlyingBitmap();
+		underlying_bitmap_t* bitmap = GetUnderlyingData();
 
 		assert(bitmap != nullptr);
 
@@ -145,7 +147,7 @@ namespace hvn3::graphics {
 	}
 	BitmapData Bitmap::LockRegion(const math::RectangleI& region, io::FileAccess access) {
 
-		underlying_bitmap_t* bitmap = GetUnderlyingBitmap();
+		underlying_bitmap_t* bitmap = GetUnderlyingData();
 
 		assert(bitmap != nullptr);
 
@@ -168,7 +170,7 @@ namespace hvn3::graphics {
 
 		if (IsLocked()) {
 
-			underlying_bitmap_t* bitmap = GetUnderlyingBitmap();
+			underlying_bitmap_t* bitmap = GetUnderlyingData();
 
 			assert(bitmap != nullptr);
 
@@ -179,7 +181,7 @@ namespace hvn3::graphics {
 	}
 	bool Bitmap::IsLocked() const {
 
-		underlying_bitmap_t* bitmap = GetUnderlyingBitmap();
+		underlying_bitmap_t* bitmap = GetUnderlyingData();
 
 		return (bitmap != nullptr) ?
 			al_is_bitmap_locked(bitmap) :
@@ -189,7 +191,7 @@ namespace hvn3::graphics {
 
 	void Bitmap::SetPixel(int x, int y, const Color& color) {
 
-		underlying_bitmap_t* bitmap = GetUnderlyingBitmap(true);
+		underlying_bitmap_t* bitmap = GetUnderlyingData(true);
 
 		assert(bitmap != nullptr);
 
@@ -205,7 +207,7 @@ namespace hvn3::graphics {
 	}
 	Color Bitmap::GetPixel(int x, int y) const {
 
-		underlying_bitmap_t* bitmap = GetUnderlyingBitmap();
+		underlying_bitmap_t* bitmap = GetUnderlyingData();
 
 		assert(bitmap != nullptr);
 
@@ -215,17 +217,17 @@ namespace hvn3::graphics {
 
 	}
 
-	Bitmap::underlying_bitmap_t* Bitmap::GetUnderlyingBitmap() const {
+	Bitmap::underlying_bitmap_t* Bitmap::GetUnderlyingData() const {
 
 		return subBitmap ? subBitmap.get() : bitmap.get();
 
 	}
-	Bitmap::underlying_bitmap_t* Bitmap::GetUnderlyingBitmap(bool performPreWriteOperations) {
+	Bitmap::underlying_bitmap_t* Bitmap::GetUnderlyingData(bool performPreWriteOperations) {
 
 		if (performPreWriteOperations)
 			PerformPreWriteOperations();
 
-		return GetUnderlyingBitmap();
+		return GetUnderlyingData();
 
 	}
 
@@ -236,7 +238,7 @@ namespace hvn3::graphics {
 		return *this;
 
 	}
-	Bitmap& Bitmap::operator=(Bitmap&& other) {
+	Bitmap& Bitmap::operator=(Bitmap&& other) noexcept {
 
 		MoveAssignFrom(std::move(other));
 
@@ -246,7 +248,7 @@ namespace hvn3::graphics {
 
 	Bitmap::operator bool() const {
 
-		return GetUnderlyingBitmap() != nullptr;
+		return GetUnderlyingData() != nullptr;
 
 	}
 
@@ -263,9 +265,9 @@ namespace hvn3::graphics {
 		return Bitmap(bitmap, true);
 
 	}
-	Bitmap Bitmap::FromFile(const std::string& file) {
+	Bitmap Bitmap::FromFile(const std::string& filePath) {
 
-		underlying_bitmap_t* bitmap = al_load_bitmap(file.c_str());
+		underlying_bitmap_t* bitmap = al_load_bitmap(filePath.c_str());
 
 		return Bitmap(bitmap, true);
 
@@ -273,7 +275,7 @@ namespace hvn3::graphics {
 
 	bool operator==(const Bitmap& lhs, const Bitmap& rhs) {
 
-		return lhs.GetUnderlyingBitmap() == rhs.GetUnderlyingBitmap();
+		return lhs.GetUnderlyingData() == rhs.GetUnderlyingData();
 
 	}
 	bool operator!=(const Bitmap& lhs, const Bitmap& rhs) {
