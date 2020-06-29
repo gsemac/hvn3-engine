@@ -5,7 +5,7 @@ namespace hvn3::graphics {
 	BitmapData::BitmapData() {
 
 		Scan0 = nullptr;
-		PixelFormat = -1;
+		PixelFormat = PixelFormat::Any;
 		Stride = 0;
 		BytesPerPixel = 0;
 

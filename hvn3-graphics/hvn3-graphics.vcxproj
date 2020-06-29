@@ -74,21 +74,25 @@
     <LinkIncremental>true</LinkIncremental>
     <Allegro_AddonImage>true</Allegro_AddonImage>
     <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
+    <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <Allegro_AddonImage>true</Allegro_AddonImage>
     <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
+    <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <Allegro_AddonImage>true</Allegro_AddonImage>
     <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
+    <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <Allegro_AddonImage>true</Allegro_AddonImage>
     <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
+    <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -97,12 +101,18 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-io\include;$(SolutionDir)hvn3-math\include;$(SolutionDir)hvn3-utilities\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-io\include;$(SolutionDir)hvn3-math\include;$(SolutionDir)hvn3-utilities\include;$(SolutionDir)hvn3-core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>hvn3-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(TargetDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -113,7 +123,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-io\include;$(SolutionDir)hvn3-math\include;$(SolutionDir)hvn3-utilities\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-io\include;$(SolutionDir)hvn3-math\include;$(SolutionDir)hvn3-utilities\include;$(SolutionDir)hvn3-core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,6 +131,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>hvn3-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(TargetDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -129,12 +145,18 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-io\include;$(SolutionDir)hvn3-math\include;$(SolutionDir)hvn3-utilities\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-io\include;$(SolutionDir)hvn3-math\include;$(SolutionDir)hvn3-utilities\include;$(SolutionDir)hvn3-core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>hvn3-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(TargetDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -145,7 +167,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-io\include;$(SolutionDir)hvn3-math\include;$(SolutionDir)hvn3-utilities\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-io\include;$(SolutionDir)hvn3-math\include;$(SolutionDir)hvn3-utilities\include;$(SolutionDir)hvn3-core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,6 +175,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>hvn3-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(TargetDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -162,11 +190,14 @@
     <ClInclude Include="include\graphics\bitmap_data.h" />
     <ClInclude Include="include\graphics\bitmap_options.h" />
     <ClInclude Include="include\graphics\color.h" />
+    <ClInclude Include="include\graphics\image_format.h" />
+    <ClInclude Include="include\graphics\pixel_format.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\graphics\bitmap.cc" />
     <ClCompile Include="src\graphics\bitmap_data.cc" />
     <ClCompile Include="src\graphics\color.cc" />
+    <ClCompile Include="src\graphics\image_format.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

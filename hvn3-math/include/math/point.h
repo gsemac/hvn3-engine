@@ -203,11 +203,11 @@ namespace hvn3::math {
 	}
 
 	template <typename T>
-	std::ostream& operator<<(std::ostream& stream, const Point2<T>& rhs) {
+	std::ostream& operator<<(std::ostream& lhs, const Point2<T>& rhs) {
 
-		stream << "(" << point.X() << ", " << point.Y() << ")";
+		lhs << "(" << rhs.X() << ", " << rhs.Y() << ")";
 
-		return stream;
+		return lhs;
 
 	}
 
