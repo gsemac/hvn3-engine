@@ -37,9 +37,6 @@ namespace hvn3::graphics {
 		void Unlock();
 		bool IsLocked() const;
 
-		void SetPixel(int x, int y, const Color& color);
-		Color GetPixel(int x, int y) const;
-
 		underlying_bitmap_t* GetUnderlyingData() const;
 		underlying_bitmap_t* GetUnderlyingData(bool performPreWriteOperations);
 

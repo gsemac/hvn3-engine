@@ -189,34 +189,6 @@ namespace hvn3::graphics {
 
 	}
 
-	void Bitmap::SetPixel(int x, int y, const Color& color) {
-
-		underlying_bitmap_t* bitmap = GetUnderlyingData(true);
-
-		assert(bitmap != nullptr);
-
-		underlying_bitmap_t* currentTargetBitmap = al_get_target_bitmap();
-		ALLEGRO_COLOR allegroColor = al_map_rgba_f(color.Rf() * color.Af(), color.Gf() * color.Af(), color.Bf() * color.Af(), color.Af());
-
-		al_set_target_bitmap(bitmap);
-
-		al_put_pixel(x, y, allegroColor);
-
-		al_set_target_bitmap(currentTargetBitmap);
-
-	}
-	Color Bitmap::GetPixel(int x, int y) const {
-
-		underlying_bitmap_t* bitmap = GetUnderlyingData();
-
-		assert(bitmap != nullptr);
-
-		ALLEGRO_COLOR color = al_get_pixel(bitmap, x, y);
-
-		return Color::FromArgbf(color.r, color.g, color.b, color.a);
-
-	}
-
 	Bitmap::underlying_bitmap_t* Bitmap::GetUnderlyingData() const {
 
 		return subBitmap ? subBitmap.get() : bitmap.get();
