@@ -224,6 +224,8 @@ namespace hvn3::math {
 
 	using Point2f = Point2<float>;
 	using Point2i = Point2<int>;
+	using PointF = Point2f;
+	using PointI = Point2i;
 
 }
 

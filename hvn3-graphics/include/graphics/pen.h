@@ -6,7 +6,7 @@
 namespace hvn3::graphics {
 
 	class Pen :
-		IPen {
+		public IPen {
 
 	public:
 		Pen(const Color& color);

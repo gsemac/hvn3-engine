@@ -194,6 +194,7 @@
     <ClInclude Include="include\graphics\font.h" />
     <ClInclude Include="include\graphics\font_format.h" />
     <ClInclude Include="include\graphics\font_options.h" />
+    <ClInclude Include="include\graphics\graphics_base.h" />
     <ClInclude Include="include\graphics\ibrush.h" />
     <ClInclude Include="include\graphics\igraphics.h" />
     <ClInclude Include="include\graphics\image_format.h" />
@@ -207,6 +208,7 @@
     <ClCompile Include="src\graphics\bitmap_data.cc" />
     <ClCompile Include="src\graphics\color.cc" />
     <ClCompile Include="src\graphics\font.cc" />
+    <ClCompile Include="src\graphics\graphics_base.cc" />
     <ClCompile Include="src\graphics\image_format.cc" />
     <ClCompile Include="src\graphics\pen.cc" />
     <ClCompile Include="src\graphics\transform.cc" />

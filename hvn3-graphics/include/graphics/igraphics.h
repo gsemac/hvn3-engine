@@ -14,12 +14,13 @@ namespace hvn3::graphics {
 
 	class IGraphics {
 
+	public:
 		virtual void DrawPixel(float x, float y, const Color& color) = 0;
 
 		virtual void DrawLine(float startX, float startY, float endX, float endY, const Color& color, float thickness) = 0;
 		virtual void DrawLine(float startX, float startY, float endX, float endY, const IPen& pen) = 0;
-		virtual void DrawLine(const math::Line2f& line, const Color& color, float thickness) = 0;
-		virtual void DrawLine(const math::Line2f& line, const IPen& pen) = 0;
+		virtual void DrawLine(const math::LineF& line, const Color& color, float thickness) = 0;
+		virtual void DrawLine(const math::LineF& line, const IPen& pen) = 0;
 
 		virtual void DrawRectangle(float x, float y, float width, float height, const Color& color, float thickness) = 0;
 		virtual void DrawRectangle(float x, float y, float width, float height, const IPen& pen) = 0;
@@ -29,11 +30,13 @@ namespace hvn3::graphics {
 		virtual void FillRectangle(float x, float y, float width, float height, const Color& color) = 0;
 		virtual void FillRectangle(const math::RectangleF& rectangle, const Color& color) = 0;
 
-		virtual void DrawRoundedRectangle(float x, float y, float width, float height, const Color& color, float radius, float thickness) = 0;
-		virtual void DrawRoundedRectangle(const math::RectangleF& rectangle, const Color& color, float radius, float thickness) = 0;
+		virtual void DrawRoundedRectangle(float x, float y, float width, float height, float radius, const Color& color, float thickness) = 0;
+		virtual void DrawRoundedRectangle(float x, float y, float width, float height, float radius, const IPen& pen) = 0;
+		virtual void DrawRoundedRectangle(const math::RectangleF& rectangle, float radius, const Color& color, float thickness) = 0;
+		virtual void DrawRoundedRectangle(const math::RectangleF& rectangle, float radius, const IPen& pen) = 0;
 
-		virtual void FillRoundedRectangle(float x, float y, float width, float height, const Color& color, float radius) = 0;
-		virtual void FillRoundedRectangle(const math::RectangleF& rectangle, const Color& color, float radius) = 0;
+		virtual void FillRoundedRectangle(float x, float y, float width, float height, float radius, const Color& color) = 0;
+		virtual void FillRoundedRectangle(const math::RectangleF& rectangle, float radius, const Color& color) = 0;
 
 		virtual void DrawCircle(float x, float y, float radius, const Color& color, float thickness) = 0;
 

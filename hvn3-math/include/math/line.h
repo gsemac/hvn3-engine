@@ -186,7 +186,9 @@ namespace hvn3::math {
 
 	};
 
-	using Line2i = Line2<int>;
 	using Line2f = Line2<float>;
+	using Line2i = Line2<int>;
+	using LineF = Line2f;
+	using LineI = Line2i;
 
 }
