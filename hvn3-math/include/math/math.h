@@ -1,5 +1,7 @@
 #pragma once
 
+#include "math/epsilon.h"
+
 #include <cassert>
 #include <cmath>
 #include <type_traits>
@@ -54,5 +56,30 @@ namespace hvn3::math {
 
 	}
 
+	template<typename T>
+	bool IsZero(T value) {
+
+		return IsZero(value, Epsilon<T>::value);
+
+	}
+	template <typename T>
+	bool IsZero(T value, T epsilon) {
+
+		return AreEqual(value, static_cast<T>(0), epsilon);
+
+	}
+
+	template<typename T>
+	bool AreEqual(T lhs, T rhs) {
+
+		return AreEqual(lhs, rhs, Epsilon<T>::value);
+
+	}
+	template <typename T>
+	bool AreEqual(T lhs, T rhs, T epsilon) {
+
+		return std::abs(lhs - rhs) < epsilon;
+
+	}
 
 }

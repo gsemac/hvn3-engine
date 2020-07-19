@@ -69,12 +69,17 @@ namespace hvn3::math {
 
 		T Length() const {
 
+			return std::sqrt(SquaredLength());
+
+		}
+		T SquaredLength() const {
+
 			T lengthSquared = std::accumulate(elements.begin(), elements.end(), static_cast<T>(0),
 				[](auto sum, auto n) -> T {
 					return sum + std::pow(n, static_cast<T>(2));
 				});
 
-			return std::sqrt(lengthSquared);
+			return lengthSquared;
 
 		}
 

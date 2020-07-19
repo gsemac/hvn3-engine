@@ -147,6 +147,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\math\epsilon.h" />
+    <ClInclude Include="include\math\line.h" />
     <ClInclude Include="include\math\math.h" />
     <ClInclude Include="include\math\point.h" />
     <ClInclude Include="include\math\quadrant.h" />
@@ -154,6 +156,7 @@
     <ClInclude Include="include\math\vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\math\epsilon.cc" />
     <ClCompile Include="src\math\math.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -60,6 +60,15 @@ namespace hvn3::math {
 
 		}
 
+		Point2<T> Midpoint() const {
+
+			float midpointX = X() + Width() / static_cast<T>(2);
+			float midpointY = Y() + Height() / static_cast<T>(2);
+
+			return Point2<T>(midpointX, midpointY);
+
+		}
+
 		void SetX(T value) {
 
 			x = value;
@@ -115,6 +124,22 @@ namespace hvn3::math {
 		T Right() const {
 
 			return std::max(X(), X2());
+
+		}
+
+		T Area() const {
+
+			return Width() * Height();
+
+		}
+		T Perimeter() const {
+
+			return static_cast<T>(2) * (Width() + Height());
+
+		}
+		Rectangle<T> Bounds() const {
+
+			return *this;
 
 		}
 

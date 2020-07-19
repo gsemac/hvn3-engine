@@ -3,6 +3,7 @@
 #include "math/vector.h"
 #include "utilities/hash_builder.h"
 
+#include <cmath>
 #include <cstddef>
 #include <functional>
 #include <iostream>
@@ -78,6 +79,16 @@ namespace hvn3::math {
 			T y = other.Y() - Y();
 
 			return Vector2<T>(x, y);
+
+		}
+		T DistanceTo(const Point2<T>& other) const {
+
+			return std::sqrt(SquaredDistanceTo(other));
+
+		}
+		T SquaredDistanceTo(const Point2<T>& other) const {
+
+			return To(other).LengthSquared();
 
 		}
 
