@@ -88,7 +88,7 @@ namespace hvn3::math {
 		}
 		T SquaredDistanceTo(const Point2<T>& other) const {
 
-			return To(other).LengthSquared();
+			return To(other).SquaredLength();
 
 		}
 

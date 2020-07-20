@@ -163,6 +163,7 @@
     <ClInclude Include="include\utilities\convert.h" />
     <ClInclude Include="include\utilities\hash_builder.h" />
     <ClInclude Include="include\utilities\random.h" />
+    <ClInclude Include="include\utilities\size.h" />
     <ClInclude Include="include\utilities\string_comparison.h" />
     <ClInclude Include="include\utilities\string_utilities.h" />
   </ItemGroup>
