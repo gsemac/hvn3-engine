@@ -21,9 +21,24 @@
     <ClInclude Include="include\core\engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\events\ievent_source.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\events\read_only_event_source.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\events\event_source_base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\engine.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\event_source_base.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\read_only_event_source.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

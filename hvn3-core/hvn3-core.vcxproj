@@ -149,9 +149,14 @@
   <ItemGroup>
     <ClInclude Include="include\core\engine.h" />
     <ClInclude Include="include\core\engine_modules.h" />
+    <ClInclude Include="include\events\event_source_base.h" />
+    <ClInclude Include="include\events\ievent_source.h" />
+    <ClInclude Include="include\events\read_only_event_source.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\engine.cc" />
+    <ClCompile Include="src\events\event_source_base.cc" />
+    <ClCompile Include="src\events\read_only_event_source.cc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

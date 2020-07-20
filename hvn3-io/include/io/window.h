@@ -1,5 +1,6 @@
 #pragma once
 
+#include "events/read_only_event_source.h"
 #include "graphics/bitmap.h"
 #include "io/window_options.h"
 #include "math/point.h"
@@ -42,7 +43,7 @@ namespace hvn3::io {
 		bool IsFullscreen() const;
 		void SetFullscreen(bool value);
 
-		EventSource GetEventSource() const;
+		const events::IEventSource& GetEventSource() const;
 		graphics::Bitmap GetBackBuffer();
 		graphics::Graphics GetCanvas();
 		ALLEGRO_DISPLAY* GetUnderlyingData() const;
@@ -51,6 +52,7 @@ namespace hvn3::io {
 
 	private:
 		std::shared_ptr<ALLEGRO_DISPLAY> window;
+		mutable events::ReadOnlyEventSource eventSource;
 		graphics::Bitmap icon;
 		utilities::SizeI creationSize;
 		utilities::SizeI sizeBeforeFullscreen;

@@ -27,10 +27,10 @@ namespace hvn3::graphics {
 		assert(height >= 0);
 
 		if (width > 0 && height > 0)
-			this->bitmap = std::shared_ptr<underlying_bitmap_t>(CreateBitmap(width, height, options), FreeBitmap);
+			this->bitmap = std::shared_ptr<underlying_t>(CreateBitmap(width, height, options), FreeBitmap);
 
 	}
-	Bitmap::Bitmap(underlying_bitmap_t* bitmap, bool takeOwnership) :
+	Bitmap::Bitmap(underlying_t* bitmap, bool takeOwnership) :
 		Bitmap() {
 
 		if (bitmap != nullptr) {
@@ -39,7 +39,7 @@ namespace hvn3::graphics {
 
 				core::Engine::Initialize(core::EngineModules::Core);
 
-				this->bitmap = std::shared_ptr<underlying_bitmap_t>(bitmap, FreeBitmap);
+				this->bitmap = std::shared_ptr<underlying_t>(bitmap, FreeBitmap);
 				this->ownsBitmap = true;
 
 			}
@@ -48,7 +48,7 @@ namespace hvn3::graphics {
 				// Uses the aliasing constructor to avoid both freeing the data and allocating a control block.
 				// https://stackoverflow.com/questions/27109379/what-is-shared-ptrs-aliasing-constructor-for
 
-				this->bitmap = std::shared_ptr<underlying_bitmap_t>(std::shared_ptr<underlying_bitmap_t>{}, bitmap);
+				this->bitmap = std::shared_ptr<underlying_t>(std::shared_ptr<underlying_t>{}, bitmap);
 				this->ownsBitmap = false;
 
 			}
@@ -65,7 +65,7 @@ namespace hvn3::graphics {
 	Bitmap::Bitmap(const Bitmap& other, const math::RectangleI& region) {
 
 		this->bitmap = other.bitmap;
-		this->subBitmap = std::unique_ptr<underlying_bitmap_t, SubBitmapDeleter>(al_create_sub_bitmap(other.bitmap.get(), region.X(), region.Y(), region.Width(), region.Height()));
+		this->subBitmap = std::unique_ptr<underlying_t, SubBitmapDeleter>(al_create_sub_bitmap(other.bitmap.get(), region.X(), region.Y(), region.Width(), region.Height()));
 
 	}
 	Bitmap::Bitmap(Bitmap&& other) noexcept {
@@ -76,7 +76,7 @@ namespace hvn3::graphics {
 
 	int Bitmap::Width() const {
 
-		underlying_bitmap_t* bitmap = GetUnderlyingData();
+		underlying_t* bitmap = GetUnderlyingData();
 
 		return (bitmap != nullptr) ?
 			al_get_bitmap_width(bitmap) :
@@ -85,7 +85,7 @@ namespace hvn3::graphics {
 	}
 	int Bitmap::Height() const {
 
-		underlying_bitmap_t* bitmap = GetUnderlyingData();
+		underlying_t* bitmap = GetUnderlyingData();
 
 		return (bitmap != nullptr) ?
 			al_get_bitmap_height(bitmap) :
@@ -98,7 +98,7 @@ namespace hvn3::graphics {
 		// Note that al_clone_bitmap calls al_create_bitmap, which uses the current new bitmap flags.
 		// In order to preserve the flags the other bitmap was created with, we need to set them first.
 
-		underlying_bitmap_t* underlyingBitmap = GetUnderlyingData();
+		underlying_t* underlyingBitmap = GetUnderlyingData();
 
 		assert(underlyingBitmap != nullptr);
 
@@ -106,7 +106,7 @@ namespace hvn3::graphics {
 
 		al_set_new_bitmap_flags(al_get_bitmap_flags(underlyingBitmap));
 
-		underlying_bitmap_t* bitmap = al_clone_bitmap(underlyingBitmap);
+		underlying_t* bitmap = al_clone_bitmap(underlyingBitmap);
 
 		al_set_new_bitmap_flags(flags);
 
@@ -126,7 +126,7 @@ namespace hvn3::graphics {
 
 	BitmapData Bitmap::Lock(io::FileAccess access) {
 
-		underlying_bitmap_t* bitmap = GetUnderlyingData();
+		underlying_t* bitmap = GetUnderlyingData();
 
 		assert(bitmap != nullptr);
 
@@ -147,7 +147,7 @@ namespace hvn3::graphics {
 	}
 	BitmapData Bitmap::LockRegion(const math::RectangleI& region, io::FileAccess access) {
 
-		underlying_bitmap_t* bitmap = GetUnderlyingData();
+		underlying_t* bitmap = GetUnderlyingData();
 
 		assert(bitmap != nullptr);
 
@@ -170,7 +170,7 @@ namespace hvn3::graphics {
 
 		if (IsLocked()) {
 
-			underlying_bitmap_t* bitmap = GetUnderlyingData();
+			underlying_t* bitmap = GetUnderlyingData();
 
 			assert(bitmap != nullptr);
 
@@ -181,7 +181,7 @@ namespace hvn3::graphics {
 	}
 	bool Bitmap::IsLocked() const {
 
-		underlying_bitmap_t* bitmap = GetUnderlyingData();
+		underlying_t* bitmap = GetUnderlyingData();
 
 		return (bitmap != nullptr) ?
 			al_is_bitmap_locked(bitmap) :
@@ -189,12 +189,12 @@ namespace hvn3::graphics {
 
 	}
 
-	Bitmap::underlying_bitmap_t* Bitmap::GetUnderlyingData() const {
+	Bitmap::underlying_t* Bitmap::GetUnderlyingData() const {
 
 		return subBitmap ? subBitmap.get() : bitmap.get();
 
 	}
-	Bitmap::underlying_bitmap_t* Bitmap::GetUnderlyingData(bool performPreWriteOperations) {
+	Bitmap::underlying_t* Bitmap::GetUnderlyingData(bool performPreWriteOperations) {
 
 		if (performPreWriteOperations)
 			PerformPreWriteOperations();
@@ -230,7 +230,7 @@ namespace hvn3::graphics {
 			return Bitmap();
 
 		ALLEGRO_FILE* file = al_open_memfile((void*)buffer, bufferSize, "r");
-		underlying_bitmap_t* bitmap = al_load_bitmap_f(file, GetImageFormatFileExtension(format).c_str());
+		underlying_t* bitmap = al_load_bitmap_f(file, GetImageFormatFileExtension(format).c_str());
 
 		al_fclose(file);
 
@@ -239,7 +239,7 @@ namespace hvn3::graphics {
 	}
 	Bitmap Bitmap::FromFile(const std::string& filePath) {
 
-		underlying_bitmap_t* bitmap = al_load_bitmap(filePath.c_str());
+		underlying_t* bitmap = al_load_bitmap(filePath.c_str());
 
 		return Bitmap(bitmap, true);
 
@@ -258,7 +258,7 @@ namespace hvn3::graphics {
 
 	// Private members
 
-	void Bitmap::SubBitmapDeleter::operator()(underlying_bitmap_t* subBitmap) const {
+	void Bitmap::SubBitmapDeleter::operator()(underlying_t* subBitmap) const {
 
 		if (subBitmap != nullptr)
 			al_destroy_bitmap(subBitmap);
@@ -278,7 +278,7 @@ namespace hvn3::graphics {
 		this->bitmap = other.bitmap;
 
 		if (other.subBitmap)
-			this->subBitmap = std::unique_ptr<underlying_bitmap_t, SubBitmapDeleter>(CloneSubBitmap(other.bitmap.get(), other.subBitmap.get()));
+			this->subBitmap = std::unique_ptr<underlying_t, SubBitmapDeleter>(CloneSubBitmap(other.bitmap.get(), other.subBitmap.get()));
 
 	}
 	void Bitmap::MoveAssignFrom(Bitmap&& other) {
@@ -424,7 +424,7 @@ namespace hvn3::graphics {
 		}
 
 	}
-	Bitmap::underlying_bitmap_t* Bitmap::CreateBitmap(int width, int height, BitmapOptions options) {
+	Bitmap::underlying_t* Bitmap::CreateBitmap(int width, int height, BitmapOptions options) {
 
 		assert(width > 0);
 		assert(height > 0);
@@ -435,14 +435,14 @@ namespace hvn3::graphics {
 
 		al_set_new_bitmap_flags(ConvertBitmapOptionsToFlags(options));
 
-		underlying_bitmap_t* bitmap = al_create_bitmap(width, height);
+		underlying_t* bitmap = al_create_bitmap(width, height);
 
 		al_set_new_bitmap_flags(flags);
 
 		return bitmap;
 
 	}
-	void Bitmap::FreeBitmap(underlying_bitmap_t* bitmap) {
+	void Bitmap::FreeBitmap(underlying_t* bitmap) {
 
 		if (bitmap != nullptr) {
 
@@ -453,7 +453,7 @@ namespace hvn3::graphics {
 		}
 
 	}
-	Bitmap::underlying_bitmap_t* Bitmap::CloneSubBitmap(underlying_bitmap_t* parentBitmap, underlying_bitmap_t* subBitmap) {
+	Bitmap::underlying_t* Bitmap::CloneSubBitmap(underlying_t* parentBitmap, underlying_t* subBitmap) {
 
 		// There is more than one way to clone a sub-bitmap.
 		// We can create a sub-bitmap from a sub-bitmap (which will have the same parent), or we can create a new sub-bitmap from the parent.

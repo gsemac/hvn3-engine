@@ -15,13 +15,13 @@ namespace hvn3::graphics {
 
 	class Bitmap {
 
-		typedef ALLEGRO_BITMAP underlying_bitmap_t;
+		typedef ALLEGRO_BITMAP underlying_t;
 
 	public:
 		Bitmap();
 		Bitmap(int width, int height);
 		Bitmap(int width, int height, BitmapOptions options);
-		Bitmap(underlying_bitmap_t* bitmap, bool takeOwnership);
+		Bitmap(underlying_t* bitmap, bool takeOwnership);
 		Bitmap(const Bitmap& other);
 		Bitmap(const Bitmap& other, const math::RectangleI& region);
 		Bitmap(Bitmap&& other) noexcept;
@@ -37,8 +37,8 @@ namespace hvn3::graphics {
 		void Unlock();
 		bool IsLocked() const;
 
-		underlying_bitmap_t* GetUnderlyingData() const;
-		underlying_bitmap_t* GetUnderlyingData(bool performPreWriteOperations);
+		underlying_t* GetUnderlyingData() const;
+		underlying_t* GetUnderlyingData(bool performPreWriteOperations);
 
 		Bitmap& operator=(const Bitmap& other);
 		Bitmap& operator=(Bitmap&& other) noexcept;
@@ -51,12 +51,12 @@ namespace hvn3::graphics {
 	private:
 		struct SubBitmapDeleter {
 
-			void operator()(underlying_bitmap_t* subBitmap) const;
+			void operator()(underlying_t* subBitmap) const;
 
 		};
 
-		std::shared_ptr<underlying_bitmap_t> bitmap;
-		std::unique_ptr<underlying_bitmap_t, SubBitmapDeleter> subBitmap;
+		std::shared_ptr<underlying_t> bitmap;
+		std::unique_ptr<underlying_t, SubBitmapDeleter> subBitmap;
 		bool ownsBitmap;
 
 		void CopyAssignFrom(const Bitmap& other);
@@ -67,9 +67,9 @@ namespace hvn3::graphics {
 		static int ConvertBitmapOptionsToFlags(BitmapOptions options);
 		static int ConvertFileAccessToFlags(io::FileAccess fileAccess);
 		static PixelFormat ConvertPixelFormat(int pixelFormat);
-		static underlying_bitmap_t* CreateBitmap(int width, int height, BitmapOptions options);
-		static void FreeBitmap(underlying_bitmap_t* bitmap);
-		static underlying_bitmap_t* CloneSubBitmap(underlying_bitmap_t* parentBitmap, underlying_bitmap_t* subBitmap);
+		static underlying_t* CreateBitmap(int width, int height, BitmapOptions options);
+		static void FreeBitmap(underlying_t* bitmap);
+		static underlying_t* CloneSubBitmap(underlying_t* parentBitmap, underlying_t* subBitmap);
 
 	};
 

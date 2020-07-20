@@ -1,6 +1,7 @@
 #include "io/window.h"
 
 #include "core/engine.h"
+#include "events/read_only_event_source.h"
 
 namespace hvn3::io {
 
@@ -163,9 +164,12 @@ namespace hvn3::io {
 
 	}
 
-	EventSource Window::GetEventSource() const {
+	const events::IEventSource& Window::GetEventSource() const {
 
-		return class EventSource(al_get_display_event_source(GetUnderlyingData()));
+		if (!eventSource)
+			eventSource = events::ReadOnlyEventSource(al_get_display_event_source(GetUnderlyingData()), false);
+
+		return eventSource;
 
 	}
 	graphics::Graphics Window::GetCanvas() {
