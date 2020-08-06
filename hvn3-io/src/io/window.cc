@@ -12,9 +12,9 @@ namespace hvn3::io {
 	Window::Window(int width, int height, WindowOptions options) :
 		Window(width, height, "", options) {
 	}
-	Window::Window(int width, int height, const String& title) :
+	Window::Window(int width, int height, const core::String& title) :
 		Window(width, height, title, WindowOptions::None) {}
-	Window::Window(int width, int height, const String& title, WindowOptions options) :
+	Window::Window(int width, int height, const core::String& title, WindowOptions options) :
 		creationSize(width, height) {
 
 		// Core module is required in order to create windows (displays).
@@ -40,9 +40,9 @@ namespace hvn3::io {
 	Window::Window(const utilities::SizeI& size, WindowOptions options) :
 		Window(size, "", options) {
 	}
-	Window::Window(const utilities::SizeI& size, const String& title) :
+	Window::Window(const utilities::SizeI& size, const core::String& title) :
 		Window(size.width, size.height, title) {}
-	Window::Window(const utilities::SizeI& size, const String& title, WindowOptions options) :
+	Window::Window(const utilities::SizeI& size, const core::String& title, WindowOptions options) :
 		Window(size.width, size.height, title, options) {}
 	Window::Window(ALLEGRO_DISPLAY* allegroDisplay, bool takeOwnership) {
 
@@ -55,7 +55,7 @@ namespace hvn3::io {
 
 	}
 
-	void Window::SetTitle(const String& value) {
+	void Window::SetTitle(const core::String& value) {
 
 		assert(static_cast<bool>(window));
 
@@ -196,7 +196,7 @@ namespace hvn3::io {
 
 	// Private members
 
-	void Window::SetNewWindowTitle(const String& title) {
+	void Window::SetNewWindowTitle(const core::String& title) {
 
 		al_set_new_window_title(title.c_str());
 

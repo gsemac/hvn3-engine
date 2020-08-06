@@ -147,14 +147,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\allegro\allegro_ustr_iterator.h" />
+    <ClInclude Include="include\core\algorithm.h" />
     <ClInclude Include="include\core\engine.h" />
     <ClInclude Include="include\core\engine_modules.h" />
+    <ClInclude Include="include\core\utf8_string.h" />
     <ClInclude Include="include\events\event_source_base.h" />
     <ClInclude Include="include\events\ievent_source.h" />
     <ClInclude Include="include\events\read_only_event_source.h" />
+    <ClInclude Include="include\iterators\cstring_iterator.h" />
+    <ClInclude Include="include\iterators\iterable_range.h" />
+    <ClInclude Include="include\iterators\output_transform_iterator.h" />
+    <ClInclude Include="include\iterators\reverse_iterator.h" />
+    <ClInclude Include="include\iterators\stashing_transform_iterator.h" />
+    <ClInclude Include="include\iterators\transform_iterator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\engine.cc" />
+    <ClCompile Include="src\core\utf8_string.cc" />
     <ClCompile Include="src\events\event_source_base.cc" />
     <ClCompile Include="src\events\read_only_event_source.cc" />
   </ItemGroup>

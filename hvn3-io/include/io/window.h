@@ -5,6 +5,7 @@
 #include "io/window_options.h"
 #include "math/point.h"
 #include "utilities/size.h"
+#include "core/utf8_string.h"
 
 #include <memory>
 
@@ -17,15 +18,15 @@ namespace hvn3::io {
 	public:
 		Window(int width, int height);
 		Window(int width, int height, WindowOptions options);
-		Window(int width, int height, const String& title);
-		Window(int width, int height, const String& title, WindowOptions options);
+		Window(int width, int height, const core::String& title);
+		Window(int width, int height, const core::String& title, WindowOptions options);
 		Window(const utilities::SizeI& size);
 		Window(const utilities::SizeI& size, WindowOptions options);
-		Window(const utilities::SizeI& size, const String& title);
-		Window(const utilities::SizeI& size, const String& title, WindowOptions options);
+		Window(const utilities::SizeI& size, const core::String& title);
+		Window(const utilities::SizeI& size, const core::String& title, WindowOptions options);
 		Window(ALLEGRO_DISPLAY* allegroDisplay, bool takeOwnership);
 
-		void SetTitle(const String& value);
+		void SetTitle(const core::String& value);
 
 		void SetIcon(const graphics::Bitmap& icon);
 
@@ -58,7 +59,7 @@ namespace hvn3::io {
 		utilities::SizeI sizeBeforeFullscreen;
 		math::PointI positionBeforeFullscreen;
 
-		static void SetNewWindowTitle(const String& title);
+		static void SetNewWindowTitle(const core::String& title);
 		static void SetNewWindowOptions(WindowOptions options);
 		static void FreeDisplay(ALLEGRO_DISPLAY* display);
 

@@ -14,10 +14,10 @@
 namespace hvn3 {
 	namespace allegro {
 
-		template<bool is_const = false>
+		template<bool IsConst = false>
 		class AllegroUstrIterator {
 
-			using ustr_pointer_type = typename std::conditional<is_const, const ALLEGRO_USTR*, ALLEGRO_USTR*>::type;
+			using ustr_pointer_type = typename std::conditional<IsConst, const ALLEGRO_USTR*, ALLEGRO_USTR*>::type;
 			using iterator = AllegroUstrIterator<false>;
 			using const_iterator = AllegroUstrIterator<true>;
 
@@ -36,7 +36,7 @@ namespace hvn3 {
 				}
 
 				template<typename T = ustr_pointer_type>
-				typename std::enable_if<!std::is_const<T>::value, CharProxy&>::type operator=(value_type value) {
+				typename std::enable_if<!std::IsConst<T>::value, CharProxy&>::type operator=(value_type value) {
 
 					assert(ustr != nullptr);
 					assert(index >= 0);
