@@ -172,9 +172,12 @@ namespace hvn3::io {
 		return eventSource;
 
 	}
-	graphics::Graphics Window::GetCanvas() {
+	graphics::IGraphics& Window::GetCanvas() {
 
-		return graphics::Graphics(GetBackBuffer());
+		if (!canvas)
+			canvas = graphics::Graphics(GetBackBuffer());
+
+		return canvas;
 
 	}
 	graphics::Bitmap Window::GetBackBuffer() {

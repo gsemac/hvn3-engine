@@ -73,25 +73,98 @@ namespace hvn3::graphics {
 	//void Graphics::ResetTransform() {
 	//}
 
+	math::RectangleI Graphics::Clip() const {
+
+		PrepareCanvas();
+
+		math::RectangleI clip(0, 0);
+
+		al_get_clipping_rectangle(&clip.x, &clip.y, &clip.width, &clip.height);
+
+		return clip;
+
+	}
+	void Graphics::PushClip(const math::RectangleI& clip) {
+
+		PrepareCanvas();
+
+		math::RectangleI newClip = clip;
+
+		if (!clippingRegions.empty())
+			newClip = newClip.Intersection(clippingRegions.top());
+
+		clippingRegions.push(newClip);
+
+		al_set_clipping_rectangle(newClip.X(), newClip.Y(), newClip.Width(), newClip.Height());
+
+	}
+	void Graphics::PopClip() {
+
+		PrepareCanvas();
+
+		if (!clippingRegions.empty())
+			clippingRegions.pop();
+
+		if (!clippingRegions.empty()) {
+
+			// Apply the previous clipping region.
+
+			math::RectangleI newClip = clippingRegions.top();
+
+			al_set_clipping_rectangle(newClip.X(), newClip.Y(), newClip.Width(), newClip.Height());
+
+		}
+		else {
+
+			// If there are no clipping regions on the stack, just clear the clipping region.
+
+			ClearClip();
+
+		}
+
+	}
+	void Graphics::ClearClip() {
+
+		PrepareCanvas();
+
+		al_reset_clipping_rectangle();
+
+	}
+
+	Graphics::operator bool() const {
+
+		return static_cast<bool>(canvas);
+
+	}
+
 	// Private members
 
-	Graphics* Graphics::lastToDraw = nullptr;
+	const Graphics* Graphics::lastToDraw = nullptr;
 
-	void Graphics::PrepareCanvas(bool isWriting) {
+	void Graphics::PrepareCanvas() const {
+
+		assert(static_cast<bool>(canvas));
 
 		if (!IsCanvasReady()) {
 
-			al_set_target_bitmap(canvas.GetUnderlyingData(isWriting));
-
-			/*		_applyClip();
-					_applyTransform();*/
+			al_set_target_bitmap(canvas.GetUnderlyingData());
 
 			lastToDraw = this;
 
 		}
 
 	}
-	bool Graphics::IsCanvasReady() {
+	void Graphics::PrepareCanvas(bool isWriting) {
+
+		assert(static_cast<bool>(canvas));
+
+		if (isWriting)
+			canvas.GetUnderlyingData(isWriting);
+
+		PrepareCanvas();
+
+	}
+	bool Graphics::IsCanvasReady() const {
 
 		return lastToDraw == this;
 

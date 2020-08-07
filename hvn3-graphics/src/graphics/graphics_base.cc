@@ -64,4 +64,10 @@ namespace hvn3::graphics {
 
 	//}
 
+	void GraphicsBase::PushClip(int x, int y, int width, int height) {
+
+		static_cast<IGraphics*>(this)->PushClip(math::RectangleI(x, y, width, height));
+
+	}
+
 }

@@ -15,6 +15,8 @@ namespace hvn3::graphics {
 	class IGraphics {
 
 	public:
+		virtual ~IGraphics() = default;
+
 		//virtual void DrawPixel(float x, float y, const Color& color) = 0;
 
 		//virtual void DrawLine(float startX, float startY, float endX, float endY, const Color& color, float thickness) = 0;
@@ -49,9 +51,11 @@ namespace hvn3::graphics {
 		virtual void Clear(const Color& color) = 0;
 		//virtual void Fill(const Color& color) = 0;
 
-		//virtual math::RectangleI Clip() const = 0;
-		//virtual void SetClip(int x, int y, int width, int height) = 0;
-		//virtual void ResetClip() = 0;
+		virtual math::RectangleI Clip() const = 0;
+		virtual void PushClip(int x, int y, int width, int height) = 0;
+		virtual void PushClip(const math::RectangleI& clip) = 0;
+		virtual void PopClip() = 0;
+		virtual void ClearClip() = 0;
 
 		//virtual Transform Transform() const = 0;
 		//virtual void SetTransform(const class Transform& transform) = 0;

@@ -24,6 +24,8 @@ namespace hvn3::graphics {
 
 		//void FillRoundedRectangle(float x, float y, float width, float height, float radius, const Color& color) override;
 
+		void PushClip(int x, int y, int width, int height) override;
+
 	};
 
 }

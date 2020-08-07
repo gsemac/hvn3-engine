@@ -3,12 +3,15 @@
 #include "graphics/bitmap.h"
 #include "graphics/graphics_base.h"
 
+#include <stack>
+
 namespace hvn3::graphics {
 
 	class Graphics :
 		public GraphicsBase {
 
 	public:
+		Graphics() = default;
 		Graphics(const Bitmap& canvas);
 
 		//void DrawPixel(float x, float y, const Color& color) override;
@@ -25,21 +28,26 @@ namespace hvn3::graphics {
 		void Clear(const Color& color) override;
 		//void Fill(const Color& color) override;
 
-		//math::RectangleI Clip() const override;
-		//void SetClip(int x, int y, int width, int height) override;
-		//void ResetClip() override;
-
 		//class Transform Transform() const override;
 		//void SetTransform(const class Transform& transform) override;
 		//void ResetTransform() override;
 
+		math::RectangleI Clip() const override;
+		void PushClip(const math::RectangleI& clip) override;
+		void PopClip() override;
+		void ClearClip() override;
+
+		explicit operator bool() const;
+
 	private:
 		Bitmap canvas;
+		std::stack<math::RectangleI> clippingRegions;
 
-		static Graphics* lastToDraw;
+		static const Graphics* lastToDraw;
 
+		void PrepareCanvas() const;
 		void PrepareCanvas(bool isPainting);
-		bool IsCanvasReady();
+		bool IsCanvasReady() const;
 
 	};
 

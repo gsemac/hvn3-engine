@@ -47,7 +47,7 @@ namespace hvn3::io {
 
 		const events::IEventSource& GetEventSource() const;
 		graphics::Bitmap GetBackBuffer();
-		graphics::Graphics GetCanvas();
+		graphics::IGraphics& GetCanvas();
 		ALLEGRO_DISPLAY* GetUnderlyingData() const;
 
 		void Refresh();
@@ -56,6 +56,7 @@ namespace hvn3::io {
 		std::shared_ptr<ALLEGRO_DISPLAY> window;
 		mutable events::ReadOnlyEventSource eventSource;
 		graphics::Bitmap icon;
+		graphics::Graphics canvas;
 		utilities::SizeI creationSize;
 		utilities::SizeI sizeBeforeFullscreen;
 		math::PointI positionBeforeFullscreen;

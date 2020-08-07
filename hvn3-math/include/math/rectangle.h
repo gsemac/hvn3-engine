@@ -22,6 +22,9 @@ namespace hvn3::math {
 			this->height = height;
 
 		}
+		Rectangle(const Point2<T>& topLeft, const Point2<T>& bottomRight) :
+			Rectangle(topLeft.X(), topLeft.Y(), bottomRight.X() - topLeft.X(), bottomRight.Y() - topLeft.Y()) {
+		}
 		Rectangle(T width, T height) :
 			Rectangle(static_cast<T>(0), static_cast<T>(0), width, height) {
 		}
@@ -213,6 +216,23 @@ namespace hvn3::math {
 		Rectangle<T> Scale(const U& factor) const {
 
 			return Scale(factor, factor);
+
+		}
+
+		Rectangle<T> Intersection(const Rectangle<T>& other) const {
+
+			Point2<T> topLeft(std::max(Left(), other.Left()), std::max(Top(), other.Top()));
+			Point2<T> bottomRight(std::min(Right(), other.Right()), std::min(Bottom(), other.Bottom()));
+
+			return Rectangle<T>(topLeft, bottomRight);
+
+		}
+		Rectangle<T> Union(const Rectangle<T>& other) const {
+
+			Point2<T> topLeft(std::min(Left(), other.Left()), std::min(Top(), other.Top()));
+			Point2<T> bottomRight(std::max(Right(), other.Right()), std::max(Bottom(), other.Bottom()));
+
+			return Rectangle<T>(topLeft, bottomRight);
 
 		}
 
