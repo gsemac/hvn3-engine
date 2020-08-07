@@ -1,11 +1,12 @@
 #pragma once
 
+#include "core/utf8_string.h"
 #include "events/read_only_event_source.h"
 #include "graphics/bitmap.h"
+#include "graphics/graphics.h"
 #include "io/window_options.h"
 #include "math/point.h"
 #include "utilities/size.h"
-#include "core/utf8_string.h"
 
 #include <memory>
 

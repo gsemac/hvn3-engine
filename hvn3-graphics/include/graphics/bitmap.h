@@ -62,7 +62,7 @@ namespace hvn3::graphics {
 		void CopyAssignFrom(const Bitmap& other);
 		void MoveAssignFrom(Bitmap&& other);
 		bool IsCopyRequired() const;
-		void PerformPreWriteOperations();
+		void CopyIfRequired();
 
 		static int ConvertBitmapOptionsToFlags(BitmapOptions options);
 		static int ConvertFileAccessToFlags(io::FileAccess fileAccess);

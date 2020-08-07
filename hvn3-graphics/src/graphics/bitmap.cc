@@ -131,7 +131,7 @@ namespace hvn3::graphics {
 		assert(bitmap != nullptr);
 
 		if (access == io::FileAccess::ReadWrite || access == io::FileAccess::Write)
-			PerformPreWriteOperations();
+			CopyIfRequired();
 
 		ALLEGRO_LOCKED_REGION* lockedRegion = al_lock_bitmap(bitmap, al_get_bitmap_format(bitmap), ConvertFileAccessToFlags(access));
 
@@ -152,7 +152,7 @@ namespace hvn3::graphics {
 		assert(bitmap != nullptr);
 
 		if (access == io::FileAccess::ReadWrite || access == io::FileAccess::Write)
-			PerformPreWriteOperations();
+			CopyIfRequired();
 
 		ALLEGRO_LOCKED_REGION* lockedRegion = al_lock_bitmap_region(bitmap, region.X(), region.Y(), region.Width(), region.Height(), al_get_bitmap_format(bitmap), ConvertFileAccessToFlags(access));
 
@@ -194,10 +194,10 @@ namespace hvn3::graphics {
 		return subBitmap ? subBitmap.get() : bitmap.get();
 
 	}
-	Bitmap::underlying_t* Bitmap::GetUnderlyingData(bool performPreWriteOperations) {
+	Bitmap::underlying_t* Bitmap::GetUnderlyingData(bool isWriting) {
 
-		if (performPreWriteOperations)
-			PerformPreWriteOperations();
+		if (isWriting)
+			CopyIfRequired();
 
 		return GetUnderlyingData();
 
@@ -295,7 +295,7 @@ namespace hvn3::graphics {
 		return ownsBitmap && bitmap && bitmap.use_count() > 1;
 
 	}
-	void Bitmap::PerformPreWriteOperations() {
+	void Bitmap::CopyIfRequired() {
 
 		if (IsCopyRequired())
 			*this = std::move(Copy());

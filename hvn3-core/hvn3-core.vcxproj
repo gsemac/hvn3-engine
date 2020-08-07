@@ -163,6 +163,7 @@
     <ClInclude Include="include\iterators\transform_iterator.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\allegro\allegro_ustr_iterator.cc" />
     <ClCompile Include="src\core\engine.cc" />
     <ClCompile Include="src\core\utf8_string.cc" />
     <ClCompile Include="src\events\event_source_base.cc" />

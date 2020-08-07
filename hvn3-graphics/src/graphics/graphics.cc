@@ -2,56 +2,99 @@
 
 namespace hvn3::graphics {
 
-	void Graphics::DrawPixel(float x, float y, const Color& color) {
+	ALLEGRO_COLOR to_allegro_color(const Color& color) {
+
+		return al_map_rgba_f(color.Rf() * color.Af(), color.Gf() * color.Af(), color.Bf() * color.Af(), color.Af());
+
 	}
 
-	void Graphics::DrawLine(const math::LineF& line, const IPen& pen) {
+	// Public members
+
+	Graphics::Graphics(const Bitmap& canvas) {
+
+		this->canvas = canvas;
+
 	}
 
-	void Graphics::DrawRectangle(const math::RectangleF& rectangle, const IPen& pen) {
-	}
-	void Graphics::FillRectangle(const math::RectangleF& rectangle, const Color& color) {
-	}
+	//void Graphics::DrawPixel(float x, float y, const Color& color) {
+	//}
 
-	void Graphics::DrawRoundedRectangle(const math::RectangleF& rectangle, float radius, const IPen& pen) {
-	}
-	void Graphics::FillRoundedRectangle(const math::RectangleF& rectangle, float radius, const Color& color) {
-	}
+	//void Graphics::DrawLine(const math::LineF& line, const IPen& pen) {
+	//}
 
-	void Graphics::DrawCircle(float x, float y, float radius, const Color& color, float thickness) {
-	}
-	void Graphics::FillCircle(float x, float y, float radius, const Color& color) {
-	}
+	//void Graphics::DrawRectangle(const math::RectangleF& rectangle, const IPen& pen) {
+	//}
+	//void Graphics::FillRectangle(const math::RectangleF& rectangle, const Color& color) {
+	//}
 
-	void Graphics::DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment) {
-	}
+	//void Graphics::DrawRoundedRectangle(const math::RectangleF& rectangle, float radius, const IPen& pen) {
+	//}
+	//void Graphics::FillRoundedRectangle(const math::RectangleF& rectangle, float radius, const Color& color) {
+	//}
 
-	void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float scaleX, float scaleY, float originX, float originY, float angle, const Color& tint) {
-	}
+	//void Graphics::DrawCircle(float x, float y, float radius, const Color& color, float thickness) {
+	//}
+	//void Graphics::FillCircle(float x, float y, float radius, const Color& color) {
+	//}
+
+	//void Graphics::DrawText(float x, float y, const char* text, const Font& font, const Color& color, Alignment alignment) {
+	//}
+
+	//void Graphics::DrawBitmap(float x, float y, const Bitmap& bitmap, float scaleX, float scaleY, float originX, float originY, float angle, const Color& tint) {
+	//}
 
 	void Graphics::Clear(const Color& color) {
-	}
-	void Graphics::Fill(const Color& color) {
-	}
 
-	math::RectangleI Graphics::Clip() const {
+		PrepareCanvas(true);
 
-		return math::RectangleI(0, 0, 0, 0);
+		al_clear_to_color(to_allegro_color(color));
 
 	}
-	void Graphics::SetClip(int x, int y, int width, int height) {
-	}
-	void Graphics::ResetClip() {
-	}
+	//void Graphics::Fill(const Color& color) {
+	//}
 
-	class Transform Graphics::Transform() const {
+	//math::RectangleI Graphics::Clip() const {
 
-		return class Transform();
+	//	return math::RectangleI(0, 0, 0, 0);
+
+	//}
+	//void Graphics::SetClip(int x, int y, int width, int height) {
+	//}
+	//void Graphics::ResetClip() {
+	//}
+
+	//class Transform Graphics::Transform() const {
+
+	//	return class Transform();
+
+	//}
+	//void Graphics::SetTransform(const class  Transform& transform) {
+	//}
+	//void Graphics::ResetTransform() {
+	//}
+
+	// Private members
+
+	Graphics* Graphics::lastToDraw = nullptr;
+
+	void Graphics::PrepareCanvas(bool isWriting) {
+
+		if (!IsCanvasReady()) {
+
+			al_set_target_bitmap(canvas.GetUnderlyingData(isWriting));
+
+			/*		_applyClip();
+					_applyTransform();*/
+
+			lastToDraw = this;
+
+		}
 
 	}
-	void Graphics::SetTransform(const class  Transform& transform) {
-	}
-	void Graphics::ResetTransform() {
+	bool Graphics::IsCanvasReady() {
+
+		return lastToDraw == this;
+
 	}
 
 }

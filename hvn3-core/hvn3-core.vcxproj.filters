@@ -71,6 +71,9 @@
     <ClCompile Include="src\core\utf8_string.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\allegro\allegro_ustr_iterator.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

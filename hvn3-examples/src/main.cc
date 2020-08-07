@@ -1,12 +1,18 @@
-//#include "hvn3/core/Application.h"
-//
-//#include <iostream>
+#include <iostream>
+
+#include "io/window.h"
+
+using namespace hvn3;
 
 int main() {
 
-	/*hvn3::Application app;
+	io::Window window(640, 480, "hello world", io::WindowOptions::Resizable);
 
-	app.Run();*/
+	window.GetCanvas().Clear(graphics::Color::FromHex("#abc"));
+
+	window.Refresh();
+
+	getchar();
 
 	return 0;
 
