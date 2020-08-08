@@ -51,13 +51,13 @@ namespace hvn3::graphics {
 		virtual void Clear(const Color& color) = 0;
 		//virtual void Fill(const Color& color) = 0;
 
-		virtual math::RectangleI Clip() const = 0;
+		virtual math::RectangleI GetClip() const = 0;
 		virtual void PushClip(int x, int y, int width, int height) = 0;
 		virtual void PushClip(const math::RectangleI& clip) = 0;
 		virtual void PopClip() = 0;
 		virtual void ClearClip() = 0;
 
-		virtual Transform Transform() const = 0;
+		virtual Transform GetTransform() const = 0;
 		virtual void PushTransform(const class Transform& transform) = 0;
 		virtual void PopTransform() = 0;
 		virtual void ClearTransform() = 0;

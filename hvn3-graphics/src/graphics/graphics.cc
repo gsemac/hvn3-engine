@@ -95,7 +95,7 @@ namespace hvn3::graphics {
 	//void Graphics::ResetTransform() {
 	//}
 
-	math::RectangleI Graphics::Clip() const {
+	math::RectangleI Graphics::GetClip() const {
 
 		PrepareCanvas();
 
@@ -156,7 +156,7 @@ namespace hvn3::graphics {
 
 	}
 
-	class Transform Graphics::Transform() const {
+	class Transform Graphics::GetTransform() const {
 
 		PrepareCanvas();
 

@@ -35,12 +35,12 @@ namespace hvn3::graphics {
 		//void SetTransform(const class Transform& transform) override;
 		//void ResetTransform() override;
 
-		math::RectangleI Clip() const override;
+		math::RectangleI GetClip() const override;
 		void PushClip(const math::RectangleI& clip) override;
 		void PopClip() override;
 		void ClearClip() override;
 
-		class Transform Transform() const override;
+		class Transform GetTransform() const override;
 		void PushTransform(const class Transform& transform) override;
 		void PopTransform() override;
 		void ClearTransform() override;
