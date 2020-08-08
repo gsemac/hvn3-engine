@@ -64,6 +64,12 @@ namespace hvn3::graphics {
 
 	//}
 
+	void GraphicsBase::DrawRectangle(float x, float y, float width, float height, const Color& color, float thickness) {
+
+		static_cast<IGraphics*>(this)->DrawRectangle(math::RectangleF(x, y, width, height), color, thickness);
+
+	}
+
 	void GraphicsBase::PushClip(int x, int y, int width, int height) {
 
 		static_cast<IGraphics*>(this)->PushClip(math::RectangleI(x, y, width, height));

@@ -24,9 +24,9 @@ namespace hvn3::graphics {
 		//virtual void DrawLine(const math::LineF& line, const Color& color, float thickness) = 0;
 		//virtual void DrawLine(const math::LineF& line, const IPen& pen) = 0;
 
-		//virtual void DrawRectangle(float x, float y, float width, float height, const Color& color, float thickness) = 0;
+		virtual void DrawRectangle(float x, float y, float width, float height, const Color& color, float thickness) = 0;
 		//virtual void DrawRectangle(float x, float y, float width, float height, const IPen& pen) = 0;
-		//virtual void DrawRectangle(const math::RectangleF& rectangle, const Color& color, float thickness) = 0;
+		virtual void DrawRectangle(const math::RectangleF& rectangle, const Color& color, float thickness) = 0;
 		//virtual void DrawRectangle(const math::RectangleF& rectangle, const IPen& pen) = 0;
 
 		//virtual void FillRectangle(float x, float y, float width, float height, const Color& color) = 0;
@@ -57,9 +57,10 @@ namespace hvn3::graphics {
 		virtual void PopClip() = 0;
 		virtual void ClearClip() = 0;
 
-		//virtual Transform Transform() const = 0;
-		//virtual void SetTransform(const class Transform& transform) = 0;
-		//virtual void ResetTransform() = 0;
+		virtual Transform Transform() const = 0;
+		virtual void PushTransform(const class Transform& transform) = 0;
+		virtual void PopTransform() = 0;
+		virtual void ClearTransform() = 0;
 
 	};
 

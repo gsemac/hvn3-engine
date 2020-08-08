@@ -1,4 +1,7 @@
+#include "core/engine.h"
 #include "graphics/graphics.h"
+
+#include "allegro5/allegro_primitives.h"
 
 namespace hvn3::graphics {
 
@@ -10,9 +13,21 @@ namespace hvn3::graphics {
 
 	// Public members
 
-	Graphics::Graphics(const Bitmap& canvas) {
+	Graphics::Graphics() {
+
+		core::Engine::Initialize(core::EngineModules::Core | core::EngineModules::Graphics);
+
+	}
+	Graphics::Graphics(const Bitmap& canvas) :
+		Graphics() {
 
 		this->canvas = canvas;
+
+	}
+
+	Graphics::~Graphics() {
+
+		core::Engine::Deinitialize(core::EngineModules::Core | core::EngineModules::Graphics);
 
 	}
 
@@ -22,6 +37,13 @@ namespace hvn3::graphics {
 	//void Graphics::DrawLine(const math::LineF& line, const IPen& pen) {
 	//}
 
+	void Graphics::DrawRectangle(const math::RectangleF& rectangle, const Color& color, float thickness) {
+
+		PrepareCanvas(true);
+
+		al_draw_rectangle(rectangle.X(), rectangle.Y(), rectangle.X2(), rectangle.Y2(), to_allegro_color(color), thickness);
+
+	}
 	//void Graphics::DrawRectangle(const math::RectangleF& rectangle, const IPen& pen) {
 	//}
 	//void Graphics::FillRectangle(const math::RectangleF& rectangle, const Color& color) {
@@ -127,7 +149,74 @@ namespace hvn3::graphics {
 
 		PrepareCanvas();
 
+		while (!clippingRegions.empty())
+			clippingRegions.pop();
+
 		al_reset_clipping_rectangle();
+
+	}
+
+	class Transform Graphics::Transform() const {
+
+		PrepareCanvas();
+
+		return class Transform(*al_get_current_transform());
+
+	}
+	void Graphics::PushTransform(const class Transform& transform) {
+
+		PrepareCanvas();
+
+		class Transform newTransform = transform;
+
+		if (!transforms.empty()) {
+
+			newTransform = transforms.top();
+
+			newTransform.Compose(transform);
+
+		}
+
+		transforms.push(newTransform);
+
+		al_use_transform(newTransform.GetUnderlyingData());
+
+	}
+	void Graphics::PopTransform() {
+
+		PrepareCanvas();
+
+		if (!transforms.empty())
+			transforms.pop();
+
+		if (!transforms.empty()) {
+
+			// Apply the previous transform.
+
+			class Transform newTransform = transforms.top();
+
+			al_use_transform(newTransform.GetUnderlyingData());
+
+		}
+		else {
+
+			// If there are no transforms on the stack, just clear the transform.
+
+			ClearTransform();
+
+		}
+
+	}
+	void Graphics::ClearTransform() {
+
+		PrepareCanvas();
+
+		while (!transforms.empty())
+			transforms.pop();
+
+		class Transform blankTransform;
+
+		al_use_transform(blankTransform.GetUnderlyingData());
 
 	}
 

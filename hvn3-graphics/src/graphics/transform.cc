@@ -11,9 +11,14 @@ namespace hvn3::graphics {
 		Reset();
 
 	}
-	Transform::Transform(const Transform& other) {
+	Transform::Transform(const Transform& transform) {
 
-		al_copy_transform(GetUnderlyingData(), other.GetUnderlyingData());
+		al_copy_transform(GetUnderlyingData(), transform.GetUnderlyingData());
+
+	}
+	Transform::Transform(const ALLEGRO_TRANSFORM& transform) {
+
+		al_copy_transform(&this->transform, &transform);
 
 	}
 
@@ -106,18 +111,6 @@ namespace hvn3::graphics {
 
 	}
 
-	Transform& Transform::operator=(const Transform& other) {
-
-		Reset();
-
-		al_copy_transform(GetUnderlyingData(), other.GetUnderlyingData());
-
-		return *this;
-
-	}
-
-	// Private members
-
 	ALLEGRO_TRANSFORM* Transform::GetUnderlyingData() {
 
 		return &transform;
@@ -126,6 +119,16 @@ namespace hvn3::graphics {
 	const ALLEGRO_TRANSFORM* Transform::GetUnderlyingData() const {
 
 		return &transform;
+
+	}
+
+	Transform& Transform::operator=(const Transform& other) {
+
+		Reset();
+
+		al_copy_transform(GetUnderlyingData(), other.GetUnderlyingData());
+
+		return *this;
 
 	}
 

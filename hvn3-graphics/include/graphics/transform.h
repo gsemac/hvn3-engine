@@ -10,7 +10,8 @@ namespace hvn3::graphics {
 
 	public:
 		Transform();
-		Transform(const Transform& other);
+		Transform(const Transform& transform);
+		Transform(const ALLEGRO_TRANSFORM& transform);
 
 		void Translate(float offsetX, float offsetY);
 		void Scale(float scaleX, float scaleY);
@@ -31,13 +32,13 @@ namespace hvn3::graphics {
 
 		math::Point2f TransformPoint(const math::Point2f& point) const;
 
+		ALLEGRO_TRANSFORM* GetUnderlyingData();
+		const ALLEGRO_TRANSFORM* GetUnderlyingData() const;
+
 		Transform& operator=(const Transform& other);
 
 	private:
 		ALLEGRO_TRANSFORM transform;
-
-		ALLEGRO_TRANSFORM* GetUnderlyingData();
-		const ALLEGRO_TRANSFORM* GetUnderlyingData() const;
 
 	};
 

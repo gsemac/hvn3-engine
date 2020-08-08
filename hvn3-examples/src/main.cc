@@ -14,6 +14,16 @@ int main() {
 	window.GetCanvas().PushClip(0, 0, 50, 50);
 	window.GetCanvas().Clear(graphics::Color::FromHex("#abc"));
 
+	window.GetCanvas().ClearClip();
+
+	graphics::Transform trans;
+
+	trans.Rotate(20.0f);
+
+	window.GetCanvas().PushTransform(trans);
+
+	window.GetCanvas().DrawRectangle(0, 0, 200, 300, graphics::Color::Random(), 5.0f);
+
 	window.Refresh();
 
 	getchar();

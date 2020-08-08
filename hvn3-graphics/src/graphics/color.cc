@@ -303,7 +303,7 @@ namespace hvn3::graphics {
 
 	}
 
-	static Color Random() {
+	Color Color::Random() {
 
 		return Color(utilities::Random::Byte(), utilities::Random::Byte(), utilities::Random::Byte());
 
