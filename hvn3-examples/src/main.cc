@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "events/event_queue.h"
 #include "io/window.h"
 
 using namespace hvn3;
@@ -7,6 +8,10 @@ using namespace hvn3;
 int main() {
 
 	io::Window window(640, 480, "hello world", io::WindowOptions::Resizable);
+
+	events::EventQueue eventQueue;
+
+	eventQueue.RegisterEventSource(window.GetEventSource());
 
 	window.GetCanvas().Clear(graphics::Color::FromArgb(0, 255, 0));
 	window.GetCanvas().PushClip(0, 0, 200, 200);
@@ -26,7 +31,7 @@ int main() {
 
 	window.Refresh();
 
-	getchar();
+	while (eventQueue.IsEmpty());
 
 	return 0;
 

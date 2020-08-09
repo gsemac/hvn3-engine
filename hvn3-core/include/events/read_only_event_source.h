@@ -7,7 +7,7 @@ namespace hvn3::events {
 	class ReadOnlyEventSource :
 		public EventSourceBase {
 
-		typedef ALLEGRO_EVENT_SOURCE underlying_t;
+		using underlying_t = ALLEGRO_EVENT_SOURCE;
 
 	public:
 		ReadOnlyEventSource();
