@@ -4,7 +4,9 @@
 namespace hvn3 {
 
 	void EventListenerRegistry::Dispatch(IUserEvent& ev) {
+
 		ev.Dispatch(this);
+
 	}
 	EventListenerRegistry::size_type EventListenerRegistry::Count() const {
 

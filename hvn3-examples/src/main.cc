@@ -1,37 +1,38 @@
 #include <iostream>
 
-#include "events/event_queue.h"
+#include "events/multi_event_listener_container.h"
 #include "io/window.h"
 
 using namespace hvn3;
+
+class EventListener :
+	public events::EventListenerBase<int> {
+
+public:
+	void OnEvent(int ev) override {
+
+		std::cout << ev;
+
+	}
+
+};
 
 int main() {
 
 	io::Window window(640, 480, "hello world", io::WindowOptions::Resizable);
 
-	events::EventQueue eventQueue;
+	EventListener listener;
+	events::EventListenerContainer<int> listenerContainer;
 
-	eventQueue.RegisterEventSource(window.GetEventSource());
+	listenerContainer.Subscribe(&listener);
 
-	window.GetCanvas().Clear(graphics::Color::FromArgb(0, 255, 0));
-	window.GetCanvas().PushClip(0, 0, 200, 200);
-	window.GetCanvas().Clear(graphics::Color::FromHex("#fff"));
-	window.GetCanvas().PushClip(0, 0, 50, 50);
-	window.GetCanvas().Clear(graphics::Color::FromHex("#abc"));
+	listenerContainer.Dispatch(5);
+	listenerContainer.Dispatch(4);
+	listenerContainer.Dispatch(3);
+	listenerContainer.Dispatch(2);
+	listenerContainer.Dispatch(1);
 
-	window.GetCanvas().ClearClip();
-
-	graphics::Transform trans;
-
-	trans.Rotate(20.0f);
-
-	window.GetCanvas().PushTransform(trans);
-
-	window.GetCanvas().DrawRectangle(0, 0, 200, 300, graphics::Color::Random(), 5.0f);
-
-	window.Refresh();
-
-	while (eventQueue.IsEmpty());
+	getchar();
 
 	return 0;
 

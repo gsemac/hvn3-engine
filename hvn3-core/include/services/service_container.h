@@ -64,10 +64,10 @@ namespace hvn3::services {
 		using service_type = std::remove_reference_t<ServiceType>;
 
 		static_assert(std::is_same_v<interface_type, service_type> || std::is_base_of_v<interface_type, service_type>,
-			"Service must implement the given interface.");
+			"Service must implement the given interface");
 
 		static_assert(std::is_constructible_v<service_type, Args &&...>,
-			"Service cannot be constructed from the given arguments.");
+			"Service cannot be constructed from the given arguments");
 
 		auto deleter = [](void* ptr) {
 			std::default_delete<service_type>()(static_cast<service_type*>(ptr));
