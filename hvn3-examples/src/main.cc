@@ -6,11 +6,11 @@
 
 using namespace hvn3;
 
-class EventListener :
+class MyEventListener :
 	public events::EventListenerBase<int, float> {
 
 public:
-	~EventListener() {
+	~MyEventListener() {
 
 		std::cout << "\ndestroyed!\n";
 
@@ -34,9 +34,10 @@ int main() {
 	io::Window window(640, 480, "hello world", io::WindowOptions::Resizable);
 
 	events::MultiEventDispatcher dispatcher;
-	EventListener listener;
+	MyEventListener listener;
 
 	dispatcher.Subscribe(&listener);
+	dispatcher.Unsubscribe(&listener);
 
 	dispatcher.Dispatch(5);
 	dispatcher.Dispatch(4);
