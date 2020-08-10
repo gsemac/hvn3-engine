@@ -90,12 +90,6 @@
     <ClInclude Include="include\events\event_listener_base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\events\event_listener_container.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\events\ievent_listener_container.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\events\event_listener_priority.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -108,7 +102,19 @@
     <ClInclude Include="include\events\user_event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\events\multi_event_listener_container.h">
+    <ClInclude Include="include\events\event_dispatcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\events\multi_event_dispatcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\events\ievent_dispatcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\events\event_listener_base_base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\events\ievent_listener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -134,7 +140,7 @@
     <ClCompile Include="src\core\event_queue.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\events\multi_event_listener_container.cc">
+    <ClCompile Include="src\events\multi_event_dispatcher.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

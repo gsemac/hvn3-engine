@@ -1,45 +1,26 @@
 #pragma once
 
+#include "core/algorithm.h"
 #include "core/type_list.h"
+#include "events/event_dispatcher.h"
+#include "events/event_listener_base_base.h"
+#include "events/ievent_listener.h"
 
-#include <type_traits>
+#include <algorithm>
+#include <cassert>
+#include <list>
 
-namespace hvn3::events {
+#include <iostream>
 
-	namespace impl {
+namespace hvn3 {
 
-		// This base class is used for each event handler method that should be present in the event listener.
+	namespace events {
 
-		template<typename EventType>
-		class EventListenerBaseMethodBase {
-
-		protected:
-			typedef typename std::conditional<std::is_fundamental<EventType>::value, EventType, EventType&>::type parameter_type;
-
-		public:
-			virtual void OnEvent(parameter_type ev) {};
-
-		};
-
-		// This base class is used to flatten the list of event types.
-
-		template<typename... FlatEventTypes>
-		class EventListenerBaseBase;
-
-		template<typename... FlatEventTypes>
-		class EventListenerBaseBase<core::TypeList<FlatEventTypes...>> :
-			public EventListenerBaseMethodBase<FlatEventTypes>... {
-
-		public:
-			using event_types = core::TypeList<FlatEventTypes...>;
-
+		template<typename... EventTypes>
+		class EventListenerBase :
+			public internal::EventListenerBaseBase<typename core::TypeList<EventTypes...>::flatten_type> {
 		};
 
 	}
-
-	template<typename... EventTypes>
-	class EventListenerBase :
-		public impl::EventListenerBaseBase<typename core::TypeList<EventTypes...>::flatten_type> {
-	};
 
 }

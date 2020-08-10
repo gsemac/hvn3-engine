@@ -1,8 +1,7 @@
 #pragma once
 
-#include "events/ievent_listener_container.h"
-#include "events/event_listener_base.h"
-#include "events/event_listener_container.h"
+#include "events/ievent_dispatcher.h"
+#include "events/event_listener_base_base.h"
 #include "events/event_listener_priority.h"
 
 #include <algorithm>
@@ -13,14 +12,14 @@
 namespace hvn3::events {
 
 	template<typename EventType>
-	class EventListenerContainer :
-		public IEventListenerContainer {
+	class EventDispatcher :
+		public IEventDispatcher {
 
 	public:
 		// The type of event that this container stores listeners for
 		typedef EventType event_type;
 		// The type of the actual event handler
-		typedef impl::EventListenerBaseMethodBase<event_type> handler_type;
+		typedef internal::EventListenerBaseMethodBase<event_type> handler_type;
 
 	private:
 
@@ -30,7 +29,8 @@ namespace hvn3::events {
 
 			Value() :
 				handler(nullptr),
-				enabled(true) {}
+				enabled(true),
+				priority(EventListenerPriority::Normal) {}
 
 			handler_type* handler;
 			EventListenerPriority priority;
@@ -44,10 +44,18 @@ namespace hvn3::events {
 		typedef std::vector<value_type> container_type;
 
 	public:
-		EventListenerContainer() :
+		EventDispatcher() :
 			_sort_required(false),
 			_remove_required(false),
 			_currently_dispatching(false) {
+		}
+
+		~EventDispatcher() {
+
+			for (const value_type& i : _listeners)
+				if (i.enabled)
+					i.handler->UnregisterSubscription(this);
+
 		}
 
 		void Dispatch(typename std::conditional<std::is_fundamental<event_type>::value, event_type, event_type&>::type ev) {
@@ -97,7 +105,8 @@ namespace hvn3::events {
 				_sort_required = true;
 
 			_listeners.push_back(item);
-
+	
+			listener->RegisterSubscription(this);
 
 		}
 		bool Unsubscribe(handler_type* listener) {
@@ -113,8 +122,6 @@ namespace hvn3::events {
 				return i.handler == listener && i.enabled;
 				});
 
-			assert(it != _listeners.end());
-
 			if (it == _listeners.end())
 				return false;
 
@@ -122,7 +129,16 @@ namespace hvn3::events {
 
 			_remove_required = true;
 
+			listener->UnregisterSubscription(this);
+
 			return true;
+
+		}
+		bool Unsubscribe(void* eventListener) override {
+
+			handler_type* handler = static_cast<handler_type*>(eventListener);
+		
+			return Unsubscribe(handler);
 
 		}
 

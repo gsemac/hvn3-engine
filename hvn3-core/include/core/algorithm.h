@@ -110,5 +110,11 @@ namespace hvn3::core {
 		return starts_with(searchRBegin, searchREnd, findRBegin, findREnd);
 
 	}
+	template<typename IteratorT, typename ValueT>
+	bool contains(IteratorT begin, IteratorT end, ValueT value) {
+
+		return std::find(begin, end, std::forward<ValueT>(value)) != end;
+
+	}
 
 }

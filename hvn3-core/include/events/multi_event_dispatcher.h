@@ -1,7 +1,7 @@
 #pragma once
 
 #include "core/type_list.h"
-#include "events/event_listener_container.h"
+#include "events/event_dispatcher.h"
 
 #include <memory>
 #include <type_traits>
@@ -13,11 +13,11 @@ namespace hvn3::events {
 
 	class IUserEvent;
 
-	class MultiEventListenerContainer :
-		IEventListenerContainer {
+	class MultiEventDispatcher :
+		IEventDispatcher {
 
 		// The type of the container used for storing and looking up event listener containers.
-		typedef std::unordered_map<std::type_index, std::unique_ptr<IEventListenerContainer>> registry_container_type;
+		typedef std::unordered_map<std::type_index, std::unique_ptr<IEventDispatcher>> registry_container_type;
 
 	public:
 		template<typename ...EventTypes, typename EventListenerType>
@@ -75,7 +75,7 @@ namespace hvn3::events {
 
 			// Since we know the event type, we can dispatch it directly to the correct listener collection.
 
-			using container_type = EventListenerContainer<EventType>;
+			using container_type = EventDispatcher<EventType>;
 
 			container_type* container = _getContainerFromEventType<EventType>(false);
 
@@ -93,6 +93,7 @@ namespace hvn3::events {
 
 		void Dispatch(IUserEvent& ev);
 
+		bool Unsubscribe(void* eventListener) override;
 		size_type Count() const override;
 
 	private:
@@ -104,7 +105,7 @@ namespace hvn3::events {
 			using event_types = typename EventListenerType::event_types;
 			using event_type = EventType;
 			using event_types_contains = typename event_types::template contains<event_type>;
-			using container_type = EventListenerContainer<event_type>;
+			using container_type = EventDispatcher<event_type>;
 
 			static_assert(event_types_contains::value, "The listener does not handle the given event type.");
 
@@ -125,7 +126,7 @@ namespace hvn3::events {
 			using event_types = typename EventListenerType::event_types;
 			using event_type = EventType;
 			using event_types_contains = typename event_types::template contains<event_type>;
-			using container_type = EventListenerContainer<event_type>;
+			using container_type = EventDispatcher<event_type>;
 
 			static_assert(event_types_contains::value, "The listener does not handle the given event type.");
 
@@ -145,11 +146,11 @@ namespace hvn3::events {
 		}
 
 		template<typename EventType>
-		EventListenerContainer<EventType>* _getContainerFromEventType(bool createIfNotExists) {
+		EventDispatcher<EventType>* _getContainerFromEventType(bool createIfNotExists) {
 
 			using event_type = EventType;
-			using container_interface_type = IEventListenerContainer;
-			using container_type = EventListenerContainer<event_type>;
+			using container_interface_type = IEventDispatcher;
+			using container_type = EventDispatcher<event_type>;
 
 			// Attempt to find an appropriate container for this listener.
 			auto it = _registry.find(typeid(event_type));
