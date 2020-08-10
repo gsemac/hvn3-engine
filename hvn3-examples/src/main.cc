@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "events/event_listener_base.h"
-#include "events/multi_event_dispatcher.h"
+#include "events/multi_event_bus.h"
 #include "io/window.h"
 
 using namespace hvn3;
@@ -10,12 +10,6 @@ class MyEventListener :
 	public events::EventListenerBase<int, float> {
 
 public:
-	~MyEventListener() {
-
-		std::cout << "\ndestroyed!\n";
-
-	}
-
 	void OnEvent(int ev) override {
 
 		std::cout << ev;
@@ -33,21 +27,19 @@ int main() {
 
 	io::Window window(640, 480, "hello world", io::WindowOptions::Resizable);
 
-	events::MultiEventDispatcher dispatcher;
+	events::MultiEventBus bus;
 	MyEventListener listener;
 
-	dispatcher.Subscribe(&listener);
-	dispatcher.Unsubscribe(&listener);
+	bus.Subscribe(&listener);
+	bus.Unsubscribe(&listener);
 
-	dispatcher.Dispatch(5);
-	dispatcher.Dispatch(4);
-	dispatcher.Dispatch(3);
-	dispatcher.Dispatch(2.0f);
-	dispatcher.Dispatch(1);
+	bus.Dispatch(5);
+	bus.Dispatch(4);
+	bus.Dispatch(3);
+	bus.Dispatch(2.0f);
+	bus.Dispatch(1);
 
-	std::cout << std::endl;
-
-	std::cout << "dispatcher.Count(): " << dispatcher.Count() << '\n';
+	std::cout << "dispatcher.Count(): " << bus.Count() << '\n';
 
 	getchar();
 

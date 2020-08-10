@@ -9,10 +9,10 @@ namespace hvn3 {
 
 	namespace events {
 
-		class IEventDispatcher;
+		class IEventBus;
 
 		template<typename T>
-		class EventDispatcher;
+		class EventBus;
 
 	}
 
@@ -23,7 +23,7 @@ namespace hvn3 {
 		template<typename EventType>
 		class EventListenerBaseMethodBase {
 
-			friend class events::EventDispatcher<EventType>;
+			friend class events::EventBus<EventType>;
 
 		protected:
 			typedef typename std::conditional<std::is_fundamental<EventType>::value, EventType, EventType&>::type parameter_type;
@@ -31,7 +31,7 @@ namespace hvn3 {
 		public:
 			virtual ~EventListenerBaseMethodBase() {
 
-				for (events::IEventDispatcher* eventDispatcher : subscriptions)
+				for (events::IEventBus* eventDispatcher : subscriptions)
 					eventDispatcher->Unsubscribe(this);
 
 				subscriptions.clear();
@@ -41,14 +41,14 @@ namespace hvn3 {
 			virtual void OnEvent(parameter_type ev) {};
 
 		private:
-			std::vector<events::IEventDispatcher*> subscriptions;
+			std::vector<events::IEventBus*> subscriptions;
 
-			void RegisterSubscription(events::IEventDispatcher* eventDispatcher) {
+			void RegisterSubscription(events::IEventBus* eventDispatcher) {
 			
 				subscriptions.push_back(eventDispatcher);
 
 			}
-			void UnregisterSubscription(events::IEventDispatcher* eventDispatcher) {
+			void UnregisterSubscription(events::IEventBus* eventDispatcher) {
 			
 				subscriptions.erase(std::remove(subscriptions.begin(), subscriptions.end(), eventDispatcher), subscriptions.end());
 

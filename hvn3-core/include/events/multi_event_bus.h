@@ -1,7 +1,7 @@
 #pragma once
 
 #include "core/type_list.h"
-#include "events/event_dispatcher.h"
+#include "events/event_bus.h"
 
 #include <memory>
 #include <type_traits>
@@ -13,11 +13,11 @@ namespace hvn3::events {
 
 	class IUserEvent;
 
-	class MultiEventDispatcher :
-		IEventDispatcher {
+	class MultiEventBus :
+		IEventBus {
 
 		// The type of the container used for storing and looking up event listener containers.
-		typedef std::unordered_map<std::type_index, std::unique_ptr<IEventDispatcher>> registry_container_type;
+		typedef std::unordered_map<std::type_index, std::unique_ptr<IEventBus>> registry_container_type;
 
 	public:
 		template<typename EventType, typename... EventTypes, typename EventListenerType>
@@ -59,7 +59,7 @@ namespace hvn3::events {
 
 			// Since we know the event type, we can dispatch it directly to the correct listener collection.
 
-			using container_type = EventDispatcher<EventType>;
+			using container_type = EventBus<EventType>;
 
 			container_type* container = GetContainerFromEventType<EventType>(false);
 
@@ -106,7 +106,7 @@ namespace hvn3::events {
 			using event_types = typename EventListenerType::event_types;
 			using event_type = EventType;
 			using event_types_contains = typename event_types::template contains<event_type>;
-			using container_type = EventDispatcher<event_type>;
+			using container_type = EventBus<event_type>;
 
 			static_assert(event_types_contains::value, "The listener does not handle the given event type.");
 
@@ -127,7 +127,7 @@ namespace hvn3::events {
 			using event_types = typename EventListenerType::event_types;
 			using event_type = EventType;
 			using event_types_contains = typename event_types::template contains<event_type>;
-			using container_type = EventDispatcher<event_type>;
+			using container_type = EventBus<event_type>;
 
 			static_assert(event_types_contains::value, "The listener does not handle the given event type.");
 
@@ -147,11 +147,11 @@ namespace hvn3::events {
 		}
 
 		template<typename EventType>
-		EventDispatcher<EventType>* GetContainerFromEventType(bool createIfNotExists) {
+		EventBus<EventType>* GetContainerFromEventType(bool createIfNotExists) {
 
 			using event_type = EventType;
-			using container_interface_type = IEventDispatcher;
-			using container_type = EventDispatcher<event_type>;
+			using container_interface_type = IEventBus;
+			using container_type = EventBus<event_type>;
 
 			// Attempt to find an appropriate container for this listener.
 			auto it = _registry.find(typeid(event_type));

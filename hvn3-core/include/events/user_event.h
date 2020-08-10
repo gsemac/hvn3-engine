@@ -1,6 +1,6 @@
 #pragma once
 
-#include "events/multi_event_dispatcher.h"
+#include "events/multi_event_bus.h"
 #include "events/iuser_event.h"
 
 namespace hvn3::events {
@@ -18,7 +18,7 @@ namespace hvn3::events {
 		event_id_type Id() const override;
 		void* Data() override;
 
-		void Dispatch(const MultiEventDispatcher& eventDispatcher) override;
+		void Dispatch(const MultiEventBus& eventDispatcher) override;
 
 		static event_id_type EventId();
 
@@ -51,7 +51,7 @@ namespace hvn3::events {
 
 	}
 	template<typename EventType>
-	void UserEvent<EventType>::Dispatch(const MultiEventDispatcher& eventDispatcher) {
+	void UserEvent<EventType>::Dispatch(const MultiEventBus& eventDispatcher) {
 
 		eventDispatcher->Dispatch<EventType>(_data);
 

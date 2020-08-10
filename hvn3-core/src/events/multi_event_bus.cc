@@ -1,15 +1,15 @@
-#include "events/multi_event_dispatcher.h"
+#include "events/multi_event_bus.h"
 #include "events/iuser_event.h"
 
 namespace hvn3::events {
 
-	void MultiEventDispatcher::Dispatch(IUserEvent& ev) {
+	void MultiEventBus::Dispatch(IUserEvent& ev) {
 
 		ev.Dispatch(*this);
 
 	}
 
-	bool MultiEventDispatcher::Unsubscribe(void* eventListener) {
+	bool MultiEventBus::Unsubscribe(void* eventListener) {
 
 		bool unsubbed = false;
 
@@ -20,7 +20,7 @@ namespace hvn3::events {
 
 	}
 
-	MultiEventDispatcher::size_type MultiEventDispatcher::Count() const {
+	MultiEventBus::size_type MultiEventBus::Count() const {
 
 		size_type count = 0;
 

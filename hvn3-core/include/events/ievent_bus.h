@@ -1,17 +1,15 @@
 #pragma once
 
-#include "events/event_listener_base_base.h"
-
 #include <cstddef>
 
 namespace hvn3::events {
 
-	class IEventDispatcher {
+	class IEventBus {
 
 	public:
 		typedef size_t size_type;
 
-		virtual ~IEventDispatcher() = default;
+		virtual ~IEventBus() = default;
 
 		virtual bool Unsubscribe(void* eventListener) = 0;
 

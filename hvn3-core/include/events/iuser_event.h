@@ -5,7 +5,7 @@
 
 namespace hvn3::events {
 
-	class MultiEventDispatcher;
+	class MultiEventBus;
 
 	class IUserEvent :
 		IEvent {
@@ -19,7 +19,7 @@ namespace hvn3::events {
 
 		virtual void* Data() = 0;
 
-		virtual void Dispatch(const MultiEventDispatcher& eventListenerContainer) = 0;
+		virtual void Dispatch(const MultiEventBus& eventListenerContainer) = 0;
 
 	};
 

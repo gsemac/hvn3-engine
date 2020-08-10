@@ -1,6 +1,6 @@
 #pragma once
 
-#include "events/ievent_dispatcher.h"
+#include "events/ievent_bus.h"
 #include "events/event_listener_base_base.h"
 #include "events/event_listener_priority.h"
 
@@ -12,8 +12,8 @@
 namespace hvn3::events {
 
 	template<typename EventType>
-	class EventDispatcher :
-		public IEventDispatcher {
+	class EventBus :
+		public IEventBus {
 
 	public:
 		// The type of event that this container stores listeners for
@@ -44,13 +44,13 @@ namespace hvn3::events {
 		typedef std::vector<value_type> container_type;
 
 	public:
-		EventDispatcher() :
+		EventBus() :
 			_sort_required(false),
 			_remove_required(false),
 			_currently_dispatching(false) {
 		}
 
-		~EventDispatcher() {
+		~EventBus() {
 
 			for (const value_type& i : _listeners)
 				if (i.enabled)
