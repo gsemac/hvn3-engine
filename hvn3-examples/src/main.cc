@@ -3,6 +3,7 @@
 #include "events/event_listener_base.h"
 #include "events/multi_event_bus.h"
 #include "io/window.h"
+#include "services/di_service_container.h"
 
 using namespace hvn3;
 
@@ -23,15 +24,32 @@ public:
 
 };
 
+class MyService {
+
+public:
+	HVN3_INJECT(MyService(int intService)) {
+
+		std::cout << "int service value is " << intService << '\n';
+
+	}
+
+};
+
 int main() {
 
 	io::Window window(640, 480, "hello world", io::WindowOptions::Resizable);
+
+	services::DIServiceContainer services;
+
+	services.RegisterService(std::make_shared<int>(6));
+	services.RegisterService<MyService>();
+
+	getchar();
 
 	events::MultiEventBus bus;
 	MyEventListener listener;
 
 	bus.Subscribe(&listener);
-	bus.Unsubscribe(&listener);
 
 	bus.Dispatch(5);
 	bus.Dispatch(4);

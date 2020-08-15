@@ -1,8 +1,11 @@
 #pragma once
 
-#include "hvn3/services/service_container.h"
+#include "core/lazy.h"
 
+#include <functional>
+#include <map>
 #include <type_traits>
+#include <typeindex>
 #include <utility>
 
 #define HVN3_INJECT(signature)\
@@ -12,7 +15,7 @@ signature
 namespace hvn3::services {
 
 	template <typename T>
-	class has_injectable_constructor {
+	class has_injected_constructor {
 
 		template <typename T1>
 		static typename T1::injected_constructor* test(int);
@@ -24,213 +27,241 @@ namespace hvn3::services {
 
 	};
 
+	template<typename T>
+	constexpr bool has_injected_constructor_v = has_injected_constructor<T>::value;
+
+	template<typename T>
+	constexpr bool is_inject_constructible_v = has_injected_constructor_v<T> || std::is_default_constructible_v<T>;
+
 	class DIServiceContainer final {
 
 	public:
-		template<typename ServiceType, std::enable_if_t<has_injectable_constructor<ServiceType>::value, int> = 0>
-		DIServiceContainer& AddService();
-		template<typename InterfaceType, typename ServiceType, std::enable_if_t<has_injectable_constructor<ServiceType>::value, int> = 0>
-		DIServiceContainer& AddService();
-		template<typename ServiceType, typename ...Args>
-		DIServiceContainer& AddService(Args&&... args);
-		template<typename InterfaceType, typename ServiceType, typename ...Args>
-		DIServiceContainer& AddService(Args&&... args);
+		using size_type = std::size_t;
 
-		template <typename ServiceType, std::enable_if_t<!std::is_pointer_v<ServiceType> && !std::is_same_v<std::remove_reference_t<ServiceType>, DIServiceContainer>, int> = 0>
+		template<typename ServiceType, std::enable_if_t<is_inject_constructible_v<ServiceType>, int> = 0>
+		DIServiceContainer& RegisterService();
+		template<typename InterfaceType, typename ServiceType, std::enable_if_t<is_inject_constructible_v<ServiceType>, int> = 0>
+		DIServiceContainer& RegisterService();
+		template<typename ServiceType>
+		DIServiceContainer& RegisterService(const std::shared_ptr<ServiceType>& service);
+		template<typename InterfaceType, typename ServiceType>
+		DIServiceContainer& RegisterService(const std::shared_ptr<ServiceType>& service);
+
+		template<typename ServiceType, std::enable_if_t<!std::is_pointer_v<ServiceType>, int> = 0>
 		ServiceType& GetService();
-		template <typename ServiceType, std::enable_if_t<!std::is_pointer_v<ServiceType> && !std::is_same_v<std::remove_reference_t<ServiceType>, DIServiceContainer>, int> = 0>
-		const ServiceType& GetService() const;
-		template <typename ServiceType, std::enable_if_t<!std::is_pointer_v<ServiceType> && std::is_same_v<std::remove_reference_t<ServiceType>, DIServiceContainer>, int> = 0>
-		ServiceType& GetService();
-		template <typename ServiceType, std::enable_if_t<!std::is_pointer_v<ServiceType> && std::is_same_v<std::remove_reference_t<ServiceType>, DIServiceContainer>, int> = 0>
+		template<typename ServiceType, std::enable_if_t<!std::is_pointer_v<ServiceType>, int> = 0>
 		const ServiceType& GetService() const;
 		template <typename ServiceType, std::enable_if_t<std::is_pointer_v<ServiceType>, int> = 0>
 		ServiceType GetService();
 		template <typename ServiceType, std::enable_if_t<std::is_pointer_v<ServiceType>, int> = 0>
-		ServiceType GetService() const;
+		const ServiceType GetService() const;
 
 		template<typename ServiceType>
-		bool HasService() const;
-		template<> bool HasService<DIServiceContainer>() const;
+		bool IsServiceRegistered() const;
 
-		ServiceContainer::size_type Count() const;
-
-		template<typename ResolveType, std::enable_if_t<has_injectable_constructor<ResolveType>::value, int> = 0>
-		ResolveType Resolve();
-		template<typename ResolveType, std::enable_if_t<!has_injectable_constructor<ResolveType>::value && std::is_default_constructible_v<ResolveType>, int> = 0>
-		ResolveType Resolve();
-		template<typename ResolveType, std::enable_if_t<!has_injectable_constructor<ResolveType>::value && !std::is_default_constructible_v<ResolveType>, int> = 0>
-		ResolveType Resolve();
+		size_type Count() const;
 
 	private:
-		ServiceContainer services;
+		class IServiceDescriptor {
 
+		public:
+			virtual ~IServiceDescriptor() = default;
+
+			virtual void* GetService() = 0;
+
+		};
+
+		template<typename LazyType>
+		class LazyServiceDescriptor :
+			public IServiceDescriptor {
+
+		public:
+			LazyServiceDescriptor(LazyType&& lazy) :
+				lazy(lazy) {
+			}
+
+			void* GetService() override {
+
+				return &lazy.Value();
+
+			}
+
+		private:
+			LazyType lazy;
+
+		};
+
+		template<typename ServiceType>
+		class WrapperServiceDescriptor :
+			public IServiceDescriptor {
+
+		public:
+			WrapperServiceDescriptor(const std::shared_ptr<ServiceType>& service) :
+				service(service) {
+			}
+
+			void* GetService() override {
+
+				return service.get();
+
+			}
+
+		private:
+			std::shared_ptr<ServiceType> service;
+
+		};
+
+		using service_pointer_t = std::shared_ptr<IServiceDescriptor>;
+
+		std::multimap<std::type_index, service_pointer_t> services;
+
+		template<typename InterfaceType, typename ServiceType, std::enable_if_t<has_injected_constructor_v<ServiceType>, int> = 0>
+		service_pointer_t CreateServiceDescriptor();
 		template<typename InterfaceType, typename ServiceType, typename ...ConstructorArgs>
-		DIServiceContainer& AddService(ServiceType(*)(ConstructorArgs...));
-		template<typename ...ServiceTypes>
-		void EnsureHasServices();
-		template<typename ServiceType, std::enable_if_t<std::is_abstract_v<ServiceType>, int> = 0>
-		void EnsureHasService();
-		template<typename ServiceType, std::enable_if_t<!std::is_abstract_v<ServiceType>, int> = 0>
-		void EnsureHasService();
-		template<typename ResolveType, typename ...ConstructorArgs>
-		ResolveType Resolve(ResolveType(*)(ConstructorArgs...));
+		service_pointer_t CreateServiceDescriptor(ServiceType(*)(ConstructorArgs...));
+		template<typename InterfaceType, typename ServiceType, std::enable_if_t<!has_injected_constructor_v<ServiceType>&& std::is_default_constructible_v<ServiceType>, int> = 0>
+		service_pointer_t CreateServiceDescriptor();
+		template<typename InterfaceType, typename ServiceType>
+		void RegisterServiceDescriptor(service_pointer_t&& servicePointer);
 
 	};
 
 	// Public members
 
-	template<typename ServiceType, std::enable_if_t<has_injectable_constructor<ServiceType>::value, int>>
-	DIServiceContainer& DIServiceContainer::AddService() {
+	template<typename ServiceType, std::enable_if_t<is_inject_constructible_v<ServiceType>, int>>
+	DIServiceContainer& DIServiceContainer::RegisterService() {
 
-		return AddService<ServiceType, ServiceType>();
-
-	}
-	template<typename InterfaceType, typename ServiceType, std::enable_if_t<has_injectable_constructor<ServiceType>::value, int>>
-	DIServiceContainer& DIServiceContainer::AddService() {
-
-		return AddService<InterfaceType, ServiceType>(static_cast<typename ServiceType::injected_constructor*>(nullptr));
+		return RegisterService<ServiceType, ServiceType>();
 
 	}
-	template<typename ServiceType, typename ...Args>
-	DIServiceContainer& DIServiceContainer::AddService(Args&&... args) {
+	template<typename InterfaceType, typename ServiceType, std::enable_if_t<is_inject_constructible_v<ServiceType>, int>>
+	DIServiceContainer& DIServiceContainer::RegisterService() {
 
-		services.AddService<ServiceType>(std::forward<Args>(args)...);
+		// Services with injectable contructors will be constructed lazily to avoid temporal coupling.
+
+		RegisterServiceDescriptor<InterfaceType, ServiceType>(CreateServiceDescriptor<InterfaceType, ServiceType>());
 
 		return *this;
 
 	}
-	template<typename InterfaceType, typename ServiceType, typename ...Args>
-	DIServiceContainer& DIServiceContainer::AddService(Args&&... args) {
+	template<typename ServiceType>
+	DIServiceContainer& DIServiceContainer::RegisterService(const std::shared_ptr<ServiceType>& service) {
 
-		services.AddService<InterfaceType, ServiceType>(std::forward<Args>(args)...);
+		return RegisterService<ServiceType, ServiceType>(service);
+
+	}
+	template<typename InterfaceType, typename ServiceType>
+	DIServiceContainer& DIServiceContainer::RegisterService(const std::shared_ptr<ServiceType>& service) {
+
+		RegisterServiceDescriptor<InterfaceType, ServiceType>(std::make_shared<WrapperServiceDescriptor<ServiceType>>(service));
 
 		return *this;
 
 	}
 
-	template <typename ServiceType, std::enable_if_t<!std::is_pointer_v<ServiceType> && !std::is_same_v<std::remove_reference_t<ServiceType>, DIServiceContainer>, int>>
+	template<typename ServiceType, std::enable_if_t<!std::is_pointer_v<ServiceType>, int>>
 	ServiceType& DIServiceContainer::GetService() {
 
-		using service_type = std::remove_reference_t<ServiceType>;
+		using service_t = std::remove_reference_t<ServiceType>;
 
-		return services.GetService<service_type>();
+		assert(IsServiceRegistered<service_t>());
+
+		auto it = services.find(typeid(service_t));
+
+		return *static_cast<service_t*>(it->second->GetService());
 
 	}
-	template <typename ServiceType, std::enable_if_t<!std::is_pointer_v<ServiceType> && !std::is_same_v<std::remove_reference_t<ServiceType>, DIServiceContainer>, int>>
+	template<typename ServiceType, std::enable_if_t<!std::is_pointer_v<ServiceType>, int>>
 	const ServiceType& DIServiceContainer::GetService() const {
 
-		using service_type = std::remove_reference_t<ServiceType>;
+		using service_t = std::remove_reference_t<ServiceType>;
 
-		return services.GetService<service_type>();
+		assert(IsServiceRegistered<service_t>());
 
-	}
-	template <typename ServiceType, std::enable_if_t<!std::is_pointer_v<ServiceType> && std::is_same_v<std::remove_reference_t<ServiceType>, DIServiceContainer>, int>>
-	ServiceType& DIServiceContainer::GetService() {
+		auto it = services.find(typeid(service_t));
 
-		return *this;
-
-	}
-	template <typename ServiceType, std::enable_if_t<!std::is_pointer_v<ServiceType> && std::is_same_v<std::remove_reference_t<ServiceType>, DIServiceContainer>, int>>
-	const ServiceType& DIServiceContainer::GetService() const {
-
-		return *this;
-
-	}
-	template<typename ServiceType, std::enable_if_t<std::is_pointer_v<ServiceType>, int>>
-	ServiceType DIServiceContainer::GetService() {
-
-		using service_type = std::remove_pointer_t<ServiceType>;
-
-		if (services.HasService<service_type>())
-			return std::addressof(GetService<service_type>());
-
-		return nullptr;
+		return *static_cast<service_t*>(it->second->GetService());
 
 	}
 	template <typename ServiceType, std::enable_if_t<std::is_pointer_v<ServiceType>, int>>
-	ServiceType DIServiceContainer::GetService() const {
+	ServiceType DIServiceContainer::GetService() {
 
-		using service_type = std::remove_pointer_t<ServiceType>;
+		using service_t = std::remove_pointer_t<std::remove_reference_t<ServiceType>>;
 
-		if (services.HasService<service_type>())
-			return std::addressof(GetService<service_type>());
+		auto it = services.find(typeid(service_t));
 
-		return nullptr;
+		return it == services.end() ?
+			nullptr :
+			static_cast<service_t*>(it->second->GetService());
+
+	}
+	template <typename ServiceType, std::enable_if_t<std::is_pointer_v<ServiceType>, int>>
+	const ServiceType DIServiceContainer::GetService() const {
+
+		using service_t = std::remove_pointer_t<std::remove_reference_t<ServiceType>>;
+
+		auto it = services.find(typeid(service_t));
+
+		return it == services.end() ?
+			nullptr :
+			static_cast<service_t*>(it->second->GetService());
 
 	}
 
 	template<typename ServiceType>
-	bool DIServiceContainer::HasService() const {
+	bool DIServiceContainer::IsServiceRegistered() const {
 
-		return services.HasService<ServiceType>();
+		using service_t = std::remove_reference_t<ServiceType>;
 
-	}
-	template<> bool DIServiceContainer::HasService<DIServiceContainer>() const {
+		auto it = services.find(typeid(service_t));
 
-		return true;
-
-	}
-
-	template<typename ResolveType, std::enable_if_t<has_injectable_constructor<ResolveType>::value, int>>
-	ResolveType DIServiceContainer::Resolve() {
-
-		return Resolve<ResolveType>(static_cast<typename ResolveType::injected_constructor*>(nullptr));
-
-	}
-	template<typename ResolveType, std::enable_if_t<!has_injectable_constructor<ResolveType>::value && std::is_default_constructible_v<ResolveType>, int>>
-	ResolveType DIServiceContainer::Resolve() {
-
-		return ResolveType();
-
-	}
-	template<typename ResolveType, std::enable_if_t<!has_injectable_constructor<ResolveType>::value && !std::is_default_constructible_v<ResolveType>, int>>
-	ResolveType DIServiceContainer::Resolve() {
-
-		static_assert(false, "Dependencies could not be resolved for this type");
+		return it != services.end();
 
 	}
 
 	// Private members
 
+	template<typename InterfaceType, typename ServiceType, std::enable_if_t<has_injected_constructor_v<ServiceType>, int>>
+	DIServiceContainer::service_pointer_t DIServiceContainer::CreateServiceDescriptor() {
+
+		return CreateServiceDescriptor<InterfaceType, ServiceType>(static_cast<typename ServiceType::injected_constructor*>(nullptr));
+
+	}
 	template<typename InterfaceType, typename ServiceType, typename ...ConstructorArgs>
-	DIServiceContainer& DIServiceContainer::AddService(ServiceType(*)(ConstructorArgs...)) {
+	DIServiceContainer::service_pointer_t DIServiceContainer::CreateServiceDescriptor(ServiceType(*)(ConstructorArgs...)) {
 
-		static_assert(std::is_constructible_v<ServiceType, ConstructorArgs...>, "Service does not have an appropriate constructor taking its required services");
+		auto lazy = core::make_lazy([this]() { return ServiceType(this->GetService<ConstructorArgs>()...); });
 
-		// Add the required services that don't already exist.
-
-		EnsureHasServices<ConstructorArgs...>();
-
-		// Add the service.
-
-		services.AddService<InterfaceType, ServiceType>(GetService<ConstructorArgs>()...);
-
-		return *this;
+		return std::make_shared<LazyServiceDescriptor<decltype(lazy)>>(std::move(lazy));
 
 	}
-	template<typename ...ServiceTypes>
-	void DIServiceContainer::EnsureHasServices() {
+	template<typename InterfaceType, typename ServiceType, std::enable_if_t<!has_injected_constructor_v<ServiceType>&& std::is_default_constructible_v<ServiceType>, int>>
+	DIServiceContainer::service_pointer_t DIServiceContainer::CreateServiceDescriptor() {
 
-		int dummy[] = { 0, (EnsureHasService<std::remove_reference_t<ServiceTypes>>(), 0)... };
+		auto lazy = core::make_lazy([]() { return ServiceType(); });
 
-	}
-	template<typename ServiceType, std::enable_if_t<std::is_abstract_v<ServiceType>, int>>
-	void DIServiceContainer::EnsureHasService() {
-	}
-	template<typename ServiceType, std::enable_if_t<!std::is_abstract_v<ServiceType>, int>>
-	void DIServiceContainer::EnsureHasService() {
-
-		if (!HasService<ServiceType>() && !std::is_pointer_v<ServiceType>)
-			AddService<ServiceType>();
+		return std::make_shared<LazyServiceDescriptor<decltype(lazy)>>(std::move(lazy));
 
 	}
-	template<typename ResolveType, typename ...ConstructorArgs>
-	ResolveType DIServiceContainer::Resolve(ResolveType(*)(ConstructorArgs...)) {
+	template<typename InterfaceType, typename ServiceType>
+	void DIServiceContainer::RegisterServiceDescriptor(service_pointer_t&& servicePtr) {
 
-		static_assert(std::is_constructible_v<ResolveType, ConstructorArgs...>, "Service does not have an appropriate constructor taking its dependencies");
+		using interface_t = std::remove_reference_t<InterfaceType>;
+		using service_t = std::remove_reference_t<ServiceType>;
 
-		return ResolveType((HasService<ConstructorArgs>() ? GetService<ConstructorArgs>() : Resolve<ConstructorArgs>())...);
+		static_assert(std::is_same_v<interface_t, service_t> || std::is_base_of_v<interface_t, service_t>, "The service must implement the given interface.");
+
+		// Insert the service into the container.
+
+		services.emplace(std::make_pair(std::type_index(typeid(service_t)), servicePtr));
+
+		// If the service is implementing an interface, map the interface to the service as well.
+
+		if (!std::is_same_v<interface_t, service_t>) {
+
+			services.emplace(std::make_pair(std::type_index(typeid(interface_t)), servicePtr));
+
+		}
 
 	}
 

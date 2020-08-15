@@ -2,13 +2,15 @@
 
 #include "core/time_span.h"
 #include "events/event.h"
+#include "events/ievent_queue.h"
 #include "events/ievent_source.h"
 
 struct ALLEGRO_EVENT_QUEUE;
 
 namespace hvn3::events {
 
-	class EventQueue {
+	class EventQueue :
+		public IEventQueue {
 
 		using underlying_t = ALLEGRO_EVENT_QUEUE;
 
@@ -19,14 +21,14 @@ namespace hvn3::events {
 
 		~EventQueue();
 
-		void RegisterEventSource(const IEventSource& eventSource);
-		void UnregisterEventSource(const IEventSource& eventSource);
+		void RegisterEventSource(const IEventSource& eventSource) override;
+		void UnregisterEventSource(const IEventSource& eventSource) override;
 
-		bool IsEmpty() const;
-		bool GetNextEvent(Event& ev);
-		bool PeekNextEvent(Event& ev) const;
-		void WaitForEvent(Event& ev);
-		bool WaitForEvent(Event& ev, const core::TimeSpan& timeout);
+		bool IsEmpty() const override;
+		bool GetNextEvent(Event& ev)override;
+		bool PeekNextEvent(Event& ev) const override;
+		void WaitForEvent(Event& ev) override;
+		bool WaitForEvent(Event& ev, const core::TimeSpan& timeout) override;
 
 		underlying_t* GetUnderlyingData();
 

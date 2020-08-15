@@ -114,6 +114,12 @@
     <ClInclude Include="include\events\multi_event_bus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\events\ievent_queue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\lazy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\engine.cc">
@@ -138,6 +144,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\events\multi_event_bus.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services\service_container.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services\di_service_container.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

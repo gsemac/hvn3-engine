@@ -2,10 +2,10 @@
 
 #include <cassert>
 #include <cstddef>
+#include <map>
 #include <memory>
 #include <type_traits>
 #include <typeindex>
-#include <map>
 
 namespace hvn3::services {
 
@@ -14,13 +14,10 @@ namespace hvn3::services {
 	public:
 		using size_type = std::size_t;
 
-		ServiceContainer();
-		~ServiceContainer();
-
-		template<typename ServiceType, typename ...Args>
-		ServiceContainer& AddService(Args&&... args);
-		template<typename InterfaceType, typename ServiceType, typename ...Args>
-		ServiceContainer& AddService(Args&&... args);
+		template<typename ServiceType>
+		ServiceContainer& RegisterService(const std::shared_ptr<ServiceType>& service);
+		template<typename InterfaceType, typename ServiceType>
+		ServiceContainer& RegisterService(const std::shared_ptr<ServiceType>& service);
 
 		template <typename ServiceType>
 		ServiceType& GetService();
@@ -28,68 +25,58 @@ namespace hvn3::services {
 		const ServiceType& GetService() const;
 
 		template<typename ServiceType>
-		bool HasService() const;
+		bool IsServiceRegistered() const;
 
 		size_type Count() const;
 
 	private:
-		using void_deleter_type = void(*)(void*);
-		using service_pointer_type = std::unique_ptr<void, void_deleter_type>;
+		using void_deleter_t = void(*)(void*);
+		using service_pointer_t = std::shared_ptr<void>;
 
-		struct ServiceInfo {
+		struct ServiceDescriptor {
 
-			ServiceInfo(std::size_t index, service_pointer_type&& service);
+			ServiceDescriptor(std::size_t index, const service_pointer_t& service);
 
 			std::size_t index;
-			service_pointer_type service;
+			service_pointer_t service;
 
 		};
 
-		std::multimap<std::type_index, ServiceInfo> services;
+		std::multimap<std::type_index, ServiceDescriptor> services;
 
 	};
 
 	// Public members
 
-	template<typename ServiceType, typename ...Args>
-	ServiceContainer& ServiceContainer::AddService(Args&&... args) {
+	template<typename ServiceType>
+	ServiceContainer& ServiceContainer::RegisterService(const std::shared_ptr<ServiceType>& service) {
 
-		return AddService<ServiceType, ServiceType, Args...>(std::forward<Args>(args)...);
+		return RegisterService<ServiceType, ServiceType>(service);
 
 	}
-	template<typename InterfaceType, typename ServiceType, typename ...Args>
-	ServiceContainer& ServiceContainer::AddService(Args&&... args) {
+	template<typename InterfaceType, typename ServiceType>
+	ServiceContainer& ServiceContainer::RegisterService(const std::shared_ptr<ServiceType>& service) {
 
-		using interface_type = std::remove_reference_t<InterfaceType>;
-		using service_type = std::remove_reference_t<ServiceType>;
+		using interface_t = std::remove_reference_t<InterfaceType>;
+		using service_t = std::remove_reference_t<ServiceType>;
 
-		static_assert(std::is_same_v<interface_type, service_type> || std::is_base_of_v<interface_type, service_type>,
-			"Service must implement the given interface");
+		static_assert(std::is_same_v<interface_t, service_t> || std::is_base_of_v<interface_t, service_t>, "The service must implement the given interface.");
 
-		static_assert(std::is_constructible_v<service_type, Args &&...>,
-			"Service cannot be constructed from the given arguments");
-
-		auto deleter = [](void* ptr) {
-			std::default_delete<service_type>()(static_cast<service_type*>(ptr));
-		};
-
-		service_type* servicePtr = new service_type(std::forward<Args>(args)...);
-
-		// Map the service type to the service object.
+		// Add the service pointer to the service container.
 
 		services.emplace(std::make_pair(
-			std::type_index(typeid(service_type)),
-			ServiceInfo(services.size(), service_pointer_type(servicePtr, deleter))
+			std::type_index(typeid(service_t)),
+			ServiceDescriptor(services.size(), service)
 		));
 
-		if (!std::is_same_v<interface_type, service_type>) {
+		// Add a pointer to the interface to the service container (if applicable).
+		// This service descriptor will have an empty deleter to avoid deleting the service more than once.
 
-			// Map the interface to the service object.
-			// We supply an empty deleter so that we don't delete the service twice.
+		if (!std::is_same_v<interface_t, service_t>) {
 
 			services.emplace(std::make_pair(
-				std::type_index(typeid(interface_type)),
-				ServiceInfo(services.size(), service_pointer_type(static_cast<interface_type*>(servicePtr), [](void*) {}))
+				std::type_index(typeid(interface_t)),
+				ServiceDescriptor(services.size(), service_pointer_t(static_cast<interface_t*>(service.get()), [](void*) {}))
 			));
 
 		}
@@ -101,34 +88,34 @@ namespace hvn3::services {
 	template <typename ServiceType>
 	ServiceType& ServiceContainer::GetService() {
 
-		using service_type = std::remove_reference_t<ServiceType>;
+		using service_t = std::remove_reference_t<ServiceType>;
 
-		assert(HasService<service_type>());
+		assert(IsServiceRegistered<service_t>());
 
-		auto it = services.find(typeid(service_type));
+		auto it = services.find(typeid(service_t));
 
-		return *static_cast<service_type*>(it->second.service.get());
+		return *static_cast<service_t*>(it->second.service.get());
 
 	}
 	template <typename ServiceType>
 	const ServiceType& ServiceContainer::GetService() const {
 
-		using service_type = std::remove_reference_t<ServiceType>;
+		using service_t = std::remove_reference_t<ServiceType>;
 
-		assert(HasService<service_type>());
+		assert(IsServiceRegistered<service_t>());
 
-		auto it = services.find(typeid(service_type));
+		auto it = services.find(typeid(service_t));
 
-		return *static_cast<service_type*>(it->second.service.get());
+		return *static_cast<service_t*>(it->second.service.get());
 
 	}
 
 	template<typename ServiceType>
-	bool ServiceContainer::HasService() const {
+	bool ServiceContainer::IsServiceRegistered() const {
 
-		using service_type = std::remove_reference_t<ServiceType>;
+		using service_t = std::remove_reference_t<ServiceType>;
 
-		auto it = services.find(typeid(service_type));
+		auto it = services.find(typeid(service_t));
 
 		return it != services.end();
 
