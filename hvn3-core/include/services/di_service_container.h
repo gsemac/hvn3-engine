@@ -7,6 +7,7 @@
 #include <type_traits>
 #include <typeindex>
 #include <utility>
+#include <vector>
 
 #define HVN3_INJECT(signature)\
 using injected_constructor = signature;\
@@ -38,6 +39,9 @@ namespace hvn3::services {
 	public:
 		using size_type = std::size_t;
 
+		DIServiceContainer();
+		~DIServiceContainer();
+
 		template<typename ServiceType, std::enable_if_t<is_inject_constructible_v<ServiceType>, int> = 0>
 		DIServiceContainer& RegisterService();
 		template<typename InterfaceType, typename ServiceType, std::enable_if_t<is_inject_constructible_v<ServiceType>, int> = 0>
@@ -67,19 +71,28 @@ namespace hvn3::services {
 		public:
 			virtual ~IServiceDescriptor() = default;
 
+			virtual std::size_t Id() = 0;
 			virtual void* GetService() = 0;
 
 		};
+
+		using service_pointer_t = std::shared_ptr<IServiceDescriptor>;
 
 		template<typename LazyType>
 		class LazyServiceDescriptor :
 			public IServiceDescriptor {
 
 		public:
-			LazyServiceDescriptor(LazyType&& lazy) :
+			LazyServiceDescriptor(std::size_t id, LazyType&& lazy) :
+				id(id),
 				lazy(lazy) {
 			}
 
+			std::size_t Id() override {
+
+				return id;
+
+			}
 			void* GetService() override {
 
 				return &lazy.Value();
@@ -87,19 +100,26 @@ namespace hvn3::services {
 			}
 
 		private:
+			std::size_t id;
 			LazyType lazy;
 
 		};
 
 		template<typename ServiceType>
-		class WrapperServiceDescriptor :
+		class WrappedServiceDescriptor :
 			public IServiceDescriptor {
 
 		public:
-			WrapperServiceDescriptor(const std::shared_ptr<ServiceType>& service) :
+			WrappedServiceDescriptor(std::size_t id, const std::shared_ptr<ServiceType>& service) :
+				id(id),
 				service(service) {
 			}
 
+			std::size_t Id() override {
+
+				return id;
+
+			}
 			void* GetService() override {
 
 				return service.get();
@@ -107,13 +127,44 @@ namespace hvn3::services {
 			}
 
 		private:
+			std::size_t id;
 			std::shared_ptr<ServiceType> service;
 
 		};
 
-		using service_pointer_t = std::shared_ptr<IServiceDescriptor>;
+		template<typename InterfaceType, typename ServiceType>
+		class InterfaceServiceDescriptor :
+			public IServiceDescriptor {
+
+		public:
+			InterfaceServiceDescriptor(std::size_t id, const service_pointer_t& service) :
+				id(id),
+				service(service) {
+			}
+
+			std::size_t Id() override {
+
+				return id;
+
+			}
+			void* GetService() override {
+
+				ServiceType* servicePtr = static_cast<ServiceType*>(service->GetService());
+
+				return static_cast<InterfaceType*>(servicePtr);
+
+			}
+
+		private:
+			std::size_t id;
+			service_pointer_t service;
+
+		};
 
 		std::multimap<std::type_index, service_pointer_t> services;
+		std::map<std::size_t, service_pointer_t> idServiceMap;
+		std::vector<std::size_t> orderedServiceIds;
+		std::size_t currentId;
 
 		template<typename InterfaceType, typename ServiceType, std::enable_if_t<has_injected_constructor_v<ServiceType>, int> = 0>
 		service_pointer_t CreateServiceDescriptor();
@@ -121,6 +172,8 @@ namespace hvn3::services {
 		service_pointer_t CreateServiceDescriptor(ServiceType(*)(ConstructorArgs...));
 		template<typename InterfaceType, typename ServiceType, std::enable_if_t<!has_injected_constructor_v<ServiceType>&& std::is_default_constructible_v<ServiceType>, int> = 0>
 		service_pointer_t CreateServiceDescriptor();
+		template<typename InterfaceType, typename ServiceType>
+		service_pointer_t CreateServiceDescriptor(const std::shared_ptr<ServiceType>& service);
 		template<typename InterfaceType, typename ServiceType>
 		void RegisterServiceDescriptor(service_pointer_t&& servicePointer);
 
@@ -153,7 +206,7 @@ namespace hvn3::services {
 	template<typename InterfaceType, typename ServiceType>
 	DIServiceContainer& DIServiceContainer::RegisterService(const std::shared_ptr<ServiceType>& service) {
 
-		RegisterServiceDescriptor<InterfaceType, ServiceType>(std::make_shared<WrapperServiceDescriptor<ServiceType>>(service));
+		RegisterServiceDescriptor<InterfaceType, ServiceType>(CreateServiceDescriptor<InterfaceType, ServiceType>(service));
 
 		return *this;
 
@@ -230,17 +283,47 @@ namespace hvn3::services {
 	template<typename InterfaceType, typename ServiceType, typename ...ConstructorArgs>
 	DIServiceContainer::service_pointer_t DIServiceContainer::CreateServiceDescriptor(ServiceType(*)(ConstructorArgs...)) {
 
-		auto lazy = core::make_lazy([this]() { return ServiceType(this->GetService<ConstructorArgs>()...); });
+		std::size_t id = ++currentId;
 
-		return std::make_shared<LazyServiceDescriptor<decltype(lazy)>>(std::move(lazy));
+		auto lazy = core::make_lazy(
+			[id, this]() {
+
+				orderedServiceIds.push_back(id);
+
+				return ServiceType(this->GetService<ConstructorArgs>()...);
+
+			});
+
+		return std::make_shared<LazyServiceDescriptor<decltype(lazy)>>(id, std::move(lazy));
 
 	}
 	template<typename InterfaceType, typename ServiceType, std::enable_if_t<!has_injected_constructor_v<ServiceType>&& std::is_default_constructible_v<ServiceType>, int>>
 	DIServiceContainer::service_pointer_t DIServiceContainer::CreateServiceDescriptor() {
 
-		auto lazy = core::make_lazy([]() { return ServiceType(); });
+		std::size_t id = ++currentId;
 
-		return std::make_shared<LazyServiceDescriptor<decltype(lazy)>>(std::move(lazy));
+		auto lazy = core::make_lazy(
+			[id, this]() {
+
+				orderedServiceIds.push_back(id);
+
+				return ServiceType();
+
+			});
+
+		return std::make_shared<LazyServiceDescriptor<decltype(lazy)>>(id, std::move(lazy));
+
+	}
+	template<typename InterfaceType, typename ServiceType>
+	DIServiceContainer::service_pointer_t DIServiceContainer::CreateServiceDescriptor(const std::shared_ptr<ServiceType>& service) {
+
+		service_pointer_t servicePtr = std::make_shared<WrappedServiceDescriptor<ServiceType>>(++currentId, service);
+
+		// Since this service was not constructed lazily, we'll add it to the list of ordered service IDs immediately.
+
+		orderedServiceIds.push_back(servicePtr->Id());
+
+		return servicePtr;
 
 	}
 	template<typename InterfaceType, typename ServiceType>
@@ -255,11 +338,13 @@ namespace hvn3::services {
 
 		services.emplace(std::make_pair(std::type_index(typeid(service_t)), servicePtr));
 
+		idServiceMap.insert(std::make_pair(servicePtr->Id(), servicePtr));
+
 		// If the service is implementing an interface, map the interface to the service as well.
 
 		if (!std::is_same_v<interface_t, service_t>) {
 
-			services.emplace(std::make_pair(std::type_index(typeid(interface_t)), servicePtr));
+			services.emplace(std::make_pair(std::type_index(typeid(interface_t)), std::make_shared<InterfaceServiceDescriptor<interface_t, service_t>>(0, servicePtr)));
 
 		}
 

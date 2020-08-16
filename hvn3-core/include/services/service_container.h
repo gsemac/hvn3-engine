@@ -6,6 +6,7 @@
 #include <memory>
 #include <type_traits>
 #include <typeindex>
+#include <vector>
 
 namespace hvn3::services {
 
@@ -13,6 +14,8 @@ namespace hvn3::services {
 
 	public:
 		using size_type = std::size_t;
+
+		~ServiceContainer();
 
 		template<typename ServiceType>
 		ServiceContainer& RegisterService(const std::shared_ptr<ServiceType>& service);
@@ -33,16 +36,8 @@ namespace hvn3::services {
 		using void_deleter_t = void(*)(void*);
 		using service_pointer_t = std::shared_ptr<void>;
 
-		struct ServiceDescriptor {
-
-			ServiceDescriptor(std::size_t index, const service_pointer_t& service);
-
-			std::size_t index;
-			service_pointer_t service;
-
-		};
-
-		std::multimap<std::type_index, ServiceDescriptor> services;
+		std::multimap<std::type_index, service_pointer_t> services;
+		std::vector<service_pointer_t> orderedServices;
 
 	};
 
@@ -64,20 +59,17 @@ namespace hvn3::services {
 
 		// Add the service pointer to the service container.
 
-		services.emplace(std::make_pair(
-			std::type_index(typeid(service_t)),
-			ServiceDescriptor(services.size(), service)
-		));
+		services.emplace(std::make_pair(std::type_index(typeid(service_t)), service));
 
-		// Add a pointer to the interface to the service container (if applicable).
-		// This service descriptor will have an empty deleter to avoid deleting the service more than once.
+		orderedServices.push_back(service);
+
+		// If the service is implementing an interface, map the interface to the service as well.
 
 		if (!std::is_same_v<interface_t, service_t>) {
 
-			services.emplace(std::make_pair(
-				std::type_index(typeid(interface_t)),
-				ServiceDescriptor(services.size(), service_pointer_t(static_cast<interface_t*>(service.get()), [](void*) {}))
-			));
+			std::shared_ptr<interface_t> interfacePtr = service;
+
+			services.emplace(std::make_pair(std::type_index(typeid(interface_t)), interfacePtr));
 
 		}
 
@@ -94,7 +86,7 @@ namespace hvn3::services {
 
 		auto it = services.find(typeid(service_t));
 
-		return *static_cast<service_t*>(it->second.service.get());
+		return *static_cast<service_t*>(it->second.get());
 
 	}
 	template <typename ServiceType>
@@ -106,7 +98,7 @@ namespace hvn3::services {
 
 		auto it = services.find(typeid(service_t));
 
-		return *static_cast<service_t*>(it->second.service.get());
+		return *static_cast<service_t*>(it->second.get());
 
 	}
 
