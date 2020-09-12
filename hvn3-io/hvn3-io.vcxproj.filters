@@ -24,12 +24,18 @@
     <ClInclude Include="include\io\window_options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\core\application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\io\window.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\application.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

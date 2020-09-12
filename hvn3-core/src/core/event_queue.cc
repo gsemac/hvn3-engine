@@ -65,12 +65,16 @@ namespace hvn3::events {
 
 		assert(eventQueue != nullptr);
 
+		BeforeGetNextEvent(ev);
+
 		return al_get_next_event(eventQueue, ev.GetUnderlyingData());
 
 	}
 	bool EventQueue::PeekNextEvent(Event& ev) const {
 
 		assert(eventQueue != nullptr);
+
+		BeforeGetNextEvent(ev);
 
 		return al_peek_next_event(eventQueue, ev.GetUnderlyingData());
 
@@ -79,12 +83,16 @@ namespace hvn3::events {
 
 		assert(eventQueue != nullptr);
 
+		BeforeGetNextEvent(ev);
+
 		al_wait_for_event(eventQueue, ev.GetUnderlyingData());
 
 	}
 	bool EventQueue::WaitForEvent(Event& ev, const core::TimeSpan& timeout) {
 
 		assert(eventQueue != nullptr);
+
+		BeforeGetNextEvent(ev);
 
 		return al_wait_for_event_timed(eventQueue, ev.GetUnderlyingData(), static_cast<float>(timeout.Seconds()));
 
@@ -99,6 +107,15 @@ namespace hvn3::events {
 	EventQueue::operator bool() const {
 
 		return eventQueue != nullptr;
+
+	}
+
+	// Private members
+
+	void EventQueue::BeforeGetNextEvent(Event& ev) const {
+
+		if (ev.Type() == EventType::UserEvent)
+			al_unref_user_event(&ev.GetUnderlyingData()->user);
 
 	}
 

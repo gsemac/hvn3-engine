@@ -2,16 +2,26 @@
 
 namespace hvn3::events {
 
+	// Public members
+
 	ReadOnlyEventSource::ReadOnlyEventSource() :
-		EventSourceBase(nullptr, false) {
+		ReadOnlyEventSource(nullptr) {
 	}
-	ReadOnlyEventSource::ReadOnlyEventSource(underlying_t* eventSource, bool takeOwnership) :
-		EventSourceBase(eventSource, takeOwnership) {
+	ReadOnlyEventSource::ReadOnlyEventSource(underlying_t* eventSource) {
+
+		this->eventSource = eventSource;
+
+	}
+
+	ReadOnlyEventSource::underlying_t* ReadOnlyEventSource::GetUnderlyingData() const {
+
+		return eventSource;
+
 	}
 
 	ReadOnlyEventSource::operator bool() const {
 
-		return EventSourceBase::operator bool();
+		return eventSource != nullptr;
 
 	}
 

@@ -27,9 +27,6 @@
     <ClInclude Include="include\events\read_only_event_source.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\events\event_source_base.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\core\utf8_string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -120,12 +117,15 @@
     <ClInclude Include="include\core\lazy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\events\ievent_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\events\user_event_source.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\engine.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\event_source_base.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\events\read_only_event_source.cc">
@@ -150,6 +150,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\services\di_service_container.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\event_manager.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\user_event_source.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\event.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

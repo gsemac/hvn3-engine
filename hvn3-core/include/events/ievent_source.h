@@ -6,8 +6,13 @@ namespace hvn3::events {
 
 	class IEventSource {
 
+	protected:
+		using underlying_t = ALLEGRO_EVENT_SOURCE;
+
 	public:
-		virtual ALLEGRO_EVENT_SOURCE* GetUnderlyingData() const = 0;
+		virtual ~IEventSource() = default;
+
+		virtual underlying_t* GetUnderlyingData() const = 0;
 
 	};
 

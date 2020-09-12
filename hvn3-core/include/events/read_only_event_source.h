@@ -1,19 +1,22 @@
 #pragma once
 
-#include "events/event_source_base.h"
+#include "events/ievent_source.h"
 
 namespace hvn3::events {
 
 	class ReadOnlyEventSource :
-		public EventSourceBase {
-
-		using underlying_t = ALLEGRO_EVENT_SOURCE;
+		public IEventSource {
 
 	public:
 		ReadOnlyEventSource();
-		ReadOnlyEventSource(underlying_t* eventSource, bool takeOwnership);
+		ReadOnlyEventSource(underlying_t* eventSource);
+
+		underlying_t* GetUnderlyingData() const override;
 
 		explicit operator bool() const;
+
+	private:
+		underlying_t* eventSource;
 
 	};
 

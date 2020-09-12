@@ -37,6 +37,8 @@ namespace hvn3::events {
 	private:
 		underlying_t* eventQueue;
 
+		void BeforeGetNextEvent(Event& ev) const;
+
 	};
 
 }

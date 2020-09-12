@@ -36,7 +36,7 @@ namespace hvn3 {
 				}
 
 				template<typename T = ustr_pointer_type>
-				typename std::enable_if<!std::IsConst<T>::value, CharProxy&>::type operator=(value_type value) {
+				typename std::enable_if<!std::is_const<T>::value, CharProxy&>::type operator=(value_type value) {
 
 					assert(ustr != nullptr);
 					assert(index >= 0);

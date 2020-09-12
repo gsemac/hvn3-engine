@@ -9,8 +9,8 @@ namespace hvn3::events {
 	public:
 		virtual ~IEvent() = default;
 
-		virtual EventType Type() = 0;
-		virtual double Timestamp() = 0;
+		virtual EventType Type() const = 0;
+		virtual double Timestamp() const = 0;
 
 	};
 

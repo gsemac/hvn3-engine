@@ -167,7 +167,7 @@ namespace hvn3::io {
 	const events::IEventSource& Window::GetEventSource() const {
 
 		if (!eventSource)
-			eventSource = events::ReadOnlyEventSource(al_get_display_event_source(GetUnderlyingData()), false);
+			eventSource = events::ReadOnlyEventSource(al_get_display_event_source(GetUnderlyingData()));
 
 		return eventSource;
 

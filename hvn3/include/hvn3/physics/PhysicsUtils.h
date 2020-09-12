@@ -62,7 +62,7 @@ namespace hvn3 {
 	}
 	void ApplyPositionalCorrection(const PhysicsComponent& body1, TransformComponent& transform1, const PhysicsComponent& body2, TransformComponent& transform2, const CollisionInfo& collisionInfo) {
 
-		const float percentage_fix = 0.2;
+		const float percentage_fix = 0.2f;
 		const float sink_allowance = 0.01f;
 
 		float correction_scalar = std::max(collisionInfo.PenetrationDepth() - sink_allowance, 0.0f) / (body1.InverseMass() + body2.InverseMass()) * percentage_fix;

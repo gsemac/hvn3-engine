@@ -18,8 +18,9 @@ namespace hvn3::events {
 		virtual ~IUserEvent() = default;
 
 		virtual void* Data() = 0;
+		virtual IUserEvent* Clone() const = 0;
 
-		virtual void Dispatch(const MultiEventBus& eventListenerContainer) = 0;
+		virtual void Dispatch(MultiEventBus& eventListenerContainer) = 0;
 
 	};
 

@@ -163,6 +163,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\core\application.h" />
     <ClInclude Include="include\io\file_access.h" />
     <ClInclude Include="include\io\window.h" />
     <ClInclude Include="include\io\window_options.h" />
@@ -171,6 +172,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\application.cc" />
     <ClCompile Include="src\io\window.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

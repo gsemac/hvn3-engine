@@ -158,6 +158,7 @@
     <ClInclude Include="include\core\type_traits.h" />
     <ClInclude Include="include\core\utf8_string.h" />
     <ClInclude Include="include\events\event_listener_base_base.h" />
+    <ClInclude Include="include\events\ievent_manager.h" />
     <ClInclude Include="include\events\ievent_queue.h" />
     <ClInclude Include="include\events\multi_event_bus.h" />
     <ClInclude Include="include\events\event.h" />
@@ -166,7 +167,6 @@
     <ClInclude Include="include\events\event_listener_priority.h" />
     <ClInclude Include="include\events\event_manager.h" />
     <ClInclude Include="include\events\event_queue.h" />
-    <ClInclude Include="include\events\event_source_base.h" />
     <ClInclude Include="include\events\event_type.h" />
     <ClInclude Include="include\events\ievent.h" />
     <ClInclude Include="include\events\ievent_bus.h" />
@@ -174,6 +174,7 @@
     <ClInclude Include="include\events\iuser_event.h" />
     <ClInclude Include="include\events\read_only_event_source.h" />
     <ClInclude Include="include\events\user_event.h" />
+    <ClInclude Include="include\events\user_event_source.h" />
     <ClInclude Include="include\iterators\cstring_iterator.h" />
     <ClInclude Include="include\iterators\iterable_range.h" />
     <ClInclude Include="include\iterators\output_transform_iterator.h" />
@@ -189,9 +190,11 @@
     <ClCompile Include="src\core\event_queue.cc" />
     <ClCompile Include="src\core\time_span.cc" />
     <ClCompile Include="src\core\utf8_string.cc" />
+    <ClCompile Include="src\events\event.cc" />
+    <ClCompile Include="src\events\event_manager.cc" />
     <ClCompile Include="src\events\multi_event_bus.cc" />
-    <ClCompile Include="src\events\event_source_base.cc" />
     <ClCompile Include="src\events\read_only_event_source.cc" />
+    <ClCompile Include="src\events\user_event_source.cc" />
     <ClCompile Include="src\services\di_service_container.cc" />
     <ClCompile Include="src\services\service_container.cc" />
   </ItemGroup>

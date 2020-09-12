@@ -14,33 +14,14 @@ namespace hvn3::events {
 		using underlying_t = ALLEGRO_EVENT;
 
 	public:
-		Event() :
-			timestamp(0.0),
-			underlyingEvent() {
-		}
-		Event(const underlying_t& event) :
-			Event() {
+		Event();
+		Event(const underlying_t& event);
+		~Event();
 
-			underlyingEvent = event;
+		EventType Type() const override;
+		double Timestamp() const override;
 
-		}
-
-		EventType Type() override {
-
-			return static_cast<EventType>(underlyingEvent.type);
-
-		}
-		double Timestamp() override {
-
-			return timestamp;
-
-		}
-
-		underlying_t* GetUnderlyingData() {
-
-			return &underlyingEvent;
-
-		}
+		underlying_t* GetUnderlyingData();
 
 	private:
 		double timestamp;
