@@ -14,7 +14,7 @@ namespace hvn3::events {
 	class IUserEvent;
 
 	class MultiEventBus :
-		IEventBus {
+		public IEventBus {
 
 		// The type of the container used for storing and looking up event listener containers.
 		typedef std::unordered_map<std::type_index, std::unique_ptr<IEventBus>> registry_container_type;
@@ -67,7 +67,7 @@ namespace hvn3::events {
 				container->Dispatch(ev);
 
 		}
-		template<typename EventType, typename ...Args> typename std::enable_if<!std::is_base_of<IUserEvent, EventType>::value, void>::type Dispatch(Args&&... args) {
+		template<typename EventType, typename... Args> typename std::enable_if<!std::is_base_of<IUserEvent, EventType>::value, void>::type Dispatch(Args&&... args) {
 
 			EventType eventData(std::forward<Args>(args)...);
 
@@ -168,7 +168,9 @@ namespace hvn3::events {
 
 			// Return the container.
 
-			container_type* container = it == _registry.end() ? nullptr : static_cast<container_type*>(it->second.get());
+			container_type* container = it == _registry.end() ? 
+				nullptr : 
+				static_cast<container_type*>(it->second.get());
 
 			return container;
 

@@ -21,13 +21,13 @@ namespace hvn3 {
 
 	void Application::InitializeWindow(const io::Window& window) {
 
-		//WindowInfo windowInfo(window);
+		WindowInfo windowInfo(window);
 
-		//windowInfo.services.RegisterService<events::IEventManager, events::EventManager>();
+		windowInfo.services.RegisterService<events::IEventManager, events::EventManager>();
 
-		//auto& eventManager = windowInfo.services.GetService<events::IEventManager>();
+		auto& eventManager = windowInfo.services.GetService<events::IEventManager>();
 
-		//windows.push_back(std::move(windowInfo));
+		windows.push_back(std::move(windowInfo));
 
 	}
 

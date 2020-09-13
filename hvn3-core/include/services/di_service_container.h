@@ -85,7 +85,7 @@ namespace hvn3::services {
 		public:
 			LazyServiceDescriptor(std::size_t id, LazyType&& lazy) :
 				id(id),
-				lazy(lazy) {
+				lazy(std::move(lazy)) {
 			}
 
 			std::size_t Id() override {
@@ -336,7 +336,7 @@ namespace hvn3::services {
 
 		// Insert the service into the container.
 
-		services.emplace(std::make_pair(std::type_index(typeid(service_t)), servicePtr));
+		services.insert(std::make_pair(std::type_index(typeid(service_t)), servicePtr));
 
 		idServiceMap.insert(std::make_pair(servicePtr->Id(), servicePtr));
 
