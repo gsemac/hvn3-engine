@@ -34,7 +34,29 @@ namespace hvn3::events {
 
 	}
 
+	IUserEvent* Event::GetUserEvent() const {
+
+		assert(GetUnderlyingData() != nullptr);
+
+		IUserEvent* userEvent = nullptr;
+
+		if (Type() == EventType::UserEvent && GetUnderlyingData()->user.data1 != 0) {
+
+			userEvent = reinterpret_cast<IUserEvent*>(GetUnderlyingData()->user.data1);
+
+			assert(userEvent != nullptr);
+
+		}
+
+		return userEvent;
+
+	}
 	Event::underlying_t* Event::GetUnderlyingData() {
+
+		return &underlyingEvent;
+
+	}
+	const Event::underlying_t* Event::GetUnderlyingData() const {
 
 		return &underlyingEvent;
 

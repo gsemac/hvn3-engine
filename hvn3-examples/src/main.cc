@@ -81,6 +81,7 @@ int main() {
 	std::cout << std::boolalpha << eventQueue.GetNextEvent(ev) << std::endl;
 
 	std::cout << (int)ev.Type() << std::endl;
+	std::cout << ev.GetUserEvent() << std::endl;
 
 	//hvn3::Application app;
 

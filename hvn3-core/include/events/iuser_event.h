@@ -20,7 +20,7 @@ namespace hvn3::events {
 		virtual void* Data() = 0;
 		virtual IUserEvent* Clone() const = 0;
 
-		virtual void Dispatch(MultiEventBus& eventListenerContainer) = 0;
+		virtual void DispatchTo(MultiEventBus& eventListenerContainer) = 0;
 
 	};
 

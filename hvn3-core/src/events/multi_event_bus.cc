@@ -5,7 +5,7 @@ namespace hvn3::events {
 
 	void MultiEventBus::Dispatch(IUserEvent& ev) {
 
-		ev.Dispatch(*this);
+		ev.DispatchTo(*this);
 
 	}
 

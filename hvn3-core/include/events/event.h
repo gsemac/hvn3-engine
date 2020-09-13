@@ -8,6 +8,8 @@
 
 namespace hvn3::events {
 
+	class IUserEvent;
+
 	class Event :
 		IEvent {
 
@@ -21,7 +23,9 @@ namespace hvn3::events {
 		EventType Type() const override;
 		double Timestamp() const override;
 
+		IUserEvent* GetUserEvent() const;
 		underlying_t* GetUnderlyingData();
+		const underlying_t* GetUnderlyingData() const;
 
 	private:
 		double timestamp;

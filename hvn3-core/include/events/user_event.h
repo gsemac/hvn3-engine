@@ -22,7 +22,7 @@ namespace hvn3::events {
 		void* Data() override;
 		IUserEvent* Clone() const override;
 
-		void Dispatch(MultiEventBus& eventDispatcher) override;
+		void DispatchTo(MultiEventBus& eventBus) override;
 
 		events::EventType Type() const override;
 		double Timestamp() const override;
@@ -64,9 +64,9 @@ namespace hvn3::events {
 
 	}
 	template<typename EventType>
-	void UserEvent<EventType>::Dispatch(MultiEventBus& eventDispatcher) {
+	void UserEvent<EventType>::DispatchTo(MultiEventBus& eventBus) {
 
-		eventDispatcher.Dispatch<EventType>(data);
+		eventBus.Dispatch<EventType>(data);
 
 	}
 
