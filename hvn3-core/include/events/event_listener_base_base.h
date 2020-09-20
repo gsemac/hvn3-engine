@@ -2,6 +2,7 @@
 
 #include "core/type_list.h"
 
+#include <functional>
 #include <type_traits>
 #include <vector>
 
@@ -18,6 +19,11 @@ namespace hvn3 {
 
 	namespace internal {
 
+		template<typename EventType>
+		using event_handler_callback_parameter_t = typename std::conditional<std::is_fundamental<EventType>::value, EventType, EventType&>::type;
+		template<typename EventType>
+		using event_handler_callback_t = std::function<void(event_handler_callback_parameter_t<EventType>)>;
+
 		// This base class is used for each event handler method that should be present in the event listener.
 
 		template<typename EventType>
@@ -26,7 +32,7 @@ namespace hvn3 {
 			friend class events::EventBus<EventType>;
 
 		protected:
-			typedef typename std::conditional<std::is_fundamental<EventType>::value, EventType, EventType&>::type parameter_type;
+			typedef event_handler_callback_parameter_t<EventType> parameter_type;
 
 		public:
 			virtual ~EventListenerBaseMethodBase() {
@@ -44,12 +50,12 @@ namespace hvn3 {
 			std::vector<events::IEventBus*> subscriptions;
 
 			void RegisterSubscription(events::IEventBus* eventDispatcher) {
-			
+
 				subscriptions.push_back(eventDispatcher);
 
 			}
 			void UnregisterSubscription(events::IEventBus* eventDispatcher) {
-			
+
 				subscriptions.erase(std::remove(subscriptions.begin(), subscriptions.end(), eventDispatcher), subscriptions.end());
 
 			}

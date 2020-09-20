@@ -16,9 +16,6 @@ namespace hvn3::events {
 	class MultiEventBus :
 		public IEventBus {
 
-		// The type of the container used for storing and looking up event listener containers.
-		typedef std::unordered_map<std::type_index, std::unique_ptr<IEventBus>> registry_container_type;
-
 	public:
 		template<typename EventType, typename... EventTypes, typename EventListenerType>
 		void Subscribe(EventListenerType* listener, EventListenerPriority priority = EventListenerPriority::Normal) {
@@ -30,6 +27,14 @@ namespace hvn3::events {
 		void Subscribe(EventListenerType* listener, EventListenerPriority priority = EventListenerPriority::Normal) {
 
 			SubscribeTypeList(typename EventListenerType::event_types(), listener, priority);
+
+		}
+		template<typename EventType>
+		void Subscribe(const internal::event_handler_callback_t<EventType>& callback, EventListenerPriority priority = EventListenerPriority::Normal) {
+
+			using event_type = internal::event_handler_callback_parameter_t<EventType>;
+
+			SubscribeInternal<event_type>(callback, priority);
 
 		}
 
@@ -81,7 +86,9 @@ namespace hvn3::events {
 		size_type Count() const override;
 
 	private:
-		registry_container_type _registry;
+		typedef std::unordered_map<std::type_index, std::unique_ptr<IEventBus>> container_type; // The type of the container used for storing and looking up event listener containers
+
+		container_type registry;
 
 		template<typename EventType, typename... EventTypes, typename EventListenerType>
 		void SubscribeTypeList(core::TypeList<EventType, EventTypes...>, EventListenerType* listener, EventListenerPriority priority) {
@@ -121,6 +128,19 @@ namespace hvn3::events {
 			container->Subscribe(listener, priority);
 
 		}
+		template<typename EventType>
+		void SubscribeInternal(const internal::event_handler_callback_t<EventType>& callback, EventListenerPriority priority) {
+
+			using event_type = EventType;
+			using container_type = EventBus<event_type>;
+
+			container_type* container = GetContainerFromEventType<event_type>(true);
+
+			assert(container != nullptr);
+
+			container->Subscribe(callback, priority);
+
+		}
 		template<typename EventType, typename EventListenerType>
 		void UnsubscribeInternal(EventListenerType* listener) {
 
@@ -154,22 +174,22 @@ namespace hvn3::events {
 			using container_type = EventBus<event_type>;
 
 			// Attempt to find an appropriate container for this listener.
-			auto it = _registry.find(typeid(event_type));
+			auto it = registry.find(typeid(event_type));
 
-			if (it == _registry.end() && createIfNotExists) {
+			if (it == registry.end() && createIfNotExists) {
 
 				// If no such container exists, add one.
 
 				std::unique_ptr<container_interface_type> item = std::make_unique<container_type>();
 
-				it = _registry.insert({ typeid(event_type), std::move(item) }).first;
+				it = registry.insert({ typeid(event_type), std::move(item) }).first;
 
 			}
 
 			// Return the container.
 
-			container_type* container = it == _registry.end() ? 
-				nullptr : 
+			container_type* container = it == registry.end() ?
+				nullptr :
 				static_cast<container_type*>(it->second.get());
 
 			return container;

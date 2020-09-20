@@ -19,8 +19,8 @@ namespace hvn3::events {
 	protected:
 		typedef EventType event_type; // The type of event that this container stores listeners for
 		typedef internal::EventListenerBaseMethodBase<event_type> handler_type; // The type of the actual event handler
-		typedef typename std::conditional<std::is_fundamental_v<event_type>, event_type, event_type&>::type parameter_type;
-		typedef std::function<void(parameter_type)> callback_type;
+		typedef internal::event_handler_callback_parameter_t<EventType> parameter_type;
+		typedef internal::event_handler_callback_t<EventType> callback_type;
 
 	private:
 

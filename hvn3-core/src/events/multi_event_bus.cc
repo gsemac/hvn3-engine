@@ -13,7 +13,7 @@ namespace hvn3::events {
 
 		bool unsubbed = false;
 
-		for (auto i = _registry.begin(); i != _registry.end(); ++i)
+		for (auto i = registry.begin(); i != registry.end(); ++i)
 			unsubbed = i->second->Unsubscribe(eventListener) || unsubbed;
 
 		return unsubbed;
@@ -24,7 +24,7 @@ namespace hvn3::events {
 
 		size_type count = 0;
 
-		for (auto i = _registry.begin(); i != _registry.end(); ++i)
+		for (auto i = registry.begin(); i != registry.end(); ++i)
 			count += i->second->Count();
 
 		return count;

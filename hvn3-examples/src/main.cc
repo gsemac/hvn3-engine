@@ -65,9 +65,9 @@ int main() {
 
 	io::Window window(640, 480, "hello world", io::WindowOptions::Resizable);
 
-	events::EventBus<int> bus;
+	events::MultiEventBus bus;
 
-	bus.Subscribe(
+	bus.Subscribe<int>(
 		[](int ev) {
 
 			std::cout << "got event: " << ev << std::endl;
