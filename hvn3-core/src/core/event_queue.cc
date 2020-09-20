@@ -79,13 +79,15 @@ namespace hvn3::events {
 		return al_peek_next_event(eventQueue, ev.GetUnderlyingData());
 
 	}
-	void EventQueue::WaitForEvent(Event& ev) {
+	bool EventQueue::WaitForEvent(Event& ev) {
 
 		assert(eventQueue != nullptr);
 
 		BeforeGetNextEvent(ev);
 
 		al_wait_for_event(eventQueue, ev.GetUnderlyingData());
+
+		return true;
 
 	}
 	bool EventQueue::WaitForEvent(Event& ev, const core::TimeSpan& timeout) {

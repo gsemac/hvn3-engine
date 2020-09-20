@@ -8,6 +8,7 @@
 #include "events/user_event_source.h"
 #include "events/user_event.h"
 #include "events/event_queue.h"
+#include "events/event_manager.h"
 
 using namespace hvn3;
 
@@ -64,48 +65,30 @@ int main() {
 
 	io::Window window(640, 480, "hello world", io::WindowOptions::Resizable);
 
-	events::UserEventSource eventSource;
-	events::EventQueue eventQueue;
+	events::EventBus<int> bus;
 
-	eventQueue.RegisterEventSource(eventSource);
+	bus.Subscribe(
+		[](int ev) {
 
-	auto event = events::make_event(MyEventData());
+			std::cout << "got event: " << ev << std::endl;
 
-	std::cout << "pushing event\n";
+		}
+	);
 
-	eventSource.PushEvent(event);
+	bus.Dispatch(5);
 
-	events::Event ev;
+	//events::EventManager eventManager;
 
-	std::cout << std::boolalpha << eventQueue.IsEmpty() << std::endl;
-	std::cout << std::boolalpha << eventQueue.GetNextEvent(ev) << std::endl;
+	//eventManager.GetEventQueue().RegisterEventSource(window.GetEventSource());
 
-	std::cout << (int)ev.Type() << std::endl;
-	std::cout << ev.GetUserEvent() << std::endl;
+	//events::Event ev;
 
-	//hvn3::Application app;
+	//while (eventManager.GetEventQueue().WaitForEvent(ev))
+	//	std::cout << (int)ev.Type();
 
-	//app.Run(window);
+	hvn3::Application app;
 
-	//services::DIServiceContainer services;
-
-	//services.RegisterService(std::make_shared<int>(6));
-	//services.RegisterService<MyService>();
-
-	//getchar();
-
-	//events::MultiEventBus bus;
-	//MyEventListener listener;
-
-	//bus.Subscribe(&listener);
-
-	//bus.Dispatch(5);
-	//bus.Dispatch(4);
-	//bus.Dispatch(3);
-	//bus.Dispatch(2.0f);
-	//bus.Dispatch(1);
-
-	//std::cout << "dispatcher.Count(): " << bus.Count() << '\n';
+	app.Run(window);
 
 	getchar();
 

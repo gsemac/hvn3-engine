@@ -17,7 +17,7 @@ namespace hvn3::events {
 		virtual bool IsEmpty() const = 0;
 		virtual bool GetNextEvent(Event& ev) = 0;
 		virtual bool PeekNextEvent(Event& ev) const = 0;
-		virtual void WaitForEvent(Event& ev) = 0;
+		virtual bool WaitForEvent(Event& ev) = 0;
 		virtual bool WaitForEvent(Event& ev, const core::TimeSpan& timeout) = 0;
 
 	};

@@ -15,6 +15,8 @@ namespace hvn3 {
 
 		InitializeWindow(window);
 
+		Run();
+
 	}
 
 	// Private members
@@ -27,7 +29,23 @@ namespace hvn3 {
 
 		auto& eventManager = windowInfo.services.GetService<events::IEventManager>();
 
+		eventManager.GetEventQueue().RegisterEventSource(window.GetEventSource());
+
 		windows.push_back(std::move(windowInfo));
+
+	}
+	void Application::Run() {
+
+		events::Event ev;
+
+		while (true) {
+
+			auto& eventManager = windows[0].services.GetService<events::IEventManager>();
+
+			if (eventManager.GetEventQueue().WaitForEvent(ev))
+				std::cout << (int)ev.Type() << std::endl;
+
+		}
 
 	}
 

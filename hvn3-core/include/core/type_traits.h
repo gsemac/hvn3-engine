@@ -12,5 +12,7 @@ namespace hvn3::core {
 	struct is_any<T, U, Ts...> {
 		static constexpr bool value = std::is_same<T, U>::value || is_any<T, Ts...>::value;
 	};
+	template<typename ...Ts>
+	constexpr bool is_any_v = is_any<Ts...>::value;
 
 }

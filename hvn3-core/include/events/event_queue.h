@@ -27,7 +27,7 @@ namespace hvn3::events {
 		bool IsEmpty() const override;
 		bool GetNextEvent(Event& ev)override;
 		bool PeekNextEvent(Event& ev) const override;
-		void WaitForEvent(Event& ev) override;
+		bool WaitForEvent(Event& ev) override;
 		bool WaitForEvent(Event& ev, const core::TimeSpan& timeout) override;
 
 		underlying_t* GetUnderlyingData();

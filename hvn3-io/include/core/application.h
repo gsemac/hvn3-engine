@@ -26,6 +26,7 @@ namespace hvn3 {
 		std::vector<WindowInfo> windows;
 
 		void InitializeWindow(const io::Window& window);
+		void Run();
 
 	};
 
