@@ -210,12 +210,6 @@
     <ClInclude Include="include\utilities\hash_builder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\utilities\random.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utilities\size.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\utilities\string_comparison.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -229,6 +223,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\core\iwindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\size.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -308,13 +308,13 @@
     <ClCompile Include="src\utilities\hash_builder.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\utilities\random.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\utilities\string_utilities.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\core\window.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\random.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

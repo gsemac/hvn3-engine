@@ -35,14 +35,14 @@ namespace hvn3::core {
 		al_convert_memory_bitmaps();
 
 	}
-	Window::Window(const utilities::SizeI& size) :
+	Window::Window(const SizeI& size) :
 		Window(size.width, size.height) {}
-	Window::Window(const utilities::SizeI& size, WindowOptions options) :
+	Window::Window(const SizeI& size, WindowOptions options) :
 		Window(size, "", options) {
 	}
-	Window::Window(const utilities::SizeI& size, const String& title) :
+	Window::Window(const SizeI& size, const String& title) :
 		Window(size.width, size.height, title) {}
-	Window::Window(const utilities::SizeI& size, const String& title, WindowOptions options) :
+	Window::Window(const SizeI& size, const String& title, WindowOptions options) :
 		Window(size.width, size.height, title, options) {}
 	Window::Window(ALLEGRO_DISPLAY* allegroDisplay, bool takeOwnership) {
 
@@ -75,12 +75,12 @@ namespace hvn3::core {
 
 	}
 
-	utilities::SizeI Window::Size() const {
+	SizeI Window::Size() const {
 
-		return utilities::SizeI(Width(), Height());
+		return SizeI(Width(), Height());
 
 	}
-	void Window::SetSize(const utilities::SizeI& size) {
+	void Window::SetSize(const SizeI& size) {
 
 		SetSize(size.width, size.height);
 

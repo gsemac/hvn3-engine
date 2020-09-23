@@ -216,8 +216,8 @@
     <ClInclude Include="include\utilities\bitflags.h" />
     <ClInclude Include="include\utilities\convert.h" />
     <ClInclude Include="include\utilities\hash_builder.h" />
-    <ClInclude Include="include\utilities\random.h" />
-    <ClInclude Include="include\utilities\size.h" />
+    <ClInclude Include="include\core\random.h" />
+    <ClInclude Include="include\core\size.h" />
     <ClInclude Include="include\utilities\string_comparison.h" />
     <ClInclude Include="include\utilities\string_utilities.h" />
   </ItemGroup>
@@ -248,7 +248,7 @@
     <ClCompile Include="src\services\di_service_container.cc" />
     <ClCompile Include="src\services\service_container.cc" />
     <ClCompile Include="src\utilities\hash_builder.cc" />
-    <ClCompile Include="src\utilities\random.cc" />
+    <ClCompile Include="src\core\random.cc" />
     <ClCompile Include="src\utilities\string_utilities.cc" />
   </ItemGroup>
   <ItemGroup>

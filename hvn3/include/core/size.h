@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace hvn3::utilities {
+namespace hvn3::core {
 
 	template<typename T>
 	class Size {

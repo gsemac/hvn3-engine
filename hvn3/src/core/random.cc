@@ -1,9 +1,9 @@
-#include "utilities/random.h"
+#include "core/random.h"
 
 #include <ctime>
 #include <limits>
 
-namespace hvn3::utilities {
+namespace hvn3::core {
 
 	// Public members
 

@@ -1,7 +1,7 @@
+#include "core/random.h"
 #include "graphics/color.h"
 #include "math/math.h"
 #include "utilities/convert.h"
-#include "utilities/random.h"
 
 #include <algorithm>
 #include <cmath>
@@ -305,7 +305,7 @@ namespace hvn3::graphics {
 
 	Color Color::Random() {
 
-		return Color(utilities::Random::Byte(), utilities::Random::Byte(), utilities::Random::Byte());
+		return Color(core::Random::Byte(), core::Random::Byte(), core::Random::Byte());
 
 	}
 

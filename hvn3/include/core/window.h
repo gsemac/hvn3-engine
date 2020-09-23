@@ -1,12 +1,12 @@
 #pragma once
 
+#include "core/size.h"
 #include "core/utf8_string.h"
 #include "core/window_options.h"
 #include "events/read_only_event_source.h"
 #include "graphics/bitmap.h"
 #include "graphics/graphics.h"
 #include "math/point.h"
-#include "utilities/size.h"
 
 #include <memory>
 
@@ -21,18 +21,18 @@ namespace hvn3::core {
 		Window(int width, int height, WindowOptions options);
 		Window(int width, int height, const core::String& title);
 		Window(int width, int height, const core::String& title, WindowOptions options);
-		Window(const utilities::SizeI& size);
-		Window(const utilities::SizeI& size, WindowOptions options);
-		Window(const utilities::SizeI& size, const core::String& title);
-		Window(const utilities::SizeI& size, const core::String& title, WindowOptions options);
+		Window(const SizeI& size);
+		Window(const SizeI& size, WindowOptions options);
+		Window(const SizeI& size, const core::String& title);
+		Window(const SizeI& size, const core::String& title, WindowOptions options);
 		Window(ALLEGRO_DISPLAY* allegroDisplay, bool takeOwnership);
 
 		void SetTitle(const core::String& value);
 
 		void SetIcon(const graphics::Bitmap& icon);
 
-		utilities::SizeI Size() const;
-		void SetSize(const utilities::SizeI& size);
+		SizeI Size() const;
+		void SetSize(const SizeI& size);
 		void SetSize(int width, int height);
 
 		int Width() const;
@@ -58,8 +58,8 @@ namespace hvn3::core {
 		mutable events::ReadOnlyEventSource eventSource;
 		graphics::Bitmap icon;
 		graphics::Graphics canvas;
-		utilities::SizeI creationSize;
-		utilities::SizeI sizeBeforeFullscreen;
+		SizeI creationSize;
+		SizeI sizeBeforeFullscreen;
 		math::PointI positionBeforeFullscreen;
 
 		static void SetNewWindowTitle(const core::String& title);
