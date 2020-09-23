@@ -36,14 +36,13 @@ namespace hvn3 {
 	}
 	void Application::Run() {
 
-		events::Event ev;
+		bool handleEvents = true;
 
-		while (true) {
+		while (handleEvents) {
 
 			auto& eventManager = windows[0].services.GetService<events::IEventManager>();
 
-			if (eventManager.GetEventQueue().WaitForEvent(ev))
-				std::cout << (int)ev.Type() << std::endl;
+			eventManager.DoEvents(true);
 
 		}
 

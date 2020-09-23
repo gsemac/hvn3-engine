@@ -65,27 +65,6 @@ int main() {
 
 	io::Window window(640, 480, "hello world", io::WindowOptions::Resizable);
 
-	events::MultiEventBus bus;
-
-	bus.Subscribe<int>(
-		[](int ev) {
-
-			std::cout << "got event: " << ev << std::endl;
-
-		}
-	);
-
-	bus.Dispatch(5);
-
-	//events::EventManager eventManager;
-
-	//eventManager.GetEventQueue().RegisterEventSource(window.GetEventSource());
-
-	//events::Event ev;
-
-	//while (eventManager.GetEventQueue().WaitForEvent(ev))
-	//	std::cout << (int)ev.Type();
-
 	hvn3::Application app;
 
 	app.Run(window);

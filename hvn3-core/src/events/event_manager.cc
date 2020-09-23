@@ -1,5 +1,7 @@
 #include "events/event_manager.h"
 
+#include <iostream>
+
 namespace hvn3::events {
 
 	// Public members
@@ -22,6 +24,56 @@ namespace hvn3::events {
 	const MultiEventBus& EventManager::GetEventBus() const {
 
 		return eventBus;
+
+	}
+
+	bool EventManager::DoEvents(bool waitForEvent) {
+
+		bool gotEvent = false;
+
+		Event ev;
+
+		do {
+
+			// Get the next event from the event queue.
+			// If we're waiting for an event, we'll only wait for the first one.
+
+			gotEvent = waitForEvent ?
+				GetEventQueue().WaitForEvent(ev) :
+				GetEventQueue().GetNextEvent(ev);
+
+			waitForEvent = false;
+
+			if (gotEvent)
+				DoEvent(ev);
+
+		} while (gotEvent);
+
+		// Indicate to the caller whether or not any events were received.
+
+		return gotEvent;
+
+	}
+
+	// Private members
+
+	void EventManager::DoEvent(Event& ev) {
+
+		switch (ev.Type()) {
+
+		case EventType::DisplayClose:
+
+			OnDisplayClose(ev);
+
+			break;
+
+		}
+
+	}
+
+	void EventManager::OnDisplayClose(Event& ev) {
+
+		std::cout << "Display was closed\n";
 
 	}
 

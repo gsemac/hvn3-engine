@@ -16,6 +16,8 @@ namespace hvn3::events {
 		virtual MultiEventBus& GetEventBus() = 0;
 		virtual const MultiEventBus& GetEventBus() const = 0;
 
+		virtual bool DoEvents(bool waitForEvent = false) = 0;
+
 	};
 
 }

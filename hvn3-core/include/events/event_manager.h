@@ -15,9 +15,15 @@ namespace hvn3::events {
 		MultiEventBus& GetEventBus() override;
 		const MultiEventBus& GetEventBus() const override;
 
+		bool DoEvents(bool waitForEvent) override;
+
 	private:
 		EventQueue eventQueue;
 		MultiEventBus eventBus;
+
+		void DoEvent(Event& ev);
+
+		void OnDisplayClose(Event& ev);
 
 	};
 
