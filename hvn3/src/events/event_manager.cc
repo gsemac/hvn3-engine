@@ -1,6 +1,5 @@
+#include "events/display_events.h"
 #include "events/event_manager.h"
-
-#include <iostream>
 
 namespace hvn3::events {
 
@@ -73,7 +72,7 @@ namespace hvn3::events {
 
 	void EventManager::OnDisplayClose(Event& ev) {
 
-		std::cout << "Display was closed\n";
+		GetEventBus().Dispatch(DisplayCloseEvent());
 
 	}
 

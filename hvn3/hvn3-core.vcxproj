@@ -159,6 +159,8 @@
     <ClInclude Include="include\core\type_list.h" />
     <ClInclude Include="include\core\type_traits.h" />
     <ClInclude Include="include\core\utf8_string.h" />
+    <ClInclude Include="include\events\display_events.h" />
+    <ClInclude Include="include\events\event_base.h" />
     <ClInclude Include="include\events\event_listener_base_base.h" />
     <ClInclude Include="include\events\ievent_manager.h" />
     <ClInclude Include="include\events\ievent_queue.h" />
@@ -228,6 +230,7 @@
     <ClCompile Include="src\core\time_span.cc" />
     <ClCompile Include="src\core\utf8_string.cc" />
     <ClCompile Include="src\events\event.cc" />
+    <ClCompile Include="src\events\event_base.cc" />
     <ClCompile Include="src\events\event_manager.cc" />
     <ClCompile Include="src\events\multi_event_bus.cc" />
     <ClCompile Include="src\events\read_only_event_source.cc" />

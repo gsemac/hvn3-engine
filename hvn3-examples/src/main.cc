@@ -62,7 +62,7 @@ public:
 };
 
 int main() {
-	
+
 	core::Window window(640, 480, "hello world", core::WindowOptions::Resizable);
 
 	core::Application app;
