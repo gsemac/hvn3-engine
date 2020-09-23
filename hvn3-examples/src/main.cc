@@ -2,7 +2,7 @@
 
 #include "events/event_listener_base.h"
 #include "events/multi_event_bus.h"
-#include "io/window.h"
+#include "graphics/window.h"
 #include "services/di_service_container.h"
 #include "core/application.h"
 #include "events/user_event_source.h"
@@ -62,8 +62,8 @@ public:
 };
 
 int main() {
-
-	io::Window window(640, 480, "hello world", io::WindowOptions::Resizable);
+	
+	graphics::Window window(640, 480, "hello world", graphics::WindowOptions::Resizable);
 
 	hvn3::Application app;
 
