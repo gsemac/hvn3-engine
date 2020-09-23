@@ -96,7 +96,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>hvn3-graphics.lib;hvn3-utilities.lib;hvn3-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>hvn3-graphics.lib;hvn3-utilities.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(TargetDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -118,7 +118,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>hvn3-graphics.lib;hvn3-utilities.lib;hvn3-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>hvn3-graphics.lib;hvn3-utilities.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(TargetDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -136,7 +136,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>hvn3-graphics.lib;hvn3-utilities.lib;hvn3-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>hvn3-graphics.lib;hvn3-utilities.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(TargetDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -158,7 +158,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>hvn3-graphics.lib;hvn3-utilities.lib;hvn3-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>hvn3-graphics.lib;hvn3-utilities.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(TargetDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
