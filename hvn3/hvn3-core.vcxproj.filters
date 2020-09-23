@@ -222,9 +222,6 @@
     <ClInclude Include="include\core\window_options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\core\iwindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\core\size.h">
       <Filter>Header Files</Filter>
     </ClInclude>

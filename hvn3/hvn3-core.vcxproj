@@ -191,7 +191,6 @@
     <ClInclude Include="include\graphics\igraphics.h" />
     <ClInclude Include="include\graphics\image_format.h" />
     <ClInclude Include="include\graphics\ipen.h" />
-    <ClInclude Include="include\core\iwindow.h" />
     <ClInclude Include="include\graphics\pen.h" />
     <ClInclude Include="include\graphics\pixel_format.h" />
     <ClInclude Include="include\graphics\transform.h" />
