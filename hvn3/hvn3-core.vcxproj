@@ -191,12 +191,12 @@
     <ClInclude Include="include\graphics\igraphics.h" />
     <ClInclude Include="include\graphics\image_format.h" />
     <ClInclude Include="include\graphics\ipen.h" />
-    <ClInclude Include="include\graphics\iwindow.h" />
+    <ClInclude Include="include\core\iwindow.h" />
     <ClInclude Include="include\graphics\pen.h" />
     <ClInclude Include="include\graphics\pixel_format.h" />
     <ClInclude Include="include\graphics\transform.h" />
-    <ClInclude Include="include\graphics\window.h" />
-    <ClInclude Include="include\graphics\window_options.h" />
+    <ClInclude Include="include\core\window.h" />
+    <ClInclude Include="include\core\window_options.h" />
     <ClInclude Include="include\io\file_access.h" />
     <ClInclude Include="include\iterators\cstring_iterator.h" />
     <ClInclude Include="include\iterators\iterable_range.h" />
@@ -242,7 +242,7 @@
     <ClCompile Include="src\graphics\image_format.cc" />
     <ClCompile Include="src\graphics\pen.cc" />
     <ClCompile Include="src\graphics\transform.cc" />
-    <ClCompile Include="src\graphics\window.cc" />
+    <ClCompile Include="src\core\window.cc" />
     <ClCompile Include="src\math\epsilon.cc" />
     <ClCompile Include="src\math\math.cc" />
     <ClCompile Include="src\services\di_service_container.cc" />

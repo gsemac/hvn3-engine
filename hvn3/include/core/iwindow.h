@@ -3,7 +3,7 @@
 #include "math/point.h"
 #include "utilities/size.h"
 
-namespace hvn3::graphics {
+namespace hvn3::core {
 
 	class IWindow {
 

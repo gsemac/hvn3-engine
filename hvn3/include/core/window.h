@@ -1,10 +1,10 @@
 #pragma once
 
 #include "core/utf8_string.h"
+#include "core/window_options.h"
 #include "events/read_only_event_source.h"
 #include "graphics/bitmap.h"
 #include "graphics/graphics.h"
-#include "graphics/window_options.h"
 #include "math/point.h"
 #include "utilities/size.h"
 
@@ -12,7 +12,7 @@
 
 #include <allegro5/allegro.h>
 
-namespace hvn3::graphics {
+namespace hvn3::core {
 
 	class Window {
 

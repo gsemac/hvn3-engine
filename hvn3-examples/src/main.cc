@@ -1,14 +1,14 @@
 #include <iostream>
 
-#include "events/event_listener_base.h"
-#include "events/multi_event_bus.h"
-#include "graphics/window.h"
-#include "services/di_service_container.h"
 #include "core/application.h"
-#include "events/user_event_source.h"
-#include "events/user_event.h"
-#include "events/event_queue.h"
+#include "core/window.h"
+#include "events/event_listener_base.h"
 #include "events/event_manager.h"
+#include "events/event_queue.h"
+#include "events/multi_event_bus.h"
+#include "events/user_event.h"
+#include "events/user_event_source.h"
+#include "services/di_service_container.h"
 
 using namespace hvn3;
 
@@ -63,9 +63,9 @@ public:
 
 int main() {
 	
-	graphics::Window window(640, 480, "hello world", graphics::WindowOptions::Resizable);
+	core::Window window(640, 480, "hello world", core::WindowOptions::Resizable);
 
-	hvn3::Application app;
+	core::Application app;
 
 	app.Run(window);
 

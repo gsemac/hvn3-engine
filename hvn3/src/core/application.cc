@@ -3,15 +3,15 @@
 
 #include <utility>
 
-namespace hvn3 {
+namespace hvn3::core {
 
 	// Public members
 
-	Application::WindowInfo::WindowInfo(const graphics::Window& window) :
+	Application::WindowInfo::WindowInfo(const Window& window) :
 		window(window) {
 	}
 
-	void Application::Run(const graphics::Window& window) {
+	void Application::Run(const Window& window) {
 
 		InitializeWindow(window);
 
@@ -21,7 +21,7 @@ namespace hvn3 {
 
 	// Private members
 
-	void Application::InitializeWindow(const graphics::Window& window) {
+	void Application::InitializeWindow(const Window& window) {
 
 		WindowInfo windowInfo(window);
 

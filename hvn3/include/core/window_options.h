@@ -2,7 +2,7 @@
 
 #include "utilities/bitflags.h"
 
-namespace hvn3::graphics {
+namespace hvn3::core {
 
 	enum class WindowOptions {
 		None = 0,

@@ -123,9 +123,6 @@
     <ClInclude Include="include\events\user_event_source.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\graphics\iwindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\math\epsilon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -198,12 +195,6 @@
     <ClInclude Include="include\graphics\transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\graphics\window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\graphics\window_options.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\core\application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -229,6 +220,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\utilities\string_utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\window_options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\iwindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -302,9 +302,6 @@
     <ClCompile Include="src\graphics\transform.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\window.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\application.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -315,6 +312,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\utilities\string_utilities.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\window.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

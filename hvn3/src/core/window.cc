@@ -1,9 +1,9 @@
-#include "graphics/window.h"
+#include "core/window.h"
 
 #include "core/engine.h"
 #include "events/read_only_event_source.h"
 
-namespace hvn3::graphics {
+namespace hvn3::core {
 
 	// Public members
 
@@ -12,14 +12,14 @@ namespace hvn3::graphics {
 	Window::Window(int width, int height, WindowOptions options) :
 		Window(width, height, "", options) {
 	}
-	Window::Window(int width, int height, const core::String& title) :
+	Window::Window(int width, int height, const String& title) :
 		Window(width, height, title, WindowOptions::None) {}
-	Window::Window(int width, int height, const core::String& title, WindowOptions options) :
+	Window::Window(int width, int height, const String& title, WindowOptions options) :
 		creationSize(width, height) {
 
 		// Core module is required in order to create windows (displays).
 
-		core::Engine::Initialize(core::EngineModules::Core);
+		Engine::Initialize(EngineModules::Core);
 
 		// Set the new window settings.
 
@@ -40,9 +40,9 @@ namespace hvn3::graphics {
 	Window::Window(const utilities::SizeI& size, WindowOptions options) :
 		Window(size, "", options) {
 	}
-	Window::Window(const utilities::SizeI& size, const core::String& title) :
+	Window::Window(const utilities::SizeI& size, const String& title) :
 		Window(size.width, size.height, title) {}
-	Window::Window(const utilities::SizeI& size, const core::String& title, WindowOptions options) :
+	Window::Window(const utilities::SizeI& size, const String& title, WindowOptions options) :
 		Window(size.width, size.height, title, options) {}
 	Window::Window(ALLEGRO_DISPLAY* allegroDisplay, bool takeOwnership) {
 
@@ -55,7 +55,7 @@ namespace hvn3::graphics {
 
 	}
 
-	void Window::SetTitle(const core::String& value) {
+	void Window::SetTitle(const String& value) {
 
 		assert(static_cast<bool>(window));
 
@@ -204,7 +204,7 @@ namespace hvn3::graphics {
 
 	// Private members
 
-	void Window::SetNewWindowTitle(const core::String& title) {
+	void Window::SetNewWindowTitle(const String& title) {
 
 		al_set_new_window_title(title.c_str());
 
@@ -254,7 +254,7 @@ namespace hvn3::graphics {
 
 		al_destroy_display(display);
 
-		core::Engine::Deinitialize(core::EngineModules::Core);
+		Engine::Deinitialize(EngineModules::Core);
 
 	}
 
