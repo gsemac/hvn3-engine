@@ -1,16 +1,19 @@
 #pragma once
 
-#include "core/window.h"
-#include "services/di_service_container.h"
+#include "core/iapplication.h"
 
 #include <vector>
 
 namespace hvn3::core {
 
-	class Application {
+	class Application :
+		public IApplication {
 
 	public:
-		void Run(const Window& window);
+		void Run(const Window& window) override;
+
+	protected:
+		void ConfigureServices(services::DIServiceContainer& services) override;
 
 	private:
 		class WindowInfo {

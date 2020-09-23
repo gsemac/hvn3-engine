@@ -153,6 +153,7 @@
     <ClInclude Include="include\core\application.h" />
     <ClInclude Include="include\core\engine.h" />
     <ClInclude Include="include\core\engine_modules.h" />
+    <ClInclude Include="include\core\iapplication.h" />
     <ClInclude Include="include\core\lazy.h" />
     <ClInclude Include="include\core\time_span.h" />
     <ClInclude Include="include\core\type_index.h" />

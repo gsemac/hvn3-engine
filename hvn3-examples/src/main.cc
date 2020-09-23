@@ -2,6 +2,7 @@
 
 #include "core/application.h"
 #include "core/window.h"
+#include "events/display_events.h"
 #include "events/event_listener_base.h"
 #include "events/event_manager.h"
 #include "events/event_queue.h"
@@ -12,50 +13,21 @@
 
 using namespace hvn3;
 
-class MyEventListener :
-	public events::EventListenerBase<int, float> {
+class MyApplication :
+	public core::Application {
 
-public:
-	void OnEvent(int ev) override {
+protected:
+	void ConfigureServices(services::DIServiceContainer& services) {
 
-		std::cout << ev;
+		Application::ConfigureServices(services);
 
-	}
-	void OnEvent(float ev) override {
+		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::DisplayCloseEvent>(
+			[](events::DisplayCloseEvent& e) {
 
-		std::cout << "float";
+				std::cout << "Display closed\n";
 
-	}
-
-};
-
-class MyService {
-
-public:
-	HVN3_INJECT(MyService(int intService)) {
-
-		std::cout << "int service value is " << intService << '\n';
-
-	}
-
-};
-
-class MyEventData {
-
-public:
-	MyEventData() {
-
-		std::cout << "Event data constructed\n";
-
-	}
-	MyEventData(const MyEventData&) {
-
-		std::cout << "Event data copy constructed\n";
-
-	}
-	~MyEventData() {
-
-		std::cout << "Event data destructed\n";
+			}
+		);
 
 	}
 
@@ -65,7 +37,7 @@ int main() {
 
 	core::Window window(640, 480, "hello world", core::WindowOptions::Resizable);
 
-	core::Application app;
+	MyApplication app;
 
 	app.Run(window);
 

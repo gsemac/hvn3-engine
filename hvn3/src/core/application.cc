@@ -19,17 +19,29 @@ namespace hvn3::core {
 
 	}
 
+	// Protected members
+
+	void Application::ConfigureServices(services::DIServiceContainer& services) {
+
+		services.RegisterService<events::IEventManager, events::EventManager>();
+
+	}
+
 	// Private members
 
 	void Application::InitializeWindow(const Window& window) {
 
 		WindowInfo windowInfo(window);
 
-		windowInfo.services.RegisterService<events::IEventManager, events::EventManager>();
+		ConfigureServices(windowInfo.services);
 
-		auto& eventManager = windowInfo.services.GetService<events::IEventManager>();
+		if (windowInfo.services.IsServiceRegistered<events::IEventManager>()) {
 
-		eventManager.GetEventQueue().RegisterEventSource(window.GetEventSource());
+			auto& eventManager = windowInfo.services.GetService<events::IEventManager>();
+
+			eventManager.GetEventQueue().RegisterEventSource(window.GetEventSource());
+
+		}
 
 		windows.push_back(std::move(windowInfo));
 
