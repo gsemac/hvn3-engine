@@ -150,10 +150,11 @@
   <ItemGroup>
     <ClInclude Include="include\allegro\allegro_ustr_iterator.h" />
     <ClInclude Include="include\core\algorithm.h" />
-    <ClInclude Include="include\core\application.h" />
+    <ClInclude Include="include\core\game_app.h" />
+    <ClInclude Include="include\core\app_base.h" />
     <ClInclude Include="include\core\engine.h" />
     <ClInclude Include="include\core\engine_modules.h" />
-    <ClInclude Include="include\core\iapplication.h" />
+    <ClInclude Include="include\core\iapp.h" />
     <ClInclude Include="include\core\lazy.h" />
     <ClInclude Include="include\core\time_span.h" />
     <ClInclude Include="include\core\type_index.h" />
@@ -225,9 +226,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\allegro\allegro_ustr_iterator.cc" />
-    <ClCompile Include="src\core\application.cc" />
+    <ClCompile Include="src\core\app_base.cc" />
     <ClCompile Include="src\core\engine.cc" />
     <ClCompile Include="src\core\event_queue.cc" />
+    <ClCompile Include="src\core\game_app.cc" />
     <ClCompile Include="src\core\time_span.cc" />
     <ClCompile Include="src\core\utf8_string.cc" />
     <ClCompile Include="src\events\event.cc" />

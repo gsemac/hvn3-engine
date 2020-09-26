@@ -195,9 +195,6 @@
     <ClInclude Include="include\graphics\transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\core\application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\io\file_access.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -234,7 +231,13 @@
     <ClInclude Include="include\events\event_base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\core\iapplication.h">
+    <ClInclude Include="include\core\iapp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\app_base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\game_app.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -308,9 +311,6 @@
     <ClCompile Include="src\graphics\transform.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\application.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\utilities\hash_builder.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -324,6 +324,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\events\event_base.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\app_base.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\game_app.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

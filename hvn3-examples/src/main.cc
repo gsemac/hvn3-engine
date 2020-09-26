@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "core/application.h"
+#include "core/game_app.h"
 #include "core/window.h"
 #include "events/display_events.h"
 #include "events/event_listener_base.h"
@@ -13,13 +13,13 @@
 
 using namespace hvn3;
 
-class MyApplication :
-	public core::Application {
+class MyApp :
+	public core::GameApp {
 
 protected:
 	void ConfigureServices(services::DIServiceContainer& services) {
 
-		Application::ConfigureServices(services);
+		GameApp::ConfigureServices(services);
 
 		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::DisplayCloseEvent>(
 			[](events::DisplayCloseEvent& e) {
@@ -37,7 +37,7 @@ int main() {
 
 	core::Window window(640, 480, "hello world", core::WindowOptions::Resizable);
 
-	MyApplication app;
+	MyApp app;
 
 	app.Run(window);
 

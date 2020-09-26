@@ -5,15 +5,12 @@
 
 namespace hvn3::core {
 
-	class IApplication {
+	class IApp {
 
 	public:
-		virtual ~IApplication() = default;
+		virtual ~IApp() = default;
 
 		virtual void Run(const Window& window) = 0;
-
-	protected:
-		virtual void ConfigureServices(services::DIServiceContainer& services) = 0;
 
 	};
 

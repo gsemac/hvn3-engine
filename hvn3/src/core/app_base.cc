@@ -1,17 +1,16 @@
-#include "core/application.h"
-#include "events/event_manager.h"
+#include "core/app_base.h"
 
-#include <utility>
+#include "events/event_manager.h"
 
 namespace hvn3::core {
 
 	// Public members
 
-	Application::WindowInfo::WindowInfo(const Window& window) :
+	AppBase::WindowInfo::WindowInfo(const Window& window) :
 		window(window) {
 	}
 
-	void Application::Run(const Window& window) {
+	void AppBase::Run(const Window& window) {
 
 		InitializeWindow(window);
 
@@ -21,7 +20,7 @@ namespace hvn3::core {
 
 	// Protected members
 
-	void Application::ConfigureServices(services::DIServiceContainer& services) {
+	void AppBase::ConfigureServices(services::DIServiceContainer& services) {
 
 		services.RegisterService<events::IEventManager, events::EventManager>();
 
@@ -29,7 +28,7 @@ namespace hvn3::core {
 
 	// Private members
 
-	void Application::InitializeWindow(const Window& window) {
+	void AppBase::InitializeWindow(const Window& window) {
 
 		WindowInfo windowInfo(window);
 
@@ -46,7 +45,7 @@ namespace hvn3::core {
 		windows.push_back(std::move(windowInfo));
 
 	}
-	void Application::Run() {
+	void AppBase::Run() {
 
 		bool handleEvents = true;
 
