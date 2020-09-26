@@ -2,6 +2,7 @@
 
 #include "core/type_list.h"
 
+#include <algorithm>
 #include <functional>
 #include <type_traits>
 #include <vector>
