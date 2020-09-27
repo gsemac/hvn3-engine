@@ -4,11 +4,11 @@
 
 namespace hvn3::events {
 
-	class DisplayCloseEvent :
-		public EventBase {
+	class TickEvent :
+		EventBase {
 
 	public:
-		DisplayCloseEvent();
+		TickEvent();
 
 	};
 

@@ -1,5 +1,6 @@
 #include "events/display_events.h"
 #include "events/event_manager.h"
+#include "events/timer_events.h"
 
 namespace hvn3::events {
 
@@ -66,6 +67,12 @@ namespace hvn3::events {
 
 			break;
 
+		case EventType::Timer:
+
+			OnTimer(ev);
+
+			break;
+
 		}
 
 	}
@@ -73,6 +80,11 @@ namespace hvn3::events {
 	void EventManager::OnDisplayClose(Event& ev) {
 
 		GetEventBus().Dispatch(DisplayCloseEvent());
+
+	}
+	void EventManager::OnTimer(Event& ev) {
+
+		GetEventBus().Dispatch(TickEvent());
 
 	}
 

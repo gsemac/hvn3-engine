@@ -8,6 +8,8 @@ namespace hvn3::events {
 
 		timer = std::shared_ptr<ALLEGRO_TIMER>(al_create_timer(secondsPerTick), al_destroy_timer);
 
+		SetEnabled(enabled);
+
 	}
 
 	void Timer::SetEnabled(bool enabled) {

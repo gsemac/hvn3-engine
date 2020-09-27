@@ -243,6 +243,9 @@
     <ClInclude Include="include\events\event_source.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\events\timer_events.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\engine.cc">
@@ -336,6 +339,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\events\event_source.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\display_events.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\timer_events.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

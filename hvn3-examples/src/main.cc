@@ -10,6 +10,7 @@
 #include "events/user_event.h"
 #include "events/user_event_source.h"
 #include "services/di_service_container.h"
+#include "events/timer_events.h"
 
 using namespace hvn3;
 
@@ -25,6 +26,14 @@ protected:
 			[](events::DisplayCloseEvent& e) {
 
 				std::cout << "Display closed\n";
+
+			}
+		);
+
+		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::TickEvent>(
+			[](events::TickEvent& e) {
+
+				std::cout << "timer tick\n";
 
 			}
 		);

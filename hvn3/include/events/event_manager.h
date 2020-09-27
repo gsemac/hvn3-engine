@@ -24,6 +24,7 @@ namespace hvn3::events {
 		void DoEvent(Event& ev);
 
 		void OnDisplayClose(Event& ev);
+		void OnTimer(Event& ev);
 
 	};
 
