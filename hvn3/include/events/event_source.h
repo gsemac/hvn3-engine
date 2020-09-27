@@ -2,21 +2,24 @@
 
 #include "events/ievent_source.h"
 
+#include <memory>
+
 namespace hvn3::events {
 
-	class ReadOnlyEventSource :
+	class EventSource :
 		public IEventSource {
 
 	public:
-		ReadOnlyEventSource();
-		ReadOnlyEventSource(underlying_t* eventSource);
+		EventSource();
+		EventSource(underlying_t* eventSource);
+		EventSource(std::shared_ptr<underlying_t> eventSource);
 
 		underlying_t* GetUnderlyingData() const override;
 
 		explicit operator bool() const;
 
 	private:
-		underlying_t* eventSource;
+		std::shared_ptr<underlying_t> eventSource;
 
 	};
 

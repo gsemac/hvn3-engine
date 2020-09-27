@@ -3,7 +3,7 @@
 #include "core/size.h"
 #include "core/utf8_string.h"
 #include "core/window_options.h"
-#include "events/read_only_event_source.h"
+#include "events/event_source.h"
 #include "graphics/bitmap.h"
 #include "graphics/graphics.h"
 #include "math/point.h"
@@ -55,7 +55,7 @@ namespace hvn3::core {
 
 	private:
 		std::shared_ptr<ALLEGRO_DISPLAY> window;
-		mutable events::ReadOnlyEventSource eventSource;
+		mutable events::EventSource eventSource;
 		graphics::Bitmap icon;
 		graphics::Graphics canvas;
 		SizeI creationSize;

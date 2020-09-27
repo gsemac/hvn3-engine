@@ -1,7 +1,7 @@
 #include "core/window.h"
 
 #include "core/engine.h"
-#include "events/read_only_event_source.h"
+#include "events/event_source.h"
 
 namespace hvn3::core {
 
@@ -167,7 +167,7 @@ namespace hvn3::core {
 	const events::IEventSource& Window::GetEventSource() const {
 
 		if (!eventSource)
-			eventSource = events::ReadOnlyEventSource(al_get_display_event_source(GetUnderlyingData()));
+			eventSource = events::EventSource(al_get_display_event_source(GetUnderlyingData()));
 
 		return eventSource;
 

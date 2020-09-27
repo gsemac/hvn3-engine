@@ -178,7 +178,8 @@
     <ClInclude Include="include\events\ievent_bus.h" />
     <ClInclude Include="include\events\ievent_source.h" />
     <ClInclude Include="include\events\iuser_event.h" />
-    <ClInclude Include="include\events\read_only_event_source.h" />
+    <ClInclude Include="include\events\event_source.h" />
+    <ClInclude Include="include\events\timer.h" />
     <ClInclude Include="include\events\user_event.h" />
     <ClInclude Include="include\events\user_event_source.h" />
     <ClInclude Include="include\graphics\alignment.h" />
@@ -236,7 +237,8 @@
     <ClCompile Include="src\events\event_base.cc" />
     <ClCompile Include="src\events\event_manager.cc" />
     <ClCompile Include="src\events\multi_event_bus.cc" />
-    <ClCompile Include="src\events\read_only_event_source.cc" />
+    <ClCompile Include="src\events\event_source.cc" />
+    <ClCompile Include="src\events\timer.cc" />
     <ClCompile Include="src\events\user_event_source.cc" />
     <ClCompile Include="src\graphics\bitmap.cc" />
     <ClCompile Include="src\graphics\bitmap_data.cc" />
