@@ -4,19 +4,28 @@
 
 namespace hvn3::events {
 
+	template<EventType EVENT_TYPE = EventType::Unspecified>
 	class EventBase :
 		public IEvent {
 
 	public:
-		EventType Type() const override;
-		double Timestamp() const override;
+		EventType Type() const override {
+
+			return EVENT_TYPE;
+
+		}
+		double Timestamp() const override {
+
+			return timestamp;
+
+		}
 
 	protected:
-		EventBase();
-		EventBase(EventType eventType);
+		EventBase() :
+			timestamp(0.0) {
+		}
 
 	private:
-		EventType eventType;
 		double timestamp;
 
 	};

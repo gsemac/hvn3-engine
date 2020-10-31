@@ -5,11 +5,7 @@
 namespace hvn3::events {
 
 	class TickEvent :
-		EventBase {
-
-	public:
-		TickEvent();
-
+		EventBase<EventType::Timer> {
 	};
 
 }

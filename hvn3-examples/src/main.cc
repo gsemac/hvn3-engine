@@ -11,6 +11,7 @@
 #include "events/user_event_source.h"
 #include "services/di_service_container.h"
 #include "events/timer_events.h"
+#include "events/graphics_events.h"
 
 using namespace hvn3;
 
@@ -34,6 +35,14 @@ protected:
 			[](events::TickEvent& e) {
 
 				std::cout << "timer tick\n";
+
+			}
+		);
+
+		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::FrameDrawEvent>(
+			[](events::FrameDrawEvent& e) {
+
+				std::cout << "redraw\n";
 
 			}
 		);

@@ -1,10 +1,15 @@
 #include "events/display_events.h"
 #include "events/event_manager.h"
+#include "events/graphics_events.h"
 #include "events/timer_events.h"
 
 namespace hvn3::events {
 
 	// Public members
+
+	EventManager::EventManager() :
+		pendingFrameDraw(false) {
+	}
 
 	IEventQueue& EventManager::GetEventQueue() {
 
@@ -49,6 +54,11 @@ namespace hvn3::events {
 
 		} while (gotEvent);
 
+		// If the event queue is empty, allow the next frame to be drawn.
+
+		if (pendingFrameDraw && GetEventQueue().IsEmpty())
+			OnFrameDraw();
+
 		// Indicate to the caller whether or not any events were received.
 
 		return gotEvent;
@@ -82,9 +92,18 @@ namespace hvn3::events {
 		GetEventBus().Dispatch(DisplayCloseEvent());
 
 	}
+	void EventManager::OnFrameDraw() {
+
+		GetEventBus().Dispatch(FrameDrawEvent());
+
+		pendingFrameDraw = false;
+
+	}
 	void EventManager::OnTimer(Event& ev) {
 
 		GetEventBus().Dispatch(TickEvent());
+
+		pendingFrameDraw = true;
 
 	}
 

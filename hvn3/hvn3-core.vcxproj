@@ -193,6 +193,7 @@
     <ClInclude Include="include\graphics\font_options.h" />
     <ClInclude Include="include\graphics\graphics.h" />
     <ClInclude Include="include\graphics\graphics_base.h" />
+    <ClInclude Include="include\events\graphics_events.h" />
     <ClInclude Include="include\graphics\ibrush.h" />
     <ClInclude Include="include\graphics\igraphics.h" />
     <ClInclude Include="include\graphics\image_format.h" />
@@ -234,14 +235,11 @@
     <ClCompile Include="src\core\game_app.cc" />
     <ClCompile Include="src\core\time_span.cc" />
     <ClCompile Include="src\core\utf8_string.cc" />
-    <ClCompile Include="src\events\display_events.cc" />
     <ClCompile Include="src\events\event.cc" />
-    <ClCompile Include="src\events\event_base.cc" />
     <ClCompile Include="src\events\event_manager.cc" />
     <ClCompile Include="src\events\multi_event_bus.cc" />
     <ClCompile Include="src\events\event_source.cc" />
     <ClCompile Include="src\events\timer.cc" />
-    <ClCompile Include="src\events\timer_events.cc" />
     <ClCompile Include="src\events\user_event_source.cc" />
     <ClCompile Include="src\graphics\bitmap.cc" />
     <ClCompile Include="src\graphics\bitmap_data.cc" />

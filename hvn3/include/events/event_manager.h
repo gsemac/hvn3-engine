@@ -10,6 +10,8 @@ namespace hvn3::events {
 		public IEventManager {
 
 	public:
+		EventManager();
+
 		IEventQueue& GetEventQueue() override;
 		const IEventQueue& GetEventQueue() const override;
 		MultiEventBus& GetEventBus() override;
@@ -20,10 +22,12 @@ namespace hvn3::events {
 	private:
 		EventQueue eventQueue;
 		MultiEventBus eventBus;
+		bool pendingFrameDraw;
 
 		void DoEvent(Event& ev);
 
 		void OnDisplayClose(Event& ev);
+		void OnFrameDraw();
 		void OnTimer(Event& ev);
 
 	};

@@ -246,6 +246,9 @@
     <ClInclude Include="include\events\timer_events.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\events\graphics_events.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\engine.cc">
@@ -326,9 +329,6 @@
     <ClCompile Include="src\core\random.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\events\event_base.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\app_base.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -339,12 +339,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\events\event_source.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\display_events.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\timer_events.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

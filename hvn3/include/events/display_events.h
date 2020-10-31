@@ -5,11 +5,7 @@
 namespace hvn3::events {
 
 	class DisplayCloseEvent :
-		public EventBase {
-
-	public:
-		DisplayCloseEvent();
-
+		public EventBase<EventType::DisplayClose> {
 	};
 
 }
