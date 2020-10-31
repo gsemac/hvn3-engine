@@ -4,7 +4,7 @@
 
 namespace hvn3::events {
 
-	class FrameDrawEvent :
+	class DrawFrameEvent :
 		EventBase<> {
 	};
 

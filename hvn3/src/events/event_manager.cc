@@ -94,7 +94,7 @@ namespace hvn3::events {
 	}
 	void EventManager::OnFrameDraw() {
 
-		GetEventBus().Dispatch(FrameDrawEvent());
+		GetEventBus().Dispatch(DrawFrameEvent());
 
 		pendingFrameDraw = false;
 

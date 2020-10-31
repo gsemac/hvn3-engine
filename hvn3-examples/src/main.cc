@@ -39,8 +39,8 @@ protected:
 			}
 		);
 
-		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::FrameDrawEvent>(
-			[](events::FrameDrawEvent& e) {
+		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::DrawFrameEvent>(
+			[](events::DrawFrameEvent& e) {
 
 				std::cout << "redraw\n";
 
