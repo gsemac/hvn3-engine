@@ -193,7 +193,7 @@
     <ClInclude Include="include\graphics\font_options.h" />
     <ClInclude Include="include\graphics\graphics.h" />
     <ClInclude Include="include\graphics\graphics_base.h" />
-    <ClInclude Include="include\events\graphics_events.h" />
+    <ClInclude Include="include\events\draw_events.h" />
     <ClInclude Include="include\graphics\graphics_manager.h" />
     <ClInclude Include="include\graphics\ibrush.h" />
     <ClInclude Include="include\graphics\igraphics.h" />

@@ -1,6 +1,6 @@
 #include "events/display_events.h"
+#include "events/draw_events.h"
 #include "events/event_manager.h"
-#include "events/graphics_events.h"
 #include "events/timer_events.h"
 
 namespace hvn3::events {

@@ -11,7 +11,7 @@
 #include "events/user_event_source.h"
 #include "services/di_service_container.h"
 #include "events/timer_events.h"
-#include "events/graphics_events.h"
+#include "events/draw_events.h"
 
 using namespace hvn3;
 

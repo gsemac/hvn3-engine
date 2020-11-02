@@ -1,7 +1,7 @@
 #pragma once
 
+#include "events/draw_events.h"
 #include "events/event_listener_base.h"
-#include "events/graphics_events.h"
 #include "events/ievent_manager.h"
 #include "graphics/igraphics_manager.h"
 #include "services/di_service_container.h"
