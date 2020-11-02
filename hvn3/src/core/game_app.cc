@@ -1,6 +1,7 @@
 #include "core/game_app.h"
 
 #include "events/ievent_manager.h"
+#include "graphics/graphics_manager.h"
 
 namespace hvn3::core {
 
@@ -10,7 +11,6 @@ namespace hvn3::core {
 
 	GameApp::GameApp() :
 		frameTimer(1.0 / FRAMES_PER_SECOND) {
-
 	}
 
 	// Protected members
@@ -19,6 +19,14 @@ namespace hvn3::core {
 
 		AppBase::ConfigureServices(services);
 
+		// Register the graphics service.
+
+		if (!services.IsServiceRegistered<graphics::IGraphicsManager>()) {
+
+			services.RegisterService<graphics::IGraphicsManager, graphics::GraphicsManager>();
+
+		}
+
 		// Register timer event source.
 
 		if (services.IsServiceRegistered<events::IEventManager>()) {
@@ -26,6 +34,10 @@ namespace hvn3::core {
 			services.GetService<events::IEventManager>().GetEventQueue().RegisterEventSource(frameTimer.GetEventSource());
 
 		}
+
+		// Ensure required services are instantiated.
+
+		services.GetService<graphics::IGraphicsManager>();
 
 	}
 

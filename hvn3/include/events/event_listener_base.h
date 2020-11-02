@@ -18,6 +18,10 @@ namespace hvn3 {
 		template<typename... EventTypes>
 		class EventListenerBase :
 			public internal::EventListenerBaseBase<typename core::TypeList<EventTypes...>::flatten_type> {
+
+		public:
+			virtual ~EventListenerBase() = default;
+
 		};
 
 	}

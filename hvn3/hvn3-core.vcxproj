@@ -194,8 +194,10 @@
     <ClInclude Include="include\graphics\graphics.h" />
     <ClInclude Include="include\graphics\graphics_base.h" />
     <ClInclude Include="include\events\graphics_events.h" />
+    <ClInclude Include="include\graphics\graphics_manager.h" />
     <ClInclude Include="include\graphics\ibrush.h" />
     <ClInclude Include="include\graphics\igraphics.h" />
+    <ClInclude Include="include\graphics\igraphics_manager.h" />
     <ClInclude Include="include\graphics\image_format.h" />
     <ClInclude Include="include\graphics\ipen.h" />
     <ClInclude Include="include\graphics\pen.h" />
@@ -247,6 +249,7 @@
     <ClCompile Include="src\graphics\font.cc" />
     <ClCompile Include="src\graphics\graphics.cc" />
     <ClCompile Include="src\graphics\graphics_base.cc" />
+    <ClCompile Include="src\graphics\graphics_manager.cc" />
     <ClCompile Include="src\graphics\image_format.cc" />
     <ClCompile Include="src\graphics\pen.cc" />
     <ClCompile Include="src\graphics\transform.cc" />

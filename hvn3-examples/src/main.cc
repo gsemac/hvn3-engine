@@ -26,7 +26,7 @@ protected:
 		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::DisplayCloseEvent>(
 			[](events::DisplayCloseEvent& e) {
 
-				std::cout << "Display closed\n";
+				//std::cout << "Display closed\n";
 
 			}
 		);
@@ -34,7 +34,7 @@ protected:
 		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::TickEvent>(
 			[](events::TickEvent& e) {
 
-				std::cout << "timer tick\n";
+				//std::cout << "timer tick\n";
 
 			}
 		);
@@ -42,7 +42,15 @@ protected:
 		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::DrawFrameEvent>(
 			[](events::DrawFrameEvent& e) {
 
-				std::cout << "redraw\n";
+				std::cout << "frame draw\n";
+
+			}
+		);
+
+		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::DrawEvent>(
+			[](events::DrawEvent& e) {
+
+				std::cout << "draw\n";
 
 			}
 		);

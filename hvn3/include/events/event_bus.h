@@ -62,10 +62,12 @@ namespace hvn3::events {
 		void Dispatch(parameter_type ev) {
 
 			// If the listener collection needs to be sorted, do that before dispatching.
+
 			if (sortRequired)
 				SortListenersByPriority();
 
 			// If there are listeners that need to be removed, do that before dispatching.
+
 			if (removeRequired)
 				RemoveDisabledListeners();
 

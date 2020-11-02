@@ -106,14 +106,16 @@ namespace hvn3::core {
 
 		void Initialize() const {
 
-			static_assert(std::is_move_constructible_v<DataType>, "The type must move-constructible in order to be instantiated lazily.");
+			static_assert(std::is_move_constructible_v<DataType>, "The type must be move-constructible in order to be instantiated lazily.");
 
 			if (state == State::Uninitialized) {
 
 				std::call_once(flag,
 					[this]() {
 
-						new (reinterpret_cast<DataType*>(&data[0])) DataType(std::move(factoryFunc()));
+						// We have to be careful how we initialize the data here, because we need copy elision to occur to avoid possible side affects from copy/move constructors.
+
+						new (reinterpret_cast<DataType*>(&data[0])) DataType(factoryFunc());
 
 						state = State::Initialized;
 
