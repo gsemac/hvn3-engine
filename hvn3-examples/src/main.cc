@@ -53,6 +53,8 @@ protected:
 
 				std::cout << "draw\n";
 
+				e.Graphics().Clear(graphics::Color::FromArgb(255, 0, 0));
+
 			}
 		);
 

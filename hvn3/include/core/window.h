@@ -54,7 +54,7 @@ namespace hvn3::core {
 		graphics::IGraphics& GetCanvas() override;
 		ALLEGRO_DISPLAY* GetUnderlyingData() const;
 
-		void Refresh();
+		void Refresh() override;
 		void Close();
 
 		explicit operator bool() const override;

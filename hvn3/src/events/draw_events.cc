@@ -19,5 +19,4 @@ namespace hvn3::events {
 
 	}
 
-
 }

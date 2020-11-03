@@ -21,8 +21,13 @@ namespace hvn3::graphics {
 
 		core::IDisplay& display = displayManager.GetDisplay();
 
-		if (display)
+		if (display) {
+
 			eventManager.GetEventBus().Dispatch<events::DrawEvent>(display.GetCanvas());
+
+			display.Refresh();
+
+		}
 
 	}
 	void GraphicsManager::OnEvent(events::DrawEvent& ev) {
