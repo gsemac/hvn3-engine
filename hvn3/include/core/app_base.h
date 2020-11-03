@@ -8,6 +8,8 @@ namespace hvn3::core {
 		public IApp {
 
 	public:
+		void Show(const DisplayOptions& displayOptions) override;
+		void Run() override;
 		void Run(const DisplayOptions& displayOptions) override;
 
 	protected:
@@ -18,8 +20,8 @@ namespace hvn3::core {
 	private:
 		std::vector<services::DIServiceContainer> services;
 
-		void InitializeApp(const DisplayOptions& displayOptions);
-		void Run();
+		void AddWindow(const DisplayOptions& displayOptions);
+		void DoEventLoop();
 
 	};
 

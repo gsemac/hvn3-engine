@@ -10,6 +10,8 @@ namespace hvn3::core {
 	public:
 		virtual ~IApp() = default;
 
+		virtual void Show(const DisplayOptions& displayOptions) = 0;
+		virtual void Run() = 0;
 		virtual void Run(const DisplayOptions& displayOptions) = 0;
 
 	};

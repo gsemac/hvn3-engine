@@ -7,9 +7,19 @@ namespace hvn3::core {
 
 	// Public members
 
+	void AppBase::Show(const DisplayOptions& displayOptions) {
+
+		AddWindow(displayOptions);
+
+	}
+	void AppBase::Run() {
+
+		DoEventLoop();
+
+	}
 	void AppBase::Run(const DisplayOptions& displayOptions) {
 
-		InitializeApp(displayOptions);
+		AddWindow(displayOptions);
 
 		Run();
 
@@ -26,7 +36,7 @@ namespace hvn3::core {
 
 	// Private members
 
-	void AppBase::InitializeApp(const DisplayOptions& displayOptions) {
+	void AppBase::AddWindow(const DisplayOptions& displayOptions) {
 
 		services::DIServiceContainer services;
 
@@ -45,15 +55,19 @@ namespace hvn3::core {
 		this->services.push_back(std::move(services));
 
 	}
-	void AppBase::Run() {
+	void AppBase::DoEventLoop() {
 
 		bool handleEvents = true;
 
 		while (handleEvents) {
 
-			auto& eventManager = services[0].GetService<events::IEventManager>();
+			for (auto& services : services) {
 
-			eventManager.DoEvents(true);
+				auto& eventManager = services.GetService<events::IEventManager>();
+
+				eventManager.DoEvents(true);
+
+			}
 
 		}
 
