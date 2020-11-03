@@ -1,12 +1,21 @@
+#include "core/engine.h"
 #include "events/timer.h"
+
+#include <cassert>
 
 #include <allegro5/allegro.h>
 
 namespace hvn3::events {
 
+	// Public members
+
 	Timer::Timer(double secondsPerTick, bool enabled) {
 
-		timer = std::shared_ptr<ALLEGRO_TIMER>(al_create_timer(secondsPerTick), al_destroy_timer);
+		core::Engine::Initialize(core::EngineModules::Core);
+
+		timer = std::shared_ptr<ALLEGRO_TIMER>(al_create_timer(secondsPerTick), FreeTimer);
+
+		assert(static_cast<bool>(timer));
 
 		SetEnabled(enabled);
 
@@ -45,6 +54,16 @@ namespace hvn3::events {
 	ALLEGRO_TIMER* Timer::GetUnderlyingData() const {
 
 		return timer.get();
+
+	}
+
+	// Private members
+
+	void Timer::FreeTimer(ALLEGRO_TIMER* timer) {
+
+		al_destroy_timer(timer);
+
+		core::Engine::Deinitialize(core::EngineModules::Core);
 
 	}
 

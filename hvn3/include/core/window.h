@@ -1,5 +1,7 @@
 #pragma once
 
+#include "core/display_options.h"
+#include "core/idisplay.h"
 #include "core/size.h"
 #include "core/utf8_string.h"
 #include "core/window_options.h"
@@ -14,7 +16,8 @@
 
 namespace hvn3::core {
 
-	class Window {
+	class Window :
+		public IDisplay {
 
 	public:
 		Window(int width, int height);
@@ -25,6 +28,7 @@ namespace hvn3::core {
 		Window(const SizeI& size, WindowOptions options);
 		Window(const SizeI& size, const core::String& title);
 		Window(const SizeI& size, const core::String& title, WindowOptions options);
+		Window(const DisplayOptions& options);
 		Window(ALLEGRO_DISPLAY* allegroDisplay, bool takeOwnership);
 
 		void SetTitle(const core::String& value);
@@ -47,7 +51,7 @@ namespace hvn3::core {
 
 		const events::IEventSource& GetEventSource() const;
 		graphics::Bitmap GetBackBuffer();
-		graphics::IGraphics& GetCanvas();
+		graphics::IGraphics& GetCanvas() override;
 		ALLEGRO_DISPLAY* GetUnderlyingData() const;
 
 		void Refresh();

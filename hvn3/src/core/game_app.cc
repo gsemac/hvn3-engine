@@ -21,19 +21,13 @@ namespace hvn3::core {
 
 		// Register the graphics service.
 
-		if (!services.IsServiceRegistered<graphics::IGraphicsManager>()) {
-
+		if (!services.IsServiceRegistered<graphics::IGraphicsManager>())
 			services.RegisterService<graphics::IGraphicsManager, graphics::GraphicsManager>();
-
-		}
 
 		// Register timer event source.
 
-		if (services.IsServiceRegistered<events::IEventManager>()) {
-
+		if (services.IsServiceRegistered<events::IEventManager>())
 			services.GetService<events::IEventManager>().GetEventQueue().RegisterEventSource(frameTimer.GetEventSource());
-
-		}
 
 		// Ensure required services are instantiated.
 

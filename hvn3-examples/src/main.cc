@@ -12,6 +12,7 @@
 #include "services/di_service_container.h"
 #include "events/timer_events.h"
 #include "events/draw_events.h"
+#include "core/window_options.h"
 
 using namespace hvn3;
 
@@ -61,11 +62,15 @@ protected:
 
 int main() {
 
-	core::Window window(640, 480, "hello world", core::WindowOptions::Resizable);
+	core::DisplayOptions displayOptions;
+
+	displayOptions.SetSize(640, 480);
+	displayOptions.SetTitle("hello world");
+	displayOptions.SetWindowOptions(core::WindowOptions::Resizable);
 
 	MyApp app;
 
-	app.Run(window);
+	app.Run(displayOptions);
 
 	getchar();
 

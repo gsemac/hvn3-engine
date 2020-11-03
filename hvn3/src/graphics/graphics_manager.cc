@@ -4,7 +4,8 @@ namespace hvn3::graphics {
 
 	// Public members
 
-	GraphicsManager::GraphicsManager(events::IEventManager& eventManager) :
+	GraphicsManager::GraphicsManager(core::IDisplayManager& displayManager, events::IEventManager& eventManager) :
+		displayManager(displayManager),
 		eventManager(eventManager) {
 
 		eventManager.GetEventBus().Subscribe(this);
@@ -18,7 +19,7 @@ namespace hvn3::graphics {
 
 	void GraphicsManager::OnEvent(events::DrawFrameEvent& ev) {
 
-		eventManager.GetEventBus().Dispatch<events::DrawEvent>();
+		eventManager.GetEventBus().Dispatch<events::DrawEvent>(displayManager.GetDisplay().GetCanvas());
 
 	}
 	void GraphicsManager::OnEvent(events::DrawEvent& ev) {

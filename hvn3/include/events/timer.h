@@ -25,6 +25,8 @@ namespace hvn3::events {
 	private:
 		std::shared_ptr<ALLEGRO_TIMER> timer;
 
+		static void FreeTimer(ALLEGRO_TIMER* timer);
+
 	};
 
 }

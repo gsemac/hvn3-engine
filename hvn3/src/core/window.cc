@@ -44,6 +44,15 @@ namespace hvn3::core {
 		Window(size.width, size.height, title) {}
 	Window::Window(const SizeI& size, const String& title, WindowOptions options) :
 		Window(size.width, size.height, title, options) {}
+	Window::Window(const DisplayOptions& options) :
+		Window(options.Width(), options.Height(), options.Title(), options.WindowOptions()) {
+
+		// Negative coordinates are used to indicate that the default position should be used.
+
+		if (options.Position().X() >= 0 && options.Position().Y() >= 0)
+			SetPosition(options.Position());
+
+	}
 	Window::Window(ALLEGRO_DISPLAY* allegroDisplay, bool takeOwnership) {
 
 		if (takeOwnership)

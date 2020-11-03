@@ -1,4 +1,5 @@
 #include "core/app_base.h"
+#include "core/display_manager.h"
 
 #include "events/event_manager.h"
 
@@ -6,13 +7,9 @@ namespace hvn3::core {
 
 	// Public members
 
-	AppBase::WindowInfo::WindowInfo(const Window& window) :
-		window(window) {
-	}
+	void AppBase::Run(const DisplayOptions& displayOptions) {
 
-	void AppBase::Run(const Window& window) {
-
-		InitializeWindow(window);
+		InitializeApp(displayOptions);
 
 		Run();
 
@@ -23,26 +20,29 @@ namespace hvn3::core {
 	void AppBase::ConfigureServices(services::DIServiceContainer& services) {
 
 		services.RegisterService<events::IEventManager, events::EventManager>();
+		services.RegisterService<core::IDisplayManager, core::DisplayManager>();
 
 	}
 
 	// Private members
 
-	void AppBase::InitializeWindow(const Window& window) {
+	void AppBase::InitializeApp(const DisplayOptions& displayOptions) {
 
-		WindowInfo windowInfo(window);
+		services::DIServiceContainer services;
 
-		ConfigureServices(windowInfo.services);
+		ConfigureServices(services);
 
-		if (windowInfo.services.IsServiceRegistered<events::IEventManager>()) {
+		// Ensure that there is an event manager registered.
 
-			auto& eventManager = windowInfo.services.GetService<events::IEventManager>();
+		if (!services.IsServiceRegistered<events::IEventManager>())
+			services.RegisterService<events::IEventManager, events::EventManager>();
 
-			eventManager.GetEventQueue().RegisterEventSource(window.GetEventSource());
+		// Apply the user's display options.
 
-		}
+		if (services.IsServiceRegistered<core::IDisplayManager>())
+			services.GetService<core::IDisplayManager>().SetDisplayOptions(displayOptions);
 
-		windows.push_back(std::move(windowInfo));
+		this->services.push_back(std::move(services));
 
 	}
 	void AppBase::Run() {
@@ -51,7 +51,7 @@ namespace hvn3::core {
 
 		while (handleEvents) {
 
-			auto& eventManager = windows[0].services.GetService<events::IEventManager>();
+			auto& eventManager = services[0].GetService<events::IEventManager>();
 
 			eventManager.DoEvents(true);
 

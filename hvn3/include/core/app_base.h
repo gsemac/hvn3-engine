@@ -8,7 +8,7 @@ namespace hvn3::core {
 		public IApp {
 
 	public:
-		void Run(const Window& window) override;
+		void Run(const DisplayOptions& displayOptions) override;
 
 	protected:
 		AppBase() = default;
@@ -16,19 +16,9 @@ namespace hvn3::core {
 		virtual void ConfigureServices(services::DIServiceContainer& services);
 
 	private:
-		class WindowInfo {
+		std::vector<services::DIServiceContainer> services;
 
-		public:
-			Window window;
-			services::DIServiceContainer services;
-
-			WindowInfo(const Window& window);
-
-		};
-
-		std::vector<WindowInfo> windows;
-
-		void InitializeWindow(const Window& window);
+		void InitializeApp(const DisplayOptions& displayOptions);
 		void Run();
 
 	};
