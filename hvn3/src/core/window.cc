@@ -202,6 +202,7 @@ namespace hvn3::core {
 
 	void Window::Refresh() {
 
+		al_acknowledge_resize(GetUnderlyingData());
 		al_flip_display();
 
 	}

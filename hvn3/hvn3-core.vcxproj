@@ -243,6 +243,7 @@
     <ClCompile Include="src\core\game_app.cc" />
     <ClCompile Include="src\core\time_span.cc" />
     <ClCompile Include="src\core\utf8_string.cc" />
+    <ClCompile Include="src\events\display_events.cc" />
     <ClCompile Include="src\events\draw_events.cc" />
     <ClCompile Include="src\events\event.cc" />
     <ClCompile Include="src\events\event_manager.cc" />

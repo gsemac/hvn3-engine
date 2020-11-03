@@ -13,6 +13,7 @@
 #include "events/timer_events.h"
 #include "events/draw_events.h"
 #include "core/window_options.h"
+#include "core/random.h"
 
 using namespace hvn3;
 
@@ -53,7 +54,10 @@ protected:
 
 				std::cout << "draw\n";
 
-				e.Graphics().Clear(graphics::Color::FromArgb(255, 0, 0));
+				math::RectangleI rect = e.Graphics().GetClip();
+
+				e.Graphics().Clear(graphics::Color::FromHex(core::Random::Int()));
+				e.Graphics().DrawRectangle(rect.x, rect.y, rect.width, rect.height, graphics::Color::FromHex(0), 3.0f);
 
 			}
 		);
@@ -68,7 +72,7 @@ int main() {
 
 	displayOptions.SetSize(640, 480);
 	displayOptions.SetTitle("hello world");
-	displayOptions.SetWindowOptions(core::WindowOptions::Resizable);
+	displayOptions.SetWindowOptions(core::WindowOptions::Resizable | core::WindowOptions::UseOpenGL);
 
 	MyApp app;
 
