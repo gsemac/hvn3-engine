@@ -211,6 +211,12 @@ namespace hvn3::core {
 
 	}
 
+	Window::operator bool() const {
+
+		return GetUnderlyingData() != nullptr;
+
+	}
+
 	// Private members
 
 	void Window::SetNewWindowTitle(const String& title) {

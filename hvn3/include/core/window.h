@@ -57,6 +57,8 @@ namespace hvn3::core {
 		void Refresh();
 		void Close();
 
+		explicit operator bool() const override;
+
 	private:
 		std::shared_ptr<ALLEGRO_DISPLAY> window;
 		mutable events::EventSource eventSource;

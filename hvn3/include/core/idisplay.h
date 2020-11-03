@@ -11,6 +11,8 @@ namespace hvn3::core {
 
 		virtual graphics::IGraphics& GetCanvas() = 0;
 
+		virtual explicit operator bool() const = 0;
+
 	};
 
 }
