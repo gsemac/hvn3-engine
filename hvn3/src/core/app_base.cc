@@ -1,7 +1,8 @@
 #include "core/app_base.h"
 #include "core/display_manager.h"
-
 #include "events/event_manager.h"
+
+#include <cstdlib>
 
 namespace hvn3::core {
 
@@ -12,16 +13,16 @@ namespace hvn3::core {
 		AddWindow(displayOptions);
 
 	}
-	void AppBase::Run() {
+	int AppBase::Run() {
 
-		DoEventLoop();
+		return DoEventLoop();
 
 	}
-	void AppBase::Run(const DisplayOptions& displayOptions) {
+	int AppBase::Run(const DisplayOptions& displayOptions) {
 
 		AddWindow(displayOptions);
 
-		Run();
+		return Run();
 
 	}
 
@@ -55,7 +56,7 @@ namespace hvn3::core {
 		this->services.push_back(std::move(services));
 
 	}
-	void AppBase::DoEventLoop() {
+	int AppBase::DoEventLoop() {
 
 		bool handleEvents = true;
 
@@ -70,6 +71,8 @@ namespace hvn3::core {
 			}
 
 		}
+
+		return EXIT_SUCCESS;
 
 	}
 

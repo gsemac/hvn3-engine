@@ -9,8 +9,8 @@ namespace hvn3::core {
 
 	public:
 		void Show(const DisplayOptions& displayOptions) override;
-		void Run() override;
-		void Run(const DisplayOptions& displayOptions) override;
+		int Run() override;
+		int Run(const DisplayOptions& displayOptions) override;
 
 	protected:
 		AppBase() = default;
@@ -21,7 +21,7 @@ namespace hvn3::core {
 		std::vector<services::DIServiceContainer> services;
 
 		void AddWindow(const DisplayOptions& displayOptions);
-		void DoEventLoop();
+		int DoEventLoop();
 
 	};
 

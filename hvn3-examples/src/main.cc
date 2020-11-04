@@ -79,10 +79,6 @@ int main() {
 	app.Show(displayOptions);
 	app.Show(displayOptions);
 
-	app.Run();
-
-	getchar();
-
-	return 0;
+	return app.Run();
 
 }
