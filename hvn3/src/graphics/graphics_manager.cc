@@ -1,3 +1,4 @@
+#include "graphics/color.h"
 #include "graphics/graphics_manager.h"
 
 namespace hvn3::graphics {
@@ -23,7 +24,11 @@ namespace hvn3::graphics {
 
 		if (display) {
 
-			eventManager.GetEventBus().Dispatch<events::DrawEvent>(display.GetCanvas());
+			IGraphics& canvas = display.GetCanvas();
+
+			canvas.Clear(Color::Silver);
+
+			eventManager.GetEventBus().Dispatch<events::DrawEvent>(canvas);
 
 			display.Refresh();
 

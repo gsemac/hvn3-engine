@@ -56,7 +56,6 @@ protected:
 
 				math::RectangleI rect = e.Graphics().GetClip();
 
-				e.Graphics().Clear(graphics::Color::FromHex(core::Random::Int()));
 				e.Graphics().DrawRectangle(rect.x, rect.y, rect.width, rect.height, graphics::Color::FromHex(0), 3.0f);
 
 			}
