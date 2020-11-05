@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utilities/bitflags.h"
+#include "core/bitflags.h"
 
 namespace hvn3::graphics {
 
@@ -12,6 +12,6 @@ namespace hvn3::graphics {
 		AntiAlias = MinLinear | MagLinear
 	};
 
-	HVN3_ENABLE_BITFLAG_OPERATORS(BitmapOptions)
+	HVN3_ENABLE_BITFLAG_OPERATORS(BitmapOptions);
 
 }

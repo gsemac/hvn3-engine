@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utilities/bitflags.h"
+#include "core/bitflags.h"
 
 namespace hvn3::core {
 

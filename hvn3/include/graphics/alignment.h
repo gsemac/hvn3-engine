@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utilities/bitflags.h"
+#include "core/bitflags.h"
 
 namespace hvn3::graphics {
 
@@ -19,6 +19,6 @@ namespace hvn3::graphics {
 		Bottom = 32
 	};
 
-	HVN3_ENABLE_BITFLAG_OPERATORS(Alignment)
+	HVN3_ENABLE_BITFLAG_OPERATORS(Alignment);
 
 }

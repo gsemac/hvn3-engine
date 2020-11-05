@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utilities/bitflags.h"
+#include "core/bitflags.h"
 
 namespace hvn3::graphics {
 
@@ -11,6 +11,6 @@ namespace hvn3::graphics {
 		Monochrome = 1,
 	};
 
-	HVN3_ENABLE_BITFLAG_OPERATORS(FontOptions)
+	HVN3_ENABLE_BITFLAG_OPERATORS(FontOptions);
 
 }

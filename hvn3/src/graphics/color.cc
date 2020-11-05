@@ -1,7 +1,7 @@
+#include "core/convert.h"
 #include "core/random.h"
 #include "graphics/color.h"
 #include "math/math.h"
-#include "utilities/convert.h"
 
 #include <algorithm>
 #include <cmath>
@@ -299,7 +299,7 @@ namespace hvn3::graphics {
 	}
 	Color Color::FromHex(const std::string& hex) {
 
-		return FromHex(utilities::Convert::To<uint32_t>(hex));
+		return FromHex(core::Convert::To<uint32_t>(hex));
 
 	}
 

@@ -1,8 +1,8 @@
-#include "utilities/string_utilities.h"
+#include "core/string_utilities.h"
 
 #include <cctype>
 
-namespace hvn3::utilities {
+namespace hvn3::core {
 
 	bool Equals(char char1, char char2, StringComparison comparisonType) {
 

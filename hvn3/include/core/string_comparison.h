@@ -1,6 +1,6 @@
 #pragma once
 
-namespace hvn3::utilities {
+namespace hvn3::core {
 
 	enum class StringComparison {
 		Ordinal,

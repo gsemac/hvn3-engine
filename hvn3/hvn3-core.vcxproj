@@ -225,13 +225,13 @@
     <ClInclude Include="include\math\vector.h" />
     <ClInclude Include="include\services\di_service_container.h" />
     <ClInclude Include="include\services\service_container.h" />
-    <ClInclude Include="include\utilities\bitflags.h" />
-    <ClInclude Include="include\utilities\convert.h" />
-    <ClInclude Include="include\utilities\hash_builder.h" />
+    <ClInclude Include="include\core\bitflags.h" />
+    <ClInclude Include="include\core\convert.h" />
+    <ClInclude Include="include\core\hash_builder.h" />
     <ClInclude Include="include\core\random.h" />
     <ClInclude Include="include\core\size.h" />
-    <ClInclude Include="include\utilities\string_comparison.h" />
-    <ClInclude Include="include\utilities\string_utilities.h" />
+    <ClInclude Include="include\core\string_comparison.h" />
+    <ClInclude Include="include\core\string_utilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\allegro\allegro_ustr_iterator.cc" />
@@ -266,9 +266,9 @@
     <ClCompile Include="src\math\math.cc" />
     <ClCompile Include="src\services\di_service_container.cc" />
     <ClCompile Include="src\services\service_container.cc" />
-    <ClCompile Include="src\utilities\hash_builder.cc" />
+    <ClCompile Include="src\core\hash_builder.cc" />
     <ClCompile Include="src\core\random.cc" />
-    <ClCompile Include="src\utilities\string_utilities.cc" />
+    <ClCompile Include="src\core\string_utilities.cc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

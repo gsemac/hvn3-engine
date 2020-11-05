@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utilities/bitflags.h"
+#include "core/bitflags.h"
 
 namespace hvn3::core {
 
@@ -14,6 +14,6 @@ namespace hvn3::core {
 		All = Core | IO | Graphics | Audio
 	};
 
-	HVN3_ENABLE_BITFLAG_OPERATORS(EngineModules)
+	HVN3_ENABLE_BITFLAG_OPERATORS(EngineModules);
 
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utilities/string_utilities.h"
+#include "core/string_utilities.h"
 
 #include <cassert>
 #include <cctype>
@@ -10,7 +10,7 @@
 #include <string>
 #include <type_traits>
 
-namespace hvn3::utilities {
+namespace hvn3::core {
 
 	class Convert {
 
