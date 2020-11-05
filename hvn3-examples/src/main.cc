@@ -56,7 +56,7 @@ protected:
 
 				math::RectangleI rect = e.Graphics().GetClip();
 
-				e.Graphics().DrawRectangle(rect.x, rect.y, rect.width, rect.height, graphics::Color::FromHex(0), 3.0f);
+				e.Graphics().DrawRectangle(rect.x, rect.y, rect.width, rect.height, graphics::Color::DarkBlue, 3.0f);
 
 			}
 		);
@@ -75,9 +75,6 @@ int main() {
 
 	MyApp app;
 
-	app.Show(displayOptions);
-	app.Show(displayOptions);
-
-	return app.Run();
+	return app.Run(displayOptions);
 
 }
