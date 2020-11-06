@@ -2,6 +2,7 @@
 
 #include "events/ievent_manager.h"
 #include "graphics/graphics_manager.h"
+#include "io/mouse_manager.h"
 
 namespace hvn3::core {
 
@@ -24,6 +25,11 @@ namespace hvn3::core {
 		if (!services.IsServiceRegistered<graphics::IGraphicsManager>())
 			services.RegisterService<graphics::IGraphicsManager, graphics::GraphicsManager>();
 
+		// Register IO services.
+
+		if (!services.IsServiceRegistered<io::IMouseManager>())
+			services.RegisterService<io::IMouseManager, io::MouseManager>();
+
 		// Register timer event source.
 
 		if (services.IsServiceRegistered<events::IEventManager>())
@@ -32,6 +38,7 @@ namespace hvn3::core {
 		// Ensure required services are instantiated.
 
 		services.GetService<graphics::IGraphicsManager>();
+		services.GetService<io::IMouseManager>();
 
 	}
 

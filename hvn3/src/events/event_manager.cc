@@ -1,6 +1,7 @@
 #include "events/display_events.h"
 #include "events/draw_events.h"
 #include "events/event_manager.h"
+#include "events/mouse_events.h"
 #include "events/timer_events.h"
 
 namespace hvn3::events {
@@ -77,6 +78,12 @@ namespace hvn3::events {
 
 			break;
 
+		case EventType::MouseAxes:
+
+			OnMouseAxes(ev);
+
+			break;
+
 		case EventType::Timer:
 
 			OnTimer(ev);
@@ -99,11 +106,50 @@ namespace hvn3::events {
 		pendingFrameDraw = false;
 
 	}
+	void EventManager::OnMouseAxes(Event& ev) {
+
+		GetEventBus().Dispatch(MouseMoveEvent(GetMousePosition(ev), GetMouseScrollOffset(ev), GetMouseButtons(ev), 0));
+
+	}
 	void EventManager::OnTimer(Event& ev) {
 
 		GetEventBus().Dispatch(TickEvent());
 
 		pendingFrameDraw = true;
+
+	}
+
+	math::Point2i EventManager::GetMousePosition(Event& ev) {
+
+		int x = ev.GetUnderlyingData()->mouse.x;
+		int y = ev.GetUnderlyingData()->mouse.y;
+
+		return math::Point2i(x, y);
+
+	}
+	math::Point2i EventManager::GetMouseScrollOffset(Event& ev) {
+
+		int w = ev.GetUnderlyingData()->mouse.w;
+		int z = ev.GetUnderlyingData()->mouse.z;
+
+		return math::Point2i(w, z);
+
+	}
+	io::MouseButton EventManager::GetMouseButtons(Event& ev) {
+
+		int button = ev.GetUnderlyingData()->mouse.button;
+		io::MouseButton buttons = io::MouseButton::None;
+
+		if (button & 1)
+			buttons |= io::MouseButton::Left;
+
+		if (button & 2)
+			buttons |= io::MouseButton::Right;
+
+		if (button & 4)
+			buttons |= io::MouseButton::Middle;
+
+		return buttons;
 
 	}
 

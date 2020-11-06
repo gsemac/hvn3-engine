@@ -14,6 +14,7 @@
 #include "events/draw_events.h"
 #include "core/window_options.h"
 #include "core/random.h"
+#include "events/mouse_events.h"
 
 using namespace hvn3;
 
@@ -57,6 +58,14 @@ protected:
 				math::RectangleI rect = e.Graphics().GetClip();
 
 				e.Graphics().DrawRectangle(rect.x, rect.y, rect.width, rect.height, graphics::Color::DarkBlue, 3.0f);
+
+			}
+		);
+
+		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::MouseMoveEvent>(
+			[](events::MouseMoveEvent& e) {
+
+				std::cout << "mouse at " << e.Position() << '\n';
 
 			}
 		);

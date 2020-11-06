@@ -159,6 +159,8 @@
     <ClInclude Include="include\core\iapp.h" />
     <ClInclude Include="include\core\idisplay.h" />
     <ClInclude Include="include\core\idisplay_manager.h" />
+    <ClInclude Include="include\events\mouse_events.h" />
+    <ClInclude Include="include\io\imouse_manager.h" />
     <ClInclude Include="include\core\lazy.h" />
     <ClInclude Include="include\core\time_span.h" />
     <ClInclude Include="include\core\type_index.h" />
@@ -210,6 +212,8 @@
     <ClInclude Include="include\core\window.h" />
     <ClInclude Include="include\core\window_options.h" />
     <ClInclude Include="include\io\file_access.h" />
+    <ClInclude Include="include\io\mouse_button.h" />
+    <ClInclude Include="include\io\mouse_manager.h" />
     <ClInclude Include="include\iterators\cstring_iterator.h" />
     <ClInclude Include="include\iterators\iterable_range.h" />
     <ClInclude Include="include\iterators\output_transform_iterator.h" />
@@ -247,6 +251,7 @@
     <ClCompile Include="src\events\draw_events.cc" />
     <ClCompile Include="src\events\event.cc" />
     <ClCompile Include="src\events\event_manager.cc" />
+    <ClCompile Include="src\events\mouse_events.cc" />
     <ClCompile Include="src\events\multi_event_bus.cc" />
     <ClCompile Include="src\events\event_source.cc" />
     <ClCompile Include="src\events\timer.cc" />
@@ -262,6 +267,7 @@
     <ClCompile Include="src\graphics\pen.cc" />
     <ClCompile Include="src\graphics\transform.cc" />
     <ClCompile Include="src\core\window.cc" />
+    <ClCompile Include="src\io\mouse_manager.cc" />
     <ClCompile Include="src\math\epsilon.cc" />
     <ClCompile Include="src\math\math.cc" />
     <ClCompile Include="src\services\di_service_container.cc" />

@@ -267,6 +267,18 @@
     <ClInclude Include="include\core\bitflags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\io\imouse_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\io\mouse_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\events\mouse_events.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\io\mouse_button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\engine.cc">
@@ -372,6 +384,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\core\hash_builder.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\io\mouse_manager.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\mouse_events.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
