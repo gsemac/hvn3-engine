@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/iapp.h"
+#include "events/ievent_filter.h"
 
 namespace hvn3::core {
 
@@ -13,6 +14,22 @@ namespace hvn3::core {
 		int Run(const DisplayOptions& displayOptions) override;
 
 	protected:
+		class EventFilter :
+			public events::IEventFilter {
+
+		public:
+			EventFilter(services::DIServiceContainer& services);
+
+			bool PreFilterEvent(events::Event& ev) const override;
+
+		private:
+			int displayId;
+
+			bool IsMouseEvent(events::Event& ev) const;
+			int GetDisplayId(events::Event& ev) const;
+
+		};
+
 		AppBase() = default;
 
 		virtual void ConfigureServices(services::DIServiceContainer& services);

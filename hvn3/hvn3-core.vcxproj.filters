@@ -279,6 +279,9 @@
     <ClInclude Include="include\io\mouse_button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\events\ievent_filter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\engine.cc">

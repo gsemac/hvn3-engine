@@ -200,6 +200,12 @@ namespace hvn3::core {
 
 	}
 
+	uint32_t Window::Id() const {
+
+		return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(GetUnderlyingData()));
+
+	}
+
 	void Window::Refresh() {
 
 		al_acknowledge_resize(GetUnderlyingData());
@@ -222,7 +228,8 @@ namespace hvn3::core {
 
 	void Window::SetNewWindowTitle(const String& title) {
 
-		al_set_new_window_title(title.c_str());
+		if (String::IsNullOrEmpty(title))
+			al_set_new_window_title(title.c_str());
 
 	}
 	void Window::SetNewWindowOptions(WindowOptions options) {

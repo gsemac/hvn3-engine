@@ -15,6 +15,7 @@
 #include "core/window_options.h"
 #include "core/random.h"
 #include "events/mouse_events.h"
+#include "core/idisplay_manager.h"
 
 using namespace hvn3;
 
@@ -26,34 +27,10 @@ protected:
 
 		GameApp::ConfigureServices(services);
 
-		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::DisplayCloseEvent>(
-			[](events::DisplayCloseEvent& e) {
-
-				//std::cout << "Display closed\n";
-
-			}
-		);
-
-		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::TickEvent>(
-			[](events::TickEvent& e) {
-
-				//std::cout << "timer tick\n";
-
-			}
-		);
-
-		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::DrawFrameEvent>(
-			[](events::DrawFrameEvent& e) {
-
-				std::cout << "frame draw\n";
-
-			}
-		);
-
 		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::DrawEvent>(
 			[](events::DrawEvent& e) {
 
-				std::cout << "draw\n";
+				//std::cout << "draw\n";
 
 				math::RectangleI rect = e.Graphics().GetClip();
 
@@ -63,9 +40,9 @@ protected:
 		);
 
 		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::MouseMoveEvent>(
-			[](events::MouseMoveEvent& e) {
+			[=](events::MouseMoveEvent& e) {
 
-				std::cout << "mouse at " << e.Position() << '\n';
+				std::cout << services.GetService<core::IDisplayManager>().GetDisplay().Id() << ": mouse at " << e.Position() << '\n';
 
 			}
 		);
@@ -84,6 +61,12 @@ int main() {
 
 	MyApp app;
 
-	return app.Run(displayOptions);
+	app.Show(displayOptions);
+
+	displayOptions.SetPosition(200, 200);
+
+	app.Show(displayOptions);
+
+	return app.Run();
 
 }

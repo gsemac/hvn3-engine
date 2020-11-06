@@ -6,6 +6,8 @@
 #include "math/point.h"
 #include "services/di_service_container.h"
 
+#include <vector>
+
 namespace hvn3::events {
 
 	class EventManager :
@@ -19,12 +21,15 @@ namespace hvn3::events {
 		MultiEventBus& GetEventBus() override;
 		const MultiEventBus& GetEventBus() const override;
 
+		void AddEventFilter(const EventFilterHandle& eventFilter) override;
+
 		bool DoEvents(bool waitForEvent) override;
 
 	private:
 		EventQueue eventQueue;
 		MultiEventBus eventBus;
 		bool pendingFrameDraw;
+		std::vector<std::shared_ptr<IEventFilter>> eventFilters;
 
 		void DoEvent(Event& ev);
 

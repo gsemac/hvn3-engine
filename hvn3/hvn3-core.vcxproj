@@ -159,6 +159,7 @@
     <ClInclude Include="include\core\iapp.h" />
     <ClInclude Include="include\core\idisplay.h" />
     <ClInclude Include="include\core\idisplay_manager.h" />
+    <ClInclude Include="include\events\ievent_filter.h" />
     <ClInclude Include="include\events\mouse_events.h" />
     <ClInclude Include="include\io\imouse_manager.h" />
     <ClInclude Include="include\core\lazy.h" />

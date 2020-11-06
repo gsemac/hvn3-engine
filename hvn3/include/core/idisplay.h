@@ -2,12 +2,16 @@
 
 #include "graphics/igraphics.h"
 
+#include <cstdint>
+
 namespace hvn3::core {
 
 	class IDisplay {
 
 	public:
 		virtual ~IDisplay() = default;
+
+		virtual uint32_t Id() const = 0;
 
 		virtual graphics::IGraphics& GetCanvas() = 0;
 

@@ -33,6 +33,12 @@ namespace hvn3::events {
 
 	}
 
+	void EventManager::AddEventFilter(const EventFilterHandle& eventFilter) {
+
+		eventFilters.push_back(eventFilter);
+
+	}
+
 	bool EventManager::DoEvents(bool waitForEvent) {
 
 		bool gotEvent = false;
@@ -50,8 +56,23 @@ namespace hvn3::events {
 
 			waitForEvent = false;
 
-			if (gotEvent)
-				DoEvent(ev);
+			if (gotEvent) {
+
+				bool filtered = false;
+
+				for (const auto& eventFilter : eventFilters) {
+
+					filtered = eventFilter->PreFilterEvent(ev);
+
+					if (filtered)
+						break;
+
+				}
+
+				if (!filtered)
+					DoEvent(ev);
+
+			}
 
 		} while (gotEvent);
 
