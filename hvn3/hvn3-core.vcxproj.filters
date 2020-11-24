@@ -282,6 +282,12 @@
     <ClInclude Include="include\events\ievent_filter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\core\igame_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\game_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\engine.cc">
