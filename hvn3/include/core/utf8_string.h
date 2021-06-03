@@ -1,7 +1,7 @@
 #pragma once
 
-#include "allegro/allegro_ustr_iterator.h"
-#include "iterators/output_transform_iterator.h"
+#include "drivers/allegro/core/allegro_ustr_iterator.h"
+#include "output_transform_iterator.h"
 
 #include <allegro5/utf8.h>
 
@@ -13,17 +13,17 @@
 #include <memory>
 #include <string>
 
-namespace hvn3::core {
+namespace hvn3 {
 
 	class String {
 
 		int32_t OnWrite(const int32_t valueWritten) const;
 
 	public:
-		using iterator = decltype(iterators::make_output_transform_iterator(allegro::al_ustr_begin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
-		using const_iterator = decltype(iterators::make_output_transform_iterator(allegro::al_ustr_cbegin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
-		using reverse_iterator = decltype(iterators::make_output_transform_iterator(allegro::al_ustr_rbegin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
-		using const_reverse_iterator = decltype(iterators::make_output_transform_iterator(allegro::al_ustr_crbegin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
+		using iterator = decltype(core::make_output_transform_iterator(allegro::al_ustr_begin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
+		using const_iterator = decltype(core::make_output_transform_iterator(allegro::al_ustr_cbegin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
+		using reverse_iterator = decltype(core::make_output_transform_iterator(allegro::al_ustr_rbegin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
+		using const_reverse_iterator = decltype(core::make_output_transform_iterator(allegro::al_ustr_crbegin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
 
 		using size_type = size_t;
 		using value_type = int32_t;
@@ -167,7 +167,7 @@ namespace hvn3::core {
 		template<typename Iter>
 		auto MakeIterator(Iter iter) const {
 
-			return iterators::make_output_transform_iterator(std::forward<Iter>(iter), std::bind(std::mem_fn(&String::OnWrite), this, std::placeholders::_1));
+			return core::make_output_transform_iterator(std::forward<Iter>(iter), std::bind(std::mem_fn(&String::OnWrite), this, std::placeholders::_1));
 
 		}
 

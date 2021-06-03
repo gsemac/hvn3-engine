@@ -14,12 +14,12 @@ namespace hvn3::events {
 
 	IEventQueue& EventManager::GetEventQueue() {
 
-		return eventQueue;
+		return *eventQueue.get();
 
 	}
 	const IEventQueue& EventManager::GetEventQueue() const {
 
-		return eventQueue;
+		return *eventQueue.get();
 
 	}
 	MultiEventBus& EventManager::GetEventBus() {

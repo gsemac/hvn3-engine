@@ -1,6 +1,6 @@
 #pragma once
 
-namespace hvn3::core {
+namespace hvn3 {
 
 	class TimeSpan {
 

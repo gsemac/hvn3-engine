@@ -1,6 +1,6 @@
 #include "core/time_span.h"
 
-namespace hvn3::core {
+namespace hvn3 {
 
 	// Public members
 

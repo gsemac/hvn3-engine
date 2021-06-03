@@ -1,15 +1,17 @@
 #include "core/app_base.h"
-#include "core/display_manager.h"
+
+#include "io/display_manager.h"
+#include "events/event_bus.h"
 #include "events/event_manager.h"
 
 #include <cstdint>
 #include <cstdlib>
 
-namespace hvn3::core {
+namespace hvn3 {
 
 	// Public members
 
-	void AppBase::Show(const DisplayOptions& displayOptions) {
+	void AppBase::Show(const io::DisplayOptions& displayOptions) {
 
 		AddWindow(displayOptions);
 
@@ -22,7 +24,7 @@ namespace hvn3::core {
 		return DoEventLoop();
 
 	}
-	int AppBase::Run(const DisplayOptions& displayOptions) {
+	int AppBase::Run(const io::DisplayOptions& displayOptions) {
 
 		AddWindow(displayOptions);
 
@@ -32,11 +34,11 @@ namespace hvn3::core {
 
 	// Protected members
 
-	AppBase::EventFilter::EventFilter(services::DIServiceContainer& services) :
+	AppBase::EventFilter::EventFilter(core::DIServiceContainer& services) :
 		displayId(-1) {
 
-		if (services.IsServiceRegistered<core::IDisplayManager>())
-			displayId = services.GetService<core::IDisplayManager>().GetDisplay().Id();
+		if (services.IsServiceRegistered<io::IDisplayManager>())
+			displayId = services.GetService<io::IDisplayManager>().GetDisplay().Id();
 
 	}
 	bool AppBase::EventFilter::PreFilterEvent(events::Event& ev) const {
@@ -70,18 +72,20 @@ namespace hvn3::core {
 
 	}
 
-	void AppBase::ConfigureServices(services::DIServiceContainer& services) {
+	void AppBase::ConfigureServices(core::DIServiceContainer& services) {
 
-		services.RegisterService<events::IEventManager, events::EventManager>();
-		services.RegisterService<core::IDisplayManager, core::DisplayManager>();
+		services.TryRegisterService<io::IDisplayManager, io::DisplayManager>();
+
+		services.TryRegisterService<events::IEventBus, events::MultiEventBus>();
+		services.TryRegisterService<events::IEventManager, events::EventManager>();
 
 	}
 
 	// Private members
 
-	void AppBase::AddWindow(const DisplayOptions& displayOptions) {
+	void AppBase::AddWindow(const io::DisplayOptions& displayOptions) {
 
-		services::DIServiceContainer services;
+		core::DIServiceContainer services;
 
 		ConfigureServices(services);
 
@@ -92,8 +96,8 @@ namespace hvn3::core {
 
 		// Apply the user's display options.
 
-		if (services.IsServiceRegistered<core::IDisplayManager>())
-			services.GetService<core::IDisplayManager>().SetDisplayOptions(displayOptions);
+		if (services.IsServiceRegistered<io::IDisplayManager>())
+			services.GetService<io::IDisplayManager>().SetDisplayOptions(displayOptions);
 
 		this->services.push_back(std::move(services));
 

@@ -3,22 +3,22 @@
 #include "core/iapp.h"
 #include "events/ievent_filter.h"
 
-namespace hvn3::core {
+namespace hvn3 {
 
 	class AppBase :
 		public IApp {
 
 	public:
-		void Show(const DisplayOptions& displayOptions) override;
+		void Show(const io::DisplayOptions& displayOptions) override;
 		int Run() override;
-		int Run(const DisplayOptions& displayOptions) override;
+		int Run(const io::DisplayOptions& displayOptions) override;
 
 	protected:
 		class EventFilter :
 			public events::IEventFilter {
 
 		public:
-			EventFilter(services::DIServiceContainer& services);
+			EventFilter(core::DIServiceContainer& services);
 
 			bool PreFilterEvent(events::Event& ev) const override;
 
@@ -32,12 +32,12 @@ namespace hvn3::core {
 
 		AppBase() = default;
 
-		virtual void ConfigureServices(services::DIServiceContainer& services);
+		virtual void ConfigureServices(core::DIServiceContainer& services);
 
 	private:
-		std::vector<services::DIServiceContainer> services;
+		std::vector<core::DIServiceContainer> services;
 
-		void AddWindow(const DisplayOptions& displayOptions);
+		void AddWindow(const io::DisplayOptions& displayOptions);
 		int DoEventLoop();
 
 	};

@@ -1,6 +1,6 @@
-#include "core/display_manager.h"
+#include "io/display_manager.h"
 
-namespace hvn3::core {
+namespace hvn3::io {
 
 	// Public members
 
@@ -34,9 +34,9 @@ namespace hvn3::core {
 
 		if (!display) {
 
-			display = std::make_shared<Window>(displayOptions);
+			display = std::make_shared<AllegroDisplay>(displayOptions);
 
-			eventManager.GetEventQueue().RegisterEventSource(display->GetEventSource());
+			al_register_event_source(eventManager.GetEventQueue().GetHandle(), al_get_display_event_source(display->GetHandle()));
 
 		}
 

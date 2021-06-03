@@ -7,7 +7,7 @@ namespace hvn3::core {
 
 	// Used to assign a unique index to types, computed at runtime.
 	// The class' "Family" template parameter is not used for anything more than differentiating between different sets of indices.
-	// This class is threadsafe.
+	// This class is thread-safe.
 
 	template<typename Type, typename ...Family>
 	class TypeIndex {

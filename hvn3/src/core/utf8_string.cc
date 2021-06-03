@@ -1,6 +1,7 @@
-#include "core/algorithm.h"
 #include "core/utf8_string.h"
-#include "iterators/cstring_iterator.h"
+
+#include "core/algorithm.h"
+#include "core/cstring_iterator.h"
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
@@ -9,7 +10,7 @@
 #include <algorithm>
 #include <cassert>
 
-namespace hvn3::core {
+namespace hvn3 {
 
 	// Public members
 

@@ -5,7 +5,7 @@ namespace hvn3::graphics {
 
 	// Public members
 
-	GraphicsManager::GraphicsManager(core::IDisplayManager& displayManager, events::IEventManager& eventManager) :
+	GraphicsManager::GraphicsManager(io::IDisplayManager& displayManager, events::IEventManager& eventManager) :
 		displayManager(displayManager),
 		eventManager(eventManager) {
 
@@ -20,7 +20,7 @@ namespace hvn3::graphics {
 
 	void GraphicsManager::OnEvent(events::DrawFrameEvent& ev) {
 
-		core::IDisplay& display = displayManager.GetDisplay();
+		io::IDisplay& display = displayManager.GetDisplay();
 
 		if (display) {
 

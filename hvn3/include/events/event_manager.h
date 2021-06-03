@@ -1,11 +1,12 @@
 #pragma once
 
-#include "events/event_queue.h"
+#include "core/service_provider.h"
+#include "events/ievent_queue.h"
 #include "events/ievent_manager.h"
 #include "io/mouse_button.h"
 #include "math/point.h"
-#include "services/di_service_container.h"
 
+#include <memory>
 #include <vector>
 
 namespace hvn3::events {
@@ -26,7 +27,7 @@ namespace hvn3::events {
 		bool DoEvents(bool waitForEvent) override;
 
 	private:
-		EventQueue eventQueue;
+		std::shared_ptr<IEventQueue> eventQueue;
 		MultiEventBus eventBus;
 		bool pendingFrameDraw;
 		std::vector<std::shared_ptr<IEventFilter>> eventFilters;

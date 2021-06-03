@@ -1,6 +1,6 @@
 #pragma once
 
-#include "iterators/reverse_iterator.h"
+#include "reverse_iterator.h"
 
 #include <algorithm>
 #include <utility>

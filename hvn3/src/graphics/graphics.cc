@@ -22,7 +22,7 @@ namespace hvn3::graphics {
 		Graphics() {
 
 		this->canvas = canvas;
-
+		
 	}
 
 	Graphics::~Graphics() {
