@@ -2,16 +2,16 @@
 
 namespace hvn3::events {
 
-	DisplayResizeEvent::DisplayResizeEvent(core::IDisplay& display) :
+	DisplayResizeEvent::DisplayResizeEvent(io::IDisplay& display) :
 		display(display) {
 	}
 
-	core::IDisplay& DisplayResizeEvent::Display() {
+	io::IDisplay& DisplayResizeEvent::Display() {
 
 		return display;
 
 	}
-	const core::IDisplay& DisplayResizeEvent::Display() const {
+	const io::IDisplay& DisplayResizeEvent::Display() const {
 
 		return display;
 

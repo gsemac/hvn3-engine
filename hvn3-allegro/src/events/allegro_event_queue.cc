@@ -1,4 +1,4 @@
-#include "drivers/allegro/events/allegro_event_queue.h"
+#include "events/allegro_event_queue.h"
 
 #include "core/engine.h"
 

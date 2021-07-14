@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/idisplay.h"
+#include "io/idisplay.h"
 #include "core/type_list.h"
 #include "events/event_base.h"
 
@@ -14,13 +14,13 @@ namespace hvn3::events {
 		public EventBase<EventType::DisplayResize> {
 
 	public:
-		DisplayResizeEvent(core::IDisplay& display);
+		DisplayResizeEvent(io::IDisplay& display);
 
-		core::IDisplay& Display();
-		const core::IDisplay& Display() const;
+		io::IDisplay& Display();
+		const io::IDisplay& Display() const;
 
 	private:
-		core::IDisplay& display;
+		io::IDisplay& display;
 
 	};
 

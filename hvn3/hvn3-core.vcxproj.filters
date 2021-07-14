@@ -159,9 +159,6 @@
     <ClInclude Include="include\io\file_access.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\drivers\allegro\io\allegro_display.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\io\window_options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -240,21 +237,6 @@
     <ClInclude Include="include\core\game_object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\drivers\allegro\core\allegro_app.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\drivers\allegro\events\allegro_event_queue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\drivers\allegro\events\allegro_event_source.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\drivers\allegro\events\allegro_timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\drivers\allegro\io\allegro_mouse_manager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\core\cstring_iterator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -271,9 +253,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\core\stashing_transform_iterator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\drivers\allegro\core\allegro_ustr_iterator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\core\service_locator.h">
@@ -344,9 +323,6 @@
     <ClCompile Include="src\graphics\transform.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\drivers\allegro\io\allegro_display.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\random.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -375,24 +351,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\events\mouse_events.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\drivers\allegro\core\allegro_app.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\drivers\allegro\events\allegro_event_queue.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\drivers\allegro\events\allegro_event_source.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\drivers\allegro\events\allegro_timer.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\drivers\allegro\io\allegro_mouse_manager.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\drivers\allegro\core\allegro_ustr_iterator.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\core\di_service_container.cc">

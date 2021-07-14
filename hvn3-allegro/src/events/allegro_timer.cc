@@ -1,4 +1,4 @@
-#include "drivers/allegro/events/allegro_timer.h"
+#include "events/allegro_timer.h"
 #include "core/engine.h"
 
 #include <cassert>

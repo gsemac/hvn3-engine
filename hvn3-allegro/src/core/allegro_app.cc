@@ -1,7 +1,7 @@
-#include "drivers/allegro/core/allegro_app.h"
+#include "core/allegro_app.h"
 
-#include "drivers/allegro/events/allegro_event_queue.h"
-#include "drivers/allegro/io/allegro_mouse_manager.h"
+#include "events/allegro_event_queue.h"
+#include "io/allegro_mouse_manager.h"
 #include "events/ievent_manager.h"
 #include "graphics/graphics_manager.h"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "drivers/allegro/core/allegro_ustr_iterator.h"
+#include "core/allegro_ustr_iterator.h"
 #include "output_transform_iterator.h"
 
 #include <allegro5/utf8.h>
@@ -20,10 +20,10 @@ namespace hvn3 {
 		int32_t OnWrite(const int32_t valueWritten) const;
 
 	public:
-		using iterator = decltype(core::make_output_transform_iterator(allegro::al_ustr_begin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
-		using const_iterator = decltype(core::make_output_transform_iterator(allegro::al_ustr_cbegin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
-		using reverse_iterator = decltype(core::make_output_transform_iterator(allegro::al_ustr_rbegin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
-		using const_reverse_iterator = decltype(core::make_output_transform_iterator(allegro::al_ustr_crbegin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
+		using iterator = decltype(core::make_output_transform_iterator(al_ustr_begin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
+		using const_iterator = decltype(core::make_output_transform_iterator(al_ustr_cbegin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
+		using reverse_iterator = decltype(core::make_output_transform_iterator(al_ustr_rbegin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
+		using const_reverse_iterator = decltype(core::make_output_transform_iterator(al_ustr_crbegin((ALLEGRO_USTR*)nullptr), std::bind(std::mem_fn(&String::OnWrite), (const String*)nullptr, std::placeholders::_1)));
 
 		using size_type = size_t;
 		using value_type = int32_t;
@@ -89,22 +89,22 @@ namespace hvn3 {
 
 		const_iterator cbegin() const {
 
-			return MakeIterator(allegro::al_ustr_cbegin(GetUstrPointer()));
+			return MakeIterator(al_ustr_cbegin(GetUstrPointer()));
 
 		}
 		const_iterator cend() const {
 
-			return MakeIterator(allegro::al_ustr_cend(GetUstrPointer()));
+			return MakeIterator(al_ustr_cend(GetUstrPointer()));
 
 		}
 		iterator begin() {
 
-			return MakeIterator(allegro::al_ustr_begin(GetUstrPointer()));
+			return MakeIterator(al_ustr_begin(GetUstrPointer()));
 
 		}
 		iterator end() {
 
-			return MakeIterator(allegro::al_ustr_end(GetUstrPointer()));
+			return MakeIterator(al_ustr_end(GetUstrPointer()));
 
 		}
 		const_iterator begin() const {
@@ -119,22 +119,22 @@ namespace hvn3 {
 		}
 		const_reverse_iterator crbegin() const {
 
-			return MakeIterator(allegro::al_ustr_crbegin(GetUstrPointer()));
+			return MakeIterator(al_ustr_crbegin(GetUstrPointer()));
 
 		}
 		const_reverse_iterator crend() const {
 
-			return MakeIterator(allegro::al_ustr_crend(GetUstrPointer()));
+			return MakeIterator(al_ustr_crend(GetUstrPointer()));
 
 		}
 		reverse_iterator rbegin() {
 
-			return MakeIterator(allegro::al_ustr_rbegin(GetUstrPointer()));
+			return MakeIterator(al_ustr_rbegin(GetUstrPointer()));
 
 		}
 		reverse_iterator rend() {
 
-			return MakeIterator(allegro::al_ustr_rend(GetUstrPointer()));
+			return MakeIterator(al_ustr_rend(GetUstrPointer()));
 
 		}
 		const_reverse_iterator rbegin() const {

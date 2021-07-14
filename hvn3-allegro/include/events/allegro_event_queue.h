@@ -1,6 +1,6 @@
 #pragma once
 
-#include "drivers/allegro/events/allegro_event_source.h"
+#include "events/allegro_event_source.h"
 #include "events/event_queue_base.h"
 
 #include <allegro5/allegro.h>

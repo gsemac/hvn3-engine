@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hvn3", "hvn3\hvn3-core.vcxp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{6D51B243-A6B2-4531-BF76-E24ACB118D11}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hvn3-allegro", "hvn3-allegro\hvn3-allegro.vcxproj", "{C9A3917C-B518-4619-800F-564A539010FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -67,6 +69,14 @@ Global
 		{DE8FB63C-A6BE-4CA8-B3B1-3D66C9F7CB41}.Release|x64.Build.0 = Release|x64
 		{DE8FB63C-A6BE-4CA8-B3B1-3D66C9F7CB41}.Release|x86.ActiveCfg = Release|Win32
 		{DE8FB63C-A6BE-4CA8-B3B1-3D66C9F7CB41}.Release|x86.Build.0 = Release|Win32
+		{C9A3917C-B518-4619-800F-564A539010FF}.Debug|x64.ActiveCfg = Debug|x64
+		{C9A3917C-B518-4619-800F-564A539010FF}.Debug|x64.Build.0 = Debug|x64
+		{C9A3917C-B518-4619-800F-564A539010FF}.Debug|x86.ActiveCfg = Debug|Win32
+		{C9A3917C-B518-4619-800F-564A539010FF}.Debug|x86.Build.0 = Debug|Win32
+		{C9A3917C-B518-4619-800F-564A539010FF}.Release|x64.ActiveCfg = Release|x64
+		{C9A3917C-B518-4619-800F-564A539010FF}.Release|x64.Build.0 = Release|x64
+		{C9A3917C-B518-4619-800F-564A539010FF}.Release|x86.ActiveCfg = Release|Win32
+		{C9A3917C-B518-4619-800F-564A539010FF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +87,7 @@ Global
 		{5C0C644C-D847-4970-A097-4D985A3F6BBA} = {6D51B243-A6B2-4531-BF76-E24ACB118D11}
 		{AE81FD29-6DE8-46BF-B56A-41A9219B42F1} = {FCE45FD6-0ECE-499D-9254-EFA052AD89BF}
 		{DE8FB63C-A6BE-4CA8-B3B1-3D66C9F7CB41} = {6F1CD3C4-7C22-40D4-8038-8440D4F4BB65}
+		{C9A3917C-B518-4619-800F-564A539010FF} = {6F1CD3C4-7C22-40D4-8038-8440D4F4BB65}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E5BEA0FB-EC1E-46CF-85E2-E3F0A4FA4149}

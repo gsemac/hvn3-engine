@@ -1,7 +1,7 @@
 #pragma once
 
 #include "io/idisplay_manager.h"
-#include "drivers/allegro/io/allegro_display.h"
+#include "io/allegro_display.h"
 #include "core/service_provider.h"
 #include "events/ievent_manager.h"
 

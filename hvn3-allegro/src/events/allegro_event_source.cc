@@ -1,4 +1,4 @@
-#include "drivers/allegro/events/allegro_event_source.h"
+#include "events/allegro_event_source.h"
 
 #include "core/engine.h"
 #include "events/iuser_event.h"

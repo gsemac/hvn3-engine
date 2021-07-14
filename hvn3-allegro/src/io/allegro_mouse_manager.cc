@@ -1,7 +1,7 @@
 #pragma once
 
 #include "core/engine.h"
-#include "drivers/allegro/io/allegro_mouse_manager.h"
+#include "io/allegro_mouse_manager.h"
 
 #include <allegro5/allegro.h>
 

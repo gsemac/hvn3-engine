@@ -11,7 +11,7 @@
 #include <iterator>
 #include <type_traits>
 
-namespace hvn3::allegro {
+namespace hvn3 {
 
 	template<bool IsConst = false>
 	class AllegroUstrIterator {

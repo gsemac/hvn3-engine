@@ -90,7 +90,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-utilities\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-utilities\include;$(SolutionDir)hvn3-allegro\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,7 +106,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-utilities\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-utilities\include;$(SolutionDir)hvn3-allegro\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,7 +122,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-utilities\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-utilities\include;$(SolutionDir)hvn3-allegro\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,7 +138,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-utilities\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;$(SolutionDir)hvn3-utilities\include;$(SolutionDir)hvn3-allegro\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,11 +150,6 @@
   <ItemGroup>
     <ClInclude Include="include\core\di_traits.h" />
     <ClInclude Include="include\core\tagged_handle.h" />
-    <ClInclude Include="include\drivers\allegro\core\allegro_app.h" />
-    <ClInclude Include="include\drivers\allegro\events\allegro_event_queue.h" />
-    <ClInclude Include="include\drivers\allegro\events\allegro_event_source.h" />
-    <ClInclude Include="include\drivers\allegro\io\allegro_mouse_manager.h" />
-    <ClInclude Include="include\drivers\allegro\core\allegro_ustr_iterator.h" />
     <ClInclude Include="include\core\algorithm.h" />
     <ClInclude Include="include\io\display_manager.h" />
     <ClInclude Include="include\io\display_options.h" />
@@ -191,7 +186,6 @@
     <ClInclude Include="include\events\ievent.h" />
     <ClInclude Include="include\events\ievent_bus.h" />
     <ClInclude Include="include\events\iuser_event.h" />
-    <ClInclude Include="include\drivers\allegro\events\allegro_timer.h" />
     <ClInclude Include="include\events\timer_events.h" />
     <ClInclude Include="include\events\user_event.h" />
     <ClInclude Include="include\graphics\alignment.h" />
@@ -214,7 +208,6 @@
     <ClInclude Include="include\graphics\pen.h" />
     <ClInclude Include="include\graphics\pixel_format.h" />
     <ClInclude Include="include\graphics\transform.h" />
-    <ClInclude Include="include\drivers\allegro\io\allegro_display.h" />
     <ClInclude Include="include\io\window_options.h" />
     <ClInclude Include="include\io\file_access.h" />
     <ClInclude Include="include\io\mouse_button.h" />
@@ -243,11 +236,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\tagged_handle.cc" />
-    <ClCompile Include="src\drivers\allegro\core\allegro_app.cc" />
-    <ClCompile Include="src\drivers\allegro\events\allegro_event_queue.cc" />
-    <ClCompile Include="src\drivers\allegro\events\allegro_event_source.cc" />
-    <ClCompile Include="src\drivers\allegro\io\allegro_mouse_manager.cc" />
-    <ClCompile Include="src\drivers\allegro\core\allegro_ustr_iterator.cc" />
     <ClCompile Include="src\core\app_base.cc" />
     <ClCompile Include="src\core\display_manager.cc" />
     <ClCompile Include="src\io\display_options.cc" />
@@ -261,7 +249,6 @@
     <ClCompile Include="src\events\event_queue_base.cc" />
     <ClCompile Include="src\events\mouse_events.cc" />
     <ClCompile Include="src\events\multi_event_bus.cc" />
-    <ClCompile Include="src\drivers\allegro\events\allegro_timer.cc" />
     <ClCompile Include="src\graphics\bitmap.cc" />
     <ClCompile Include="src\graphics\bitmap_data.cc" />
     <ClCompile Include="src\graphics\color.cc" />
@@ -272,7 +259,6 @@
     <ClCompile Include="src\graphics\image_format.cc" />
     <ClCompile Include="src\graphics\pen.cc" />
     <ClCompile Include="src\graphics\transform.cc" />
-    <ClCompile Include="src\drivers\allegro\io\allegro_display.cc" />
     <ClCompile Include="src\math\epsilon.cc" />
     <ClCompile Include="src\math\math.cc" />
     <ClCompile Include="src\core\di_service_container.cc" />

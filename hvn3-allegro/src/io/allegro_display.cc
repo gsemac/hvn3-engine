@@ -1,4 +1,4 @@
-#include "drivers/allegro/io/allegro_display.h"
+#include "io/allegro_display.h"
 
 #include "core/engine.h"
 

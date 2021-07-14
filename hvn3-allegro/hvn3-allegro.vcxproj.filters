@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{41bb9a1b-0228-4b65-8a94-f0a41b518871}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{bc18d66b-e854-4f5d-9392-cf0f8fc4abe6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\core\allegro_app.cc" />
+    <ClCompile Include="src\core\allegro_ustr_iterator.cc" />
+    <ClCompile Include="src\events\allegro_event_queue.cc" />
+    <ClCompile Include="src\events\allegro_event_source.cc" />
+    <ClCompile Include="src\events\allegro_timer.cc" />
+    <ClCompile Include="src\io\allegro_display.cc" />
+    <ClCompile Include="src\io\allegro_mouse_manager.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\core\allegro_app.h" />
+    <ClInclude Include="include\core\allegro_ustr_iterator.h" />
+    <ClInclude Include="include\events\allegro_event_queue.h" />
+    <ClInclude Include="include\events\allegro_event_source.h" />
+    <ClInclude Include="include\events\allegro_timer.h" />
+    <ClInclude Include="include\io\allegro_display.h" />
+    <ClInclude Include="include\io\allegro_mouse_manager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
