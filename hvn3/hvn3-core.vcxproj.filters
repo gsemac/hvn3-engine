@@ -353,10 +353,10 @@
     <ClCompile Include="src\events\mouse_events.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\di_service_container.cc">
+    <ClCompile Include="src\core\service_provider.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\service_container.cc">
+    <ClCompile Include="src\core\service_locator.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\events\event_queue_base.cc">

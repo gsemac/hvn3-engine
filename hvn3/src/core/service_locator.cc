@@ -1,4 +1,4 @@
-#include "core/service_container.h"
+#include "core/service_locator.h"
 
 #include <algorithm>
 #include <iterator>

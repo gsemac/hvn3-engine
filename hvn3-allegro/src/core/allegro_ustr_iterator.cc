@@ -1,6 +1,6 @@
 #include "core/allegro_ustr_iterator.h"
 
-namespace hvn3::allegro {
+namespace hvn3 {
 
 	al_ustr_iterator al_ustr_begin(ALLEGRO_USTR* ustr) {
 
