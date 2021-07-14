@@ -19,9 +19,9 @@ namespace hvn3 {
 
 	// Protected members
 
-	void AllegroApp::ConfigureServices(core::DIServiceContainer& services) {
+	void AllegroApp::ConfigureServices(ServiceProvider& services) {
 
-		services.TryRegisterService<graphics::IGraphicsManager, graphics::GraphicsManager>();
+		//services.TryRegisterService<graphics::IGraphicsManager, graphics::GraphicsManager>();
 
 		services.TryRegisterService<hvn3::events::IEventQueue, events::AllegroEventQueue>();
 
@@ -29,13 +29,13 @@ namespace hvn3 {
 
 		if (!services.IsServiceRegistered<hvn3::events::IEventManager>()) {
 
-			if (!services.IsServiceRegistered<hvn3::io::IMouseManager>()) {
+			/*if (!services.IsServiceRegistered<hvn3::io::IMouseManager>()) {
 
 				services.RegisterService<hvn3::io::IMouseManager, io::AllegroMouseManager>();
 
 				static_cast<io::AllegroMouseManager&>(services.GetService<hvn3::io::IMouseManager>()).GetEventSource();
 
-			}
+			}*/
 
 		}
 
@@ -44,7 +44,7 @@ namespace hvn3 {
 
 		// Ensure required services are instantiated.
 
-		services.GetService<graphics::IGraphicsManager>();
+		//services.GetService<graphics::IGraphicsManager>();
 
 		// Register remaining services.
 

@@ -12,7 +12,7 @@ namespace hvn3 {
 		AllegroApp();
 
 	protected:
-		void ConfigureServices(core::DIServiceContainer& services) override;
+		void ConfigureServices(ServiceProvider& services) override;
 
 	private:
 		events::AllegroTimer frameTimer;

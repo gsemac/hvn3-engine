@@ -1,7 +1,7 @@
 #pragma once
 
-#include "di_traits.h"
 #include "lazy.h"
+#include "service_traits.h"
 
 #include <functional>
 #include <map>
@@ -9,28 +9,24 @@
 #include <utility>
 #include <vector>
 
-#define HVN3_INJECT(signature)\
-using injected_constructor = signature;\
-signature
+namespace hvn3 {
 
-namespace hvn3::core {
-
-	class DIServiceContainer final {
+	class ServiceProvider final {
 
 	public:
 		using size_type = std::size_t;
 
-		DIServiceContainer();
-		~DIServiceContainer();
+		ServiceProvider();
+		~ServiceProvider();
 
 		template<typename ServiceType, std::enable_if_t<is_inject_constructible_v<ServiceType>, int> = 0>
-		DIServiceContainer& RegisterService();
+		ServiceProvider& RegisterService();
 		template<typename InterfaceType, typename ServiceType, std::enable_if_t<is_inject_constructible_v<ServiceType>, int> = 0>
-		DIServiceContainer& RegisterService();
+		ServiceProvider& RegisterService();
 		template<typename ServiceType>
-		DIServiceContainer& RegisterService(const std::shared_ptr<ServiceType>& service);
+		ServiceProvider& RegisterService(const std::shared_ptr<ServiceType>& service);
 		template<typename InterfaceType, typename ServiceType>
-		DIServiceContainer& RegisterService(const std::shared_ptr<ServiceType>& service);
+		ServiceProvider& RegisterService(const std::shared_ptr<ServiceType>& service);
 
 		template<typename ServiceType, std::enable_if_t<is_inject_constructible_v<ServiceType>, int> = 0>
 		bool TryRegisterService();
@@ -172,13 +168,13 @@ namespace hvn3::core {
 	// Public members
 
 	template<typename ServiceType, std::enable_if_t<is_inject_constructible_v<ServiceType>, int>>
-	DIServiceContainer& DIServiceContainer::RegisterService() {
+	ServiceProvider& ServiceProvider::RegisterService() {
 
 		return RegisterService<ServiceType, ServiceType>();
 
 	}
 	template<typename InterfaceType, typename ServiceType, std::enable_if_t<is_inject_constructible_v<ServiceType>, int>>
-	DIServiceContainer& DIServiceContainer::RegisterService() {
+	ServiceProvider& ServiceProvider::RegisterService() {
 
 		// Services with injectable contructors will be constructed lazily to avoid temporal coupling.
 
@@ -188,13 +184,13 @@ namespace hvn3::core {
 
 	}
 	template<typename ServiceType>
-	DIServiceContainer& DIServiceContainer::RegisterService(const std::shared_ptr<ServiceType>& service) {
+	ServiceProvider& ServiceProvider::RegisterService(const std::shared_ptr<ServiceType>& service) {
 
 		return RegisterService<ServiceType, ServiceType>(service);
 
 	}
 	template<typename InterfaceType, typename ServiceType>
-	DIServiceContainer& DIServiceContainer::RegisterService(const std::shared_ptr<ServiceType>& service) {
+	ServiceProvider& ServiceProvider::RegisterService(const std::shared_ptr<ServiceType>& service) {
 
 		RegisterServiceDescriptor<InterfaceType, ServiceType>(CreateServiceDescriptor<InterfaceType, ServiceType>(service));
 
@@ -203,7 +199,7 @@ namespace hvn3::core {
 	}
 
 	template<typename ServiceType, std::enable_if_t<is_inject_constructible_v<ServiceType>, int>>
-	bool DIServiceContainer::TryRegisterService() {
+	bool ServiceProvider::TryRegisterService() {
 
 		if (IsServiceRegistered<ServiceType>())
 			return false;
@@ -214,7 +210,7 @@ namespace hvn3::core {
 
 	}
 	template<typename InterfaceType, typename ServiceType, std::enable_if_t<is_inject_constructible_v<ServiceType>, int>>
-	bool DIServiceContainer::TryRegisterService() {
+	bool ServiceProvider::TryRegisterService() {
 
 		if (IsServiceRegistered<InterfaceType>())
 			return false;
@@ -225,7 +221,7 @@ namespace hvn3::core {
 
 	}
 	template<typename ServiceType>
-	bool DIServiceContainer::TryRegisterService(const std::shared_ptr<ServiceType>& service) {
+	bool ServiceProvider::TryRegisterService(const std::shared_ptr<ServiceType>& service) {
 
 		if (IsServiceRegistered<ServiceType>())
 			return false;
@@ -236,7 +232,7 @@ namespace hvn3::core {
 
 	}
 	template<typename InterfaceType, typename ServiceType>
-	bool DIServiceContainer::TryRegisterService(const std::shared_ptr<ServiceType>& service) {
+	bool ServiceProvider::TryRegisterService(const std::shared_ptr<ServiceType>& service) {
 
 		if (IsServiceRegistered<InterfaceType>())
 			return false;
@@ -248,7 +244,7 @@ namespace hvn3::core {
 	}
 
 	template<typename ServiceType, std::enable_if_t<!std::is_pointer_v<ServiceType>, int>>
-	ServiceType& DIServiceContainer::GetService() {
+	ServiceType& ServiceProvider::GetService() {
 
 		using service_t = std::remove_reference_t<ServiceType>;
 
@@ -260,7 +256,7 @@ namespace hvn3::core {
 
 	}
 	template<typename ServiceType, std::enable_if_t<!std::is_pointer_v<ServiceType>, int>>
-	const ServiceType& DIServiceContainer::GetService() const {
+	const ServiceType& ServiceProvider::GetService() const {
 
 		using service_t = std::remove_reference_t<ServiceType>;
 
@@ -272,7 +268,7 @@ namespace hvn3::core {
 
 	}
 	template <typename ServiceType, std::enable_if_t<std::is_pointer_v<ServiceType>, int>>
-	ServiceType DIServiceContainer::GetService() {
+	ServiceType ServiceProvider::GetService() {
 
 		using service_t = std::remove_pointer_t<std::remove_reference_t<ServiceType>>;
 
@@ -284,7 +280,7 @@ namespace hvn3::core {
 
 	}
 	template <typename ServiceType, std::enable_if_t<std::is_pointer_v<ServiceType>, int>>
-	const ServiceType DIServiceContainer::GetService() const {
+	const ServiceType ServiceProvider::GetService() const {
 
 		using service_t = std::remove_pointer_t<std::remove_reference_t<ServiceType>>;
 
@@ -297,7 +293,7 @@ namespace hvn3::core {
 	}
 
 	template<typename ServiceType>
-	bool DIServiceContainer::IsServiceRegistered() const {
+	bool ServiceProvider::IsServiceRegistered() const {
 
 		using service_t = std::remove_reference_t<ServiceType>;
 
@@ -310,13 +306,13 @@ namespace hvn3::core {
 	// Private members
 
 	template<typename InterfaceType, typename ServiceType, std::enable_if_t<has_injected_constructor_v<ServiceType>, int>>
-	DIServiceContainer::service_pointer_t DIServiceContainer::CreateServiceDescriptor() {
+	ServiceProvider::service_pointer_t ServiceProvider::CreateServiceDescriptor() {
 
 		return CreateServiceDescriptor<InterfaceType, ServiceType>(static_cast<typename ServiceType::injected_constructor*>(nullptr));
 
 	}
 	template<typename InterfaceType, typename ServiceType, typename ...ConstructorArgs>
-	DIServiceContainer::service_pointer_t DIServiceContainer::CreateServiceDescriptor(ServiceType(*)(ConstructorArgs...)) {
+	ServiceProvider::service_pointer_t ServiceProvider::CreateServiceDescriptor(ServiceType(*)(ConstructorArgs...)) {
 
 		std::size_t id = ++currentId;
 
@@ -333,7 +329,7 @@ namespace hvn3::core {
 
 	}
 	template<typename InterfaceType, typename ServiceType, std::enable_if_t<!has_injected_constructor_v<ServiceType>&& std::is_default_constructible_v<ServiceType>, int>>
-	DIServiceContainer::service_pointer_t DIServiceContainer::CreateServiceDescriptor() {
+	ServiceProvider::service_pointer_t ServiceProvider::CreateServiceDescriptor() {
 
 		std::size_t id = ++currentId;
 
@@ -350,7 +346,7 @@ namespace hvn3::core {
 
 	}
 	template<typename InterfaceType, typename ServiceType>
-	DIServiceContainer::service_pointer_t DIServiceContainer::CreateServiceDescriptor(const std::shared_ptr<ServiceType>& service) {
+	ServiceProvider::service_pointer_t ServiceProvider::CreateServiceDescriptor(const std::shared_ptr<ServiceType>& service) {
 
 		service_pointer_t servicePtr = std::make_shared<WrappedServiceDescriptor<ServiceType>>(++currentId, service);
 
@@ -362,7 +358,7 @@ namespace hvn3::core {
 
 	}
 	template<typename InterfaceType, typename ServiceType>
-	void DIServiceContainer::RegisterServiceDescriptor(service_pointer_t&& servicePtr) {
+	void ServiceProvider::RegisterServiceDescriptor(service_pointer_t&& servicePtr) {
 
 		using interface_t = std::remove_reference_t<InterfaceType>;
 		using service_t = std::remove_reference_t<ServiceType>;

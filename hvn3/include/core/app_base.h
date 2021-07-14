@@ -10,15 +10,16 @@ namespace hvn3 {
 
 	public:
 		void Show(const io::DisplayOptions& displayOptions) override;
-		int Run() override;
+
 		int Run(const io::DisplayOptions& displayOptions) override;
+		int Run() override;
 
 	protected:
 		class EventFilter :
 			public events::IEventFilter {
 
 		public:
-			EventFilter(core::DIServiceContainer& services);
+			EventFilter(ServiceProvider& services);
 
 			bool PreFilterEvent(events::Event& ev) const override;
 
@@ -32,12 +33,13 @@ namespace hvn3 {
 
 		AppBase() = default;
 
-		virtual void ConfigureServices(core::DIServiceContainer& services);
+		virtual void ConfigureServices(ServiceProvider& services);
 
 	private:
-		std::vector<core::DIServiceContainer> services;
+		std::vector<ServiceProvider> services;
 
-		void AddWindow(const io::DisplayOptions& displayOptions);
+		void AddDisplay(const io::DisplayOptions& displayOptions);
+
 		int DoEventLoop();
 
 	};

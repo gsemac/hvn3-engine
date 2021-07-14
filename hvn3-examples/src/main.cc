@@ -18,50 +18,51 @@
 //#include "core/idisplay_manager.h"
 
 #include "io/allegro_display.h"
+#include "core/allegro_app.h"
 
 using namespace hvn3;
 
-//class MyApp :
-//	public AllegroApp {
-//
-//protected:
-//	void ConfigureServices(DIServiceContainer& services) {
-//
-//		GameApp::ConfigureServices(services);
-//
-//		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::DrawEvent>(
-//			[](events::DrawEvent& e) {
-//
-//				//std::cout << "draw\n";
-//
-//				math::RectangleI rect = e.Graphics().GetClip();
-//
-//				e.Graphics().DrawRectangle(rect.x, rect.y, rect.width, rect.height, graphics::Color::DarkBlue, 3.0f);
-//
-//			}
-//		);
-//
-//		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::MouseMoveEvent>(
-//			[=](events::MouseMoveEvent& e) {
-//
-//				std::cout << services.GetService<core::IDisplayManager>().GetDisplay().Id() << ": mouse at " << e.Position() << '\n';
-//
-//			}
-//		);
-//
-//	}
-//
-//};
+class MyApp :
+	public AllegroApp {
+
+	//protected:
+	//	void ConfigureServices(DIServiceContainer& services) {
+	//
+	//		GameApp::ConfigureServices(services);
+	//
+	//		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::DrawEvent>(
+	//			[](events::DrawEvent& e) {
+	//
+	//				//std::cout << "draw\n";
+	//
+	//				math::RectangleI rect = e.Graphics().GetClip();
+	//
+	//				e.Graphics().DrawRectangle(rect.x, rect.y, rect.width, rect.height, graphics::Color::DarkBlue, 3.0f);
+	//
+	//			}
+	//		);
+	//
+	//		services.GetService<events::IEventManager>().GetEventBus().Subscribe<events::MouseMoveEvent>(
+	//			[=](events::MouseMoveEvent& e) {
+	//
+	//				std::cout << services.GetService<core::IDisplayManager>().GetDisplay().Id() << ": mouse at " << e.Position() << '\n';
+	//
+	//			}
+	//		);
+	//
+	//	}
+
+};
 
 int main() {
 
-	/*core::DisplayOptions displayOptions;
+	io::DisplayOptions displayOptions;
 
 	displayOptions.SetSize(640, 480);
 	displayOptions.SetTitle("hello world");
-	displayOptions.SetWindowOptions(core::WindowOptions::Resizable | core::WindowOptions::UseOpenGL);
+	displayOptions.SetWindowOptions(io::WindowOptions::Resizable | io::WindowOptions::UseOpenGL);
 
-	MyApp app;
+	AllegroApp app;
 
 	app.Show(displayOptions);
 
@@ -69,11 +70,7 @@ int main() {
 
 	app.Show(displayOptions);
 
-	return app.Run();*/
-
-	io::AllegroDisplay dsp(640, 480);
-
-	getchar();
+	return app.Run();
 
 	return 0;
 

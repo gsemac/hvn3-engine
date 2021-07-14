@@ -164,7 +164,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\core\di_traits.h" />
+    <ClInclude Include="include\core\service_traits.h" />
     <ClInclude Include="include\core\tagged_handle.h" />
     <ClInclude Include="include\core\algorithm.h" />
     <ClInclude Include="include\io\display_manager.h" />

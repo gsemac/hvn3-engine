@@ -8,19 +8,19 @@
 #include <typeindex>
 #include <vector>
 
-namespace hvn3::core {
+namespace hvn3 {
 
-	class ServiceContainer final {
+	class ServiceLocator final {
 
 	public:
 		using size_type = std::size_t;
 
-		~ServiceContainer();
+		~ServiceLocator();
 
 		template<typename ServiceType>
-		ServiceContainer& RegisterService(const std::shared_ptr<ServiceType>& service);
+		ServiceLocator& RegisterService(const std::shared_ptr<ServiceType>& service);
 		template<typename InterfaceType, typename ServiceType>
-		ServiceContainer& RegisterService(const std::shared_ptr<ServiceType>& service);
+		ServiceLocator& RegisterService(const std::shared_ptr<ServiceType>& service);
 
 		template <typename ServiceType>
 		ServiceType& GetService();
@@ -44,13 +44,13 @@ namespace hvn3::core {
 	// Public members
 
 	template<typename ServiceType>
-	ServiceContainer& ServiceContainer::RegisterService(const std::shared_ptr<ServiceType>& service) {
+	ServiceLocator& ServiceLocator::RegisterService(const std::shared_ptr<ServiceType>& service) {
 
 		return RegisterService<ServiceType, ServiceType>(service);
 
 	}
 	template<typename InterfaceType, typename ServiceType>
-	ServiceContainer& ServiceContainer::RegisterService(const std::shared_ptr<ServiceType>& service) {
+	ServiceLocator& ServiceLocator::RegisterService(const std::shared_ptr<ServiceType>& service) {
 
 		using interface_t = std::remove_reference_t<InterfaceType>;
 		using service_t = std::remove_reference_t<ServiceType>;
@@ -78,7 +78,7 @@ namespace hvn3::core {
 	}
 
 	template <typename ServiceType>
-	ServiceType& ServiceContainer::GetService() {
+	ServiceType& ServiceLocator::GetService() {
 
 		using service_t = std::remove_reference_t<ServiceType>;
 
@@ -90,7 +90,7 @@ namespace hvn3::core {
 
 	}
 	template <typename ServiceType>
-	const ServiceType& ServiceContainer::GetService() const {
+	const ServiceType& ServiceLocator::GetService() const {
 
 		using service_t = std::remove_reference_t<ServiceType>;
 
@@ -103,7 +103,7 @@ namespace hvn3::core {
 	}
 
 	template<typename ServiceType>
-	bool ServiceContainer::IsServiceRegistered() const {
+	bool ServiceLocator::IsServiceRegistered() const {
 
 		using service_t = std::remove_reference_t<ServiceType>;
 

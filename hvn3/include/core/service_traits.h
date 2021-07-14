@@ -2,7 +2,11 @@
 
 #include <type_traits>
 
-namespace hvn3::core {
+#define HVN3_INJECT(signature)\
+using injected_constructor = signature;\
+signature
+
+namespace hvn3 {
 
 	template <typename T>
 	class has_injected_constructor {

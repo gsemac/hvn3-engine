@@ -11,8 +11,9 @@ namespace hvn3 {
 		virtual ~IApp() = default;
 
 		virtual void Show(const io::DisplayOptions& displayOptions) = 0;
-		virtual int Run() = 0;
+
 		virtual int Run(const io::DisplayOptions& displayOptions) = 0;
+		virtual int Run() = 0;
 
 	};
 

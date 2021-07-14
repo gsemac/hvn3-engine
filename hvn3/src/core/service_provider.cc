@@ -1,12 +1,12 @@
 #include "core/service_provider.h"
 
-namespace hvn3::core {
+namespace hvn3 {
 
-	DIServiceContainer::DIServiceContainer() :
+	ServiceProvider::ServiceProvider() :
 		currentId(0) {
 	}
 
-	DIServiceContainer::~DIServiceContainer() {
+	ServiceProvider::~ServiceProvider() {
 
 		// Services are likely to depend on one another. Therefore, it is safest to free them in the reverse order that they were added.
 		// This allows services to reference the services they depend on in their destructors safely.
@@ -21,7 +21,7 @@ namespace hvn3::core {
 
 	}
 
-	DIServiceContainer::size_type DIServiceContainer::Count() const {
+	ServiceProvider::size_type ServiceProvider::Count() const {
 
 		return services.size();
 

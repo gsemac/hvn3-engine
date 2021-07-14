@@ -5,11 +5,11 @@
 #include <utility>
 #include <vector>
 
-namespace hvn3::core {
+namespace hvn3 {
 
 	// Public members
 
-	ServiceContainer::~ServiceContainer() {
+	ServiceLocator::~ServiceLocator() {
 
 		// It's possible that services depend on one another. Therefore, it is safest to free them in the reverse order that they were added.
 
@@ -22,7 +22,7 @@ namespace hvn3::core {
 
 	}
 
-	ServiceContainer::size_type ServiceContainer::Count() const {
+	ServiceLocator::size_type ServiceLocator::Count() const {
 
 		return services.size();
 

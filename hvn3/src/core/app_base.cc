@@ -13,7 +13,15 @@ namespace hvn3 {
 
 	void AppBase::Show(const io::DisplayOptions& displayOptions) {
 
-		AddWindow(displayOptions);
+		AddDisplay(displayOptions);
+
+	}
+
+	int AppBase::Run(const io::DisplayOptions& displayOptions) {
+
+		AddDisplay(displayOptions);
+
+		return Run();
 
 	}
 	int AppBase::Run() {
@@ -24,17 +32,10 @@ namespace hvn3 {
 		return DoEventLoop();
 
 	}
-	int AppBase::Run(const io::DisplayOptions& displayOptions) {
-
-		AddWindow(displayOptions);
-
-		return Run();
-
-	}
 
 	// Protected members
 
-	AppBase::EventFilter::EventFilter(core::DIServiceContainer& services) :
+	AppBase::EventFilter::EventFilter(ServiceProvider& services) :
 		displayId(-1) {
 
 		if (services.IsServiceRegistered<io::IDisplayManager>())
@@ -72,7 +73,7 @@ namespace hvn3 {
 
 	}
 
-	void AppBase::ConfigureServices(core::DIServiceContainer& services) {
+	void AppBase::ConfigureServices(ServiceProvider& services) {
 
 		services.TryRegisterService<io::IDisplayManager, io::DisplayManager>();
 
@@ -83,9 +84,9 @@ namespace hvn3 {
 
 	// Private members
 
-	void AppBase::AddWindow(const io::DisplayOptions& displayOptions) {
+	void AppBase::AddDisplay(const io::DisplayOptions& displayOptions) {
 
-		core::DIServiceContainer services;
+		ServiceProvider services;
 
 		ConfigureServices(services);
 
@@ -102,6 +103,7 @@ namespace hvn3 {
 		this->services.push_back(std::move(services));
 
 	}
+
 	int AppBase::DoEventLoop() {
 
 		bool handleEvents = true;
